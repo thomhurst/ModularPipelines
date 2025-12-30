@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
@@ -93,7 +94,9 @@ public class FormatMarkdownModule : Module<CommandResult>, ISkippable, IAlwaysRu
         await GitHelpers.CommitAndPush(context, branchTriggeringPullRequest, "Formatting Markdown", _gitHubSettings.Value.StandardToken!,
             cancellationToken);
 
-        // Fail this run - The git push will trigger a new run
-        throw new Exception("Formatting Markdown. This run will abort. Another run will trigger with the formatted markdown.");
+        // Log that we're completing early - the git push will trigger a new run
+        context.Logger.LogInformation("Formatting Markdown complete. The git push will trigger a new run with the formatted markdown.");
+
+        return null;
     }
 }
