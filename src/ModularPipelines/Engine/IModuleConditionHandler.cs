@@ -5,5 +5,5 @@ namespace ModularPipelines.Engine;
 
 internal interface IModuleConditionHandler
 {
-    Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module);
+    Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default);
 }
