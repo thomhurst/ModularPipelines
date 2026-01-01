@@ -76,9 +76,9 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
     {
-        _results[moduleType] = result;
-
+        // Create TCS first to ensure GetCompletionTask never returns null when result exists
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        _results[moduleType] = result;
         tcs.TrySetResult(result);
     }
 
@@ -115,9 +115,9 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
-        _results[moduleType] = result;
-
+        // Create TCS first to ensure GetCompletionTask never returns null when result exists
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        _results[moduleType] = result;
         tcs.TrySetResult(result);
     }
 }
