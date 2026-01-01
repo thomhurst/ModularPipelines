@@ -28,7 +28,8 @@ public class FileInstaller : IFileInstaller
             }, cancellationToken).ConfigureAwait(false);
         }
 
-        await _bash.Command(new BashCommandOptions($"chmod u+x {options.Path}"), cancellationToken).ConfigureAwait(false);
+        var escapedPath = options.Path.Replace("'", "'\\''");
+        await _bash.Command(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
 
         return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);
     }
