@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -10,7 +11,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Context;
 
 [ExcludeFromCodeCoverage]
-public class PredefinedInstallers : IPredefinedInstallers
+public partial class PredefinedInstallers : IPredefinedInstallers
 {
     private readonly ICommand _command;
     private readonly IEnvironmentContext _environmentContext;
@@ -133,16 +134,62 @@ public class PredefinedInstallers : IPredefinedInstallers
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Node(string version = "--lts")
     {
+        ValidateNodeVersion(version);
+
         await Nvm().ConfigureAwait(false);
 
         if (OperatingSystem.IsWindows())
         {
+            // Windows: CliWrap handles argument escaping automatically via WithArguments()
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
             }).ConfigureAwait(false);
         }
 
-        return await _bash.Command(new BashCommandOptions($"nvm install {version}")).ConfigureAwait(false);
+        // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
+        // The validation regex ensures no single quotes in version, making this escaping safe.
+        var escapedVersion = EscapeShellArgument(version);
+        return await _bash.Command(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Validates that the Node.js version string is safe and well-formed.
+    /// </summary>
+    /// <param name="version">The version string to validate.</param>
+    /// <exception cref="ArgumentException">Thrown when the version format is invalid.</exception>
+    private static void ValidateNodeVersion(string version)
+    {
+        ArgumentNullException.ThrowIfNull(version);
+
+        // Allow: --lts, --latest, semantic versions (with optional 'v' prefix),
+        // aliases like "node", "lts/*", "lts/argon", etc.
+        if (!NodeVersionRegex().IsMatch(version))
+        {
+            throw new ArgumentException(
+                $"Invalid Node.js version format: '{version}'. " +
+                "Expected formats: --lts, --latest, v18.0.0, 18.0.0, lts/*, node, system, or similar.",
+                nameof(version));
+        }
+    }
+
+    /// <summary>
+    /// Escapes a string for safe use as a shell argument.
+    /// </summary>
+    /// <param name="argument">The argument to escape.</param>
+    /// <returns>The escaped argument wrapped in single quotes.</returns>
+    private static string EscapeShellArgument(string argument)
+    {
+        // Single-quote the argument and escape any embedded single quotes
+        // by ending the quote, adding an escaped quote, and starting a new quote
+        return "'" + argument.Replace("'", "'\\''") + "'";
+    }
+
+    // Matches valid nvm version formats:
+    // - Flags: --lts, --latest
+    // - Aliases: node, stable, unstable, iojs, system
+    // - LTS codenames: lts/*, lts/argon, lts/boron, etc.
+    // - Semantic versions: 18, 18.0, 18.0.0, v18, v18.0, v18.0.0
+    [GeneratedRegex(@"^(--lts|--latest|node|stable|unstable|iojs|system|lts/\*|lts/[a-z]+|v?\d+(\.\d+){0,2})$", RegexOptions.IgnoreCase)]
+    private static partial Regex NodeVersionRegex();
 }
