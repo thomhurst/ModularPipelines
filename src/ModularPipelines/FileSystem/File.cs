@@ -24,14 +24,18 @@ public class File : IEquatable<File>
         }
     }
 
-    public File(string path) : this(new FileInfo(path))
+    public File(string path) : this(new FileInfo(path), path)
     {
     }
 
-    internal File(FileInfo fileInfo)
+    internal File(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName)
+    {
+    }
+
+    private File(FileInfo fileInfo, string originalPath)
     {
         _fileInfo = fileInfo;
-        OriginalPath = Path;
+        OriginalPath = originalPath;
     }
 
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
@@ -141,6 +145,13 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileSystemInfo.FullName"/>>
     public string Path => FileInfo.FullName;
 
+    /// <summary>
+    /// Gets the original path string that was used to construct this File instance.
+    /// </summary>
+    /// <remarks>
+    /// Unlike <see cref="Path"/> which always returns the absolute path,
+    /// this property preserves the original input (which may be relative).
+    /// </remarks>
     public string OriginalPath { get; }
 
     public File Create()
