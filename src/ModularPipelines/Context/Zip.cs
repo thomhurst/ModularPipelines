@@ -79,6 +79,10 @@ internal class Zip : IZip
         {
             throw new IOException($"Failed to extract zip file '{zipPath}': A file already exists in the destination. Set overwriteFiles to true to overwrite existing files.", ex);
         }
+        catch (IOException ex)
+        {
+            throw new IOException($"Failed to extract zip file '{zipPath}': An I/O error occurred while extracting the archive.", ex);
+        }
 
         return new Folder(outputFolderPath);
     }
