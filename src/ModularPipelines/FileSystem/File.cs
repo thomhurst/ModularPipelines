@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Logging;
+using ModularPipelines.Tracing;
 
 namespace ModularPipelines.FileSystem;
 
@@ -35,7 +37,7 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
     public Task<string> ReadAsync(CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.ReadAllTextAsync(Path, cancellationToken);
     }
@@ -43,14 +45,14 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="System.IO.File.ReadLinesAsync(string,System.Threading.CancellationToken)"/>
     public IAsyncEnumerable<string> ReadLinesAsync(CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.ReadLinesAsync(Path, cancellationToken);
     }
 
     public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Reading File: {Path}", this);
+        LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
     }
@@ -62,28 +64,28 @@ public class File : IEquatable<File>
 
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.WriteAllTextAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(byte[] contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.WriteAllBytesAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.WriteAllLinesAsync(Path, contents, cancellationToken);
     }
 
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         var fileStream = System.IO.File.Create(Path);
         await using (fileStream.ConfigureAwait(false))
@@ -94,7 +96,7 @@ public class File : IEquatable<File>
 
     public async Task WriteAsync(Stream contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         var fileStream = System.IO.File.Create(Path);
         await using (fileStream.ConfigureAwait(false))
@@ -110,14 +112,14 @@ public class File : IEquatable<File>
 
     public Task AppendAsync(string contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Appending to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.AppendAllTextAsync(Path, contents, cancellationToken);
     }
 
     public Task AppendAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
-        ModuleLogger.Current.LogInformation("Writing to File: {Path}", this);
+        LogFileOperation("Appending to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         return System.IO.File.AppendAllLinesAsync(Path, contents, cancellationToken);
     }
@@ -143,7 +145,7 @@ public class File : IEquatable<File>
 
     public File Create()
     {
-        ModuleLogger.Current.LogInformation("Creating File: {Path}", this);
+        LogFileOperation("Creating File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         var fileStream = System.IO.File.Create(Path);
         fileStream.Dispose();
@@ -174,7 +176,7 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileInfo.Delete"/>>
     public void Delete()
     {
-        ModuleLogger.Current.LogInformation("Deleting File: {File}", this);
+        LogFileOperation("Deleting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         FileInfo.Delete();
     }
@@ -182,7 +184,7 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(string path)
     {
-        ModuleLogger.Current.LogInformation("Moving File: {Source} > {Destination}", this, path);
+        LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         FileInfo.MoveTo(path);
         return this;
@@ -191,7 +193,7 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(Folder folder)
     {
-        ModuleLogger.Current.LogInformation("Moving File: {Source} > {Destination}", this, folder);
+        LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         folder.Create();
         return MoveTo(System.IO.Path.Combine(folder.Path, Name));
@@ -200,14 +202,14 @@ public class File : IEquatable<File>
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path)
     {
-        ModuleLogger.Current.LogInformation("Copying File: {Source} > {Destination}", this, path);
+        LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         return FileInfo.CopyTo(path);
     }
 
     public File CopyTo(Folder folder)
     {
-        ModuleLogger.Current.LogInformation("Copying File: {Source} > {Destination}", this, folder);
+        LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         folder.Create();
         return CopyTo(System.IO.Path.Combine(folder.Path, Name));
@@ -217,7 +219,7 @@ public class File : IEquatable<File>
     {
         var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
 
-        ModuleLogger.Current.LogInformation("Temporary File Path: {Path}", path);
+        LogFileOperation("Temporary File Path: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", path);
 
         return path!;
     }
@@ -300,5 +302,31 @@ public class File : IEquatable<File>
     public static bool operator !=(File? left, File? right)
     {
         return !Equals(left, right);
+    }
+
+    /// <summary>
+    /// Logs a file operation with Activity context information.
+    /// </summary>
+    /// <remarks>
+    /// Phase 2: Uses Activity.Current for context alongside AsyncLocal for backward compatibility.
+    /// The log message includes the current module name and activity ID when available.
+    /// </remarks>
+    private static void LogFileOperation(string messageTemplate, object? arg1)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogInformation(messageTemplate, arg1, moduleName, activityId);
+    }
+
+    /// <summary>
+    /// Logs a file operation with Activity context information for operations with source and destination.
+    /// </summary>
+    private static void LogFileOperationWithDestination(string messageTemplate, object? source, object? destination)
+    {
+        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
+        var activityId = ModuleActivityTracing.GetCurrentActivityId();
+
+        ModuleLogger.Current.LogInformation(messageTemplate, source, destination, moduleName, activityId);
     }
 }

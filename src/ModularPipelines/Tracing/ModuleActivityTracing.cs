@@ -109,4 +109,22 @@ public static class ModuleActivityTracing
         activity.SetTag(ExceptionMessageTag, exception.Message);
         activity.SetStatus(ActivityStatusCode.Error, exception.Message);
     }
+
+    /// <summary>
+    /// Gets the current module name from the current Activity, if available.
+    /// </summary>
+    /// <returns>The module name, or null if no module activity is active.</returns>
+    public static string? GetCurrentModuleName()
+    {
+        return Activity.Current?.GetTagItem(ModuleTypeTag) as string;
+    }
+
+    /// <summary>
+    /// Gets the current Activity ID, if available.
+    /// </summary>
+    /// <returns>The activity ID, or null if no activity is active.</returns>
+    public static string? GetCurrentActivityId()
+    {
+        return Activity.Current?.Id;
+    }
 }
