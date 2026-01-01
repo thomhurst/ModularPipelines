@@ -78,10 +78,8 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     {
         _results[moduleType] = result;
 
-        if (_completionSources.TryGetValue(moduleType, out var tcs))
-        {
-            tcs.TrySetResult(result);
-        }
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        tcs.TrySetResult(result);
     }
 
     public ModuleResult<T>? GetResult<T>(Type moduleType)
@@ -111,19 +109,15 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     public void SetException(Type moduleType, Exception exception)
     {
-        if (_completionSources.TryGetValue(moduleType, out var tcs))
-        {
-            tcs.TrySetException(exception);
-        }
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        tcs.TrySetException(exception);
     }
 
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
         _results[moduleType] = result;
 
-        if (_completionSources.TryGetValue(moduleType, out var tcs))
-        {
-            tcs.TrySetResult(result);
-        }
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        tcs.TrySetResult(result);
     }
 }
