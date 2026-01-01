@@ -54,6 +54,8 @@ public class ModuleHistoryTests
 
     private class NotFoundModuleRepository : IModuleResultRepository
     {
+        public bool IsEnabled => true;
+
         public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;
@@ -67,6 +69,8 @@ public class ModuleHistoryTests
 
     private class GoodModuleRepository : IModuleResultRepository
     {
+        public bool IsEnabled => true;
+
         public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             return Task.CompletedTask;

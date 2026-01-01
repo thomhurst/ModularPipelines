@@ -18,6 +18,8 @@ public class ResultsRepositoryTests : TestBase
 
     private class JsonResultRepository : IModuleResultRepository
     {
+        public bool IsEnabled => true;
+
         public async Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);

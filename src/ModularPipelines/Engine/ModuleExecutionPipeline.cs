@@ -182,7 +182,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         // Check if we should use historical data
         // For skipped modules with a history repository configured, check for cached results
-        if (_resultRepository.GetType() != typeof(NoOpModuleResultRepository))
+        if (_resultRepository.IsEnabled)
         {
             var historicalResult = await _resultRepository.GetResultAsync<T>(module, moduleContext).ConfigureAwait(false);
             if (historicalResult != null)
@@ -270,7 +270,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleResult<T> result,
         IModuleContext moduleContext)
     {
-        if (_resultRepository.GetType() == typeof(NoOpModuleResultRepository))
+        if (!_resultRepository.IsEnabled)
         {
             return;
         }
