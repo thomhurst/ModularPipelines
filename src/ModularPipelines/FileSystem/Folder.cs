@@ -102,8 +102,9 @@ public class Folder : IEquatable<Folder>
     /// <remarks>
     /// Uses thread pool offloading as no native async directory creation API exists in .NET.
     /// </remarks>
+    /// <param name="cancellationToken">Optional cancellation token.</param>
     /// <returns>This folder instance for method chaining.</returns>
-    public Task<Folder> CreateAsync()
+    public Task<Folder> CreateAsync(CancellationToken cancellationToken = default)
     {
         LogFolderOperation("Creating Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
@@ -111,7 +112,7 @@ public class Folder : IEquatable<Folder>
         {
             Directory.CreateDirectory(Path);
             return this;
-        });
+        }, cancellationToken);
     }
 
     public void Delete()
