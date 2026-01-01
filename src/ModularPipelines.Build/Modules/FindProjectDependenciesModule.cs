@@ -1,3 +1,4 @@
+using Microsoft.Build.Construction;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -9,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
-    public override async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
 
@@ -17,15 +18,15 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var file in projects.Value!)
         {
-            await foreach (var line in file.ReadLinesAsync(cancellationToken))
+            var projectRootElement = ProjectRootElement.Open(file)!;
+
+            var projectReferences = projectRootElement.Items
+                .Where(i => i.ItemType == "ProjectReference")
+                .Select(i => i.Include);
+
+            foreach (var reference in projectReferences)
             {
-                if (!line.Contains("<ProjectReference"))
-                {
-                    continue;
-                }
-
-                var name = line.Split('\\').Last().Split('"').First();
-
+                var name = Path.GetFileName(reference);
                 var project = projects.Value!.FirstOrDefault(x => x.Name == name);
 
                 if (project != null)
@@ -39,7 +40,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         LogProjects(context, projectDependencies);
 
-        return projectDependencies;
+        return Task.FromResult<ProjectDependencies?>(projectDependencies);
     }
 
     private static void LogProjects(IModuleContext context, ProjectDependencies projectDependencies)
