@@ -13,8 +13,29 @@ internal class OptionsProvider : IOptionsProvider
     /// </summary>
     private static readonly ConcurrentDictionary<Type, Func<object, object?>> ValueGetterCache = new();
 
+    /// <summary>
+    /// Set of generic type definitions that indicate an options-related type.
+    /// Using a HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
+    /// </summary>
+    private static readonly HashSet<Type> OptionsTypeDefinitions = new()
+    {
+        typeof(IConfigureOptions<>),
+        typeof(IPostConfigureOptions<>),
+        typeof(IOptions<>),
+        typeof(IOptionsMonitor<>),
+        typeof(IOptionsSnapshot<>),
+        typeof(IValidateOptions<>),
+        typeof(IConfigureNamedOptions<>),
+    };
+
     private readonly IPipelineServiceContainerWrapper _pipelineServiceContainerWrapper;
     private readonly IServiceProvider _serviceProvider;
+
+    /// <summary>
+    /// Cached list of option types. Populated lazily on first access since
+    /// the service collection does not change after startup.
+    /// </summary>
+    private List<Type>? _cachedOptionTypes;
 
     public OptionsProvider(IPipelineServiceContainerWrapper pipelineServiceContainerWrapper, IServiceProvider serviceProvider)
     {
@@ -24,27 +45,15 @@ internal class OptionsProvider : IOptionsProvider
 
     public IEnumerable<object?> GetOptions()
     {
-        var types = _pipelineServiceContainerWrapper.ServiceCollection
+        // Cache the types list since service collection doesn't change after startup
+        _cachedOptionTypes ??= _pipelineServiceContainerWrapper.ServiceCollection
             .Select(sd => sd.ServiceType)
-            .Where(t => t.IsGenericType)
-            .Where(x => x.IsConstructedGenericType)
-            .Where(t =>
-            {
-                var genericTypeDefinition = t.GetGenericTypeDefinition();
-
-                return genericTypeDefinition.IsAssignableTo(typeof(IConfigureOptions<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IPostConfigureOptions<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IOptions<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IOptionsMonitor<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IOptionsSnapshot<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IValidateOptions<>))
-                       || genericTypeDefinition.IsAssignableTo(typeof(IConfigureNamedOptions<>));
-            })
+            .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
             .Select(s => s.GetGenericArguments()[0])
             .Distinct()
             .ToList();
 
-        foreach (var option in types.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(t))))
+        foreach (var option in _cachedOptionTypes.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(t))))
         {
             if (option is null)
             {
@@ -72,5 +81,14 @@ internal class OptionsProvider : IOptionsProvider
         var convertToObject = Expression.Convert(propertyAccess, typeof(object));
 
         return Expression.Lambda<Func<object, object?>>(convertToObject, param).Compile();
+    }
+
+    /// <summary>
+    /// Checks if the given generic type definition is an options-related type.
+    /// Uses HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
+    /// </summary>
+    private static bool IsOptionsType(Type genericTypeDefinition)
+    {
+        return OptionsTypeDefinitions.Contains(genericTypeDefinition);
     }
 }
