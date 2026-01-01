@@ -44,6 +44,18 @@ The above module will run on either Linux, or Mac. But not windows.
 
 Mandatory run conditions are similar to standard run conditions, but they MUST return true to run the module. If ANY return false, then the module will not run.
 
+For built-in OS conditions, use the `*Only` variants for mandatory behavior:
+- `[RunOnLinuxOnly]` - Module runs ONLY on Linux
+- `[RunOnWindowsOnly]` - Module runs ONLY on Windows
+- `[RunOnMacOSOnly]` - Module runs ONLY on macOS
+
+```csharp
+[RunOnLinuxOnly]
+public class MyLinuxOnlyModule : Module
+```
+
+The above module will ONLY run on Linux and will be skipped on Windows and macOS.
+
 You can create your own custom mandatory run conditions by inheriting from `MandatoryRunConditionAttribute` and plugging custom logic into the `Condition` method.
 
 ```csharp
