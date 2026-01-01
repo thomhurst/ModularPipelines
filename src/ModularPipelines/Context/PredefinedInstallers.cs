@@ -13,6 +13,17 @@ namespace ModularPipelines.Context;
 [ExcludeFromCodeCoverage]
 public partial class PredefinedInstallers : IPredefinedInstallers
 {
+    /// <summary>
+    /// Version constants for predefined installers.
+    /// Update these values when new versions are released.
+    /// </summary>
+    private static class Versions
+    {
+        public const string PowerShell7 = "7.3.5";
+        public const string NvmWindows = "1.1.11";
+        public const string NvmLinux = "0.39.4";
+    }
+
     private readonly ICommand _command;
     private readonly IEnvironmentContext _environmentContext;
     private readonly IDownloader _downloader;
@@ -74,9 +85,8 @@ public partial class PredefinedInstallers : IPredefinedInstallers
 
         if (operatingSystem == OperatingSystemIdentifier.Windows)
         {
-            var url = _environmentContext.Is64BitOperatingSystem
-                ? "https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/PowerShell-7.3.5-win-x64.msi"
-                : "https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/PowerShell-7.3.5-win-x86.msi";
+            var arch = _environmentContext.Is64BitOperatingSystem ? "x64" : "x86";
+            var url = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/PowerShell-{Versions.PowerShell7}-win-{arch}.msi";
 
             return await _windowsInstaller.InstallMsi(new MsiInstallerOptions(url)).ConfigureAwait(false);
         }
@@ -86,7 +96,8 @@ public partial class PredefinedInstallers : IPredefinedInstallers
             return await _macInstaller.InstallFromBrew(new MacBrewOptions("powershell")).ConfigureAwait(false);
         }
 
-        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://github.com/PowerShell/PowerShell/releases/download/v7.3.5/powershell_7.3.5-1.deb_amd64.deb"))).ConfigureAwait(false);
+        var linuxUrl = $"https://github.com/PowerShell/PowerShell/releases/download/v{Versions.PowerShell7}/powershell_{Versions.PowerShell7}-1.deb_amd64.deb";
+        var linuxFile = await _downloader.DownloadFileAsync(new DownloadFileOptions(new Uri(linuxUrl))).ConfigureAwait(false);
 
         return await _linuxInstaller.InstallFromDpkg(new DpkgInstallOptions(linuxFile)).ConfigureAwait(false);
     }
@@ -96,8 +107,9 @@ public partial class PredefinedInstallers : IPredefinedInstallers
     {
         if (OperatingSystem.IsWindows())
         {
+            var nvmWindowsUrl = $"https://github.com/coreybutler/nvm-windows/releases/download/{Versions.NvmWindows}/nvm-noinstall.zip";
             var zipFile = await _downloader.DownloadFileAsync(
-                new DownloadFileOptions(new Uri("https://github.com/coreybutler/nvm-windows/releases/download/1.1.11/nvm-noinstall.zip"))).ConfigureAwait(false);
+                new DownloadFileOptions(new Uri(nvmWindowsUrl))).ConfigureAwait(false);
 
             var newFolder = _zip.UnZipToFolder(zipFile, Folder.CreateTemporaryFolder());
 
@@ -118,8 +130,9 @@ public partial class PredefinedInstallers : IPredefinedInstallers
             return newFolder.FindFile(x => x.Name == "nvm.exe");
         }
 
+        var nvmLinuxUrl = $"https://raw.githubusercontent.com/nvm-sh/nvm/v{Versions.NvmLinux}/install.sh";
         var bashScript = await _downloader.DownloadFileAsync(
-            new DownloadFileOptions(new Uri("https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh"))).ConfigureAwait(false);
+            new DownloadFileOptions(new Uri(nvmLinuxUrl))).ConfigureAwait(false);
 
         await _bash.FromFile(new BashFileOptions(bashScript)).ConfigureAwait(false);
 
