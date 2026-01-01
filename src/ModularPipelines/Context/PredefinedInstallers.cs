@@ -15,12 +15,34 @@ public partial class PredefinedInstallers : IPredefinedInstallers
 {
     /// <summary>
     /// Version constants for predefined installers.
+    /// These are default versions that may become outdated over time.
     /// Update these values when new versions are released.
     /// </summary>
+    /// <remarks>
+    /// These versions are used to construct download URLs for various installers.
+    /// Check the respective project repositories for the latest available versions:
+    /// - PowerShell: https://github.com/PowerShell/PowerShell/releases
+    /// - NVM for Windows: https://github.com/coreybutler/nvm-windows/releases
+    /// - NVM for Unix: https://github.com/nvm-sh/nvm/releases
+    /// </remarks>
     private static class Versions
     {
+        /// <summary>
+        /// Default PowerShell 7 version for installers.
+        /// This version may become outdated; check https://github.com/PowerShell/PowerShell/releases for newer versions.
+        /// </summary>
         public const string PowerShell7 = "7.3.5";
+
+        /// <summary>
+        /// Default NVM for Windows version.
+        /// This version may become outdated; check https://github.com/coreybutler/nvm-windows/releases for newer versions.
+        /// </summary>
         public const string NvmWindows = "1.1.11";
+
+        /// <summary>
+        /// Default NVM for Unix (Linux/macOS) version.
+        /// This version may become outdated; check https://github.com/nvm-sh/nvm/releases for newer versions.
+        /// </summary>
         public const string NvmLinux = "0.39.4";
     }
 
