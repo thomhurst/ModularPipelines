@@ -79,6 +79,9 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         // Create TCS first to ensure GetCompletionTask never returns null when result exists
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         _results[moduleType] = result;
+
+        // Memory barrier ensures _results write is visible before task completion wakes waiters
+        Thread.MemoryBarrier();
         tcs.TrySetResult(result);
     }
 
@@ -118,6 +121,9 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         // Create TCS first to ensure GetCompletionTask never returns null when result exists
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         _results[moduleType] = result;
+
+        // Memory barrier ensures _results write is visible before task completion wakes waiters
+        Thread.MemoryBarrier();
         tcs.TrySetResult(result);
     }
 }
