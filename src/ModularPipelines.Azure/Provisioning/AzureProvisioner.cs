@@ -40,6 +40,10 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
 
     public async Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureSubscriptionIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(resourceGroupName);
+        ArgumentNullException.ThrowIfNull(properties);
+
         var subscriptionCollection = ArmClient.GetSubscriptionResource(azureSubscriptionIdentifier.ToSubscriptionIdentifier());
 
         return await subscriptionCollection.GetResourceGroups()
@@ -48,42 +52,70 @@ internal class AzureProvisioner : BaseAzureProvisioner, IAzureProvisioner
 
     public async Task<ArmOperation<KeyVaultResource>> KeyVault(AzureResourceIdentifier azureResourceIdentifier, KeyVaultCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetKeyVaults()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<RedisResource>> Redis(AzureResourceIdentifier azureResourceIdentifier, RedisCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetAllRedis()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetContainerRegistries()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<AppConfigurationStoreResource>> AppConfiguration(AzureResourceIdentifier azureResourceIdentifier, AppConfigurationStoreData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetAppConfigurationStores()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<OperationalInsightsWorkspaceResource>> OperationalInsightsWorkspace(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsWorkspaceData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetOperationalInsightsWorkspaces()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<OperationalInsightsClusterResource>> OperationalInsightsCluster(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsClusterData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetOperationalInsightsClusters()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<ApplicationInsightsComponentResource>> ApplicationInsights(AzureResourceIdentifier azureResourceIdentifier, ApplicationInsightsComponentData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationInsightsComponents()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }

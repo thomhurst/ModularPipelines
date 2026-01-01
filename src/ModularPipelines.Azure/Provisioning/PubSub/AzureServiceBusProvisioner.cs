@@ -13,12 +13,21 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<ServiceBusNamespaceResource>> Namespace(AzureResourceIdentifier azureResourceIdentifier, ServiceBusNamespaceData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetServiceBusNamespaces()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
     public async Task<ArmOperation<MigrationConfigurationResource>> MigrationConfiguration(AzureResourceIdentifier azureResourceIdentifier, string queueName, MigrationConfigurationData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(queueName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         return await serviceBus.Value.GetMigrationConfigurations()
@@ -27,6 +36,11 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<ServiceBusQueueResource>> Queue(AzureResourceIdentifier azureResourceIdentifier, string queueName, ServiceBusQueueData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(queueName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         return await serviceBus.Value.GetServiceBusQueues()
@@ -35,6 +49,11 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<ServiceBusTopicResource>> Topic(AzureResourceIdentifier azureResourceIdentifier, string topicName, ServiceBusTopicData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(topicName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         return await serviceBus.Value.GetServiceBusTopics()
@@ -43,6 +62,12 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<ServiceBusSubscriptionResource>> Subscription(AzureResourceIdentifier azureResourceIdentifier, string topicName, string subscriptionName, ServiceBusSubscriptionData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(topicName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(subscriptionName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         var topic = await serviceBus.Value.GetServiceBusTopicAsync(topicName, cancellationToken);
@@ -55,6 +80,12 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         AzureResourceIdentifier azureResourceIdentifier, string topicName, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(topicName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(authorizationRuleName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         var topic = await serviceBus.Value.GetServiceBusTopicAsync(topicName, cancellationToken);
@@ -67,6 +98,11 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         AzureResourceIdentifier azureResourceIdentifier, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(authorizationRuleName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         return await serviceBus.Value.GetServiceBusNamespaceAuthorizationRules()
@@ -77,6 +113,12 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
         AzureResourceIdentifier azureResourceIdentifier, string queueName, string authorizationRuleName,
         ServiceBusAuthorizationRuleData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(queueName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(authorizationRuleName);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         var serviceBus = await GetServiceBusNamespace(azureResourceIdentifier, cancellationToken);
 
         var queue = await serviceBus.Value.GetServiceBusQueueAsync(queueName, cancellationToken);
@@ -87,6 +129,9 @@ public class AzureServiceBusProvisioner : BaseAzureProvisioner
 
     private async Task<Response<ServiceBusNamespaceResource>> GetServiceBusNamespace(AzureResourceIdentifier azureResourceIdentifier, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetServiceBusNamespaceAsync(azureResourceIdentifier.ResourceName, cancellationToken);
     }
 }
