@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -61,92 +62,68 @@ internal interface IModuleResultRegistry
 
 /// <summary>
 /// Default implementation of the module result registry.
+/// Uses ConcurrentDictionary for lock-free reads and thread-safe writes.
 /// </summary>
 internal class ModuleResultRegistry : IModuleResultRegistry
 {
-    private readonly Dictionary<Type, object> _results = new();
-    private readonly Dictionary<Type, TaskCompletionSource<object?>> _completionSources = new();
-    private readonly object _lock = new();
+    private readonly ConcurrentDictionary<Type, object> _results = new();
+    private readonly ConcurrentDictionary<Type, TaskCompletionSource<object?>> _completionSources = new();
 
     public void RegisterModule(Type moduleType)
     {
-        lock (_lock)
-        {
-            if (!_completionSources.ContainsKey(moduleType))
-            {
-                _completionSources[moduleType] = new TaskCompletionSource<object?>();
-            }
-        }
+        _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
     }
 
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
     {
-        lock (_lock)
-        {
-            _results[moduleType] = result;
+        _results[moduleType] = result;
 
-            if (_completionSources.TryGetValue(moduleType, out var tcs))
-            {
-                tcs.TrySetResult(result);
-            }
+        if (_completionSources.TryGetValue(moduleType, out var tcs))
+        {
+            tcs.TrySetResult(result);
         }
     }
 
     public ModuleResult<T>? GetResult<T>(Type moduleType)
     {
-        lock (_lock)
+        if (_results.TryGetValue(moduleType, out var result) && result is ModuleResult<T> typedResult)
         {
-            if (_results.TryGetValue(moduleType, out var result) && result is ModuleResult<T> typedResult)
-            {
-                return typedResult;
-            }
-
-            return null;
+            return typedResult;
         }
+
+        return null;
     }
 
     public IModuleResult? GetResult(Type moduleType)
     {
-        lock (_lock)
+        if (_results.TryGetValue(moduleType, out var result))
         {
-            if (_results.TryGetValue(moduleType, out var result))
-            {
-                return result as IModuleResult;
-            }
-
-            return null;
+            return result as IModuleResult;
         }
+
+        return null;
     }
 
     public Task? GetCompletionTask(Type moduleType)
     {
-        lock (_lock)
-        {
-            return _completionSources.TryGetValue(moduleType, out var tcs) ? tcs.Task : null;
-        }
+        return _completionSources.TryGetValue(moduleType, out var tcs) ? tcs.Task : null;
     }
 
     public void SetException(Type moduleType, Exception exception)
     {
-        lock (_lock)
+        if (_completionSources.TryGetValue(moduleType, out var tcs))
         {
-            if (_completionSources.TryGetValue(moduleType, out var tcs))
-            {
-                tcs.TrySetException(exception);
-            }
+            tcs.TrySetException(exception);
         }
     }
 
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
-        lock (_lock)
-        {
-            _results[moduleType] = result;
+        _results[moduleType] = result;
 
-            if (_completionSources.TryGetValue(moduleType, out var tcs))
-            {
-                tcs.TrySetResult(result);
-            }
+        if (_completionSources.TryGetValue(moduleType, out var tcs))
+        {
+            tcs.TrySetResult(result);
         }
     }
 }
