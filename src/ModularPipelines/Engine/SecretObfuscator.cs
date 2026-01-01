@@ -29,10 +29,7 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
         foreach (var secret in _secretProvider.Secrets.Concat(secretsFromExtraObject))
         {
-            if (input.Contains(secret))
-            {
-                stringBuilder.Replace(secret, LoggingConstants.SecretMask);
-            }
+            stringBuilder.Replace(secret, LoggingConstants.SecretMask);
         }
 
         return stringBuilder.ToString();
