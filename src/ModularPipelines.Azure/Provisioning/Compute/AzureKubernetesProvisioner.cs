@@ -11,9 +11,9 @@ public class AzureKubernetesProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironment(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties)
+    public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironment(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetKubeEnvironments()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 }

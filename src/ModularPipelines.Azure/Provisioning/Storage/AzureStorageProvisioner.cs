@@ -12,54 +12,54 @@ public class AzureStorageProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<StorageAccountResource>> StorageAccount(AzureResourceIdentifier azureResourceIdentifier, StorageAccountCreateOrUpdateContent properties)
+    public async Task<ArmOperation<StorageAccountResource>> StorageAccount(AzureResourceIdentifier azureResourceIdentifier, StorageAccountCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetStorageAccounts()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<BlobServiceResource>> BlobService(AzureResourceIdentifier azureResourceIdentifier, BlobServiceData properties)
+    public async Task<ArmOperation<BlobServiceResource>> BlobService(AzureResourceIdentifier azureResourceIdentifier, BlobServiceData properties, CancellationToken cancellationToken = default)
     {
         return await GetStorageAccount(azureResourceIdentifier).GetBlobService()
-            .CreateOrUpdateAsync(WaitUntil.Completed, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<BlobContainerResource>> BlobContainer(AzureResourceIdentifier azureResourceIdentifier, string containerName, BlobContainerData properties)
+    public async Task<ArmOperation<BlobContainerResource>> BlobContainer(AzureResourceIdentifier azureResourceIdentifier, string containerName, BlobContainerData properties, CancellationToken cancellationToken = default)
     {
-        return await GetStorageAccount(azureResourceIdentifier).GetBlobService().GetBlobContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties);
+        return await GetStorageAccount(azureResourceIdentifier).GetBlobService().GetBlobContainers().CreateOrUpdateAsync(WaitUntil.Completed, containerName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<TableServiceResource>> TableService(AzureResourceIdentifier azureResourceIdentifier, TableServiceData properties)
+    public async Task<ArmOperation<TableServiceResource>> TableService(AzureResourceIdentifier azureResourceIdentifier, TableServiceData properties, CancellationToken cancellationToken = default)
     {
         return await GetStorageAccount(azureResourceIdentifier).GetTableService()
-            .CreateOrUpdateAsync(WaitUntil.Completed, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<TableResource>> Table(AzureResourceIdentifier azureResourceIdentifier, string tableName, TableData properties)
+    public async Task<ArmOperation<TableResource>> Table(AzureResourceIdentifier azureResourceIdentifier, string tableName, TableData properties, CancellationToken cancellationToken = default)
     {
-        return await GetStorageAccount(azureResourceIdentifier).GetTableService().GetTables().CreateOrUpdateAsync(WaitUntil.Completed, tableName, properties);
+        return await GetStorageAccount(azureResourceIdentifier).GetTableService().GetTables().CreateOrUpdateAsync(WaitUntil.Completed, tableName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<FileServiceResource>> FileService(AzureResourceIdentifier azureResourceIdentifier, FileServiceData properties)
+    public async Task<ArmOperation<FileServiceResource>> FileService(AzureResourceIdentifier azureResourceIdentifier, FileServiceData properties, CancellationToken cancellationToken = default)
     {
         return await GetStorageAccount(azureResourceIdentifier).GetFileService()
-            .CreateOrUpdateAsync(WaitUntil.Completed, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<FileShareResource>> FileShare(AzureResourceIdentifier azureResourceIdentifier, string fileShareName, FileShareData properties)
+    public async Task<ArmOperation<FileShareResource>> FileShare(AzureResourceIdentifier azureResourceIdentifier, string fileShareName, FileShareData properties, CancellationToken cancellationToken = default)
     {
-        return await GetStorageAccount(azureResourceIdentifier).GetFileService().GetFileShares().CreateOrUpdateAsync(WaitUntil.Completed, fileShareName, properties);
+        return await GetStorageAccount(azureResourceIdentifier).GetFileService().GetFileShares().CreateOrUpdateAsync(WaitUntil.Completed, fileShareName, properties, expand: null, cancellationToken);
     }
 
-    public async Task<ArmOperation<QueueServiceResource>> QueueService(AzureResourceIdentifier azureResourceIdentifier, QueueServiceData properties)
+    public async Task<ArmOperation<QueueServiceResource>> QueueService(AzureResourceIdentifier azureResourceIdentifier, QueueServiceData properties, CancellationToken cancellationToken = default)
     {
         return await GetStorageAccount(azureResourceIdentifier).GetQueueService()
-            .CreateOrUpdateAsync(WaitUntil.Completed, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<StorageQueueResource>> StorageQueue(AzureResourceIdentifier azureResourceIdentifier, string storageQueueName, StorageQueueData properties)
+    public async Task<ArmOperation<StorageQueueResource>> StorageQueue(AzureResourceIdentifier azureResourceIdentifier, string storageQueueName, StorageQueueData properties, CancellationToken cancellationToken = default)
     {
-        return await GetStorageAccount(azureResourceIdentifier).GetQueueService().GetStorageQueues().CreateOrUpdateAsync(WaitUntil.Completed, storageQueueName, properties);
+        return await GetStorageAccount(azureResourceIdentifier).GetQueueService().GetStorageQueues().CreateOrUpdateAsync(WaitUntil.Completed, storageQueueName, properties, cancellationToken);
     }
 
     private StorageAccountResource GetStorageAccount(AzureResourceIdentifier azureResourceIdentifier)

@@ -11,34 +11,34 @@ public class AzureNetworkProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<VirtualNetworkResource>> VirtualNetwork(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkData properties)
+    public async Task<ArmOperation<VirtualNetworkResource>> VirtualNetwork(AzureResourceIdentifier azureResourceIdentifier, VirtualNetworkData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetVirtualNetworks()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<SubnetResource>> Subnet(AzureResourceIdentifier azureResourceIdentifier, string subnetName, SubnetData properties)
+    public async Task<ArmOperation<SubnetResource>> Subnet(AzureResourceIdentifier azureResourceIdentifier, string subnetName, SubnetData properties, CancellationToken cancellationToken = default)
     {
-        var virtualNetwork = await GetResourceGroup(azureResourceIdentifier).GetVirtualNetworkAsync(azureResourceIdentifier.ResourceName);
+        var virtualNetwork = await GetResourceGroup(azureResourceIdentifier).GetVirtualNetworkAsync(azureResourceIdentifier.ResourceName, cancellationToken: cancellationToken);
 
-        return await virtualNetwork.Value.GetSubnets().CreateOrUpdateAsync(WaitUntil.Completed, subnetName, properties);
+        return await virtualNetwork.Value.GetSubnets().CreateOrUpdateAsync(WaitUntil.Completed, subnetName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<PrivateLinkServiceResource>> PrivateLinkService(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateLinkServiceData properties)
+    public async Task<ArmOperation<PrivateLinkServiceResource>> PrivateLinkService(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateLinkServiceData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetPrivateLinkServices()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<PrivateEndpointResource>> PrivateEndpoint(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateEndpointData properties)
+    public async Task<ArmOperation<PrivateEndpointResource>> PrivateEndpoint(AzureResourceIdentifier azureResourceIdentifier, string subnetName, PrivateEndpointData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetPrivateEndpoints()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<WebApplicationFirewallPolicyResource>> WebApplicationFirewallPolicy(AzureResourceIdentifier azureResourceIdentifier, string subnetName, WebApplicationFirewallPolicyData properties)
+    public async Task<ArmOperation<WebApplicationFirewallPolicyResource>> WebApplicationFirewallPolicy(AzureResourceIdentifier azureResourceIdentifier, string subnetName, WebApplicationFirewallPolicyData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetWebApplicationFirewallPolicies()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 }

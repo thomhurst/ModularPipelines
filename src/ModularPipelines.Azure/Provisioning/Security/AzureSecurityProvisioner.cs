@@ -15,29 +15,29 @@ public class AzureSecurityProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<UserAssignedIdentityResource>> UserAssignedIdentity(AzureResourceIdentifier azureResourceIdentifier, UserAssignedIdentityData properties)
+    public async Task<ArmOperation<UserAssignedIdentityResource>> UserAssignedIdentity(AzureResourceIdentifier azureResourceIdentifier, UserAssignedIdentityData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetUserAssignedIdentities()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<RoleAssignmentResource>> RoleAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleAssignmentCreateOrUpdateContent properties)
+    public async Task<ArmOperation<RoleAssignmentResource>> RoleAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleAssignmentCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetRoleAssignments()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<RoleManagementPolicyAssignmentResource>> RoleManagementPolicyAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleManagementPolicyAssignmentData properties)
+    public async Task<ArmOperation<RoleManagementPolicyAssignmentResource>> RoleManagementPolicyAssignment(AzureResourceIdentifier azureResourceIdentifier, RoleManagementPolicyAssignmentData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetRoleManagementPolicyAssignments()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<AuthorizationRoleDefinitionResource>> AuthorizationRoleDefinition(AzureScope scope, ResourceIdentifier roleDefinitionIdentifier, AuthorizationRoleDefinitionData properties)
+    public async Task<ArmOperation<AuthorizationRoleDefinitionResource>> AuthorizationRoleDefinition(AzureScope scope, ResourceIdentifier roleDefinitionIdentifier, AuthorizationRoleDefinitionData properties, CancellationToken cancellationToken = default)
     {
         var scopeResourceIdentifier = await ArmClient.GetResourceIdentifierAsync(scope);
 
         return await ArmClient.GetAuthorizationRoleDefinitions(scopeResourceIdentifier)
-            .CreateOrUpdateAsync(WaitUntil.Completed, roleDefinitionIdentifier, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, roleDefinitionIdentifier, properties, cancellationToken);
     }
 }
