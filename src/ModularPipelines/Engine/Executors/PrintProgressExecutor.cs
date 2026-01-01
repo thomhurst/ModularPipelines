@@ -49,6 +49,8 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
         _printProgressCancellationTokenSource?.CancelAfter(ProgressPrinterGracePeriodMs);
 
         await SafelyAwaitProgressPrinter().ConfigureAwait(false);
+
+        _printProgressCancellationTokenSource?.Dispose();
     }
 
     private async Task SafelyAwaitProgressPrinter()
