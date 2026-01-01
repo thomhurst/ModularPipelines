@@ -140,13 +140,15 @@ public partial class PredefinedInstallers : IPredefinedInstallers
 
         if (OperatingSystem.IsWindows())
         {
+            // Windows: CliWrap handles argument escaping automatically via WithArguments()
             return await _command.ExecuteCommandLineTool(new CommandLineToolOptions("nvm")
             {
                 Arguments = ["install", version],
             }).ConfigureAwait(false);
         }
 
-        // Use proper shell escaping to prevent command injection
+        // Linux/Mac: Use shell escaping since BashCommandOptions uses string interpolation.
+        // The validation regex ensures no single quotes in version, making this escaping safe.
         var escapedVersion = EscapeShellArgument(version);
         return await _bash.Command(new BashCommandOptions($"nvm install {escapedVersion}")).ConfigureAwait(false);
     }
@@ -166,7 +168,7 @@ public partial class PredefinedInstallers : IPredefinedInstallers
         {
             throw new ArgumentException(
                 $"Invalid Node.js version format: '{version}'. " +
-                "Expected formats: --lts, --latest, v18.0.0, 18.0.0, lts/*, node, or similar.",
+                "Expected formats: --lts, --latest, v18.0.0, 18.0.0, lts/*, node, system, or similar.",
                 nameof(version));
         }
     }
@@ -183,6 +185,11 @@ public partial class PredefinedInstallers : IPredefinedInstallers
         return "'" + argument.Replace("'", "'\\''") + "'";
     }
 
-    [GeneratedRegex(@"^(--lts|--latest|node|stable|unstable|iojs|lts/\*|lts/[a-z]+|v?\d+(\.\d+){0,2})$", RegexOptions.IgnoreCase)]
+    // Matches valid nvm version formats:
+    // - Flags: --lts, --latest
+    // - Aliases: node, stable, unstable, iojs, system
+    // - LTS codenames: lts/*, lts/argon, lts/boron, etc.
+    // - Semantic versions: 18, 18.0, 18.0.0, v18, v18.0, v18.0.0
+    [GeneratedRegex(@"^(--lts|--latest|node|stable|unstable|iojs|system|lts/\*|lts/[a-z]+|v?\d+(\.\d+){0,2})$", RegexOptions.IgnoreCase)]
     private static partial Regex NodeVersionRegex();
 }
