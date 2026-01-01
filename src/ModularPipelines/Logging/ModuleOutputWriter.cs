@@ -119,6 +119,10 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
     /// <summary>
     /// Flushes all buffered output with section header/footer.
     /// </summary>
+    /// <remarks>
+    /// No finalizer is needed since this class only manages managed resources.
+    /// If Dispose is not called, the IServiceScope will be cleaned up by GC.
+    /// </remarks>
     public void Dispose()
     {
         lock (_writeLock)
@@ -133,6 +137,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
 
         if (!_buffer.HasEvents)
         {
+            _scope.Dispose();
             return;
         }
 
@@ -173,12 +178,6 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
         }
 
         _scope.Dispose();
-        GC.SuppressFinalize(this);
-    }
-
-    ~ModuleOutputWriter()
-    {
-        Dispose();
     }
 
     /// <summary>
