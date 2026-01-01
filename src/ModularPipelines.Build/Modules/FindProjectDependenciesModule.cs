@@ -1,3 +1,4 @@
+using System.Xml.Linq;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -17,15 +18,19 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var file in projects.Value!)
         {
-            await foreach (var line in file.ReadLinesAsync(cancellationToken))
+            var doc = await XDocument.LoadAsync(
+                System.IO.File.OpenRead(file.Path),
+                LoadOptions.None,
+                cancellationToken);
+
+            var projectReferences = doc.Descendants()
+                .Where(e => e.Name.LocalName == "ProjectReference")
+                .Select(e => e.Attribute("Include")?.Value)
+                .Where(v => v != null);
+
+            foreach (var reference in projectReferences)
             {
-                if (!line.Contains("<ProjectReference"))
-                {
-                    continue;
-                }
-
-                var name = line.Split('\\').Last().Split('"').First();
-
+                var name = Path.GetFileName(reference);
                 var project = projects.Value!.FirstOrDefault(x => x.Name == name);
 
                 if (project != null)
