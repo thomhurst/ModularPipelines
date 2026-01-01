@@ -61,6 +61,31 @@ public class File : IEquatable<File>
         return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
     }
 
+    /// <summary>
+    /// Opens a <see cref="FileStream"/> on the current file with the specified access mode.
+    /// </summary>
+    /// <param name="fileAccess">The access mode for the file stream. Defaults to <see cref="FileAccess.ReadWrite"/>.</param>
+    /// <returns>A <see cref="FileStream"/> for the file.</returns>
+    /// <remarks>
+    /// <para>
+    /// <strong>Important:</strong> The caller is responsible for disposing the returned <see cref="FileStream"/>.
+    /// Failure to dispose the stream will result in resource leaks and may prevent other operations on the file.
+    /// </para>
+    /// <para>
+    /// Recommended usage with <c>await using</c> (async) or <c>using</c> (sync):
+    /// </para>
+    /// <example>
+    /// <code>
+    /// // Async usage (preferred)
+    /// await using var stream = file.GetStream(FileAccess.Read);
+    /// // Use the stream...
+    ///
+    /// // Sync usage
+    /// using var stream = file.GetStream(FileAccess.Read);
+    /// // Use the stream...
+    /// </code>
+    /// </example>
+    /// </remarks>
     public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
         return System.IO.File.Open(Path, FileMode.OpenOrCreate, fileAccess);
