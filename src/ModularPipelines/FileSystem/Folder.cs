@@ -95,9 +95,13 @@ public class Folder : IEquatable<Folder>
     /// <summary>
     /// Removes all files and subdirectories within the folder.
     /// </summary>
+    /// <remarks>
+    /// This method preserves backward compatibility by not removing read-only attributes.
+    /// Use <see cref="Clean(bool)"/> with <c>removeReadOnlyAttribute: true</c> to handle read-only files.
+    /// </remarks>
     public void Clean()
     {
-        Clean(removeReadOnlyAttribute: true);
+        Clean(removeReadOnlyAttribute: false);
     }
 
     /// <summary>
@@ -153,6 +157,8 @@ public class Folder : IEquatable<Folder>
     /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
     public Folder CopyTo(string targetPath, bool preserveTimestamps)
     {
+        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
+
         Directory.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
@@ -205,8 +211,6 @@ public class Folder : IEquatable<Folder>
             targetRootDir.LastWriteTimeUtc = DirectoryInfo.LastWriteTimeUtc;
             targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
-
-        LogFolderOperationWithDestination("Copied Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
 
         return new Folder(targetPath);
     }
