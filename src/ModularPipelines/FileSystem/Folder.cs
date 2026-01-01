@@ -96,11 +96,37 @@ public class Folder : IEquatable<Folder>
         return this;
     }
 
+    /// <summary>
+    /// Asynchronously creates the folder if it does not exist.
+    /// </summary>
+    /// <returns>This folder instance for method chaining.</returns>
+    public Task<Folder> CreateAsync()
+    {
+        LogFolderOperation("Creating Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
+
+        return Task.Run(() =>
+        {
+            Directory.CreateDirectory(Path);
+            return this;
+        });
+    }
+
     public void Delete()
     {
         LogFolderOperation("Deleting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
         DirectoryInfo.Delete(true);
+    }
+
+    /// <summary>
+    /// Asynchronously deletes the folder and all its contents.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    public Task DeleteAsync(CancellationToken cancellationToken = default)
+    {
+        LogFolderOperation("Deleting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
+
+        return Task.Run(() => DirectoryInfo.Delete(true), cancellationToken);
     }
 
     /// <summary>
@@ -270,12 +296,120 @@ public class Folder : IEquatable<Folder>
         return new Folder(targetPath);
     }
 
+    /// <summary>
+    /// Asynchronously copies the folder and its contents to the specified target path using stream-based file copying.
+    /// </summary>
+    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
+    public Task<Folder> CopyToAsync(string targetPath, CancellationToken cancellationToken = default)
+    {
+        return CopyToAsync(targetPath, preserveTimestamps: false, cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously copies the folder and its contents to the specified target path using stream-based file copying.
+    /// </summary>
+    /// <param name="targetPath">The destination path for the copied folder.</param>
+    /// <param name="preserveTimestamps">
+    /// When true, preserves CreationTimeUtc, LastWriteTimeUtc, and LastAccessTimeUtc
+    /// for all files and directories.
+    /// </param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
+    public async Task<Folder> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
+    {
+        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
+
+        Directory.CreateDirectory(targetPath);
+
+        // Copy all subdirectories first
+        foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var sourceDir = new DirectoryInfo(dirPath);
+            var relativePath = System.IO.Path.GetRelativePath(this, dirPath);
+            var newPath = System.IO.Path.Combine(targetPath, relativePath);
+            var targetDir = Directory.CreateDirectory(newPath);
+
+            targetDir.Attributes = sourceDir.Attributes;
+
+            if (preserveTimestamps)
+            {
+                targetDir.CreationTimeUtc = sourceDir.CreationTimeUtc;
+                targetDir.LastWriteTimeUtc = sourceDir.LastWriteTimeUtc;
+                targetDir.LastAccessTimeUtc = sourceDir.LastAccessTimeUtc;
+            }
+        }
+
+        // Copy all files using async stream copying
+        foreach (var filePath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var sourceFile = new FileInfo(filePath);
+            var relativePath = System.IO.Path.GetRelativePath(this, filePath);
+            var newPath = System.IO.Path.Combine(targetPath, relativePath);
+
+            var sourceStream = System.IO.File.OpenRead(filePath);
+            await using (sourceStream.ConfigureAwait(false))
+            {
+                var destStream = System.IO.File.Create(newPath);
+                await using (destStream.ConfigureAwait(false))
+                {
+                    await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            var targetFile = new FileInfo(newPath);
+            targetFile.Attributes = sourceFile.Attributes;
+
+            if (preserveTimestamps)
+            {
+                targetFile.CreationTimeUtc = sourceFile.CreationTimeUtc;
+                targetFile.LastWriteTimeUtc = sourceFile.LastWriteTimeUtc;
+                targetFile.LastAccessTimeUtc = sourceFile.LastAccessTimeUtc;
+            }
+        }
+
+        // Preserve root directory attributes and timestamps
+        var targetRootDir = new DirectoryInfo(targetPath);
+        targetRootDir.Attributes = DirectoryInfo.Attributes;
+
+        if (preserveTimestamps)
+        {
+            targetRootDir.CreationTimeUtc = DirectoryInfo.CreationTimeUtc;
+            targetRootDir.LastWriteTimeUtc = DirectoryInfo.LastWriteTimeUtc;
+            targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
+        }
+
+        return new Folder(targetPath);
+    }
+
     public Folder MoveTo(string path)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         DirectoryInfo.MoveTo(path);
         return this;
+    }
+
+    /// <summary>
+    /// Asynchronously moves the folder to a new path.
+    /// </summary>
+    /// <param name="path">The destination path.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>This folder instance for method chaining.</returns>
+    public Task<Folder> MoveToAsync(string path, CancellationToken cancellationToken = default)
+    {
+        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
+
+        return Task.Run(() =>
+        {
+            DirectoryInfo.MoveTo(path);
+            return this;
+        }, cancellationToken);
     }
 
     public Folder GetFolder(string name)
