@@ -40,13 +40,22 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
             {
                 try
                 {
-                    var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
+                    var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FullName);
+                    var subIndex = fileNameWithoutExtension.IndexOf("-Sub-", StringComparison.Ordinal);
+
+                    if (subIndex < 0)
+                    {
+                        // File doesn't match expected naming pattern - skip gracefully
+                        return null;
+                    }
+
+                    var name = fileNameWithoutExtension[(subIndex + 5)..]; // 5 = length of "-Sub-"
                     var time = await GetEstimatedTimeAsync(file.FullName).ConfigureAwait(false);
                     return new SubModuleEstimation(name, time);
                 }
-                catch
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
                 {
-                    File.Delete(file.FullName);
+                    // File access error (locked, permissions, etc.) - skip gracefully without deleting
                     return null;
                 }
             })
