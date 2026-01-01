@@ -34,10 +34,11 @@ internal interface IModuleResultRegistry
 
     /// <summary>
     /// Gets the task that completes when a module finishes.
+    /// Creates a TaskCompletionSource on-demand if the module is not yet registered.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
-    /// <returns>The completion task, or null if the module is not registered.</returns>
-    Task? GetCompletionTask(Type moduleType);
+    /// <returns>The completion task.</returns>
+    Task GetCompletionTask(Type moduleType);
 
     /// <summary>
     /// Registers a module for result tracking.
@@ -76,12 +77,10 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
     {
-        // Create TCS first to ensure GetCompletionTask never returns null when result exists
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        // Store result first, then signal completion
+        // TrySetResult provides release semantics, ensuring _results write is visible to awaiters
         _results[moduleType] = result;
-
-        // Memory barrier ensures _results write is visible before task completion wakes waiters
-        Thread.MemoryBarrier();
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         tcs.TrySetResult(result);
     }
 
@@ -105,9 +104,10 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         return null;
     }
 
-    public Task? GetCompletionTask(Type moduleType)
+    public Task GetCompletionTask(Type moduleType)
     {
-        return _completionSources.TryGetValue(moduleType, out var tcs) ? tcs.Task : null;
+        // Use GetOrAdd for consistency with SetException - creates TCS on-demand
+        return _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>()).Task;
     }
 
     public void SetException(Type moduleType, Exception exception)
@@ -118,12 +118,10 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
-        // Create TCS first to ensure GetCompletionTask never returns null when result exists
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+        // Store result first, then signal completion
+        // TrySetResult provides release semantics, ensuring _results write is visible to awaiters
         _results[moduleType] = result;
-
-        // Memory barrier ensures _results write is visible before task completion wakes waiters
-        Thread.MemoryBarrier();
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         tcs.TrySetResult(result);
     }
 }
