@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
 
@@ -12,12 +12,7 @@ public class PrintEnvironmentVariablesModule : Module<IDictionary<string, object
     {
         await Task.CompletedTask;
 
-        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), new JsonSerializerOptions
-        {
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            IgnoreReadOnlyFields = true,
-            WriteIndented = true,
-        }));
+        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), DiagnosticSerializerOptions.Instance));
 
         return null;
     }
