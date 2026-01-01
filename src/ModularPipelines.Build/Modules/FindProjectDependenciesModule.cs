@@ -18,15 +18,16 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         foreach (var file in projects.Value!)
         {
+            await using var stream = System.IO.File.OpenRead(file.Path);
             var doc = await XDocument.LoadAsync(
-                System.IO.File.OpenRead(file.Path),
+                stream,
                 LoadOptions.None,
                 cancellationToken);
 
             var projectReferences = doc.Descendants()
                 .Where(e => e.Name.LocalName == "ProjectReference")
                 .Select(e => e.Attribute("Include")?.Value)
-                .Where(v => v != null);
+                .OfType<string>();
 
             foreach (var reference in projectReferences)
             {
