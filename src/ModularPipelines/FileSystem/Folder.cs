@@ -107,12 +107,12 @@ public class Folder : IEquatable<Folder>
     /// Removes all files and subdirectories within the folder.
     /// </summary>
     /// <remarks>
-    /// This method preserves backward compatibility by not removing read-only attributes.
-    /// Use <see cref="Clean(bool)"/> with <c>removeReadOnlyAttribute: true</c> to handle read-only files.
+    /// This method preserves backward compatibility by not removing read-only attributes and failing on first error.
+    /// Use <see cref="Clean(bool, bool)"/> for more control over error handling.
     /// </remarks>
     public void Clean()
     {
-        Clean(removeReadOnlyAttribute: false);
+        Clean(removeReadOnlyAttribute: false, continueOnError: false);
     }
 
     /// <summary>
@@ -124,26 +124,70 @@ public class Folder : IEquatable<Folder>
     /// </param>
     public void Clean(bool removeReadOnlyAttribute)
     {
+        Clean(removeReadOnlyAttribute, continueOnError: false);
+    }
+
+    /// <summary>
+    /// Removes all files and subdirectories within the folder.
+    /// </summary>
+    /// <param name="removeReadOnlyAttribute">
+    /// When true, removes the read-only attribute from files and directories before deletion.
+    /// This helps handle read-only items that would otherwise fail to delete.
+    /// </param>
+    /// <param name="continueOnError">
+    /// When true, continues deleting remaining items even if some deletions fail.
+    /// Failed deletions are logged and aggregated into a single exception at the end.
+    /// When false, the first error encountered will stop the operation and throw immediately.
+    /// </param>
+    /// <exception cref="AggregateException">
+    /// Thrown when <paramref name="continueOnError"/> is true and one or more deletions failed.
+    /// Contains all individual exceptions encountered during the operation.
+    /// </exception>
+    public void Clean(bool removeReadOnlyAttribute, bool continueOnError)
+    {
         LogFolderOperation("Cleaning Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
+
+        var errors = new List<Exception>();
 
         foreach (var directory in DirectoryInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
         {
-            if (removeReadOnlyAttribute)
+            try
             {
-                RemoveReadOnlyAttributeRecursively(directory);
-            }
+                if (removeReadOnlyAttribute)
+                {
+                    RemoveReadOnlyAttributeRecursively(directory);
+                }
 
-            directory.Delete(true);
+                directory.Delete(true);
+            }
+            catch (Exception ex) when (continueOnError)
+            {
+                LogFolderWarning(ex, "Failed to delete directory: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", directory.FullName);
+                errors.Add(ex);
+            }
         }
 
         foreach (var file in DirectoryInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
         {
-            if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+            try
             {
-                file.Attributes &= ~FileAttributes.ReadOnly;
-            }
+                if (removeReadOnlyAttribute && (file.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    file.Attributes &= ~FileAttributes.ReadOnly;
+                }
 
-            file.Delete();
+                file.Delete();
+            }
+            catch (Exception ex) when (continueOnError)
+            {
+                LogFolderWarning(ex, "Failed to delete file: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", file.FullName);
+                errors.Add(ex);
+            }
+        }
+
+        if (errors.Count > 0)
+        {
+            throw new AggregateException($"Failed to delete {errors.Count} item(s) in folder {Path}", errors);
         }
     }
 
