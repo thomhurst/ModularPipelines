@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -17,6 +18,10 @@ public class RunIfBranchStartsWithAttribute : RunConditionAttribute
 
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
-        return Task.FromResult(pipelineContext.Git().Information.BranchName?.StartsWith(BranchNamePrefix) ?? false);
+        var currentBranchName = pipelineContext.Git().Information.BranchName;
+
+        pipelineContext.Logger.LogDebug("Current Branch: {CurrentBranch} | Can run if starts with: {ExpectedPrefix}", currentBranchName, BranchNamePrefix);
+
+        return Task.FromResult(currentBranchName?.StartsWith(BranchNamePrefix) ?? false);
     }
 }
