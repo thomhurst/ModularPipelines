@@ -13,6 +13,10 @@ public class AzureContainerProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetContainerRegistries()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }

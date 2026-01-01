@@ -13,6 +13,10 @@ public class AzureKubernetesProvisioner : BaseAzureProvisioner
 
     public async Task<ArmOperation<KubeEnvironmentResource>> KubeEnvironment(AzureResourceIdentifier azureResourceIdentifier, KubeEnvironmentData properties, CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(azureResourceIdentifier);
+        ArgumentNullException.ThrowIfNull(properties);
+        ArgumentException.ThrowIfNullOrWhiteSpace(azureResourceIdentifier.ResourceName);
+
         return await GetResourceGroup(azureResourceIdentifier).GetKubeEnvironments()
             .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
