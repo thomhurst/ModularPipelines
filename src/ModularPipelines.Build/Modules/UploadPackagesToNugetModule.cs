@@ -17,7 +17,6 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
-[RunOnLinuxOnly]
 public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
