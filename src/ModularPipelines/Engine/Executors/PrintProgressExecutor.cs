@@ -46,7 +46,14 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
     public async ValueTask DisposeAsync()
     {
-        _printProgressCancellationTokenSource?.CancelAfter(ProgressPrinterGracePeriodMs);
+        try
+        {
+            _printProgressCancellationTokenSource?.CancelAfter(ProgressPrinterGracePeriodMs);
+        }
+        catch (ObjectDisposedException)
+        {
+            // Linked CancellationTokenSource may already be disposed if the engine token was cancelled
+        }
 
         await SafelyAwaitProgressPrinter().ConfigureAwait(false);
 
