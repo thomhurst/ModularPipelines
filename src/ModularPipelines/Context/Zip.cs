@@ -29,6 +29,7 @@ internal class Zip : IZip
     public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
+        ArgumentException.ThrowIfNullOrWhiteSpace(outputFolderPath);
 
         if (!System.IO.File.Exists(zipPath))
         {
