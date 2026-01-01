@@ -8,7 +8,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[RunOnLinux]
+[RunOnLinuxOnly]
 [SkipOnMainBranch]
 public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
 {
