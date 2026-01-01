@@ -28,14 +28,18 @@ public class Folder : IEquatable<Folder>
         }
     }
 
-    public Folder(string path) : this(new DirectoryInfo(path))
+    public Folder(string path) : this(new DirectoryInfo(path), path)
     {
     }
 
-    internal Folder(DirectoryInfo directoryInfo)
+    internal Folder(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName)
+    {
+    }
+
+    private Folder(DirectoryInfo directoryInfo, string originalPath)
     {
         _directoryInfo = directoryInfo;
-        OriginalPath = Path;
+        OriginalPath = originalPath;
     }
 
     public bool Exists => DirectoryInfo.Exists;
@@ -49,6 +53,13 @@ public class Folder : IEquatable<Folder>
 
     public string Path => DirectoryInfo.FullName;
 
+    /// <summary>
+    /// Gets the original path string that was used to construct this Folder instance.
+    /// </summary>
+    /// <remarks>
+    /// Unlike <see cref="Path"/> which always returns the absolute path,
+    /// this property preserves the original input (which may be relative).
+    /// </remarks>
     public string OriginalPath { get; }
 
     public FileAttributes Attributes
