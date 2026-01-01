@@ -8,6 +8,9 @@ namespace ModularPipelines.Engine;
 [ExcludeFromCodeCoverage]
 internal class NoOpModuleResultRepository : IModuleResultRepository
 {
+    /// <inheritdoc />
+    public bool IsEnabled => false;
+
     public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
     {
         return Task.CompletedTask;
