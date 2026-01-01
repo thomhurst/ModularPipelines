@@ -32,7 +32,6 @@ namespace ModularPipelines;
 /// </example>
 internal class BuildSystemDetector : IBuildSystemDetector
 {
-    public static readonly BuildSystemDetector Instance = new(new EnvironmentVariables());
     private readonly IEnvironmentVariables _environmentVariables;
 
     private readonly Dictionary<string, BuildSystem> _variablesToBuildSystem = new()
