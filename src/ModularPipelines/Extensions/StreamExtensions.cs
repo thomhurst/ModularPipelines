@@ -8,6 +8,21 @@ public static class StreamExtensions
     /// <summary>
     /// Turns a generic <see cref="Stream"/> into a <see cref="MemoryStream"/>.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <b>Breaking change:</b> This method previously always disposed the source stream.
+    /// It now defaults to <c>disposeSource: false</c> to follow the principle of least surprise.
+    /// Existing callers that relied on automatic disposal should pass <c>disposeSource: true</c>.
+    /// </para>
+    /// <para>
+    /// When the input is already a <see cref="MemoryStream"/> and <paramref name="disposeSource"/> is false,
+    /// the same instance is returned (with position reset) as an optimization.
+    /// When <paramref name="disposeSource"/> is true, a copy is made before disposing the source.
+    /// </para>
+    /// <para>
+    /// Callers are responsible for disposing the returned <see cref="MemoryStream"/>.
+    /// </para>
+    /// </remarks>
     /// <param name="stream">Any stream.</param>
     /// <param name="disposeSource">
     /// When true, disposes the source stream after copying.
