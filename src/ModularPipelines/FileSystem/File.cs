@@ -163,6 +163,19 @@ public class File : IEquatable<File>
         return this;
     }
 
+    /// <summary>
+    /// Asynchronously creates a new file at the current path.
+    /// </summary>
+    /// <returns>This file instance for method chaining.</returns>
+    public async Task<File> CreateAsync()
+    {
+        LogFileOperation("Creating File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
+
+        var fileStream = System.IO.File.Create(Path);
+        await fileStream.DisposeAsync().ConfigureAwait(false);
+        return this;
+    }
+
     /// <inheritdoc cref="FileSystemInfo.Attributes"/>>
     public FileAttributes Attributes
     {
@@ -192,6 +205,21 @@ public class File : IEquatable<File>
         FileInfo.Delete();
     }
 
+    /// <summary>
+    /// Asynchronously deletes the file.
+    /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async delete API exists in .NET.
+    /// For true async I/O, consider using stream-based operations where available.
+    /// </remarks>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    public Task DeleteAsync(CancellationToken cancellationToken = default)
+    {
+        LogFileOperation("Deleting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
+
+        return Task.Run(() => FileInfo.Delete(), cancellationToken);
+    }
+
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
     public File MoveTo(string path)
     {
@@ -210,6 +238,43 @@ public class File : IEquatable<File>
         return MoveTo(System.IO.Path.Combine(folder.Path, Name));
     }
 
+    /// <summary>
+    /// Asynchronously moves the file to a new path.
+    /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async move API exists in .NET.
+    /// </remarks>
+    /// <param name="path">The destination path.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>This file instance for method chaining.</returns>
+    public Task<File> MoveToAsync(string path, CancellationToken cancellationToken = default)
+    {
+        LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
+
+        return Task.Run(() =>
+        {
+            FileInfo.MoveTo(path);
+            return this;
+        }, cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously moves the file to a folder.
+    /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async move API exists in .NET.
+    /// </remarks>
+    /// <param name="folder">The destination folder.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>This file instance for method chaining.</returns>
+    public async Task<File> MoveToAsync(Folder folder, CancellationToken cancellationToken = default)
+    {
+        LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
+
+        await folder.CreateAsync().ConfigureAwait(false);
+        return await MoveToAsync(System.IO.Path.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
+    }
+
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
     public File CopyTo(string path)
     {
@@ -224,6 +289,37 @@ public class File : IEquatable<File>
 
         folder.Create();
         return CopyTo(System.IO.Path.Combine(folder.Path, Name));
+    }
+
+    /// <summary>
+    /// Asynchronously copies the file to a new path using stream-based copying.
+    /// </summary>
+    /// <param name="path">The destination path.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A new File instance representing the copied file.</returns>
+    public async Task<File> CopyToAsync(string path, CancellationToken cancellationToken = default)
+    {
+        LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
+
+        await using var sourceStream = System.IO.File.OpenRead(Path);
+        await using var destStream = System.IO.File.Create(path);
+        await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+
+        return new File(path);
+    }
+
+    /// <summary>
+    /// Asynchronously copies the file to a folder using stream-based copying.
+    /// </summary>
+    /// <param name="folder">The destination folder.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A new File instance representing the copied file.</returns>
+    public async Task<File> CopyToAsync(Folder folder, CancellationToken cancellationToken = default)
+    {
+        LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
+
+        await folder.CreateAsync().ConfigureAwait(false);
+        return await CopyToAsync(System.IO.Path.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
 
     public static File GetNewTemporaryFilePath()
