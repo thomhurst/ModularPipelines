@@ -14,83 +14,83 @@ public class S3
         Client = client;
     }
 
-    public async Task<PutBucketResponse> Bucket(PutBucketRequest request)
+    public async Task<PutBucketResponse> Bucket(PutBucketRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAsync(request);
+        return await Client.PutBucketAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketEncryptionResponse> BucketEncryption(PutBucketEncryptionRequest request)
+    public async Task<PutBucketEncryptionResponse> BucketEncryption(PutBucketEncryptionRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketEncryptionAsync(request);
+        return await Client.PutBucketEncryptionAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketLoggingResponse> BucketLogging(PutBucketLoggingRequest request)
+    public async Task<PutBucketLoggingResponse> BucketLogging(PutBucketLoggingRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketLoggingAsync(request);
+        return await Client.PutBucketLoggingAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketPolicyResponse> BucketPolicy(PutBucketPolicyRequest request)
+    public async Task<PutBucketPolicyResponse> BucketPolicy(PutBucketPolicyRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketPolicyAsync(request);
+        return await Client.PutBucketPolicyAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketWebsiteResponse> BucketWebsite(PutBucketWebsiteRequest request)
+    public async Task<PutBucketWebsiteResponse> BucketWebsite(PutBucketWebsiteRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketWebsiteAsync(request);
+        return await Client.PutBucketWebsiteAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketNotificationResponse> BucketNotification(PutBucketNotificationRequest request)
+    public async Task<PutBucketNotificationResponse> BucketNotification(PutBucketNotificationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketNotificationAsync(request);
+        return await Client.PutBucketNotificationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketReplicationResponse> BucketReplication(PutBucketReplicationRequest request)
+    public async Task<PutBucketReplicationResponse> BucketReplication(PutBucketReplicationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketReplicationAsync(request);
+        return await Client.PutBucketReplicationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketTaggingResponse> BucketTagging(PutBucketTaggingRequest request)
+    public async Task<PutBucketTaggingResponse> BucketTagging(PutBucketTaggingRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketTaggingAsync(request);
+        return await Client.PutBucketTaggingAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketVersioningResponse> BucketVersioning(PutBucketVersioningRequest request)
+    public async Task<PutBucketVersioningResponse> BucketVersioning(PutBucketVersioningRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketVersioningAsync(request);
+        return await Client.PutBucketVersioningAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketAccelerateConfigurationResponse> BucketAccelerateConfiguration(PutBucketAccelerateConfigurationRequest request)
+    public async Task<PutBucketAccelerateConfigurationResponse> BucketAccelerateConfiguration(PutBucketAccelerateConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAccelerateConfigurationAsync(request);
+        return await Client.PutBucketAccelerateConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketAnalyticsConfigurationResponse> BucketAnalyticsConfiguration(PutBucketAnalyticsConfigurationRequest request)
+    public async Task<PutBucketAnalyticsConfigurationResponse> BucketAnalyticsConfiguration(PutBucketAnalyticsConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAnalyticsConfigurationAsync(request);
+        return await Client.PutBucketAnalyticsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketInventoryConfigurationResponse> BucketInventoryConfiguration(PutBucketInventoryConfigurationRequest request)
+    public async Task<PutBucketInventoryConfigurationResponse> BucketInventoryConfiguration(PutBucketInventoryConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketInventoryConfigurationAsync(request);
+        return await Client.PutBucketInventoryConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketMetricsConfigurationResponse> BucketMetricsConfiguration(PutBucketMetricsConfigurationRequest request)
+    public async Task<PutBucketMetricsConfigurationResponse> BucketMetricsConfiguration(PutBucketMetricsConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketMetricsConfigurationAsync(request);
+        return await Client.PutBucketMetricsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketOwnershipControlsResponse> BucketOwnershipControls(PutBucketOwnershipControlsRequest request)
+    public async Task<PutBucketOwnershipControlsResponse> BucketOwnershipControls(PutBucketOwnershipControlsRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketOwnershipControlsAsync(request);
+        return await Client.PutBucketOwnershipControlsAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketRequestPaymentResponse> BucketRequestPayment(PutBucketRequestPaymentRequest request)
+    public async Task<PutBucketRequestPaymentResponse> BucketRequestPayment(PutBucketRequestPaymentRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketRequestPaymentAsync(request);
+        return await Client.PutBucketRequestPaymentAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
-    public async Task<PutBucketIntelligentTieringConfigurationResponse> BucketIntelligentTieringConfiguration(PutBucketIntelligentTieringConfigurationRequest request)
+    public async Task<PutBucketIntelligentTieringConfigurationResponse> BucketIntelligentTieringConfiguration(PutBucketIntelligentTieringConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketIntelligentTieringConfigurationAsync(request);
+        return await Client.PutBucketIntelligentTieringConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 }
