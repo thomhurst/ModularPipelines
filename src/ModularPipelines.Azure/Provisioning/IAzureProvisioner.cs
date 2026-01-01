@@ -21,21 +21,21 @@ namespace ModularPipelines.Azure.Provisioning;
 
 public interface IAzureProvisioner
 {
-    Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties);
+    Task<ArmOperation<ResourceGroupResource>> ResourceGroup(AzureSubscriptionIdentifier azureSubscriptionIdentifier, string resourceGroupName, ResourceGroupData properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<KeyVaultResource>> KeyVault(AzureResourceIdentifier azureResourceIdentifier, KeyVaultCreateOrUpdateContent properties);
+    Task<ArmOperation<KeyVaultResource>> KeyVault(AzureResourceIdentifier azureResourceIdentifier, KeyVaultCreateOrUpdateContent properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<RedisResource>> Redis(AzureResourceIdentifier azureResourceIdentifier, RedisCreateOrUpdateContent properties);
+    Task<ArmOperation<RedisResource>> Redis(AzureResourceIdentifier azureResourceIdentifier, RedisCreateOrUpdateContent properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties);
+    Task<ArmOperation<ContainerRegistryResource>> ContainerRegistry(AzureResourceIdentifier azureResourceIdentifier, ContainerRegistryData properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<AppConfigurationStoreResource>> AppConfiguration(AzureResourceIdentifier azureResourceIdentifier, AppConfigurationStoreData properties);
+    Task<ArmOperation<AppConfigurationStoreResource>> AppConfiguration(AzureResourceIdentifier azureResourceIdentifier, AppConfigurationStoreData properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<OperationalInsightsWorkspaceResource>> OperationalInsightsWorkspace(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsWorkspaceData properties);
+    Task<ArmOperation<OperationalInsightsWorkspaceResource>> OperationalInsightsWorkspace(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsWorkspaceData properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<OperationalInsightsClusterResource>> OperationalInsightsCluster(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsClusterData properties);
+    Task<ArmOperation<OperationalInsightsClusterResource>> OperationalInsightsCluster(AzureResourceIdentifier azureResourceIdentifier, OperationalInsightsClusterData properties, CancellationToken cancellationToken = default);
 
-    Task<ArmOperation<ApplicationInsightsComponentResource>> ApplicationInsights(AzureResourceIdentifier azureResourceIdentifier, ApplicationInsightsComponentData properties);
+    Task<ArmOperation<ApplicationInsightsComponentResource>> ApplicationInsights(AzureResourceIdentifier azureResourceIdentifier, ApplicationInsightsComponentData properties, CancellationToken cancellationToken = default);
 
     AzureComputeProvisioner Compute { get; }
 

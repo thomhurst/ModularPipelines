@@ -16,9 +16,9 @@ public class AzureCosmosProvisioner : BaseAzureProvisioner
     }
 
     public async Task<ArmOperation<CosmosDBAccountResource>> Account(
-        AzureResourceIdentifier azureResourceIdentifier, CosmosDBAccountCreateOrUpdateContent properties)
+        AzureResourceIdentifier azureResourceIdentifier, CosmosDBAccountCreateOrUpdateContent properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetCosmosDBAccounts()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 }

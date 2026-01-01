@@ -12,21 +12,21 @@ public class AzureTrafficAndLoadBalancerProvisioner : BaseAzureProvisioner
     {
     }
 
-    public async Task<ArmOperation<TrafficManagerProfileResource>> TrafficManagerProfile(AzureResourceIdentifier azureResourceIdentifier, TrafficManagerProfileData properties)
+    public async Task<ArmOperation<TrafficManagerProfileResource>> TrafficManagerProfile(AzureResourceIdentifier azureResourceIdentifier, TrafficManagerProfileData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetTrafficManagerProfiles()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<LoadBalancerResource>> LoadBalancer(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties)
+    public async Task<ArmOperation<LoadBalancerResource>> LoadBalancer(AzureResourceIdentifier azureResourceIdentifier, LoadBalancerData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetLoadBalancers()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 
-    public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGateway(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties)
+    public async Task<ArmOperation<ApplicationGatewayResource>> ApplicationGateway(AzureResourceIdentifier azureResourceIdentifier, ApplicationGatewayData properties, CancellationToken cancellationToken = default)
     {
         return await GetResourceGroup(azureResourceIdentifier).GetApplicationGateways()
-            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties);
+            .CreateOrUpdateAsync(WaitUntil.Completed, azureResourceIdentifier.ResourceName, properties, cancellationToken);
     }
 }
