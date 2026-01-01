@@ -208,6 +208,10 @@ public class File : IEquatable<File>
     /// <summary>
     /// Asynchronously deletes the file.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async delete API exists in .NET.
+    /// For true async I/O, consider using stream-based operations where available.
+    /// </remarks>
     /// <param name="cancellationToken">Cancellation token.</param>
     public Task DeleteAsync(CancellationToken cancellationToken = default)
     {
@@ -237,6 +241,9 @@ public class File : IEquatable<File>
     /// <summary>
     /// Asynchronously moves the file to a new path.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async move API exists in .NET.
+    /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>This file instance for method chaining.</returns>
@@ -254,6 +261,9 @@ public class File : IEquatable<File>
     /// <summary>
     /// Asynchronously moves the file to a folder.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async move API exists in .NET.
+    /// </remarks>
     /// <param name="folder">The destination folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>This file instance for method chaining.</returns>
@@ -291,15 +301,9 @@ public class File : IEquatable<File>
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        var sourceStream = System.IO.File.OpenRead(Path);
-        await using (sourceStream.ConfigureAwait(false))
-        {
-            var destStream = System.IO.File.Create(path);
-            await using (destStream.ConfigureAwait(false))
-            {
-                await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
-            }
-        }
+        await using var sourceStream = System.IO.File.OpenRead(Path);
+        await using var destStream = System.IO.File.Create(path);
+        await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
 
         return new File(path);
     }

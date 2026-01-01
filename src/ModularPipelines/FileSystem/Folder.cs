@@ -99,6 +99,9 @@ public class Folder : IEquatable<Folder>
     /// <summary>
     /// Asynchronously creates the folder if it does not exist.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async directory creation API exists in .NET.
+    /// </remarks>
     /// <returns>This folder instance for method chaining.</returns>
     public Task<Folder> CreateAsync()
     {
@@ -121,6 +124,9 @@ public class Folder : IEquatable<Folder>
     /// <summary>
     /// Asynchronously deletes the folder and all its contents.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async delete API exists in .NET.
+    /// </remarks>
     /// <param name="cancellationToken">Cancellation token.</param>
     public Task DeleteAsync(CancellationToken cancellationToken = default)
     {
@@ -352,15 +358,9 @@ public class Folder : IEquatable<Folder>
             var relativePath = System.IO.Path.GetRelativePath(this, filePath);
             var newPath = System.IO.Path.Combine(targetPath, relativePath);
 
-            var sourceStream = System.IO.File.OpenRead(filePath);
-            await using (sourceStream.ConfigureAwait(false))
-            {
-                var destStream = System.IO.File.Create(newPath);
-                await using (destStream.ConfigureAwait(false))
-                {
-                    await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
-                }
-            }
+            await using var sourceStream = System.IO.File.OpenRead(filePath);
+            await using var destStream = System.IO.File.Create(newPath);
+            await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
 
             var targetFile = new FileInfo(newPath);
             targetFile.Attributes = sourceFile.Attributes;
@@ -398,6 +398,9 @@ public class Folder : IEquatable<Folder>
     /// <summary>
     /// Asynchronously moves the folder to a new path.
     /// </summary>
+    /// <remarks>
+    /// Uses thread pool offloading as no native async move API exists in .NET.
+    /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>This folder instance for method chaining.</returns>
