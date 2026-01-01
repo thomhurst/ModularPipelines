@@ -1,5 +1,4 @@
 using System.Reflection;
-using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
@@ -20,7 +19,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         _pipelineContextProvider = pipelineContextProvider;
     }
 
-    public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module)
+    public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
     {
         var moduleType = module.GetType();
 
@@ -34,7 +33,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return (true, SkipDecision.Skip("The module was not in a runnable category"));
         }
 
-        var conditionResult = await IsRunnableCondition(moduleType).ConfigureAwait(false);
+        var conditionResult = await IsRunnableCondition(moduleType, cancellationToken).ConfigureAwait(false);
         if (!conditionResult.IsRunnable)
         {
             return (true, conditionResult.SkipDecision);
@@ -71,7 +70,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         return category != null && ignoreCategories.Contains(category.Category);
     }
 
-    private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(Type moduleType)
+    private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(Type moduleType, CancellationToken cancellationToken)
     {
         var mandatoryRunConditionAttributes = moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToList();
         var runConditionAttributes = moduleType.GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
@@ -79,15 +78,16 @@ internal class ModuleConditionHandler : IModuleConditionHandler
         // Get a context for condition evaluation
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
 
-        var mandatoryConditionResults = await mandatoryRunConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext).ConfigureAwait(false), runConditionAttribute))
-            .ProcessInParallel();
-
-        var mandatoryCondition = mandatoryConditionResults.FirstOrDefault(result => !result.ConditionMet);
-
-        if (mandatoryCondition != null)
+        // Evaluate mandatory conditions sequentially with short-circuit on first failure
+        foreach (var attr in mandatoryRunConditionAttributes)
         {
-            return (false, SkipDecision.Skip($"A condition to run this module has not been met - {mandatoryCondition.RunConditionAttribute.GetType().Name}"));
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var conditionMet = await attr.Condition(pipelineContext).ConfigureAwait(false);
+            if (!conditionMet)
+            {
+                return (false, SkipDecision.Skip($"A condition to run this module has not been met - {attr.GetType().Name}"));
+            }
         }
 
         if (!runConditionAttributes.Any())
@@ -95,19 +95,18 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             return (true, null);
         }
 
-        var conditionResults = await runConditionAttributes.ToAsyncProcessorBuilder()
-            .SelectAsync(async runConditionAttribute => new RunnableConditionMet(await runConditionAttribute.Condition(pipelineContext).ConfigureAwait(false), runConditionAttribute))
-            .ProcessInParallel();
-
-        var runnableCondition = conditionResults.FirstOrDefault(result => result.ConditionMet);
-
-        if (runnableCondition != null)
+        // Evaluate non-mandatory conditions sequentially with short-circuit on first success
+        foreach (var attr in runConditionAttributes)
         {
-            return (true, null);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var conditionMet = await attr.Condition(pipelineContext).ConfigureAwait(false);
+            if (conditionMet)
+            {
+                return (true, null);
+            }
         }
 
         return (false, SkipDecision.Skip($"No run conditions were met: {string.Join(", ", runConditionAttributes.Select(x => x.GetType().Name.Replace("Attribute", string.Empty, StringComparison.OrdinalIgnoreCase)))}"));
     }
-
-    private record RunnableConditionMet(bool ConditionMet, RunConditionAttribute RunConditionAttribute);
 }
