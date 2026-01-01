@@ -16,17 +16,21 @@ public static class StreamExtensions
     /// <returns>A MemoryStream containing the Stream's data, with Position set to 0 for reading.</returns>
     public static async Task<MemoryStream> ToMemoryStreamAsync(this Stream stream, bool disposeSource = false)
     {
-        if (stream is MemoryStream memoryStream)
+        // If input is already a MemoryStream and we don't need to dispose it,
+        // return it directly (optimization to avoid unnecessary copy)
+        if (stream is MemoryStream sourceMs && !disposeSource)
         {
-            if (memoryStream.CanSeek)
+            if (sourceMs.CanSeek)
             {
-                memoryStream.Position = 0;
+                sourceMs.Position = 0;
             }
 
-            return memoryStream;
+            return sourceMs;
         }
 
-        memoryStream = new MemoryStream();
+        // Copy to new MemoryStream (handles both non-MemoryStream inputs
+        // and MemoryStream inputs when disposeSource is true)
+        var memoryStream = new MemoryStream();
 
         if (stream.CanSeek)
         {
