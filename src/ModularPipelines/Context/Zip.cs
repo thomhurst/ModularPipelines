@@ -28,9 +28,27 @@ internal class Zip : IZip
 
     public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
+
+        if (!System.IO.File.Exists(zipPath))
+        {
+            throw new FileNotFoundException($"Zip file not found: '{zipPath}'", zipPath);
+        }
+
         Directory.CreateDirectory(outputFolderPath);
 
-        ZipFile.ExtractToDirectory(zipPath, outputFolderPath, overwriteFiles);
+        try
+        {
+            ZipFile.ExtractToDirectory(zipPath, outputFolderPath, overwriteFiles);
+        }
+        catch (InvalidDataException ex)
+        {
+            throw new InvalidDataException($"Failed to extract zip file '{zipPath}': The archive may be corrupt or not a valid zip file.", ex);
+        }
+        catch (IOException ex) when (!overwriteFiles)
+        {
+            throw new IOException($"Failed to extract zip file '{zipPath}': A file already exists in the destination. Set overwriteFiles to true to overwrite existing files.", ex);
+        }
 
         return new Folder(outputFolderPath);
     }
