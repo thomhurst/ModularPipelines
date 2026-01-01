@@ -53,9 +53,9 @@ internal class FileSystemModuleEstimatedTimeProvider : IModuleEstimatedTimeProvi
                     var time = await GetEstimatedTimeAsync(file.FullName).ConfigureAwait(false);
                     return new SubModuleEstimation(name, time);
                 }
-                catch (IOException)
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Security.SecurityException)
                 {
-                    // Transient I/O error (e.g., file locked) - skip gracefully without deleting
+                    // File access error (locked, permissions, etc.) - skip gracefully without deleting
                     return null;
                 }
             })
