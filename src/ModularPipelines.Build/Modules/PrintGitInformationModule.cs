@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Build.Helpers;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
@@ -13,12 +13,7 @@ public class PrintGitInformationModule : Module<IDictionary<string, object>>
     {
         await Task.CompletedTask;
 
-        context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(context.Git().Information, new JsonSerializerOptions
-        {
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            IgnoreReadOnlyFields = true,
-            WriteIndented = true,
-        }));
+        context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(context.Git().Information, DiagnosticSerializerOptions.Instance));
 
         return null;
     }
