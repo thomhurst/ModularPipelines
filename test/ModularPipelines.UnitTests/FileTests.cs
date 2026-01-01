@@ -107,7 +107,7 @@ public class FileTests : TestBase
         var plainText = await file.ReadAsync();
         var lines = await ToListAsync(file.ReadLinesAsync());
         var bytes = await file.ReadBytesAsync();
-        var stream = await file.GetStream().ToMemoryStreamAsync(disposeSource: true);
+        await using var stream = await file.GetStream().ToMemoryStreamAsync(disposeSource: true);
 
         using (Assert.Multiple())
         {
@@ -128,7 +128,7 @@ public class FileTests : TestBase
         var plainText = await file.ReadAsync();
         var lines = await ToListAsync(file.ReadLinesAsync());
         var bytes = await file.ReadBytesAsync();
-        var stream = await file.GetStream().ToMemoryStreamAsync(disposeSource: true);
+        await using var stream = await file.GetStream().ToMemoryStreamAsync(disposeSource: true);
 
         using (Assert.Multiple())
         {
