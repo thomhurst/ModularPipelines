@@ -26,17 +26,21 @@ internal class SubModule<T> : SubModuleBase
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
             Status = Status.Successful;
-            SubModuleResultTaskCompletionSource.SetResult(result);
+            SubModuleResultTaskCompletionSource.TrySetResult(result);
+
+            return result;
         }
         catch (Exception ex)
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;
             Status = Status.Failed;
-            SubModuleResultTaskCompletionSource.SetException(new SubModuleFailedException(this, ex));
-        }
 
-        return await SubModuleResultTaskCompletionSource.Task.ConfigureAwait(false);
+            var wrappedException = new SubModuleFailedException(this, ex);
+            SubModuleResultTaskCompletionSource.TrySetException(wrappedException);
+
+            throw wrappedException;
+        }
     }
 
     public override Task CallbackTask => SubModuleResultTaskCompletionSource.Task;
