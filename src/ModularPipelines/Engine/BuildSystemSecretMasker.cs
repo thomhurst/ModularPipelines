@@ -28,7 +28,7 @@ internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly IConsoleWriter _consoleWriter;
 
-    private readonly List<string> _alreadyMaskedSecrets = new();
+    private readonly HashSet<string> _alreadyMaskedSecrets = new();
     private readonly object _lock = new();
 
     public BuildSystemSecretMasker(IBuildSystemFormatterProvider formatterProvider,
@@ -44,9 +44,13 @@ internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
         {
             var formatter = _formatterProvider.GetFormatter();
 
-            foreach (var secret in secrets.Where(s => !_alreadyMaskedSecrets.Contains(s)))
+            foreach (var secret in secrets)
             {
-                _alreadyMaskedSecrets.Add(secret);
+                // HashSet.Add returns false if already exists, providing O(1) lookup
+                if (!_alreadyMaskedSecrets.Add(secret))
+                {
+                    continue;
+                }
 
                 var maskCommand = formatter.GetMaskSecretCommand(secret);
                 if (maskCommand != null)
