@@ -14,6 +14,11 @@ internal class OptionsProvider : IOptionsProvider
     private static readonly ConcurrentDictionary<Type, Func<object, object?>> ValueGetterCache = new();
 
     /// <summary>
+    /// Cache of constructed IOptions&lt;T&gt; types to avoid repeated MakeGenericType calls.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, Type> IOptionsTypeCache = new();
+
+    /// <summary>
     /// Set of generic type definitions that indicate an options-related type.
     /// Using a HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
     /// </summary>
@@ -53,8 +58,11 @@ internal class OptionsProvider : IOptionsProvider
             .Distinct()
             .ToList();
 
-        foreach (var option in _cachedOptionTypes.Select(t => _serviceProvider.GetService(typeof(IOptions<>).MakeGenericType(t))))
+        foreach (var t in _cachedOptionTypes)
         {
+            var optionsType = IOptionsTypeCache.GetOrAdd(t, static innerType => typeof(IOptions<>).MakeGenericType(innerType));
+            var option = _serviceProvider.GetService(optionsType);
+
             if (option is null)
             {
                 continue;
