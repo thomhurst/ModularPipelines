@@ -34,11 +34,10 @@ internal interface IModuleResultRegistry
 
     /// <summary>
     /// Gets the task that completes when a module finishes.
-    /// Creates a TaskCompletionSource on-demand if the module is not yet registered.
     /// </summary>
     /// <param name="moduleType">The module type.</param>
-    /// <returns>The completion task.</returns>
-    Task GetCompletionTask(Type moduleType);
+    /// <returns>The completion task, or null if the module is not registered.</returns>
+    Task? GetCompletionTask(Type moduleType);
 
     /// <summary>
     /// Registers a module for result tracking.
@@ -104,16 +103,18 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         return null;
     }
 
-    public Task GetCompletionTask(Type moduleType)
+    public Task? GetCompletionTask(Type moduleType)
     {
-        // Use GetOrAdd for consistency with SetException - creates TCS on-demand
-        return _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>()).Task;
+        return _completionSources.TryGetValue(moduleType, out var tcs) ? tcs.Task : null;
     }
 
     public void SetException(Type moduleType, Exception exception)
     {
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
-        tcs.TrySetException(exception);
+        // Only set exception if module was previously registered (preserves original behavior)
+        if (_completionSources.TryGetValue(moduleType, out var tcs))
+        {
+            tcs.TrySetException(exception);
+        }
     }
 
     public void RegisterResult(Type moduleType, IModuleResult result)
