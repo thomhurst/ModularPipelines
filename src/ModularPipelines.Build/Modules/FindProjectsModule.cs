@@ -9,34 +9,44 @@ namespace ModularPipelines.Build.Modules;
 
 public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
 {
-    public override async Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        await Task.Yield();
+    /// <summary>
+    /// List of project names to publish. These correspond to projects in the src directory.
+    /// </summary>
+    private static readonly string[] ProjectNames =
+    [
+        "ModularPipelines",
+        "ModularPipelines.AmazonWebServices",
+        "ModularPipelines.Azure",
+        "ModularPipelines.Azure.Pipelines",
+        "ModularPipelines.Chocolatey",
+        "ModularPipelines.Cmd",
+        "ModularPipelines.Docker",
+        "ModularPipelines.DotNet",
+        "ModularPipelines.Email",
+        "ModularPipelines.Ftp",
+        "ModularPipelines.Yarn",
+        "ModularPipelines.Node",
+        "ModularPipelines.Git",
+        "ModularPipelines.GitHub",
+        "ModularPipelines.Google",
+        "ModularPipelines.Helm",
+        "ModularPipelines.Kubernetes",
+        "ModularPipelines.MicrosoftTeams",
+        "ModularPipelines.Slack",
+        "ModularPipelines.TeamCity",
+        "ModularPipelines.Terraform",
+        "ModularPipelines.WinGet",
+    ];
 
-        return
-        [
-            Sourcy.DotNet.Projects.ModularPipelines,
-            Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
-            Sourcy.DotNet.Projects.ModularPipelines_Azure,
-            Sourcy.DotNet.Projects.ModularPipelines_Azure_Pipelines,
-            Sourcy.DotNet.Projects.ModularPipelines_Chocolatey,
-            Sourcy.DotNet.Projects.ModularPipelines_Cmd,
-            Sourcy.DotNet.Projects.ModularPipelines_Docker,
-            Sourcy.DotNet.Projects.ModularPipelines_DotNet,
-            Sourcy.DotNet.Projects.ModularPipelines_Email,
-            Sourcy.DotNet.Projects.ModularPipelines_Ftp,
-            Sourcy.DotNet.Projects.ModularPipelines_Yarn,
-            Sourcy.DotNet.Projects.ModularPipelines_Node,
-            Sourcy.DotNet.Projects.ModularPipelines_Git,
-            Sourcy.DotNet.Projects.ModularPipelines_GitHub,
-            Sourcy.DotNet.Projects.ModularPipelines_Google,
-            Sourcy.DotNet.Projects.ModularPipelines_Helm,
-            Sourcy.DotNet.Projects.ModularPipelines_Kubernetes,
-            Sourcy.DotNet.Projects.ModularPipelines_MicrosoftTeams,
-            Sourcy.DotNet.Projects.ModularPipelines_Slack,
-            Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
-            Sourcy.DotNet.Projects.ModularPipelines_Terraform,
-            Sourcy.DotNet.Projects.ModularPipelines_WinGet
-        ];
+    public override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var gitRootDirectory = context.Git().RootDirectory;
+        var srcDirectory = gitRootDirectory.GetFolder("src");
+
+        var projects = ProjectNames
+            .Select(name => srcDirectory.GetFolder(name).GetFile($"{name}.csproj"))
+            .ToList();
+
+        return Task.FromResult<IReadOnlyList<File>?>(projects);
     }
 }
