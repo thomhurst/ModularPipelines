@@ -22,6 +22,7 @@ namespace ModularPipelines.Build.Modules;
 public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlwaysRun
 {
     private const string DotnetFormatGitMessage = "DotNet Format";
+    private const string TemporarilyDisabledSkipReason = "Temporarily disabled";
 
     private readonly IOptions<GitHubSettings> _githubSettings;
 
@@ -32,7 +33,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
 
     public Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        return SkipDecision.Skip("Temporarily disabled").AsTask();
+        return SkipDecision.Skip(TemporarilyDisabledSkipReason).AsTask();
     }
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
