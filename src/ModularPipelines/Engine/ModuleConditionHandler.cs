@@ -72,8 +72,8 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 
     private async Task<(bool IsRunnable, SkipDecision? SkipDecision)> IsRunnableCondition(Type moduleType, CancellationToken cancellationToken)
     {
-        var mandatoryRunConditionAttributes = moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToList();
-        var runConditionAttributes = moduleType.GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToList();
+        var mandatoryRunConditionAttributes = moduleType.GetCustomAttributes<MandatoryRunConditionAttribute>(true).ToArray();
+        var runConditionAttributes = moduleType.GetCustomAttributes<RunConditionAttribute>(true).Except(mandatoryRunConditionAttributes).ToArray();
 
         // Get a context for condition evaluation
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
@@ -90,7 +90,7 @@ internal class ModuleConditionHandler : IModuleConditionHandler
             }
         }
 
-        if (!runConditionAttributes.Any())
+        if (runConditionAttributes.Length == 0)
         {
             return (true, null);
         }

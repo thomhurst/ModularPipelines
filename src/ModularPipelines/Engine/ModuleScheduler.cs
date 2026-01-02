@@ -96,9 +96,9 @@ internal class ModuleScheduler : IModuleScheduler
     {
         ArgumentNullException.ThrowIfNull(modules);
 
-        var moduleList = modules.ToList();
+        var moduleArray = modules.ToArray();
 
-        foreach (var module in moduleList)
+        foreach (var module in moduleArray)
         {
             var moduleType = module.GetType();
             var state = new ModuleState(module, moduleType);
@@ -106,7 +106,7 @@ internal class ModuleScheduler : IModuleScheduler
         }
 
         // Get all available module types for DependsOnAllModulesInheritingFrom resolution
-        var availableModuleTypes = _moduleStates.Keys.ToList();
+        var availableModuleTypes = _moduleStates.Keys.ToArray();
 
         foreach (var state in _moduleStates.Values)
         {
@@ -343,15 +343,15 @@ internal class ModuleScheduler : IModuleScheduler
         // Previously this called LogPendingModules() and LogExecutingModules() separately,
         // each acquiring its own read lock
         ModuleStateStatistics stats;
-        List<ModuleState> pending;
-        List<ModuleState> executing;
+        ModuleState[] pending;
+        ModuleState[] executing;
 
         _stateLock.EnterReadLock();
         try
         {
             stats = _stateQueries.GetStatistics();
-            pending = _stateQueries.GetPendingModules().ToList();
-            executing = _stateQueries.GetExecutingModules().ToList();
+            pending = _stateQueries.GetPendingModules().ToArray();
+            executing = _stateQueries.GetExecutingModules().ToArray();
         }
         finally
         {
@@ -363,13 +363,13 @@ internal class ModuleScheduler : IModuleScheduler
             "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
             stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
 
-        if (pending.Count > 0)
+        if (pending.Length > 0)
         {
             _logger.LogDebug("Pending modules: {Modules}",
                 string.Join(", ", pending.Select(FormatModuleWithDependencyCount)));
         }
 
-        if (executing.Count > 0)
+        if (executing.Length > 0)
         {
             _logger.LogDebug("Executing modules: {Modules}",
                 string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
@@ -521,7 +521,7 @@ internal class ModuleScheduler : IModuleScheduler
             var potentiallyReadyModules = _moduleStates.Values
                 .Where(m => m.IsReadyToExecute)
                 .OrderByDescending(m => (int)m.Priority)
-                .ToList();
+                .ToArray();
 
             var modulesToQueue = new List<ModuleState>();
 

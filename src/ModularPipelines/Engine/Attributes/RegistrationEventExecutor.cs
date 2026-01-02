@@ -36,10 +36,10 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
     public async Task InvokeRegistrationEventsAsync(IEnumerable<IModule> modules)
     {
-        var moduleList = modules.ToList();
-        var registeredModuleTypes = moduleList.Select(m => m.GetType()).ToList();
+        var moduleArray = modules.ToArray();
+        var registeredModuleTypes = moduleArray.Select(m => m.GetType()).ToArray();
 
-        foreach (var module in moduleList)
+        foreach (var module in moduleArray)
         {
             var moduleType = module.GetType();
             var receivers = _attributeEventService.GetRegistrationReceivers(moduleType);
@@ -51,7 +51,7 @@ internal class RegistrationEventExecutor : IRegistrationEventExecutor
 
             var context = new ModuleRegistrationContext(
                 moduleType,
-                moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToList(),
+                moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToArray(),
                 _configuration,
                 _environment,
                 registeredModuleTypes,

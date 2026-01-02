@@ -19,14 +19,14 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
     public async Task InitializeAsync()
     {
         var modules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
-        ModuleDependencyModels = Detect(modules.AllModules.Select(x => new ModuleDependencyModel(x)).ToList());
+        ModuleDependencyModels = Detect(modules.AllModules.Select(x => new ModuleDependencyModel(x)).ToArray());
     }
 
-    private List<ModuleDependencyModel> Detect(List<ModuleDependencyModel> allModules)
+    private ModuleDependencyModel[] Detect(ModuleDependencyModel[] allModules)
     {
         foreach (var moduleDependencyModel in allModules)
         {
-            var dependencies = GetModuleDependencies(moduleDependencyModel, allModules).ToList();
+            var dependencies = GetModuleDependencies(moduleDependencyModel, allModules).ToArray();
 
             moduleDependencyModel.IsDependentOn.AddRange(dependencies);
 
@@ -39,10 +39,10 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
         return allModules;
     }
 
-    private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, IReadOnlyCollection<ModuleDependencyModel> allModules)
+    private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, ModuleDependencyModel[] allModules)
     {
         // Get all available module types for DependsOnAllModulesInheritingFrom resolution
-        var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToList();
+        var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToArray();
         var dependencies = ModuleDependencyResolver.GetDependencies(moduleDependencyModel.Module.GetType(), availableModuleTypes);
 
         foreach (var (dependencyType, _) in dependencies)

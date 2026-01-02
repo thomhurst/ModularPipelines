@@ -31,18 +31,18 @@ public static class TaskExtensions
 
     internal static async Task<TResult[]> WhenAllFailFast<TResult>(this ICollection<Task<TResult>> tasks)
     {
-        var originalTasks = tasks.ToList();
+        var originalTasks = tasks.ToArray();
 
-        tasks = tasks.ToList();
+        var remainingTasks = new List<Task<TResult>>(originalTasks);
 
-        while (tasks.Any())
+        while (remainingTasks.Count > 0)
         {
-            var finished = await Task.WhenAny(tasks).ConfigureAwait(false);
+            var finished = await Task.WhenAny(remainingTasks).ConfigureAwait(false);
 
             // await to throw Exception if this Task errored
             await finished.ConfigureAwait(false);
 
-            tasks.Remove(finished);
+            remainingTasks.Remove(finished);
         }
 
         return await Task.WhenAll(originalTasks).ConfigureAwait(false);

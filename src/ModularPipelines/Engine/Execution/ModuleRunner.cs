@@ -207,7 +207,7 @@ internal class ModuleRunner : IModuleRunner
 
         // Track start time for lifecycle events
         var startTime = DateTimeOffset.UtcNow;
-        var moduleAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToList();
+        var moduleAttributes = moduleType.GetCustomAttributes(inherit: true).OfType<Attribute>().ToArray();
 
         var lifecycleContext = new ModuleLifecycleContext(
             module,
