@@ -6,6 +6,11 @@ internal class Checksum : IChecksum
 {
     public string Md5(string filePath)
     {
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException($"Cannot calculate MD5 checksum: file not found at '{filePath}'", filePath);
+        }
+
         using var md5 = MD5.Create();
         using var stream = File.OpenRead(filePath);
         var hash = md5.ComputeHash(stream);
