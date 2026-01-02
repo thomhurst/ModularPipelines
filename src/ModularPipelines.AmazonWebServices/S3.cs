@@ -8,27 +8,14 @@ namespace ModularPipelines.AmazonWebServices;
 /// Provides a high-level wrapper for interacting with Amazon S3.
 /// </summary>
 /// <remarks>
-/// <para>
 /// This class encapsulates the AWS S3 SDK client and provides wrapper methods
 /// for common S3 operations including bucket management, object operations, and
 /// configuration settings.
-/// </para>
-/// <para>
-/// For low-level SDK access, the <see cref="Client"/> property is available but
-/// marked as protected to encourage use of the wrapper methods.
-/// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
 public class S3 : IS3
 {
-    /// <summary>
-    /// Gets the underlying Amazon S3 client for advanced scenarios.
-    /// </summary>
-    /// <remarks>
-    /// Use this property only when the wrapper methods do not provide the required functionality.
-    /// Prefer using the wrapper methods for common operations.
-    /// </remarks>
-    protected AmazonS3Client Client { get; }
+    private AmazonS3Client Client { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="S3"/> class.
@@ -128,7 +115,7 @@ public class S3 : IS3
     /// <inheritdoc />
     public async Task DownloadToFileAsync(string bucketName, string key, string filePath, CancellationToken cancellationToken = default)
     {
-        var response = await Client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+        using var response = await Client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
         await response.WriteResponseStreamToFileAsync(filePath, false, cancellationToken).ConfigureAwait(false);
     }
 

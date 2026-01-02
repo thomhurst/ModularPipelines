@@ -25,7 +25,6 @@ public static class AmazonExtensions
         services.TryAddScoped<IAmazon, AmazonWebServices.Amazon>();
         services.TryAddScoped<IAmazonProvisioner, AmazonProvisioner>();
         services.TryAddScoped<IS3, S3>();
-        services.TryAddScoped<S3>();
 
         services.TryAddScoped<Aws>();
         services.TryAddScoped<AwsAccessanalyzer>();
