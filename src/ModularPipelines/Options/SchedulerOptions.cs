@@ -1,9 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace ModularPipelines.Options;
 
 /// <summary>
 /// Configuration options for the module scheduler.
 /// </summary>
-public class SchedulerOptions
+[ExcludeFromCodeCoverage]
+public record SchedulerOptions
 {
     /// <summary>
     /// Gets or sets timeout for waiting on scheduler notifications before re-checking state.
@@ -13,14 +16,14 @@ public class SchedulerOptions
     public TimeSpan NotificationTimeout { get; set; } = TimeSpan.FromMilliseconds(100);
 
     /// <summary>
-    /// Gets or sets a value indicating whether whether to enable detailed diagnostic logging for scheduler operations.
+    /// Gets or sets a value indicating whether to enable detailed diagnostic logging for scheduler operations.
     /// This includes pending module tracking, constraint violations, and state transitions.
     /// Default: false.
     /// </summary>
-    public bool EnableDetailedLogging { get; set; } = false;
+    public bool EnableDetailedLogging { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether whether to collect and log timing metrics for module queue times and execution.
+    /// Gets or sets a value indicating whether to collect and log timing metrics for module queue times and execution.
     /// Default: true.
     /// </summary>
     public bool EnableTimingMetrics { get; set; } = true;
