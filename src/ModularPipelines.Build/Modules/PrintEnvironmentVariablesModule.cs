@@ -8,12 +8,10 @@ namespace ModularPipelines.Build.Modules;
 
 public class PrintEnvironmentVariablesModule : Module<IDictionary<string, object>>
 {
-    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-
         context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), DiagnosticSerializerOptions.Instance));
 
-        return null;
+        return Task.FromResult<IDictionary<string, object>?>(null);
     }
 }

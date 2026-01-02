@@ -9,11 +9,9 @@ namespace ModularPipelines.Build.Modules;
 
 public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
 {
-    public override async Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        await Task.Yield();
-
-        return
+        return Task.FromResult<IReadOnlyList<File>?>(
         [
             Sourcy.DotNet.Projects.ModularPipelines,
             Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
@@ -37,6 +35,6 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
             Sourcy.DotNet.Projects.ModularPipelines_TeamCity,
             Sourcy.DotNet.Projects.ModularPipelines_Terraform,
             Sourcy.DotNet.Projects.ModularPipelines_WinGet
-        ];
+        ]);
     }
 }
