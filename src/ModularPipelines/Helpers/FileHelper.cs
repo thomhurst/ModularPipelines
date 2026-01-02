@@ -22,10 +22,10 @@ public static class FileHelper
     /// </summary>
     /// <param name="path">The path to the file to wait for.</param>
     /// <param name="timeout">
-    /// The maximum time to wait. If null, defaults to 30 seconds.
+    /// The maximum time to wait. If null, defaults to <see cref="DefaultTimeout"/>.
     /// </param>
     /// <param name="pollingInterval">
-    /// The interval between checks. If null, defaults to 500 milliseconds.
+    /// The interval between checks. If null, defaults to <see cref="DefaultPollingInterval"/>.
     /// </param>
     /// <param name="cancellationToken">A token to cancel the wait operation.</param>
     /// <returns>
