@@ -19,11 +19,18 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
 
     public IPipelineContext GetModuleContext()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        AsyncServiceScope serviceScope;
 
-        var serviceScope = _serviceProvider.CreateAsyncScope();
+        lock (_disposeLock)
+        {
+            ObjectDisposedException.ThrowIf(_disposed, this);
 
-        _scopes.Add(serviceScope);
+            // Create and add scope inside lock to ensure atomicity with disposal.
+            // This prevents a race where disposal could take a snapshot between
+            // the _disposed check and the Add operation, leaving the scope undisposed.
+            serviceScope = _serviceProvider.CreateAsyncScope();
+            _scopes.Add(serviceScope);
+        }
 
         return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
     }
