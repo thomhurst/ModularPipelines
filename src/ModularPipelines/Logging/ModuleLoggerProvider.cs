@@ -32,7 +32,13 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         _stackTraceDetector = stackTraceDetector;
     }
 
-    public IModuleLogger GetLogger(Type type) => MakeLogger(type);
+    public IModuleLogger GetLogger(Type type)
+    {
+        lock (_lock)
+        {
+            return MakeLogger(type);
+        }
+    }
 
     public IModuleLogger GetLogger()
     {

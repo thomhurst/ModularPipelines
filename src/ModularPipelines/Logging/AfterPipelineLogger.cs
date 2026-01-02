@@ -27,6 +27,8 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
         lock (_lock)
         {
             _values.Add(value);
+            // Clear cached output so GetOutput() rebuilds it with the new value
+            _stringBuilder.Clear();
         }
     }
 
