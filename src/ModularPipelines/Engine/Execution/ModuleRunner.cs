@@ -258,7 +258,8 @@ internal class ModuleRunner : IModuleRunner
             // Even when an exception is thrown, we need to register the result if one was set
             if (executionContext.ExecutionTask.IsCompleted && !executionContext.ExecutionTask.IsFaulted && !executionContext.ExecutionTask.IsCanceled)
             {
-                var result = executionContext.ExecutionTask.Result;
+                // Use GetAwaiter().GetResult() instead of .Result to avoid wrapping in AggregateException
+                var result = executionContext.ExecutionTask.GetAwaiter().GetResult();
                 moduleState.Result = result;
                 _resultRegistry.RegisterResult(moduleType, result);
             }
