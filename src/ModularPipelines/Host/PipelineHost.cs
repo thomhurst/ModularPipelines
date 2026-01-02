@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
@@ -14,6 +15,8 @@ namespace ModularPipelines.Host;
 /// </summary>
 internal class PipelineHost : IPipelineHost
 {
+    private static readonly ConcurrentDictionary<Type, PropertyInfo?> DisposablesPropertyCache = new();
+
     private readonly IHost _hostImplementation;
     private readonly AsyncServiceScope _serviceScope;
 
@@ -72,9 +75,12 @@ internal class PipelineHost : IPipelineHost
 
     public async ValueTask DisposeAsync()
     {
-        var disposables = Services.GetType()
-            .GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic)
-            ?.GetValue(Services) as List<object>;
+        var servicesType = Services.GetType();
+        var disposablesProperty = DisposablesPropertyCache.GetOrAdd(
+            servicesType,
+            static type => type.GetProperty("Disposables", BindingFlags.Instance | BindingFlags.NonPublic));
+
+        var disposables = disposablesProperty?.GetValue(Services) as List<object>;
 
         foreach (var disposable in disposables?.OfType<IDisposable>() ?? Array.Empty<IDisposable>())
         {
