@@ -1,8 +1,7 @@
 namespace ModularPipelines.Helpers.Internal;
 
 /// <summary>
-/// Internal service for creating a command model from an options object's type.
-/// This type is in the Internal namespace and is not intended for public use.
+/// Service for creating a command model from an options object's type.
 /// </summary>
 public interface ICommandModelProvider
 {

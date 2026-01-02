@@ -1,8 +1,7 @@
 namespace ModularPipelines.Helpers.Internal;
 
 /// <summary>
-/// Internal service that builds a string argument list from a command model and an options object instance.
-/// This type is in the Internal namespace and is not intended for public use.
+/// Service that builds a string argument list from a command model and an options object instance.
 /// </summary>
 public interface ICommandArgumentBuilder
 {
