@@ -12,16 +12,10 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// list                List all deployment runs in the current configuration.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-run")]
+public record TerraformStacksDeploymentRunOptions : TerraformOptions
 {
-    /// <summary>
-    /// Don't ask for input for unlock confirmation.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
 }

@@ -12,16 +12,10 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// Validate the configuration files in a directory, referring only to the
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("stacks", "validate")]
+public record TerraformStacksValidateOptions : TerraformOptions
 {
-    /// <summary>
-    /// Don't ask for input for unlock confirmation.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
 }

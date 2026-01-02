@@ -12,16 +12,10 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// Prints out a tree of modules in the referenced configuration annotated with
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("providers")]
+public record TerraformProvidersOptions : TerraformOptions
 {
-    /// <summary>
-    /// Don't ask for input for unlock confirmation.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
 }

@@ -12,16 +12,16 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// Approve all plans for a deployment run.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-run", "approve-all-plans")]
+public record TerraformStacksDeploymentRunApproveAllPlansOptions : TerraformOptions
 {
     /// <summary>
-    /// Don't ask for input for unlock confirmation.
+    /// The ID of the deployment run (required).
     /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
+    [CliFlag("-deployment-run-id")]
+    public bool? DeploymentRunId { get; set; }
 
 }

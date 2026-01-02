@@ -12,16 +12,10 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// The available commands for execution are listed below.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("stacks")]
+public record TerraformStacksOptions : TerraformOptions
 {
-    /// <summary>
-    /// Don't ask for input for unlock confirmation.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
 }

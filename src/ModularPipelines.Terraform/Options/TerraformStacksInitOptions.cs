@@ -12,20 +12,20 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Reads and outputs a Terraform state or plan file in a human-readable
+/// Initialize the Terraform Stacks configuration by downloading the configuration
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record TerraformShowOptions : TerraformOptions
+[CliSubCommand("stacks", "init")]
+public record TerraformStacksInitOptions : TerraformOptions
 {
     /// <summary>
-    /// If specified, output won't contain any color.
+    /// Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile.
     /// </summary>
-    [CliFlag("-no-color")]
-    public bool? NoColor { get; set; }
+    [CliFlag("-upgrade")]
+    public bool? Upgrade { get; set; }
 
     /// <summary>
-    /// If specified, output the Terraform plan or state in a machine-readable form.
+    /// Output results in JSON format instead of the default human-readable text format.
     /// </summary>
     [CliFlag("-json")]
     public bool? Json { get; set; }

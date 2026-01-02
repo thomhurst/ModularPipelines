@@ -12,11 +12,11 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// List resources in the Terraform state.
+/// List the json format of the identities of resources in the Terraform state.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("state", "list")]
-public record TerraformStateListOptions : TerraformOptions
+[CliSubCommand("state", "identities")]
+public record TerraformStateIdentitiesOptions : TerraformOptions
 {
     /// <summary>
     /// Path to a Terraform state file to use to look up Terraform-managed resources. By default, Terraform will consult the state of the currently-selected workspace.

@@ -7,21 +7,15 @@
 
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Terraform.Options;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// Base options class for terraform CLI commands.
+/// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+public abstract record TerraformOptions() : CommandLineToolOptions("terraform")
 {
-    /// <summary>
-    /// Don't ask for input for unlock confirmation.
-    /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
-
 }

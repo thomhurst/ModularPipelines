@@ -12,16 +12,16 @@ using ModularPipelines.Terraform.Options;
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Manually unlock the state for the defined configuration.
+/// Watch the progress of a deployment run in real-time.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("force-unlock")]
-public record TerraformForceUnlockOptions : TerraformOptions
+[CliSubCommand("stacks", "deployment-run", "watch")]
+public record TerraformStacksDeploymentRunWatchOptions : TerraformOptions
 {
     /// <summary>
-    /// Don't ask for input for unlock confirmation.
+    /// The ID of the deployment run to watch (required).
     /// </summary>
-    [CliFlag("-force")]
-    public bool? Force { get; set; }
+    [CliFlag("-deployment-run-id")]
+    public bool? DeploymentRunId { get; set; }
 
 }
