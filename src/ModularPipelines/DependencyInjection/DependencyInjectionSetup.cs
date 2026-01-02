@@ -2,6 +2,7 @@ using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
@@ -16,6 +17,7 @@ using ModularPipelines.Http;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
+using ModularPipelines.Options.Validators;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -48,6 +50,10 @@ internal static class DependencyInjectionSetup
         services
             .Configure<PipelineOptions>(_ => { })
             .Configure<SchedulerOptions>(_ => { })
+            .Configure<ConcurrencyOptions>(_ => { })
+            .Configure<HttpResilienceOptions>(_ => { })
+            .AddSingleton<IValidateOptions<ConcurrencyOptions>, ConcurrencyOptionsValidator>()
+            .AddSingleton<IValidateOptions<HttpResilienceOptions>, HttpResilienceOptionsValidator>()
             .AddLogging(builder =>
             {
                 builder.ClearProviders();
