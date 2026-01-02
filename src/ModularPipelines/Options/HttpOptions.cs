@@ -9,14 +9,14 @@ namespace ModularPipelines.Options;
 public record HttpOptions(HttpRequestMessage HttpRequestMessage)
 {
     /// <summary>
-    /// Gets or sets an optional HttpClient for handling the request.
+    /// Gets an optional HttpClient for handling the request.
     /// </summary>
-    public HttpClient? HttpClient { get; set; }
+    public HttpClient? HttpClient { get; init; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to throw an exception if the request returns a bad HTTP status code.
+    /// Gets a value indicating whether to throw an exception if the request returns a bad HTTP status code.
     /// </summary>
-    public bool ThrowOnNonSuccessStatusCode { get; set; }
+    public bool ThrowOnNonSuccessStatusCode { get; init; }
 
     /// <summary>
     /// Gets or sets the logging for the HTTP request.
