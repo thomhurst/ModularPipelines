@@ -3,16 +3,28 @@ using System.Runtime.ExceptionServices;
 
 namespace ModularPipelines.Engine;
 
+/// <summary>
+/// Manages pipeline cancellation state and token.
+/// Exception storage is delegated to <see cref="IPrimaryExceptionContainer"/>.
+/// </summary>
 [ExcludeFromCodeCoverage]
 internal class EngineCancellationToken : CancellationTokenSource
 {
+    private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
+
     public string? Reason { get; set; }
 
-    public Exception? OriginalException { get; private set; }
+    /// <summary>
+    /// Gets the original exception that caused the pipeline to fail.
+    /// Delegated to <see cref="IPrimaryExceptionContainer"/>.
+    /// </summary>
+    public Exception? OriginalException => _primaryExceptionContainer.OriginalException;
 
-    public ExceptionDispatchInfo? OriginalExceptionDispatchInfo { get; private set; }
-
-    private readonly object _exceptionLock = new();
+    /// <summary>
+    /// Gets the ExceptionDispatchInfo that preserves the original stack trace.
+    /// Delegated to <see cref="IPrimaryExceptionContainer"/>.
+    /// </summary>
+    public ExceptionDispatchInfo? OriginalExceptionDispatchInfo => _primaryExceptionContainer.OriginalExceptionDispatchInfo;
 
     private bool _isCancelled;
 
@@ -22,8 +34,10 @@ internal class EngineCancellationToken : CancellationTokenSource
     private bool _disposed;
 
     [ExcludeFromCodeCoverage]
-    public EngineCancellationToken()
+    public EngineCancellationToken(IPrimaryExceptionContainer primaryExceptionContainer)
     {
+        _primaryExceptionContainer = primaryExceptionContainer;
+
         Console.CancelKeyPress += (_, args) =>
         {
             args.Cancel = true;
@@ -42,15 +56,7 @@ internal class EngineCancellationToken : CancellationTokenSource
 
     public void CancelWithException(Exception exception, string? reason = null)
     {
-        lock (_exceptionLock)
-        {
-            // Only store the first exception
-            if (OriginalException == null)
-            {
-                OriginalException = exception;
-                OriginalExceptionDispatchInfo = ExceptionDispatchInfo.Capture(exception);
-            }
-        }
+        _primaryExceptionContainer.SetException(exception);
 
         Reason = reason ?? exception.Message;
         _isCancelled = true;

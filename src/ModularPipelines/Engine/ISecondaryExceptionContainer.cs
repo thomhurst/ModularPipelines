@@ -3,7 +3,7 @@
 /// <summary>
 /// Collects secondary exceptions that occur during pipeline execution,
 /// such as failures in AlwaysRun modules or dependency resolution.
-/// The primary/first exception that fails the pipeline is stored in EngineCancellationToken.
+/// The primary/first exception that fails the pipeline is stored in <see cref="IPrimaryExceptionContainer"/>.
 /// </summary>
 internal interface ISecondaryExceptionContainer
 {
