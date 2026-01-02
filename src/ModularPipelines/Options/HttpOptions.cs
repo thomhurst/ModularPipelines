@@ -34,6 +34,18 @@ public record HttpOptions(HttpRequestMessage HttpRequestMessage)
     public HttpLoggingOptions? LogSettings { get; init; }
 
     /// <summary>
+    /// Gets or sets the maximum time allowed for the HTTP request to complete.
+    /// </summary>
+    /// <remarks>
+    /// <para>When set, the request will be cancelled if it exceeds this duration.</para>
+    /// <para>If the request does not complete within the timeout, a <see cref="System.OperationCanceledException"/> or
+    /// <see cref="System.Threading.Tasks.TaskCanceledException"/> will be thrown.</para>
+    /// <para>If not set (null), the request will use the default HttpClient timeout or run until completion
+    /// or until the passed cancellation token is cancelled.</para>
+    /// </remarks>
+    public TimeSpan? Timeout { get; init; }
+
+    /// <summary>
     /// Implicitly converts an <see cref="HttpRequestMessage"/> to <see cref="HttpOptions"/>.
     /// </summary>
     /// <param name="requestMessage">The HTTP request message.</param>

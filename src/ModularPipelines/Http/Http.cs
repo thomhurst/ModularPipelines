@@ -30,21 +30,36 @@ internal class Http : IHttp
 
     public async Task<HttpResponseMessage> SendAsync(HttpOptions httpOptions, CancellationToken cancellationToken = default)
     {
+        // Priority: options property > pipeline default > no timeout
+        var effectiveTimeout = httpOptions.Timeout ?? _pipelineOptions.Value.DefaultHttpTimeout;
+
+        // Create timeout token if timeout is specified
+        using var timeoutCts = effectiveTimeout.HasValue
+            ? new CancellationTokenSource(effectiveTimeout.Value)
+            : null;
+
+        // Link the timeout token with the passed cancellation token, or just use the original if no timeout
+        using var linkedCts = timeoutCts != null
+            ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCts.Token, cancellationToken)
+            : null;
+
+        var effectiveCancellationToken = linkedCts?.Token ?? cancellationToken;
+
         if (httpOptions.HttpClient != null)
         {
-            return await SendAndWrapLogging(httpOptions, cancellationToken).ConfigureAwait(false);
+            return await SendAndWrapLogging(httpOptions, effectiveCancellationToken).ConfigureAwait(false);
         }
 
         var httpClient = GetLoggingHttpClient(httpOptions.LoggingType);
 
-        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, cancellationToken).ConfigureAwait(false);
+        var response = await httpClient.SendAsync(httpOptions.HttpRequestMessage, effectiveCancellationToken).ConfigureAwait(false);
 
         if (!httpOptions.ThrowOnNonSuccessStatusCode)
         {
             return response;
         }
 
-        return await response.EnsureSuccessStatusCodeWithContentAsync(cancellationToken).ConfigureAwait(false);
+        return await response.EnsureSuccessStatusCodeWithContentAsync(effectiveCancellationToken).ConfigureAwait(false);
     }
 
     public HttpClient GetLoggingHttpClient(HttpLoggingType loggingType)

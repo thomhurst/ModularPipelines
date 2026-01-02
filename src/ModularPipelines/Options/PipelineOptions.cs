@@ -79,6 +79,14 @@ public record PipelineOptions
     public HttpLoggingOptions? DefaultHttpLoggingOptions { get; set; }
 
     /// <summary>
+    /// Gets or sets the default timeout for all HTTP requests.
+    /// When set, HTTP requests will be cancelled if they exceed this duration,
+    /// unless overridden by <see cref="HttpOptions.Timeout"/> on individual requests.
+    /// If not set (null), HTTP requests will use the default HttpClient timeout.
+    /// </summary>
+    public TimeSpan? DefaultHttpTimeout { get; set; }
+
+    /// <summary>
     /// Gets or sets the concurrency options for module execution.
     /// Controls parallelism limits and resource-based throttling.
     /// </summary>
