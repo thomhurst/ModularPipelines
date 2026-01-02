@@ -91,55 +91,62 @@ internal class PipelineContext : IPipelineContext
 
     public IFileSystemContext FileSystem { get; }
 
-    public PipelineContext(IServiceProvider serviceProvider,
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PipelineContext"/> class.
+    /// </summary>
+    /// <remarks>
+    /// This constructor uses grouped context services (ISerializationContext, IEncodingContext, IShellContext)
+    /// to reduce parameter count from 22 to 15, improving maintainability while preserving the public API.
+    /// </remarks>
+    public PipelineContext(
+        IServiceProvider serviceProvider,
         IDependencyCollisionDetector dependencyCollisionDetector,
         IEnvironmentContext environment,
         IFileSystemContext fileSystem,
         IConfiguration configuration,
         IOptions<PipelineOptions> pipelineOptions,
         IModuleResultRepository moduleResultRepository,
-        ICommand command,
         IHttp http,
         IDownloader downloader,
         IModuleLoggerProvider moduleLoggerProvider,
         IZip zip,
-        IHex hex,
-        IBase64 base64,
-        IHasher hasher,
-        IJson json,
-        IXml xml,
         EngineCancellationToken engineCancellationToken,
         IInstaller installer,
-        IPowershell powershell,
-        IBash bash,
         IBuildSystemDetector buildSystemDetector,
-        IChecksum checksum,
-        IYaml yaml)
+        ISerializationContext serializationContext,
+        IEncodingContext encodingContext,
+        IShellContext shellContext)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
         Downloader = downloader;
         Zip = zip;
-        Hex = hex;
-        Base64 = base64;
-        Hasher = hasher;
-        Json = json;
-        Xml = xml;
         EngineCancellationToken = engineCancellationToken;
         Installer = installer;
-        Powershell = powershell;
-        Bash = bash;
         BuildSystemDetector = buildSystemDetector;
-        Checksum = checksum;
-        Yaml = yaml;
         ModuleResultRepository = moduleResultRepository;
-        Command = command;
         Configuration = configuration;
         PipelineOptions = pipelineOptions;
         ServiceProvider = serviceProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
         Environment = environment;
         FileSystem = fileSystem;
+
+        // Unpack serialization context
+        Json = serializationContext.Json;
+        Xml = serializationContext.Xml;
+        Yaml = serializationContext.Yaml;
+
+        // Unpack encoding context
+        Hex = encodingContext.Hex;
+        Base64 = encodingContext.Base64;
+        Hasher = encodingContext.Hasher;
+        Checksum = encodingContext.Checksum;
+
+        // Unpack shell context
+        Powershell = shellContext.Powershell;
+        Bash = shellContext.Bash;
+        Command = shellContext.Command;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }
