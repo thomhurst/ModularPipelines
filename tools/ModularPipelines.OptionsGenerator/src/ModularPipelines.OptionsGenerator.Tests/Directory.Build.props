@@ -1,0 +1,9 @@
+<Project>
+  <!-- Simplified build props for test project to ensure TUnit works correctly -->
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+</Project>
