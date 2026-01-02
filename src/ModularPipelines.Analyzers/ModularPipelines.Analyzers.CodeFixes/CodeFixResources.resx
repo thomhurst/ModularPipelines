@@ -124,4 +124,16 @@
   <data name="AsyncModuleCodeFixTitle" xml:space="preserve">
     <value>Add Async Modifier</value>
   </data>
+  <data name="EnumerableModuleResultToListCodeFixTitle" xml:space="preserve">
+    <value>Replace IEnumerable with List</value>
+    <comment>The title of the code fix to replace IEnumerable with List.</comment>
+  </data>
+  <data name="EnumerableModuleResultToArrayCodeFixTitle" xml:space="preserve">
+    <value>Replace IEnumerable with Array</value>
+    <comment>The title of the code fix to replace IEnumerable with Array.</comment>
+  </data>
+  <data name="ConflictingDependsOnAttributeCodeFixTitle" xml:space="preserve">
+    <value>Remove DependsOn Attribute</value>
+    <comment>The title of the code fix to remove a conflicting DependsOn attribute.</comment>
+  </data>
 </root>
