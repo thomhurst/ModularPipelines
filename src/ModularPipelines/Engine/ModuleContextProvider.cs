@@ -1,13 +1,14 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer
+internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer, IAsyncDisposable
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly List<IServiceScope> _scopes = new();
+    private readonly ConcurrentBag<IServiceScope> _scopes = new();
 
     public ModuleContextProvider(IServiceProvider serviceProvider)
     {
@@ -26,5 +27,20 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer
     public IEnumerable<IServiceScope> GetScopes()
     {
         return _scopes;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        foreach (var scope in _scopes)
+        {
+            if (scope is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                scope.Dispose();
+            }
+        }
     }
 }
