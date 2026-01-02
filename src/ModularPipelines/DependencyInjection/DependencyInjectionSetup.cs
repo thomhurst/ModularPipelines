@@ -187,6 +187,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
+            .AddSingleton<IThreadPoolConfigurator, ThreadPoolConfigurator>()
             .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
             .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()

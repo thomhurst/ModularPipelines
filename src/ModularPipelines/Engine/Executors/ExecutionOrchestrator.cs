@@ -16,6 +16,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IIgnoredModuleResultRegistrar _ignoredModuleResultRegistrar;
     private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
     private readonly EngineCancellationToken _engineCancellationToken;
+    private readonly IThreadPoolConfigurator _threadPoolConfigurator;
     private readonly ILogger<ExecutionOrchestrator> _logger;
 
     private readonly object _lock = new();
@@ -30,6 +31,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IIgnoredModuleResultRegistrar ignoredModuleResultRegistrar,
         IPipelineSummaryFactory pipelineSummaryFactory,
         EngineCancellationToken engineCancellationToken,
+        IThreadPoolConfigurator threadPoolConfigurator,
         ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
@@ -39,6 +41,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _ignoredModuleResultRegistrar = ignoredModuleResultRegistrar;
         _pipelineSummaryFactory = pipelineSummaryFactory;
         _engineCancellationToken = engineCancellationToken;
+        _threadPoolConfigurator = threadPoolConfigurator;
         _logger = logger;
     }
 
@@ -65,34 +68,6 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
     }
 
-    private void ConfigureThreadPool()
-    {
-        // Get current thread pool settings
-        ThreadPool.GetMinThreads(out var currentWorkerThreads, out var currentCompletionPortThreads);
-
-        // Calculate desired MinThreads to ensure adequate parallelism
-        // Use ProcessorCount * 4 to provide headroom for parallel module execution
-        var desiredMinThreads = Environment.ProcessorCount * 4;
-
-        // Only increase if current value is lower
-        if (currentWorkerThreads < desiredMinThreads)
-        {
-            ThreadPool.SetMinThreads(desiredMinThreads, currentCompletionPortThreads);
-            _logger.LogDebug(
-                "Configured ThreadPool MinThreads from {OldValue} to {NewValue} (ProcessorCount: {ProcessorCount})",
-                currentWorkerThreads,
-                desiredMinThreads,
-                Environment.ProcessorCount);
-        }
-        else
-        {
-            _logger.LogDebug(
-                "ThreadPool MinThreads already adequate: {CurrentValue} (ProcessorCount: {ProcessorCount})",
-                currentWorkerThreads,
-                Environment.ProcessorCount);
-        }
-    }
-
     private async Task<PipelineSummary> ExecuteInternal(CancellationToken cancellationToken)
     {
         lock (_lock)
@@ -107,7 +82,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         cancellationToken.Register(() => _engineCancellationToken.CancelWithReason("The user's cancellation token passed into the pipeline was cancelled."));
 
-        ConfigureThreadPool();
+        _threadPoolConfigurator.Configure();
 
         var organizedModules = await _pipelineInitializer.Initialize().ConfigureAwait(false);
 
