@@ -1,3 +1,5 @@
+using ModularPipelines.Modules.Behaviors;
+
 namespace ModularPipelines.Engine;
 
 /// <summary>
@@ -49,22 +51,23 @@ internal sealed record ModuleBehaviorMetadata
 
     /// <summary>
     /// Creates behavior metadata from a module type by checking implemented interfaces.
+    /// Uses type-safe IsAssignableFrom checks to avoid namespace collision issues.
     /// </summary>
     /// <param name="moduleType">The module type to analyze.</param>
     /// <returns>Metadata containing cached behavior flags.</returns>
     public static ModuleBehaviorMetadata FromType(Type moduleType)
     {
-        var interfaces = moduleType.GetInterfaces();
-        var interfaceSet = new HashSet<string>(interfaces.Select(i => i.Name));
-
+        // Use type-safe IsAssignableFrom instead of string-based name matching
+        // to avoid namespace collision issues
         return new ModuleBehaviorMetadata
         {
-            IsSkippable = interfaceSet.Contains("ISkippable"),
-            IsHookable = interfaceSet.Contains("IHookable"),
-            IsTimeoutable = interfaceSet.Contains("ITimeoutable"),
-            IsRetryable = interfaces.Any(i => i.IsGenericType && i.Name.StartsWith("IRetryable`")),
-            IsIgnoreFailures = interfaceSet.Contains("IIgnoreFailures"),
-            IsAlwaysRun = interfaceSet.Contains("IAlwaysRun"),
+            IsSkippable = typeof(ISkippable).IsAssignableFrom(moduleType),
+            IsHookable = typeof(IHookable).IsAssignableFrom(moduleType),
+            IsTimeoutable = typeof(ITimeoutable).IsAssignableFrom(moduleType),
+            IsRetryable = moduleType.GetInterfaces().Any(i =>
+                i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRetryable<>)),
+            IsIgnoreFailures = typeof(IIgnoreFailures).IsAssignableFrom(moduleType),
+            IsAlwaysRun = typeof(IAlwaysRun).IsAssignableFrom(moduleType),
         };
     }
 }

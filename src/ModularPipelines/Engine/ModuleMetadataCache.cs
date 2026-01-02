@@ -43,12 +43,4 @@ internal static class ModuleMetadataCache
     {
         return BehaviorCache.GetOrAdd(moduleType, ModuleBehaviorMetadata.FromType);
     }
-
-    /// <summary>
-    /// Gets the cached scheduling metadata for a module type.
-    /// </summary>
-    /// <param name="moduleType">The module type to get metadata for.</param>
-    /// <returns>The cached metadata containing scheduling attributes.</returns>
-    [Obsolete("Use GetSchedulingMetadata instead for clarity.")]
-    public static ModuleSchedulingMetadata GetMetadata(Type moduleType) => GetSchedulingMetadata(moduleType);
 }
