@@ -399,4 +399,6 @@ FodyWeavers.xsd
 
 requirements
 .claude/settings.local.json
-nul.worktrees/
+
+# Git worktrees directory
+.worktrees/
