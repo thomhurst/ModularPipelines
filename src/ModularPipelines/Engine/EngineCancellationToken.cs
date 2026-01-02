@@ -12,7 +12,7 @@ internal class EngineCancellationToken : CancellationTokenSource
 {
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
 
-    public string? Reason { get; set; }
+    public string? Reason { get; private set; }
 
     /// <summary>
     /// Gets the original exception that caused the pipeline to fail.
