@@ -56,7 +56,7 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.Console")
+        if (namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == AnalyzerConstants.FullyQualifiedTypeNames.SystemConsole)
         {
             context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(),
                 namedTypeSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));

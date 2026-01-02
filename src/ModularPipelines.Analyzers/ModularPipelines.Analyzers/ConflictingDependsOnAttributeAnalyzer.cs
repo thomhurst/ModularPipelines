@@ -71,7 +71,7 @@ public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "DependsOn")
+        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.DependsOn)
         {
             return false;
         }

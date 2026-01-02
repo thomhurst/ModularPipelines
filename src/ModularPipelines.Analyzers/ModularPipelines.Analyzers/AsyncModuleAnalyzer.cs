@@ -39,22 +39,22 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (methodDeclarationSyntax.Identifier.Text != "ExecuteAsync")
+        if (methodDeclarationSyntax.Identifier.Text != AnalyzerConstants.MethodNames.ExecuteAsync)
         {
             return;
         }
 
-        if (methodDeclarationSyntax.Modifiers.Any(x => x.ValueText == "async"))
+        if (methodDeclarationSyntax.Modifiers.Any(x => x.ValueText == AnalyzerConstants.Modifiers.Async))
         {
             return;
         }
 
-        if (methodDeclarationSyntax.Modifiers.All(x => x.ValueText != "override"))
+        if (methodDeclarationSyntax.Modifiers.All(x => x.ValueText != AnalyzerConstants.Modifiers.Override))
         {
             return;
         }
 
-        if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != "ModuleBase"))
+        if (context.GetClassThatNodeIsIn().GetSelfAndAllBaseTypes().All(x => x.Name != AnalyzerConstants.TypeNames.ModuleBase))
         {
             return;
         }
@@ -85,18 +85,18 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
             return false;
         }
 
-        if (methodSymbol.Name != "AsTask" && methodSymbol.Name != "FromResult")
+        if (methodSymbol.Name != AnalyzerConstants.MethodNames.AsTask && methodSymbol.Name != AnalyzerConstants.MethodNames.FromResult)
         {
             return false;
         }
 
-        if (methodSymbol.ContainingType.Name != "Task" && methodSymbol.ContainingType.Name != "TaskExtensions")
+        if (methodSymbol.ContainingType.Name != AnalyzerConstants.TypeNames.Task && methodSymbol.ContainingType.Name != AnalyzerConstants.TypeNames.TaskExtensions)
         {
             return false;
         }
 
-        if (methodSymbol.ContainingNamespace.ToDisplayString() != "ModularPipelines.Extensions"
-            && methodSymbol.ContainingNamespace.ToDisplayString() != "System.Threading.Tasks")
+        if (methodSymbol.ContainingNamespace.ToDisplayString() != AnalyzerConstants.Namespaces.ModularPipelinesExtensions
+            && methodSymbol.ContainingNamespace.ToDisplayString() != AnalyzerConstants.Namespaces.SystemThreadingTasks)
         {
             return false;
         }
