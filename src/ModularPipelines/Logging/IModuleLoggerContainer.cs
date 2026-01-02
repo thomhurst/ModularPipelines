@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace ModularPipelines.Logging;
 
 /// <summary>
@@ -5,6 +7,19 @@ namespace ModularPipelines.Logging;
 /// </summary>
 internal interface IModuleLoggerContainer
 {
+    /// <summary>
+    /// Gets an existing logger or creates one from the scoped service provider.
+    /// </summary>
+    /// <param name="moduleType">The module type to get/create a logger for.</param>
+    /// <param name="scopedServiceProvider">The scoped service provider to resolve from if not cached.</param>
+    /// <returns>The module logger instance.</returns>
+    IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)
+    {
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
+        return GetLogger(loggerType)
+            ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
+    }
+
     /// <summary>
     /// Flushes all buffered log events and disposes all registered loggers.
     /// Loggers are processed in order of last log written time.
