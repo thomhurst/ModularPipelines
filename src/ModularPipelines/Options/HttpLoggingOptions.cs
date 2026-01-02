@@ -72,6 +72,45 @@ public record HttpLoggingOptions
     public int MaxBodySizeToLog { get; init; } = LoggingConstants.DefaultMaxBodySizeToLog;
 
     /// <summary>
+    /// Gets or sets the list of header names that should have their values obfuscated in logs.
+    /// Values are compared case-insensitively. Default includes common sensitive headers like
+    /// Authorization, X-API-Key, Cookie, Set-Cookie, and various token/key headers.
+    /// </summary>
+    public IReadOnlyList<string> SensitiveHeaderNames { get; init; } = DefaultSensitiveHeaders;
+
+    /// <summary>
+    /// Default list of sensitive header names that should be obfuscated.
+    /// </summary>
+    public static IReadOnlyList<string> DefaultSensitiveHeaders { get; } = new[]
+    {
+        "Authorization",
+        "X-API-Key",
+        "X-Api-Key",
+        "Api-Key",
+        "ApiKey",
+        "X-Auth-Token",
+        "X-Access-Token",
+        "X-Secret",
+        "X-Secret-Key",
+        "Cookie",
+        "Set-Cookie",
+        "WWW-Authenticate",
+        "Proxy-Authorization",
+        "Proxy-Authenticate",
+        "X-CSRF-Token",
+        "X-XSRF-Token",
+        "X-Amz-Security-Token",
+        "X-Amz-Credential",
+    };
+
+    /// <summary>
+    /// HashSet of default sensitive headers for O(1) lookup.
+    /// Used internally by formatters for performance.
+    /// </summary>
+    internal static HashSet<string> DefaultSensitiveHeadersSet { get; } =
+        new(DefaultSensitiveHeaders, StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
     /// Default logging options (all logging enabled, 4KB body limit).
     /// </summary>
     public static HttpLoggingOptions Default { get; } = new();
