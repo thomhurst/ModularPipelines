@@ -146,7 +146,7 @@ internal class ModuleRunner : IModuleRunner
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
-        var logger = GetOrCreateLogger(moduleType, scopedServiceProvider);
+        var logger = _loggerContainer.GetOrCreateLogger(moduleType, scopedServiceProvider);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
@@ -297,12 +297,5 @@ internal class ModuleRunner : IModuleRunner
         var executor = ModuleExecutionDelegateFactory.GetExecutor(module.ResultType);
         return await executor(_executionPipeline, module, executionContext, moduleContext, cancellationToken)
             .ConfigureAwait(false);
-    }
-
-    private IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)
-    {
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
-        return _loggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
     }
 }

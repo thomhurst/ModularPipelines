@@ -41,7 +41,7 @@ internal class DependencyWaiter : IDependencyWaiter
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
-                    var depLogger = GetOrCreateLogger(moduleState.ModuleType, scopedServiceProvider);
+                    var depLogger = _loggerContainer.GetOrCreateLogger(moduleState.ModuleType, scopedServiceProvider);
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));
@@ -60,12 +60,5 @@ internal class DependencyWaiter : IDependencyWaiter
                 throw new ModuleNotRegisteredException(message, null);
             }
         }
-    }
-
-    private IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)
-    {
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
-        return _loggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
     }
 }
