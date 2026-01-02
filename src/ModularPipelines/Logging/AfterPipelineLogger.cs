@@ -13,6 +13,7 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     private readonly StringBuilder _stringBuilder = new();
     private readonly List<string> _values = [];
     private readonly object _lock = new();
+    private bool _isCacheValid;
 
     public AfterPipelineLogger(ILogger<AfterPipelineLogger> logger)
     {
@@ -27,8 +28,7 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
         lock (_lock)
         {
             _values.Add(value);
-            // Clear cached output so GetOutput() rebuilds it with the new value
-            _stringBuilder.Clear();
+            _isCacheValid = false;
         }
     }
 
@@ -39,17 +39,18 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     {
         lock (_lock)
         {
-            if (_stringBuilder.Length > 0)
+            if (_isCacheValid)
             {
                 return _stringBuilder.ToString();
             }
 
-            // Build once and cache
+            _stringBuilder.Clear();
             foreach (var value in _values)
             {
                 _stringBuilder.AppendLine(value);
             }
 
+            _isCacheValid = true;
             return _stringBuilder.ToString();
         }
     }

@@ -32,12 +32,16 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         _stackTraceDetector = stackTraceDetector;
     }
 
+    /// <summary>
+    /// Gets a logger for a specific module type.
+    /// Does not cache to _moduleLogger to avoid conflicts with parameterless GetLogger().
+    /// </summary>
     public IModuleLogger GetLogger(Type type)
     {
-        lock (_lock)
-        {
-            return MakeLogger(type);
-        }
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(type);
+
+        return _moduleLoggerContainer.GetLogger(loggerType)
+            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
     }
 
     public IModuleLogger GetLogger()
@@ -59,7 +63,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             var moduleType = ModuleLogger.CurrentModuleType.Value;
             if (moduleType != null)
             {
-                return MakeLogger(moduleType);
+                return _moduleLogger = CreateLogger(moduleType);
             }
 
             // Fallback: use stack trace inspection (for edge cases where AsyncLocal context is lost)
@@ -70,7 +74,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
                 throw new InvalidOperationException("Could not detect module type from call stack.");
             }
 
-            return MakeLogger(detectedType);
+            return _moduleLogger = CreateLogger(detectedType);
         }
     }
 
@@ -79,11 +83,11 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
         _moduleLogger?.Dispose();
     }
 
-    private IModuleLogger MakeLogger(Type module)
+    private IModuleLogger CreateLogger(Type module)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
 
-        return _moduleLogger ??= _moduleLoggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger) _serviceProvider.GetRequiredService(loggerType);
+        return _moduleLoggerContainer.GetLogger(loggerType)
+            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
     }
 }
