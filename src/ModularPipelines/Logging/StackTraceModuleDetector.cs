@@ -14,7 +14,11 @@ namespace ModularPipelines.Logging;
 /// </summary>
 /// <remarks>
 /// This class employs reflection and stack frame inspection to determine which module is requesting a logger.
-/// It uses several fallback strategies:
+///
+/// Performance optimization: The detector first checks ModuleLogger.CurrentModuleType (AsyncLocal) for a fast path.
+/// When the AsyncLocal is set (during module execution), expensive stack trace inspection is completely avoided.
+///
+/// Fallback strategies (when AsyncLocal is not available):
 /// 1. Look for methods with [ModuleMethodMarker] attribute
 /// 2. Find types inheriting from ModuleBase
 /// 3. Find the calling class from the entry assembly
@@ -39,6 +43,14 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 
     public Type? DetectModuleType()
     {
+        // Fast path: check AsyncLocal first to avoid expensive stack trace inspection
+        var asyncLocalType = ModuleLogger.CurrentModuleType.Value;
+        if (asyncLocalType != null)
+        {
+            return asyncLocalType;
+        }
+
+        // Slow path: fall back to stack trace inspection when AsyncLocal context is not available
         var stackFrames = new StackTrace().GetFrames().ToList();
 
         // Create cache key from the first relevant calling frame
