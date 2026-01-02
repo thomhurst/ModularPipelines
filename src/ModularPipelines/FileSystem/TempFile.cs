@@ -22,7 +22,7 @@ namespace ModularPipelines.FileSystem;
 /// </remarks>
 public sealed class TempFile : IAsyncDisposable, IDisposable
 {
-    private bool _disposed;
+    private int _disposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TempFile"/> class with a new temporary file path.
@@ -54,12 +54,10 @@ public sealed class TempFile : IAsyncDisposable, IDisposable
     /// <returns>A task that represents the asynchronous dispose operation.</returns>
     public async ValueTask DisposeAsync()
     {
-        if (_disposed)
+        if (Interlocked.Exchange(ref _disposed, 1) == 1)
         {
             return;
         }
-
-        _disposed = true;
 
         if (File.Exists)
         {
@@ -72,12 +70,10 @@ public sealed class TempFile : IAsyncDisposable, IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_disposed)
+        if (Interlocked.Exchange(ref _disposed, 1) == 1)
         {
             return;
         }
-
-        _disposed = true;
 
         if (File.Exists)
         {
