@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Logging;
@@ -8,6 +9,12 @@ namespace ModularPipelines.Logging;
 internal interface IModuleLoggerContainer
 {
     /// <summary>
+    /// Cache for constructed generic logger types.
+    /// MakeGenericType is expensive, so we cache the result per module type.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, Type> LoggerTypeCache = new();
+
+    /// <summary>
     /// Gets an existing logger or creates one from the scoped service provider.
     /// </summary>
     /// <param name="moduleType">The module type to get/create a logger for.</param>
@@ -15,7 +22,10 @@ internal interface IModuleLoggerContainer
     /// <returns>The module logger instance.</returns>
     IModuleLogger GetOrCreateLogger(Type moduleType, IServiceProvider scopedServiceProvider)
     {
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
+        var loggerType = LoggerTypeCache.GetOrAdd(
+            moduleType,
+            static type => typeof(ModuleLogger<>).MakeGenericType(type));
+
         return GetLogger(loggerType)
             ?? (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
     }
