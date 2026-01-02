@@ -126,6 +126,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineFileWriter, PipelineFileWriter>()
             .AddSingleton<EngineCancellationToken>()
             .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
+            .AddSingleton<IOutputFlushLock, OutputFlushLock>()
             .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
             .AddSingleton<ISecretProvider, SecretProvider>()
