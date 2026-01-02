@@ -15,7 +15,17 @@ namespace ModularPipelines.AmazonWebServices;
 [ExcludeFromCodeCoverage]
 public class S3 : IS3
 {
-    private AmazonS3Client Client { get; }
+    private AmazonS3Client _client;
+
+    /// <summary>
+    /// Gets the underlying Amazon S3 client.
+    /// </summary>
+    /// <remarks>
+    /// Direct access to the underlying client is deprecated. Use the wrapper methods
+    /// (CreateBucketAsync, UploadObjectAsync, etc.) instead for a more consistent API.
+    /// </remarks>
+    [Obsolete("Direct access to the underlying client is deprecated. Use the wrapper methods instead. This property will be removed in a future version.")]
+    public AmazonS3Client Client => _client;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="S3"/> class.
@@ -23,7 +33,7 @@ public class S3 : IS3
     /// <param name="client">The Amazon S3 client to wrap.</param>
     public S3(AmazonS3Client client)
     {
-        Client = client;
+        _client = client;
     }
 
     #region Bucket Operations
@@ -31,25 +41,25 @@ public class S3 : IS3
     /// <inheritdoc />
     public async Task<PutBucketResponse> CreateBucketAsync(PutBucketRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<DeleteBucketResponse> DeleteBucketAsync(string bucketName, CancellationToken cancellationToken = default)
     {
-        return await Client.DeleteBucketAsync(bucketName, cancellationToken).ConfigureAwait(false);
+        return await _client.DeleteBucketAsync(bucketName, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<DeleteBucketResponse> DeleteBucketAsync(DeleteBucketRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.DeleteBucketAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.DeleteBucketAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<ListBucketsResponse> ListBucketsAsync(CancellationToken cancellationToken = default)
     {
-        return await Client.ListBucketsAsync(cancellationToken).ConfigureAwait(false);
+        return await _client.ListBucketsAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -57,7 +67,7 @@ public class S3 : IS3
     {
         try
         {
-            await Client.GetBucketLocationAsync(bucketName, cancellationToken).ConfigureAwait(false);
+            await _client.GetBucketLocationAsync(bucketName, cancellationToken).ConfigureAwait(false);
             return true;
         }
         catch (AmazonS3Exception ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -73,7 +83,7 @@ public class S3 : IS3
     /// <inheritdoc />
     public async Task<PutObjectResponse> UploadObjectAsync(PutObjectRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -85,7 +95,7 @@ public class S3 : IS3
             Key = key,
             FilePath = filePath,
         };
-        return await Client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -97,44 +107,44 @@ public class S3 : IS3
             Key = key,
             InputStream = inputStream,
         };
-        return await Client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<GetObjectResponse> DownloadObjectAsync(GetObjectRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.GetObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.GetObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<GetObjectResponse> DownloadObjectAsync(string bucketName, string key, CancellationToken cancellationToken = default)
     {
-        return await Client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+        return await _client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task DownloadToFileAsync(string bucketName, string key, string filePath, CancellationToken cancellationToken = default)
     {
-        using var response = await Client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+        using var response = await _client.GetObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
         await response.WriteResponseStreamToFileAsync(filePath, false, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<DeleteObjectResponse> DeleteObjectAsync(string bucketName, string key, CancellationToken cancellationToken = default)
     {
-        return await Client.DeleteObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+        return await _client.DeleteObjectAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<DeleteObjectResponse> DeleteObjectAsync(DeleteObjectRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.DeleteObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.DeleteObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<DeleteObjectsResponse> DeleteObjectsAsync(DeleteObjectsRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.DeleteObjectsAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.DeleteObjectsAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -145,13 +155,13 @@ public class S3 : IS3
             BucketName = bucketName,
             Prefix = prefix,
         };
-        return await Client.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
+        return await _client.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<ListObjectsV2Response> ListObjectsAsync(ListObjectsV2Request request, CancellationToken cancellationToken = default)
     {
-        return await Client.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
+        return await _client.ListObjectsV2Async(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -159,7 +169,7 @@ public class S3 : IS3
     {
         try
         {
-            await Client.GetObjectMetadataAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+            await _client.GetObjectMetadataAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
             return true;
         }
         catch (AmazonS3Exception ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -171,19 +181,19 @@ public class S3 : IS3
     /// <inheritdoc />
     public async Task<GetObjectMetadataResponse> GetObjectMetadataAsync(string bucketName, string key, CancellationToken cancellationToken = default)
     {
-        return await Client.GetObjectMetadataAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
+        return await _client.GetObjectMetadataAsync(bucketName, key, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<CopyObjectResponse> CopyObjectAsync(CopyObjectRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.CopyObjectAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.CopyObjectAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<CopyObjectResponse> CopyObjectAsync(string sourceBucket, string sourceKey, string destinationBucket, string destinationKey, CancellationToken cancellationToken = default)
     {
-        return await Client.CopyObjectAsync(sourceBucket, sourceKey, destinationBucket, destinationKey, cancellationToken).ConfigureAwait(false);
+        return await _client.CopyObjectAsync(sourceBucket, sourceKey, destinationBucket, destinationKey, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
@@ -193,91 +203,91 @@ public class S3 : IS3
     /// <inheritdoc />
     public async Task<PutBucketEncryptionResponse> PutBucketEncryptionAsync(PutBucketEncryptionRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketEncryptionAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketEncryptionAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketLoggingResponse> PutBucketLoggingAsync(PutBucketLoggingRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketLoggingAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketLoggingAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketPolicyResponse> PutBucketPolicyAsync(PutBucketPolicyRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketPolicyAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketPolicyAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketWebsiteResponse> PutBucketWebsiteAsync(PutBucketWebsiteRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketWebsiteAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketWebsiteAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketNotificationResponse> PutBucketNotificationAsync(PutBucketNotificationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketNotificationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketNotificationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketReplicationResponse> PutBucketReplicationAsync(PutBucketReplicationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketReplicationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketReplicationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketTaggingResponse> PutBucketTaggingAsync(PutBucketTaggingRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketTaggingAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketTaggingAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketVersioningResponse> PutBucketVersioningAsync(PutBucketVersioningRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketVersioningAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketVersioningAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketAccelerateConfigurationResponse> PutBucketAccelerateConfigurationAsync(PutBucketAccelerateConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAccelerateConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketAccelerateConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketAnalyticsConfigurationResponse> PutBucketAnalyticsConfigurationAsync(PutBucketAnalyticsConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketAnalyticsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketAnalyticsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketInventoryConfigurationResponse> PutBucketInventoryConfigurationAsync(PutBucketInventoryConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketInventoryConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketInventoryConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketMetricsConfigurationResponse> PutBucketMetricsConfigurationAsync(PutBucketMetricsConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketMetricsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketMetricsConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketOwnershipControlsResponse> PutBucketOwnershipControlsAsync(PutBucketOwnershipControlsRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketOwnershipControlsAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketOwnershipControlsAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketRequestPaymentResponse> PutBucketRequestPaymentAsync(PutBucketRequestPaymentRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketRequestPaymentAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketRequestPaymentAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task<PutBucketIntelligentTieringConfigurationResponse> PutBucketIntelligentTieringConfigurationAsync(PutBucketIntelligentTieringConfigurationRequest request, CancellationToken cancellationToken = default)
     {
-        return await Client.PutBucketIntelligentTieringConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+        return await _client.PutBucketIntelligentTieringConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion
@@ -293,13 +303,13 @@ public class S3 : IS3
             Key = key,
             Expires = expiration,
         };
-        return Client.GetPreSignedURL(request);
+        return _client.GetPreSignedURL(request);
     }
 
     /// <inheritdoc />
     public string GetPresignedUrl(GetPreSignedUrlRequest request)
     {
-        return Client.GetPreSignedURL(request);
+        return _client.GetPreSignedURL(request);
     }
 
     #endregion
