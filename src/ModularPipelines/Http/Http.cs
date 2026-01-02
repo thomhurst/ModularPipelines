@@ -1,29 +1,28 @@
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Net;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
-internal class Http : IHttp, IDisposable
+internal class Http : IHttp
 {
     public HttpClient HttpClient { get; }
 
+    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttpLogger _httpLogger;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
 
-    private readonly ConcurrentDictionary<HttpLoggingType, (HttpClient Client, ServiceProvider Provider)> _loggingHttpClients = new();
-
     public Http(HttpClient defaultHttpClient,
+        IHttpClientFactory httpClientFactory,
         IModuleLoggerProvider moduleLoggerProvider,
         IHttpLogger httpLogger,
         IOptions<PipelineOptions> pipelineOptions)
     {
         HttpClient = defaultHttpClient;
+        _httpClientFactory = httpClientFactory;
         _moduleLoggerProvider = moduleLoggerProvider;
         _httpLogger = httpLogger;
         _pipelineOptions = pipelineOptions;
@@ -50,68 +49,8 @@ internal class Http : IHttp, IDisposable
 
     public HttpClient GetLoggingHttpClient(HttpLoggingType loggingType)
     {
-        return _loggingHttpClients.GetOrAdd(loggingType, _ =>
-        {
-            var moduleLogger = _moduleLoggerProvider.GetLogger();
-            var serviceCollection = new ServiceCollection()
-                .AddSingleton(moduleLogger)
-                .AddSingleton(_httpLogger);
-
-            var httpClientBuilder = serviceCollection
-                .AddHttpClient<ModularPipelinesHttpClientProvider>();
-
-            if (loggingType.HasFlag(HttpLoggingType.Request))
-            {
-                serviceCollection
-                    .AddTransient<RequestLoggingHttpHandler>();
-
-                httpClientBuilder
-                    .AddHttpMessageHandler<RequestLoggingHttpHandler>();
-            }
-
-            if (loggingType.HasFlag(HttpLoggingType.Response))
-            {
-                serviceCollection
-                    .AddTransient<ResponseLoggingHttpHandler>();
-
-                httpClientBuilder.AddHttpMessageHandler<ResponseLoggingHttpHandler>();
-            }
-
-            if (loggingType.HasFlag(HttpLoggingType.Duration))
-            {
-                serviceCollection
-                    .AddTransient<DurationLoggingHttpHandler>();
-
-                httpClientBuilder.AddHttpMessageHandler<DurationLoggingHttpHandler>();
-            }
-
-            if (loggingType.HasFlag(HttpLoggingType.StatusCode))
-            {
-                serviceCollection
-                    .AddTransient<StatusCodeLoggingHttpHandler>();
-
-                httpClientBuilder.AddHttpMessageHandler<StatusCodeLoggingHttpHandler>();
-            }
-
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var httpClient = serviceProvider
-                .GetRequiredService<ModularPipelinesHttpClientProvider>()
-                .HttpClient;
-
-            return (httpClient, serviceProvider);
-        }).Client;
-    }
-
-    public void Dispose()
-    {
-        // Note: HttpClient is obtained from IHttpClientFactory via DI and should NOT be disposed.
-        // The factory manages the lifetime of HttpClient instances.
-
-        // Dispose the ServiceProviders which will clean up their internal resources
-        foreach (var (_, provider) in _loggingHttpClients.Values)
-        {
-            provider.Dispose();
-        }
+        var clientName = HttpClientNames.GetClientName(loggingType);
+        return _httpClientFactory.CreateClient(clientName);
     }
 
     private async Task<HttpResponseMessage> SendAndWrapLogging(HttpOptions httpOptions, CancellationToken cancellationToken)

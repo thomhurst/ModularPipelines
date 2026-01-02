@@ -5,12 +5,12 @@ namespace ModularPipelines.Http;
 
 internal class DurationLoggingHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLogger _logger;
+    private readonly IModuleLoggerProvider _loggerProvider;
     private readonly IHttpLogger _httpLogger;
 
-    public DurationLoggingHttpHandler(IModuleLogger logger, IHttpLogger httpLogger)
+    public DurationLoggingHttpHandler(IModuleLoggerProvider loggerProvider, IHttpLogger httpLogger)
     {
-        _logger = logger;
+        _loggerProvider = loggerProvider;
         _httpLogger = httpLogger;
     }
 
@@ -24,7 +24,8 @@ internal class DurationLoggingHttpHandler : DelegatingHandler
         }
         finally
         {
-            _httpLogger.PrintDuration(stopwatch.Elapsed, _logger);
+            var logger = _loggerProvider.GetLogger();
+            _httpLogger.PrintDuration(stopwatch.Elapsed, logger);
         }
     }
 }
