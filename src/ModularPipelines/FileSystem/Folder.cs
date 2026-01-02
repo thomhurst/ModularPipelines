@@ -583,6 +583,11 @@ public class Folder : IEquatable<Folder>
     /// <inheritdoc/>
     public override int GetHashCode()
     {
+        if (OperatingSystem.IsWindows())
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
+        }
+
         return Path.GetHashCode();
     }
 

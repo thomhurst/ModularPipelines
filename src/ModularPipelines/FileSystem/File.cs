@@ -423,6 +423,11 @@ public class File : IEquatable<File>
     /// <inheritdoc/>
     public override int GetHashCode()
     {
+        if (OperatingSystem.IsWindows())
+        {
+            return StringComparer.OrdinalIgnoreCase.GetHashCode(Path);
+        }
+
         return Path.GetHashCode();
     }
 
