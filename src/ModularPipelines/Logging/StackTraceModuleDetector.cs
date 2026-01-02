@@ -41,6 +41,26 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 {
     private readonly ConcurrentDictionary<string, Type?> _typeCache = new();
 
+    /// <summary>
+    /// Cache for HasModuleMethodMarkerAttribute lookups to avoid repeated reflection calls.
+    /// </summary>
+    private static readonly ConcurrentDictionary<MethodBase, bool> HasMarkerAttributeCache = new();
+
+    /// <summary>
+    /// Cache for CompilerGeneratedAttribute lookups to avoid repeated reflection calls.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, bool> IsCompilerGeneratedCache = new();
+
+    /// <summary>
+    /// Cache for IsModule checks to avoid repeated IsAssignableTo calls.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, bool> IsModuleCache = new();
+
+    /// <summary>
+    /// Cached reference to the entry assembly to avoid repeated GetEntryAssembly calls.
+    /// </summary>
+    private static readonly Assembly? EntryAssembly = Assembly.GetEntryAssembly();
+
     public Type? DetectModuleType()
     {
         // Fast path: check AsyncLocal first to avoid expensive stack trace inspection
@@ -147,10 +167,24 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 
     private static Type? GetModuleFromMarkerAttributes(List<StackFrame> stackFrames)
     {
-        return stackFrames
-            .Select(x => x.GetMethod())
-            .FirstOrDefault(x => x?.GetCustomAttribute<ModuleMethodMarkerAttribute>() != null)
-            ?.DeclaringType;
+        foreach (var frame in stackFrames)
+        {
+            var method = frame.GetMethod();
+            if (method == null)
+            {
+                continue;
+            }
+
+            var hasMarker = HasMarkerAttributeCache.GetOrAdd(method, static m =>
+                m.GetCustomAttribute<ModuleMethodMarkerAttribute>() != null);
+
+            if (hasMarker)
+            {
+                return method.DeclaringType;
+            }
+        }
+
+        return null;
     }
 
     private static bool IsModule(Type? type)
@@ -160,7 +194,8 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             return false;
         }
 
-        return !type.IsAbstract && type.IsAssignableTo(typeof(IModule));
+        return IsModuleCache.GetOrAdd(type, static t =>
+            !t.IsAbstract && t.IsAssignableTo(typeof(IModule)));
     }
 
     private static Type GetCallingClassType(List<StackFrame> stackFrames)
@@ -171,7 +206,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             .OfType<Type>()
             .Where(t => t != typeof(ModuleLoggerProvider))
             .Where(t => t != typeof(StackTraceModuleDetector))
-            .Where(x => x.Assembly == Assembly.GetEntryAssembly())
+            .Where(x => x.Assembly == EntryAssembly)
             .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
 
         if (entryAssemblyFirstCallingClass != null)
@@ -193,12 +228,18 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
         var type = stackFrame.GetMethod()?.ReflectedType;
 
         // Unwrap compiler-generated types (e.g., async state machines)
-        while (type?.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
+        while (type != null && IsCompilerGeneratedType(type))
         {
             type = type.DeclaringType;
         }
 
         return type;
+    }
+
+    private static bool IsCompilerGeneratedType(Type type)
+    {
+        return IsCompilerGeneratedCache.GetOrAdd(type, static t =>
+            t.GetCustomAttribute<CompilerGeneratedAttribute>() != null);
     }
 }
 
