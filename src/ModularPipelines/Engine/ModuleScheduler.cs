@@ -34,6 +34,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly SemaphoreSlim _schedulerNotification;
     private readonly CancellationTokenSource _disposalCancellationTokenSource;
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+    private readonly IModuleStateTracker _stateTracker;
 
     private static readonly TimeSpan StatusLogInterval = TimeSpan.FromSeconds(15);
 
@@ -67,6 +68,20 @@ internal class ModuleScheduler : IModuleScheduler
         });
         _schedulerNotification = new SemaphoreSlim(0);
         _disposalCancellationTokenSource = new CancellationTokenSource();
+
+        // Initialize state tracker with shared state
+        _stateTracker = new ModuleStateTracker(
+            logger,
+            timeProvider,
+            metricsCollector,
+            constraintEvaluator,
+            _moduleStates,
+            _queuedModules,
+            _executingModules,
+            _stateQueries,
+            _stateLock,
+            _schedulerNotification,
+            () => _schedulerCompleted);
     }
 
     /// <summary>
@@ -439,42 +454,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <returns>True if the module can proceed with execution, false if constraints prevent execution.</returns>
     public bool MarkModuleStarted(Type moduleType)
     {
-        _stateLock.EnterWriteLock();
-        try
-        {
-            if (_moduleStates.TryGetValue(moduleType, out var state))
-            {
-                // Delegate constraint checking to the evaluator
-                if (!_constraintEvaluator.CanStartExecution(state, _executingModules))
-                {
-                    // Reset to Pending so scheduler will retry when constraints allow
-                    _queuedModules.Remove(state);
-                    state.State = ModuleExecutionState.Pending;
-                    state.QueuedTime = null;
-
-                    // Notify the scheduler to reschedule
-                    _schedulerNotification.Release();
-                    return false;
-                }
-
-                _queuedModules.Remove(state);
-                state.State = ModuleExecutionState.Executing;
-                _executingModules.Add(state);
-                state.ExecutionStartTime = _timeProvider.GetUtcNow();
-
-                // Record metrics
-                _metricsCollector.RecordModuleStarted(moduleType, state.ExecutionStartTime.Value);
-                _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.ExecutionStartTime.Value);
-
-                return true;
-            }
-
-            return false;
-        }
-        finally
-        {
-            _stateLock.ExitWriteLock();
-        }
+        return _stateTracker.MarkModuleStarted(moduleType);
     }
 
     /// <summary>
@@ -482,78 +462,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null)
     {
-        if (!_moduleStates.TryGetValue(moduleType, out var state))
-        {
-            return;
-        }
-
-        // Capture values for logging outside lock
-        int queuedCount;
-        int executingCount;
-        bool shouldNotify;
-
-        _stateLock.EnterWriteLock();
-        try
-        {
-            _executingModules.Remove(state);
-            state.State = ModuleExecutionState.Completed;
-            state.CompletionTime = _timeProvider.GetUtcNow();
-
-            // Record metrics
-            var wasSkipped = state.SkipResult != null && state.SkipResult != Models.SkipDecision.DoNotSkip;
-            var status = wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed);
-            _metricsCollector.RecordModuleCompleted(moduleType, state.CompletionTime.Value, success, wasSkipped, status);
-            _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.CompletionTime.Value);
-
-            // Capture counts for logging outside lock
-            queuedCount = _queuedModules.Count;
-            executingCount = _executingModules.Count;
-
-            if (success)
-            {
-                state.CompletionSource.TrySetResult(state.Module);
-            }
-            else if (exception != null)
-            {
-                state.CompletionSource.TrySetException(exception);
-            }
-            else
-            {
-                state.CompletionSource.TrySetCanceled();
-            }
-
-            NotifyDependentModules(state, moduleType);
-
-            shouldNotify = !_schedulerCompleted;
-        }
-        finally
-        {
-            _stateLock.ExitWriteLock();
-        }
-
-        // Logging outside lock
-        _logger.LogDebug(
-            "Module {ModuleName} completed with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
-            MarkupFormatter.FormatModuleName(state.ModuleType.Name),
-            string.Join(", ", state.RequiredLockKeys),
-            queuedCount,
-            executingCount);
-
-        var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
-
-        if (state.ExecutionStartTime.HasValue && state.CompletionTime.HasValue)
-        {
-            var executionTime = state.CompletionTime.Value - state.ExecutionStartTime.Value;
-            _logger.LogDebug(
-                "Module {ModuleName} completed after {ExecutionTime}ms",
-                moduleName,
-                executionTime.TotalMilliseconds);
-        }
-
-        if (shouldNotify)
-        {
-            _schedulerNotification.Release();
-        }
+        _stateTracker.MarkModuleCompleted(moduleType, success, exception);
     }
 
     /// <summary>
@@ -561,9 +470,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public Task<IModule>? GetModuleCompletionTask(Type moduleType)
     {
-        return _moduleStates.TryGetValue(moduleType, out var state)
-            ? state.CompletionSource.Task
-            : null;
+        return _stateTracker.GetModuleCompletionTask(moduleType);
     }
 
     /// <summary>
@@ -571,7 +478,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public ModuleState? GetModuleState(Type moduleType)
     {
-        return _moduleStates.TryGetValue(moduleType, out var state) ? state : null;
+        return _stateTracker.GetModuleState(moduleType);
     }
 
     /// <summary>
@@ -598,42 +505,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// </summary>
     public void CancelPendingModules()
     {
-        List<(ModuleState Module, ModuleExecutionState OriginalState)> cancelledModules;
-
-        _stateLock.EnterWriteLock();
-        try
-        {
-            var pendingModules = _stateQueries.GetCancellablePendingModules().ToList();
-            cancelledModules = new List<(ModuleState, ModuleExecutionState)>();
-
-            foreach (var moduleState in pendingModules)
-            {
-                if (moduleState.State != ModuleExecutionState.Completed)
-                {
-                    var originalState = moduleState.State;
-                    _queuedModules.Remove(moduleState);
-                    _executingModules.Remove(moduleState);
-                    moduleState.State = ModuleExecutionState.Completed;
-                    moduleState.CompletionSource.TrySetCanceled();
-                    cancelledModules.Add((moduleState, originalState));
-                }
-            }
-        }
-        finally
-        {
-            _stateLock.ExitWriteLock();
-        }
-
-        // Logging outside lock
-        _logger.LogDebug("Cancelling {Count} pending/queued modules due to pipeline cancellation (excluding AlwaysRun modules)", cancelledModules.Count);
-
-        foreach (var (moduleState, originalState) in cancelledModules)
-        {
-            _logger.LogDebug(
-                "Cancelling pending module {ModuleName} (State={State})",
-                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
-                originalState);
-        }
+        _stateTracker.CancelPendingModules();
     }
 
     public void Dispose()
@@ -744,38 +616,5 @@ internal class ModuleScheduler : IModuleScheduler
 
         // Delegate constraint checking to the evaluator
         return _constraintEvaluator.CanQueue(moduleState, activeModules);
-    }
-
-    /// <summary>
-    /// Notifies dependent modules that a dependency has completed
-    /// MUST be called while holding _stateLock.
-    /// </summary>
-    private void NotifyDependentModules(ModuleState state, Type moduleType)
-    {
-        if (!state.DependentModules.Any())
-        {
-            return;
-        }
-
-        var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
-
-        _logger.LogDebug(
-            "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
-            moduleName,
-            state.DependentModules.Count,
-            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.ModuleType.Name))));
-
-        foreach (var dependent in state.DependentModules)
-        {
-            dependent.UnresolvedDependencies.Remove(moduleType);
-
-            if (dependent.IsReadyToExecute)
-            {
-                dependent.ReadyTime = _timeProvider.GetUtcNow();
-                _logger.LogDebug(
-                    "Dependent module {DependentName} now ready to execute (all dependencies met)",
-                    MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));
-            }
-        }
     }
 }
