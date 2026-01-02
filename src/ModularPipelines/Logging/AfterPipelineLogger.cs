@@ -1,16 +1,19 @@
-﻿using System.Text;
+using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Logging;
 
 /// <summary>
 /// Buffers log messages to be written after pipeline completion.
+/// Thread-safe implementation using lock synchronization.
 /// </summary>
 internal class AfterPipelineLogger : IAfterPipelineLogger
 {
     private readonly ILogger<AfterPipelineLogger> _logger;
     private readonly StringBuilder _stringBuilder = new();
     private readonly List<string> _values = [];
+    private readonly object _lock = new();
+    private bool _isCacheValid;
 
     public AfterPipelineLogger(ILogger<AfterPipelineLogger> logger)
     {
@@ -22,7 +25,11 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     /// </summary>
     public void LogOnPipelineEnd(string value)
     {
-        _values.Add(value);
+        lock (_lock)
+        {
+            _values.Add(value);
+            _isCacheValid = false;
+        }
     }
 
     /// <summary>
@@ -30,18 +37,22 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     /// </summary>
     public string GetOutput()
     {
-        if (_stringBuilder.Length > 0)
+        lock (_lock)
         {
+            if (_isCacheValid)
+            {
+                return _stringBuilder.ToString();
+            }
+
+            _stringBuilder.Clear();
+            foreach (var value in _values)
+            {
+                _stringBuilder.AppendLine(value);
+            }
+
+            _isCacheValid = true;
             return _stringBuilder.ToString();
         }
-
-        // Build once and cache
-        foreach (var value in _values)
-        {
-            _stringBuilder.AppendLine(value);
-        }
-
-        return _stringBuilder.ToString();
     }
 
     /// <summary>
@@ -49,7 +60,13 @@ internal class AfterPipelineLogger : IAfterPipelineLogger
     /// </summary>
     public void WriteLogs()
     {
-        foreach (var value in _values)
+        List<string> valuesCopy;
+        lock (_lock)
+        {
+            valuesCopy = new List<string>(_values);
+        }
+
+        foreach (var value in valuesCopy)
         {
             _logger.LogInformation("{Value}", value);
         }
