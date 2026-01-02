@@ -87,6 +87,16 @@ public record PipelineOptions
     public TimeSpan? DefaultHttpTimeout { get; set; }
 
     /// <summary>
+    /// Gets or sets the default HTTP resilience options for all HTTP requests.
+    /// Controls retry behavior for transient failures (network errors, 5xx server errors).
+    /// Use <see cref="HttpResilienceOptions.None"/> to disable retries,
+    /// <see cref="HttpResilienceOptions.Default"/> for standard retry behavior (3 retries with exponential backoff),
+    /// <see cref="HttpResilienceOptions.Aggressive"/> for more retries with shorter delays,
+    /// or <see cref="HttpResilienceOptions.Conservative"/> for fewer retries with longer delays.
+    /// </summary>
+    public HttpResilienceOptions? DefaultHttpResilienceOptions { get; set; }
+
+    /// <summary>
     /// Gets or sets the concurrency options for module execution.
     /// Controls parallelism limits and resource-based throttling.
     /// </summary>

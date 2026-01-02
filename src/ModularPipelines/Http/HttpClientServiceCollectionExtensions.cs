@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ModularPipelines.Http;
 
 /// <summary>
-/// Extension methods for registering logging HttpClients with the DI container.
+/// Extension methods for registering logging and resilience HttpClients with the DI container.
 /// </summary>
 internal static class HttpClientServiceCollectionExtensions
 {
@@ -11,6 +11,7 @@ internal static class HttpClientServiceCollectionExtensions
     /// Registers all 16 combinations of logging HttpClients (2^4 from the 4 HttpLoggingType flags).
     /// This allows sharing HttpClient instances through IHttpClientFactory instead of creating
     /// new ServiceProviders per logging type configuration.
+    /// Also adds resilience handlers for retry policies on transient failures.
     /// </summary>
     /// <param name="services">The service collection.</param>
     /// <returns>The service collection for chaining.</returns>
@@ -21,6 +22,7 @@ internal static class HttpClientServiceCollectionExtensions
         services.AddTransient<ResponseLoggingHttpHandler>();
         services.AddTransient<DurationLoggingHttpHandler>();
         services.AddTransient<StatusCodeLoggingHttpHandler>();
+        services.AddTransient<ResilienceHttpHandler>();
 
         // Register all 16 combinations of logging types (0-15)
         // HttpLoggingType is a flags enum with: Request=1, Response=2, StatusCode=4, Duration=8
@@ -30,6 +32,10 @@ internal static class HttpClientServiceCollectionExtensions
             var clientName = HttpClientNames.GetClientName(loggingType);
 
             var builder = services.AddHttpClient(clientName);
+
+            // Add resilience handler first (outermost) so retries wrap all other handlers
+            // This ensures logging happens for each attempt
+            builder.AddHttpMessageHandler<ResilienceHttpHandler>();
 
             // Add handlers based on the flags
             if (loggingType.HasFlag(HttpLoggingType.Request))
