@@ -1,15 +1,25 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Amazon.S3;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.AmazonWebServices.Services;
 using ModularPipelines.Context;
+using ModularPipelines.Engine;
 
 namespace ModularPipelines.AmazonWebServices.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class AmazonExtensions
 {
+#pragma warning disable CA2255
+    [ModuleInitializer]
+#pragma warning restore CA2255
+    public static void RegisterAmazonContext()
+    {
+        ModularPipelinesContextRegistry.RegisterContext(collection => RegisterAmazonContext(collection));
+    }
+
     public static IServiceCollection RegisterAmazonContext(this IServiceCollection services)
     {
         services.TryAddScoped<IAmazon, AmazonWebServices.Amazon>();
