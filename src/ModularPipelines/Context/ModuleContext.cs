@@ -15,7 +15,7 @@ namespace ModularPipelines.Context;
 /// <summary>
 /// Module-specific context that wraps the pipeline context and adds module-specific capabilities.
 /// </summary>
-internal class ModuleContext : IModuleContext
+internal class ModuleContext : IModuleContext, IInternalPipelineContext
 {
     private readonly IPipelineContext _pipelineContext;
     private readonly IModule _currentModule;
@@ -164,19 +164,19 @@ internal class ModuleContext : IModuleContext
 
     public IInstaller Installer => _pipelineContext.Installer;
 
-    IDependencyCollisionDetector IPipelineHookContext.DependencyCollisionDetector =>
-        _pipelineContext.DependencyCollisionDetector;
+    IDependencyCollisionDetector IInternalPipelineContext.DependencyCollisionDetector =>
+        ((IInternalPipelineContext)_pipelineContext).DependencyCollisionDetector;
 
-    IModuleResultRepository IPipelineHookContext.ModuleResultRepository =>
-        _pipelineContext.ModuleResultRepository;
+    IModuleResultRepository IInternalPipelineContext.ModuleResultRepository =>
+        ((IInternalPipelineContext)_pipelineContext).ModuleResultRepository;
 
-    void IPipelineHookContext.InitializeLogger(Type getType)
+    void IInternalPipelineContext.InitializeLogger(Type getType)
     {
         // Logger is already initialized in constructor
     }
 
-    EngineCancellationToken IPipelineHookContext.EngineCancellationToken =>
-        _pipelineContext.EngineCancellationToken;
+    EngineCancellationToken IInternalPipelineContext.EngineCancellationToken =>
+        ((IInternalPipelineContext)_pipelineContext).EngineCancellationToken;
 
     #endregion
 }

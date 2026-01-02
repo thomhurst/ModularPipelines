@@ -17,7 +17,7 @@ namespace ModularPipelines.Context;
 /// This class is registered as Scoped in the DI container, meaning each module execution
 /// gets its own instance. This ensures proper isolation between concurrent module executions.
 /// </remarks>
-internal class PipelineContext : IPipelineContext
+internal class PipelineContext : IPipelineContext, IInternalPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 
@@ -115,7 +115,8 @@ internal class PipelineContext : IPipelineContext
         IBuildSystemDetector buildSystemDetector,
         ISerializationContext serializationContext,
         IEncodingContext encodingContext,
-        IShellContext shellContext)
+        IShellContext shellContext,
+        IChecksum checksum)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -141,7 +142,9 @@ internal class PipelineContext : IPipelineContext
         Hex = encodingContext.Hex;
         Base64 = encodingContext.Base64;
         Hasher = encodingContext.Hasher;
-        Checksum = encodingContext.Checksum;
+
+        // Checksum is part of file system operations (IPipelineFileSystem)
+        Checksum = checksum;
 
         // Unpack shell context
         Powershell = shellContext.Powershell;
