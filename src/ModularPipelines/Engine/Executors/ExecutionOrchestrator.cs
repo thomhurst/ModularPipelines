@@ -99,7 +99,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             if (_hasRun)
             {
-                throw new Exception("This pipeline has already been triggerred.");
+                throw new InvalidOperationException("This pipeline has already been triggered.");
             }
 
             _hasRun = true;

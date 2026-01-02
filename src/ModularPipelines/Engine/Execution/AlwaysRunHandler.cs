@@ -27,13 +27,24 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
         var alwaysRunModules = modules.Where(x => x.ModuleRunType == ModuleRunType.AlwaysRun).ToList();
         _logger.LogDebug("Found {Count} AlwaysRun modules", alwaysRunModules.Count);
 
+        var exceptions = new List<Exception>();
+
         foreach (var module in alwaysRunModules)
         {
-            await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
+            var exception = await WaitForSingleAlwaysRunModuleAsync(scheduler, module).ConfigureAwait(false);
+            if (exception != null)
+            {
+                exceptions.Add(exception);
+            }
+        }
+
+        if (exceptions.Count > 0)
+        {
+            throw new AggregateException("One or more AlwaysRun modules failed", exceptions);
         }
     }
 
-    private async Task WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, IModule module)
+    private async Task<Exception?> WaitForSingleAlwaysRunModuleAsync(IModuleScheduler scheduler, IModule module)
     {
         var moduleType = module.GetType();
         var moduleState = scheduler.GetModuleState(moduleType);
@@ -41,7 +52,7 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
 
         if (moduleTask == null || moduleState == null)
         {
-            return;
+            return null;
         }
 
         // If the AlwaysRun module is still pending (never started), execute it now
@@ -59,6 +70,7 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
             {
                 _logger.LogWarning(alwaysRunEx, "AlwaysRun module {ModuleName} failed after late start",
                     moduleType.Name);
+                return alwaysRunEx;
             }
         }
         else if (ShouldWaitForAlwaysRunModule(moduleState))
@@ -78,6 +90,7 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
 
                 // Access Exception property to observe the exception and prevent TaskScheduler.UnobservedTaskException
                 _ = moduleTask.Exception;
+                return alwaysRunEx;
             }
         }
         else
@@ -85,6 +98,8 @@ internal class AlwaysRunHandler : IAlwaysRunHandler
             _logger.LogDebug("Skipping AlwaysRun module {ModuleName} (State={State})",
                 moduleType.Name, moduleState.State);
         }
+
+        return null;
     }
 
     private static bool ShouldWaitForAlwaysRunModule(ModuleState moduleState)

@@ -37,6 +37,8 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 
         var modules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
 
+        var exceptions = new List<Exception>();
+
         foreach (var module in modules.AllModules)
         {
             try
@@ -46,7 +48,13 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             catch (Exception e)
             {
                 _logger.LogError(e, "Error disposing module {ModuleType}", module.GetType().Name);
+                exceptions.Add(e);
             }
+        }
+
+        if (exceptions.Count > 0)
+        {
+            throw new AggregateException("One or more modules failed to dispose", exceptions);
         }
     }
 }
