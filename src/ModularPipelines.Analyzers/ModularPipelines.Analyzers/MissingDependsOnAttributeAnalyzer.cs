@@ -44,7 +44,7 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "GetModule")
+        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.MethodNames.GetModule)
         {
             return;
         }

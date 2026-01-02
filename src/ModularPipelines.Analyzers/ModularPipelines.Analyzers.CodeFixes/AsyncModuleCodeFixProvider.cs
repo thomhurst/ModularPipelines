@@ -134,9 +134,9 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         }
 
         return
-            methodSymbol.Name == "FromResult"
-            && methodSymbol.ContainingType.Name == "Task"
-            && methodSymbol.ContainingNamespace.ToDisplayString() == "System.Threading.Tasks";
+            methodSymbol.Name == AnalyzerConstants.MethodNames.FromResult
+            && methodSymbol.ContainingType.Name == AnalyzerConstants.TypeNames.Task
+            && methodSymbol.ContainingNamespace.ToDisplayString() == AnalyzerConstants.Namespaces.SystemThreadingTasks;
     }
 
     private static bool IsAsTaskExtension(ExpressionSyntax expressionSyntax, SemanticModel? semanticModel)
@@ -159,8 +159,8 @@ public class AsyncModuleCodeFixProvider : CodeFixProvider
         }
 
         return
-            methodSymbol.Name == "AsTask"
-            && methodSymbol.ContainingType.Name == "TaskExtensions"
-            && methodSymbol.ContainingNamespace.ToDisplayString() == "ModularPipelines.Extensions";
+            methodSymbol.Name == AnalyzerConstants.MethodNames.AsTask
+            && methodSymbol.ContainingType.Name == AnalyzerConstants.TypeNames.TaskExtensions
+            && methodSymbol.ContainingNamespace.ToDisplayString() == AnalyzerConstants.Namespaces.ModularPipelinesExtensions;
     }
 }

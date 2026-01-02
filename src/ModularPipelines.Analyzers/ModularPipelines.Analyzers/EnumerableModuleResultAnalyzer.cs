@@ -44,7 +44,7 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (genericNameSyntax.Identifier.ValueText is not "Module")
+        if (genericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.Module)
         {
             return;
         }
@@ -55,7 +55,7 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (innerGenericNameSyntax.Identifier.ValueText is not "IEnumerable")
+        if (innerGenericNameSyntax.Identifier.ValueText is not AnalyzerConstants.TypeNames.IEnumerable)
         {
             return;
         }
@@ -67,7 +67,7 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith("global::System.Collections.Generic.IEnumerable<"))
+        if (genericArgumentSymbol.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat).StartsWith(AnalyzerConstants.FullyQualifiedTypeNames.IEnumerablePrefix))
         {
             var properties = new Dictionary<string, string?>
             {

@@ -52,14 +52,14 @@ public class AwaitThisAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        if (containingClass.GetSelfAndAllBaseTypes().All(x => x.Name != "ModuleBase"))
+        if (containingClass.GetSelfAndAllBaseTypes().All(x => x.Name != AnalyzerConstants.TypeNames.ModuleBase))
         {
             return;
         }
 
         // Check if we're inside the OnAfterExecute method - if so, allow await this
         var containingMethod = awaitExpression.FirstAncestorOrSelf<MethodDeclarationSyntax>();
-        if (containingMethod?.Identifier.Text == "OnAfterExecute")
+        if (containingMethod?.Identifier.Text == AnalyzerConstants.MethodNames.OnAfterExecute)
         {
             return;
         }
