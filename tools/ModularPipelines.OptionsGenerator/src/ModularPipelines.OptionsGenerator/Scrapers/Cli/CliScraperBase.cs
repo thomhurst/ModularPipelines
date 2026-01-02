@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -522,21 +523,9 @@ public abstract partial class CliScraperBase : ICliScraper
 
     /// <summary>
     /// Converts a string to PascalCase.
+    /// Delegates to <see cref="GeneratorUtils.ToPascalCase"/> for consistent behavior.
     /// </summary>
-    protected static string ToPascalCase(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        if (input.Length == 1)
-        {
-            return char.ToUpperInvariant(input[0]).ToString();
-        }
-
-        return char.ToUpperInvariant(input[0]) + input[1..].ToLowerInvariant();
-    }
+    protected static string ToPascalCase(string input) => GeneratorUtils.ToPascalCase(input);
 
     /// <summary>
     /// Pattern to match option lines (e.g., "-f, --flag" or "--option").
