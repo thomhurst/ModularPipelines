@@ -313,7 +313,7 @@ public sealed class Command : ICommand
 
         using var forcefulCancellationToken = new CancellationTokenSource();
 
-        await using var registration = linkedCancellationToken.Token.Register(() =>
+        var registration = linkedCancellationToken.Token.Register(() =>
         {
             try
             {
@@ -327,66 +327,68 @@ public sealed class Command : ICommand
                 // Ignored
             }
         });
-
-        try
+        await using (registration.ConfigureAwait(false))
         {
-            var result = await command
-                .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
-                .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
-                .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
-
-            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
-
-            _commandLogger.Log(options: options,
-                inputToLog: inputToLog,
-                exitCode: result.ExitCode,
-                runTime: result.RunTime,
-                standardOutput: standardOutput,
-                standardError: standardError,
-                commandWorkingDirPath: command.WorkingDirPath
-            );
-
-            if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
+            try
             {
-                var input = inputToLog;
-                throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
+                var result = await command
+                    .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
+                    .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
+                    .WithValidation(CommandResultValidation.None)
+                    .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
+
+                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+
+                _commandLogger.Log(options: options,
+                    inputToLog: inputToLog,
+                    exitCode: result.ExitCode,
+                    runTime: result.RunTime,
+                    standardOutput: standardOutput,
+                    standardError: standardError,
+                    commandWorkingDirPath: command.WorkingDirPath
+                );
+
+                if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
+                {
+                    var input = inputToLog;
+                    throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
+                }
+
+                return new CommandResult(command, result, standardOutput, standardError);
             }
+            catch (CommandExecutionException e)
+            {
+                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
-            return new CommandResult(command, result, standardOutput, standardError);
-        }
-        catch (CommandExecutionException e)
-        {
-            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                _commandLogger.Log(options: options,
+                    inputToLog: inputToLog,
+                    exitCode: e.ExitCode,
+                    runTime: stopwatch.Elapsed,
+                    standardOutput: standardOutput,
+                    standardError: standardError,
+                    commandWorkingDirPath: command.WorkingDirPath
+                );
 
-            _commandLogger.Log(options: options,
-                inputToLog: inputToLog,
-                exitCode: e.ExitCode,
-                runTime: stopwatch.Elapsed,
-                standardOutput: standardOutput,
-                standardError: standardError,
-                commandWorkingDirPath: command.WorkingDirPath
-            );
+                throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
+            }
+            catch (Exception e) when (e is not CommandExecutionException and not CommandException)
+            {
+                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
-            throw new CommandException(inputToLog, e.ExitCode, stopwatch.Elapsed, standardOutput, standardError, e);
-        }
-        catch (Exception e) when (e is not CommandExecutionException and not CommandException)
-        {
-            standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-            standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                _commandLogger.Log(options: options,
+                    inputToLog: inputToLog,
+                    exitCode: -1,
+                    runTime: stopwatch.Elapsed,
+                    standardOutput: standardOutput,
+                    standardError: standardError,
+                    commandWorkingDirPath: command.WorkingDirPath
+                );
 
-            _commandLogger.Log(options: options,
-                inputToLog: inputToLog,
-                exitCode: -1,
-                runTime: stopwatch.Elapsed,
-                standardOutput: standardOutput,
-                standardError: standardError,
-                commandWorkingDirPath: command.WorkingDirPath
-            );
-
-            throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
+                throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
+            }
         }
     }
 

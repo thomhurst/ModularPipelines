@@ -326,9 +326,15 @@ public class File : IEquatable<File>
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        await using var sourceStream = System.IO.File.OpenRead(Path);
-        await using var destStream = System.IO.File.Create(path);
-        await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+        var sourceStream = System.IO.File.OpenRead(Path);
+        await using (sourceStream.ConfigureAwait(false))
+        {
+            var destStream = System.IO.File.Create(path);
+            await using (destStream.ConfigureAwait(false))
+            {
+                await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+            }
+        }
 
         return new File(path);
     }

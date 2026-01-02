@@ -359,9 +359,15 @@ public class Folder : IEquatable<Folder>
             var relativePath = System.IO.Path.GetRelativePath(this, filePath);
             var newPath = System.IO.Path.Combine(targetPath, relativePath);
 
-            await using var sourceStream = System.IO.File.OpenRead(filePath);
-            await using var destStream = System.IO.File.Create(newPath);
-            await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+            var sourceStream = System.IO.File.OpenRead(filePath);
+            await using (sourceStream.ConfigureAwait(false))
+            {
+                var destStream = System.IO.File.Create(newPath);
+                await using (destStream.ConfigureAwait(false))
+                {
+                    await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
+                }
+            }
 
             var targetFile = new FileInfo(newPath);
             targetFile.Attributes = sourceFile.Attributes;
