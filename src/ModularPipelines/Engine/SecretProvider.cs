@@ -70,13 +70,16 @@ internal class SecretProvider : ISecretProvider, IInitializer
 
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
+        var secrets = new List<string>();
+
         foreach (var option in options)
         {
             foreach (var secret in GetSecretsInObject(option))
             {
-                _secrets.Add(secret);
-                yield return secret;
+                secrets.Add(secret);
             }
         }
+
+        return secrets;
     }
 }
