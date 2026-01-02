@@ -9,18 +9,13 @@ namespace ModularPipelines.Logging;
 /// Manages buffering, CI-specific formatting, and section headers with duration/status.
 /// </summary>
 /// <remarks>
-/// Uses a global static lock to ensure module outputs don't interleave.
+/// Uses a shared lock (via <see cref="IOutputFlushLock"/>) to ensure module outputs don't interleave.
 /// Each module's output is flushed as an atomic block when the module completes.
 /// </remarks>
 internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
 {
-    /// <summary>
-    /// Global lock to ensure only one module can flush its output at a time.
-    /// This prevents output from multiple modules being interwoven.
-    /// </summary>
-    private static readonly object FlushLock = new();
-
     private readonly IServiceScope _scope;
+    private readonly IOutputFlushLock _flushLock;
     private readonly ILogEventBuffer _buffer;
     private readonly IBuildSystemFormatter _formatter;
     private readonly IConsoleWriter _consoleWriter;
@@ -32,6 +27,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
 
     public ModuleOutputWriter(
         IServiceScope scope,
+        IOutputFlushLock flushLock,
         IBuildSystemFormatterProvider formatterProvider,
         IConsoleWriter consoleWriter,
         ISecretObfuscator secretObfuscator,
@@ -39,6 +35,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
         string moduleName)
     {
         _scope = scope;
+        _flushLock = flushLock;
         _buffer = scope.ServiceProvider.GetRequiredService<ILogEventBuffer>();
         _formatter = formatterProvider.GetFormatter();
         _consoleWriter = consoleWriter;
@@ -141,7 +138,7 @@ internal class ModuleOutputWriter : IModuleOutputWriter, IDisposable
             return;
         }
 
-        lock (FlushLock)
+        lock (_flushLock.Lock)
         {
             var sectionHeader = _context.FormatSectionHeader();
 

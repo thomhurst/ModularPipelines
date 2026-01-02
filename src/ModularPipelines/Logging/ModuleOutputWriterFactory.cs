@@ -10,6 +10,7 @@ namespace ModularPipelines.Logging;
 internal class ModuleOutputWriterFactory : IModuleOutputWriterFactory
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly IOutputFlushLock _flushLock;
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly IConsoleWriter _consoleWriter;
     private readonly ISecretObfuscator _secretObfuscator;
@@ -17,12 +18,14 @@ internal class ModuleOutputWriterFactory : IModuleOutputWriterFactory
 
     public ModuleOutputWriterFactory(
         IServiceProvider serviceProvider,
+        IOutputFlushLock flushLock,
         IBuildSystemFormatterProvider formatterProvider,
         IConsoleWriter consoleWriter,
         ISecretObfuscator secretObfuscator,
         ILoggerFactory loggerFactory)
     {
         _serviceProvider = serviceProvider;
+        _flushLock = flushLock;
         _formatterProvider = formatterProvider;
         _consoleWriter = consoleWriter;
         _secretObfuscator = secretObfuscator;
@@ -40,6 +43,7 @@ internal class ModuleOutputWriterFactory : IModuleOutputWriterFactory
 
         return new ModuleOutputWriter(
             scope,
+            _flushLock,
             _formatterProvider,
             _consoleWriter,
             _secretObfuscator,
