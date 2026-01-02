@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.GitHub.Options;
-using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using Octokit;
 using Octokit.Internal;
@@ -11,8 +9,7 @@ namespace ModularPipelines.GitHub;
 internal class GitHub : IGitHub
 {
     private readonly GitHubOptions _options;
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
-    private readonly IHttpLogger _httpLogger;
+    private readonly IHttpMessageHandlerFactory _httpMessageHandlerFactory;
     private readonly Lazy<IGitHubClient> _client;
     private readonly ModuleOutputWriter _outputWriter;
 
@@ -26,13 +23,12 @@ internal class GitHub : IGitHub
       IOptions<GitHubOptions> options,
       IGitHubEnvironmentVariables environmentVariables,
       IGitHubRepositoryInfo gitHubRepositoryInfo,
+      IHttpMessageHandlerFactory httpMessageHandlerFactory,
       IModuleLoggerProvider moduleLoggerProvider,
-      IHttpLogger httpLogger,
       IModuleOutputWriterFactory outputWriterFactory)
     {
         _options = options.Value;
-        _moduleLoggerProvider = moduleLoggerProvider;
-        _httpLogger = httpLogger;
+        _httpMessageHandlerFactory = httpMessageHandlerFactory;
         EnvironmentVariables = environmentVariables;
 
         _client = new Lazy<IGitHubClient>(InitializeClient);
@@ -68,20 +64,10 @@ internal class GitHub : IGitHub
                     ?? EnvironmentVariables.Token
                     ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
 
-        var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
-          new HttpClientAdapter(() =>
-          {
-              return new RequestLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-              {
-                  InnerHandler = new ResponseLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-                  {
-                      InnerHandler = new StatusCodeLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-                      {
-                          InnerHandler = new HttpClientHandler(),
-                      },
-                  },
-              };
-          }));
+        // Use IHttpMessageHandlerFactory to create handlers with logging configured via IHttpClientFactory
+        var connection = new Connection(
+            new ProductHeaderValue("ModularPipelines"),
+            new HttpClientAdapter(() => _httpMessageHandlerFactory.CreateHandler(GitHubHttpClientNames.GitHub)));
 
         var client = new GitHubClient(connection)
         {

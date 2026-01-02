@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
+using ModularPipelines.Http;
 
 namespace ModularPipelines.GitHub.Extensions;
 
@@ -25,6 +26,13 @@ public static class GitHubExtensions
         services.TryAddScoped<IGitHubEnvironmentVariables, GitHubEnvironmentVariables>();
         services.TryAddSingleton<IGitHubRepositoryInfo, GitHubRepositoryInfo>();
         services.AddPipelineGlobalHooks<GitHubMarkdownSummaryGenerator>();
+
+        // Register the GitHub HttpClient with logging handlers via IHttpClientFactory
+        services.AddHttpClient(GitHubHttpClientNames.GitHub)
+            .AddHttpMessageHandler<RequestLoggingHttpHandler>()
+            .AddHttpMessageHandler<ResponseLoggingHttpHandler>()
+            .AddHttpMessageHandler<StatusCodeLoggingHttpHandler>();
+
         return services;
     }
 
