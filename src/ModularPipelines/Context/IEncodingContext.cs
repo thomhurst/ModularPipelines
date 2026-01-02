@@ -30,7 +30,7 @@ public interface IEncodingContext
     IHasher Hasher { get; }
 
     /// <summary>
-    /// Gets helpers for checking the Checksum of a file.
+    /// Gets helpers for checking the checksum of a file.
     /// </summary>
     IChecksum Checksum { get; }
 }

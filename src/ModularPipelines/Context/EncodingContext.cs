@@ -19,6 +19,9 @@ internal class EncodingContext : IEncodingContext
     /// <inheritdoc />
     public IChecksum Checksum { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EncodingContext"/> class.
+    /// </summary>
     public EncodingContext(IBase64 base64, IHex hex, IHasher hasher, IChecksum checksum)
     {
         Base64 = base64;

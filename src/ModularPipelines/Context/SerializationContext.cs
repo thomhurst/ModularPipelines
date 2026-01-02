@@ -16,6 +16,9 @@ internal class SerializationContext : ISerializationContext
     /// <inheritdoc />
     public IYaml Yaml { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SerializationContext"/> class.
+    /// </summary>
     public SerializationContext(IJson json, IXml xml, IYaml yaml)
     {
         Json = json;

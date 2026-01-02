@@ -16,6 +16,9 @@ internal class ShellContext : IShellContext
     /// <inheritdoc />
     public ICommand Command { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ShellContext"/> class.
+    /// </summary>
     public ShellContext(IPowershell powershell, IBash bash, ICommand command)
     {
         Powershell = powershell;
