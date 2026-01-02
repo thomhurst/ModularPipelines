@@ -35,23 +35,15 @@ public class ResultsRepositoryTests : TestBase
         }
     }
 
-    private class Module1 : Module<bool>
+    private class Module1 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module<bool>
+    private class Module2 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [Test]

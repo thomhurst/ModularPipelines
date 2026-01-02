@@ -1,10 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
@@ -13,43 +11,23 @@ namespace ModularPipelines.UnitTests;
 
 public class AlwaysRunTests : TestBase
 {
-    public class MyModule1 : Module<bool>
+    public class MyModule1 : ThrowingTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
-    public class MyModule2 : Module<bool>, IAlwaysRun
+    public class MyModule2 : ThrowingTestModule<bool>, IAlwaysRun
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
-    public class MyModule3 : Module<bool>, IAlwaysRun
+    public class MyModule3 : ThrowingTestModule<bool>, IAlwaysRun
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
-    public class MyModule4 : Module<bool>, IAlwaysRun
+    public class MyModule4 : ThrowingTestModule<bool>, IAlwaysRun
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [Test]

@@ -1,37 +1,23 @@
-using ModularPipelines.Context;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
 public class ReturnNothingTests : TestBase
 {
-    private class ReturnNothingModule1 : Module<CommandResult>
+    private class ReturnNothingModule1 : SimpleTestModule<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return null;
-        }
+        protected override CommandResult? Result => null;
     }
 
-    private class ReturnNothingModule2 : Module<CommandResult>
+    private class ReturnNothingModule2 : SimpleTestModule<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return null;
-        }
+        protected override CommandResult? Result => null;
     }
 
-    private class ReturnNothingModule3 : Module<CommandResult>
+    private class ReturnNothingModule3 : SimpleTestModule<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return default;
-        }
+        protected override CommandResult? Result => default;
     }
 
     [Test]

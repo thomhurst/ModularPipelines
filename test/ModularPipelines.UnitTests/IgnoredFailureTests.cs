@@ -3,7 +3,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
@@ -12,17 +11,11 @@ namespace ModularPipelines.UnitTests;
 
 public class IgnoredFailureTests : TestBase
 {
-    private class IgnoredFailureModule : Module<CommandResult>, IIgnoreFailures
+    private class IgnoredFailureModule : ThrowingTestModule<CommandResult>, IIgnoreFailures
     {
         public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return Task.FromResult(true);
-        }
-
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
         }
     }
 

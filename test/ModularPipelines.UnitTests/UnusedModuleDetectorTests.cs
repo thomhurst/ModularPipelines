@@ -1,10 +1,10 @@
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Context;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 using Moq;
 
 namespace ModularPipelines.UnitTests;
@@ -61,48 +61,28 @@ public class UnusedModuleDetectorTests
         await Assert.That(actual).IsEqualTo(expected);
     }
 
-    private class Module1 : Module<bool>
+    private class Module1 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
-    private class Module2 : Module<bool>
+    private class Module2 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
-    private class Module3 : Module<bool>
+    private class Module3 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
-    private class Module4 : Module<bool>
+    private class Module4 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
-    private class Module5 : Module<bool>
+    private class Module5 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 }

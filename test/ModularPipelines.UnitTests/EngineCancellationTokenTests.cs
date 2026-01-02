@@ -14,22 +14,14 @@ public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
 
-    private class BadModule : Module<bool>
+    private class BadModule : ThrowingTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<BadModule>]
-    private class Module1 : Module<bool>
+    private class Module1 : SimpleTestModule<bool>
     {
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(true);
-        }
+        protected override bool Result => true;
     }
 
     private class LongRunningModule : Module<bool>

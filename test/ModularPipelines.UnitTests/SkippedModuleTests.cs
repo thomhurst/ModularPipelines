@@ -3,7 +3,6 @@ using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
@@ -11,17 +10,11 @@ namespace ModularPipelines.UnitTests;
 
 public class SkippedModuleTests : TestBase
 {
-    private class SkippedModule : Module<CommandResult>, ISkippable
+    private class SkippedModule : ThrowingTestModule<CommandResult>, ISkippable
     {
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return Task.FromResult(SkipDecision.Skip("Testing purposes"));
-        }
-
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
         }
     }
 

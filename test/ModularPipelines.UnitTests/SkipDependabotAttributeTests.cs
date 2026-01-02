@@ -5,7 +5,6 @@ using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.GitHub;
 using ModularPipelines.GitHub.Attributes;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Moq;
 using Status = ModularPipelines.Enums.Status;
@@ -31,47 +30,31 @@ public class SkipDependabotAttributeTests : TestBase
     }
 
     [SkipIfDependabot]
-    private class Module1 : Module<bool>
+    private class Module1 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [SkipIfDependabot]
     [CanRun]
-    private class Module2 : Module<bool>
+    private class Module2 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [SkipIfDependabot]
     [CannotRun]
-    private class Module3 : Module<bool>
+    private class Module3 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [SkipIfDependabot]
     [CanRun]
     [CannotRun]
-    private class Module4 : Module<bool>
+    private class Module4 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [Test]

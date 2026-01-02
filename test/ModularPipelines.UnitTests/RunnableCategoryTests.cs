@@ -1,9 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
-using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -12,62 +10,38 @@ namespace ModularPipelines.UnitTests;
 public class RunnableCategoryTests : TestBase
 {
     [ModuleCategory("Run1")]
-    private class RunnableModule1 : Module<bool>
+    private class RunnableModule1 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [ModuleCategory("Run2")]
-    private class RunnableModule2 : Module<bool>
+    private class RunnableModule2 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [ModuleCategory("Run1")]
-    private class RunnableModule3 : Module<bool>
+    private class RunnableModule3 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [ModuleCategory("NoRun1")]
-    private class NonRunnableModule1 : Module<bool>
+    private class NonRunnableModule1 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [ModuleCategory("NoRun2")]
-    private class NonRunnableModule2 : Module<bool>
+    private class NonRunnableModule2 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
-    private class OtherModule3 : Module<bool>
+    private class OtherModule3 : SimpleTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
+        protected override bool Result => true;
     }
 
     [Test]
