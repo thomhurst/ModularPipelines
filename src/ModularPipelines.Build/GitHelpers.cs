@@ -17,40 +17,43 @@ public static class GitHelpers
 
     public static async Task SetName(IPipelineContext context, CancellationToken cancellationToken)
     {
+        var settings = GetGitHubSettings(context);
+
         await context.Git().Commands.Config(new GitConfigOptions
         {
             Local = true,
             Arguments = new List<string>
             {
-                "user.name", "Tom Longhurst",
+                "user.name", settings.GitUserName,
             },
         }, cancellationToken);
     }
 
     public static async Task SetEmail(IPipelineContext context, CancellationToken cancellationToken)
     {
+        var settings = GetGitHubSettings(context);
+
         await context.Git().Commands.Config(new GitConfigOptions
         {
             Local = true,
             Arguments = new List<string>
             {
-                "user.email", "thomhurst@users.noreply.github.com",
+                "user.email", settings.GitUserEmail,
             },
         }, cancellationToken);
     }
 
     public static async Task CheckoutBranch(IPipelineContext context, string branchName, CancellationToken cancellationToken)
     {
-        var options = context.Get<IOptions<GitHubSettings>>();
-
-        var token = options!.Value.StandardToken;
+        var settings = GetGitHubSettings(context);
+        var token = settings.StandardToken;
 
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments =
             [
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/thomhurst/ModularPipelines"
+                $"https://x-access-token:{token}@github.com/{settings.RepositoryOwner}/{settings.RepositoryName}"
             ],
         }, cancellationToken);
 
@@ -63,6 +66,8 @@ public static class GitHelpers
     public static async Task CommitAndPush(IPipelineContext context, string? branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
+        var settings = GetGitHubSettings(context);
+
         await context.Git().Commands.Pull(token: cancellationToken);
 
         await context.Git().Commands.Add(new GitAddOptions
@@ -75,9 +80,9 @@ public static class GitHelpers
             Message = message,
         }, token: cancellationToken);
 
-        var author = context.GitHub().EnvironmentVariables.Actor ?? "thomhurst";
+        var author = context.GitHub().EnvironmentVariables.Actor ?? settings.RepositoryOwner;
 
-        var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/ModularPipelines.git" };
+        var arguments = new List<string> { $"https://x-access-token:{token}@github.com/{author}/{settings.RepositoryName}.git" };
 
         if (!string.IsNullOrEmpty(branchToPushTo))
         {
@@ -99,5 +104,11 @@ public static class GitHelpers
         });
 
         return result.ExitCode != 0;
+    }
+
+    private static GitHubSettings GetGitHubSettings(IPipelineContext context)
+    {
+        var options = context.Get<IOptions<GitHubSettings>>();
+        return options?.Value ?? new GitHubSettings();
     }
 }
