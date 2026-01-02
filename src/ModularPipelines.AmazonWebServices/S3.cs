@@ -13,9 +13,10 @@ namespace ModularPipelines.AmazonWebServices;
 /// configuration settings.
 /// </remarks>
 [ExcludeFromCodeCoverage]
-public class S3 : IS3
+public class S3 : IS3, IDisposable
 {
-    private AmazonS3Client _client;
+    private readonly AmazonS3Client _client;
+    private bool _disposed;
 
     /// <summary>
     /// Gets the underlying Amazon S3 client.
@@ -522,6 +523,38 @@ public class S3 : IS3
     public async Task<PutBucketIntelligentTieringConfigurationResponse> BucketIntelligentTieringConfiguration(PutBucketIntelligentTieringConfigurationRequest request, CancellationToken cancellationToken = default)
     {
         return await PutBucketIntelligentTieringConfigurationAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    #endregion
+
+    #region IDisposable
+
+    /// <summary>
+    /// Disposes the underlying Amazon S3 client.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Disposes the underlying Amazon S3 client.
+    /// </summary>
+    /// <param name="disposing">True if called from Dispose(), false if called from finalizer.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            _client.Dispose();
+        }
+
+        _disposed = true;
     }
 
     #endregion

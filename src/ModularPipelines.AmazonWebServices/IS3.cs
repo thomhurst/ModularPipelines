@@ -10,7 +10,7 @@ namespace ModularPipelines.AmazonWebServices;
 /// for common S3 operations including bucket management, object operations, and
 /// configuration settings.
 /// </remarks>
-public interface IS3
+public interface IS3 : IDisposable
 {
     #region Bucket Operations
 
