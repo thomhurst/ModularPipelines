@@ -112,10 +112,12 @@ internal class ModuleScheduler : IModuleScheduler
         {
             var moduleType = state.ModuleType;
 
-            var notInParallelAttr = moduleType.GetCustomAttribute<NotInParallelAttribute>();
-            if (notInParallelAttr != null)
+            // Use cached metadata to avoid repeated reflection lookups
+            var metadata = ModuleMetadataCache.GetMetadata(moduleType);
+
+            if (metadata.NotInParallelAttribute != null)
             {
-                if (notInParallelAttr.ConstraintKeys.Length == 0)
+                if (metadata.NotInParallelAttribute.ConstraintKeys.Length == 0)
                 {
                     state.RequiresSequentialExecution = true;
                     _logger.LogDebug(
@@ -124,7 +126,7 @@ internal class ModuleScheduler : IModuleScheduler
                 }
                 else
                 {
-                    state.RequiredLockKeys = notInParallelAttr.ConstraintKeys;
+                    state.RequiredLockKeys = metadata.NotInParallelAttribute.ConstraintKeys;
                     _logger.LogDebug(
                         "Module {ModuleName} requires locks: {Keys}",
                         MarkupFormatter.FormatModuleName(moduleType.Name),
@@ -133,10 +135,9 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             // Read priority attribute
-            var priorityAttr = moduleType.GetCustomAttribute<PriorityAttribute>();
-            if (priorityAttr != null)
+            if (metadata.PriorityAttribute != null)
             {
-                state.Priority = priorityAttr.Priority;
+                state.Priority = metadata.PriorityAttribute.Priority;
                 _logger.LogDebug(
                     "Module {ModuleName} has priority: {Priority}",
                     MarkupFormatter.FormatModuleName(moduleType.Name),
@@ -144,10 +145,9 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             // Read execution hint attribute
-            var executionHintAttr = moduleType.GetCustomAttribute<ExecutionHintAttribute>();
-            if (executionHintAttr != null)
+            if (metadata.ExecutionHintAttribute != null)
             {
-                state.ExecutionType = executionHintAttr.ExecutionType;
+                state.ExecutionType = metadata.ExecutionHintAttribute.ExecutionType;
                 _logger.LogDebug(
                     "Module {ModuleName} has execution type: {ExecutionType}",
                     MarkupFormatter.FormatModuleName(moduleType.Name),
