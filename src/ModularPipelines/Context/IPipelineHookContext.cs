@@ -1,11 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using ModularPipelines.Engine;
-using ModularPipelines.Helpers;
-using ModularPipelines.Http;
-using ModularPipelines.Logging;
-using ModularPipelines.Options;
-
 namespace ModularPipelines.Context;
 
 /// <summary>
@@ -36,28 +28,4 @@ public interface IPipelineHookContext :
     IPipelineFileSystem,
     IPipelineEnvironment
 {
-    #region Internal
-
-    /// <summary>
-    /// Gets the detector used to detect modules which depend on each other.
-    /// </summary>
-    internal IDependencyCollisionDetector DependencyCollisionDetector { get; }
-
-    /// <summary>
-    /// Gets the results repository used for storing module results.
-    /// </summary>
-    internal IModuleResultRepository ModuleResultRepository { get; }
-
-    /// <summary>
-    /// Used to initialise the logger for this context.
-    /// </summary>
-    /// <param name="getType">The module type.</param>
-    internal void InitializeLogger(Type getType);
-
-    /// <summary>
-    /// Gets the cancellation token used for cancelling the pipeline on failures.
-    /// </summary>
-    internal EngineCancellationToken EngineCancellationToken { get; }
-
-    #endregion
 }

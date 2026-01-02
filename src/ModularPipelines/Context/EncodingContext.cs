@@ -16,14 +16,10 @@ internal class EncodingContext : IEncodingContext
     /// <inheritdoc />
     public IHasher Hasher { get; }
 
-    /// <inheritdoc />
-    public IChecksum Checksum { get; }
-
-    public EncodingContext(IBase64 base64, IHex hex, IHasher hasher, IChecksum checksum)
+    public EncodingContext(IBase64 base64, IHex hex, IHasher hasher)
     {
         Base64 = base64;
         Hex = hex;
         Hasher = hasher;
-        Checksum = checksum;
     }
 }

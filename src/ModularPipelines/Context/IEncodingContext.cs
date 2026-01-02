@@ -6,8 +6,9 @@ namespace ModularPipelines.Context;
 /// Provides access to encoding and hashing helpers.
 /// </summary>
 /// <remarks>
-/// This context groups related encoding services (Base64, Hex, Hasher, Checksum)
+/// This context groups related encoding services (Base64, Hex, Hasher)
 /// to reduce constructor parameter count in PipelineContext while maintaining the same public API.
+/// Note: Checksum is in IPipelineFileSystem as it operates on files.
 /// </remarks>
 public interface IEncodingContext
 {
@@ -28,9 +29,4 @@ public interface IEncodingContext
     /// Supports MD5, SHA1, SHA256, SHA512 hashing algorithms.
     /// </remarks>
     IHasher Hasher { get; }
-
-    /// <summary>
-    /// Gets helpers for checking the Checksum of a file.
-    /// </summary>
-    IChecksum Checksum { get; }
 }
