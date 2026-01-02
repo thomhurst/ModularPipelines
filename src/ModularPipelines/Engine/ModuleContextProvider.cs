@@ -9,6 +9,8 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly ConcurrentBag<IServiceScope> _scopes = new();
+    private readonly object _disposeLock = new();
+    private bool _disposed;
 
     public ModuleContextProvider(IServiceProvider serviceProvider)
     {
@@ -17,6 +19,8 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
 
     public IPipelineContext GetModuleContext()
     {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
         var serviceScope = _serviceProvider.CreateAsyncScope();
 
         _scopes.Add(serviceScope);
@@ -26,21 +30,60 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
 
     public IEnumerable<IServiceScope> GetScopes()
     {
+        // Return empty if disposed to prevent IScopeDisposer.Dispose from double-disposing
+        if (_disposed)
+        {
+            return [];
+        }
+
         return _scopes;
     }
 
     public async ValueTask DisposeAsync()
     {
-        foreach (var scope in _scopes)
+        lock (_disposeLock)
         {
-            if (scope is IAsyncDisposable asyncDisposable)
+            if (_disposed)
             {
-                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+                return;
             }
-            else
-            {
-                scope.Dispose();
-            }
+
+            _disposed = true;
         }
+
+        // Take a snapshot of scopes to dispose - any scopes added after this point
+        // would have thrown ObjectDisposedException in GetModuleContext
+        var scopesToDispose = _scopes.ToArray();
+
+        foreach (var scope in scopesToDispose)
+        {
+            // AsyncServiceScope always implements IAsyncDisposable
+            await ((IAsyncDisposable)scope).DisposeAsync().ConfigureAwait(false);
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
+    // Explicit implementation to coordinate with DisposeAsync and prevent double disposal
+    void IDisposable.Dispose()
+    {
+        lock (_disposeLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+        }
+
+        var scopesToDispose = _scopes.ToArray();
+
+        foreach (var scope in scopesToDispose)
+        {
+            scope.Dispose();
+        }
+
+        GC.SuppressFinalize(this);
     }
 }
