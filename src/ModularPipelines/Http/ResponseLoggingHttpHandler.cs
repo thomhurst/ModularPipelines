@@ -4,12 +4,12 @@ namespace ModularPipelines.Http;
 
 internal class ResponseLoggingHttpHandler : DelegatingHandler
 {
-    private readonly IModuleLogger _logger;
+    private readonly IModuleLoggerProvider _loggerProvider;
     private readonly IHttpLogger _httpLogger;
 
-    public ResponseLoggingHttpHandler(IModuleLogger logger, IHttpLogger httpLogger)
+    public ResponseLoggingHttpHandler(IModuleLoggerProvider loggerProvider, IHttpLogger httpLogger)
     {
-        _logger = logger;
+        _loggerProvider = loggerProvider;
         _httpLogger = httpLogger;
     }
 
@@ -23,7 +23,8 @@ internal class ResponseLoggingHttpHandler : DelegatingHandler
         // making it unreadable by subsequent code. See issue #1610.
         await response.Content.LoadIntoBufferAsync().ConfigureAwait(false);
 
-        await _httpLogger.PrintResponse(response, _logger).ConfigureAwait(false);
+        var logger = _loggerProvider.GetLogger();
+        await _httpLogger.PrintResponse(response, logger).ConfigureAwait(false);
 
         return response;
     }

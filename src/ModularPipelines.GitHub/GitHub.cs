@@ -71,13 +71,11 @@ internal class GitHub : IGitHub
         var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
           new HttpClientAdapter(() =>
           {
-              var moduleLogger = _moduleLoggerProvider.GetLogger();
-
-              return new RequestLoggingHttpHandler(moduleLogger, _httpLogger)
+              return new RequestLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
               {
-                  InnerHandler = new ResponseLoggingHttpHandler(moduleLogger, _httpLogger)
+                  InnerHandler = new ResponseLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
                   {
-                      InnerHandler = new StatusCodeLoggingHttpHandler(moduleLogger, _httpLogger)
+                      InnerHandler = new StatusCodeLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
                       {
                           InnerHandler = new HttpClientHandler(),
                       },

@@ -51,6 +51,7 @@ internal static class DependencyInjectionSetup
                 });
             })
             .AddHttpClient()
+            .AddLoggingHttpClients()
             .AddInitializers()
             .AddServiceCollection()
             .AddMediator(); // Add Mediator for event handling
