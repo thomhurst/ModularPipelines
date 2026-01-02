@@ -152,13 +152,11 @@ internal class ModuleRunner : IModuleRunner
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)
         using var activity = ModuleActivityTracing.StartModuleActivity(moduleType);
 
-        // Set up logging and module type context - use try/finally to ensure cleanup of AsyncLocal context
-        // Assignments MUST be inside try block to guarantee cleanup even if an exception
-        // occurs immediately after assignment
+        // Set up logging and module type context using scope wrapper for proper cleanup
+        await using var loggerScope = new ModuleLoggerScope(logger, moduleType);
+
         try
         {
-            ModuleLogger.Values.Value = logger;
-            ModuleLogger.CurrentModuleType.Value = moduleType;
             await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
 
             // Record success or skip status on the Activity
@@ -176,12 +174,6 @@ internal class ModuleRunner : IModuleRunner
             // Record failure on the Activity before re-throwing
             ModuleActivityTracing.RecordFailure(activity, ex);
             throw;
-        }
-        finally
-        {
-            // Clear AsyncLocal to prevent potential leaks in edge cases (thread pool reuse, long-running contexts)
-            ModuleLogger.Values.Value = null;
-            ModuleLogger.CurrentModuleType.Value = null;
         }
     }
 
