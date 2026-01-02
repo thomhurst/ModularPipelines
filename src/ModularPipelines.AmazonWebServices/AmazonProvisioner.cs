@@ -1,11 +1,19 @@
 namespace ModularPipelines.AmazonWebServices;
 
+/// <summary>
+/// Provides access to AWS resource provisioning services.
+/// </summary>
 internal class AmazonProvisioner : IAmazonProvisioner
 {
-    public AmazonProvisioner(S3 s3)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AmazonProvisioner"/> class.
+    /// </summary>
+    /// <param name="s3">The S3 service instance.</param>
+    public AmazonProvisioner(IS3 s3)
     {
         S3 = s3;
     }
 
-    public S3 S3 { get; }
+    /// <inheritdoc />
+    public IS3 S3 { get; }
 }
