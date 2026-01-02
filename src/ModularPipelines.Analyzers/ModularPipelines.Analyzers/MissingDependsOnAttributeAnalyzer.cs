@@ -14,14 +14,11 @@ public class MissingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "MissingDependsOnAttribute";
 
-    public static DiagnosticDescriptor Rule => PrivateRule;
-
-    private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.MissingDependsOnAttributeAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-
-    private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.MissingDependsOnAttributeAnalyzerTitle),
+        nameof(Resources.MissingDependsOnAttributeAnalyzerMessageFormat),
+        nameof(Resources.MissingDependsOnAttributeAnalyzerDescription));
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

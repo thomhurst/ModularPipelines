@@ -14,13 +14,11 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "LoggerInConstructor";
 
-    public static DiagnosticDescriptor Rule => PrivateRule;
-
-    private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.LoggerInConstructorAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-    private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.LoggerInConstructorAnalyzerTitle),
+        nameof(Resources.LoggerInConstructorAnalyzerMessageFormat),
+        nameof(Resources.LoggerInConstructorAnalyzerDescription));
 
     /// <summary>
     /// Logging types from Microsoft.Extensions.Logging that should not be injected directly.
