@@ -1,8 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
-using ModularPipelines.Git.Extensions;
 
 namespace ModularPipelines.Git.Attributes;
 
@@ -18,10 +16,9 @@ public class RunOnlyOnBranchAttribute : MandatoryRunConditionAttribute
 
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
-        var currentBranchName = pipelineContext.Git().Information.BranchName;
-
-        pipelineContext.Logger.LogDebug("Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}", currentBranchName, BranchName);
-
-        return Task.FromResult(currentBranchName == BranchName);
+        return Task.FromResult(BranchConditionHelper.CheckBranchMatches(
+            pipelineContext,
+            BranchName,
+            "Current Branch: {CurrentBranch} | Can run on: {ExpectedBranch}"));
     }
 }
