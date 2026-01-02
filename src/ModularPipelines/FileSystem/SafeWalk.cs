@@ -2,29 +2,23 @@
 
 internal static class SafeWalk
 {
+    private static readonly EnumerationOptions SafeEnumerationOptions = new()
+    {
+        IgnoreInaccessible = true,
+    };
+
     public static IEnumerable<string> EnumerateFiles(Folder path, Func<Folder, bool> directoryExclusionFilters)
     {
-        foreach (var file in Directory.EnumerateFiles(path, "*", SearchOption.TopDirectoryOnly))
+        foreach (var file in Directory.EnumerateFiles(path, "*", SafeEnumerationOptions))
         {
             yield return file;
         }
 
         var innerFiles = new List<string>();
-        foreach (var folder in Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly)
+        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeEnumerationOptions)
                      .Where(x => !directoryExclusionFilters(x!)))
         {
-            try
-            {
-                innerFiles.AddRange(EnumerateFiles(folder!, directoryExclusionFilters));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                continue;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                continue;
-            }
+            innerFiles.AddRange(EnumerateFiles(folder!, directoryExclusionFilters));
 
             foreach (var innerFile in innerFiles)
             {
@@ -38,23 +32,12 @@ internal static class SafeWalk
     public static IEnumerable<string> EnumerateFolders(Folder path, Func<Folder, bool> exclusionFilters)
     {
         var innerFolders = new List<string>();
-        foreach (var folder in Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly)
+        foreach (var folder in Directory.EnumerateDirectories(path, "*", SafeEnumerationOptions)
                      .Where(x => !exclusionFilters(x!)))
         {
             yield return folder;
 
-            try
-            {
-                innerFolders.AddRange(EnumerateFolders(folder!, exclusionFilters));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                continue;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                continue;
-            }
+            innerFolders.AddRange(EnumerateFolders(folder!, exclusionFilters));
 
             foreach (var innerFolder in innerFolders)
             {
