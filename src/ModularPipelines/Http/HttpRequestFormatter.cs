@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
+using ModularPipelines.Constants;
 using ModularPipelines.Engine;
 using ModularPipelines.Options;
 
@@ -63,7 +64,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
 
         if (options.LogRequestHeaders)
         {
-            AppendHeaders(sb, request.Headers, request.Content?.Headers);
+            AppendHeaders(sb, request.Headers, request.Content?.Headers, options.SensitiveHeaderNames);
             sb.AppendLine();
         }
 
@@ -75,7 +76,7 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         return sb.ToString();
     }
 
-    private static void AppendHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders)
+    private static void AppendHeaders(StringBuilder sb, HttpHeaders baseHeaders, HttpHeaders? contentHeaders, IReadOnlyList<string> sensitiveHeaderNames)
     {
         sb.AppendLine("Headers");
 
@@ -83,7 +84,8 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         {
             foreach (var value in values)
             {
-                sb.AppendLine($"\t{key}: {value}");
+                var displayValue = IsSensitiveHeader(key, sensitiveHeaderNames) ? LoggingConstants.SecretMask : value;
+                sb.AppendLine($"\t{key}: {displayValue}");
             }
         }
 
@@ -94,7 +96,8 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         {
             foreach (var value in values)
             {
-                sb.AppendLine($"\t{key}: {value}");
+                var displayValue = IsSensitiveHeader(key, sensitiveHeaderNames) ? LoggingConstants.SecretMask : value;
+                sb.AppendLine($"\t{key}: {displayValue}");
             }
         }
 
@@ -102,6 +105,26 @@ internal class HttpRequestFormatter : IHttpRequestFormatter
         {
             sb.AppendLine("\t(null)");
         }
+    }
+
+    private static bool IsSensitiveHeader(string headerName, IReadOnlyList<string> sensitiveHeaderNames)
+    {
+        // Use HashSet for O(1) lookup when using default headers
+        if (ReferenceEquals(sensitiveHeaderNames, HttpLoggingOptions.DefaultSensitiveHeaders))
+        {
+            return HttpLoggingOptions.DefaultSensitiveHeadersSet.Contains(headerName);
+        }
+
+        // For custom lists, fall back to case-insensitive comparison
+        foreach (var sensitiveHeader in sensitiveHeaderNames)
+        {
+            if (string.Equals(headerName, sensitiveHeader, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize, CancellationToken cancellationToken)
