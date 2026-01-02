@@ -8,6 +8,104 @@ namespace ModularPipelines.OptionsGenerator.TypeDetection;
 /// </summary>
 public class HeuristicTypeDetector : IOptionTypeDetector
 {
+    #region Pattern Constants
+
+    /// <summary>
+    /// Option name prefixes that typically indicate boolean flags.
+    /// These prefixes suggest toggling behavior (enable/disable, include/exclude).
+    /// Examples: --no-cache, --enable-feature, --skip-tests
+    /// </summary>
+    private static readonly string[] BooleanPrefixes =
+    [
+        "no-", "disable-", "enable-", "with-", "without-",
+        "skip-", "force-", "allow-", "deny-", "include-", "exclude-"
+    ];
+
+    /// <summary>
+    /// Option name suffixes that typically indicate boolean flags.
+    /// These suffixes suggest mode modifiers or behavioral toggles.
+    /// Examples: --build-only, --recursive, --verbose
+    /// </summary>
+    private static readonly string[] BooleanSuffixes =
+    [
+        "-only", "-all", "-recursive", "-verbose", "-quiet", "-silent",
+        "-interactive", "-yes", "-no", "-force"
+    ];
+
+    /// <summary>
+    /// Exact option names that are commonly used as boolean flags across CLI tools.
+    /// Includes common flags for verbosity, confirmation, and operational modes.
+    /// </summary>
+    private static readonly string[] BooleanExactNames =
+    [
+        "verbose", "quiet", "silent", "debug", "force", "yes", "no",
+        "dry-run", "dryrun", "help", "version", "interactive",
+        "detach", "tty", "privileged", "rm", "init", "recursive",
+        "all", "cached", "staged", "untracked", "ignored"
+    ];
+
+    /// <summary>
+    /// Description text patterns that indicate boolean behavior.
+    /// When these phrases appear in an option's description, it suggests a boolean flag.
+    /// </summary>
+    private static readonly string[] BooleanDescriptionPatterns =
+    [
+        "enable", "disable", "turn on", "turn off",
+        "whether to", "if true", "if set", "when set",
+        "flag to", "activate", "deactivate"
+    ];
+
+    /// <summary>
+    /// Option name patterns that indicate numeric/integer values.
+    /// These patterns suggest counts, limits, sizes, or other numerical quantities.
+    /// Note: "level" is intentionally excluded as it often refers to verbosity levels which are enums/strings.
+    /// </summary>
+    private static readonly string[] NumericNamePatterns =
+    [
+        "count", "limit", "max", "min", "size", "length", "depth",
+        "retries", "timeout", "interval", "port", "number"
+    ];
+
+    /// <summary>
+    /// Option name patterns that indicate list/array values.
+    /// These patterns suggest options that can be specified multiple times.
+    /// Common in Docker, Kubernetes, and other container-related CLI tools.
+    /// </summary>
+    private static readonly string[] ListNamePatterns =
+    [
+        "add-", "-add", "exclude", "include", "label", "env", "volume",
+        "mount", "publish", "expose", "cap-", "device", "dns"
+    ];
+
+    /// <summary>
+    /// Option name patterns that indicate key-value pair options.
+    /// These patterns suggest configuration or metadata settings.
+    /// </summary>
+    private static readonly string[] KeyValueNamePatterns =
+    [
+        "env", "label", "annotation", "sysctl"
+    ];
+
+    /// <summary>
+    /// Description patterns that indicate key-value pair format.
+    /// When these patterns appear in descriptions, the option likely accepts key=value or key:value format.
+    /// </summary>
+    private static readonly string[] KeyValueDescriptionPatterns =
+    [
+        "key=value", "key:value"
+    ];
+
+    /// <summary>
+    /// Literal values that represent boolean true/false in CLI contexts.
+    /// Used to detect boolean options from their accepted values.
+    /// </summary>
+    private static readonly string[] BooleanLiteralValues =
+    [
+        "true", "false", "yes", "no", "0", "1"
+    ];
+
+    #endregion
+
     private readonly ILogger<HeuristicTypeDetector> _logger;
 
     public int Priority => 300; // Lowest priority
@@ -64,78 +162,34 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         }
 
         // Check option name patterns for booleans
-        var booleanPrefixes = new[]
-        {
-            "no-", "disable-", "enable-", "with-", "without-",
-            "skip-", "force-", "allow-", "deny-", "include-", "exclude-"
-        };
-
-        var booleanSuffixes = new[]
-        {
-            "-only", "-all", "-recursive", "-verbose", "-quiet", "-silent",
-            "-interactive", "-yes", "-no", "-force"
-        };
-
-        var booleanExactNames = new[]
-        {
-            "verbose", "quiet", "silent", "debug", "force", "yes", "no",
-            "dry-run", "dryrun", "help", "version", "interactive",
-            "detach", "tty", "privileged", "rm", "init", "recursive",
-            "all", "cached", "staged", "untracked", "ignored"
-        };
-
-        if (booleanPrefixes.Any(p => optionName.StartsWith(p, StringComparison.OrdinalIgnoreCase)) ||
-            booleanSuffixes.Any(s => optionName.EndsWith(s, StringComparison.OrdinalIgnoreCase)) ||
-            booleanExactNames.Contains(optionName, StringComparer.OrdinalIgnoreCase))
+        if (BooleanPrefixes.Any(p => optionName.StartsWith(p, StringComparison.OrdinalIgnoreCase)) ||
+            BooleanSuffixes.Any(s => optionName.EndsWith(s, StringComparison.OrdinalIgnoreCase)) ||
+            BooleanExactNames.Contains(optionName, StringComparer.OrdinalIgnoreCase))
         {
             return CreateResult(CliOptionType.Bool, $"Option name pattern suggests boolean: {optionName}");
         }
 
         // Check description patterns for booleans
-        var booleanDescPatterns = new[]
-        {
-            "enable", "disable", "turn on", "turn off",
-            "whether to", "if true", "if set", "when set",
-            "flag to", "activate", "deactivate"
-        };
-
-        if (booleanDescPatterns.Any(p => description.Contains(p)))
+        if (BooleanDescriptionPatterns.Any(p => description.Contains(p)))
         {
             return CreateResult(CliOptionType.Bool, "Description suggests boolean flag");
         }
 
         // Check for numeric patterns
-        // Note: "level" removed - often refers to verbosity levels which are enums/strings
-        var numericNamePatterns = new[]
-        {
-            "count", "limit", "max", "min", "size", "length", "depth",
-            "retries", "timeout", "interval", "port", "number"
-        };
-
-        if (numericNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
+        if (NumericNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
         {
             return CreateResult(CliOptionType.Int, $"Option name suggests numeric: {optionName}");
         }
 
         // Check for list patterns
-        var listNamePatterns = new[]
-        {
-            "add-", "-add", "exclude", "include", "label", "env", "volume",
-            "mount", "publish", "expose", "cap-", "device", "dns"
-        };
-
-        if (listNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
+        if (ListNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)))
         {
             return CreateResult(CliOptionType.StringList, $"Option name suggests list: {optionName}");
         }
 
         // Check for key-value patterns
-        if (optionName.Contains("env", StringComparison.OrdinalIgnoreCase) ||
-            optionName.Contains("label", StringComparison.OrdinalIgnoreCase) ||
-            optionName.Contains("annotation", StringComparison.OrdinalIgnoreCase) ||
-            optionName.Contains("sysctl", StringComparison.OrdinalIgnoreCase) ||
-            description.Contains("key=value") ||
-            description.Contains("key:value"))
+        if (KeyValueNamePatterns.Any(p => optionName.Contains(p, StringComparison.OrdinalIgnoreCase)) ||
+            KeyValueDescriptionPatterns.Any(p => description.Contains(p)))
         {
             return CreateResult(CliOptionType.KeyValue, "Pattern suggests key-value");
         }
@@ -159,8 +213,7 @@ public class HeuristicTypeDetector : IOptionTypeDetector
 
     private static bool IsBooleanAcceptedValues(string acceptedValues)
     {
-        var boolValues = new[] { "true", "false", "yes", "no", "0", "1" };
-        var count = boolValues.Count(v => acceptedValues.Contains(v));
+        var count = BooleanLiteralValues.Count(v => acceptedValues.Contains(v));
         return count >= 2; // At least 2 boolean-like values
     }
 }
