@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
+using ModularPipelines.Engine;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
@@ -7,6 +8,7 @@ namespace ModularPipelines.Http;
 /// <summary>
 /// Formats HTTP responses as strings with headers and body content.
 /// Produces human-readable output suitable for logging and debugging.
+/// Sensitive values are automatically obfuscated using the secret obfuscator.
 /// </summary>
 /// <example>
 /// <code>
@@ -27,6 +29,13 @@ namespace ModularPipelines.Http;
 /// </example>
 internal class HttpResponseFormatter : IHttpResponseFormatter
 {
+    private readonly ISecretObfuscator _secretObfuscator;
+
+    public HttpResponseFormatter(ISecretObfuscator secretObfuscator)
+    {
+        _secretObfuscator = secretObfuscator;
+    }
+
     private static readonly HashSet<string> TextMediaTypes = new(StringComparer.OrdinalIgnoreCase)
     {
         "application/json",
@@ -95,7 +104,7 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
         }
     }
 
-    private static async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize, CancellationToken cancellationToken)
+    private async Task AppendBodyAsync(StringBuilder sb, HttpContent? content, int maxBodySize, CancellationToken cancellationToken)
     {
         sb.AppendLine("Body");
 
@@ -122,15 +131,18 @@ internal class HttpResponseFormatter : IHttpResponseFormatter
             return;
         }
 
+        // Obfuscate sensitive values in the body
+        var obfuscatedBody = _secretObfuscator.Obfuscate(body, null);
+
         // Truncate if body is too large
-        if (maxBodySize > 0 && body.Length > maxBodySize)
+        if (maxBodySize > 0 && obfuscatedBody.Length > maxBodySize)
         {
-            sb.AppendLine($"\t{body[..maxBodySize]}");
-            sb.AppendLine($"\t... [truncated, total size: {body.Length:N0} characters]");
+            sb.AppendLine($"\t{obfuscatedBody[..maxBodySize]}");
+            sb.AppendLine($"\t... [truncated, total size: {obfuscatedBody.Length:N0} characters]");
         }
         else
         {
-            sb.AppendLine($"\t{body}");
+            sb.AppendLine($"\t{obfuscatedBody}");
         }
     }
 
