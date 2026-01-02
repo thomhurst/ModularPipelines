@@ -23,9 +23,28 @@ namespace ModularPipelines.DependencyInjection;
 
 internal static class DependencyInjectionSetup
 {
+    /// <summary>
+    /// Initializes all dependency injection registrations for the ModularPipelines framework.
+    /// Registrations are organized into logical groups for maintainability.
+    /// </summary>
     public static void Initialize(IServiceCollection services)
     {
-        // Bundles
+        RegisterBundledServices(services);
+        RegisterPipelineContextServices(services);
+        RegisterLoggingAndConsoleServices(services);
+        RegisterDependencyManagementServices(services);
+        RegisterModuleExecutionServices(services);
+        RegisterBuildSystemServices(services);
+        RegisterAttributeEventServices(services);
+        RegisterUtilityServices(services);
+    }
+
+    /// <summary>
+    /// Registers external integrations and bundled services:
+    /// options configuration, logging provider, HTTP clients, initializers, and mediator.
+    /// </summary>
+    private static void RegisterBundledServices(IServiceCollection services)
+    {
         services
             .Configure<PipelineOptions>(_ => { })
             .Configure<SchedulerOptions>(_ => { })
@@ -54,9 +73,15 @@ internal static class DependencyInjectionSetup
             .AddLoggingHttpClients()
             .AddInitializers()
             .AddServiceCollection()
-            .AddMediator(); // Add Mediator for event handling
+            .AddMediator();
+    }
 
-        // Everything that is injected into `PipelineContext` should be Scoped
+    /// <summary>
+    /// Registers scoped services injected into IPipelineContext:
+    /// HTTP, command execution, installers, shell environments, and context-specific services.
+    /// </summary>
+    private static void RegisterPipelineContextServices(IServiceCollection services)
+    {
         services
             .AddScoped<IPipelineContext, PipelineContext>()
             .AddScoped<IModuleLoggerProvider, ModuleLoggerProvider>()
@@ -81,8 +106,14 @@ internal static class DependencyInjectionSetup
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
             .AddScoped<ILogEventBuffer, LogEventBuffer>();
+    }
 
-        // Singletons
+    /// <summary>
+    /// Registers logging, console output, and exception formatting services:
+    /// console printers, progress reporting, log containers, and exception handling.
+    /// </summary>
+    private static void RegisterLoggingAndConsoleServices(IServiceCollection services)
+    {
         services
             .AddSingleton(TimeProvider.System)
             .AddSingleton<IExceptionOutputFormatter, SpectreExceptionFormatter>()
@@ -92,22 +123,45 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IExceptionBuffer, ExceptionBuffer>()
             .AddSingleton<IPrimaryExceptionContainer, PrimaryExceptionContainer>()
             .AddSingleton<ISecondaryExceptionContainer, SecondaryExceptionContainer>()
-            .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
+            .AddSingleton<ProgressPrinter>()
+            .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
+            .AddSingleton<ILogoPrinter, LogoPrinter>()
+            .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
+            .AddSingleton<IOutputFlushLock, OutputFlushLock>()
+            .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
+            .AddSingleton<IConsoleWriter, ConsoleWriter>()
+            .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>();
+    }
+
+    /// <summary>
+    /// Registers dependency graph management services:
+    /// dependency chain resolution, collision detection, unused module detection, and tree formatting.
+    /// </summary>
+    private static void RegisterDependencyManagementServices(IServiceCollection services)
+    {
+        services
             .AddSingleton<IDependencyChainProvider, DependencyChainProvider>()
             .AddSingleton<IDependencyDetector, DependencyDetector>()
             .AddSingleton<IUnusedModuleDetector, UnusedModuleDetector>()
             .AddSingleton<IDependencyCollisionDetector, DependencyCollisionDetector>()
             .AddSingleton<IDependencyPrinter, DependencyPrinter>()
+            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>();
+    }
+
+    /// <summary>
+    /// Registers module lifecycle and pipeline execution services:
+    /// module retrieval, initialization, execution, scheduling, disposal, and result handling.
+    /// </summary>
+    private static void RegisterModuleExecutionServices(IServiceCollection services)
+    {
+        services
+            .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()
             .AddSingleton<IModuleRetriever, ModuleRetriever>()
             .AddSingleton<IPipelineSetupExecutor, PipelineSetupExecutor>()
             .AddSingleton<IModuleInitializer, ModuleInitializer>()
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
-            .AddSingleton<ProgressPrinter>()
-            .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
-
-            // INotificationHandler registrations removed - Mediator auto-discovers them via source generators
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
             .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
             .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
@@ -121,37 +175,19 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IModuleResultRegistry, ModuleResultRegistry>()
             .AddSingleton<IModuleSchedulerFactory, ModuleSchedulerFactory>()
             .AddSingleton<IModuleDisposer, ModuleDisposer>()
-            .AddSingleton<ILogoPrinter, LogoPrinter>()
             .AddSingleton<IModuleResultRepository, NoOpModuleResultRepository>()
             .AddSingleton<IModuleEstimatedTimeProvider, FileSystemModuleEstimatedTimeProvider>()
             .AddSingleton<ISafeModuleEstimatedTimeProvider, SafeModuleEstimatedTimeProvider>()
             .AddSingleton<IPipelineFileWriter, PipelineFileWriter>()
             .AddSingleton<EngineCancellationToken>()
-            .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
-            .AddSingleton<IOutputFlushLock, OutputFlushLock>()
-            .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
             .AddSingleton<IOptionsProvider, OptionsProvider>()
-            .AddSingleton<ISecretProvider, SecretProvider>()
-            .AddSingleton<ISecretObfuscator, SecretObfuscator>()
-            .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
-            .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
-            .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>()
             .AddSingleton<IModuleConditionHandler, ModuleConditionHandler>()
             .AddSingleton<IAssemblyLoadedTypesProvider, AssemblyLoadedTypesProvider>()
-            .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IEnvironmentVariables, EnvironmentVariables>()
             .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
-            .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>()
-            .AddSingleton<IDependencyTreeFormatter, DependencyTreeFormatter>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
             .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()
-
-            // Attribute event system
-            .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
-            .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
-            .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
-            .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
-            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>()
+            .AddSingleton<IMetricsCollector, MetricsCollector>()
 
             // Module execution components (SRP extraction from ModuleExecutor)
             .AddSingleton<Engine.Execution.IModuleResultRegistrar, Engine.Execution.ModuleResultRegistrar>()
@@ -162,12 +198,44 @@ internal static class DependencyInjectionSetup
             .AddSingleton<Engine.Execution.IAlwaysRunHandler, Engine.Execution.AlwaysRunHandler>()
 
             // Module scheduling components (SRP extraction from ModuleScheduler)
-            .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>()
+            .AddSingleton<Engine.Scheduling.IModuleConstraintEvaluator, Engine.Scheduling.ModuleConstraintEvaluator>();
+    }
 
-            // Metrics collection
-            .AddSingleton<IMetricsCollector, MetricsCollector>()
+    /// <summary>
+    /// Registers build system integration services:
+    /// build system detection, secret masking, and output formatting.
+    /// </summary>
+    private static void RegisterBuildSystemServices(IServiceCollection services)
+    {
+        services
+            .AddSingleton<ISecretProvider, SecretProvider>()
+            .AddSingleton<ISecretObfuscator, SecretObfuscator>()
+            .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
+            .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
+            .AddSingleton<IBuildSystemFormatterProvider, BuildSystemFormatterProvider>();
+    }
 
-            // Stateless utilities - safe as singletons
+    /// <summary>
+    /// Registers attribute-based event system services:
+    /// module metadata registry, dependency registry, and attribute event handling.
+    /// </summary>
+    private static void RegisterAttributeEventServices(IServiceCollection services)
+    {
+        services
+            .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
+            .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
+            .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
+            .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
+            .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>();
+    }
+
+    /// <summary>
+    /// Registers stateless utility services:
+    /// encoding (Base64, Hex), hashing (Checksum, Hasher), and serialization (JSON, XML, YAML).
+    /// </summary>
+    private static void RegisterUtilityServices(IServiceCollection services)
+    {
+        services
             .AddSingleton<IBase64, Base64>()
             .AddSingleton<IHex, Hex>()
             .AddSingleton<IChecksum, Checksum>()
