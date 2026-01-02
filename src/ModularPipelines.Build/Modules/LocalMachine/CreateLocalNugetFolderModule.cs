@@ -7,17 +7,15 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 
 public class CreateLocalNugetFolderModule : Module<Folder>
 {
-    public override async Task<Folder?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<Folder?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localNugetRepositoryFolder = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData)
             .GetFolder("ModularPipelines")
             .GetFolder("LocalNuget")
             .Create();
 
-        await Task.Yield();
-
         context.Logger.LogInformation("Local NuGet Repository Path: {Path}", localNugetRepositoryFolder.Path);
 
-        return localNugetRepositoryFolder;
+        return Task.FromResult<Folder?>(localNugetRepositoryFolder);
     }
 }

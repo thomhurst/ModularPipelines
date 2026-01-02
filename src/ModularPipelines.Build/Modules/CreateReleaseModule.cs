@@ -31,22 +31,19 @@ public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
         _publishSettings = publishSettings;
     }
 
-    public async Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
-        await Task.Yield();
-        return exception is ApiValidationException;
+        return Task.FromResult(exception is ApiValidationException);
     }
 
-    public async Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
     {
-        await Task.CompletedTask;
-
         if (!_publishSettings.Value.ShouldPublish)
         {
-            return "The 'ShouldPublish' flag is false";
+            return Task.FromResult<SkipDecision>("The 'ShouldPublish' flag is false");
         }
 
-        return string.IsNullOrEmpty(_githubSettings.Value.AdminToken);
+        return Task.FromResult<SkipDecision>(string.IsNullOrEmpty(_githubSettings.Value.AdminToken));
     }
 
     public override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

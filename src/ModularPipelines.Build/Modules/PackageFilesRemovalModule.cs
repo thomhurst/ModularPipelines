@@ -6,7 +6,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class PackageFilesRemovalModule : Module<int>
 {
-    public override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageFiles = context.Git()
             .RootDirectory
@@ -19,7 +19,6 @@ public class PackageFilesRemovalModule : Module<int>
             count++;
         }
 
-        await Task.CompletedTask;
-        return count;
+        return Task.FromResult(count);
     }
 }
