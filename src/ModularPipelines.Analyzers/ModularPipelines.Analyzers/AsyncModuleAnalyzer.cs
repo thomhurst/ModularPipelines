@@ -14,13 +14,11 @@ public class AsyncModuleAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "AsyncModule";
 
-    public static DiagnosticDescriptor Rule => PrivateRule;
-
-    private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.AsyncModuleAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-    private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.AsyncModuleAnalyzerTitle),
+        nameof(Resources.AsyncModuleAnalyzerMessageFormat),
+        nameof(Resources.AsyncModuleAnalyzerDescription));
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);

@@ -13,13 +13,11 @@ public class ConsoleUseAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "ConsoleUse";
 
-    public static DiagnosticDescriptor Rule => PrivateRule;
-
-    private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.ConsoleUseAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.ConsoleUseAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.ConsoleUseAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-    private static readonly DiagnosticDescriptor PrivateRule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.ConsoleUseAnalyzerTitle),
+        nameof(Resources.ConsoleUseAnalyzerMessageFormat),
+        nameof(Resources.ConsoleUseAnalyzerDescription));
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 

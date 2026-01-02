@@ -14,13 +14,11 @@ public class EnumerableModuleResultAnalyzer : DiagnosticAnalyzer
 {
     public const string DiagnosticId = "EnumerableModuleResult";
 
-    public static DiagnosticDescriptor Rule => PrivateRule;
-
-    private const string Category = "Usage";
-    private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerTitle), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
-    private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.IEnumerableModuleResultAnalyzerDescription), Resources.ResourceManager, typeof(Resources));
-    private static readonly DiagnosticDescriptor PrivateRule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+    public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
+        DiagnosticId,
+        nameof(Resources.IEnumerableModuleResultAnalyzerTitle),
+        nameof(Resources.IEnumerableModuleResultAnalyzerMessageFormat),
+        nameof(Resources.IEnumerableModuleResultAnalyzerDescription));
 
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
