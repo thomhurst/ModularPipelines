@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ModularPipelines.Logging;
@@ -19,6 +18,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     private readonly IServiceProvider _serviceProvider;
     private readonly IModuleLoggerContainer _moduleLoggerContainer;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
+    private readonly object _lock = new();
 
     private IModuleLogger? _moduleLogger;
 
@@ -34,36 +34,38 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public IModuleLogger GetLogger(Type type) => MakeLogger(type);
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
     public IModuleLogger GetLogger()
     {
-        if (_moduleLogger != null)
+        lock (_lock)
         {
-            return _moduleLogger;
+            if (_moduleLogger != null)
+            {
+                return _moduleLogger;
+            }
+
+            // Fast path: check if logger is already set in AsyncLocal
+            if (ModuleLogger.Values.Value != null)
+            {
+                return _moduleLogger = ModuleLogger.Values.Value;
+            }
+
+            // Fast path: check if module type is set in AsyncLocal (avoids stack trace inspection)
+            var moduleType = ModuleLogger.CurrentModuleType.Value;
+            if (moduleType != null)
+            {
+                return MakeLogger(moduleType);
+            }
+
+            // Fallback: use stack trace inspection (for edge cases where AsyncLocal context is lost)
+            var detectedType = _stackTraceDetector.DetectModuleType();
+
+            if (detectedType == null)
+            {
+                throw new InvalidOperationException("Could not detect module type from call stack.");
+            }
+
+            return MakeLogger(detectedType);
         }
-
-        // Fast path: check if logger is already set in AsyncLocal
-        if (ModuleLogger.Values.Value != null)
-        {
-            return _moduleLogger = ModuleLogger.Values.Value;
-        }
-
-        // Fast path: check if module type is set in AsyncLocal (avoids stack trace inspection)
-        var moduleType = ModuleLogger.CurrentModuleType.Value;
-        if (moduleType != null)
-        {
-            return MakeLogger(moduleType);
-        }
-
-        // Fallback: use stack trace inspection (for edge cases where AsyncLocal context is lost)
-        var detectedType = _stackTraceDetector.DetectModuleType();
-
-        if (detectedType == null)
-        {
-            throw new InvalidOperationException("Could not detect module type from call stack.");
-        }
-
-        return MakeLogger(detectedType);
     }
 
     public void Dispose()
