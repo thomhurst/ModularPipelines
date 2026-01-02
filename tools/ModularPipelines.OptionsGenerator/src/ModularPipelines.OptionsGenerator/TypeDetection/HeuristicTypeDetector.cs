@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.OptionsGenerator.TypeDetection;
@@ -35,14 +36,15 @@ public class HeuristicTypeDetector : IOptionTypeDetector
     /// <summary>
     /// Exact option names that are commonly used as boolean flags across CLI tools.
     /// Includes common flags for verbosity, confirmation, and operational modes.
+    /// Uses FrozenSet for O(1) case-insensitive lookup.
     /// </summary>
-    private static readonly string[] BooleanExactNames =
-    [
+    private static readonly FrozenSet<string> BooleanExactNames = new[]
+    {
         "verbose", "quiet", "silent", "debug", "force", "yes", "no",
         "dry-run", "dryrun", "help", "version", "interactive",
         "detach", "tty", "privileged", "rm", "init", "recursive",
         "all", "cached", "staged", "untracked", "ignored"
-    ];
+    }.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
     /// Description text patterns that indicate boolean behavior.
@@ -164,7 +166,7 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         // Check option name patterns for booleans
         if (BooleanPrefixes.Any(p => optionName.StartsWith(p, StringComparison.OrdinalIgnoreCase)) ||
             BooleanSuffixes.Any(s => optionName.EndsWith(s, StringComparison.OrdinalIgnoreCase)) ||
-            BooleanExactNames.Contains(optionName, StringComparer.OrdinalIgnoreCase))
+            BooleanExactNames.Contains(optionName))
         {
             return CreateResult(CliOptionType.Bool, $"Option name pattern suggests boolean: {optionName}");
         }
