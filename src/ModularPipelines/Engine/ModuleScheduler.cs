@@ -113,7 +113,7 @@ internal class ModuleScheduler : IModuleScheduler
             var moduleType = state.ModuleType;
 
             // Use cached metadata to avoid repeated reflection lookups
-            var metadata = ModuleMetadataCache.GetMetadata(moduleType);
+            var metadata = ModuleMetadataCache.GetSchedulingMetadata(moduleType);
 
             if (metadata.NotInParallelAttribute != null)
             {

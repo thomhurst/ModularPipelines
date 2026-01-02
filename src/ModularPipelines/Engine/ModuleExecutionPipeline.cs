@@ -151,8 +151,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         CancellationToken engineCancellationToken)
     {
         // AlwaysRun modules don't get cancelled when the engine cancels
-        // Check both the interface (composition) and the property (inheritance) for backwards compatibility
-        var isAlwaysRun = module is IAlwaysRun || module.ModuleRunType == ModuleRunType.AlwaysRun;
+        // ModuleRunType property already checks for IAlwaysRun interface (see IModule.cs)
+        var isAlwaysRun = module.ModuleRunType == ModuleRunType.AlwaysRun;
         if (!isAlwaysRun)
         {
             // Create a linked token source that cancels when:
