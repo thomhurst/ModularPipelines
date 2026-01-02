@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Http.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.GitHub.Options;
 using ModularPipelines.Http;
@@ -68,20 +67,13 @@ internal class GitHub : IGitHub
                     ?? EnvironmentVariables.Token
                     ?? throw new ArgumentException("No GitHub access token or GITHUB_TOKEN found in environment variables.");
 
-        var connection = new Connection(new ProductHeaderValue("ModularPipelines"),
-          new HttpClientAdapter(() =>
-          {
-              return new RequestLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-              {
-                  InnerHandler = new ResponseLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-                  {
-                      InnerHandler = new StatusCodeLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
-                      {
-                          InnerHandler = new HttpClientHandler(),
-                      },
-                  },
-              };
-          }));
+        // Create handler chain with logging. SocketsHttpHandler provides connection pooling
+        // internally via PooledConnectionLifetime, so we don't need to cache handler instances.
+        // Each HttpClientAdapter gets its own handler chain, avoiding thread-safety issues
+        // with shared DelegatingHandler.InnerHandler references.
+        var connection = new Connection(
+            new ProductHeaderValue("ModularPipelines"),
+            new HttpClientAdapter(CreateHandler));
 
         var client = new GitHubClient(connection)
         {
@@ -89,5 +81,28 @@ internal class GitHub : IGitHub
         };
 
         return client;
+    }
+
+    /// <summary>
+    /// Creates a new handler chain for HTTP requests.
+    /// SocketsHttpHandler provides connection pooling via PooledConnectionLifetime.
+    /// </summary>
+    private HttpMessageHandler CreateHandler()
+    {
+        return new RequestLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
+        {
+            InnerHandler = new ResponseLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
+            {
+                InnerHandler = new StatusCodeLoggingHttpHandler(_moduleLoggerProvider, _httpLogger)
+                {
+                    InnerHandler = new SocketsHttpHandler
+                    {
+                        PooledConnectionLifetime = TimeSpan.FromMinutes(2),
+                        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(1),
+                        MaxConnectionsPerServer = 20,
+                    },
+                },
+            },
+        };
     }
 }

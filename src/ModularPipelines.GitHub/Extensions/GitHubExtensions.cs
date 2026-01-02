@@ -25,6 +25,7 @@ public static class GitHubExtensions
         services.TryAddScoped<IGitHubEnvironmentVariables, GitHubEnvironmentVariables>();
         services.TryAddSingleton<IGitHubRepositoryInfo, GitHubRepositoryInfo>();
         services.AddPipelineGlobalHooks<GitHubMarkdownSummaryGenerator>();
+
         return services;
     }
 
