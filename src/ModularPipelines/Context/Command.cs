@@ -1,6 +1,8 @@
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using CliWrap;
@@ -16,6 +18,8 @@ namespace ModularPipelines.Context;
 
 public sealed class Command : ICommand
 {
+    private static readonly ConcurrentDictionary<Type, IReadOnlyList<PlaceholderPropertyInfo>> PlaceholderPropertyCache = new();
+
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandModelProvider _commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder;
@@ -188,7 +192,32 @@ public sealed class Command : ICommand
     {
         var lookup = new Dictionary<string, List<string>>(StringComparer.Ordinal);
         var type = optionsObject.GetType();
+
+        // Get cached placeholder properties for this type
+        var placeholderProperties = PlaceholderPropertyCache.GetOrAdd(type, BuildPlaceholderPropertyCache);
+
+        foreach (var placeholderProperty in placeholderProperties)
+        {
+            var rawValue = placeholderProperty.Getter(optionsObject);
+            if (rawValue is null)
+            {
+                continue;
+            }
+
+            var values = GetArgumentValues(rawValue);
+            if (values.Count > 0)
+            {
+                lookup[placeholderProperty.Name] = values;
+            }
+        }
+
+        return lookup;
+    }
+
+    private static IReadOnlyList<PlaceholderPropertyInfo> BuildPlaceholderPropertyCache(Type type)
+    {
         var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        var placeholderProperties = new List<PlaceholderPropertyInfo>();
 
         foreach (var property in properties)
         {
@@ -198,20 +227,24 @@ public sealed class Command : ICommand
                 continue;
             }
 
-            var rawValue = property.GetValue(optionsObject);
-            if (rawValue is null)
-            {
-                continue;
-            }
-
-            var values = GetArgumentValues(rawValue);
-            if (values.Count > 0)
-            {
-                lookup[cliArgument.Name] = values;
-            }
+            var getter = CreatePropertyGetter(type, property);
+            placeholderProperties.Add(new PlaceholderPropertyInfo(cliArgument.Name, getter));
         }
 
-        return lookup;
+        return placeholderProperties;
+    }
+
+    private static Func<object, object?> CreatePropertyGetter(Type type, PropertyInfo property)
+    {
+        // Create a compiled expression tree for fast property access
+        // Expression: (object obj) => (object?)((TType)obj).Property
+        var parameter = Expression.Parameter(typeof(object), "obj");
+        var castToType = Expression.Convert(parameter, type);
+        var propertyAccess = Expression.Property(castToType, property);
+        var castToObject = Expression.Convert(propertyAccess, typeof(object));
+
+        var lambda = Expression.Lambda<Func<object, object?>>(castToObject, parameter);
+        return lambda.Compile();
     }
 
     private static List<string> GetArgumentValues(object rawValue)
@@ -346,4 +379,11 @@ public sealed class Command : ICommand
             throw new CommandException(inputToLog, -1, stopwatch.Elapsed, standardOutput, standardError, e);
         }
     }
+
+    /// <summary>
+    /// Cached information about a property that provides placeholder values.
+    /// </summary>
+    /// <param name="Name">The placeholder name (from CliArgumentAttribute.Name).</param>
+    /// <param name="Getter">A compiled delegate to get the property value.</param>
+    private sealed record PlaceholderPropertyInfo(string Name, Func<object, object?> Getter);
 }
