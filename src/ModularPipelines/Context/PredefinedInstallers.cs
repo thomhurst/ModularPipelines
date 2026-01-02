@@ -135,9 +135,12 @@ public partial class PredefinedInstallers : IPredefinedInstallers
 
             var newFolder = _zip.UnZipToFolder(zipFile, Folder.CreateTemporaryFolder());
 
+            var nvmRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "nvm");
+            var nodejsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "nodejs");
+
             await newFolder.GetFile("settings.txt").WriteAsync($"""
-                                                               root: {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "nvm")}
-                                                               path: C:\Program Files\nodejs
+                                                               root: {nvmRoot}
+                                                               path: {nodejsPath}
                                                                arch: 64
                                                                proxy: none
                                                                """).ConfigureAwait(false);
@@ -163,7 +166,8 @@ public partial class PredefinedInstallers : IPredefinedInstallers
         await _bash.Command(new BashCommandOptions("[ -s \"$NVM_DIR/bash_completion\" ] && \\. \"$NVM_DIR/bash_completion\"")).ConfigureAwait(false);
         await _bash.Command(new BashCommandOptions("source ~/.bashrc")).ConfigureAwait(false);
 
-        return new File("/home/runner/.nvm");
+        var nvmDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nvm");
+        return new File(nvmDir);
     }
 
     /// <inheritdoc/>
