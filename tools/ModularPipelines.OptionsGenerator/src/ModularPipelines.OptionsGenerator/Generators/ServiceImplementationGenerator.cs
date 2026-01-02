@@ -148,7 +148,8 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
             foreach (var command in nonCollidingRootCommands.OrderBy(c => c.ClassName))
             {
-                GenerateMethod(sb, command, tool);
+                var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
+                GeneratorUtils.GenerateServiceMethod(sb, methodName, command, includeXmlDoc: false);
                 sb.AppendLine();
             }
 
@@ -158,36 +159,5 @@ public class ServiceImplementationGenerator : ICodeGenerator
         sb.AppendLine("}");
 
         return sb.ToString();
-    }
-
-    private static void GenerateMethod(StringBuilder sb, CliCommandDefinition command, CliToolDefinition tool)
-    {
-        var methodName = GeneratorUtils.GenerateMethodNameFromCommandParts(command.CommandParts);
-        var hasRequiredParams = command.RequiredOptions.Count > 0 ||
-                                command.PositionalArguments.Any(p => p.IsRequired);
-
-        // Single method - users set LogSettings on options if they need custom logging
-        sb.AppendLine("    /// <inheritdoc />");
-
-        // Method signature - nullable options if no required params
-        var optionsParam = hasRequiredParams
-            ? $"{command.ClassName} options"
-            : $"{command.ClassName}? options = default";
-
-        sb.AppendLine($"    public virtual async Task<CommandResult> {methodName}(");
-        sb.AppendLine($"        {optionsParam},");
-        sb.AppendLine("        CancellationToken cancellationToken = default)");
-        sb.AppendLine("    {");
-
-        if (hasRequiredParams)
-        {
-            sb.AppendLine("        return await _command.ExecuteCommandLineTool(options, cancellationToken);");
-        }
-        else
-        {
-            sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
-        }
-
-        sb.AppendLine("    }");
     }
 }

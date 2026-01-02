@@ -291,4 +291,61 @@ public static partial class GeneratorUtils
         return string.Join("", parts.Select(p =>
             char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
     }
+
+    /// <summary>
+    /// Generates a service method that executes a CLI command.
+    /// Used by ServiceImplementationGenerator and SubDomainClassGenerator to avoid duplication.
+    /// </summary>
+    /// <param name="sb">The StringBuilder to append to.</param>
+    /// <param name="methodName">The name of the method to generate.</param>
+    /// <param name="command">The CLI command definition.</param>
+    /// <param name="includeXmlDoc">Whether to include XML documentation.</param>
+    /// <param name="indent">The indentation string (defaults to 4 spaces).</param>
+    public static void GenerateServiceMethod(
+        StringBuilder sb,
+        string methodName,
+        CliCommandDefinition command,
+        bool includeXmlDoc = true,
+        string indent = "    ")
+    {
+        ArgumentNullException.ThrowIfNull(sb);
+        ArgumentNullException.ThrowIfNull(command);
+
+        var hasRequiredParams = command.RequiredOptions.Count > 0 ||
+                                command.PositionalArguments.Any(p => p.IsRequired);
+
+        // XML documentation
+        if (includeXmlDoc && !string.IsNullOrEmpty(command.Description))
+        {
+            GenerateXmlDocumentation(sb, command.Description, indent);
+            sb.AppendLine($"{indent}/// <param name=\"options\">The command options.</param>");
+            sb.AppendLine($"{indent}/// <param name=\"cancellationToken\">Cancellation token.</param>");
+            sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
+        }
+        else
+        {
+            sb.AppendLine($"{indent}/// <inheritdoc />");
+        }
+
+        // Method signature - nullable options if no required params
+        var optionsParam = hasRequiredParams
+            ? $"{command.ClassName} options"
+            : $"{command.ClassName}? options = default";
+
+        sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
+        sb.AppendLine($"{indent}    {optionsParam},");
+        sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
+        sb.AppendLine($"{indent}{{");
+
+        if (hasRequiredParams)
+        {
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options, cancellationToken);");
+        }
+        else
+        {
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
+        }
+
+        sb.AppendLine($"{indent}}}");
+    }
 }
