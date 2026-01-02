@@ -6,7 +6,7 @@ using ModularPipelines.Models;
 namespace ModularPipelines.Helpers.Internal;
 
 /// <inheritdoc/>
-public sealed class CommandArgumentBuilder : ICommandArgumentBuilder
+internal sealed class CommandArgumentBuilder : ICommandArgumentBuilder
 {
     /// <inheritdoc/>
     public List<string> BuildArguments(IReadOnlyList<PropertyCommandLinePart> commandModel, object optionsObject)
