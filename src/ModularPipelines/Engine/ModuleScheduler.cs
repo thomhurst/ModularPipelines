@@ -279,12 +279,13 @@ internal class ModuleScheduler : IModuleScheduler
 
     private bool ShouldExitScheduler(int queuedCount)
     {
-        // Keep read lock held while evaluating exit conditions to prevent state changes
+        // Use a single write lock since we may need to modify _schedulerCompleted
+        // This avoids the inefficient pattern of read lock -> release -> write lock
         ModuleStateSnapshot snapshot;
         bool shouldExit;
         bool isDeadlocked;
 
-        _stateLock.EnterReadLock();
+        _stateLock.EnterWriteLock();
         try
         {
             snapshot = ModuleStateSnapshot.Create(_moduleStates.Values);
@@ -293,38 +294,24 @@ internal class ModuleScheduler : IModuleScheduler
 
             if (shouldExit)
             {
-                // Upgrade to write lock to update _schedulerCompleted
-                _stateLock.ExitReadLock();
-                _stateLock.EnterWriteLock();
-                try
-                {
-                    _schedulerCompleted = true;
-                }
-                finally
-                {
-                    _stateLock.ExitWriteLock();
-                }
-
-                if (isDeadlocked)
-                {
-                    _logger.LogWarning(
-                        "Scheduler detected deadlock: {Pending} modules pending but cannot make progress. " +
-                        "Check for circular dependencies or missing module registrations.",
-                        snapshot.Pending);
-                }
-
-                return true;
+                _schedulerCompleted = true;
             }
-
-            return false;
         }
         finally
         {
-            if (_stateLock.IsReadLockHeld)
-            {
-                _stateLock.ExitReadLock();
-            }
+            _stateLock.ExitWriteLock();
         }
+
+        // Log outside lock to avoid holding lock during I/O
+        if (shouldExit && isDeadlocked)
+        {
+            _logger.LogWarning(
+                "Scheduler detected deadlock: {Pending} modules pending but cannot make progress. " +
+                "Check for circular dependencies or missing module registrations.",
+                snapshot.Pending);
+        }
+
+        return shouldExit;
     }
 
     private void LogSchedulerWaitingState()
@@ -337,42 +324,18 @@ internal class ModuleScheduler : IModuleScheduler
 
         _lastStatusLogTime = now;
 
-        var stats = _stateQueries.GetStatistics();
-        _logger.LogDebug(
-            "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
-            stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
-
-        LogPendingModules();
-        LogExecutingModules();
-    }
-
-    private void LogPendingModules()
-    {
+        // Consolidate all state queries under a single read lock to reduce contention
+        // Previously this called LogPendingModules() and LogExecutingModules() separately,
+        // each acquiring its own read lock
+        ModuleStateStatistics stats;
         List<ModuleState> pending;
-        _stateLock.EnterReadLock();
-        try
-        {
-            pending = _stateQueries.GetPendingModules().ToList();
-        }
-        finally
-        {
-            _stateLock.ExitReadLock();
-        }
-
-        // Log outside lock
-        if (pending.Count > 0)
-        {
-            _logger.LogDebug("Pending modules: {Modules}",
-                string.Join(", ", pending.Select(FormatModuleWithDependencyCount)));
-        }
-    }
-
-    private void LogExecutingModules()
-    {
         List<ModuleState> executing;
+
         _stateLock.EnterReadLock();
         try
         {
+            stats = _stateQueries.GetStatistics();
+            pending = _stateQueries.GetPendingModules().ToList();
             executing = _stateQueries.GetExecutingModules().ToList();
         }
         finally
@@ -380,7 +343,17 @@ internal class ModuleScheduler : IModuleScheduler
             _stateLock.ExitReadLock();
         }
 
-        // Log outside lock
+        // All logging outside lock to avoid holding lock during I/O
+        _logger.LogDebug(
+            "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
+            stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
+
+        if (pending.Count > 0)
+        {
+            _logger.LogDebug("Pending modules: {Modules}",
+                string.Join(", ", pending.Select(FormatModuleWithDependencyCount)));
+        }
+
         if (executing.Count > 0)
         {
             _logger.LogDebug("Executing modules: {Modules}",
