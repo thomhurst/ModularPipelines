@@ -29,6 +29,22 @@ internal static class ModuleExecutionDelegateFactory
     private static readonly ConcurrentDictionary<Type, ExecuteModuleDelegate> ExecutorCache = new();
 
     /// <summary>
+    /// Cache for generic MethodInfo instances created via MakeGenericMethod.
+    /// Key is the result type, value is the specialized MethodInfo.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, MethodInfo> ExecuteAsyncMethodCache = new();
+    private static readonly ConcurrentDictionary<Type, MethodInfo> ExecuteAndCastAsyncMethodCache = new();
+
+    /// <summary>
+    /// Base method definitions, cached once on first use.
+    /// </summary>
+    private static readonly MethodInfo ExecuteAsyncMethodDefinition =
+        typeof(IModuleExecutionPipeline).GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))!;
+
+    private static readonly MethodInfo ExecuteAndCastAsyncMethodDefinition =
+        typeof(ModuleExecutionDelegateFactory).GetMethod(nameof(ExecuteAndCastAsync), BindingFlags.NonPublic | BindingFlags.Static)!;
+
+    /// <summary>
     /// Gets a cached delegate for executing a module with the specified result type.
     /// </summary>
     /// <param name="resultType">The result type of the module (T in Module&lt;T&gt;).</param>
@@ -59,10 +75,10 @@ internal static class ModuleExecutionDelegateFactory
         // Cast executionContext to ModuleExecutionContext<T>
         var castContext = Expression.Convert(contextParam, executionContextType);
 
-        // Get the ExecuteAsync method
-        var executeMethod = typeof(IModuleExecutionPipeline)
-            .GetMethod(nameof(IModuleExecutionPipeline.ExecuteAsync))!
-            .MakeGenericMethod(resultType);
+        // Get the ExecuteAsync method (cached)
+        var executeMethod = ExecuteAsyncMethodCache.GetOrAdd(
+            resultType,
+            static type => ExecuteAsyncMethodDefinition.MakeGenericMethod(type));
 
         // Call pipeline.ExecuteAsync<T>(module, executionContext, moduleContext, cancellationToken)
         var callExecute = Expression.Call(
@@ -74,10 +90,10 @@ internal static class ModuleExecutionDelegateFactory
             cancellationTokenParam);
 
         // We need to create an async wrapper that awaits the task and casts the result to IModuleResult
-        // Since Expression trees can't directly represent async/await, we'll use a helper method
-        var helperMethod = typeof(ModuleExecutionDelegateFactory)
-            .GetMethod(nameof(ExecuteAndCastAsync), BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(resultType);
+        // Since Expression trees can't directly represent async/await, we'll use a helper method (cached)
+        var helperMethod = ExecuteAndCastAsyncMethodCache.GetOrAdd(
+            resultType,
+            static type => ExecuteAndCastAsyncMethodDefinition.MakeGenericMethod(type));
 
         var callHelper = Expression.Call(
             helperMethod,

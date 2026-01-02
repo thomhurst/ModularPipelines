@@ -23,6 +23,22 @@ internal static class ResultRepositoryDelegateFactory
     private static readonly ConcurrentDictionary<Type, GetResultDelegate> GetResultCache = new();
 
     /// <summary>
+    /// Cache for generic MethodInfo instances created via MakeGenericMethod.
+    /// Key is the result type, value is the specialized MethodInfo.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, MethodInfo> GetResultAsyncMethodCache = new();
+    private static readonly ConcurrentDictionary<Type, MethodInfo> GetResultAndCastAsyncMethodCache = new();
+
+    /// <summary>
+    /// Base method definitions, cached once on first use.
+    /// </summary>
+    private static readonly MethodInfo GetResultAsyncMethodDefinition =
+        typeof(IModuleResultRepository).GetMethod(nameof(IModuleResultRepository.GetResultAsync))!;
+
+    private static readonly MethodInfo GetResultAndCastAsyncMethodDefinition =
+        typeof(ResultRepositoryDelegateFactory).GetMethod(nameof(GetResultAndCastAsync), BindingFlags.NonPublic | BindingFlags.Static)!;
+
+    /// <summary>
     /// Gets a cached delegate for calling GetResultAsync with the specified result type.
     /// </summary>
     public static GetResultDelegate GetResultDelegateFor(Type resultType)
@@ -42,18 +58,18 @@ internal static class ResultRepositoryDelegateFactory
         // Cast module to Module<T>
         var castModule = Expression.Convert(moduleParam, moduleType);
 
-        // Get the GetResultAsync<T> method
-        var method = typeof(IModuleResultRepository)
-            .GetMethod(nameof(IModuleResultRepository.GetResultAsync))!
-            .MakeGenericMethod(resultType);
+        // Get the GetResultAsync<T> method (cached)
+        var method = GetResultAsyncMethodCache.GetOrAdd(
+            resultType,
+            static type => GetResultAsyncMethodDefinition.MakeGenericMethod(type));
 
         // Call: repository.GetResultAsync<T>((Module<T>)module, context)
         var callMethod = Expression.Call(repositoryParam, method, castModule, contextParam);
 
-        // We need an async helper since expression trees can't represent async
-        var helperMethod = typeof(ResultRepositoryDelegateFactory)
-            .GetMethod(nameof(GetResultAndCastAsync), BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(resultType);
+        // We need an async helper since expression trees can't represent async (cached)
+        var helperMethod = GetResultAndCastAsyncMethodCache.GetOrAdd(
+            resultType,
+            static type => GetResultAndCastAsyncMethodDefinition.MakeGenericMethod(type));
 
         var callHelper = Expression.Call(helperMethod, repositoryParam, castModule, contextParam);
 
