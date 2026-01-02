@@ -301,15 +301,25 @@ public sealed class Command : ICommand
 
         var inputToLog = options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString());
 
+        // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
+        using var timeoutCancellationToken = options.ExecutionTimeout.HasValue
+            ? new CancellationTokenSource(options.ExecutionTimeout.Value)
+            : null;
+
+        // Link the timeout token with the passed cancellation token, or just wrap the original if no timeout
+        using var linkedCancellationToken = timeoutCancellationToken != null
+            ? CancellationTokenSource.CreateLinkedTokenSource(timeoutCancellationToken.Token, cancellationToken)
+            : CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+
         using var forcefulCancellationToken = new CancellationTokenSource();
 
-        await using var registration = cancellationToken.Register(() =>
+        await using var registration = linkedCancellationToken.Token.Register(() =>
         {
             try
             {
                 if (forcefulCancellationToken.Token.CanBeCanceled)
                 {
-                    forcefulCancellationToken.CancelAfter(TimeSpan.FromSeconds(30));
+                    forcefulCancellationToken.CancelAfter(options.GracefulShutdownTimeout);
                 }
             }
             catch (ObjectDisposedException)
@@ -324,7 +334,7 @@ public sealed class Command : ICommand
                 .WithStandardOutputPipe(PipeTarget.ToStringBuilder(standardOutputStringBuilder))
                 .WithStandardErrorPipe(PipeTarget.ToStringBuilder(standardErrorStringBuilder))
                 .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync(forcefulCancellationToken.Token, cancellationToken).ConfigureAwait(false);
+                .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
 
             standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
             standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());

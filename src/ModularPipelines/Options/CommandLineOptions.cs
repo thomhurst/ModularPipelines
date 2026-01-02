@@ -60,5 +60,26 @@ public record CommandLineOptions
     /// </summary>
     public bool ThrowOnNonZeroExitCode { get; init; } = true;
 
+    /// <summary>
+    /// Gets or sets the maximum time allowed for the command to complete.
+    /// </summary>
+    /// <remarks>
+    /// <para>When set, the command will be cancelled if it exceeds this duration.</para>
+    /// <para>If the command does not complete within the timeout, a <see cref="System.OperationCanceledException"/> will be thrown.</para>
+    /// <para>If not set (null), the command will run until completion or until the passed cancellation token is cancelled.</para>
+    /// </remarks>
+    public TimeSpan? ExecutionTimeout { get; init; }
+
+    /// <summary>
+    /// Gets or sets the time to wait for graceful shutdown before forcefully terminating the process.
+    /// </summary>
+    /// <remarks>
+    /// <para>When a command is cancelled (either via <see cref="ExecutionTimeout"/> or an external cancellation token),
+    /// the process is first asked to terminate gracefully. If it does not terminate within this duration,
+    /// it will be forcefully killed.</para>
+    /// <para>Default is 30 seconds.</para>
+    /// </remarks>
+    public TimeSpan GracefulShutdownTimeout { get; init; } = TimeSpan.FromSeconds(30);
+
     internal bool InternalDryRun { get; set; }
 }
