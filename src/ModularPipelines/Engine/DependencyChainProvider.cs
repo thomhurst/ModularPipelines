@@ -7,7 +7,7 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 {
     private readonly IModuleRetriever _moduleRetriever;
 
-    public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = null!;
+    public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
     public DependencyChainProvider(IModuleRetriever moduleRetriever)
     {
