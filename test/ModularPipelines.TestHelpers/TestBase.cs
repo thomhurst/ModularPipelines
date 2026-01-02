@@ -1,13 +1,11 @@
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Host;
-using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers.Extensions;
 
@@ -21,13 +19,9 @@ public abstract class TestBase
 {
     private readonly List<IPipelineHost> _hosts = [];
 
-    private class DummyModule : Module<IDictionary<string, object>?>
+    private class DummyModule : SimpleTestModule<IDictionary<string, object>?>
     {
-        public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return null;
-        }
+        protected override IDictionary<string, object>? Result => null;
     }
 
     /// <summary>

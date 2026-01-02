@@ -52,42 +52,27 @@ public class PipelineProgressTests
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module3 : Module<bool>
+    private class Module3 : ThrowingTestModule<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module4 : Module<bool>, ISkippable
+    private class Module4 : SimpleTestModule<bool>, ISkippable
     {
+        protected override bool Result => true;
+
         public Task<SkipDecision> ShouldSkip(IPipelineContext context)
         {
             return SkipDecision.Skip("Testing").AsTask();
         }
-
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            return true;
-        }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module5 : Module<bool>, IIgnoreFailures
+    private class Module5 : ThrowingTestModule<bool>, IIgnoreFailures
     {
         public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
         {
             return true.AsTask();
-        }
-
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
         }
     }
 

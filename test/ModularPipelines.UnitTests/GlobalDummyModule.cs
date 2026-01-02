@@ -1,14 +1,9 @@
-using ModularPipelines.Context;
-using ModularPipelines.Modules;
+using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
-public class GlobalDummyModule : Module<IDictionary<string, object>?>
+public class GlobalDummyModule : SimpleTestModule<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
-    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-    {
-        await Task.Yield();
-        return null;
-    }
+    protected override IDictionary<string, object>? Result => null;
 }

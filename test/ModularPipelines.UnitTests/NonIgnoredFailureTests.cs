@@ -1,10 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using EngineCancellationToken = ModularPipelines.Engine.EngineCancellationToken;
 
@@ -12,13 +10,8 @@ namespace ModularPipelines.UnitTests;
 
 public class NonIgnoredFailureTests : TestBase
 {
-    private class NonIgnoredFailureModule : Module<CommandResult>
+    private class NonIgnoredFailureModule : ThrowingTestModule<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            await Task.Yield();
-            throw new Exception();
-        }
     }
 
     [Test]
