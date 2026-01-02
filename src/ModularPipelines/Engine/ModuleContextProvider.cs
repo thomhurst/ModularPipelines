@@ -41,6 +41,8 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
 
     public async ValueTask DisposeAsync()
     {
+        IServiceScope[] scopesToDispose;
+
         lock (_disposeLock)
         {
             if (_disposed)
@@ -49,11 +51,12 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
             }
 
             _disposed = true;
-        }
 
-        // Take a snapshot of scopes to dispose - any scopes added after this point
-        // would have thrown ObjectDisposedException in GetModuleContext
-        var scopesToDispose = _scopes.ToArray();
+            // Take snapshot inside lock to ensure atomicity.
+            // Any thread that passed the _disposed check in GetModuleContext
+            // before we set it will have already added to _scopes.
+            scopesToDispose = _scopes.ToArray();
+        }
 
         foreach (var scope in scopesToDispose)
         {
@@ -67,6 +70,8 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
     // Explicit implementation to coordinate with DisposeAsync and prevent double disposal
     void IDisposable.Dispose()
     {
+        IServiceScope[] scopesToDispose;
+
         lock (_disposeLock)
         {
             if (_disposed)
@@ -75,9 +80,10 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
             }
 
             _disposed = true;
-        }
 
-        var scopesToDispose = _scopes.ToArray();
+            // Take snapshot inside lock to ensure atomicity
+            scopesToDispose = _scopes.ToArray();
+        }
 
         foreach (var scope in scopesToDispose)
         {
