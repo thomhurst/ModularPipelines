@@ -76,5 +76,32 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("MissingDependsOnAttributeCodeFixTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Replace IEnumerable with List.
+        /// </summary>
+        internal static string EnumerableModuleResultToListCodeFixTitle {
+            get {
+                return ResourceManager.GetString("EnumerableModuleResultToListCodeFixTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Replace IEnumerable with Array.
+        /// </summary>
+        internal static string EnumerableModuleResultToArrayCodeFixTitle {
+            get {
+                return ResourceManager.GetString("EnumerableModuleResultToArrayCodeFixTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Remove DependsOn Attribute.
+        /// </summary>
+        internal static string ConflictingDependsOnAttributeCodeFixTitle {
+            get {
+                return ResourceManager.GetString("ConflictingDependsOnAttributeCodeFixTitle", resourceCulture);
+            }
+        }
     }
 }
