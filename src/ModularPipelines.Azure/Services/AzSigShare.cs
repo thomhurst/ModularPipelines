@@ -25,26 +25,26 @@ public class AzSigShare
 
     public async Task<CommandResult> Add(AzSigShareAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableCommunity(AzSigShareEnableCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareEnableCommunityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareEnableCommunityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSigShareRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reset(AzSigShareResetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareResetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShareResetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSigShareWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

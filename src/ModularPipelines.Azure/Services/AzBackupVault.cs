@@ -37,31 +37,31 @@ public class AzBackupVault
 
     public async Task<CommandResult> Create(AzBackupVaultCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzBackupVaultDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBackupVaultListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSoftDeletedContainers(AzBackupVaultListSoftDeletedContainersOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupVaultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzBackupVaultUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultUpdateOptions(), cancellationToken: token);
     }
 }

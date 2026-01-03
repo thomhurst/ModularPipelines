@@ -49,11 +49,11 @@ public class AzContainerappAuth
 
     public async Task<CommandResult> Show(AzContainerappAuthShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappAuthUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthUpdateOptions(), cancellationToken: token);
     }
 }

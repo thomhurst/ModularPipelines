@@ -21,11 +21,11 @@ public class AzSqlServerArcBackupsPolicy
 
     public async Task<CommandResult> Set(AzSqlServerArcBackupsPolicySetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerArcBackupsPolicyShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

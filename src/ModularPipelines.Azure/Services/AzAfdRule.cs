@@ -29,21 +29,21 @@ public class AzAfdRule
 
     public async Task<CommandResult> Create(AzAfdRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleShowOptions(), cancellationToken: token);
     }
 }

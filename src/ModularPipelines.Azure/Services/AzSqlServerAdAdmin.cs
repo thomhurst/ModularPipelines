@@ -21,21 +21,21 @@ public class AzSqlServerAdAdmin
 
     public async Task<CommandResult> Create(AzSqlServerAdAdminCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlServerAdAdminDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdAdminDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdAdminDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlServerAdAdminListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdAdminListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdAdminListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerAdAdminUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzAutomanageConfigurationProfileAssignmentVmReport
 
     public async Task<CommandResult> List(AzAutomanageConfigurationProfileAssignmentVmReportListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomanageConfigurationProfileAssignmentVmReportShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentVmReportShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentVmReportShowOptions(), cancellationToken: token);
     }
 }

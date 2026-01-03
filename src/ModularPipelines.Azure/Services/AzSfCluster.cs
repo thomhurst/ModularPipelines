@@ -49,16 +49,16 @@ public class AzSfCluster
 
     public async Task<CommandResult> Create(AzSfClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSfClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSfClusterShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -33,21 +33,21 @@ public class AzContainerappConnectedEnv
 
     public async Task<CommandResult> Create(AzContainerappConnectedEnvCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzContainerappConnectedEnvDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappConnectedEnvListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappConnectedEnvShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvShowOptions(), cancellationToken: token);
     }
 }

@@ -33,31 +33,31 @@ public class AzMonitorPrivateLinkScope
 
     public async Task<CommandResult> Create(AzMonitorPrivateLinkScopeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorPrivateLinkScopeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorPrivateLinkScopeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorPrivateLinkScopeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorPrivateLinkScopeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorPrivateLinkScopeWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeWaitOptions(), cancellationToken: token);
     }
 }

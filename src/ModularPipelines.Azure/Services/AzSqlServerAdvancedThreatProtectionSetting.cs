@@ -21,11 +21,11 @@ public class AzSqlServerAdvancedThreatProtectionSetting
 
     public async Task<CommandResult> Show(AzSqlServerAdvancedThreatProtectionSettingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdvancedThreatProtectionSettingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdvancedThreatProtectionSettingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerAdvancedThreatProtectionSettingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdvancedThreatProtectionSettingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdvancedThreatProtectionSettingUpdateOptions(), cancellationToken: token);
     }
 }

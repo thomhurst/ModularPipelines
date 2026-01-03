@@ -21,6 +21,6 @@ public class AzKeyvaultPrivateLinkResource
 
     public async Task<CommandResult> List(AzKeyvaultPrivateLinkResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateLinkResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultPrivateLinkResourceListOptions(), cancellationToken: token);
     }
 }

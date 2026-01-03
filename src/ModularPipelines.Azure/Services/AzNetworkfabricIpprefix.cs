@@ -21,31 +21,31 @@ public class AzNetworkfabricIpprefix
 
     public async Task<CommandResult> Create(AzNetworkfabricIpprefixCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricIpprefixDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricIpprefixListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricIpprefixShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricIpprefixUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricIpprefixWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricIpprefixWaitOptions(), cancellationToken: token);
     }
 }

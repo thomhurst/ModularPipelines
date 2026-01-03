@@ -23,16 +23,16 @@ public class AzConfig
 
     public async Task<CommandResult> Get(AzConfigGetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigGetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigGetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzConfigSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Unset(AzConfigUnsetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigUnsetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigUnsetOptions(), cancellationToken: token);
     }
 }

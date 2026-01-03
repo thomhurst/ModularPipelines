@@ -21,16 +21,16 @@ public class AzCloudServiceUpdateDomain
 
     public async Task<CommandResult> ListUpdateDomain(AzCloudServiceUpdateDomainListUpdateDomainOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowUpdateDomain(AzCloudServiceUpdateDomainShowUpdateDomainOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceUpdateDomainShowUpdateDomainOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceUpdateDomainShowUpdateDomainOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> WalkUpdateDomain(AzCloudServiceUpdateDomainWalkUpdateDomainOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceUpdateDomainWalkUpdateDomainOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudServiceUpdateDomainWalkUpdateDomainOptions(), cancellationToken: token);
     }
 }

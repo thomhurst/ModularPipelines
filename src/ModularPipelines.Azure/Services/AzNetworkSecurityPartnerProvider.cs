@@ -21,31 +21,31 @@ public class AzNetworkSecurityPartnerProvider
 
     public async Task<CommandResult> Create(AzNetworkSecurityPartnerProviderCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkSecurityPartnerProviderDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkSecurityPartnerProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkSecurityPartnerProviderShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkSecurityPartnerProviderUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkSecurityPartnerProviderWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkSecurityPartnerProviderWaitOptions(), cancellationToken: token);
     }
 }

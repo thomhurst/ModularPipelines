@@ -21,21 +21,21 @@ public class AzPipelinesVariable
 
     public async Task<CommandResult> Create(AzPipelinesVariableCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPipelinesVariableDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPipelinesVariableListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPipelinesVariableUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -53,76 +53,76 @@ public class AzSphereDevice
 
     public async Task<CommandResult> Assign(AzSphereDeviceAssignOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Claim(AzSphereDeviceClaimOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableCloudTest(AzSphereDeviceEnableCloudTestOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableDevelopment(AzSphereDeviceEnableDevelopmentOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSphereDeviceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAttached(AzSphereDeviceListAttachedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceListAttachedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceListAttachedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Recover(AzSphereDeviceRecoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRecoverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRecoverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RescanAttached(AzSphereDeviceRescanAttachedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRescanAttachedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRescanAttachedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzSphereDeviceRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSphereDeviceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowAttached(AzSphereDeviceShowAttachedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceShowAttachedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceShowAttachedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowCount(AzSphereDeviceShowCountOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDeploymentStatus(AzSphereDeviceShowDeploymentStatusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowOsVersion(AzSphereDeviceShowOsVersionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceShowOsVersionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceShowOsVersionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Unassign(AzSphereDeviceUnassignOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

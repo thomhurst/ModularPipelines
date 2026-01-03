@@ -21,6 +21,6 @@ public class AzStorageFileDownloadBatchStoragePreview
 
     public async Task<CommandResult> Extension(AzStorageFileDownloadBatchStoragePreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

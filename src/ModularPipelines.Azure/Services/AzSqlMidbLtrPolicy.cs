@@ -21,11 +21,11 @@ public class AzSqlMidbLtrPolicy
 
     public async Task<CommandResult> Set(AzSqlMidbLtrPolicySetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrPolicySetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrPolicySetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMidbLtrPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrPolicyShowOptions(), cancellationToken: token);
     }
 }

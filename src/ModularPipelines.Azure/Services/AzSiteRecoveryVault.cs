@@ -25,61 +25,61 @@ public class AzSiteRecoveryVault
 
     public async Task<CommandResult> ListAppliance(AzSiteRecoveryVaultListApplianceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListMigrationItem(AzSiteRecoveryVaultListMigrationItemOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListNetwork(AzSiteRecoveryVaultListNetworkOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListNetworkMapping(AzSiteRecoveryVaultListNetworkMappingOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListProtectedItem(AzSiteRecoveryVaultListProtectedItemOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListProtectionContainer(AzSiteRecoveryVaultListProtectionContainerOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListProtectionContainerMapping(AzSiteRecoveryVaultListProtectionContainerMappingOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListRecoveryServicesProvider(AzSiteRecoveryVaultListRecoveryServicesProviderOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListStorageClassification(AzSiteRecoveryVaultListStorageClassificationOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListStorageClassificationMapping(AzSiteRecoveryVaultListStorageClassificationMappingOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListVCenter(AzSiteRecoveryVaultListVCenterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowSupportedOperatingSystem(AzSiteRecoveryVaultShowSupportedOperatingSystemOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryVaultShowSupportedOperatingSystemOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryVaultShowSupportedOperatingSystemOptions(), cancellationToken: token);
     }
 }

@@ -25,16 +25,16 @@ public class AzStorageBlobCopy
 
     public async Task<CommandResult> Cancel(AzStorageBlobCopyCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzStorageBlobCopyStartOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> StartBatch(AzStorageBlobCopyStartBatchOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyStartBatchOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyStartBatchOptions(), cancellationToken: token);
     }
 }

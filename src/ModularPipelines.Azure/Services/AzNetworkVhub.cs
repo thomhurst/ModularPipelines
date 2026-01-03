@@ -41,36 +41,36 @@ public class AzNetworkVhub
 
     public async Task<CommandResult> Create(AzNetworkVhubCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVhubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetEffectiveRoutes(AzNetworkVhubGetEffectiveRoutesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubGetEffectiveRoutesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubGetEffectiveRoutesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVhubListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVhubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVhubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVhubWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubWaitOptions(), cancellationToken: token);
     }
 }

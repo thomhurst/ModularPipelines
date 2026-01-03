@@ -21,6 +21,6 @@ public class AzMysqlServerPrivateLinkResource
 
     public async Task<CommandResult> List(AzMysqlServerPrivateLinkResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateLinkResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateLinkResourceListOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzBillingBenefitsSavingsPlan
 
     public async Task<CommandResult> List(AzBillingBenefitsSavingsPlanListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsSavingsPlanListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsSavingsPlanListOptions(), cancellationToken: token);
     }
 }

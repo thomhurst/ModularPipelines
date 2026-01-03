@@ -21,16 +21,16 @@ public class AzMysqlServerReplica
 
     public async Task<CommandResult> Create(AzMysqlServerReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlServerReplicaListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerReplicaListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerReplicaListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzMysqlServerReplicaStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerReplicaStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerReplicaStopOptions(), cancellationToken: token);
     }
 }

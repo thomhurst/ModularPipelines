@@ -21,11 +21,11 @@ public class AzAzurestackhciVirtualmachineVnic
 
     public async Task<CommandResult> Add(AzAzurestackhciVirtualmachineVnicAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzAzurestackhciVirtualmachineVnicRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

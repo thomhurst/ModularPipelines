@@ -21,26 +21,26 @@ public class AzStackHciVmImage
 
     public async Task<CommandResult> Create(AzStackHciVmImageCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackHciVmImageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackHciVmImageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackHciVmImageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStackHciVmImageUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmImageUpdateOptions(), cancellationToken: token);
     }
 }

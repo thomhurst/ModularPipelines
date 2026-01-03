@@ -37,56 +37,56 @@ public class AzScvmmVm
 
     public async Task<CommandResult> Create(AzScvmmVmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateCheckpoint(AzScvmmVmCreateCheckpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzScvmmVmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteCheckpoint(AzScvmmVmDeleteCheckpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzScvmmVmRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RestoreCheckpoint(AzScvmmVmRestoreCheckpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzScvmmVmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzScvmmVmStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzScvmmVmStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzScvmmVmUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmVmWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

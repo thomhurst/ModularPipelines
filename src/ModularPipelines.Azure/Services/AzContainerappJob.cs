@@ -33,36 +33,36 @@ public class AzContainerappJob
 
     public async Task<CommandResult> Create(AzContainerappJobCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzContainerappJobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzContainerappJobStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzContainerappJobStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappJobUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobUpdateOptions(), cancellationToken: token);
     }
 }

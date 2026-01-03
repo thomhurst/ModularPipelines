@@ -21,16 +21,16 @@ public class AzKeyvaultRoleAssignment
 
     public async Task<CommandResult> Create(AzKeyvaultRoleAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzKeyvaultRoleAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzKeyvaultRoleAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleAssignmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleAssignmentListOptions(), cancellationToken: token);
     }
 }

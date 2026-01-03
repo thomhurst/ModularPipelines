@@ -21,11 +21,11 @@ public class AzMonitorActivityLogAlertActionGroup
 
     public async Task<CommandResult> Add(AzMonitorActivityLogAlertActionGroupAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzMonitorActivityLogAlertActionGroupRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

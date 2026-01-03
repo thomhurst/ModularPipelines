@@ -21,21 +21,21 @@ public class AzConnectedvmwareVirtualNetwork
 
     public async Task<CommandResult> Create(AzConnectedvmwareVirtualNetworkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedvmwareVirtualNetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedvmwareVirtualNetworkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedvmwareVirtualNetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVirtualNetworkShowOptions(), cancellationToken: token);
     }
 }

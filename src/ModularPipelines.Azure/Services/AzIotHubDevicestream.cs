@@ -21,6 +21,6 @@ public class AzIotHubDevicestream
 
     public async Task<CommandResult> Show(AzIotHubDevicestreamShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDevicestreamShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDevicestreamShowOptions(), cancellationToken: token);
     }
 }

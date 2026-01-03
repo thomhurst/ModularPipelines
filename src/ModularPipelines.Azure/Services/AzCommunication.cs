@@ -47,46 +47,46 @@ public class AzCommunication
 
     public async Task<CommandResult> Create(AzCommunicationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCommunicationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> LinkNotificationHub(AzCommunicationLinkNotificationHubOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationLinkNotificationHubOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationLinkNotificationHubOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCommunicationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKey(AzCommunicationListKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationListKeyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationListKeyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegenerateKey(AzCommunicationRegenerateKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRegenerateKeyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRegenerateKeyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCommunicationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCommunicationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzCommunicationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationWaitOptions(), cancellationToken: token);
     }
 }

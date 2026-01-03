@@ -21,6 +21,6 @@ public class AzConsumptionMarketplace
 
     public async Task<CommandResult> List(AzConsumptionMarketplaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionMarketplaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionMarketplaceListOptions(), cancellationToken: token);
     }
 }

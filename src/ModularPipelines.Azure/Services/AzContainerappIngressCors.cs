@@ -21,21 +21,21 @@ public class AzContainerappIngressCors
 
     public async Task<CommandResult> Disable(AzContainerappIngressCorsDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzContainerappIngressCorsEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappIngressCorsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappIngressCorsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsUpdateOptions(), cancellationToken: token);
     }
 }

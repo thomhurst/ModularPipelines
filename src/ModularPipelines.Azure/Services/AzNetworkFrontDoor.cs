@@ -49,46 +49,46 @@ public class AzNetworkFrontDoor
 
     public async Task<CommandResult> CheckCustomDomain(AzNetworkFrontDoorCheckCustomDomainOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CheckNameAvailability(AzNetworkFrontDoorCheckNameAvailabilityOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNetworkFrontDoorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFrontDoorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFrontDoorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> PurgeEndpoint(AzNetworkFrontDoorPurgeEndpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFrontDoorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFrontDoorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkFrontDoorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzAosmNsd
 
     public async Task<CommandResult> Build(AzAosmNsdBuildOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAosmNsdDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateConfig(AzAosmNsdGenerateConfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAosmNsdGenerateConfigOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAosmNsdGenerateConfigOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Publish(AzAosmNsdPublishOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzCommunicationChatThread
 
     public async Task<CommandResult> Create(AzCommunicationChatThreadCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCommunicationChatThreadDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCommunicationChatThreadListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationChatThreadListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationChatThreadListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateTopic(AzCommunicationChatThreadUpdateTopicOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

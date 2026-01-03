@@ -21,31 +21,31 @@ public class AzNetworkPublicIpPrefix
 
     public async Task<CommandResult> Create(AzNetworkPublicIpPrefixCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPublicIpPrefixDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPublicIpPrefixListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPublicIpPrefixShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPublicIpPrefixUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPublicIpPrefixWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpPrefixWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzNetworkManagerSecurityAdminConfigRuleCollectionRule
 
     public async Task<CommandResult> Create(AzNetworkManagerSecurityAdminConfigRuleCollectionRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkManagerSecurityAdminConfigRuleCollectionRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerSecurityAdminConfigRuleCollectionRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkManagerSecurityAdminConfigRuleCollectionRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerSecurityAdminConfigRuleCollectionRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkManagerSecurityAdminConfigRuleCollectionRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

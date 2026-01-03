@@ -21,31 +21,31 @@ public class AzScvmmCloud
 
     public async Task<CommandResult> Create(AzScvmmCloudCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzScvmmCloudDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzScvmmCloudListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzScvmmCloudShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzScvmmCloudUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmCloudUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmCloudWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

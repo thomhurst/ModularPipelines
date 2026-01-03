@@ -29,31 +29,31 @@ public class AzNetworkVpnGatewayConnection
 
     public async Task<CommandResult> Create(AzNetworkVpnGatewayConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVpnGatewayConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnGatewayConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVpnGatewayConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVpnGatewayConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVpnGatewayConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnGatewayConnectionWaitOptions(), cancellationToken: token);
     }
 }

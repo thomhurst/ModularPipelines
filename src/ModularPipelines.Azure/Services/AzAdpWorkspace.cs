@@ -21,31 +21,31 @@ public class AzAdpWorkspace
 
     public async Task<CommandResult> Create(AzAdpWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAdpWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAdpWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdpWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAdpWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAdpWorkspaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpWorkspaceWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzNetworkFunctionTrafficCollectorCollectorPolicy
 
     public async Task<CommandResult> Create(AzNetworkFunctionTrafficCollectorCollectorPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFunctionTrafficCollectorCollectorPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFunctionTrafficCollectorCollectorPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFunctionTrafficCollectorCollectorPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkFunctionTrafficCollectorCollectorPolicyWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFunctionTrafficCollectorCollectorPolicyWaitOptions(), cancellationToken: token);
     }
 }

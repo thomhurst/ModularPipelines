@@ -21,21 +21,21 @@ public class AzAksarcVnet
 
     public async Task<CommandResult> Create(AzAksarcVnetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAksarcVnetDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAksarcVnetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksarcVnetListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksarcVnetListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAksarcVnetShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

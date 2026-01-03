@@ -23,31 +23,31 @@ public class AzConfidentialledger
 
     public async Task<CommandResult> Create(AzConfidentialledgerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConfidentialledgerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConfidentialledgerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConfidentialledgerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConfidentialledgerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzConfidentialledgerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerWaitOptions(), cancellationToken: token);
     }
 }

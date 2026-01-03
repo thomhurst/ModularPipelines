@@ -25,31 +25,31 @@ public class AzNetworkRouteserver
 
     public async Task<CommandResult> Create(AzNetworkRouteserverCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkRouteserverDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkRouteserverListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkRouteserverShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkRouteserverUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkRouteserverWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverWaitOptions(), cancellationToken: token);
     }
 }

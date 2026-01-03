@@ -21,11 +21,11 @@ public class AzServicebusNamespaceAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzServicebusNamespaceAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Renew(AzServicebusNamespaceAuthorizationRuleKeysRenewOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

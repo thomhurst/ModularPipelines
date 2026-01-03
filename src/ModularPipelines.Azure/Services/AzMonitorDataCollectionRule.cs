@@ -45,26 +45,26 @@ public class AzMonitorDataCollectionRule
 
     public async Task<CommandResult> Create(AzMonitorDataCollectionRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorDataCollectionRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorDataCollectionRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorDataCollectionRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorDataCollectionRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleUpdateOptions(), cancellationToken: token);
     }
 }

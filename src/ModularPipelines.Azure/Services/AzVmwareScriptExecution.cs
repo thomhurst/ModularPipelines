@@ -21,26 +21,26 @@ public class AzVmwareScriptExecution
 
     public async Task<CommandResult> Create(AzVmwareScriptExecutionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareScriptExecutionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareScriptExecutionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareScriptExecutionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareScriptExecutionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptExecutionWaitOptions(), cancellationToken: token);
     }
 }

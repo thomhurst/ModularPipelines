@@ -21,36 +21,36 @@ public class AzSqlDw
 
     public async Task<CommandResult> Create(AzSqlDwCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlDwDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlDwListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Pause(AzSqlDwPauseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwPauseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwPauseOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Resume(AzSqlDwResumeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwResumeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwResumeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlDwShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlDwUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwUpdateOptions(), cancellationToken: token);
     }
 }

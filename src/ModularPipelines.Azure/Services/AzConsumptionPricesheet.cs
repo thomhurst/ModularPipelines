@@ -21,6 +21,6 @@ public class AzConsumptionPricesheet
 
     public async Task<CommandResult> Show(AzConsumptionPricesheetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionPricesheetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionPricesheetShowOptions(), cancellationToken: token);
     }
 }

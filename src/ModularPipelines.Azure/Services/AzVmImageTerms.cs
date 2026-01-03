@@ -21,16 +21,16 @@ public class AzVmImageTerms
 
     public async Task<CommandResult> Accept(AzVmImageTermsAcceptOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsAcceptOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsAcceptOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Cancel(AzVmImageTermsCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmImageTermsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsShowOptions(), cancellationToken: token);
     }
 }

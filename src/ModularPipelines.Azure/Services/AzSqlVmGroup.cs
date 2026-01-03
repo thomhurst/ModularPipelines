@@ -25,26 +25,26 @@ public class AzSqlVmGroup
 
     public async Task<CommandResult> Create(AzSqlVmGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlVmGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlVmGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlVmGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlVmGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupUpdateOptions(), cancellationToken: token);
     }
 }

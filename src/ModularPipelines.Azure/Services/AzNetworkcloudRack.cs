@@ -21,21 +21,21 @@ public class AzNetworkcloudRack
 
     public async Task<CommandResult> List(AzNetworkcloudRackListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudRackShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudRackUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudRackWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudRackWaitOptions(), cancellationToken: token);
     }
 }

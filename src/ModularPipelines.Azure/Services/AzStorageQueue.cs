@@ -29,31 +29,31 @@ public class AzStorageQueue
 
     public async Task<CommandResult> Create(AzStorageQueueCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStorageQueueDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzStorageQueueExistsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateSas(AzStorageQueueGenerateSasOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageQueueListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageQueueListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageQueueListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stats(AzStorageQueueStatsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageQueueStatsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageQueueStatsOptions(), cancellationToken: token);
     }
 }

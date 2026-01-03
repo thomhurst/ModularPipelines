@@ -21,16 +21,16 @@ public class AzMeshSecretvalue
 
     public async Task<CommandResult> Delete(AzMeshSecretvalueDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshSecretvalueDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshSecretvalueDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMeshSecretvalueListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMeshSecretvalueShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

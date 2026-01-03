@@ -21,26 +21,26 @@ public class AzDatafactoryLinkedService
 
     public async Task<CommandResult> Create(AzDatafactoryLinkedServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryLinkedServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryLinkedServiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryLinkedServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryLinkedServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryLinkedServiceUpdateOptions(), cancellationToken: token);
     }
 }

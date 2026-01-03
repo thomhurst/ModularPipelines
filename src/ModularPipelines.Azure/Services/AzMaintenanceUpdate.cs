@@ -21,11 +21,11 @@ public class AzMaintenanceUpdate
 
     public async Task<CommandResult> List(AzMaintenanceUpdateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListParent(AzMaintenanceUpdateListParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceUpdateListParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceUpdateListParentOptions(), cancellationToken: token);
     }
 }

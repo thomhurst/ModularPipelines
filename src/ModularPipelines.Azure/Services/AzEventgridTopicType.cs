@@ -33,16 +33,16 @@ public class AzEventgridTopicType
 
     public async Task<CommandResult> List(AzEventgridTopicTypeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridTopicTypeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridTopicTypeListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListEventTypes(AzEventgridTopicTypeListEventTypesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridTopicTypeShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

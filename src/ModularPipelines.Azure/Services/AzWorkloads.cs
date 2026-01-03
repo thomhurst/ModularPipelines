@@ -39,16 +39,16 @@ public class AzWorkloads
 
     public async Task<CommandResult> SapDiskConfiguration(AzWorkloadsSapDiskConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDiskConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDiskConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SapSizingRecommendation(AzWorkloadsSapSizingRecommendationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapSizingRecommendationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapSizingRecommendationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SapSupportedSku(AzWorkloadsSapSupportedSkuOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapSupportedSkuOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapSupportedSkuOptions(), cancellationToken: token);
     }
 }

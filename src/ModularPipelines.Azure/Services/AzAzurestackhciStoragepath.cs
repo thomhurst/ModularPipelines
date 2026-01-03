@@ -21,26 +21,26 @@ public class AzAzurestackhciStoragepath
 
     public async Task<CommandResult> Create(AzAzurestackhciStoragepathCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciStoragepathDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciStoragepathListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciStoragepathShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciStoragepathUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciStoragepathUpdateOptions(), cancellationToken: token);
     }
 }

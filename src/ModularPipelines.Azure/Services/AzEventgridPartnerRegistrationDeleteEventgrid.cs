@@ -21,6 +21,6 @@ public class AzEventgridPartnerRegistrationDeleteEventgrid
 
     public async Task<CommandResult> Extension(AzEventgridPartnerRegistrationDeleteEventgridExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationDeleteEventgridExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationDeleteEventgridExtensionOptions(), cancellationToken: token);
     }
 }

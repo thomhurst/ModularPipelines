@@ -21,31 +21,31 @@ public class AzVmHostGroup
 
     public async Task<CommandResult> Create(AzVmHostGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmHostGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetInstanceView(AzVmHostGroupGetInstanceViewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupGetInstanceViewOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupGetInstanceViewOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmHostGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmHostGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmHostGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmHostGroupUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzNetworkVpnConnectionSharedKey
 
     public async Task<CommandResult> Reset(AzNetworkVpnConnectionSharedKeyResetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVpnConnectionSharedKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVpnConnectionSharedKeyUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

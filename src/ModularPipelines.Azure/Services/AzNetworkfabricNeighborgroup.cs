@@ -21,31 +21,31 @@ public class AzNetworkfabricNeighborgroup
 
     public async Task<CommandResult> Create(AzNetworkfabricNeighborgroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricNeighborgroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricNeighborgroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricNeighborgroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricNeighborgroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricNeighborgroupWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNeighborgroupWaitOptions(), cancellationToken: token);
     }
 }

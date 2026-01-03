@@ -21,16 +21,16 @@ public class AzWebappIdentity
 
     public async Task<CommandResult> Assign(AzWebappIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzWebappIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityShowOptions(), cancellationToken: token);
     }
 }

@@ -25,26 +25,26 @@ public class AzNetworkFrontDoorWafPolicyRule
 
     public async Task<CommandResult> Create(AzNetworkFrontDoorWafPolicyRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFrontDoorWafPolicyRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFrontDoorWafPolicyRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFrontDoorWafPolicyRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFrontDoorWafPolicyRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyRuleUpdateOptions(), cancellationToken: token);
     }
 }

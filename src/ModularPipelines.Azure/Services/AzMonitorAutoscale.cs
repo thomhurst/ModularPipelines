@@ -29,31 +29,31 @@ public class AzMonitorAutoscale
 
     public async Task<CommandResult> Create(AzMonitorAutoscaleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorAutoscaleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorAutoscaleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAutoscaleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowPredictiveMetric(AzMonitorAutoscaleShowPredictiveMetricOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAutoscaleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleUpdateOptions(), cancellationToken: token);
     }
 }

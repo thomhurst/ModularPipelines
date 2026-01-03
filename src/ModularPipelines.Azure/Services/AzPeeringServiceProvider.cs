@@ -21,6 +21,6 @@ public class AzPeeringServiceProvider
 
     public async Task<CommandResult> List(AzPeeringServiceProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPeeringServiceProviderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPeeringServiceProviderListOptions(), cancellationToken: token);
     }
 }

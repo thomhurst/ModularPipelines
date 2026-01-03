@@ -31,11 +31,11 @@ public class AzInternetAnalyzer
 
     public async Task<CommandResult> ShowScorecard(AzInternetAnalyzerShowScorecardOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowTimeseries(AzInternetAnalyzerShowTimeseriesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

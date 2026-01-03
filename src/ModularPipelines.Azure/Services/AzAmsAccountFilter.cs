@@ -21,26 +21,26 @@ public class AzAmsAccountFilter
 
     public async Task<CommandResult> Create(AzAmsAccountFilterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsAccountFilterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsAccountFilterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAccountFilterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsAccountFilterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountFilterUpdateOptions(), cancellationToken: token);
     }
 }

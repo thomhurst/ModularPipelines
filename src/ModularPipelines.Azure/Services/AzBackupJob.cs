@@ -21,21 +21,21 @@ public class AzBackupJob
 
     public async Task<CommandResult> List(AzBackupJobListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzBackupJobStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzBackupJobWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupJobWaitOptions(), cancellationToken: token);
     }
 }

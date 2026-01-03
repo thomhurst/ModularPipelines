@@ -21,26 +21,26 @@ public class AzStackHciVmStoragepath
 
     public async Task<CommandResult> Create(AzStackHciVmStoragepathCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackHciVmStoragepathDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackHciVmStoragepathListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackHciVmStoragepathShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStackHciVmStoragepathUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmStoragepathUpdateOptions(), cancellationToken: token);
     }
 }

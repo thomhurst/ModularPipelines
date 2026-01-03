@@ -29,11 +29,11 @@ public class AzIotEdge
 
     public async Task<CommandResult> ExportModules(AzIotEdgeExportModulesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SetModules(AzIotEdgeSetModulesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

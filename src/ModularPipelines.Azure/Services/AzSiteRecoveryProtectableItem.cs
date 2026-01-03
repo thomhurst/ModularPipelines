@@ -21,11 +21,11 @@ public class AzSiteRecoveryProtectableItem
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectableItemListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryProtectableItemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectableItemShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectableItemShowOptions(), cancellationToken: token);
     }
 }

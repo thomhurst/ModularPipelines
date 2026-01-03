@@ -37,46 +37,46 @@ public class AzHdinsightOnAksCluster
 
     public async Task<CommandResult> Create(AzHdinsightOnAksClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHdinsightOnAksClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHdinsightOnAksClusterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListServiceConfig(AzHdinsightOnAksClusterListServiceConfigOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Resize(AzHdinsightOnAksClusterResizeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterResizeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterResizeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHdinsightOnAksClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowInstanceView(AzHdinsightOnAksClusterShowInstanceViewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterShowInstanceViewOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterShowInstanceViewOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHdinsightOnAksClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHdinsightOnAksClusterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterWaitOptions(), cancellationToken: token);
     }
 }

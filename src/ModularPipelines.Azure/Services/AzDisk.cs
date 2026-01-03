@@ -19,41 +19,41 @@ public class AzDisk
 
     public async Task<CommandResult> Create(AzDiskCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDiskDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GrantAccess(AzDiskGrantAccessOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDiskListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RevokeAccess(AzDiskRevokeAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskRevokeAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskRevokeAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDiskShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDiskUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDiskWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskWaitOptions(), cancellationToken: token);
     }
 }

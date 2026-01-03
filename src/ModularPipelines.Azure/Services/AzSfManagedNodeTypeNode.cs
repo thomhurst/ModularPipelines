@@ -21,16 +21,16 @@ public class AzSfManagedNodeTypeNode
 
     public async Task<CommandResult> Delete(AzSfManagedNodeTypeNodeDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reimage(AzSfManagedNodeTypeNodeReimageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzSfManagedNodeTypeNodeRestartOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzAccountLock
 
     public async Task<CommandResult> Create(AzAccountLockCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAccountLockDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAccountLockListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAccountLockShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAccountLockUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountLockUpdateOptions(), cancellationToken: token);
     }
 }

@@ -69,6 +69,6 @@ public class AzNetworkDnsRecordSet
 
     public async Task<CommandResult> List(AzNetworkDnsRecordSetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

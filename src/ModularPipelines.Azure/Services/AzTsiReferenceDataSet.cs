@@ -21,26 +21,26 @@ public class AzTsiReferenceDataSet
 
     public async Task<CommandResult> Create(AzTsiReferenceDataSetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzTsiReferenceDataSetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzTsiReferenceDataSetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzTsiReferenceDataSetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzTsiReferenceDataSetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiReferenceDataSetUpdateOptions(), cancellationToken: token);
     }
 }

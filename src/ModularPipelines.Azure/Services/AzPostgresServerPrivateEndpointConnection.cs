@@ -21,21 +21,21 @@ public class AzPostgresServerPrivateEndpointConnection
 
     public async Task<CommandResult> Approve(AzPostgresServerPrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionApproveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionApproveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPostgresServerPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzPostgresServerPrivateEndpointConnectionRejectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionRejectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionRejectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresServerPrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 }

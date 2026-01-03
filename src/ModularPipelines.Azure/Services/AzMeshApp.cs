@@ -21,16 +21,16 @@ public class AzMeshApp
 
     public async Task<CommandResult> Delete(AzMeshAppDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMeshAppListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMeshAppShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshAppShowOptions(), cancellationToken: token);
     }
 }

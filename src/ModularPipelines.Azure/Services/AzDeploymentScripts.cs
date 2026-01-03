@@ -19,21 +19,21 @@ public class AzDeploymentScripts
 
     public async Task<CommandResult> Delete(AzDeploymentScriptsDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDeploymentScriptsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentScriptsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentScriptsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDeploymentScriptsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowLog(AzDeploymentScriptsShowLogOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

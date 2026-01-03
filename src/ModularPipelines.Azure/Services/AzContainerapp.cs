@@ -99,51 +99,51 @@ public class AzContainerapp
 
     public async Task<CommandResult> Browse(AzContainerappBrowseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappBrowseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappBrowseOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzContainerappCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzContainerappDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exec(AzContainerappExecOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzContainerappListUsagesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowCustomDomainVerificationId(AzContainerappShowCustomDomainVerificationIdOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappShowCustomDomainVerificationIdOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappShowCustomDomainVerificationIdOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzContainerappUpOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappUpdateOptions(), cancellationToken: token);
     }
 }

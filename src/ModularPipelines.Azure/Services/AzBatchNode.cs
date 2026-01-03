@@ -45,26 +45,26 @@ public class AzBatchNode
 
     public async Task<CommandResult> Delete(AzBatchNodeDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBatchNodeListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reboot(AzBatchNodeRebootOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reimage(AzBatchNodeReimageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBatchNodeShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

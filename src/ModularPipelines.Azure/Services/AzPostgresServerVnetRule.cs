@@ -21,26 +21,26 @@ public class AzPostgresServerVnetRule
 
     public async Task<CommandResult> Create(AzPostgresServerVnetRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPostgresServerVnetRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPostgresServerVnetRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresServerVnetRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerVnetRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPostgresServerVnetRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

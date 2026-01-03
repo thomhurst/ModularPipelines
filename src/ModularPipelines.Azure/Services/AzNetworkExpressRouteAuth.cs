@@ -21,26 +21,26 @@ public class AzNetworkExpressRouteAuth
 
     public async Task<CommandResult> Create(AzNetworkExpressRouteAuthCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkExpressRouteAuthDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkExpressRouteAuthListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRouteAuthShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRouteAuthWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteAuthWaitOptions(), cancellationToken: token);
     }
 }

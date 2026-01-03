@@ -25,51 +25,51 @@ public class AzCosmosdbPostgresCluster
 
     public async Task<CommandResult> Create(AzCosmosdbPostgresClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCosmosdbPostgresClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCosmosdbPostgresClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Promote(AzCosmosdbPostgresClusterPromoteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterPromoteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterPromoteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzCosmosdbPostgresClusterRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbPostgresClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzCosmosdbPostgresClusterStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzCosmosdbPostgresClusterStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCosmosdbPostgresClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzCosmosdbPostgresClusterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterWaitOptions(), cancellationToken: token);
     }
 }

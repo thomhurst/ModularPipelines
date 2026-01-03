@@ -19,31 +19,31 @@ public class AzTs
 
     public async Task<CommandResult> Create(AzTsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzTsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzTsExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzTsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzTsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzTsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsUpdateOptions(), cancellationToken: token);
     }
 }

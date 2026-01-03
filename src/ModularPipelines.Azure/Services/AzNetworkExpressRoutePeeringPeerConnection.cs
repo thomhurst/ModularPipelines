@@ -21,11 +21,11 @@ public class AzNetworkExpressRoutePeeringPeerConnection
 
     public async Task<CommandResult> List(AzNetworkExpressRoutePeeringPeerConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRoutePeeringPeerConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringPeerConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringPeerConnectionShowOptions(), cancellationToken: token);
     }
 }

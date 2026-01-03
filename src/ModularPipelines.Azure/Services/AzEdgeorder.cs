@@ -31,16 +31,16 @@ public class AzEdgeorder
 
     public async Task<CommandResult> ListConfig(AzEdgeorderListConfigOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListFamily(AzEdgeorderListFamilyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListMetadata(AzEdgeorderListMetadataOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderListMetadataOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderListMetadataOptions(), cancellationToken: token);
     }
 }

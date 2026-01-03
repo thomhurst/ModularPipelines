@@ -21,26 +21,26 @@ public class AzBoardsIterationProject
 
     public async Task<CommandResult> Create(AzBoardsIterationProjectCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzBoardsIterationProjectDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBoardsIterationProjectListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBoardsIterationProjectShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzBoardsIterationProjectUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

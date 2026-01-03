@@ -21,31 +21,31 @@ public class AzVmwarePrivateCloudIdentitySource
 
     public async Task<CommandResult> Create(AzVmwarePrivateCloudIdentitySourceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwarePrivateCloudIdentitySourceDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwarePrivateCloudIdentitySourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwarePrivateCloudIdentitySourceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwarePrivateCloudIdentitySourceUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwarePrivateCloudIdentitySourceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudIdentitySourceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePrivateCloudIdentitySourceWaitOptions(), cancellationToken: token);
     }
 }

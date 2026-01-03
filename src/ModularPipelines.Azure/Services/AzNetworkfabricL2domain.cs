@@ -21,36 +21,36 @@ public class AzNetworkfabricL2domain
 
     public async Task<CommandResult> Create(AzNetworkfabricL2domainCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricL2domainDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricL2domainListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricL2domainShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricL2domainUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateAdminState(AzNetworkfabricL2domainUpdateAdminStateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainUpdateAdminStateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainUpdateAdminStateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricL2domainWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricL2domainWaitOptions(), cancellationToken: token);
     }
 }

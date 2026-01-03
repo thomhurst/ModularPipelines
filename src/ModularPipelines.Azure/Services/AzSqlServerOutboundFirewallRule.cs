@@ -21,21 +21,21 @@ public class AzSqlServerOutboundFirewallRule
 
     public async Task<CommandResult> Create(AzSqlServerOutboundFirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlServerOutboundFirewallRuleDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlServerOutboundFirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerOutboundFirewallRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerOutboundFirewallRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerOutboundFirewallRuleShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

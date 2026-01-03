@@ -21,31 +21,31 @@ public class AzApicWorkspace
 
     public async Task<CommandResult> Create(AzApicWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicWorkspaceHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicWorkspaceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicWorkspaceUpdateOptions(), cancellationToken: token);
     }
 }

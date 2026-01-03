@@ -21,31 +21,31 @@ public class AzKustoAttachedDatabaseConfiguration
 
     public async Task<CommandResult> Create(AzKustoAttachedDatabaseConfigurationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzKustoAttachedDatabaseConfigurationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzKustoAttachedDatabaseConfigurationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzKustoAttachedDatabaseConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKustoAttachedDatabaseConfigurationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzKustoAttachedDatabaseConfigurationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoAttachedDatabaseConfigurationWaitOptions(), cancellationToken: token);
     }
 }

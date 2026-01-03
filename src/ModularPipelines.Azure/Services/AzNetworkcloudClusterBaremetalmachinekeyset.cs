@@ -21,31 +21,31 @@ public class AzNetworkcloudClusterBaremetalmachinekeyset
 
     public async Task<CommandResult> Create(AzNetworkcloudClusterBaremetalmachinekeysetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudClusterBaremetalmachinekeysetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudClusterBaremetalmachinekeysetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudClusterBaremetalmachinekeysetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudClusterBaremetalmachinekeysetWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterBaremetalmachinekeysetWaitOptions(), cancellationToken: token);
     }
 }

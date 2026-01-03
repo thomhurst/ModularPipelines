@@ -21,26 +21,26 @@ public class AzManagedappDefinition
 
     public async Task<CommandResult> Create(AzManagedappDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzManagedappDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDefinitionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDefinitionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzManagedappDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzManagedappDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDefinitionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzManagedappDefinitionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

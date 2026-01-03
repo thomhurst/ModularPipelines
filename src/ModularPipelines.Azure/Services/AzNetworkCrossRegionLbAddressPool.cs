@@ -25,26 +25,26 @@ public class AzNetworkCrossRegionLbAddressPool
 
     public async Task<CommandResult> Create(AzNetworkCrossRegionLbAddressPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkCrossRegionLbAddressPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkCrossRegionLbAddressPoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkCrossRegionLbAddressPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkCrossRegionLbAddressPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolUpdateOptions(), cancellationToken: token);
     }
 }

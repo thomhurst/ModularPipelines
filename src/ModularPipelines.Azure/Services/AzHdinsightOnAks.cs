@@ -27,16 +27,16 @@ public class AzHdinsightOnAks
 
     public async Task<CommandResult> CheckNameAvailability(AzHdinsightOnAksCheckNameAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksCheckNameAvailabilityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksCheckNameAvailabilityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAvailableClusterPoolVersion(AzHdinsightOnAksListAvailableClusterPoolVersionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAvailableClusterVersion(AzHdinsightOnAksListAvailableClusterVersionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

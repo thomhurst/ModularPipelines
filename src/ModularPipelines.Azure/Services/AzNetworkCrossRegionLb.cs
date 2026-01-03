@@ -33,31 +33,31 @@ public class AzNetworkCrossRegionLb
 
     public async Task<CommandResult> Create(AzNetworkCrossRegionLbCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkCrossRegionLbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkCrossRegionLbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkCrossRegionLbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkCrossRegionLbUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkCrossRegionLbWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbWaitOptions(), cancellationToken: token);
     }
 }

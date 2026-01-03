@@ -21,11 +21,11 @@ public class AzWebappAuthClassic
 
     public async Task<CommandResult> Show(AzWebappAuthClassicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthClassicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthClassicShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebappAuthClassicUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthClassicUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthClassicUpdateOptions(), cancellationToken: token);
     }
 }

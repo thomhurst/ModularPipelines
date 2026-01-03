@@ -25,26 +25,26 @@ public class AzVmImage
 
     public async Task<CommandResult> List(AzVmImageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListOffers(AzVmImageListOffersOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListPublishers(AzVmImageListPublishersOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzVmImageListSkusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmImageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmImageShowOptions(), cancellationToken: token);
     }
 }

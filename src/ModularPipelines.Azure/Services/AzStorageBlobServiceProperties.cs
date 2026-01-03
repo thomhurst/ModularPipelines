@@ -29,11 +29,11 @@ public class AzStorageBlobServiceProperties
 
     public async Task<CommandResult> Show(AzStorageBlobServicePropertiesShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageBlobServicePropertiesUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateOptions(), cancellationToken: token);
     }
 }

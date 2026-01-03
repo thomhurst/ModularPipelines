@@ -21,16 +21,16 @@ public class AzMonitorAppInsightsApiKey
 
     public async Task<CommandResult> Create(AzMonitorAppInsightsApiKeyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorAppInsightsApiKeyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsApiKeyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsApiKeyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsApiKeyShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

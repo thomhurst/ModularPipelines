@@ -21,26 +21,26 @@ public class AzDatamigrationSqlDb
 
     public async Task<CommandResult> Cancel(AzDatamigrationSqlDbCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzDatamigrationSqlDbCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatamigrationSqlDbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatamigrationSqlDbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatamigrationSqlDbWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlDbWaitOptions(), cancellationToken: token);
     }
 }

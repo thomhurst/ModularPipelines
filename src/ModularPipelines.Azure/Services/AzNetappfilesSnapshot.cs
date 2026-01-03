@@ -25,36 +25,36 @@ public class AzNetappfilesSnapshot
 
     public async Task<CommandResult> Create(AzNetappfilesSnapshotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetappfilesSnapshotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesSnapshotListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RestoreFiles(AzNetappfilesSnapshotRestoreFilesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetappfilesSnapshotShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesSnapshotUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesSnapshotWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSnapshotWaitOptions(), cancellationToken: token);
     }
 }

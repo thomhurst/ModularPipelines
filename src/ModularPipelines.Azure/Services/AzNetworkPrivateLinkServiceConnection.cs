@@ -21,16 +21,16 @@ public class AzNetworkPrivateLinkServiceConnection
 
     public async Task<CommandResult> Delete(AzNetworkPrivateLinkServiceConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateLinkServiceConnectionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPrivateLinkServiceConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceConnectionWaitOptions(), cancellationToken: token);
     }
 }

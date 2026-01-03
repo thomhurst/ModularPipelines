@@ -21,6 +21,6 @@ public class AzSecuritySecuritySolutionsReferenceData
 
     public async Task<CommandResult> List(AzSecuritySecuritySolutionsReferenceDataListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsReferenceDataListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsReferenceDataListOptions(), cancellationToken: token);
     }
 }

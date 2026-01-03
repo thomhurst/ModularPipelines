@@ -29,31 +29,31 @@ public class AzNetworkLbAddressPool
 
     public async Task<CommandResult> Create(AzNetworkLbAddressPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkLbAddressPoolDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkLbAddressPoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkLbAddressPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkLbAddressPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkLbAddressPoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolWaitOptions(), cancellationToken: token);
     }
 }

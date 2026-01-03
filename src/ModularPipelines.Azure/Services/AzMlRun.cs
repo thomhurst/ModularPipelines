@@ -21,51 +21,51 @@ public class AzMlRun
 
     public async Task<CommandResult> Cancel(AzMlRunCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DownloadLogs(AzMlRunDownloadLogsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMlRunListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> MonitorLogs(AzMlRunMonitorLogsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> MonitorTensorboard(AzMlRunMonitorTensorboardOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMlRunShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SubmitHyperdrive(AzMlRunSubmitHyperdriveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SubmitPipeline(AzMlRunSubmitPipelineOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitPipelineOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitPipelineOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SubmitScript(AzMlRunSubmitScriptOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitScriptOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlRunSubmitScriptOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMlRunUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

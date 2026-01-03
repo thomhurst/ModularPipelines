@@ -21,16 +21,16 @@ public class AzMariadbServerReplica
 
     public async Task<CommandResult> Create(AzMariadbServerReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMariadbServerReplicaListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzMariadbServerReplicaStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaStopOptions(), cancellationToken: token);
     }
 }

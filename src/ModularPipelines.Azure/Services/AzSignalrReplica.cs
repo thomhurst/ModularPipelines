@@ -21,21 +21,21 @@ public class AzSignalrReplica
 
     public async Task<CommandResult> Create(AzSignalrReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSignalrReplicaDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSignalrReplicaListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSignalrReplicaShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrReplicaShowOptions(), cancellationToken: token);
     }
 }

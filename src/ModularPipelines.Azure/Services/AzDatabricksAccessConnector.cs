@@ -21,31 +21,31 @@ public class AzDatabricksAccessConnector
 
     public async Task<CommandResult> Create(AzDatabricksAccessConnectorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatabricksAccessConnectorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatabricksAccessConnectorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatabricksAccessConnectorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatabricksAccessConnectorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatabricksAccessConnectorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksAccessConnectorWaitOptions(), cancellationToken: token);
     }
 }

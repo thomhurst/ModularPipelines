@@ -35,6 +35,6 @@ public class AzBillingBenefits
 
     public async Task<CommandResult> ValidatePurchase(AzBillingBenefitsValidatePurchaseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsValidatePurchaseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingBenefitsValidatePurchaseOptions(), cancellationToken: token);
     }
 }

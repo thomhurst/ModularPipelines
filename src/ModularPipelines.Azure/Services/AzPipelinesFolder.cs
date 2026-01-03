@@ -21,21 +21,21 @@ public class AzPipelinesFolder
 
     public async Task<CommandResult> Create(AzPipelinesFolderCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPipelinesFolderDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPipelinesFolderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesFolderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesFolderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPipelinesFolderUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

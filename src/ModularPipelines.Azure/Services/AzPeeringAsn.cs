@@ -21,21 +21,21 @@ public class AzPeeringAsn
 
     public async Task<CommandResult> Create(AzPeeringAsnCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPeeringAsnDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPeeringAsnListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPeeringAsnListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPeeringAsnListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPeeringAsnShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

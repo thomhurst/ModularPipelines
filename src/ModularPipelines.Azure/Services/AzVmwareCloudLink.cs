@@ -21,26 +21,26 @@ public class AzVmwareCloudLink
 
     public async Task<CommandResult> Create(AzVmwareCloudLinkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareCloudLinkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareCloudLinkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareCloudLinkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareCloudLinkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareCloudLinkUpdateOptions(), cancellationToken: token);
     }
 }

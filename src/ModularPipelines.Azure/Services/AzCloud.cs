@@ -19,36 +19,36 @@ public class AzCloud
 
     public async Task<CommandResult> List(AzCloudListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListProfiles(AzCloudListProfilesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListProfilesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudListProfilesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Register(AzCloudRegisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzCloudSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCloudShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Unregister(AzCloudUnregisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCloudUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCloudUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCloudUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzDatafactoryDataset
 
     public async Task<CommandResult> Create(AzDatafactoryDatasetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryDatasetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDatasetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDatasetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryDatasetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryDatasetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDatasetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDatasetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryDatasetUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

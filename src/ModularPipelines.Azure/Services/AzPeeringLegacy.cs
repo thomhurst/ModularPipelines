@@ -21,6 +21,6 @@ public class AzPeeringLegacy
 
     public async Task<CommandResult> List(AzPeeringLegacyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

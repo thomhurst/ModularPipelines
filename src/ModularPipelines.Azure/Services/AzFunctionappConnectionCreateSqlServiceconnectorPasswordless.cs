@@ -21,6 +21,6 @@ public class AzFunctionappConnectionCreateSqlServiceconnectorPasswordless
 
     public async Task<CommandResult> Extension(AzFunctionappConnectionCreateSqlServiceconnectorPasswordlessExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateSqlServiceconnectorPasswordlessExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateSqlServiceconnectorPasswordlessExtensionOptions(), cancellationToken: token);
     }
 }

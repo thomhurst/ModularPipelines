@@ -29,36 +29,36 @@ public class AzContainerappConnection
 
     public async Task<CommandResult> Delete(AzContainerappConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListConfiguration(AzContainerappConnectionListConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSupportTypes(AzContainerappConnectionListSupportTypesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListSupportTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionListSupportTypesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Validate(AzContainerappConnectionValidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionValidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionValidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzContainerappConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzAksScaleAksPreview
 
     public async Task<CommandResult> Extension(AzAksScaleAksPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

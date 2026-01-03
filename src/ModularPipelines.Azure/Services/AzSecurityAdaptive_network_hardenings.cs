@@ -21,11 +21,11 @@ public class AzSecurityAdaptive_network_hardenings
 
     public async Task<CommandResult> List(AzSecurityAdaptive_network_hardeningsListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAdaptive_network_hardeningsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

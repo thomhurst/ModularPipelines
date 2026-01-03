@@ -21,6 +21,6 @@ public class AzDmsProjectTaskCancelDmsPreview
 
     public async Task<CommandResult> Extension(AzDmsProjectTaskCancelDmsPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

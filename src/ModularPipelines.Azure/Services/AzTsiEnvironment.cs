@@ -29,16 +29,16 @@ public class AzTsiEnvironment
 
     public async Task<CommandResult> Delete(AzTsiEnvironmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzTsiEnvironmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzTsiEnvironmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEnvironmentShowOptions(), cancellationToken: token);
     }
 }

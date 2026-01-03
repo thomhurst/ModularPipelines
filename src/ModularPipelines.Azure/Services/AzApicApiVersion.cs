@@ -21,31 +21,31 @@ public class AzApicApiVersion
 
     public async Task<CommandResult> Create(AzApicApiVersionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicApiVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicApiVersionHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicApiVersionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicApiVersionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicApiVersionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiVersionUpdateOptions(), cancellationToken: token);
     }
 }

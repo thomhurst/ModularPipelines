@@ -21,31 +21,31 @@ public class AzEventgridNamespacePermissionBinding
 
     public async Task<CommandResult> Create(AzEventgridNamespacePermissionBindingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridNamespacePermissionBindingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespacePermissionBindingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridNamespacePermissionBindingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridNamespacePermissionBindingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEventgridNamespacePermissionBindingWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespacePermissionBindingWaitOptions(), cancellationToken: token);
     }
 }

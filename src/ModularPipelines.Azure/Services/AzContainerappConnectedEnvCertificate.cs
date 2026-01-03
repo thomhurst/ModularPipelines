@@ -21,16 +21,16 @@ public class AzContainerappConnectedEnvCertificate
 
     public async Task<CommandResult> Delete(AzContainerappConnectedEnvCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvCertificateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectedEnvCertificateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappConnectedEnvCertificateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Upload(AzContainerappConnectedEnvCertificateUploadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

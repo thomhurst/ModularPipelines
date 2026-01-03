@@ -25,31 +25,31 @@ public class AzElasticSanVolume
 
     public async Task<CommandResult> Create(AzElasticSanVolumeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzElasticSanVolumeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzElasticSanVolumeListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzElasticSanVolumeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzElasticSanVolumeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzElasticSanVolumeWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeWaitOptions(), cancellationToken: token);
     }
 }

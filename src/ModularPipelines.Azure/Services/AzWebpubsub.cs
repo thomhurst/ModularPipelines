@@ -43,41 +43,41 @@ public class AzWebpubsub
 
     public async Task<CommandResult> Create(AzWebpubsubCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWebpubsubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWebpubsubListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzWebpubsubListSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListSkusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubListSkusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsage(AzWebpubsubListUsageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzWebpubsubRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebpubsubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebpubsubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubUpdateOptions(), cancellationToken: token);
     }
 }

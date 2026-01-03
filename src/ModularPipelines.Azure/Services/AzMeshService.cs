@@ -21,11 +21,11 @@ public class AzMeshService
 
     public async Task<CommandResult> List(AzMeshServiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMeshServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshServiceShowOptions(), cancellationToken: token);
     }
 }

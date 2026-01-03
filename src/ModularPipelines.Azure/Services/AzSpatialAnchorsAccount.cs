@@ -23,26 +23,26 @@ public class AzSpatialAnchorsAccount
 
     public async Task<CommandResult> Create(AzSpatialAnchorsAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSpatialAnchorsAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSpatialAnchorsAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSpatialAnchorsAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSpatialAnchorsAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountUpdateOptions(), cancellationToken: token);
     }
 }

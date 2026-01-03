@@ -49,41 +49,41 @@ public class AzNetworkFirewall
 
     public async Task<CommandResult> Create(AzNetworkFirewallCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFirewallDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> LearnedIpPrefix(AzNetworkFirewallLearnedIpPrefixOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallLearnedIpPrefixOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallLearnedIpPrefixOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListFqdnTags(AzNetworkFirewallListFqdnTagsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallListFqdnTagsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallListFqdnTagsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFirewallShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFirewallUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkFirewallWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallWaitOptions(), cancellationToken: token);
     }
 }

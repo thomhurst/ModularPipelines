@@ -25,21 +25,21 @@ public class AzNetworkFirewallNetworkRule
 
     public async Task<CommandResult> Create(AzNetworkFirewallNetworkRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFirewallNetworkRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallNetworkRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFirewallNetworkRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallNetworkRuleShowOptions(), cancellationToken: token);
     }
 }

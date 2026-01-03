@@ -21,21 +21,21 @@ public class AzPostgresFlexibleServerDb
 
     public async Task<CommandResult> Create(AzPostgresFlexibleServerDbCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPostgresFlexibleServerDbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDbDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDbDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPostgresFlexibleServerDbListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresFlexibleServerDbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDbShowOptions(), cancellationToken: token);
     }
 }

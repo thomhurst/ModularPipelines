@@ -21,41 +21,41 @@ public class AzApicApiDefinition
 
     public async Task<CommandResult> Create(AzApicApiDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicApiDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ExportSpecification(AzApicApiDefinitionExportSpecificationOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicApiDefinitionHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ImportSpecification(AzApicApiDefinitionImportSpecificationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionImportSpecificationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionImportSpecificationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicApiDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicApiDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicApiDefinitionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDefinitionUpdateOptions(), cancellationToken: token);
     }
 }

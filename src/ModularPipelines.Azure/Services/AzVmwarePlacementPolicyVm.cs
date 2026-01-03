@@ -21,16 +21,16 @@ public class AzVmwarePlacementPolicyVm
 
     public async Task<CommandResult> Create(AzVmwarePlacementPolicyVmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwarePlacementPolicyVmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyVmDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyVmDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwarePlacementPolicyVmUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyVmUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyVmUpdateOptions(), cancellationToken: token);
     }
 }

@@ -33,31 +33,31 @@ public class AzDataprotectionBackupPolicy
 
     public async Task<CommandResult> Create(AzDataprotectionBackupPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDataprotectionBackupPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetDefaultPolicyTemplate(AzDataprotectionBackupPolicyGetDefaultPolicyTemplateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDataprotectionBackupPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataprotectionBackupPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDataprotectionBackupPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyUpdateOptions(), cancellationToken: token);
     }
 }

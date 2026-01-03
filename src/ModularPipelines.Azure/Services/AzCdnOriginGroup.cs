@@ -21,26 +21,26 @@ public class AzCdnOriginGroup
 
     public async Task<CommandResult> Create(AzCdnOriginGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCdnOriginGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCdnOriginGroupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCdnOriginGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCdnOriginGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginGroupUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzSecurityContact
 
     public async Task<CommandResult> Create(AzSecurityContactCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSecurityContactDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSecurityContactListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityContactListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityContactListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityContactShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

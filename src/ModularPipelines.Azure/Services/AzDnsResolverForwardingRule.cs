@@ -21,26 +21,26 @@ public class AzDnsResolverForwardingRule
 
     public async Task<CommandResult> Create(AzDnsResolverForwardingRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDnsResolverForwardingRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverForwardingRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDnsResolverForwardingRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDnsResolverForwardingRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRuleUpdateOptions(), cancellationToken: token);
     }
 }

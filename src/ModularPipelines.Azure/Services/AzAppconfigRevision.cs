@@ -21,6 +21,6 @@ public class AzAppconfigRevision
 
     public async Task<CommandResult> List(AzAppconfigRevisionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigRevisionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigRevisionListOptions(), cancellationToken: token);
     }
 }

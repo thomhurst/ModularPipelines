@@ -21,16 +21,16 @@ public class AzNetworkVpnConnectionPacketCapture
 
     public async Task<CommandResult> Start(AzNetworkVpnConnectionPacketCaptureStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzNetworkVpnConnectionPacketCaptureStopOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVpnConnectionPacketCaptureWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionPacketCaptureWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzManagedCassandraClusterDeallocateCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzManagedCassandraClusterDeallocateCosmosdbPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

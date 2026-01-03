@@ -21,11 +21,11 @@ public class AzPostgresFlexibleServerDeploy
 
     public async Task<CommandResult> Run(AzPostgresFlexibleServerDeployRunOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Setup(AzPostgresFlexibleServerDeploySetupOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

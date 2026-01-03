@@ -21,6 +21,6 @@ public class AzCosmosdbMongodbRoleDefinitionCreateCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzCosmosdbMongodbRoleDefinitionCreateCosmosdbPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

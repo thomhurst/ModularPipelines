@@ -21,21 +21,21 @@ public class AzVmwareAddonArc
 
     public async Task<CommandResult> Create(AzVmwareAddonArcCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareAddonArcDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonArcDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonArcDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareAddonArcShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonArcShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAddonArcShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareAddonArcUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

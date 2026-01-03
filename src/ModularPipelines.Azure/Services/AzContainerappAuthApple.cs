@@ -21,11 +21,11 @@ public class AzContainerappAuthApple
 
     public async Task<CommandResult> Show(AzContainerappAuthAppleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthAppleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthAppleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappAuthAppleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthAppleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthAppleUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzAfdRoute
 
     public async Task<CommandResult> Create(AzAfdRouteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdRouteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdRouteListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdRouteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAfdRouteUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdRouteUpdateOptions(), cancellationToken: token);
     }
 }

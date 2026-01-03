@@ -21,16 +21,16 @@ public class AzCosmosdbIdentity
 
     public async Task<CommandResult> Assign(AzCosmosdbIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzCosmosdbIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbIdentityShowOptions(), cancellationToken: token);
     }
 }

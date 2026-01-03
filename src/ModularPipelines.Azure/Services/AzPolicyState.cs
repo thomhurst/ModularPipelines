@@ -21,16 +21,16 @@ public class AzPolicyState
 
     public async Task<CommandResult> List(AzPolicyStateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Summarize(AzPolicyStateSummarizeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateSummarizeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateSummarizeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> TriggerScan(AzPolicyStateTriggerScanOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateTriggerScanOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyStateTriggerScanOptions(), cancellationToken: token);
     }
 }

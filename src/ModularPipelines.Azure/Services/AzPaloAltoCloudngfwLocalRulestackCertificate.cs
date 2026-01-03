@@ -21,26 +21,26 @@ public class AzPaloAltoCloudngfwLocalRulestackCertificate
 
     public async Task<CommandResult> Create(AzPaloAltoCloudngfwLocalRulestackCertificateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackCertificateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPaloAltoCloudngfwLocalRulestackCertificateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPaloAltoCloudngfwLocalRulestackCertificateWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackCertificateWaitOptions(), cancellationToken: token);
     }
 }

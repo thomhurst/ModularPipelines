@@ -21,6 +21,6 @@ public class AzSecuritySecureScoreControlDefinitions
 
     public async Task<CommandResult> List(AzSecuritySecureScoreControlDefinitionsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlDefinitionsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlDefinitionsListOptions(), cancellationToken: token);
     }
 }

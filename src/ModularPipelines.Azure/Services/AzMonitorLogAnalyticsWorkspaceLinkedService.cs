@@ -21,31 +21,31 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceLinkedServiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceWaitOptions(), cancellationToken: token);
     }
 }

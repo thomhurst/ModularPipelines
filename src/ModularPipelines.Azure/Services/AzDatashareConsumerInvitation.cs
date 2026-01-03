@@ -21,16 +21,16 @@ public class AzDatashareConsumerInvitation
 
     public async Task<CommandResult> ListInvitation(AzDatashareConsumerInvitationListInvitationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareConsumerInvitationListInvitationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareConsumerInvitationListInvitationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RejectInvitation(AzDatashareConsumerInvitationRejectInvitationOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatashareConsumerInvitationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

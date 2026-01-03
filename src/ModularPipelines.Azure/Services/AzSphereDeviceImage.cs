@@ -21,6 +21,6 @@ public class AzSphereDeviceImage
 
     public async Task<CommandResult> ListInstalled(AzSphereDeviceImageListInstalledOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceImageListInstalledOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceImageListInstalledOptions(), cancellationToken: token);
     }
 }

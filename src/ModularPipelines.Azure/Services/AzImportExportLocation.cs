@@ -21,11 +21,11 @@ public class AzImportExportLocation
 
     public async Task<CommandResult> List(AzImportExportLocationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImportExportLocationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImportExportLocationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImportExportLocationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

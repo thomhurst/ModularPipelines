@@ -21,31 +21,31 @@ public class AzAdDs
 
     public async Task<CommandResult> Create(AzAdDsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAdDsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAdDsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdDsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAdDsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAdDsWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdDsWaitOptions(), cancellationToken: token);
     }
 }

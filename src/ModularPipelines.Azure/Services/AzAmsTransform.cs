@@ -25,26 +25,26 @@ public class AzAmsTransform
 
     public async Task<CommandResult> Create(AzAmsTransformCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsTransformDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsTransformListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsTransformShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsTransformUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformUpdateOptions(), cancellationToken: token);
     }
 }

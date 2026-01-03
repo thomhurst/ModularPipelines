@@ -21,26 +21,26 @@ public class AzFootprintMeasurementEndpoint
 
     public async Task<CommandResult> Create(AzFootprintMeasurementEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzFootprintMeasurementEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFootprintMeasurementEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFootprintMeasurementEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintMeasurementEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzFootprintMeasurementEndpointUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

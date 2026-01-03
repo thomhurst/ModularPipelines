@@ -21,6 +21,6 @@ public class AzKustoClusterDeleteKusto
 
     public async Task<CommandResult> Extension(AzKustoClusterDeleteKustoExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterDeleteKustoExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterDeleteKustoExtensionOptions(), cancellationToken: token);
     }
 }

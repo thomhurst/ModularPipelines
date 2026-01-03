@@ -21,16 +21,16 @@ public class AzNetworkVnetGatewayRevokedCert
 
     public async Task<CommandResult> Create(AzNetworkVnetGatewayRevokedCertCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVnetGatewayRevokedCertDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVnetGatewayRevokedCertWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertWaitOptions(), cancellationToken: token);
     }
 }

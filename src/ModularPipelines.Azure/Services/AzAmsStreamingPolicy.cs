@@ -21,21 +21,21 @@ public class AzAmsStreamingPolicy
 
     public async Task<CommandResult> Create(AzAmsStreamingPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsStreamingPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsStreamingPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingPolicyShowOptions(), cancellationToken: token);
     }
 }

@@ -37,36 +37,36 @@ public class AzConnectedvmwareVm
 
     public async Task<CommandResult> Create(AzConnectedvmwareVmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedvmwareVmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzConnectedvmwareVmRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedvmwareVmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzConnectedvmwareVmStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzConnectedvmwareVmStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConnectedvmwareVmUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmUpdateOptions(), cancellationToken: token);
     }
 }

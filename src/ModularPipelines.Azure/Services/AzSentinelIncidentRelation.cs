@@ -21,26 +21,26 @@ public class AzSentinelIncidentRelation
 
     public async Task<CommandResult> Create(AzSentinelIncidentRelationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelIncidentRelationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelIncidentRelationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelIncidentRelationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelIncidentRelationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelIncidentRelationUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzVmwareWorkloadNetworkPortMirroring
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkPortMirroringCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPortMirroringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkPortMirroringListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareWorkloadNetworkPortMirroringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareWorkloadNetworkPortMirroringUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareWorkloadNetworkPortMirroringWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPortMirroringWaitOptions(), cancellationToken: token);
     }
 }

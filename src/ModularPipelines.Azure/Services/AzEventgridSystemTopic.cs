@@ -45,26 +45,26 @@ public class AzEventgridSystemTopic
 
     public async Task<CommandResult> Create(AzEventgridSystemTopicCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridSystemTopicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridSystemTopicListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridSystemTopicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridSystemTopicUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicUpdateOptions(), cancellationToken: token);
     }
 }

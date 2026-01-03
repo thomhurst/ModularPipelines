@@ -21,31 +21,31 @@ public class AzMonitorLogAnalyticsQueryPackQuery
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsQueryPackQueryCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsQueryPackQueryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsQueryPackQueryListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Search(AzMonitorLogAnalyticsQueryPackQuerySearchOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQuerySearchOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQuerySearchOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsQueryPackQueryShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsQueryPackQueryUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackQueryUpdateOptions(), cancellationToken: token);
     }
 }

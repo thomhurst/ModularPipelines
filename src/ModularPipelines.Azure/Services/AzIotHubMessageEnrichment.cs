@@ -21,21 +21,21 @@ public class AzIotHubMessageEnrichment
 
     public async Task<CommandResult> Create(AzIotHubMessageEnrichmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotHubMessageEnrichmentDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotHubMessageEnrichmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubMessageEnrichmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubMessageEnrichmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotHubMessageEnrichmentUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

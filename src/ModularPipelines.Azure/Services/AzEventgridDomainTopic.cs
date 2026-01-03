@@ -41,21 +41,21 @@ public class AzEventgridDomainTopic
 
     public async Task<CommandResult> Create(AzEventgridDomainTopicCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridDomainTopicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridDomainTopicListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridDomainTopicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicShowOptions(), cancellationToken: token);
     }
 }

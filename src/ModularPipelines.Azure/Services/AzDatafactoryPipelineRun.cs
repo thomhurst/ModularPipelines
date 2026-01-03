@@ -21,16 +21,16 @@ public class AzDatafactoryPipelineRun
 
     public async Task<CommandResult> Cancel(AzDatafactoryPipelineRunCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineRunCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineRunCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> QueryByFactory(AzDatafactoryPipelineRunQueryByFactoryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryPipelineRunShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineRunShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryPipelineRunShowOptions(), cancellationToken: token);
     }
 }

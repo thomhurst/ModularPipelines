@@ -23,6 +23,6 @@ public class AzGraph
 
     public async Task<CommandResult> Query(AzGraphQueryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

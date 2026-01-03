@@ -21,16 +21,16 @@ public class AzNetworkNicIpConfigInboundNatRule
 
     public async Task<CommandResult> Add(AzNetworkNicIpConfigInboundNatRuleAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkNicIpConfigInboundNatRuleRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkNicIpConfigInboundNatRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigInboundNatRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigInboundNatRuleWaitOptions(), cancellationToken: token);
     }
 }

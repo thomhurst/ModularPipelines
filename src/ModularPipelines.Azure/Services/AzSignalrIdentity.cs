@@ -21,16 +21,16 @@ public class AzSignalrIdentity
 
     public async Task<CommandResult> Assign(AzSignalrIdentityAssignOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSignalrIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSignalrIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrIdentityShowOptions(), cancellationToken: token);
     }
 }

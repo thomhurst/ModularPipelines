@@ -21,16 +21,16 @@ public class AzImageBuilderValidator
 
     public async Task<CommandResult> Add(AzImageBuilderValidatorAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzImageBuilderValidatorRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImageBuilderValidatorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorShowOptions(), cancellationToken: token);
     }
 }

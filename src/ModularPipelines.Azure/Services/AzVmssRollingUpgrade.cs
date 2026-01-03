@@ -21,16 +21,16 @@ public class AzVmssRollingUpgrade
 
     public async Task<CommandResult> Cancel(AzVmssRollingUpgradeCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetLatest(AzVmssRollingUpgradeGetLatestOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeGetLatestOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeGetLatestOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzVmssRollingUpgradeStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeStartOptions(), cancellationToken: token);
     }
 }

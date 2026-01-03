@@ -21,6 +21,6 @@ public class AzQuotaOperation
 
     public async Task<CommandResult> List(AzQuotaOperationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuotaOperationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuotaOperationListOptions(), cancellationToken: token);
     }
 }

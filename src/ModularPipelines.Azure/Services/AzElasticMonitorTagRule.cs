@@ -21,31 +21,31 @@ public class AzElasticMonitorTagRule
 
     public async Task<CommandResult> Create(AzElasticMonitorTagRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzElasticMonitorTagRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzElasticMonitorTagRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzElasticMonitorTagRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzElasticMonitorTagRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzElasticMonitorTagRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticMonitorTagRuleWaitOptions(), cancellationToken: token);
     }
 }

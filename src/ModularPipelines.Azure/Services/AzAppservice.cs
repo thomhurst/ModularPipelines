@@ -43,6 +43,6 @@ public class AzAppservice
 
     public async Task<CommandResult> ListLocations(AzAppserviceListLocationsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

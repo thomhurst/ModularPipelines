@@ -21,6 +21,6 @@ public class AzHpcCacheUsageModel
 
     public async Task<CommandResult> List(AzHpcCacheUsageModelListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheUsageModelListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheUsageModelListOptions(), cancellationToken: token);
     }
 }

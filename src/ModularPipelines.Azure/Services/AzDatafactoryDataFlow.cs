@@ -21,26 +21,26 @@ public class AzDatafactoryDataFlow
 
     public async Task<CommandResult> Create(AzDatafactoryDataFlowCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryDataFlowDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDataFlowDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDataFlowDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryDataFlowListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryDataFlowShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDataFlowShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDataFlowShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryDataFlowUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzAmsAccountIdentity
 
     public async Task<CommandResult> Assign(AzAmsAccountIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzAmsAccountIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAccountIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityShowOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzMonitorDiagnosticSettingsCategories
 
     public async Task<CommandResult> List(AzMonitorDiagnosticSettingsCategoriesListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorDiagnosticSettingsCategoriesShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

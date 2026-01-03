@@ -41,11 +41,11 @@ public class AzFunctionappDeployment
 
     public async Task<CommandResult> ListPublishingCredentials(AzFunctionappDeploymentListPublishingCredentialsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingCredentialsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingCredentialsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListPublishingProfiles(AzFunctionappDeploymentListPublishingProfilesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingProfilesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingProfilesOptions(), cancellationToken: token);
     }
 }

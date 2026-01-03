@@ -21,11 +21,11 @@ public class AzPartnercenterMarketplaceOfferPackage
 
     public async Task<CommandResult> Build(AzPartnercenterMarketplaceOfferPackageBuildOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Verify(AzPartnercenterMarketplaceOfferPackageVerifyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

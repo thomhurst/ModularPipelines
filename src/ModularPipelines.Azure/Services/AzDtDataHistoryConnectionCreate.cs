@@ -21,6 +21,6 @@ public class AzDtDataHistoryConnectionCreate
 
     public async Task<CommandResult> Adx(AzDtDataHistoryConnectionCreateAdxOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

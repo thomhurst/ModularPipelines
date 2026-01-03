@@ -21,11 +21,11 @@ public class AzPipelinesBuildDefinition
 
     public async Task<CommandResult> List(AzPipelinesBuildDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildDefinitionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildDefinitionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesBuildDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildDefinitionShowOptions(), cancellationToken: token);
     }
 }

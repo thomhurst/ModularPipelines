@@ -21,26 +21,26 @@ public class AzSqlMidbLogReplay
 
     public async Task<CommandResult> Complete(AzSqlMidbLogReplayCompleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayCompleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMidbLogReplayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzSqlMidbLogReplayStartOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzSqlMidbLogReplayStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlMidbLogReplayWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayWaitOptions(), cancellationToken: token);
     }
 }

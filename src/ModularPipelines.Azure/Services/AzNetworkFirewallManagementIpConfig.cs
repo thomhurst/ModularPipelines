@@ -21,11 +21,11 @@ public class AzNetworkFirewallManagementIpConfig
 
     public async Task<CommandResult> Show(AzNetworkFirewallManagementIpConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallManagementIpConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallManagementIpConfigShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFirewallManagementIpConfigUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallManagementIpConfigUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallManagementIpConfigUpdateOptions(), cancellationToken: token);
     }
 }

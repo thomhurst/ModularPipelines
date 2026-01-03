@@ -25,11 +25,11 @@ public class AzMonitorActivityLog
 
     public async Task<CommandResult> List(AzMonitorActivityLogListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListCategories(AzMonitorActivityLogListCategoriesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogListCategoriesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogListCategoriesOptions(), cancellationToken: token);
     }
 }

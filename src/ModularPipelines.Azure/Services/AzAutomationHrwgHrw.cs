@@ -21,26 +21,26 @@ public class AzAutomationHrwgHrw
 
     public async Task<CommandResult> Create(AzAutomationHrwgHrwCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomationHrwgHrwDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgHrwDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgHrwDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAutomationHrwgHrwListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Move(AzAutomationHrwgHrwMoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomationHrwgHrwShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgHrwShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgHrwShowOptions(), cancellationToken: token);
     }
 }

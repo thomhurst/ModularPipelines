@@ -21,6 +21,6 @@ public class AzStorageAccountMigrationShowStoragePreview
 
     public async Task<CommandResult> Extension(AzStorageAccountMigrationShowStoragePreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountMigrationShowStoragePreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountMigrationShowStoragePreviewExtensionOptions(), cancellationToken: token);
     }
 }

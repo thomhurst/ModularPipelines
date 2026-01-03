@@ -21,6 +21,6 @@ public class AzServicebusNamespacePrivateLinkResource
 
     public async Task<CommandResult> Show(AzServicebusNamespacePrivateLinkResourceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzDatabricksWorkspaceVnetPeering
 
     public async Task<CommandResult> Create(AzDatabricksWorkspaceVnetPeeringCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatabricksWorkspaceVnetPeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatabricksWorkspaceVnetPeeringListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatabricksWorkspaceVnetPeeringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatabricksWorkspaceVnetPeeringUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatabricksWorkspaceVnetPeeringWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceVnetPeeringWaitOptions(), cancellationToken: token);
     }
 }

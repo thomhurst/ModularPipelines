@@ -21,21 +21,21 @@ public class AzVmssExtensionImage
 
     public async Task<CommandResult> List(AzVmssExtensionImageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListNames(AzVmssExtensionImageListNamesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListNamesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListNamesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListVersions(AzVmssExtensionImageListVersionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListVersionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageListVersionsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmssExtensionImageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionImageShowOptions(), cancellationToken: token);
     }
 }

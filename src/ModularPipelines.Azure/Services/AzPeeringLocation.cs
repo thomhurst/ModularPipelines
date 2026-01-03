@@ -21,6 +21,6 @@ public class AzPeeringLocation
 
     public async Task<CommandResult> List(AzPeeringLocationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

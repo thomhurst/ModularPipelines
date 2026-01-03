@@ -21,31 +21,31 @@ public class AzMonitorAccount
 
     public async Task<CommandResult> Create(AzMonitorAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountWaitOptions(), cancellationToken: token);
     }
 }

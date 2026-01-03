@@ -21,16 +21,16 @@ public class AzWebappAuthConfigVersion
 
     public async Task<CommandResult> Revert(AzWebappAuthConfigVersionRevertOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionRevertOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionRevertOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappAuthConfigVersionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Upgrade(AzWebappAuthConfigVersionUpgradeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionUpgradeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthConfigVersionUpgradeOptions(), cancellationToken: token);
     }
 }

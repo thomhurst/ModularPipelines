@@ -21,16 +21,16 @@ public class AzOffazureVmwareSite
 
     public async Task<CommandResult> Create(AzOffazureVmwareSiteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzOffazureVmwareSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareSiteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareSiteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOffazureVmwareSiteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareSiteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareSiteShowOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzAutomanageServicePrincipal
 
     public async Task<CommandResult> List(AzAutomanageServicePrincipalListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageServicePrincipalListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageServicePrincipalListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDefault(AzAutomanageServicePrincipalShowDefaultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageServicePrincipalShowDefaultOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageServicePrincipalShowDefaultOptions(), cancellationToken: token);
     }
 }

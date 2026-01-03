@@ -21,6 +21,6 @@ public class AzWebappAuthUpdateAuthV2
 
     public async Task<CommandResult> Extension(AzWebappAuthUpdateAuthV2ExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthUpdateAuthV2ExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthUpdateAuthV2ExtensionOptions(), cancellationToken: token);
     }
 }

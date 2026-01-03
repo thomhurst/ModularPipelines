@@ -25,11 +25,11 @@ public class AzEventhubsGeorecoveryAliasAuthorizationRule
 
     public async Task<CommandResult> List(AzEventhubsGeorecoveryAliasAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsGeorecoveryAliasAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 }

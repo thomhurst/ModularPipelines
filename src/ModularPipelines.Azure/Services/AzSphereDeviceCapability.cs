@@ -21,21 +21,21 @@ public class AzSphereDeviceCapability
 
     public async Task<CommandResult> Download(AzSphereDeviceCapabilityDownloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Select(AzSphereDeviceCapabilitySelectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilitySelectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilitySelectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowAttached(AzSphereDeviceCapabilityShowAttachedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilityShowAttachedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceCapabilityShowAttachedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSphereDeviceCapabilityUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

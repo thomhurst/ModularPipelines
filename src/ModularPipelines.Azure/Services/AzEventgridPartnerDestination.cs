@@ -21,31 +21,31 @@ public class AzEventgridPartnerDestination
 
     public async Task<CommandResult> Activate(AzEventgridPartnerDestinationActivateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationActivateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationActivateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzEventgridPartnerDestinationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridPartnerDestinationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridPartnerDestinationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerDestinationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridPartnerDestinationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerDestinationUpdateOptions(), cancellationToken: token);
     }
 }

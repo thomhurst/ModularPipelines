@@ -21,26 +21,26 @@ public class AzAzurestackhciGalleryimage
 
     public async Task<CommandResult> Create(AzAzurestackhciGalleryimageCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciGalleryimageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciGalleryimageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciGalleryimageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciGalleryimageUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciGalleryimageUpdateOptions(), cancellationToken: token);
     }
 }

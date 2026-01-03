@@ -21,6 +21,6 @@ public class AzNotificationHubCredentialApns
 
     public async Task<CommandResult> Update(AzNotificationHubCredentialApnsUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

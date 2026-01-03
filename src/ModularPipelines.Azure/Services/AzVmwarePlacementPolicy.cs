@@ -29,11 +29,11 @@ public class AzVmwarePlacementPolicy
 
     public async Task<CommandResult> List(AzVmwarePlacementPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwarePlacementPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwarePlacementPolicyShowOptions(), cancellationToken: token);
     }
 }

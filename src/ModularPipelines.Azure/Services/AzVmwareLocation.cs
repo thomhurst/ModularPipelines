@@ -21,11 +21,11 @@ public class AzVmwareLocation
 
     public async Task<CommandResult> CheckQuotaAvailability(AzVmwareLocationCheckQuotaAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckQuotaAvailabilityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckQuotaAvailabilityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CheckTrialAvailability(AzVmwareLocationCheckTrialAvailabilityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckTrialAvailabilityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareLocationCheckTrialAvailabilityOptions(), cancellationToken: token);
     }
 }

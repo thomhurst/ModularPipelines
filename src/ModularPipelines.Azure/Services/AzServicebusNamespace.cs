@@ -45,36 +45,36 @@ public class AzServicebusNamespace
 
     public async Task<CommandResult> Create(AzServicebusNamespaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzServicebusNamespaceExistsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusNamespaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusNamespaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzServicebusNamespaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceWaitOptions(), cancellationToken: token);
     }
 }

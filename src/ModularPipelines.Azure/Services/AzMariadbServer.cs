@@ -45,66 +45,66 @@ public class AzMariadbServer
 
     public async Task<CommandResult> Create(AzMariadbServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMariadbServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Georestore(AzMariadbServerGeorestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMariadbServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzMariadbServerListSkusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzMariadbServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzMariadbServerRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMariadbServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzMariadbServerShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerShowConnectionStringOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerShowConnectionStringOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzMariadbServerStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzMariadbServerStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMariadbServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMariadbServerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerWaitOptions(), cancellationToken: token);
     }
 }

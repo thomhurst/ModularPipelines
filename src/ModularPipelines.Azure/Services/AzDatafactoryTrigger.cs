@@ -21,61 +21,61 @@ public class AzDatafactoryTrigger
 
     public async Task<CommandResult> Create(AzDatafactoryTriggerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryTriggerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetEventSubscriptionStatus(AzDatafactoryTriggerGetEventSubscriptionStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerGetEventSubscriptionStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerGetEventSubscriptionStatusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryTriggerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> QueryByFactory(AzDatafactoryTriggerQueryByFactoryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerQueryByFactoryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerQueryByFactoryOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryTriggerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzDatafactoryTriggerStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzDatafactoryTriggerStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SubscribeToEvent(AzDatafactoryTriggerSubscribeToEventOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerSubscribeToEventOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerSubscribeToEventOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UnsubscribeFromEvent(AzDatafactoryTriggerUnsubscribeFromEventOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerUnsubscribeFromEventOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerUnsubscribeFromEventOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryTriggerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatafactoryTriggerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryTriggerWaitOptions(), cancellationToken: token);
     }
 }

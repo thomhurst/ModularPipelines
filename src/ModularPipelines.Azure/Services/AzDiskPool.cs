@@ -23,61 +23,61 @@ public class AzDiskPool
 
     public async Task<CommandResult> Create(AzDiskPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDiskPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDiskPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListOutboundNetworkDependencyEndpoint(AzDiskPoolListOutboundNetworkDependencyEndpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzDiskPoolListSkusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListZones(AzDiskPoolListZonesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Redeploy(AzDiskPoolRedeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolRedeployOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolRedeployOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDiskPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzDiskPoolStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzDiskPoolStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDiskPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDiskPoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolWaitOptions(), cancellationToken: token);
     }
 }

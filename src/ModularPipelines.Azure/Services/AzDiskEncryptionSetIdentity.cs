@@ -21,16 +21,16 @@ public class AzDiskEncryptionSetIdentity
 
     public async Task<CommandResult> Assign(AzDiskEncryptionSetIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzDiskEncryptionSetIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDiskEncryptionSetIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetIdentityShowOptions(), cancellationToken: token);
     }
 }

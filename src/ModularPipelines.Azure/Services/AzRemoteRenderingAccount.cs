@@ -23,26 +23,26 @@ public class AzRemoteRenderingAccount
 
     public async Task<CommandResult> Create(AzRemoteRenderingAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRemoteRenderingAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRemoteRenderingAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRemoteRenderingAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRemoteRenderingAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountUpdateOptions(), cancellationToken: token);
     }
 }

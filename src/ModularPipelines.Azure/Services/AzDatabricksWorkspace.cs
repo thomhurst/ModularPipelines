@@ -37,31 +37,31 @@ public class AzDatabricksWorkspace
 
     public async Task<CommandResult> Create(AzDatabricksWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatabricksWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatabricksWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatabricksWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatabricksWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatabricksWorkspaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspaceWaitOptions(), cancellationToken: token);
     }
 }

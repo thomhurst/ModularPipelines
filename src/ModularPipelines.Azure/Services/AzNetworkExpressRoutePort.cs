@@ -33,36 +33,36 @@ public class AzNetworkExpressRoutePort
 
     public async Task<CommandResult> Create(AzNetworkExpressRoutePortCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkExpressRoutePortDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateLoa(AzNetworkExpressRoutePortGenerateLoaOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkExpressRoutePortListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRoutePortShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkExpressRoutePortUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRoutePortWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortWaitOptions(), cancellationToken: token);
     }
 }

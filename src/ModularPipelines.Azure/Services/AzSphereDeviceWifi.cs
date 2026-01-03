@@ -21,46 +21,46 @@ public class AzSphereDeviceWifi
 
     public async Task<CommandResult> Add(AzSphereDeviceWifiAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Disable(AzSphereDeviceWifiDisableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSphereDeviceWifiEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Forget(AzSphereDeviceWifiForgetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSphereDeviceWifiListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ReloadConfig(AzSphereDeviceWifiReloadConfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiReloadConfigOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiReloadConfigOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Scan(AzSphereDeviceWifiScanOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiScanOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiScanOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSphereDeviceWifiShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowStatus(AzSphereDeviceWifiShowStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiShowStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceWifiShowStatusOptions(), cancellationToken: token);
     }
 }

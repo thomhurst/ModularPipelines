@@ -21,6 +21,6 @@ public class AzStorageDirectoryShowStoragePreview
 
     public async Task<CommandResult> Extension(AzStorageDirectoryShowStoragePreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

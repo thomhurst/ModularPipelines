@@ -21,11 +21,11 @@ public class AzMonitorLogAnalyticsWorkspaceTableSearchJob
 
     public async Task<CommandResult> Cancel(AzMonitorLogAnalyticsWorkspaceTableSearchJobCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableSearchJobCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableSearchJobCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsWorkspaceTableSearchJobCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

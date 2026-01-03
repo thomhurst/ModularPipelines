@@ -21,31 +21,31 @@ public class AzNetworkcloudCloudservicesnetwork
 
     public async Task<CommandResult> Create(AzNetworkcloudCloudservicesnetworkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudCloudservicesnetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudCloudservicesnetworkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudCloudservicesnetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudCloudservicesnetworkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudCloudservicesnetworkWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudCloudservicesnetworkWaitOptions(), cancellationToken: token);
     }
 }

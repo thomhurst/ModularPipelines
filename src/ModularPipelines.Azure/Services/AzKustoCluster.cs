@@ -53,41 +53,41 @@ public class AzKustoCluster
 
     public async Task<CommandResult> AddLanguageExtension(AzKustoClusterAddLanguageExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterAddLanguageExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterAddLanguageExtensionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DetachFollowerDatabase(AzKustoClusterDetachFollowerDatabaseOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DiagnoseVirtualNetwork(AzKustoClusterDiagnoseVirtualNetworkOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterDiagnoseVirtualNetworkOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterDiagnoseVirtualNetworkOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListFollowerDatabase(AzKustoClusterListFollowerDatabaseOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListLanguageExtension(AzKustoClusterListLanguageExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListOutboundNetworkDependencyEndpoint(AzKustoClusterListOutboundNetworkDependencyEndpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSku(AzKustoClusterListSkuOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterListSkuOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterListSkuOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RemoveLanguageExtension(AzKustoClusterRemoveLanguageExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterRemoveLanguageExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterRemoveLanguageExtensionOptions(), cancellationToken: token);
     }
 }

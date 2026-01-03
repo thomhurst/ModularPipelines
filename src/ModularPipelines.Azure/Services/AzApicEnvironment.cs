@@ -21,31 +21,31 @@ public class AzApicEnvironment
 
     public async Task<CommandResult> Create(AzApicEnvironmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicEnvironmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicEnvironmentHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicEnvironmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicEnvironmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicEnvironmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicEnvironmentUpdateOptions(), cancellationToken: token);
     }
 }

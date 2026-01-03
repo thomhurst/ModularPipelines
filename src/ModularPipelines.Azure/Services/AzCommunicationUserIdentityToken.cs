@@ -21,16 +21,16 @@ public class AzCommunicationUserIdentityToken
 
     public async Task<CommandResult> GetForTeamsUser(AzCommunicationUserIdentityTokenGetForTeamsUserOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Issue(AzCommunicationUserIdentityTokenIssueOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Revoke(AzCommunicationUserIdentityTokenRevokeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

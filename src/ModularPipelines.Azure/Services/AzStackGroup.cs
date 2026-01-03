@@ -21,26 +21,26 @@ public class AzStackGroup
 
     public async Task<CommandResult> Create(AzStackGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzStackGroupExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupExportOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupExportOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackGroupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupShowOptions(), cancellationToken: token);
     }
 }

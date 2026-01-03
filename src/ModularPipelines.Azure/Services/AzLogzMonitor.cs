@@ -21,56 +21,56 @@ public class AzLogzMonitor
 
     public async Task<CommandResult> Create(AzLogzMonitorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogzMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogzMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListPayload(AzLogzMonitorListPayloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListResource(AzLogzMonitorListResourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListRole(AzLogzMonitorListRoleOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListVm(AzLogzMonitorListVmOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogzMonitorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogzMonitorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateVm(AzLogzMonitorUpdateVmOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorUpdateVmOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorUpdateVmOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzLogzMonitorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzMonitorWaitOptions(), cancellationToken: token);
     }
 }

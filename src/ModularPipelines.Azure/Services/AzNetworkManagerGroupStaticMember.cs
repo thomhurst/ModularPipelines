@@ -21,21 +21,21 @@ public class AzNetworkManagerGroupStaticMember
 
     public async Task<CommandResult> Create(AzNetworkManagerGroupStaticMemberCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkManagerGroupStaticMemberDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerGroupStaticMemberListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkManagerGroupStaticMemberShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerGroupStaticMemberShowOptions(), cancellationToken: token);
     }
 }

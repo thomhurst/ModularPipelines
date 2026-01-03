@@ -39,36 +39,36 @@ public class AzDnsResolver
 
     public async Task<CommandResult> Create(AzDnsResolverCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDnsResolverDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListByVirtualNetwork(AzDnsResolverListByVirtualNetworkOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDnsResolverShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDnsResolverUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDnsResolverWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverWaitOptions(), cancellationToken: token);
     }
 }

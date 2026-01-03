@@ -37,6 +37,6 @@ public class AzMonitorLogAnalytics
 
     public async Task<CommandResult> Query(AzMonitorLogAnalyticsQueryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

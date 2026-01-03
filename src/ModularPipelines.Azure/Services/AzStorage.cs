@@ -87,11 +87,11 @@ public class AzStorage
 
     public async Task<CommandResult> Copy(AzStorageCopyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageCopyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageCopyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzStorageRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageRemoveOptions(), cancellationToken: token);
     }
 }

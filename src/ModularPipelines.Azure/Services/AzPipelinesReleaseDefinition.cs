@@ -21,11 +21,11 @@ public class AzPipelinesReleaseDefinition
 
     public async Task<CommandResult> List(AzPipelinesReleaseDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseDefinitionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseDefinitionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesReleaseDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseDefinitionShowOptions(), cancellationToken: token);
     }
 }

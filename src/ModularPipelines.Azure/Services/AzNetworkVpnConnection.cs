@@ -33,41 +33,41 @@ public class AzNetworkVpnConnection
 
     public async Task<CommandResult> Create(AzNetworkVpnConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVpnConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListIkeSas(AzNetworkVpnConnectionListIkeSasOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionListIkeSasOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionListIkeSasOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVpnConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDeviceConfigScript(AzNetworkVpnConnectionShowDeviceConfigScriptOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVpnConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVpnConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionWaitOptions(), cancellationToken: token);
     }
 }

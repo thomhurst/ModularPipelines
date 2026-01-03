@@ -21,21 +21,21 @@ public class AzAmsLiveOutput
 
     public async Task<CommandResult> Create(AzAmsLiveOutputCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsLiveOutputDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveOutputDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveOutputDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsLiveOutputListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsLiveOutputShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveOutputShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveOutputShowOptions(), cancellationToken: token);
     }
 }

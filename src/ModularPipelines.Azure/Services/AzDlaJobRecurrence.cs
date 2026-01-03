@@ -21,11 +21,11 @@ public class AzDlaJobRecurrence
 
     public async Task<CommandResult> List(AzDlaJobRecurrenceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaJobRecurrenceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaJobRecurrenceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaJobRecurrenceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

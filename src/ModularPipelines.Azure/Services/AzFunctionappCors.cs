@@ -21,21 +21,21 @@ public class AzFunctionappCors
 
     public async Task<CommandResult> Add(AzFunctionappCorsAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Credentials(AzFunctionappCorsCredentialsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzFunctionappCorsRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFunctionappCorsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappCorsShowOptions(), cancellationToken: token);
     }
 }

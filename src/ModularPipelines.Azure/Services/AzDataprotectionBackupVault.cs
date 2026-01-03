@@ -25,31 +25,31 @@ public class AzDataprotectionBackupVault
 
     public async Task<CommandResult> Create(AzDataprotectionBackupVaultCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDataprotectionBackupVaultDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDataprotectionBackupVaultListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataprotectionBackupVaultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDataprotectionBackupVaultUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDataprotectionBackupVaultWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultWaitOptions(), cancellationToken: token);
     }
 }

@@ -31,6 +31,6 @@ public class AzBoards
 
     public async Task<CommandResult> Query(AzBoardsQueryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsQueryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsQueryOptions(), cancellationToken: token);
     }
 }

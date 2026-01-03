@@ -21,21 +21,21 @@ public class AzConfigParamPersist
 
     public async Task<CommandResult> Delete(AzConfigParamPersistDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Off(AzConfigParamPersistOffOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistOffOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistOffOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> On(AzConfigParamPersistOnOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistOnOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistOnOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConfigParamPersistShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigParamPersistShowOptions(), cancellationToken: token);
     }
 }

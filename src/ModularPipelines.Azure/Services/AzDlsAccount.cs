@@ -33,31 +33,31 @@ public class AzDlsAccount
 
     public async Task<CommandResult> Create(AzDlsAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDlsAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableKeyVault(AzDlsAccountEnableKeyVaultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountEnableKeyVaultOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountEnableKeyVaultOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDlsAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlsAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDlsAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountUpdateOptions(), cancellationToken: token);
     }
 }

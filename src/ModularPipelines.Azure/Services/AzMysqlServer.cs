@@ -53,71 +53,71 @@ public class AzMysqlServer
 
     public async Task<CommandResult> Create(AzMysqlServerCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMysqlServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Georestore(AzMysqlServerGeorestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzMysqlServerListSkusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzMysqlServerRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzMysqlServerRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzMysqlServerShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerShowConnectionStringOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerShowConnectionStringOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzMysqlServerStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzMysqlServerStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMysqlServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Upgrade(AzMysqlServerUpgradeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMysqlServerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerWaitOptions(), cancellationToken: token);
     }
 }

@@ -19,31 +19,31 @@ public class AzAlias
 
     public async Task<CommandResult> Create(AzAliasCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzAliasExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAliasExportOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAliasExportOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzAliasImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAliasListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAliasListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAliasListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzAliasRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RemoveAll(AzAliasRemoveAllOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAliasRemoveAllOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAliasRemoveAllOptions(), cancellationToken: token);
     }
 }

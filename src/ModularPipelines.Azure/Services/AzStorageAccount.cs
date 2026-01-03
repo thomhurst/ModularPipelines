@@ -81,56 +81,56 @@ public class AzStorageAccount
 
     public async Task<CommandResult> CheckName(AzStorageAccountCheckNameOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzStorageAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStorageAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Failover(AzStorageAccountFailoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountFailoverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountFailoverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateSas(AzStorageAccountGenerateSasOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RevokeDelegationKeys(AzStorageAccountRevokeDelegationKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountRevokeDelegationKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountRevokeDelegationKeysOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStorageAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzStorageAccountShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowConnectionStringOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowConnectionStringOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowUsage(AzStorageAccountShowUsageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateOptions(), cancellationToken: token);
     }
 }

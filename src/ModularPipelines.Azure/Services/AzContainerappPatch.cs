@@ -21,16 +21,16 @@ public class AzContainerappPatch
 
     public async Task<CommandResult> Apply(AzContainerappPatchApplyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchApplyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchApplyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Interactive(AzContainerappPatchInteractiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchInteractiveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchInteractiveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappPatchListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappPatchListOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzMariadbServerPrivateLinkResource
 
     public async Task<CommandResult> List(AzMariadbServerPrivateLinkResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateLinkResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateLinkResourceListOptions(), cancellationToken: token);
     }
 }

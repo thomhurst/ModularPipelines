@@ -21,16 +21,16 @@ public class AzVmwareWorkloadNetworkDhcpServer
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkDhcpServerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkDhcpServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpServerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpServerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareWorkloadNetworkDhcpServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpServerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDhcpServerUpdateOptions(), cancellationToken: token);
     }
 }

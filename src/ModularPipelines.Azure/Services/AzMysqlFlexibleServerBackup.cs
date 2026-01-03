@@ -21,16 +21,16 @@ public class AzMysqlFlexibleServerBackup
 
     public async Task<CommandResult> Create(AzMysqlFlexibleServerBackupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerBackupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlFlexibleServerBackupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerBackupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerBackupShowOptions(), cancellationToken: token);
     }
 }

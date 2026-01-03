@@ -21,21 +21,21 @@ public class AzDynatraceMonitorSsoConfig
 
     public async Task<CommandResult> Create(AzDynatraceMonitorSsoConfigCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDynatraceMonitorSsoConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDynatraceMonitorSsoConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorSsoConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorSsoConfigShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDynatraceMonitorSsoConfigWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorSsoConfigWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorSsoConfigWaitOptions(), cancellationToken: token);
     }
 }

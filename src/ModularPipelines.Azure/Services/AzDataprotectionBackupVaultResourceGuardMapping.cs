@@ -21,16 +21,16 @@ public class AzDataprotectionBackupVaultResourceGuardMapping
 
     public async Task<CommandResult> Create(AzDataprotectionBackupVaultResourceGuardMappingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDataprotectionBackupVaultResourceGuardMappingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultResourceGuardMappingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultResourceGuardMappingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataprotectionBackupVaultResourceGuardMappingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultResourceGuardMappingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupVaultResourceGuardMappingShowOptions(), cancellationToken: token);
     }
 }

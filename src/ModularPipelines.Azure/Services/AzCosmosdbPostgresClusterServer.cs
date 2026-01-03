@@ -21,11 +21,11 @@ public class AzCosmosdbPostgresClusterServer
 
     public async Task<CommandResult> List(AzCosmosdbPostgresClusterServerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbPostgresClusterServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterServerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresClusterServerShowOptions(), cancellationToken: token);
     }
 }

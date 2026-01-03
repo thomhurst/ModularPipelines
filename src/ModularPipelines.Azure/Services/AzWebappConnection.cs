@@ -29,36 +29,36 @@ public class AzWebappConnection
 
     public async Task<CommandResult> Delete(AzWebappConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWebappConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListConfiguration(AzWebappConnectionListConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSupportTypes(AzWebappConnectionListSupportTypesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListSupportTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionListSupportTypesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Validate(AzWebappConnectionValidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionValidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionValidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzWebappConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionWaitOptions(), cancellationToken: token);
     }
 }

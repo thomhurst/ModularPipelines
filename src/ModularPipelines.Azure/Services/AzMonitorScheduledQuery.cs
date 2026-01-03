@@ -21,26 +21,26 @@ public class AzMonitorScheduledQuery
 
     public async Task<CommandResult> Create(AzMonitorScheduledQueryCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorScheduledQueryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorScheduledQueryListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorScheduledQueryShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorScheduledQueryUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorScheduledQueryUpdateOptions(), cancellationToken: token);
     }
 }

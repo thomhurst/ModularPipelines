@@ -45,26 +45,26 @@ public class AzIotDps
 
     public async Task<CommandResult> Create(AzIotDpsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotDpsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotDpsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotDpsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotDpsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsUpdateOptions(), cancellationToken: token);
     }
 }

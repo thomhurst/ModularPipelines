@@ -21,31 +21,31 @@ public class AzEdgeorderAddress
 
     public async Task<CommandResult> Create(AzEdgeorderAddressCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEdgeorderAddressDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEdgeorderAddressListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEdgeorderAddressShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEdgeorderAddressUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderAddressUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEdgeorderAddressWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

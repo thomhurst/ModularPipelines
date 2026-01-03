@@ -21,11 +21,11 @@ public class AzBackupVaultBackupProperties
 
     public async Task<CommandResult> Set(AzBackupVaultBackupPropertiesSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupVaultBackupPropertiesShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesShowOptions(), cancellationToken: token);
     }
 }

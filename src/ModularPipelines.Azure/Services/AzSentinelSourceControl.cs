@@ -21,31 +21,31 @@ public class AzSentinelSourceControl
 
     public async Task<CommandResult> Create(AzSentinelSourceControlCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelSourceControlDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelSourceControlListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListRepository(AzSentinelSourceControlListRepositoryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelSourceControlShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelSourceControlUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSourceControlUpdateOptions(), cancellationToken: token);
     }
 }

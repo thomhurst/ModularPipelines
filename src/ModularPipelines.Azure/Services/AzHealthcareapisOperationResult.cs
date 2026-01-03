@@ -21,6 +21,6 @@ public class AzHealthcareapisOperationResult
 
     public async Task<CommandResult> Show(AzHealthcareapisOperationResultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisOperationResultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisOperationResultShowOptions(), cancellationToken: token);
     }
 }

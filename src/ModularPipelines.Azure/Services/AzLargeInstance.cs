@@ -19,31 +19,31 @@ public class AzLargeInstance
 
     public async Task<CommandResult> List(AzLargeInstanceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzLargeInstanceRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLargeInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Shutdown(AzLargeInstanceShutdownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceShutdownOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceShutdownOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzLargeInstanceStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLargeInstanceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLargeInstanceUpdateOptions(), cancellationToken: token);
     }
 }

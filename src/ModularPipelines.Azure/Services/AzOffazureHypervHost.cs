@@ -21,11 +21,11 @@ public class AzOffazureHypervHost
 
     public async Task<CommandResult> List(AzOffazureHypervHostListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOffazureHypervHostShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervHostShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervHostShowOptions(), cancellationToken: token);
     }
 }

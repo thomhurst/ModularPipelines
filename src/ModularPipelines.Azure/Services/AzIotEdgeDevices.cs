@@ -21,6 +21,6 @@ public class AzIotEdgeDevices
 
     public async Task<CommandResult> Create(AzIotEdgeDevicesCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotEdgeDevicesCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotEdgeDevicesCreateOptions(), cancellationToken: token);
     }
 }

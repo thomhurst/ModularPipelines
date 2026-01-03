@@ -21,26 +21,26 @@ public class AzTsiAccessPolicy
 
     public async Task<CommandResult> Create(AzTsiAccessPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzTsiAccessPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzTsiAccessPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzTsiAccessPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzTsiAccessPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiAccessPolicyUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzBatchJobCreateAzureBatchCliExtensions
 
     public async Task<CommandResult> Extension(AzBatchJobCreateAzureBatchCliExtensionsExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobCreateAzureBatchCliExtensionsExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobCreateAzureBatchCliExtensionsExtensionOptions(), cancellationToken: token);
     }
 }

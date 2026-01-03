@@ -41,21 +41,21 @@ public class AzNetworkPerimeter
 
     public async Task<CommandResult> Create(AzNetworkPerimeterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPerimeterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPerimeterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPerimeterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterShowOptions(), cancellationToken: token);
     }
 }

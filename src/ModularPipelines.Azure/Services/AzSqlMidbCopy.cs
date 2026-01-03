@@ -21,21 +21,21 @@ public class AzSqlMidbCopy
 
     public async Task<CommandResult> Cancel(AzSqlMidbCopyCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Complete(AzSqlMidbCopyCompleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMidbCopyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbCopyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbCopyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzSqlMidbCopyStartOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

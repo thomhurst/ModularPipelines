@@ -21,31 +21,31 @@ public class AzAmsJob
 
     public async Task<CommandResult> Cancel(AzAmsJobCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsJobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsJobListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzAmsJobStartOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsJobUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobUpdateOptions(), cancellationToken: token);
     }
 }

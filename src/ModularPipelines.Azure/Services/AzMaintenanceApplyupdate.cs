@@ -21,36 +21,36 @@ public class AzMaintenanceApplyupdate
 
     public async Task<CommandResult> Create(AzMaintenanceApplyupdateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateOrUpdate(AzMaintenanceApplyupdateCreateOrUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateCreateOrUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateCreateOrUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateOrUpdateParent(AzMaintenanceApplyupdateCreateOrUpdateParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateCreateOrUpdateParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateCreateOrUpdateParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMaintenanceApplyupdateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMaintenanceApplyupdateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowParent(AzMaintenanceApplyupdateShowParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateShowParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateShowParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMaintenanceApplyupdateUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceApplyupdateUpdateOptions(), cancellationToken: token);
     }
 }

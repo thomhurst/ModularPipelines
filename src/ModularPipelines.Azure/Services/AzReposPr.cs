@@ -33,31 +33,31 @@ public class AzReposPr
 
     public async Task<CommandResult> Checkout(AzReposPrCheckoutOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzReposPrCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzReposPrListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReposPrListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SetVote(AzReposPrSetVoteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzReposPrShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzReposPrUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

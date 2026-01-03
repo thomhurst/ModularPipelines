@@ -37,21 +37,21 @@ public class AzContainerappIngress
 
     public async Task<CommandResult> Disable(AzContainerappIngressDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzContainerappIngressEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappIngressShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappIngressUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressUpdateOptions(), cancellationToken: token);
     }
 }

@@ -25,51 +25,51 @@ public class AzAmsStreamingEndpoint
 
     public async Task<CommandResult> Create(AzAmsStreamingEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsStreamingEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetSkus(AzAmsStreamingEndpointGetSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointGetSkusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointGetSkusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Scale(AzAmsStreamingEndpointScaleOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsStreamingEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzAmsStreamingEndpointStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzAmsStreamingEndpointStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsStreamingEndpointUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAmsStreamingEndpointWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointWaitOptions(), cancellationToken: token);
     }
 }

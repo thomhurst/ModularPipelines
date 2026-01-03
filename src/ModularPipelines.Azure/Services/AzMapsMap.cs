@@ -21,6 +21,6 @@ public class AzMapsMap
 
     public async Task<CommandResult> ListOperation(AzMapsMapListOperationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMapsMapListOperationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsMapListOperationOptions(), cancellationToken: token);
     }
 }

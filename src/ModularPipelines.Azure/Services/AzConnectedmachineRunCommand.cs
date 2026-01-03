@@ -21,31 +21,31 @@ public class AzConnectedmachineRunCommand
 
     public async Task<CommandResult> Create(AzConnectedmachineRunCommandCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedmachineRunCommandDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedmachineRunCommandListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedmachineRunCommandShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConnectedmachineRunCommandUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzConnectedmachineRunCommandWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineRunCommandWaitOptions(), cancellationToken: token);
     }
 }

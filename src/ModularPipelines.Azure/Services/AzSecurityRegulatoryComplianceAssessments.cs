@@ -21,11 +21,11 @@ public class AzSecurityRegulatoryComplianceAssessments
 
     public async Task<CommandResult> List(AzSecurityRegulatoryComplianceAssessmentsListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityRegulatoryComplianceAssessmentsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

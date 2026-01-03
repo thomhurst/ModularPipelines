@@ -21,16 +21,16 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition
 
     public async Task<CommandResult> Add(AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkApplicationGatewayWafPolicyCustomRuleMatchConditionRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzIotCentralAppPrivateLinkResource
 
     public async Task<CommandResult> List(AzIotCentralAppPrivateLinkResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateLinkResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateLinkResourceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotCentralAppPrivateLinkResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateLinkResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateLinkResourceShowOptions(), cancellationToken: token);
     }
 }

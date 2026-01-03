@@ -37,56 +37,56 @@ public class AzSynapseSqlPool
 
     public async Task<CommandResult> Create(AzSynapseSqlPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSynapseSqlPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSynapseSqlPoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListDeleted(AzSynapseSqlPoolListDeletedOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Pause(AzSynapseSqlPoolPauseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolPauseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolPauseOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzSynapseSqlPoolRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Resume(AzSynapseSqlPoolResumeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolResumeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolResumeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSynapseSqlPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzSynapseSqlPoolShowConnectionStringOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSynapseSqlPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseSqlPoolWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

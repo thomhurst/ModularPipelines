@@ -21,16 +21,16 @@ public class AzSphereDeviceNetworkProxy
 
     public async Task<CommandResult> Apply(AzSphereDeviceNetworkProxyApplyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSphereDeviceNetworkProxyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkProxyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkProxyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSphereDeviceNetworkProxyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkProxyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkProxyShowOptions(), cancellationToken: token);
     }
 }

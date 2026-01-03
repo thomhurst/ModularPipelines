@@ -21,21 +21,21 @@ public class AzMysqlServerKey
 
     public async Task<CommandResult> Create(AzMysqlServerKeyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMysqlServerKeyDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlServerKeyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerKeyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerKeyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlServerKeyShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

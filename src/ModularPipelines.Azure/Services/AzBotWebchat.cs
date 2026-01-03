@@ -21,6 +21,6 @@ public class AzBotWebchat
 
     public async Task<CommandResult> Show(AzBotWebchatShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

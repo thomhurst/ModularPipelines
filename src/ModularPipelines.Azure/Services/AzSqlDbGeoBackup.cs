@@ -21,16 +21,16 @@ public class AzSqlDbGeoBackup
 
     public async Task<CommandResult> List(AzSqlDbGeoBackupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzSqlDbGeoBackupRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlDbGeoBackupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbGeoBackupShowOptions(), cancellationToken: token);
     }
 }

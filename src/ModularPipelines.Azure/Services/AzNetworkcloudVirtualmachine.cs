@@ -25,51 +25,51 @@ public class AzNetworkcloudVirtualmachine
 
     public async Task<CommandResult> Create(AzNetworkcloudVirtualmachineCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudVirtualmachineDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudVirtualmachineListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> PowerOff(AzNetworkcloudVirtualmachinePowerOffOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachinePowerOffOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachinePowerOffOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reimage(AzNetworkcloudVirtualmachineReimageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineReimageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineReimageOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzNetworkcloudVirtualmachineRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudVirtualmachineShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzNetworkcloudVirtualmachineStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudVirtualmachineUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudVirtualmachineWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVirtualmachineWaitOptions(), cancellationToken: token);
     }
 }

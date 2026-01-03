@@ -21,21 +21,21 @@ public class AzNetworkNicVtapConfig
 
     public async Task<CommandResult> Create(AzNetworkNicVtapConfigCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkNicVtapConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkNicVtapConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkNicVtapConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicVtapConfigShowOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzNetworkFrontDoorWafPolicyManagedRuleDefinition
 
     public async Task<CommandResult> List(AzNetworkFrontDoorWafPolicyManagedRuleDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyManagedRuleDefinitionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFrontDoorWafPolicyManagedRuleDefinitionListOptions(), cancellationToken: token);
     }
 }

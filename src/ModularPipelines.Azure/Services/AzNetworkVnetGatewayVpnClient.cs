@@ -25,16 +25,16 @@ public class AzNetworkVnetGatewayVpnClient
 
     public async Task<CommandResult> Generate(AzNetworkVnetGatewayVpnClientGenerateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowHealth(AzNetworkVnetGatewayVpnClientShowHealthOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowHealthOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowHealthOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowUrl(AzNetworkVnetGatewayVpnClientShowUrlOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), cancellationToken: token);
     }
 }

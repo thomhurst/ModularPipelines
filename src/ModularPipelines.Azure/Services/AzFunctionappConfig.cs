@@ -41,11 +41,11 @@ public class AzFunctionappConfig
 
     public async Task<CommandResult> Set(AzFunctionappConfigSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFunctionappConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigShowOptions(), cancellationToken: token);
     }
 }

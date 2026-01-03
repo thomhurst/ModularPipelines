@@ -21,26 +21,26 @@ public class AzSynapseWorkspaceKey
 
     public async Task<CommandResult> Create(AzSynapseWorkspaceKeyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSynapseWorkspaceKeyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSynapseWorkspaceKeyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSynapseWorkspaceKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseWorkspaceKeyWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzSqlMiLink
 
     public async Task<CommandResult> Create(AzSqlMiLinkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlMiLinkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiLinkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiLinkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiLinkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkUpdateOptions(), cancellationToken: token);
     }
 }

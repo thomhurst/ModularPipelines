@@ -25,41 +25,41 @@ public class AzStackHciCluster
 
     public async Task<CommandResult> Create(AzStackHciClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateIdentity(AzStackHciClusterCreateIdentityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterCreateIdentityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterCreateIdentityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackHciClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ExtendSoftwareAssuranceBenefit(AzStackHciClusterExtendSoftwareAssuranceBenefitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterExtendSoftwareAssuranceBenefitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterExtendSoftwareAssuranceBenefitOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackHciClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackHciClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStackHciClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStackHciClusterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciClusterWaitOptions(), cancellationToken: token);
     }
 }

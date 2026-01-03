@@ -21,16 +21,16 @@ public class AzStorageCors
 
     public async Task<CommandResult> Add(AzStorageCorsAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Clear(AzStorageCorsClearOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageCorsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsListOptions(), cancellationToken: token);
     }
 }

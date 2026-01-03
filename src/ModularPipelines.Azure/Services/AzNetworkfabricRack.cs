@@ -21,11 +21,11 @@ public class AzNetworkfabricRack
 
     public async Task<CommandResult> List(AzNetworkfabricRackListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRackListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRackListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricRackShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRackShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricRackShowOptions(), cancellationToken: token);
     }
 }

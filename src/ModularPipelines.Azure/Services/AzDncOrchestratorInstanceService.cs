@@ -21,21 +21,21 @@ public class AzDncOrchestratorInstanceService
 
     public async Task<CommandResult> Create(AzDncOrchestratorInstanceServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDncOrchestratorInstanceServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDncOrchestratorInstanceServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDncOrchestratorInstanceServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncOrchestratorInstanceServiceWaitOptions(), cancellationToken: token);
     }
 }

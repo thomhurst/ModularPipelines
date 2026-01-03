@@ -21,11 +21,11 @@ public class AzWebappAuthGoogle
 
     public async Task<CommandResult> Show(AzWebappAuthGoogleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGoogleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGoogleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebappAuthGoogleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGoogleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthGoogleUpdateOptions(), cancellationToken: token);
     }
 }

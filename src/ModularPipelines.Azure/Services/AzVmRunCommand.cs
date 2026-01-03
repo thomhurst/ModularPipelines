@@ -21,36 +21,36 @@ public class AzVmRunCommand
 
     public async Task<CommandResult> Create(AzVmRunCommandCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmRunCommandDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Invoke(AzVmRunCommandInvokeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmRunCommandListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmRunCommandShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmRunCommandUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmRunCommandWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandWaitOptions(), cancellationToken: token);
     }
 }

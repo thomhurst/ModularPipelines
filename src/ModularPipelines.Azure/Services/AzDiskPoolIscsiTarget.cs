@@ -21,31 +21,31 @@ public class AzDiskPoolIscsiTarget
 
     public async Task<CommandResult> Create(AzDiskPoolIscsiTargetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDiskPoolIscsiTargetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDiskPoolIscsiTargetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDiskPoolIscsiTargetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDiskPoolIscsiTargetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDiskPoolIscsiTargetWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskPoolIscsiTargetWaitOptions(), cancellationToken: token);
     }
 }

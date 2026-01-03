@@ -33,41 +33,41 @@ public class AzIotHubDeviceIdentity
 
     public async Task<CommandResult> Create(AzIotHubDeviceIdentityCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotHubDeviceIdentityDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzIotHubDeviceIdentityExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityExportOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityExportOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzIotHubDeviceIdentityImportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityImportOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityImportOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotHubDeviceIdentityListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceIdentityListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RenewKey(AzIotHubDeviceIdentityRenewKeyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubDeviceIdentityShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotHubDeviceIdentityUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

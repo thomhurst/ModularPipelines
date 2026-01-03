@@ -21,26 +21,26 @@ public class AzDatashareSynchronizationSetting
 
     public async Task<CommandResult> Create(AzDatashareSynchronizationSettingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatashareSynchronizationSettingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatashareSynchronizationSettingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatashareSynchronizationSettingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatashareSynchronizationSettingWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareSynchronizationSettingWaitOptions(), cancellationToken: token);
     }
 }

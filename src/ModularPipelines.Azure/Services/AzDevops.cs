@@ -51,21 +51,21 @@ public class AzDevops
 
     public async Task<CommandResult> Configure(AzDevopsConfigureOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsConfigureOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsConfigureOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Invoke(AzDevopsInvokeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsInvokeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsInvokeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Login(AzDevopsLoginOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsLoginOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsLoginOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Logout(AzDevopsLogoutOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsLogoutOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsLogoutOptions(), cancellationToken: token);
     }
 }

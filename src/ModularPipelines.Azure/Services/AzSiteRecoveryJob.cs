@@ -21,31 +21,31 @@ public class AzSiteRecoveryJob
 
     public async Task<CommandResult> Cancel(AzSiteRecoveryJobCancelOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobCancelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobCancelOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzSiteRecoveryJobExportOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobExportOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobExportOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryJobListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzSiteRecoveryJobRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Resume(AzSiteRecoveryJobResumeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobResumeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobResumeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryJobShowOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzBoardsWorkItemRelation
 
     public async Task<CommandResult> Add(AzBoardsWorkItemRelationAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListType(AzBoardsWorkItemRelationListTypeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemRelationListTypeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemRelationListTypeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzBoardsWorkItemRelationRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBoardsWorkItemRelationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzHealthcareapisWorkspacePrivateLinkResource
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspacePrivateLinkResourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHealthcareapisWorkspacePrivateLinkResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspacePrivateLinkResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspacePrivateLinkResourceShowOptions(), cancellationToken: token);
     }
 }

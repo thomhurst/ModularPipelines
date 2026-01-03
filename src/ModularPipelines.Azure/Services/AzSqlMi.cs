@@ -69,41 +69,41 @@ public class AzSqlMi
 
     public async Task<CommandResult> Create(AzSqlMiCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlMiDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Failover(AzSqlMiFailoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiFailoverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiFailoverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzSqlMiStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzSqlMiStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiUpdateOptions(), cancellationToken: token);
     }
 }

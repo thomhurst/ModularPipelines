@@ -21,6 +21,6 @@ public class AzCosmosdbRestorableDatabaseAccountShowCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzCosmosdbRestorableDatabaseAccountShowCosmosdbPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowCosmosdbPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowCosmosdbPreviewExtensionOptions(), cancellationToken: token);
     }
 }

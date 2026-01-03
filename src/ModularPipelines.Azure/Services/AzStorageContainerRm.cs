@@ -21,36 +21,36 @@ public class AzStorageContainerRm
 
     public async Task<CommandResult> Create(AzStorageContainerRmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStorageContainerRmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzStorageContainerRmExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmExistsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageContainerRmListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> MigrateVlw(AzStorageContainerRmMigrateVlwOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmMigrateVlwOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmMigrateVlwOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStorageContainerRmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageContainerRmUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerRmUpdateOptions(), cancellationToken: token);
     }
 }

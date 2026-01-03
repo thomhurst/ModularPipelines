@@ -21,26 +21,26 @@ public class AzDatamigrationSqlVm
 
     public async Task<CommandResult> Cancel(AzDatamigrationSqlVmCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzDatamigrationSqlVmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Cutover(AzDatamigrationSqlVmCutoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatamigrationSqlVmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlVmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlVmShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatamigrationSqlVmWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlVmWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlVmWaitOptions(), cancellationToken: token);
     }
 }

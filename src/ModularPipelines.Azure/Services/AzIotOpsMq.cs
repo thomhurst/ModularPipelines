@@ -21,11 +21,11 @@ public class AzIotOpsMq
 
     public async Task<CommandResult> GetPasswordHash(AzIotOpsMqGetPasswordHashOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Stats(AzIotOpsMqStatsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsMqStatsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsMqStatsOptions(), cancellationToken: token);
     }
 }

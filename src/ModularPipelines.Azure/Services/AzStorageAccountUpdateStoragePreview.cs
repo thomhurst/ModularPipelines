@@ -21,6 +21,6 @@ public class AzStorageAccountUpdateStoragePreview
 
     public async Task<CommandResult> Extension(AzStorageAccountUpdateStoragePreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateStoragePreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateStoragePreviewExtensionOptions(), cancellationToken: token);
     }
 }

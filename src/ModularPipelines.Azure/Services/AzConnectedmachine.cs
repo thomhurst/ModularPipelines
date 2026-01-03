@@ -39,36 +39,36 @@ public class AzConnectedmachine
 
     public async Task<CommandResult> AssessPatches(AzConnectedmachineAssessPatchesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineAssessPatchesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineAssessPatchesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedmachineDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> InstallPatches(AzConnectedmachineInstallPatchesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedmachineListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedmachineShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConnectedmachineUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpgradeExtension(AzConnectedmachineUpgradeExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineUpgradeExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachineUpgradeExtensionOptions(), cancellationToken: token);
     }
 }

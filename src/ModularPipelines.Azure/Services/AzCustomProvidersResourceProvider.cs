@@ -21,26 +21,26 @@ public class AzCustomProvidersResourceProvider
 
     public async Task<CommandResult> Create(AzCustomProvidersResourceProviderCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCustomProvidersResourceProviderDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCustomProvidersResourceProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCustomProvidersResourceProviderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCustomProvidersResourceProviderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCustomProvidersResourceProviderShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCustomProvidersResourceProviderUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

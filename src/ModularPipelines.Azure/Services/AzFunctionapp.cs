@@ -83,56 +83,56 @@ public class AzFunctionapp
 
     public async Task<CommandResult> Create(AzFunctionappCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzFunctionappDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deploy(AzFunctionappDeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeployOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeployOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFunctionappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListConsumptionLocations(AzFunctionappListConsumptionLocationsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListConsumptionLocationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListConsumptionLocationsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListRuntimes(AzFunctionappListRuntimesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListRuntimesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappListRuntimesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzFunctionappRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFunctionappShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzFunctionappStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzFunctionappStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzFunctionappUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappUpdateOptions(), cancellationToken: token);
     }
 }

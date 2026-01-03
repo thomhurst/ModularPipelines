@@ -25,26 +25,26 @@ public class AzAmsContentKeyPolicy
 
     public async Task<CommandResult> Create(AzAmsContentKeyPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsContentKeyPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsContentKeyPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsContentKeyPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsContentKeyPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyUpdateOptions(), cancellationToken: token);
     }
 }

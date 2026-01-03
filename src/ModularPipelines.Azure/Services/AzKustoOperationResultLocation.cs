@@ -21,6 +21,6 @@ public class AzKustoOperationResultLocation
 
     public async Task<CommandResult> Show(AzKustoOperationResultLocationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultLocationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultLocationShowOptions(), cancellationToken: token);
     }
 }

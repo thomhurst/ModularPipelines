@@ -21,31 +21,31 @@ public class AzAdpAccountDataPool
 
     public async Task<CommandResult> Create(AzAdpAccountDataPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAdpAccountDataPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAdpAccountDataPoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdpAccountDataPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAdpAccountDataPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAdpAccountDataPoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdpAccountDataPoolWaitOptions(), cancellationToken: token);
     }
 }

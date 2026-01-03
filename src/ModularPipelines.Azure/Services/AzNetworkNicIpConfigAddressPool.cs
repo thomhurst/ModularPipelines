@@ -21,11 +21,11 @@ public class AzNetworkNicIpConfigAddressPool
 
     public async Task<CommandResult> Add(AzNetworkNicIpConfigAddressPoolAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkNicIpConfigAddressPoolRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

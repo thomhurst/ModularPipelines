@@ -23,31 +23,31 @@ public class AzIdentity
 
     public async Task<CommandResult> Create(AzIdentityCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIdentityDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIdentityListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListOperations(AzIdentityListOperationsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListOperationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListOperationsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListResources(AzIdentityListResourcesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListResourcesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityListResourcesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIdentityShowOptions(), cancellationToken: token);
     }
 }

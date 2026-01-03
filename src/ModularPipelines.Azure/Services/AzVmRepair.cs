@@ -21,31 +21,31 @@ public class AzVmRepair
 
     public async Task<CommandResult> Create(AzVmRepairCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListScripts(AzVmRepairListScriptsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairListScriptsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairListScriptsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RepairAndRestore(AzVmRepairRepairAndRestoreOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRepairAndRestoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRepairAndRestoreOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ResetNic(AzVmRepairResetNicOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairResetNicOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairResetNicOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzVmRepairRestoreOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRestoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRestoreOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Run(AzVmRepairRunOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRunOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmRepairRunOptions(), cancellationToken: token);
     }
 }

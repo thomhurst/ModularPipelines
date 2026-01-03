@@ -21,26 +21,26 @@ public class AzSqlInstanceFailoverGroupArc
 
     public async Task<CommandResult> Create(AzSqlInstanceFailoverGroupArcCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlInstanceFailoverGroupArcDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlInstanceFailoverGroupArcListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstanceFailoverGroupArcListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstanceFailoverGroupArcListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlInstanceFailoverGroupArcShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlInstanceFailoverGroupArcUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

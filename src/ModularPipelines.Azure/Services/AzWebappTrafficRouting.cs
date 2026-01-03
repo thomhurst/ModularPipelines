@@ -21,16 +21,16 @@ public class AzWebappTrafficRouting
 
     public async Task<CommandResult> Clear(AzWebappTrafficRoutingClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingClearOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingClearOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzWebappTrafficRoutingSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappTrafficRoutingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappTrafficRoutingShowOptions(), cancellationToken: token);
     }
 }

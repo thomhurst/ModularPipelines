@@ -23,21 +23,21 @@ public class AzRestorePoint
 
     public async Task<CommandResult> Create(AzRestorePointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRestorePointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRestorePointShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzRestorePointWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

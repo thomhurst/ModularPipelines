@@ -21,11 +21,11 @@ public class AzBillingEnrollmentAccount
 
     public async Task<CommandResult> List(AzBillingEnrollmentAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingEnrollmentAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingEnrollmentAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBillingEnrollmentAccountShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

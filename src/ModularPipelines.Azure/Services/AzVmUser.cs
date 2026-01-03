@@ -21,16 +21,16 @@ public class AzVmUser
 
     public async Task<CommandResult> Delete(AzVmUserDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ResetSsh(AzVmUserResetSshOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmUserResetSshOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmUserResetSshOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmUserUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

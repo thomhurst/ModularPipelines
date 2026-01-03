@@ -21,6 +21,6 @@ public class AzAccountManagementGroupEntities
 
     public async Task<CommandResult> List(AzAccountManagementGroupEntitiesListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupEntitiesListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupEntitiesListOptions(), cancellationToken: token);
     }
 }

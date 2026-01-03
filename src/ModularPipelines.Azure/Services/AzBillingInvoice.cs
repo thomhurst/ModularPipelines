@@ -25,16 +25,16 @@ public class AzBillingInvoice
 
     public async Task<CommandResult> Download(AzBillingInvoiceDownloadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceDownloadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceDownloadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBillingInvoiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBillingInvoiceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

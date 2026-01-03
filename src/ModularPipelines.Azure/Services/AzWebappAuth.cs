@@ -61,16 +61,16 @@ public class AzWebappAuth
 
     public async Task<CommandResult> Set(AzWebappAuthSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappAuthShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebappAuthUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzSentinelMetadata
 
     public async Task<CommandResult> Create(AzSentinelMetadataCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelMetadataDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelMetadataListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelMetadataShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelMetadataUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelMetadataUpdateOptions(), cancellationToken: token);
     }
 }

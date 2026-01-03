@@ -21,26 +21,26 @@ public class AzMariadbServerFirewallRule
 
     public async Task<CommandResult> Create(AzMariadbServerFirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMariadbServerFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMariadbServerFirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMariadbServerFirewallRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMariadbServerFirewallRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerFirewallRuleUpdateOptions(), cancellationToken: token);
     }
 }

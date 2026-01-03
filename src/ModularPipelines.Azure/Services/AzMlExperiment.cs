@@ -21,6 +21,6 @@ public class AzMlExperiment
 
     public async Task<CommandResult> List(AzMlExperimentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlExperimentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlExperimentListOptions(), cancellationToken: token);
     }
 }

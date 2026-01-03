@@ -21,26 +21,26 @@ public class AzDatafactoryManagedPrivateEndpoint
 
     public async Task<CommandResult> Create(AzDatafactoryManagedPrivateEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryManagedPrivateEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryManagedPrivateEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryManagedPrivateEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryManagedPrivateEndpointUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedPrivateEndpointUpdateOptions(), cancellationToken: token);
     }
 }

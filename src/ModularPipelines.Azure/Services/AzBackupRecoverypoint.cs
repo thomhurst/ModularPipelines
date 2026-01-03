@@ -21,21 +21,21 @@ public class AzBackupRecoverypoint
 
     public async Task<CommandResult> List(AzBackupRecoverypointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Move(AzBackupRecoverypointMoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupRecoverypointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowLogChain(AzBackupRecoverypointShowLogChainOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

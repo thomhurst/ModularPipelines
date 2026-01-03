@@ -21,26 +21,26 @@ public class AzMonitorAppInsightsWebTest
 
     public async Task<CommandResult> Create(AzMonitorAppInsightsWebTestCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorAppInsightsWebTestDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorAppInsightsWebTestListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsWebTestListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsWebTestListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsWebTestShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAppInsightsWebTestUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

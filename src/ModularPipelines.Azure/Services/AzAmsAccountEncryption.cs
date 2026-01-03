@@ -21,11 +21,11 @@ public class AzAmsAccountEncryption
 
     public async Task<CommandResult> Set(AzAmsAccountEncryptionSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAccountEncryptionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountEncryptionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountEncryptionShowOptions(), cancellationToken: token);
     }
 }

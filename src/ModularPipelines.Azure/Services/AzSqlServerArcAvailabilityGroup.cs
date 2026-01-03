@@ -21,6 +21,6 @@ public class AzSqlServerArcAvailabilityGroup
 
     public async Task<CommandResult> Failover(AzSqlServerArcAvailabilityGroupFailoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

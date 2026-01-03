@@ -21,16 +21,16 @@ public class AzOffazureHypervSite
 
     public async Task<CommandResult> Create(AzOffazureHypervSiteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzOffazureHypervSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervSiteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervSiteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOffazureHypervSiteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervSiteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervSiteShowOptions(), cancellationToken: token);
     }
 }

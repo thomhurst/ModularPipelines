@@ -21,16 +21,16 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
 
     public async Task<CommandResult> Remove(AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigWaitOptions(), cancellationToken: token);
     }
 }

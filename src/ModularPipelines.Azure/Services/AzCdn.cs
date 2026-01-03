@@ -43,11 +43,11 @@ public class AzCdn
 
     public async Task<CommandResult> NameExists(AzCdnNameExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnNameExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnNameExistsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Usage(AzCdnUsageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnUsageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnUsageOptions(), cancellationToken: token);
     }
 }

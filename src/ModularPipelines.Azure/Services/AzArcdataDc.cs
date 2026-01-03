@@ -37,41 +37,41 @@ public class AzArcdataDc
 
     public async Task<CommandResult> Create(AzArcdataDcCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzArcdataDcDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzArcdataDcExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzArcdataDcListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUpgrades(AzArcdataDcListUpgradesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzArcdataDcUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Upgrade(AzArcdataDcUpgradeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcUpgradeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcUpgradeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Upload(AzArcdataDcUploadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

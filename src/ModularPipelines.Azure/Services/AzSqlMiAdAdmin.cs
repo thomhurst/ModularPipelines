@@ -21,21 +21,21 @@ public class AzSqlMiAdAdmin
 
     public async Task<CommandResult> Create(AzSqlMiAdAdminCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlMiAdAdminDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiAdAdminListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdAdminListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiAdAdminUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

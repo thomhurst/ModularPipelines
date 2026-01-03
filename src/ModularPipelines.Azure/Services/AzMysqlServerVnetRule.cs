@@ -21,26 +21,26 @@ public class AzMysqlServerVnetRule
 
     public async Task<CommandResult> Create(AzMysqlServerVnetRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMysqlServerVnetRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlServerVnetRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlServerVnetRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerVnetRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMysqlServerVnetRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

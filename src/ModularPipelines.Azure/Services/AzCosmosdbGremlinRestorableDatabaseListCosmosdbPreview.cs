@@ -21,6 +21,6 @@ public class AzCosmosdbGremlinRestorableDatabaseListCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzCosmosdbGremlinRestorableDatabaseListCosmosdbPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

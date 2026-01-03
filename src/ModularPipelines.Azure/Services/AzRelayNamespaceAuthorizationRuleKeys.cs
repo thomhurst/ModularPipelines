@@ -21,11 +21,11 @@ public class AzRelayNamespaceAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzRelayNamespaceAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Renew(AzRelayNamespaceAuthorizationRuleKeysRenewOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

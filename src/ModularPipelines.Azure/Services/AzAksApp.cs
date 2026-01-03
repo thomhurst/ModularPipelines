@@ -21,6 +21,6 @@ public class AzAksApp
 
     public async Task<CommandResult> Up(AzAksAppUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksAppUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksAppUpOptions(), cancellationToken: token);
     }
 }

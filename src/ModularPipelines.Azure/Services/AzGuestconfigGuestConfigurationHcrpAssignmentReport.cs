@@ -21,11 +21,11 @@ public class AzGuestconfigGuestConfigurationHcrpAssignmentReport
 
     public async Task<CommandResult> List(AzGuestconfigGuestConfigurationHcrpAssignmentReportListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentReportShowOptions(), cancellationToken: token);
     }
 }

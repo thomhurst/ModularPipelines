@@ -21,6 +21,6 @@ public class AzNewRelicPlan
 
     public async Task<CommandResult> List(AzNewRelicPlanListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicPlanListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicPlanListOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzLogzSubRule
 
     public async Task<CommandResult> Create(AzLogzSubRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogzSubRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogzSubRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogzSubRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogzSubRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubRuleUpdateOptions(), cancellationToken: token);
     }
 }

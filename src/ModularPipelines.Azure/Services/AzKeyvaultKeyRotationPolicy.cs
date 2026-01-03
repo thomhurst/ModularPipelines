@@ -21,11 +21,11 @@ public class AzKeyvaultKeyRotationPolicy
 
     public async Task<CommandResult> Show(AzKeyvaultKeyRotationPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRotationPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRotationPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKeyvaultKeyRotationPolicyUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

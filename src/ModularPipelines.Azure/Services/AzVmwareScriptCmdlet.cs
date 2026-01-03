@@ -21,11 +21,11 @@ public class AzVmwareScriptCmdlet
 
     public async Task<CommandResult> List(AzVmwareScriptCmdletListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareScriptCmdletShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptCmdletShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareScriptCmdletShowOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzAmsAssetFilter
 
     public async Task<CommandResult> Create(AzAmsAssetFilterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsAssetFilterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsAssetFilterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAssetFilterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsAssetFilterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetFilterUpdateOptions(), cancellationToken: token);
     }
 }

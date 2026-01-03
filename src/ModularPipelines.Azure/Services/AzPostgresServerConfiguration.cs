@@ -21,16 +21,16 @@ public class AzPostgresServerConfiguration
 
     public async Task<CommandResult> List(AzPostgresServerConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzPostgresServerConfigurationSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresServerConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerConfigurationShowOptions(), cancellationToken: token);
     }
 }

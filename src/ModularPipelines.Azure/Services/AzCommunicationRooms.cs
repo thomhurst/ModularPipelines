@@ -25,26 +25,26 @@ public class AzCommunicationRooms
 
     public async Task<CommandResult> Create(AzCommunicationRoomsCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRoomsCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRoomsCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCommunicationRoomsDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Get(AzCommunicationRoomsGetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCommunicationRoomsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRoomsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCommunicationRoomsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCommunicationRoomsUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

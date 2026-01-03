@@ -29,26 +29,26 @@ public class AzServicebusTopic
 
     public async Task<CommandResult> Create(AzServicebusTopicCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusTopicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusTopicListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusTopicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusTopicUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicUpdateOptions(), cancellationToken: token);
     }
 }

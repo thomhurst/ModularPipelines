@@ -21,16 +21,16 @@ public class AzVmEncryption
 
     public async Task<CommandResult> Disable(AzVmEncryptionDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzVmEncryptionEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmEncryptionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionShowOptions(), cancellationToken: token);
     }
 }

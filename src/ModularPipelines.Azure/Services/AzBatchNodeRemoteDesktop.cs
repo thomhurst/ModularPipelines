@@ -21,6 +21,6 @@ public class AzBatchNodeRemoteDesktop
 
     public async Task<CommandResult> Download(AzBatchNodeRemoteDesktopDownloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

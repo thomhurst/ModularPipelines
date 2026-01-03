@@ -21,26 +21,26 @@ public class AzSentinelBookmarkRelation
 
     public async Task<CommandResult> Create(AzSentinelBookmarkRelationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelBookmarkRelationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelBookmarkRelationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelBookmarkRelationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelBookmarkRelationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkRelationUpdateOptions(), cancellationToken: token);
     }
 }

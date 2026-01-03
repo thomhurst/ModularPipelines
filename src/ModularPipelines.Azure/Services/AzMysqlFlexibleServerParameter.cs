@@ -21,21 +21,21 @@ public class AzMysqlFlexibleServerParameter
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerParameterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzMysqlFlexibleServerParameterSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SetBatch(AzMysqlFlexibleServerParameterSetBatchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlFlexibleServerParameterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterShowOptions(), cancellationToken: token);
     }
 }

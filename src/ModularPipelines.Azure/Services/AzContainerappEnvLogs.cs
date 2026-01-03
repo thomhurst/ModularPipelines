@@ -21,6 +21,6 @@ public class AzContainerappEnvLogs
 
     public async Task<CommandResult> Show(AzContainerappEnvLogsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvLogsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvLogsShowOptions(), cancellationToken: token);
     }
 }

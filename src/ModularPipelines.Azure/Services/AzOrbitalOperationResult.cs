@@ -21,6 +21,6 @@ public class AzOrbitalOperationResult
 
     public async Task<CommandResult> Show(AzOrbitalOperationResultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalOperationResultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalOperationResultShowOptions(), cancellationToken: token);
     }
 }

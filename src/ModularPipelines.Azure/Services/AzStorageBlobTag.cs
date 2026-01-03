@@ -21,11 +21,11 @@ public class AzStorageBlobTag
 
     public async Task<CommandResult> List(AzStorageBlobTagListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobTagListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobTagListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzStorageBlobTagSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

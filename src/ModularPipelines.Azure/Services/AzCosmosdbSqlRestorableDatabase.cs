@@ -21,6 +21,6 @@ public class AzCosmosdbSqlRestorableDatabase
 
     public async Task<CommandResult> List(AzCosmosdbSqlRestorableDatabaseListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

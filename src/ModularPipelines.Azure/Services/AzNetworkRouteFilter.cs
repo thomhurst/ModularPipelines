@@ -25,31 +25,31 @@ public class AzNetworkRouteFilter
 
     public async Task<CommandResult> Create(AzNetworkRouteFilterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkRouteFilterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkRouteFilterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkRouteFilterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkRouteFilterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkRouteFilterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteFilterWaitOptions(), cancellationToken: token);
     }
 }

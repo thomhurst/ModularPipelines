@@ -25,41 +25,41 @@ public class AzEventhubsGeorecoveryAlias
 
     public async Task<CommandResult> BreakPair(AzEventhubsGeorecoveryAliasBreakPairOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasBreakPairOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasBreakPairOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzEventhubsGeorecoveryAliasCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsGeorecoveryAliasDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzEventhubsGeorecoveryAliasExistsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> FailOver(AzEventhubsGeorecoveryAliasFailOverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasFailOverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasFailOverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsGeorecoveryAliasListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzEventhubsGeorecoveryAliasSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsGeorecoveryAliasShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsGeorecoveryAliasShowOptions(), cancellationToken: token);
     }
 }

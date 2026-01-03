@@ -21,11 +21,11 @@ public class AzDlaCatalogDatabase
 
     public async Task<CommandResult> List(AzDlaCatalogDatabaseListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaCatalogDatabaseListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaCatalogDatabaseListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaCatalogDatabaseShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

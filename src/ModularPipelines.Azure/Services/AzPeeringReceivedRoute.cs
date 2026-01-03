@@ -21,6 +21,6 @@ public class AzPeeringReceivedRoute
 
     public async Task<CommandResult> List(AzPeeringReceivedRouteListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

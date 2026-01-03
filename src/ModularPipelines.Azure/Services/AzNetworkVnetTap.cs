@@ -21,26 +21,26 @@ public class AzNetworkVnetTap
 
     public async Task<CommandResult> Create(AzNetworkVnetTapCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVnetTapDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVnetTapListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVnetTapShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVnetTapUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetTapUpdateOptions(), cancellationToken: token);
     }
 }

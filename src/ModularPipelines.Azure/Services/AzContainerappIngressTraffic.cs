@@ -21,11 +21,11 @@ public class AzContainerappIngressTraffic
 
     public async Task<CommandResult> Set(AzContainerappIngressTrafficSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressTrafficSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressTrafficSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappIngressTrafficShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressTrafficShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressTrafficShowOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzMonitorDataCollectionRuleDataFlow
 
     public async Task<CommandResult> Add(AzMonitorDataCollectionRuleDataFlowAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorDataCollectionRuleDataFlowListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

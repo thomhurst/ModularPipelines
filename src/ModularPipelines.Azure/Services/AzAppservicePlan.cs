@@ -37,26 +37,26 @@ public class AzAppservicePlan
 
     public async Task<CommandResult> Create(AzAppservicePlanCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAppservicePlanDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAppservicePlanListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAppservicePlanShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAppservicePlanUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanUpdateOptions(), cancellationToken: token);
     }
 }

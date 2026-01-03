@@ -21,31 +21,31 @@ public class AzNetworkLocalGateway
 
     public async Task<CommandResult> Create(AzNetworkLocalGatewayCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkLocalGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkLocalGatewayListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkLocalGatewayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkLocalGatewayUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkLocalGatewayWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLocalGatewayWaitOptions(), cancellationToken: token);
     }
 }

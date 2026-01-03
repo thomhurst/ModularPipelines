@@ -35,16 +35,16 @@ public class AzDataboxedge
 
     public async Task<CommandResult> ListNode(AzDataboxedgeListNodeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSku(AzDataboxedgeListSkuOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeListSkuOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeListSkuOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowJob(AzDataboxedgeShowJobOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeShowJobOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeShowJobOptions(), cancellationToken: token);
     }
 }

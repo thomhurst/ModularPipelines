@@ -21,36 +21,36 @@ public class AzNetappfilesAccountBackupVaultBackup
 
     public async Task<CommandResult> Create(AzNetappfilesAccountBackupVaultBackupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetappfilesAccountBackupVaultBackupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesAccountBackupVaultBackupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RestoreFile(AzNetappfilesAccountBackupVaultBackupRestoreFileOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetappfilesAccountBackupVaultBackupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesAccountBackupVaultBackupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesAccountBackupVaultBackupWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupWaitOptions(), cancellationToken: token);
     }
 }

@@ -29,11 +29,11 @@ public class AzPipelinesRuns
 
     public async Task<CommandResult> List(AzPipelinesRunsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesRunsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzVmwareWorkloadNetworkPublicIp
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkPublicIpCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkPublicIpDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkPublicIpListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareWorkloadNetworkPublicIpShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareWorkloadNetworkPublicIpWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkPublicIpWaitOptions(), cancellationToken: token);
     }
 }

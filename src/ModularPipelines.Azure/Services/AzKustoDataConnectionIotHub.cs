@@ -21,16 +21,16 @@ public class AzKustoDataConnectionIotHub
 
     public async Task<CommandResult> Create(AzKustoDataConnectionIotHubCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DataConnectionValidation(AzKustoDataConnectionIotHubDataConnectionValidationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionIotHubDataConnectionValidationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionIotHubDataConnectionValidationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKustoDataConnectionIotHubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionIotHubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionIotHubUpdateOptions(), cancellationToken: token);
     }
 }

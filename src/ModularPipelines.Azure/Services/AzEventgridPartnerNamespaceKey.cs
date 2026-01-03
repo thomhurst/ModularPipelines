@@ -29,11 +29,11 @@ public class AzEventgridPartnerNamespaceKey
 
     public async Task<CommandResult> List(AzEventgridPartnerNamespaceKeyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Regenerate(AzEventgridPartnerNamespaceKeyRegenerateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

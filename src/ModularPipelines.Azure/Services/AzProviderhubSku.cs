@@ -21,36 +21,36 @@ public class AzProviderhubSku
 
     public async Task<CommandResult> Create(AzProviderhubSkuCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzProviderhubSkuDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzProviderhubSkuListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzProviderhubSkuShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowNestedResourceTypeFirst(AzProviderhubSkuShowNestedResourceTypeFirstOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeFirstOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeFirstOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowNestedResourceTypeSecond(AzProviderhubSkuShowNestedResourceTypeSecondOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeSecondOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeSecondOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowNestedResourceTypeThird(AzProviderhubSkuShowNestedResourceTypeThirdOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeThirdOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubSkuShowNestedResourceTypeThirdOptions(), cancellationToken: token);
     }
 }

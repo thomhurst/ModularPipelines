@@ -21,21 +21,21 @@ public class AzDatafactoryManagedVirtualNetwork
 
     public async Task<CommandResult> Create(AzDatafactoryManagedVirtualNetworkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryManagedVirtualNetworkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryManagedVirtualNetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedVirtualNetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedVirtualNetworkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryManagedVirtualNetworkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedVirtualNetworkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryManagedVirtualNetworkUpdateOptions(), cancellationToken: token);
     }
 }

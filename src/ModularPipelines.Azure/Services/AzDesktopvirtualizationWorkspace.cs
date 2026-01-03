@@ -21,26 +21,26 @@ public class AzDesktopvirtualizationWorkspace
 
     public async Task<CommandResult> Create(AzDesktopvirtualizationWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDesktopvirtualizationWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDesktopvirtualizationWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDesktopvirtualizationWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDesktopvirtualizationWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationWorkspaceUpdateOptions(), cancellationToken: token);
     }
 }

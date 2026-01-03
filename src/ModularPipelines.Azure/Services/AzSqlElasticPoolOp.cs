@@ -21,11 +21,11 @@ public class AzSqlElasticPoolOp
 
     public async Task<CommandResult> Cancel(AzSqlElasticPoolOpCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlElasticPoolOpListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolOpListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolOpListOptions(), cancellationToken: token);
     }
 }

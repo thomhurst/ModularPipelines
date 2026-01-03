@@ -21,11 +21,11 @@ public class AzDataprotectionRecoveryPoint
 
     public async Task<CommandResult> List(AzDataprotectionRecoveryPointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataprotectionRecoveryPointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionRecoveryPointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionRecoveryPointShowOptions(), cancellationToken: token);
     }
 }

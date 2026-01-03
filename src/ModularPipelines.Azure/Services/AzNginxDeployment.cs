@@ -29,31 +29,31 @@ public class AzNginxDeployment
 
     public async Task<CommandResult> Create(AzNginxDeploymentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNginxDeploymentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNginxDeploymentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNginxDeploymentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNginxDeploymentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNginxDeploymentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentWaitOptions(), cancellationToken: token);
     }
 }

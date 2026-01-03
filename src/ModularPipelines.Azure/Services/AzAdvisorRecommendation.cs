@@ -21,16 +21,16 @@ public class AzAdvisorRecommendation
 
     public async Task<CommandResult> Disable(AzAdvisorRecommendationDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzAdvisorRecommendationEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationEnableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAdvisorRecommendationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorRecommendationListOptions(), cancellationToken: token);
     }
 }

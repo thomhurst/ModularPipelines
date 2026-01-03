@@ -21,16 +21,16 @@ public class AzFluidRelayContainer
 
     public async Task<CommandResult> Delete(AzFluidRelayContainerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFluidRelayContainerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFluidRelayContainerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFluidRelayContainerShowOptions(), cancellationToken: token);
     }
 }

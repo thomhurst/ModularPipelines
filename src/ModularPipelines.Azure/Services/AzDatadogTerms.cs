@@ -21,16 +21,16 @@ public class AzDatadogTerms
 
     public async Task<CommandResult> Create(AzDatadogTermsCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatadogTermsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatadogTermsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogTermsUpdateOptions(), cancellationToken: token);
     }
 }

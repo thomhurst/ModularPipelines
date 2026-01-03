@@ -19,21 +19,21 @@ public class AzManagementpartner
 
     public async Task<CommandResult> Create(AzManagementpartnerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzManagementpartnerDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzManagementpartnerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagementpartnerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagementpartnerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzManagementpartnerUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

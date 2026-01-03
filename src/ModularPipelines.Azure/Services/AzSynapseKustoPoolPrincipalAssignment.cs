@@ -21,31 +21,31 @@ public class AzSynapseKustoPoolPrincipalAssignment
 
     public async Task<CommandResult> Create(AzSynapseKustoPoolPrincipalAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSynapseKustoPoolPrincipalAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSynapseKustoPoolPrincipalAssignmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSynapseKustoPoolPrincipalAssignmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSynapseKustoPoolPrincipalAssignmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseKustoPoolPrincipalAssignmentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoPoolPrincipalAssignmentWaitOptions(), cancellationToken: token);
     }
 }

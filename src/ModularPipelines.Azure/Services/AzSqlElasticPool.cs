@@ -25,36 +25,36 @@ public class AzSqlElasticPool
 
     public async Task<CommandResult> Create(AzSqlElasticPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlElasticPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlElasticPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListDbs(AzSqlElasticPoolListDbsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListDbsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListDbsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListEditions(AzSqlElasticPoolListEditionsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlElasticPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlElasticPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzPowerbiEmbeddedCapacity
 
     public async Task<CommandResult> Create(AzPowerbiEmbeddedCapacityCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPowerbiEmbeddedCapacityDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPowerbiEmbeddedCapacityListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPowerbiEmbeddedCapacityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPowerbiEmbeddedCapacityUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPowerbiEmbeddedCapacityWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPowerbiEmbeddedCapacityWaitOptions(), cancellationToken: token);
     }
 }

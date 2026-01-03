@@ -21,26 +21,26 @@ public class AzBackupContainer
 
     public async Task<CommandResult> List(AzBackupContainerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ReRegister(AzBackupContainerReRegisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Register(AzBackupContainerRegisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupContainerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Unregister(AzBackupContainerUnregisterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerUnregisterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerUnregisterOptions(), cancellationToken: token);
     }
 }

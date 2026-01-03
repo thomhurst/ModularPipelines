@@ -35,16 +35,16 @@ public class AzMysql
 
     public async Task<CommandResult> Down(AzMysqlDownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDownOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDownOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzMysqlShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlShowConnectionStringOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlShowConnectionStringOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzMysqlUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlUpOptions(), cancellationToken: token);
     }
 }

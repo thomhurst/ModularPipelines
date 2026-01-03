@@ -21,6 +21,6 @@ public class AzEventgridPartnerNamespaceShowEventgrid
 
     public async Task<CommandResult> Extension(AzEventgridPartnerNamespaceShowEventgridExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceShowEventgridExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceShowEventgridExtensionOptions(), cancellationToken: token);
     }
 }

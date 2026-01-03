@@ -21,16 +21,16 @@ public class AzNetworkApplicationGatewayWafConfig
 
     public async Task<CommandResult> ListRuleSets(AzNetworkApplicationGatewayWafConfigListRuleSetsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigListRuleSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigListRuleSetsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzNetworkApplicationGatewayWafConfigSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewayWafConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafConfigShowOptions(), cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzSqlServerTdeKey
 
     public async Task<CommandResult> Revalidate(AzSqlServerTdeKeyRevalidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeyRevalidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeyRevalidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzSqlServerTdeKeySetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerTdeKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerTdeKeyShowOptions(), cancellationToken: token);
     }
 }

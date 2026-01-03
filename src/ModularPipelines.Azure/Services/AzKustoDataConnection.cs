@@ -33,21 +33,21 @@ public class AzKustoDataConnection
 
     public async Task<CommandResult> Delete(AzKustoDataConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzKustoDataConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzKustoDataConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzKustoDataConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionWaitOptions(), cancellationToken: token);
     }
 }

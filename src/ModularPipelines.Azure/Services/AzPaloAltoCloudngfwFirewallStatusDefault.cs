@@ -21,6 +21,6 @@ public class AzPaloAltoCloudngfwFirewallStatusDefault
 
     public async Task<CommandResult> Show(AzPaloAltoCloudngfwFirewallStatusDefaultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwFirewallStatusDefaultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwFirewallStatusDefaultShowOptions(), cancellationToken: token);
     }
 }

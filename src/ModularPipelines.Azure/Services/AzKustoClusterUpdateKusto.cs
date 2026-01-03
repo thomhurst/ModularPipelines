@@ -21,6 +21,6 @@ public class AzKustoClusterUpdateKusto
 
     public async Task<CommandResult> Extension(AzKustoClusterUpdateKustoExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterUpdateKustoExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoClusterUpdateKustoExtensionOptions(), cancellationToken: token);
     }
 }

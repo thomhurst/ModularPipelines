@@ -21,16 +21,16 @@ public class AzBillingBenefitsSavingsPlanOrderAliases
 
     public async Task<CommandResult> Create(AzBillingBenefitsSavingsPlanOrderAliasesCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBillingBenefitsSavingsPlanOrderAliasesShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzBillingBenefitsSavingsPlanOrderAliasesWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

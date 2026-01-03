@@ -21,21 +21,21 @@ public class AzVmwareHcxEnterpriseSite
 
     public async Task<CommandResult> Create(AzVmwareHcxEnterpriseSiteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareHcxEnterpriseSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareHcxEnterpriseSiteListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareHcxEnterpriseSiteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareHcxEnterpriseSiteShowOptions(), cancellationToken: token);
     }
 }

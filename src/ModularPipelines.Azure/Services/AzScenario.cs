@@ -19,6 +19,6 @@ public class AzScenario
 
     public async Task<CommandResult> Guide(AzScenarioGuideOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScenarioGuideOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScenarioGuideOptions(), cancellationToken: token);
     }
 }

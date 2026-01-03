@@ -25,21 +25,21 @@ public class AzAutomanageConfigurationProfileAssignmentArc
 
     public async Task<CommandResult> Create(AzAutomanageConfigurationProfileAssignmentArcCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomanageConfigurationProfileAssignmentArcDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomanageConfigurationProfileAssignmentArcShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAutomanageConfigurationProfileAssignmentArcUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentArcUpdateOptions(), cancellationToken: token);
     }
 }

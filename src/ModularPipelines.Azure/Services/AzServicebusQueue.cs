@@ -25,26 +25,26 @@ public class AzServicebusQueue
 
     public async Task<CommandResult> Create(AzServicebusQueueCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusQueueDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusQueueListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusQueueShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusQueueUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusQueueUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzSqlMiAdOnlyAuth
 
     public async Task<CommandResult> Disable(AzSqlMiAdOnlyAuthDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSqlMiAdOnlyAuthEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthEnableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Get(AzSqlMiAdOnlyAuthGetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthGetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiAdOnlyAuthGetOptions(), cancellationToken: token);
     }
 }

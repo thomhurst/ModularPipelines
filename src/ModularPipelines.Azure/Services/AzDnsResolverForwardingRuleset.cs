@@ -21,36 +21,36 @@ public class AzDnsResolverForwardingRuleset
 
     public async Task<CommandResult> Create(AzDnsResolverForwardingRulesetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDnsResolverForwardingRulesetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverForwardingRulesetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListByVirtualNetwork(AzDnsResolverForwardingRulesetListByVirtualNetworkOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDnsResolverForwardingRulesetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDnsResolverForwardingRulesetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDnsResolverForwardingRulesetWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverForwardingRulesetWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzEventhubsNamespaceSchemaRegistry
 
     public async Task<CommandResult> Create(AzEventhubsNamespaceSchemaRegistryCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsNamespaceSchemaRegistryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespaceSchemaRegistryListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsNamespaceSchemaRegistryShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsNamespaceSchemaRegistryUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceSchemaRegistryUpdateOptions(), cancellationToken: token);
     }
 }

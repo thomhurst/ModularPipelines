@@ -21,26 +21,26 @@ public class AzAutomationPython3Package
 
     public async Task<CommandResult> Create(AzAutomationPython3PackageCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomationPython3PackageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAutomationPython3PackageListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomationPython3PackageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAutomationPython3PackageUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationPython3PackageUpdateOptions(), cancellationToken: token);
     }
 }

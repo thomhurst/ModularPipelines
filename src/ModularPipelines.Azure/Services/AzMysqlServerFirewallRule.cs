@@ -21,26 +21,26 @@ public class AzMysqlServerFirewallRule
 
     public async Task<CommandResult> Create(AzMysqlServerFirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMysqlServerFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlServerFirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlServerFirewallRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMysqlServerFirewallRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleUpdateOptions(), cancellationToken: token);
     }
 }

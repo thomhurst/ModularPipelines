@@ -19,21 +19,21 @@ public class AzCache
 
     public async Task<CommandResult> Delete(AzCacheDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCacheListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCacheListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCacheListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Purge(AzCachePurgeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCachePurgeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCachePurgeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCacheShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

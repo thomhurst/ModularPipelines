@@ -21,31 +21,31 @@ public class AzNetworkManagerConnectConfig
 
     public async Task<CommandResult> Create(AzNetworkManagerConnectConfigCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkManagerConnectConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerConnectConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkManagerConnectConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkManagerConnectConfigUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkManagerConnectConfigWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerConnectConfigWaitOptions(), cancellationToken: token);
     }
 }

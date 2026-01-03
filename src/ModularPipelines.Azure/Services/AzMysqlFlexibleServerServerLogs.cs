@@ -21,11 +21,11 @@ public class AzMysqlFlexibleServerServerLogs
 
     public async Task<CommandResult> Download(AzMysqlFlexibleServerServerLogsDownloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerServerLogsListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

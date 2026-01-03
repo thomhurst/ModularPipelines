@@ -41,66 +41,66 @@ public class AzCognitiveservicesAccount
 
     public async Task<CommandResult> Create(AzCognitiveservicesAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCognitiveservicesAccountDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCognitiveservicesAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListDeleted(AzCognitiveservicesAccountListDeletedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListDeletedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKinds(AzCognitiveservicesAccountListKindsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListKindsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListKindsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListModels(AzCognitiveservicesAccountListModelsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSkus(AzCognitiveservicesAccountListSkusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListSkusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListSkusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsage(AzCognitiveservicesAccountListUsageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Purge(AzCognitiveservicesAccountPurgeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Recover(AzCognitiveservicesAccountRecoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCognitiveservicesAccountShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDeleted(AzCognitiveservicesAccountShowDeletedOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCognitiveservicesAccountUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

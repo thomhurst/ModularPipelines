@@ -21,61 +21,61 @@ public class AzRedisenterpriseDatabase
 
     public async Task<CommandResult> Create(AzRedisenterpriseDatabaseCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRedisenterpriseDatabaseDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzRedisenterpriseDatabaseExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Flush(AzRedisenterpriseDatabaseFlushOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseFlushOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseFlushOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ForceUnlink(AzRedisenterpriseDatabaseForceUnlinkOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzRedisenterpriseDatabaseImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRedisenterpriseDatabaseListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKeys(AzRedisenterpriseDatabaseListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseListKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseListKeysOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegenerateKey(AzRedisenterpriseDatabaseRegenerateKeyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRedisenterpriseDatabaseShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRedisenterpriseDatabaseUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzRedisenterpriseDatabaseWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDatabaseWaitOptions(), cancellationToken: token);
     }
 }

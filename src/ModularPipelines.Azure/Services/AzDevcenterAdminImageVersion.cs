@@ -21,11 +21,11 @@ public class AzDevcenterAdminImageVersion
 
     public async Task<CommandResult> List(AzDevcenterAdminImageVersionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterAdminImageVersionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminImageVersionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminImageVersionShowOptions(), cancellationToken: token);
     }
 }

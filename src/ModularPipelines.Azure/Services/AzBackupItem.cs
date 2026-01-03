@@ -21,16 +21,16 @@ public class AzBackupItem
 
     public async Task<CommandResult> List(AzBackupItemListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SetPolicy(AzBackupItemSetPolicyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupItemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemShowOptions(), cancellationToken: token);
     }
 }

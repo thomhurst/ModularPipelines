@@ -21,6 +21,6 @@ public class AzNetappfilesSubvolumeMetadata
 
     public async Task<CommandResult> Show(AzNetappfilesSubvolumeMetadataShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSubvolumeMetadataShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesSubvolumeMetadataShowOptions(), cancellationToken: token);
     }
 }

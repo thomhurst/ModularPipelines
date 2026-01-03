@@ -21,6 +21,6 @@ public class AzFunctionappRestartAppserviceKube
 
     public async Task<CommandResult> Extension(AzFunctionappRestartAppserviceKubeExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappRestartAppserviceKubeExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappRestartAppserviceKubeExtensionOptions(), cancellationToken: token);
     }
 }

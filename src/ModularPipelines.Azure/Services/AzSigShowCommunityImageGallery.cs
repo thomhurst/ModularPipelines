@@ -21,6 +21,6 @@ public class AzSigShowCommunityImageGallery
 
     public async Task<CommandResult> Extension(AzSigShowCommunityImageGalleryExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigShowCommunityImageGalleryExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigShowCommunityImageGalleryExtensionOptions(), cancellationToken: token);
     }
 }

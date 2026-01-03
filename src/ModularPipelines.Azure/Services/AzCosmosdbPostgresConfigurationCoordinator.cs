@@ -21,16 +21,16 @@ public class AzCosmosdbPostgresConfigurationCoordinator
 
     public async Task<CommandResult> Show(AzCosmosdbPostgresConfigurationCoordinatorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzCosmosdbPostgresConfigurationCoordinatorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationCoordinatorWaitOptions(), cancellationToken: token);
     }
 }

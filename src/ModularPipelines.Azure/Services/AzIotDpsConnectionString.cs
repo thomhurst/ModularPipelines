@@ -21,6 +21,6 @@ public class AzIotDpsConnectionString
 
     public async Task<CommandResult> Show(AzIotDpsConnectionStringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsConnectionStringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsConnectionStringShowOptions(), cancellationToken: token);
     }
 }

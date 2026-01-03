@@ -35,51 +35,51 @@ public class AzRedis
 
     public async Task<CommandResult> Create(AzRedisCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRedisDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzRedisExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ForceReboot(AzRedisForceRebootOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzRedisImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRedisListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKeys(AzRedisListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisListKeysOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegenerateKeys(AzRedisRegenerateKeysOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRedisShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRedisUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisUpdateOptions(), cancellationToken: token);
     }
 }

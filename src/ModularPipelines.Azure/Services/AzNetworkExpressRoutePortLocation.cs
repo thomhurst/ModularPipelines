@@ -21,11 +21,11 @@ public class AzNetworkExpressRoutePortLocation
 
     public async Task<CommandResult> List(AzNetworkExpressRoutePortLocationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLocationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLocationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRoutePortLocationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLocationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLocationShowOptions(), cancellationToken: token);
     }
 }

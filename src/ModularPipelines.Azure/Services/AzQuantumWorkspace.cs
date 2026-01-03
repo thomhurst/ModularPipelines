@@ -21,36 +21,36 @@ public class AzQuantumWorkspace
 
     public async Task<CommandResult> Clear(AzQuantumWorkspaceClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceClearOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceClearOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzQuantumWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzQuantumWorkspaceDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzQuantumWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Quotas(AzQuantumWorkspaceQuotasOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzQuantumWorkspaceSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzQuantumWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumWorkspaceShowOptions(), cancellationToken: token);
     }
 }

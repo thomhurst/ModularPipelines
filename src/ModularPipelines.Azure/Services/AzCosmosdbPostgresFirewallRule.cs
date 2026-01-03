@@ -21,31 +21,31 @@ public class AzCosmosdbPostgresFirewallRule
 
     public async Task<CommandResult> Create(AzCosmosdbPostgresFirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzCosmosdbPostgresFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzCosmosdbPostgresFirewallRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbPostgresFirewallRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzCosmosdbPostgresFirewallRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzCosmosdbPostgresFirewallRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresFirewallRuleWaitOptions(), cancellationToken: token);
     }
 }

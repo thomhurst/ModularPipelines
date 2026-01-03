@@ -21,11 +21,11 @@ public class AzWebappAuthTwitter
 
     public async Task<CommandResult> Show(AzWebappAuthTwitterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthTwitterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthTwitterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebappAuthTwitterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthTwitterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappAuthTwitterUpdateOptions(), cancellationToken: token);
     }
 }

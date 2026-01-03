@@ -21,16 +21,16 @@ public class AzSentinelOfficeConsent
 
     public async Task<CommandResult> Delete(AzSentinelOfficeConsentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOfficeConsentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOfficeConsentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelOfficeConsentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelOfficeConsentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOfficeConsentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOfficeConsentShowOptions(), cancellationToken: token);
     }
 }

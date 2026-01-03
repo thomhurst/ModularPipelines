@@ -33,21 +33,21 @@ public class AzSynapseKustoDataConnection
 
     public async Task<CommandResult> Delete(AzSynapseKustoDataConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSynapseKustoDataConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSynapseKustoDataConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseKustoDataConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionWaitOptions(), cancellationToken: token);
     }
 }

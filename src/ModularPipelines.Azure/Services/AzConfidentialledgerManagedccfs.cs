@@ -21,31 +21,31 @@ public class AzConfidentialledgerManagedccfs
 
     public async Task<CommandResult> Create(AzConfidentialledgerManagedccfsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConfidentialledgerManagedccfsDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConfidentialledgerManagedccfsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConfidentialledgerManagedccfsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConfidentialledgerManagedccfsUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzConfidentialledgerManagedccfsWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfidentialledgerManagedccfsWaitOptions(), cancellationToken: token);
     }
 }

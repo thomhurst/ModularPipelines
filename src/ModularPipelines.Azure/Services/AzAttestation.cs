@@ -27,36 +27,36 @@ public class AzAttestation
 
     public async Task<CommandResult> Create(AzAttestationCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAttestationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetDefaultByLocation(AzAttestationGetDefaultByLocationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationGetDefaultByLocationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationGetDefaultByLocationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAttestationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListDefault(AzAttestationListDefaultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationListDefaultOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationListDefaultOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAttestationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAttestationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationUpdateOptions(), cancellationToken: token);
     }
 }

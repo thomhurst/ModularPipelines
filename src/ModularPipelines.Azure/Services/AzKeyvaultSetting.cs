@@ -21,16 +21,16 @@ public class AzKeyvaultSetting
 
     public async Task<CommandResult> List(AzKeyvaultSettingListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSettingListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSettingListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzKeyvaultSettingShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKeyvaultSettingUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

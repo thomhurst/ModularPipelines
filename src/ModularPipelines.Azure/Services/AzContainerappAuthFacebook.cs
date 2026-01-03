@@ -21,11 +21,11 @@ public class AzContainerappAuthFacebook
 
     public async Task<CommandResult> Show(AzContainerappAuthFacebookShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthFacebookShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthFacebookShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappAuthFacebookUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthFacebookUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthFacebookUpdateOptions(), cancellationToken: token);
     }
 }

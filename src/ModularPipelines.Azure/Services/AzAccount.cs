@@ -39,41 +39,41 @@ public class AzAccount
 
     public async Task<CommandResult> AcceptOwnershipStatus(AzAccountAcceptOwnershipStatusOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Clear(AzAccountClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountClearOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountClearOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetAccessToken(AzAccountGetAccessTokenOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountGetAccessTokenOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountGetAccessTokenOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListLocations(AzAccountListLocationsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListLocationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountListLocationsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzAccountSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountShowOptions(), cancellationToken: token);
     }
 }

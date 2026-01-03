@@ -25,41 +25,41 @@ public class AzSentinelThreatIndicator
 
     public async Task<CommandResult> AppendTag(AzSentinelThreatIndicatorAppendTagOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzSentinelThreatIndicatorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelThreatIndicatorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelThreatIndicatorListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Query(AzSentinelThreatIndicatorQueryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ReplaceTag(AzSentinelThreatIndicatorReplaceTagOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelThreatIndicatorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelThreatIndicatorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelThreatIndicatorUpdateOptions(), cancellationToken: token);
     }
 }

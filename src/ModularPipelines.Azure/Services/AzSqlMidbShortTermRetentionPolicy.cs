@@ -21,11 +21,11 @@ public class AzSqlMidbShortTermRetentionPolicy
 
     public async Task<CommandResult> Set(AzSqlMidbShortTermRetentionPolicySetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMidbShortTermRetentionPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbShortTermRetentionPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbShortTermRetentionPolicyShowOptions(), cancellationToken: token);
     }
 }

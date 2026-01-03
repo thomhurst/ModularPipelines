@@ -21,21 +21,21 @@ public class AzDatafactoryIntegrationRuntimeNode
 
     public async Task<CommandResult> Delete(AzDatafactoryIntegrationRuntimeNodeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeDeleteOptions(), null, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeDeleteOptions(), null, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetIpAddress(AzDatafactoryIntegrationRuntimeNodeGetIpAddressOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeGetIpAddressOptions(), null, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeGetIpAddressOptions(), null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryIntegrationRuntimeNodeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeShowOptions(), null, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeShowOptions(), null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryIntegrationRuntimeNodeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeUpdateOptions(), null, token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryIntegrationRuntimeNodeUpdateOptions(), null, cancellationToken: token);
     }
 }

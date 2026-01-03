@@ -25,26 +25,26 @@ public class AzLogicWorkflow
 
     public async Task<CommandResult> Create(AzLogicWorkflowCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogicWorkflowDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogicWorkflowListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogicWorkflowShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicWorkflowShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogicWorkflowUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

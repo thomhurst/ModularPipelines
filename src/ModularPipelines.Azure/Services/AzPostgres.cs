@@ -39,16 +39,16 @@ public class AzPostgres
 
     public async Task<CommandResult> Down(AzPostgresDownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresDownOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresDownOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowConnectionString(AzPostgresShowConnectionStringOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresShowConnectionStringOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresShowConnectionStringOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzPostgresUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresUpOptions(), cancellationToken: token);
     }
 }

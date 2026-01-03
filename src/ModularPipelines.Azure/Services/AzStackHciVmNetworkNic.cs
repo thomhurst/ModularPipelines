@@ -21,26 +21,26 @@ public class AzStackHciVmNetworkNic
 
     public async Task<CommandResult> Create(AzStackHciVmNetworkNicCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackHciVmNetworkNicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackHciVmNetworkNicListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackHciVmNetworkNicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStackHciVmNetworkNicUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciVmNetworkNicUpdateOptions(), cancellationToken: token);
     }
 }

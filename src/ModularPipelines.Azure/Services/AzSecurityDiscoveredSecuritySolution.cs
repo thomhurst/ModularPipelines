@@ -21,11 +21,11 @@ public class AzSecurityDiscoveredSecuritySolution
 
     public async Task<CommandResult> List(AzSecurityDiscoveredSecuritySolutionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityDiscoveredSecuritySolutionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityDiscoveredSecuritySolutionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityDiscoveredSecuritySolutionShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

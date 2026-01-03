@@ -19,41 +19,41 @@ public class AzSnapshot
 
     public async Task<CommandResult> Create(AzSnapshotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSnapshotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GrantAccess(AzSnapshotGrantAccessOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSnapshotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RevokeAccess(AzSnapshotRevokeAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotRevokeAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotRevokeAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSnapshotShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSnapshotUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSnapshotWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSnapshotWaitOptions(), cancellationToken: token);
     }
 }

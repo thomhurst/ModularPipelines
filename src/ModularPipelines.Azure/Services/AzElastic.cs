@@ -23,6 +23,6 @@ public class AzElastic
 
     public async Task<CommandResult> GetOrganizationApiKey(AzElasticGetOrganizationApiKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticGetOrganizationApiKeyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticGetOrganizationApiKeyOptions(), cancellationToken: token);
     }
 }

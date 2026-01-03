@@ -21,11 +21,11 @@ public class AzBatchNodeScheduling
 
     public async Task<CommandResult> Disable(AzBatchNodeSchedulingDisableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzBatchNodeSchedulingEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, null, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

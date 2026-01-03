@@ -21,21 +21,21 @@ public class AzDataprotectionBackupPolicyTag
 
     public async Task<CommandResult> CreateAbsoluteCriteria(AzDataprotectionBackupPolicyTagCreateAbsoluteCriteriaOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateGenericCriteria(AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupPolicyTagCreateGenericCriteriaOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzDataprotectionBackupPolicyTagRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzDataprotectionBackupPolicyTagSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

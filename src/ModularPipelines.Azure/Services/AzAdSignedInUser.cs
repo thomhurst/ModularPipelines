@@ -21,11 +21,11 @@ public class AzAdSignedInUser
 
     public async Task<CommandResult> ListOwnedObjects(AzAdSignedInUserListOwnedObjectsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserListOwnedObjectsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdSignedInUserShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdSignedInUserShowOptions(), cancellationToken: token);
     }
 }

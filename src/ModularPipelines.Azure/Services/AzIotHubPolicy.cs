@@ -21,26 +21,26 @@ public class AzIotHubPolicy
 
     public async Task<CommandResult> Create(AzIotHubPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotHubPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotHubPolicyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RenewKey(AzIotHubPolicyRenewKeyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubPolicyShowOptions(), cancellationToken: token);
     }
 }

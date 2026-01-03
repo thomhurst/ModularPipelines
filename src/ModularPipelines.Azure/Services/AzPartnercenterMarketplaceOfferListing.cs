@@ -33,11 +33,11 @@ public class AzPartnercenterMarketplaceOfferListing
 
     public async Task<CommandResult> Show(AzPartnercenterMarketplaceOfferListingShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPartnercenterMarketplaceOfferListingUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }
