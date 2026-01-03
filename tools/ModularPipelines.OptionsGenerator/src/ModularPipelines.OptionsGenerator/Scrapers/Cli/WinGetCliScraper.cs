@@ -76,43 +76,58 @@ public partial class WinGetCliScraper : CliScraperBase
 
     /// <summary>
     /// Extracts subcommand names from WinGet help text.
+    /// Handles multiple command sections (e.g., "The following commands are available:",
+    /// "The following administrative commands are available:").
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Find "The following commands are available:" section
-        var commandSectionMatch = CommandSectionPattern().Match(helpText);
-        if (!commandSectionMatch.Success)
+        // Find all command sections - winget may have multiple sections
+        // e.g., "The following commands are available:" and "The following administrative commands are available:"
+        var commandSectionMatches = CommandSectionPattern().Matches(helpText);
+        if (commandSectionMatches.Count == 0)
         {
             return subcommands;
         }
 
-        var sectionStart = commandSectionMatch.Index + commandSectionMatch.Length;
-
-        // Find where this section ends (next major section or end of text)
-        var sectionEnd = helpText.Length;
-        var nextSectionMatch = NextSectionPattern().Match(helpText, sectionStart);
-        if (nextSectionMatch.Success)
+        foreach (Match commandSectionMatch in commandSectionMatches)
         {
-            sectionEnd = nextSectionMatch.Index;
-        }
+            var sectionStart = commandSectionMatch.Index + commandSectionMatch.Length;
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            // Find where this section ends (next command section, other section, or end of text)
+            var sectionEnd = helpText.Length;
 
-        // Parse command lines: "  command    description"
-        var lines = section.Split('\n');
-        foreach (var line in lines)
-        {
-            var match = SubcommandLinePattern().Match(line);
-            if (match.Success)
+            // Check for next command section first
+            var nextCommandSection = CommandSectionPattern().Match(helpText, sectionStart);
+            if (nextCommandSection.Success)
             {
-                var commandName = match.Groups["name"].Value.Trim();
-                if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' ') &&
-                    seenCommands.Add(commandName))
+                sectionEnd = nextCommandSection.Index;
+            }
+
+            // Also check for end-of-commands markers
+            var endMarkerMatch = EndOfCommandsPattern().Match(helpText, sectionStart);
+            if (endMarkerMatch.Success && endMarkerMatch.Index < sectionEnd)
+            {
+                sectionEnd = endMarkerMatch.Index;
+            }
+
+            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+
+            // Parse command lines: "  command    description"
+            var lines = section.Split('\n');
+            foreach (var line in lines)
+            {
+                var match = SubcommandLinePattern().Match(line);
+                if (match.Success)
                 {
-                    subcommands.Add(commandName);
+                    var commandName = match.Groups["name"].Value.Trim();
+                    if (!string.IsNullOrEmpty(commandName) && !commandName.Contains(' ') &&
+                        seenCommands.Add(commandName))
+                    {
+                        subcommands.Add(commandName);
+                    }
                 }
             }
         }
@@ -450,9 +465,11 @@ public partial class WinGetCliScraper : CliScraperBase
     #region Regex Patterns
 
     /// <summary>
-    /// Matches "The following commands are available:" section.
+    /// Matches command section headers like:
+    /// - "The following commands are available:"
+    /// - "The following administrative commands are available:"
     /// </summary>
-    [GeneratedRegex(@"The following commands are available:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"The following\s+(?:\w+\s+)?commands are available:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex CommandSectionPattern();
 
     /// <summary>
@@ -468,9 +485,15 @@ public partial class WinGetCliScraper : CliScraperBase
     private static partial Regex ArgumentsSectionPattern();
 
     /// <summary>
+    /// Matches end-of-commands section markers.
+    /// </summary>
+    [GeneratedRegex(@"(?:For more details|usage:|More help|^\s*$\s*^\s*$)", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
+    private static partial Regex EndOfCommandsPattern();
+
+    /// <summary>
     /// Matches next section patterns (to find section boundaries).
     /// </summary>
-    [GeneratedRegex(@"(?:The following|For more|usage:|More help)", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:For more|usage:|More help)", RegexOptions.IgnoreCase)]
     private static partial Regex NextSectionPattern();
 
     /// <summary>
