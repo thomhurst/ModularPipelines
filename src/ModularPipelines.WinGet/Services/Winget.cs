@@ -109,15 +109,6 @@ internal class Winget : IWinget
     }
 
     /// <inheritdoc />
-    public virtual async Task<CommandResult> Pin(
-        WingetPinOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new WingetPinOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
     public virtual async Task<CommandResult> Repair(
         WingetRepairOptions? options = default,
         CommandExecutionOptions? executionOptions = null,

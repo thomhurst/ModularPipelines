@@ -98,15 +98,6 @@ public partial interface IWinget
     Task<CommandResult> List(WingetListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Manage package pins with the sub-commands. A pin can limit the Windows Package Manager from upgrading a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    Task<CommandResult> Pin(WingetPinOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
     /// </summary>
     /// <param name="options">The command options.</param>
