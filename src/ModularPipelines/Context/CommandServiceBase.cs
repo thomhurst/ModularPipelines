@@ -35,11 +35,15 @@ public abstract class CommandServiceBase
     /// </summary>
     /// <typeparam name="TOptions">The type of command options.</typeparam>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A task representing the asynchronous operation with the command result.</returns>
-    protected virtual async Task<CommandResult> ExecuteAsync<TOptions>(TOptions options, CancellationToken cancellationToken = default)
+    protected virtual async Task<CommandResult> ExecuteAsync<TOptions>(
+        TOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
         where TOptions : CommandLineToolOptions
     {
-        return await Command.ExecuteCommandLineTool(options, cancellationToken).ConfigureAwait(false);
+        return await Command.ExecuteCommandLineTool(options, executionOptions, cancellationToken).ConfigureAwait(false);
     }
 }
