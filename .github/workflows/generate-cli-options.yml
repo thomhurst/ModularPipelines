@@ -72,34 +72,33 @@ jobs:
             ${{ runner.os }}-nuget-
 
       # Clean up legacy manual files before generation
+      # Only delete specific service interface/implementation files that will be replaced
       - name: Clean up legacy files
         if: steps.should-run.outputs.run == 'true'
         run: |
-          # Map tool to package directory
+          # Map tool to package directory and namespace prefix
           declare -A TOOL_MAP=(
-            ["helm"]="ModularPipelines.Helm"
-            ["kubectl"]="ModularPipelines.Kubernetes"
-            ["docker"]="ModularPipelines.Docker"
-            ["az"]="ModularPipelines.Azure"
-            ["dotnet"]="ModularPipelines.DotNet"
-            ["gcloud"]="ModularPipelines.Google"
-            ["terraform"]="ModularPipelines.Terraform"
-            ["yarn"]="ModularPipelines.Yarn"
-            ["aws"]="ModularPipelines.AmazonWebServices"
+            ["helm"]="ModularPipelines.Helm:Helm"
+            ["kubectl"]="ModularPipelines.Kubernetes:Kubectl"
+            ["docker"]="ModularPipelines.Docker:Docker"
+            ["az"]="ModularPipelines.Azure:Az"
+            ["dotnet"]="ModularPipelines.DotNet:DotNet"
+            ["gcloud"]="ModularPipelines.Google:Gcloud"
+            ["terraform"]="ModularPipelines.Terraform:Terraform"
+            ["yarn"]="ModularPipelines.Yarn:Yarn"
+            ["aws"]="ModularPipelines.AmazonWebServices:Aws"
           )
 
-          PACKAGE="${TOOL_MAP[${{ matrix.tool }}]}"
+          IFS=':' read -r PACKAGE PREFIX <<< "${TOOL_MAP[${{ matrix.tool }}]}"
           if [ -n "$PACKAGE" ]; then
             PKG_DIR="src/$PACKAGE"
             if [ -d "$PKG_DIR" ]; then
-              echo "Cleaning up legacy files in $PKG_DIR..."
+              echo "Cleaning up legacy files in $PKG_DIR for prefix $PREFIX..."
 
-              # Delete root-level interface files (legacy location)
-              find "$PKG_DIR" -maxdepth 1 -name "I*.cs" -type f -delete 2>/dev/null || true
-
-              # Delete root-level implementation files that match tool pattern (legacy)
-              # Be careful not to delete Extensions.cs or other legitimate files
-              find "$PKG_DIR" -maxdepth 1 -name "${PACKAGE#ModularPipelines.}.cs" -type f -delete 2>/dev/null || true
+              # Only delete specific service interface/implementation files (not all I*.cs files)
+              # These are the exact files the generator will create in Services/
+              rm -f "$PKG_DIR/I${PREFIX}.cs" 2>/dev/null || true
+              rm -f "$PKG_DIR/${PREFIX}.cs" 2>/dev/null || true
 
               # Delete old .Generated.cs files in Services folder (will be replaced with non-.Generated names)
               find "$PKG_DIR/Services" -name "*.Generated.cs" -type f -delete 2>/dev/null || true
@@ -265,33 +264,40 @@ jobs:
             ${{ runner.os }}-nuget-
 
       # Clean up legacy manual files before generation
+      # Only delete specific service interface/implementation files that will be replaced
       - name: Clean up legacy files
         if: steps.should-run.outputs.run == 'true'
         shell: pwsh
         run: |
-          # Map tool to package directory
+          # Map tool to package directory and namespace prefix
           $toolMap = @{
-            "choco" = "ModularPipelines.Chocolatey"
-            "winget" = "ModularPipelines.WinGet"
+            "choco" = @{ Package = "ModularPipelines.Chocolatey"; Prefix = "Choco" }
+            "winget" = @{ Package = "ModularPipelines.WinGet"; Prefix = "WinGet" }
           }
 
-          $package = $toolMap["${{ matrix.tool }}"]
-          if ($package) {
+          $toolInfo = $toolMap["${{ matrix.tool }}"]
+          if ($toolInfo) {
+            $package = $toolInfo.Package
+            $prefix = $toolInfo.Prefix
             $pkgDir = "src/$package"
             if (Test-Path $pkgDir) {
-              Write-Host "Cleaning up legacy files in $pkgDir..."
+              Write-Host "Cleaning up legacy files in $pkgDir for prefix $prefix..."
 
-              # Delete root-level interface files (legacy location)
-              Get-ChildItem -Path $pkgDir -Filter "I*.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+              # Only delete specific service interface/implementation files (not all I*.cs files)
+              # These are the exact files the generator will create in Services/
+              $interfaceFile = Join-Path $pkgDir "I$prefix.cs"
+              $implFile = Join-Path $pkgDir "$prefix.cs"
 
-              # Delete root-level implementation files that match tool pattern (legacy)
-              $implName = $package -replace "ModularPipelines\.", ""
-              $implFile = Join-Path $pkgDir "$implName.cs"
+              if (Test-Path $interfaceFile) {
+                Remove-Item $interfaceFile -Force -ErrorAction SilentlyContinue
+                Write-Host "Removed $interfaceFile"
+              }
               if (Test-Path $implFile) {
                 Remove-Item $implFile -Force -ErrorAction SilentlyContinue
+                Write-Host "Removed $implFile"
               }
 
-              # Delete old .Generated.cs files in Services folder
+              # Delete old .Generated.cs files in Services folder (will be replaced with non-.Generated names)
               $servicesDir = Join-Path $pkgDir "Services"
               if (Test-Path $servicesDir) {
                 Get-ChildItem -Path $servicesDir -Filter "*.Generated.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
