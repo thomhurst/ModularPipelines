@@ -35,9 +35,10 @@ public class GcloudAccessApprovalRequests
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
         GcloudAccessApprovalRequestsApproveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudAccessApprovalRequests
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Dismiss(
         GcloudAccessApprovalRequestsDismissOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudAccessApprovalRequests
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
         GcloudAccessApprovalRequestsGetOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudAccessApprovalRequests
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invalidate(
         GcloudAccessApprovalRequestsInvalidateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudAccessApprovalRequests
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudAccessApprovalRequestsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

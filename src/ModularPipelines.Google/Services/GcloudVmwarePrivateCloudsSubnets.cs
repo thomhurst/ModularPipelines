@@ -35,9 +35,10 @@ public class GcloudVmwarePrivateCloudsSubnets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudVmwarePrivateCloudsSubnetsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudVmwarePrivateCloudsSubnets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudVmwarePrivateCloudsSubnetsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudVmwarePrivateCloudsSubnets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudVmwarePrivateCloudsSubnetsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

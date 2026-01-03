@@ -45,9 +45,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAssuredWorkloadsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAssuredWorkloadsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAssuredWorkloadsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableResourceMonitoring(
         GcloudAssuredWorkloadsEnableResourceMonitoringOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +101,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudAssuredWorkloadsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,9 +115,10 @@ public class GcloudAssuredWorkloads
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAssuredWorkloadsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

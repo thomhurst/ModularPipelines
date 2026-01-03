@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Helm.Options;
 
 namespace ModularPipelines.Helm.Services;
@@ -36,9 +37,10 @@ public class HelmCompletion
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         HelmCompletionOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmCompletionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmCompletionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class HelmCompletion
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bash(
         HelmCompletionBashOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class HelmCompletion
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Fish(
         HelmCompletionFishOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class HelmCompletion
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Powershell(
         HelmCompletionPowershellOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class HelmCompletion
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Zsh(
         HelmCompletionZshOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.DotNet.Generated.Options;
 
 namespace ModularPipelines.DotNet.Generated.Services;
@@ -32,9 +33,10 @@ public class DotNetPackage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         DotNetPackageAddOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class DotNetPackage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         DotNetPackageListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +61,10 @@ public class DotNetPackage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         DotNetPackageRemoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +75,10 @@ public class DotNetPackage
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
         DotNetPackageSearchOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

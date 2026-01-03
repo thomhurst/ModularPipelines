@@ -21,21 +21,21 @@ public class AzBatchNodeFile
 
     public async Task<CommandResult> Delete(AzBatchNodeFileDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Download(AzBatchNodeFileDownloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> List(AzBatchNodeFileListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Show(AzBatchNodeFileShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

@@ -35,9 +35,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchReadToken(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchReadWriteToken(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudDeveloperConnectConnectionsGitRepositoryLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

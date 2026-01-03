@@ -35,9 +35,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAccessContextManagerPerimetersDryRunCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAccessContextManagerPerimetersDryRunDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAccessContextManagerPerimetersDryRunDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Drop(
         GcloudAccessContextManagerPerimetersDryRunDropOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnforceAll(
         GcloudAccessContextManagerPerimetersDryRunEnforceAllOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enforce(
         GcloudAccessContextManagerPerimetersDryRunEnforceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudAccessContextManagerPerimetersDryRunListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudAccessContextManagerPerimetersDryRun
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAccessContextManagerPerimetersDryRunUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

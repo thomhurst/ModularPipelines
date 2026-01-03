@@ -35,9 +35,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudNetappVolumesReplicationsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudNetappVolumesReplicationsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudNetappVolumesReplicationsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EstablishPeering(
         GcloudNetappVolumesReplicationsEstablishPeeringOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudNetappVolumesReplicationsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
         GcloudNetappVolumesReplicationsResumeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reverse(
         GcloudNetappVolumesReplicationsReverseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudNetappVolumesReplicationsStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sync(
         GcloudNetappVolumesReplicationsSyncOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -152,9 +161,10 @@ public class GcloudNetappVolumesReplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudNetappVolumesReplicationsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

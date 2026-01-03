@@ -21,6 +21,6 @@ public class AzAksNodepoolScaleAksPreview
 
     public async Task<CommandResult> Extension(AzAksNodepoolScaleAksPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

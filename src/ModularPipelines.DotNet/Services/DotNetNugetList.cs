@@ -19,6 +19,6 @@ public class DotNetNugetList
 
     public virtual async Task<CommandResult> Source(DotNetNugetListSourceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetListSourceOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetListSourceOptions(), null, token);
     }
 }

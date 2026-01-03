@@ -48,6 +48,10 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
             var options = new GitRemoteOptions
             {
                 Arguments = ["get-url", "origin"],
+            };
+
+            var executionOptions = new CommandExecutionOptions
+            {
                 ThrowOnNonZeroExitCode = false,
                 LogSettings = scope.ServiceProvider
                 .GetRequiredService<IOptions<LoggerFilterOptions>>()
@@ -57,7 +61,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
                 : CommandLoggingOptions.Silent,
             };
 
-            var remote = await git.Commands.Remote(options);
+            var remote = await git.Commands.Remote(options, executionOptions);
             var remoteUrl = remote.StandardOutput;
 
             if (string.IsNullOrEmpty(remoteUrl))

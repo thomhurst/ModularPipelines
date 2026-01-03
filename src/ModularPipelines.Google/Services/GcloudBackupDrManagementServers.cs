@@ -35,9 +35,10 @@ public class GcloudBackupDrManagementServers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudBackupDrManagementServersCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudBackupDrManagementServers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudBackupDrManagementServersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudBackupDrManagementServers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBackupDrManagementServersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudBackupDrManagementServers
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudBackupDrManagementServersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

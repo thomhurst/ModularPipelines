@@ -35,9 +35,10 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudContainerFleetMembershipsSupportAccessDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudContainerFleetMembershipsSupportAccessDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudContainerFleetMembershipsSupportAccessEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudContainerFleetMembershipsSupportAccess
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetYaml(
         GcloudContainerFleetMembershipsSupportAccessGetYamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

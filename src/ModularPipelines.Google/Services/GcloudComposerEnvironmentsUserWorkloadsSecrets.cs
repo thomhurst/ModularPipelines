@@ -35,9 +35,10 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

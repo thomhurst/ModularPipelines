@@ -35,9 +35,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudOracleDatabaseAutonomousDatabasesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudOracleDatabaseAutonomousDatabasesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudOracleDatabaseAutonomousDatabasesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
         GcloudOracleDatabaseAutonomousDatabasesFailoverOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateWallet(
         GcloudOracleDatabaseAutonomousDatabasesGenerateWalletOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudOracleDatabaseAutonomousDatabasesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         GcloudOracleDatabaseAutonomousDatabasesRestartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudOracleDatabaseAutonomousDatabasesRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         GcloudOracleDatabaseAutonomousDatabasesStartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -152,9 +161,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudOracleDatabaseAutonomousDatabasesStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -165,9 +175,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Switchover(
         GcloudOracleDatabaseAutonomousDatabasesSwitchoverOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -178,9 +189,10 @@ public class GcloudOracleDatabaseAutonomousDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudOracleDatabaseAutonomousDatabasesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -35,9 +35,10 @@ public class GcloudEdgeCloudContainerZones
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudEdgeCloudContainerZonesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudEdgeCloudContainerZones
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudEdgeCloudContainerZonesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

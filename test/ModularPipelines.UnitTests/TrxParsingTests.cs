@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet;
 using ModularPipelines.DotNet.Enums;
@@ -6,10 +6,10 @@ using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -17,7 +17,6 @@ namespace ModularPipelines.UnitTests;
 
 public class TrxParsingTests : TestBase
 {
-#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     public class NUnitModule : Module<DotNetTestResult>
     {
         public DotNetTestResult? LastResult { get; private set; }
@@ -33,15 +32,25 @@ public class TrxParsingTests : TestBase
 
             const string trxFileName = "test-results.trx";
 
-            await context.DotNet().Test(new DotNetTestOptions
-            {
-                Framework = "net10.0",
-                CommandLogging = CommandLogging.Error,
-                ResultsDirectory = resultsDirectory,
-                Logger = [$"trx;logfilename={trxFileName}"],
-                ThrowOnNonZeroExitCode = false,
-                WorkingDirectory = testProject.Folder!.Path
-            }, token: cancellationToken);
+            await context.DotNet().Test(
+                new DotNetTestOptions
+                {
+                    Framework = "net10.0",
+                    ResultsDirectory = resultsDirectory,
+                    Logger = [$"trx;logfilename={trxFileName}"],
+                },
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = testProject.Folder!.Path,
+                    ThrowOnNonZeroExitCode = false,
+                    LogSettings = new CommandLoggingOptions
+                    {
+                        Verbosity = CommandLogVerbosity.Minimal,
+                        ShowStandardOutput = false,
+                        ShowStandardError = true,
+                    },
+                },
+                cancellationToken);
 
             var trxFilePath = Path.Combine(resultsDirectory, trxFileName);
             var trxContents = await System.IO.File.ReadAllTextAsync(trxFilePath, cancellationToken);
@@ -50,7 +59,6 @@ public class TrxParsingTests : TestBase
             return LastResult;
         }
     }
-#pragma warning restore CS0618
 
     [Test]
     public async Task NUnit()

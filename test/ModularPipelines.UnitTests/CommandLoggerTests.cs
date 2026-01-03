@@ -2,7 +2,6 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Enums;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 using NReco.Logging.File;
@@ -13,7 +12,6 @@ namespace ModularPipelines.UnitTests;
 
 public class CommandLoggerTests : TestBase
 {
-#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     [Test]
     [MatrixDataSource]
     public async Task Logs_As_Expected_With_Options(
@@ -98,44 +96,33 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
 
-        var logging = CommandLogging.None;
+        // Determine verbosity level based on what's being logged
+        var verbosity = (!logInput && !logOutput && !logError && !logExitCode && !logDuration)
+            ? CommandLogVerbosity.Silent
+            : CommandLogVerbosity.Normal;
 
-        if (logInput)
+        var loggingOptions = new CommandLoggingOptions
         {
-            logging |= CommandLogging.Input;
-        }
+            Verbosity = verbosity,
+            ShowCommandArguments = logInput,
+            ShowStandardOutput = logOutput,
+            ShowStandardError = logError,
+            ShowExitCode = logExitCode,
+            ShowExecutionTime = logDuration,
+        };
 
-        if (logOutput)
-        {
-            logging |= CommandLogging.Output;
-        }
-
-        if (logError)
-        {
-            logging |= CommandLogging.Error;
-        }
-
-        if (logExitCode)
-        {
-            logging |= CommandLogging.ExitCode;
-        }
-
-        if (logDuration)
-        {
-            logging |= CommandLogging.Duration;
-        }
-
-        await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
-        {
-            CommandLogging = logging,
-            ThrowOnNonZeroExitCode = false,
-        });
+        await result.T.ExecuteCommandLineTool(
+            new PowershellScriptOptions(command),
+            new CommandExecutionOptions
+            {
+                LogSettings = loggingOptions,
+                ThrowOnNonZeroExitCode = false,
+            });
 
         await result.Host.DisposeAsync();
 
         return file;
     }
-#pragma warning restore CS0618
 
     [Test]
     public async Task Silent_Verbosity_Logs_Nothing()
@@ -218,11 +205,13 @@ public class CommandLoggerTests : TestBase
             collection.AddLogging(builder => { builder.AddFile(file); });
         });
 
-        await result.T.ExecuteCommandLineTool(new PowershellScriptOptions(command)
-        {
-            LogSettings = loggingOptions,
-            ThrowOnNonZeroExitCode = false,
-        });
+        await result.T.ExecuteCommandLineTool(
+            new PowershellScriptOptions(command),
+            new CommandExecutionOptions
+            {
+                LogSettings = loggingOptions,
+                ThrowOnNonZeroExitCode = false,
+            });
 
         await result.Host.DisposeAsync();
 

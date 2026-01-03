@@ -35,9 +35,10 @@ public class GcloudContainerAiProfilesBenchmarks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudContainerAiProfilesBenchmarksListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

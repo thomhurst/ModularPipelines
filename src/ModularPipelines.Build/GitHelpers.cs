@@ -4,6 +4,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.GitHub.Extensions;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Build;
 
@@ -26,7 +27,7 @@ public static class GitHelpers
             {
                 "user.name", settings.GitUserName,
             },
-        }, cancellationToken);
+        }, token: cancellationToken);
     }
 
     public static async Task SetEmail(IPipelineContext context, CancellationToken cancellationToken)
@@ -40,7 +41,7 @@ public static class GitHelpers
             {
                 "user.email", settings.GitUserEmail,
             },
-        }, cancellationToken);
+        }, token: cancellationToken);
     }
 
     public static async Task CheckoutBranch(IPipelineContext context, string branchName, CancellationToken cancellationToken)
@@ -55,12 +56,12 @@ public static class GitHelpers
                 "set-url", "origin",
                 $"https://x-access-token:{token}@github.com/{settings.RepositoryOwner}/{settings.RepositoryName}"
             ],
-        }, cancellationToken);
+        }, null, cancellationToken);
 
         await context.Git().Commands.Fetch(new GitFetchOptions(), token: cancellationToken);
 
         await context.Git().Commands
-            .Checkout(new GitCheckoutOptions(branchName), cancellationToken);
+            .Checkout(new GitCheckoutOptions(branchName), token: cancellationToken);
     }
 
     public static async Task CommitAndPush(IPipelineContext context, string? branchToPushTo, string message, string token,
@@ -97,11 +98,15 @@ public static class GitHelpers
 
     public static async Task<bool> HasUncommittedChanges(IPipelineContext context)
     {
-        var result = await context.Git().Commands.Diff(new GitDiffOptions
-        {
-            Quiet = true,
-            ThrowOnNonZeroExitCode = false,
-        });
+        var result = await context.Git().Commands.Diff(
+            new GitDiffOptions
+            {
+                Quiet = true,
+            },
+            new CommandExecutionOptions
+            {
+                ThrowOnNonZeroExitCode = false,
+            });
 
         return result.ExitCode != 0;
     }

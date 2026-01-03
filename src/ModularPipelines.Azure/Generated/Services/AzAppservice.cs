@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Azure.Generated.Options;
 
 namespace ModularPipelines.Azure.Generated.Services;
@@ -32,9 +33,10 @@ public class AzAppservice
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateInboundServices(
         AzAppserviceAseCreateInboundServicesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class AzAppservice
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         AzAppserviceAseCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +61,10 @@ public class AzAppservice
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         AzAppserviceAseDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +75,10 @@ public class AzAppservice
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         AzAppserviceAseListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +89,10 @@ public class AzAppservice
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ase(
         AzAppserviceAseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

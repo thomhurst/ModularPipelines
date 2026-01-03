@@ -57,9 +57,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloneRules(
         GcloudComputeNetworkFirewallPoliciesCloneRulesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,9 +71,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeNetworkFirewallPoliciesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,9 +85,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeNetworkFirewallPoliciesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -96,9 +99,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeNetworkFirewallPoliciesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -109,9 +113,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportRules(
         GcloudComputeNetworkFirewallPoliciesExportRulesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -122,9 +127,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveFirewalls(
         GcloudComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -135,9 +141,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportRules(
         GcloudComputeNetworkFirewallPoliciesImportRulesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -148,9 +155,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudComputeNetworkFirewallPoliciesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -161,9 +169,10 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeNetworkFirewallPoliciesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

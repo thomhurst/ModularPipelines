@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.DotNet.Generated.Options;
 
 namespace ModularPipelines.DotNet.Generated.Services;
@@ -32,9 +33,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
         DotNetWorkloadInstallOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         DotNetWorkloadListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +61,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repair(
         DotNetWorkloadRepairOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +75,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         DotNetWorkloadRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +89,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
         DotNetWorkloadSearchOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +103,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Uninstall(
         DotNetWorkloadUninstallOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,9 +117,10 @@ public class DotNetWorkload
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         DotNetWorkloadUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

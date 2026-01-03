@@ -21,11 +21,11 @@ public class AzSfClusterNode
 
     public async Task<CommandResult> Add(AzSfClusterNodeAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Remove(AzSfClusterNodeRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

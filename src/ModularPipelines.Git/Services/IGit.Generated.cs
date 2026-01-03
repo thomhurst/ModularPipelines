@@ -4,6 +4,7 @@
 // </auto-generated>
 
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Git.Options;
 
 namespace ModularPipelines.Git.Services;
@@ -19,345 +20,388 @@ public partial interface IGit
     /// Execute git am command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Am(GitAmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Am(GitAmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git archimport command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Archimport(GitArchimportOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Archimport(GitArchimportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git attributes command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Attributes(GitAttributesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Attributes(GitAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git branch command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Branch(GitBranchOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Branch(GitBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git checkout-index command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheckoutIndex(GitCheckoutIndexOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CheckoutIndex(GitCheckoutIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git cli command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cli(GitCliOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cli(GitCliOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git commit command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Commit(GitCommitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Commit(GitCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git commit-tree command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CommitTree(GitCommitTreeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CommitTree(GitCommitTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git cvsexportcommit command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cvsexportcommit(GitCvsexportcommitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cvsexportcommit(GitCvsexportcommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git cvsimport command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cvsimport(GitCvsimportOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cvsimport(GitCvsimportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git cvsserver command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cvsserver(GitCvsserverOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cvsserver(GitCvsserverOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git diff-files command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DiffFiles(GitDiffFilesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> DiffFiles(GitDiffFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git diff-index command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DiffIndex(GitDiffIndexOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> DiffIndex(GitDiffIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git diff command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Diff(GitDiffOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Diff(GitDiffOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git diff-tree command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DiffTree(GitDiffTreeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> DiffTree(GitDiffTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git fast-import command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FastImport(GitFastImportOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FastImport(GitFastImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git fetch-pack command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FetchPack(GitFetchPackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FetchPack(GitFetchPackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git filter-branch command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FilterBranch(GitFilterBranchOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FilterBranch(GitFilterBranchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-bundle command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatBundle(GitFormatBundleOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatBundle(GitFormatBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-chunk command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatChunk(GitFormatChunkOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatChunk(GitFormatChunkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-commit-graph command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatCommitGraph(GitFormatCommitGraphOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatCommitGraph(GitFormatCommitGraphOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-index command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatIndex(GitFormatIndexOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatIndex(GitFormatIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-pack command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatPack(GitFormatPackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatPack(GitFormatPackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git format-signature command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> FormatSignature(GitFormatSignatureOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> FormatSignature(GitFormatSignatureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git gc command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Gc(GitGcOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Gc(GitGcOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git hooks command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Hooks(GitHooksOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Hooks(GitHooksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git ignore command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ignore(GitIgnoreOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Ignore(GitIgnoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git ls-files command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LsFiles(GitLsFilesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> LsFiles(GitLsFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git mailmap command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Mailmap(GitMailmapOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Mailmap(GitMailmapOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git merge command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Merge(GitMergeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Merge(GitMergeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git modules command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Modules(GitModulesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Modules(GitModulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git p4 command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> P4(GitP4Options options, CancellationToken cancellationToken = default);
+    Task<CommandResult> P4(GitP4Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git protocol-capabilities command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ProtocolCapabilities(GitProtocolCapabilitiesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProtocolCapabilities(GitProtocolCapabilitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git protocol-common command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ProtocolCommon(GitProtocolCommonOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProtocolCommon(GitProtocolCommonOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git protocol-http command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ProtocolHttp(GitProtocolHttpOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProtocolHttp(GitProtocolHttpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git protocol-pack command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ProtocolPack(GitProtocolPackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProtocolPack(GitProtocolPackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git protocol-v2 command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ProtocolV2(GitProtocolV2Options options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ProtocolV2(GitProtocolV2Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git rebase command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rebase(GitRebaseOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rebase(GitRebaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git repository-layout command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> RepositoryLayout(GitRepositoryLayoutOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> RepositoryLayout(GitRepositoryLayoutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git revisions command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Revisions(GitRevisionsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Revisions(GitRevisionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git scalar command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Scalar(GitScalarOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Scalar(GitScalarOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Git sh-i18n command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> ShI18n(GitShI18nOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> ShI18n(GitShI18nOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute git status command
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Status(GitStatusOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Status(GitStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

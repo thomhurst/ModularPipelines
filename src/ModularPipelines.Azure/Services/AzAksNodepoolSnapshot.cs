@@ -41,31 +41,31 @@ public class AzAksNodepoolSnapshot
 
     public async Task<CommandResult> Create(AzAksNodepoolSnapshotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Delete(AzAksNodepoolSnapshotDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> List(AzAksNodepoolSnapshotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotListOptions(), null, token);
     }
 
     public async Task<CommandResult> Show(AzAksNodepoolSnapshotShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Update(AzAksNodepoolSnapshotUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public async Task<CommandResult> Wait(AzAksNodepoolSnapshotWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

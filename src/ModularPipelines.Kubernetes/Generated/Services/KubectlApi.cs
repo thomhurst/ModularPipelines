@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Kubernetes.Generated.Options;
 
 namespace ModularPipelines.Kubernetes.Generated.Services;
@@ -32,9 +33,10 @@ public class KubectlApi
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resources(
         KubectlApiResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class KubectlApi
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Versions(
         KubectlApiVersionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

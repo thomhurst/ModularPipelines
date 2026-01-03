@@ -35,9 +35,10 @@ public class GcloudBigtableLogicalViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudBigtableLogicalViewsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudBigtableLogicalViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudBigtableLogicalViewsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudBigtableLogicalViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBigtableLogicalViewsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudBigtableLogicalViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudBigtableLogicalViewsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudBigtableLogicalViews
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudBigtableLogicalViewsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

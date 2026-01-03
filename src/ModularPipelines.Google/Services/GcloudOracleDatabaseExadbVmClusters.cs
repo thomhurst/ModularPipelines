@@ -35,9 +35,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudOracleDatabaseExadbVmClustersCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudOracleDatabaseExadbVmClustersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudOracleDatabaseExadbVmClustersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudOracleDatabaseExadbVmClustersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveVirtualMachine(
         GcloudOracleDatabaseExadbVmClustersRemoveVirtualMachineOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudOracleDatabaseExadbVmClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudOracleDatabaseExadbVmClustersUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

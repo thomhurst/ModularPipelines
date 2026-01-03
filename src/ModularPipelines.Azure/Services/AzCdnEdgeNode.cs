@@ -21,6 +21,6 @@ public class AzCdnEdgeNode
 
     public async Task<CommandResult> List(AzCdnEdgeNodeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeNodeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeNodeListOptions(), null, token);
     }
 }

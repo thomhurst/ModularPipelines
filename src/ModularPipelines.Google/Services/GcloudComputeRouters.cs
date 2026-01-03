@@ -45,9 +45,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddBgpPeer(
         GcloudComputeRoutersAddBgpPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInterface(
         GcloudComputeRoutersAddInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRoutePolicy(
         GcloudComputeRoutersAddRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddRoutePolicyTerm(
         GcloudComputeRoutersAddRoutePolicyTermOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +101,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeRoutersCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,9 +115,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeRoutersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -123,9 +129,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeRoutersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -136,9 +143,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadRoutePolicy(
         GcloudComputeRoutersDownloadRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -149,9 +157,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNatIpInfo(
         GcloudComputeRoutersGetNatIpInfoOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -162,9 +171,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNatMappingInfo(
         GcloudComputeRoutersGetNatMappingInfoOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -175,9 +185,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRoutePolicy(
         GcloudComputeRoutersGetRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -188,9 +199,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetStatus(
         GcloudComputeRoutersGetStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -201,9 +213,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBgpRoutes(
         GcloudComputeRoutersListBgpRoutesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -214,9 +227,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudComputeRoutersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -227,9 +241,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRoutePolicies(
         GcloudComputeRoutersListRoutePoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -240,9 +255,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveBgpPeer(
         GcloudComputeRoutersRemoveBgpPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -253,9 +269,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInterface(
         GcloudComputeRoutersRemoveInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -266,9 +283,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRoutePolicy(
         GcloudComputeRoutersRemoveRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -279,9 +297,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRoutePolicyTerm(
         GcloudComputeRoutersRemoveRoutePolicyTermOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -292,9 +311,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateBgpPeer(
         GcloudComputeRoutersUpdateBgpPeerOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -305,9 +325,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInterface(
         GcloudComputeRoutersUpdateInterfaceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -318,9 +339,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeRoutersUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -331,9 +353,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateRoutePolicyTerm(
         GcloudComputeRoutersUpdateRoutePolicyTermOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -344,9 +367,10 @@ public class GcloudComputeRouters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadRoutePolicy(
         GcloudComputeRoutersUploadRoutePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -63,9 +63,10 @@ public class GcloudAuditManager
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudAuditManagerOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

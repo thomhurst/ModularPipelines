@@ -21,6 +21,6 @@ public class AzBatchPoolNodeCounts
 
     public async Task<CommandResult> List(AzBatchPoolNodeCountsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolNodeCountsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolNodeCountsListOptions(), null, token);
     }
 }

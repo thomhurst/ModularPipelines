@@ -3,6 +3,7 @@ using ModularPipelines.AmazonWebServices.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.AmazonWebServices.Services;
 

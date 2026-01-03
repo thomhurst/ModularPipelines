@@ -3,6 +3,7 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet.Services;
 
@@ -55,93 +56,93 @@ public class DotNet : IDotNet
 
     public DotNetNuget Nuget { get; }
 
-    public virtual async Task<CommandResult> New(DotNetNewOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> New(DotNetNewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Restore(DotNetRestoreOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Restore(DotNetRestoreOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetRestoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetRestoreOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Build(DotNetBuildOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Build(DotNetBuildOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetBuildOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetBuildOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Publish(DotNetPublishOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Publish(DotNetPublishOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetPublishOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetPublishOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Run(DotNetRunOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Run(DotNetRunOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetRunOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetRunOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Test(DotNetTestOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Test(DotNetTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetTestOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetTestOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Vstest(DotNetVstestOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Vstest(DotNetVstestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Pack(DotNetPackOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Pack(DotNetPackOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetPackOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetPackOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Migrate(DotNetMigrateOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Migrate(DotNetMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetMigrateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetMigrateOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Clean(DotNetCleanOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Clean(DotNetCleanOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetCleanOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetCleanOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Sln(DotNetSlnOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Sln(DotNetSlnOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetSlnOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetSlnOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Store(DotNetStoreOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Store(DotNetStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Watch(DotNetWatchOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Watch(DotNetWatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Format(DotNetFormatOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Format(DotNetFormatOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetFormatOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetFormatOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Workload(DotNetWorkloadOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> Workload(DotNetWorkloadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> Msbuild(DotNetMsbuildOptions options, CancellationToken token = default)
+    public virtual async Task<CommandResult> Msbuild(DotNetMsbuildOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> BuildServer(DotNetBuildServerOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> BuildServer(DotNetBuildServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetBuildServerOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetBuildServerOptions(), executionOptions, token);
     }
 
-    public virtual async Task<CommandResult> DevCerts(DotNetDevCertsOptions? options = default, CancellationToken token = default)
+    public virtual async Task<CommandResult> DevCerts(DotNetDevCertsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetDevCertsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetDevCertsOptions(), executionOptions, token);
     }
 }

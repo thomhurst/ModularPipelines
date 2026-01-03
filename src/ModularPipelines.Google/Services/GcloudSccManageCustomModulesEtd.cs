@@ -35,9 +35,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSccManageCustomModulesEtdCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSccManageCustomModulesEtdDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeEffective(
         GcloudSccManageCustomModulesEtdDescribeEffectiveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSccManageCustomModulesEtdDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDescendant(
         GcloudSccManageCustomModulesEtdListDescendantOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEffective(
         GcloudSccManageCustomModulesEtdListEffectiveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudSccManageCustomModulesEtdListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSccManageCustomModulesEtdUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudSccManageCustomModulesEtd
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
         GcloudSccManageCustomModulesEtdValidateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

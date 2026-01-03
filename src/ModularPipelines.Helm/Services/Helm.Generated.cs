@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Helm.Options;
 
 namespace ModularPipelines.Helm.Services;
@@ -77,137 +78,154 @@ internal class Helm : IHelm
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
         HelmCreateOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmCreateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmCreateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Env(
         HelmEnvOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmEnvOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmEnvOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> History(
         HelmHistoryOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmHistoryOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmHistoryOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
         HelmInstallOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmInstallOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmInstallOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Lint(
         HelmLintOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmLintOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmLintOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
         HelmListOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmListOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmListOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Package(
         HelmPackageOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmPackageOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmPackageOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pull(
         HelmPullOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmPullOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmPullOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
         HelmPushOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmPushOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmPushOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rollback(
         HelmRollbackOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmRollbackOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmRollbackOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Status(
         HelmStatusOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmStatusOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmStatusOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Template(
         HelmTemplateOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmTemplateOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmTemplateOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
         HelmTestOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmTestOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmTestOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
         HelmUninstallOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmUninstallOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmUninstallOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Upgrade(
         HelmUpgradeOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmUpgradeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmUpgradeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Verify(
         HelmVerifyOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmVerifyOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmVerifyOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Version(
         HelmVersionOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmVersionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmVersionOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

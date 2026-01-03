@@ -35,9 +35,10 @@ public class GcloudDatastreamLocations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDatastreamLocationsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDatastreamLocations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchStaticIps(
         GcloudDatastreamLocationsFetchStaticIpsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDatastreamLocations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDatastreamLocationsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -45,9 +45,10 @@ public class GcloudGeminiCodeToolsSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudGeminiCodeToolsSettingsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudGeminiCodeToolsSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudGeminiCodeToolsSettingsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudGeminiCodeToolsSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudGeminiCodeToolsSettingsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudGeminiCodeToolsSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudGeminiCodeToolsSettingsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +101,10 @@ public class GcloudGeminiCodeToolsSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudGeminiCodeToolsSettingsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

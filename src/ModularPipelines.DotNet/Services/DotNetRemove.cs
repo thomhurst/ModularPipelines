@@ -19,11 +19,11 @@ public class DotNetRemove
 
     public virtual async Task<CommandResult> Package(DotNetRemovePackageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Reference(DotNetRemoveReferenceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

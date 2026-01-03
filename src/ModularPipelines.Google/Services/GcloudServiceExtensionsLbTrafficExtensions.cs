@@ -35,9 +35,10 @@ public class GcloudServiceExtensionsLbTrafficExtensions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudServiceExtensionsLbTrafficExtensionsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudServiceExtensionsLbTrafficExtensions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudServiceExtensionsLbTrafficExtensionsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudServiceExtensionsLbTrafficExtensions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudServiceExtensionsLbTrafficExtensionsImportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudServiceExtensionsLbTrafficExtensions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudServiceExtensionsLbTrafficExtensionsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

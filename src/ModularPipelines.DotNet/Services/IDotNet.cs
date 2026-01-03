@@ -1,5 +1,6 @@
-﻿using ModularPipelines.DotNet.Options;
+using ModularPipelines.DotNet.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.DotNet.Services;
 
@@ -19,39 +20,39 @@ public interface IDotNet
 
     DotNetNuget Nuget { get; }
 
-    Task<CommandResult> New(DotNetNewOptions options, CancellationToken token = default);
+    Task<CommandResult> New(DotNetNewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Restore(DotNetRestoreOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Restore(DotNetRestoreOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Build(DotNetBuildOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Build(DotNetBuildOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Publish(DotNetPublishOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Publish(DotNetPublishOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Run(DotNetRunOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Run(DotNetRunOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Test(DotNetTestOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Test(DotNetTestOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Vstest(DotNetVstestOptions options, CancellationToken token = default);
+    Task<CommandResult> Vstest(DotNetVstestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Pack(DotNetPackOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Pack(DotNetPackOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Migrate(DotNetMigrateOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Migrate(DotNetMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Clean(DotNetCleanOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Clean(DotNetCleanOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Sln(DotNetSlnOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Sln(DotNetSlnOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Store(DotNetStoreOptions options, CancellationToken token = default);
+    Task<CommandResult> Store(DotNetStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Watch(DotNetWatchOptions options, CancellationToken token = default);
+    Task<CommandResult> Watch(DotNetWatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Format(DotNetFormatOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Format(DotNetFormatOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Workload(DotNetWorkloadOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> Workload(DotNetWorkloadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> Msbuild(DotNetMsbuildOptions options, CancellationToken token = default);
+    Task<CommandResult> Msbuild(DotNetMsbuildOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> BuildServer(DotNetBuildServerOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> BuildServer(DotNetBuildServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 
-    Task<CommandResult> DevCerts(DotNetDevCertsOptions? options = default, CancellationToken token = default);
+    Task<CommandResult> DevCerts(DotNetDevCertsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken token = default);
 }

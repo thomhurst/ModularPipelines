@@ -35,9 +35,10 @@ public class GcloudServicesPeeredDnsDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudServicesPeeredDnsDomainsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudServicesPeeredDnsDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudServicesPeeredDnsDomainsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudServicesPeeredDnsDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudServicesPeeredDnsDomainsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

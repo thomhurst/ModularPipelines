@@ -19,6 +19,6 @@ public class DotNetSdk
 
     public virtual async Task<CommandResult> Check(DotNetSdkCheckOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetSdkCheckOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetSdkCheckOptions(), null, token);
     }
 }

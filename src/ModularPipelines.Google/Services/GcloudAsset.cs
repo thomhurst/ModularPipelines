@@ -57,9 +57,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudAssetOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,9 +71,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeIamPolicyLongrunning(
         GcloudAssetAnalyzeIamPolicyLongrunningOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,9 +85,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeIamPolicy(
         GcloudAssetAnalyzeIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -96,9 +99,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeMove(
         GcloudAssetAnalyzeMoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -109,9 +113,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicies(
         GcloudAssetAnalyzeOrgPoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -122,9 +127,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedAssets(
         GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -135,9 +141,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedContainers(
         GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -148,9 +155,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudAssetExportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -161,9 +169,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveIamPolicy(
         GcloudAssetGetEffectiveIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -174,9 +183,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHistory(
         GcloudAssetGetHistoryOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -187,9 +197,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudAssetListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -200,9 +211,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Query(
         GcloudAssetQueryOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -213,9 +225,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAllIamPolicies(
         GcloudAssetSearchAllIamPoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -226,9 +239,10 @@ public class GcloudAsset
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAllResources(
         GcloudAssetSearchAllResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

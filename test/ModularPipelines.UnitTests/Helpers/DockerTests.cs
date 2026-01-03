@@ -5,6 +5,7 @@ using ModularPipelines.Docker.Options;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
@@ -24,7 +25,6 @@ public class DockerTests : TestBase
 
             return await context.Docker().Image.Build(new DockerImageBuildOptions
             {
-                InternalDryRun = true,
                 BuildArg = new List<string>
                 {
                     "Arg1=Value1",
@@ -34,7 +34,12 @@ public class DockerTests : TestBase
                 Tag = new[] { "mytaggedimage" },
                 Target = "build-env",
                 Arguments = [pretendPath.Path],
-            }, cancellationToken);
+            },
+            new CommandExecutionOptions
+            {
+                InternalDryRun = true,
+            },
+            cancellationToken);
         }
     }
 

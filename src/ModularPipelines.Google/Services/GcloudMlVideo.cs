@@ -45,9 +45,10 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectExplicitContent(
         GcloudMlVideoDetectExplicitContentOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectLabels(
         GcloudMlVideoDetectLabelsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectShotChanges(
         GcloudMlVideoDetectShotChangesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

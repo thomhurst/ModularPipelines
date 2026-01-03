@@ -45,9 +45,10 @@ public class GcloudCloudlocationfinder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudCloudlocationfinderOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

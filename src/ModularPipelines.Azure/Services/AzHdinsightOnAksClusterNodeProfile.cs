@@ -21,6 +21,6 @@ public class AzHdinsightOnAksClusterNodeProfile
 
     public async Task<CommandResult> Create(AzHdinsightOnAksClusterNodeProfileCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Azure.Generated.Options;
 
 namespace ModularPipelines.Azure.Generated.Services;
@@ -32,9 +33,10 @@ public class AzKeyvault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Backup(
         AzKeyvaultBackupOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class AzKeyvault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         AzKeyvaultBackupStartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +61,10 @@ public class AzKeyvault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Backup(
         AzKeyvaultCertificateBackupOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +75,10 @@ public class AzKeyvault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Contact(
         AzKeyvaultCertificateContactOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +89,10 @@ public class AzKeyvault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Certificate(
         AzKeyvaultCertificateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

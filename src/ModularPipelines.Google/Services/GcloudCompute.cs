@@ -453,9 +453,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudComputeOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -466,9 +467,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigSsh(
         GcloudComputeConfigSshOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -479,9 +481,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectToSerialPort(
         GcloudComputeConnectToSerialPortOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -492,9 +495,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFiles(
         GcloudComputeCopyFilesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -505,9 +509,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetWindowsPassword(
         GcloudComputeResetWindowsPasswordOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -518,9 +523,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
         GcloudComputeScpOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -531,9 +537,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignUrl(
         GcloudComputeSignUrlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -544,9 +551,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
         GcloudComputeSshOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -557,9 +565,10 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartIapTunnel(
         GcloudComputeStartIapTunnelOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

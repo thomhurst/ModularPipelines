@@ -35,9 +35,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CancelPreview(
         GcloudDeploymentManagerDeploymentsCancelPreviewOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDeploymentManagerDeploymentsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDeploymentManagerDeploymentsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeploymentManagerDeploymentsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDeploymentManagerDeploymentsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudDeploymentManagerDeploymentsStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudDeploymentManagerDeployments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDeploymentManagerDeploymentsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

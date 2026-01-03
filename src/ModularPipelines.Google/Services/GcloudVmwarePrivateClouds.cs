@@ -99,9 +99,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudVmwarePrivateCloudsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -112,9 +113,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNow(
         GcloudVmwarePrivateCloudsDeleteNowOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -125,9 +127,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudVmwarePrivateCloudsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -138,9 +141,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudVmwarePrivateCloudsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -151,9 +155,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudVmwarePrivateCloudsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -164,9 +169,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudVmwarePrivateCloudsUndeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -177,9 +183,10 @@ public class GcloudVmwarePrivateClouds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudVmwarePrivateCloudsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

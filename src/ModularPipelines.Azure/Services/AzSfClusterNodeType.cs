@@ -21,6 +21,6 @@ public class AzSfClusterNodeType
 
     public async Task<CommandResult> Add(AzSfClusterNodeTypeAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

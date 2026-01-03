@@ -21,6 +21,6 @@ public class AzBatchNodeServiceLogs
 
     public async Task<CommandResult> Upload(AzBatchNodeServiceLogsUploadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

@@ -19,26 +19,26 @@ public class DotNetTool
 
     public virtual async Task<CommandResult> Install(DotNetToolInstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> List(DotNetToolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetToolListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetToolListOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Update(DotNetToolUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Uninstall(DotNetToolUninstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Search(DotNetToolSearchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

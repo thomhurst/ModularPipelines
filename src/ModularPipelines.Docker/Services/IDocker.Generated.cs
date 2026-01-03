@@ -4,6 +4,7 @@
 // </auto-generated>
 
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -120,7 +121,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Attach(DockerAttachOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Attach(DockerAttachOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Build from a file
@@ -128,7 +129,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Bake(DockerBakeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Bake(DockerBakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start a build
@@ -136,7 +137,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Build(DockerBuildOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Build(DockerBuildOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new image from a container's changes
@@ -144,7 +145,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Commit(DockerCommitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Commit(DockerCommitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// docker cp [OPTIONS] SRC_PATH|- CONTAINER:DEST_PATH
@@ -152,7 +153,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Cp(DockerCpOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Cp(DockerCpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new container
@@ -160,7 +161,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(DockerCreateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Create(DockerCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get an enhanced shell with additional tools into any container or image
@@ -168,7 +169,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Debug(DockerDebugOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Debug(DockerDebugOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get real time events from the server
@@ -176,7 +177,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Events(DockerEventsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Events(DockerEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Execute a command in a running container
@@ -184,7 +185,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Exec(DockerExecOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Exec(DockerExecOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Export a container's filesystem as a tar archive
@@ -192,7 +193,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Export(DockerExportOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Export(DockerExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Show the history of an image
@@ -200,7 +201,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> History(DockerHistoryOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> History(DockerHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List images
@@ -208,7 +209,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Images(DockerImagesOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Images(DockerImagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Import the contents from a tarball to create a filesystem image
@@ -216,7 +217,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Import(DockerImportOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Import(DockerImportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display system-wide information
@@ -224,7 +225,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Info(DockerInfoOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Info(DockerInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates Docker-related starter files for your project
@@ -232,7 +233,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Init(DockerInitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(DockerInitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Return low-level information on Docker objects
@@ -240,7 +241,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(DockerInspectOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Inspect(DockerInspectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Kill one or more running containers
@@ -248,7 +249,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Kill(DockerKillOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Kill(DockerKillOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Load an image from a tar archive or STDIN
@@ -256,7 +257,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Load(DockerLoadOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Load(DockerLoadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Authenticate to a registry.
@@ -264,7 +265,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Login(DockerLoginOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Login(DockerLoginOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetch the logs of a container
@@ -272,7 +273,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Logs(DockerLogsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Logs(DockerLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List containers
@@ -280,7 +281,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ps(DockerPsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Ps(DockerPsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Download an image from a registry
@@ -288,7 +289,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pull(DockerPullOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pull(DockerPullOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Upload an image to a registry
@@ -296,7 +297,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(DockerPushOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Push(DockerPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Restart one or more containers
@@ -304,7 +305,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Restart(DockerRestartOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Restart(DockerRestartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more images
@@ -312,7 +313,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rmi(DockerRmiOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rmi(DockerRmiOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove one or more containers
@@ -320,7 +321,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rm(DockerRmOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rm(DockerRmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create and run a new container from an image
@@ -328,7 +329,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Run(DockerRunOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Run(DockerRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Save one or more images to a tar archive (streamed to STDOUT by default)
@@ -336,7 +337,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Save(DockerSaveOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Save(DockerSaveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// View the packaged-based Software Bill Of Materials (SBOM) for an image.
@@ -344,7 +345,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Sbom(DockerSbomOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Sbom(DockerSbomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Search Docker Hub for images
@@ -352,7 +353,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Search(DockerSearchOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Search(DockerSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start one or more stopped containers
@@ -360,7 +361,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Start(DockerStartOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Start(DockerStartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Display a live stream of container(s) resource usage statistics
@@ -368,7 +369,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Stats(DockerStatsOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Stats(DockerStatsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stop one or more running containers
@@ -376,7 +377,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Stop(DockerStopOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Stop(DockerStopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Update configuration of one or more containers
@@ -384,7 +385,7 @@ public partial interface IDocker
     /// <param name="options">The command options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Update(DockerUpdateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Update(DockerUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

@@ -86,11 +86,10 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
         var options = new DotNetFormatOptions
         {
             Arguments = whitespaceOnly ? ["whitespace"] : null,
-            WorkingDirectory = context.Git().RootDirectory,
             VerifyNoChanges = verifyNoChanges,
             Severity = "info",
         };
 
-        return context.DotNet().Format(options, cancellationToken);
+        return context.DotNet().Format(options, token: cancellationToken);
     }
 }

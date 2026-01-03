@@ -35,9 +35,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudFirestoreUserCredsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudFirestoreUserCredsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFirestoreUserCredsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudFirestoreUserCredsDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudFirestoreUserCredsEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudFirestoreUserCredsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetPassword(
         GcloudFirestoreUserCredsResetPasswordOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

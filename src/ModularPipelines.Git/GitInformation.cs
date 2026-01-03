@@ -86,11 +86,15 @@ internal class GitInformation : IGitInformation, IInitializer
     {
         try
         {
-            await command.ExecuteCommandLineTool(new CommandLineToolOptions("git")
-            {
-                Arguments = ["version"],
-                LogSettings = CommandLoggingOptions.Silent,
-            });
+            await command.ExecuteCommandLineTool(
+                new GenericCommandLineToolOptions("git")
+                {
+                    Arguments = ["version"],
+                },
+                new CommandExecutionOptions
+                {
+                    LogSettings = CommandLoggingOptions.Silent,
+                });
         }
         catch (Exception e)
         {
@@ -122,6 +126,8 @@ internal class GitInformation : IGitInformation, IInitializer
             {
                 Arguments = ["origin/HEAD"],
                 AbbrevRef = true,
+            }, new CommandExecutionOptions
+            {
                 ThrowOnNonZeroExitCode = false,
             });
 
@@ -129,14 +135,16 @@ internal class GitInformation : IGitInformation, IInitializer
         }
     }
 
-    private static async Task<string?> GetOutput(ICommand command, ILogger logger, GitOptions gitOptions)
+    private static async Task<string?> GetOutput(ICommand command, ILogger logger, GitOptions gitOptions, CommandExecutionOptions? executionOptions = null)
     {
         try
         {
-            var result = await command.ExecuteCommandLineTool(gitOptions with
+            var options = executionOptions ?? new CommandExecutionOptions();
+            options = options with
             {
                 LogSettings = logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
-            });
+            };
+            var result = await command.ExecuteCommandLineTool(gitOptions, options);
             return result.StandardOutput.Trim();
         }
         catch (Exception exception)
@@ -167,7 +175,7 @@ internal class GitInformation : IGitInformation, IInitializer
         var index = 0;
         while (!cancellationToken.IsCancellationRequested)
         {
-            var output = await gitCommandRunner.RunCommandsOrNull(options, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
+            var output = await gitCommandRunner.RunCommandsOrNull(null, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
 
             if (string.IsNullOrWhiteSpace(output))
             {

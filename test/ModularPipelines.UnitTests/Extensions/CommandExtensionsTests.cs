@@ -8,7 +8,7 @@ public class CommandExtensionsTests
     [Test]
     public async Task ToToolOptions_SingleArg()
     {
-        var commandLineOptions = new CommandLineOptions()
+        var commandLineOptions = new CommandExecutionOptions()
             .ToCommandLineToolOptions("mytool", "arg1");
 
         using (Assert.Multiple())
@@ -21,7 +21,7 @@ public class CommandExtensionsTests
     [Test]
     public async Task ToToolOptions_MultipleArgs()
     {
-        var commandLineOptions = new CommandLineOptions()
+        var commandLineOptions = new CommandExecutionOptions()
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"]);
 
         using (Assert.Multiple())
@@ -34,7 +34,7 @@ public class CommandExtensionsTests
     [Test]
     public async Task ToToolOptions_MultipleArgs_IEnumerable()
     {
-        var commandLineOptions = new CommandLineOptions()
+        var commandLineOptions = new CommandExecutionOptions()
             .ToCommandLineToolOptions("mytool", new HashSet<string>(["arg1", "arg2"]));
 
         using (Assert.Multiple())
@@ -47,7 +47,7 @@ public class CommandExtensionsTests
     [Test]
     public async Task WithArguments_AddsToExisting()
     {
-        var commandLineOptions = new CommandLineOptions()
+        var commandLineOptions = new CommandExecutionOptions()
             .ToCommandLineToolOptions("mytool", ["arg1", "arg2"])
             .WithArguments(["arg3", "arg4", "arg5"]);
 

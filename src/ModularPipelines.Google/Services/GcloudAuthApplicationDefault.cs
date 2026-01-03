@@ -35,9 +35,10 @@ public class GcloudAuthApplicationDefault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
         GcloudAuthApplicationDefaultLoginOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudAuthApplicationDefault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrintAccessToken(
         GcloudAuthApplicationDefaultPrintAccessTokenOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudAuthApplicationDefault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
         GcloudAuthApplicationDefaultRevokeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudAuthApplicationDefault
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetQuotaProject(
         GcloudAuthApplicationDefaultSetQuotaProjectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

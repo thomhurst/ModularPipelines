@@ -35,9 +35,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudBackupDrBackupPlanAssociationsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudBackupDrBackupPlanAssociationsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBackupDrBackupPlanAssociationsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchForResourceType(
         GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudBackupDrBackupPlanAssociationsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TriggerBackup(
         GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudBackupDrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudBackupDrBackupPlanAssociationsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

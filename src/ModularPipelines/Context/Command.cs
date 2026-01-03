@@ -39,7 +39,6 @@ public sealed class Command : ICommand
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        // Resolve execution options with defaults
         var execOpts = executionOptions ?? new CommandExecutionOptions();
 
         var optionsObject = GetOptionsObject(options);

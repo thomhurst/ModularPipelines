@@ -35,9 +35,10 @@ public class GcloudDataplexDatascansUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataDiscovery(
         GcloudDataplexDatascansUpdateDataDiscoveryOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDataplexDatascansUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataDocumentation(
         GcloudDataplexDatascansUpdateDataDocumentationOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDataplexDatascansUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataProfile(
         GcloudDataplexDatascansUpdateDataProfileOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDataplexDatascansUpdate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DataQuality(
         GcloudDataplexDatascansUpdateDataQualityOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

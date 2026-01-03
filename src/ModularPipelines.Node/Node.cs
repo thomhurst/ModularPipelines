@@ -24,9 +24,9 @@ internal class Node : INode
 
     public virtual Task<CommandResult> Version(CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("node")
+        return _context.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("node")
         {
             Arguments = ["-v"],
-        }, cancellationToken);
+        }, null, cancellationToken);
     }
 }

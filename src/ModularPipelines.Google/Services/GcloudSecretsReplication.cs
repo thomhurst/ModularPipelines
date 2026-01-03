@@ -35,9 +35,10 @@ public class GcloudSecretsReplication
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
         GcloudSecretsReplicationGetOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudSecretsReplication
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudSecretsReplicationSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudSecretsReplication
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSecretsReplicationUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

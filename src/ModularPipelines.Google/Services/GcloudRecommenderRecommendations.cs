@@ -35,9 +35,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudRecommenderRecommendationsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudRecommenderRecommendationsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MarkClaimed(
         GcloudRecommenderRecommendationsMarkClaimedOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MarkDismissed(
         GcloudRecommenderRecommendationsMarkDismissedOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MarkFailed(
         GcloudRecommenderRecommendationsMarkFailedOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudRecommenderRecommendations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MarkSucceeded(
         GcloudRecommenderRecommendationsMarkSucceededOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion
