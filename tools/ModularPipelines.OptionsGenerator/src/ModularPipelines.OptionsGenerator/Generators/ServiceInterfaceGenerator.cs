@@ -114,10 +114,11 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         {
             GeneratorUtils.GenerateXmlDocumentation(sb, command.Description);
             sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
+            sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
             sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
             sb.AppendLine("    /// <returns>The command result.</returns>");
         }
 
-        sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CancellationToken cancellationToken = default);");
+        sb.AppendLine($"    Task<CommandResult> {methodName}({command.ClassName} options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);");
     }
 }

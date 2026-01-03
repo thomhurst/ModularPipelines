@@ -319,6 +319,7 @@ public static partial class GeneratorUtils
         {
             GenerateXmlDocumentation(sb, command.Description, indent);
             sb.AppendLine($"{indent}/// <param name=\"options\">The command options.</param>");
+            sb.AppendLine($"{indent}/// <param name=\"executionOptions\">The execution configuration options.</param>");
             sb.AppendLine($"{indent}/// <param name=\"cancellationToken\">Cancellation token.</param>");
             sb.AppendLine($"{indent}/// <returns>The command result.</returns>");
         }
@@ -334,16 +335,17 @@ public static partial class GeneratorUtils
 
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
         sb.AppendLine($"{indent}    {optionsParam},");
+        sb.AppendLine($"{indent}    CommandExecutionOptions? executionOptions = null,");
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
         if (hasRequiredParams)
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options, cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);");
         }
         else
         {
-            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
+            sb.AppendLine($"{indent}    return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
         }
 
         sb.AppendLine($"{indent}}}");
