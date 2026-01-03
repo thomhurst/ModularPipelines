@@ -34,8 +34,14 @@ public sealed class Command : ICommand
         _commandArgumentBuilder = commandArgumentBuilder;
     }
 
-    public async Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> ExecuteCommandLineTool(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default)
     {
+        // Resolve execution options with defaults
+        var execOpts = executionOptions ?? new CommandExecutionOptions();
+
         var optionsObject = GetOptionsObject(options);
 
         // Get subcommand parts and handle placeholder replacement
@@ -60,7 +66,7 @@ public sealed class Command : ICommand
         }
 
         string tool;
-        if (options.Sudo)
+        if (execOpts.Sudo)
         {
             tool = "sudo";
             parsedArgs.Insert(0, options.Tool);
@@ -72,21 +78,22 @@ public sealed class Command : ICommand
 
         var command = Cli.Wrap(tool).WithArguments(parsedArgs);
 
-        if (options.WorkingDirectory != null)
+        if (execOpts.WorkingDirectory != null)
         {
-            command = command.WithWorkingDirectory(options.WorkingDirectory);
+            command = command.WithWorkingDirectory(execOpts.WorkingDirectory);
         }
 
-        if (options.EnvironmentVariables != null)
+        if (execOpts.EnvironmentVariables != null)
         {
-            command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(options.EnvironmentVariables));
+            command = command.WithEnvironmentVariables(new ReadOnlyDictionary<string, string?>(execOpts.EnvironmentVariables));
         }
 
-        if (options.InternalDryRun)
+        if (execOpts.InternalDryRun)
         {
             _commandLogger.Log(
                 options: options,
-                inputToLog: options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString()),
+                execOpts: execOpts,
+                inputToLog: execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString()),
                 exitCode: 0,
                 runTime: TimeSpan.Zero,
                 standardOutput: "Dummy Output Response",
@@ -97,7 +104,7 @@ public sealed class Command : ICommand
             return new CommandResult(command);
         }
 
-        return await Of(command, options, cancellationToken).ConfigureAwait(false);
+        return await Of(command, options, execOpts, cancellationToken).ConfigureAwait(false);
     }
 
     // Note: Placeholder sanitization is no longer needed since ReplacePlaceholders
@@ -289,8 +296,11 @@ public sealed class Command : ICommand
         return options.OptionsObject ?? options;
     }
 
-    private async Task<CommandResult> Of(CliWrap.Command command,
-        CommandLineToolOptions options, CancellationToken cancellationToken = default)
+    private async Task<CommandResult> Of(
+        CliWrap.Command command,
+        CommandLineToolOptions options,
+        CommandExecutionOptions execOpts,
+        CancellationToken cancellationToken = default)
     {
         StringBuilder standardOutputStringBuilder = new();
         StringBuilder standardErrorStringBuilder = new();
@@ -299,11 +309,11 @@ public sealed class Command : ICommand
         var standardOutput = string.Empty;
         var standardError = string.Empty;
 
-        var inputToLog = options.InputLoggingManipulator == null ? command.ToString() : options.InputLoggingManipulator(command.ToString());
+        var inputToLog = execOpts.InputLoggingManipulator == null ? command.ToString() : execOpts.InputLoggingManipulator(command.ToString());
 
         // Only create timeout token if ExecutionTimeout is specified to avoid unnecessary allocations
-        using var timeoutCancellationToken = options.ExecutionTimeout.HasValue
-            ? new CancellationTokenSource(options.ExecutionTimeout.Value)
+        using var timeoutCancellationToken = execOpts.ExecutionTimeout.HasValue
+            ? new CancellationTokenSource(execOpts.ExecutionTimeout.Value)
             : null;
 
         // Link the timeout token with the passed cancellation token, or just wrap the original if no timeout
@@ -319,7 +329,7 @@ public sealed class Command : ICommand
             {
                 if (forcefulCancellationToken.Token.CanBeCanceled)
                 {
-                    forcefulCancellationToken.CancelAfter(options.GracefulShutdownTimeout);
+                    forcefulCancellationToken.CancelAfter(execOpts.GracefulShutdownTimeout);
                 }
             }
             catch (ObjectDisposedException)
@@ -337,10 +347,12 @@ public sealed class Command : ICommand
                     .WithValidation(CommandResultValidation.None)
                     .ExecuteAsync(forcefulCancellationToken.Token, linkedCancellationToken.Token).ConfigureAwait(false);
 
-                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
-                _commandLogger.Log(options: options,
+                _commandLogger.Log(
+                    options: options,
+                    execOpts: execOpts,
                     inputToLog: inputToLog,
                     exitCode: result.ExitCode,
                     runTime: result.RunTime,
@@ -349,7 +361,7 @@ public sealed class Command : ICommand
                     commandWorkingDirPath: command.WorkingDirPath
                 );
 
-                if (result.ExitCode != 0 && options.ThrowOnNonZeroExitCode)
+                if (result.ExitCode != 0 && execOpts.ThrowOnNonZeroExitCode)
                 {
                     var input = inputToLog;
                     throw new CommandException(input, result.ExitCode, result.RunTime, standardOutput, standardError);
@@ -359,10 +371,12 @@ public sealed class Command : ICommand
             }
             catch (CommandExecutionException e)
             {
-                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
-                _commandLogger.Log(options: options,
+                _commandLogger.Log(
+                    options: options,
+                    execOpts: execOpts,
                     inputToLog: inputToLog,
                     exitCode: e.ExitCode,
                     runTime: stopwatch.Elapsed,
@@ -375,10 +389,12 @@ public sealed class Command : ICommand
             }
             catch (Exception e) when (e is not CommandExecutionException and not CommandException)
             {
-                standardOutput = options.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : options.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
-                standardError = options.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : options.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
+                standardOutput = execOpts.OutputLoggingManipulator == null ? standardOutputStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardOutputStringBuilder.ToString());
+                standardError = execOpts.OutputLoggingManipulator == null ? standardErrorStringBuilder.ToString() : execOpts.OutputLoggingManipulator(standardErrorStringBuilder.ToString());
 
-                _commandLogger.Log(options: options,
+                _commandLogger.Log(
+                    options: options,
+                    execOpts: execOpts,
                     inputToLog: inputToLog,
                     exitCode: -1,
                     runTime: stopwatch.Elapsed,
