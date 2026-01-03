@@ -1,27 +1,13 @@
-using System.ComponentModel;
-
 namespace ModularPipelines.Options;
 
 /// <summary>
-/// Options for setting the context of a command, the command line tool, and any arguments it needs.
+/// Options for setting the command line tool and any arguments it needs.
 /// </summary>
-public record CommandLineToolOptions : CommandLineOptions
+public abstract record CommandLineToolOptions(string Tool)
 {
-    public CommandLineToolOptions(string tool) : this(tool, null)
-    {
-    }
-
-    public CommandLineToolOptions(string tool, params string[]? arguments)
-    {
-        Tool = tool;
-        Arguments = arguments;
-    }
-
     /// <summary>
-    /// Gets the command line tool to execute.
+    /// Gets the command parts (subcommands) for the tool.
     /// </summary>
-    public string Tool { get; init; }
-
     public string[]? CommandParts { get; init; }
 
     /// <summary>
@@ -30,14 +16,7 @@ public record CommandLineToolOptions : CommandLineOptions
     public IEnumerable<string>? Arguments { get; init; }
 
     /// <summary>
-    /// Gets if you have an object that has Properties with attributes such as CliArgument or CliOption
-    /// Then by setting it here, the values will automatically be extrapolated when running the command.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public object? OptionsObject { get; init; }
-
-    /// <summary>
-    /// Gets used for command line tools that support the following syntax: MyTool -Arg1 -Arg2 -- RunSetting1 RunSetting2.
+    /// Gets used for command line tools that support -- syntax.
     /// </summary>
     public IEnumerable<string>? RunSettings { get; init; }
 }
