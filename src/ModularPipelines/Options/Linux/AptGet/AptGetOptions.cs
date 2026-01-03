@@ -8,7 +8,6 @@ public record AptGetOptions : CommandLineToolOptions
 {
     public AptGetOptions() : base("apt-get")
     {
-        Sudo = true;
     }
 
     [CliFlag("--download-only")]

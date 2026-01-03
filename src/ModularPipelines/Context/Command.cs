@@ -293,7 +293,7 @@ public sealed class Command : ICommand
 
     private static object GetOptionsObject(CommandLineToolOptions options)
     {
-        return options.OptionsObject ?? options;
+        return options;
     }
 
     private async Task<CommandResult> Of(

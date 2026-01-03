@@ -14,11 +14,11 @@ internal class Powershell : IPowershell
 
     public virtual Task<CommandResult> Script(PowershellScriptOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, cancellationToken);
+        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
     }
 
     public virtual Task<CommandResult> FromFile(PowershellFileOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, cancellationToken);
+        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
     }
 }

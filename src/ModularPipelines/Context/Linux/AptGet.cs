@@ -18,74 +18,74 @@ public class AptGet : IAptGet
     public virtual async Task<CommandResult> Autoclean(AptGetAutocleanOptions? options = default,
         CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetAutocleanOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetAutocleanOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> BuildDep(AptGetBuildDepOptions? options = default,
         CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetBuildDepOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetBuildDepOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Check(AptGetCheckOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetCheckOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetCheckOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Clean(AptGetCleanOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetCleanOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetCleanOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> DistUpgrade(AptGetDistUpgradeOptions? options = default,
         CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetDistUpgradeOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetDistUpgradeOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Install(AptGetInstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options, null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Package(AptGetPackageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetPackageOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetPackageOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Remove(AptGetRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options, null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Source(AptGetSourceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetSourceOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetSourceOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Update(AptGetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetUpdateOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetUpdateOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Upgrade(AptGetUpgradeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AptGetUpgradeOptions(), token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options ?? new AptGetUpgradeOptions(), null, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public virtual async Task<CommandResult> Custom(AptGetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token).ConfigureAwait(false);
+        return await _command.ExecuteCommandLineTool(options, null, token).ConfigureAwait(false);
     }
 }

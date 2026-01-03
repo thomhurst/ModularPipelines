@@ -73,7 +73,7 @@ internal class CommandLogger : ICommandLogger
 
 #pragma warning disable CS0618 // Type or member is obsolete
         // Fall back to legacy CommandLogging enum conversion
-        var legacyLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
+        var legacyLogging = _pipelineOptions.Value.DefaultCommandLogging;
         return ConvertFromLegacy(legacyLogging);
 #pragma warning restore CS0618
     }
