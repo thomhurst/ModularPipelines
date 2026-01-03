@@ -452,9 +452,10 @@ public partial class ChocolateyCliScraper : CliScraperBase
     private static partial Regex CommandSectionPattern();
 
     /// <summary>
-    /// Matches "Options and Switches" section followed by ===== underline.
+    /// Matches "Options and Switches" section header.
+    /// Handles formats with and without ===== underline.
     /// </summary>
-    [GeneratedRegex(@"Options and Switches\s*\n\s*=+\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"Options and Switches\s*\n(?:\s*=+\s*\n)?", RegexOptions.IgnoreCase)]
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
@@ -480,10 +481,11 @@ public partial class ChocolateyCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches Chocolatey-style option lines:
-    /// -?, --help, -h
-    /// --source=VALUE
+    ///  -?, --help, -h
+    ///      --source=VALUE
+    /// Note: Lines have leading whitespace in help output.
     /// </summary>
-    [GeneratedRegex(@"^(?<flags>(?:-[\w?],?\s*)*(?:--[\w-]+(?:=VALUE)?))$")]
+    [GeneratedRegex(@"^\s*(?<flags>(?:-[\w?],?\s*)*(?:--[\w-]+(?:=VALUE)?))$")]
     private static partial Regex ChocolateyOptionPattern();
 
     #endregion
