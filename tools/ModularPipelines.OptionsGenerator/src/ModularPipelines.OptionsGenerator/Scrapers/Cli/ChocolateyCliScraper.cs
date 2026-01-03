@@ -443,9 +443,12 @@ public partial class ChocolateyCliScraper : CliScraperBase
     #region Regex Patterns
 
     /// <summary>
-    /// Matches "Commands" section followed by ===== underline.
+    /// Matches "Commands" section header.
+    /// Handles two formats:
+    /// 1. With underline: "Commands\n========="
+    /// 2. Without underline: "Commands\n\n * list -"
     /// </summary>
-    [GeneratedRegex(@"Commands\s*\n\s*=+\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^Commands\s*\n(?:\s*=+\s*\n)?", RegexOptions.IgnoreCase | RegexOptions.Multiline)]
     private static partial Regex CommandSectionPattern();
 
     /// <summary>
@@ -455,9 +458,12 @@ public partial class ChocolateyCliScraper : CliScraperBase
     private static partial Regex OptionsSectionPattern();
 
     /// <summary>
-    /// Matches next section headers (with ===== underline).
+    /// Matches next section headers.
+    /// Handles both:
+    /// 1. Headers with ===== underline
+    /// 2. Headers like "Please run" or "How To Pass"
     /// </summary>
-    [GeneratedRegex(@"\n[A-Z][\w\s]*\n\s*=+", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:\n[A-Z][\w\s]*\n\s*=+|\nPlease run|\nHow To Pass)", RegexOptions.IgnoreCase)]
     private static partial Regex NextSectionPattern();
 
     /// <summary>
