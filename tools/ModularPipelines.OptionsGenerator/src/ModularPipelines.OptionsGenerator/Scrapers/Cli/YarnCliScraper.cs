@@ -7,31 +7,34 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 
 /// <summary>
 /// CLI-first scraper for Yarn package manager CLI.
-/// Supports Yarn Berry (v2+) help format.
+/// Supports Yarn Berry (v2+/v4+) help format using Clipanion.
 ///
-/// Yarn help format (yarn --help):
-/// Usage:
+/// Yarn Berry help format (yarn --help):
+/// ━━━ Yarn Package Manager - 4.x.x ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   $ yarn &lt;command&gt;
 ///
-/// $ yarn &lt;command&gt;
+/// ━━━ General commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   yarn add [--json] [-E,--exact] [-T,--tilde] ...
+///     Add dependencies to the project.
+///   yarn install [--json] [--immutable] [--immutable-cache] ...
+///     Install the project dependencies.
 ///
-/// Where &lt;command&gt; is one of:
-///   - add, bin, cache, ...
+/// ━━━ Workspace-related commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   yarn workspaces focus [--json] [-A,--all] [--production] ...
+///     Install dependencies for selected workspaces.
 ///
 /// Subcommand help (yarn add --help):
-/// Usage:
+/// ━━━ Usage ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   $ yarn add [--json] [-F,--fixed] [-E,--exact] ...
 ///
-/// $ yarn add [--json] [-F,--fixed] [-E,--exact] ...
+/// ━━━ Details ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   This command adds a package to the package.json...
 ///
-/// Details:
+/// ━━━ Examples ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+///   Add a regular package to the current workspace
+///     $ yarn add lodash
 ///
-/// This command adds a package to the package.json...
-///
-/// Examples:
-///
-/// yarn add lodash
-///
-/// Options:
-///
+/// ━━━ Options ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ///   --json                     Format output as NDJSON
 ///   -F,--fixed                 Store the exact version
 /// </summary>
@@ -67,75 +70,147 @@ public partial class YarnCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Try to find "Where <command> is one of:" section
-        var whereMatch = WhereCommandPattern().Match(helpText);
-        if (whereMatch.Success)
+        // Yarn Berry (v2+/v4+) uses Clipanion format with category headers:
+        // ━━━ General commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        //   yarn add [--json] [-E,--exact] [-T,--tilde] ...
+        //     Add dependencies to the project.
+        var categoryMatches = ClipanionCategoryPattern().Matches(helpText);
+        foreach (Match categoryMatch in categoryMatches)
         {
-            var sectionStart = whereMatch.Index + whereMatch.Length;
+            var categoryStart = categoryMatch.Index + categoryMatch.Length;
 
-            // Find section content until double newline or end
-            var sectionEnd = helpText.Length;
-            var doubleNewline = helpText.IndexOf("\n\n", sectionStart, StringComparison.Ordinal);
-            if (doubleNewline > 0)
+            // Find the end of this category section (next category header or end of text)
+            var nextCategoryMatch = ClipanionCategoryPattern().Match(helpText, categoryStart);
+            var categoryEnd = nextCategoryMatch.Success ? nextCategoryMatch.Index : helpText.Length;
+
+            var categorySection = helpText.Substring(categoryStart, categoryEnd - categoryStart);
+
+            // Parse command lines in this category
+            // Format: "  yarn <command> [options...]" or "  yarn <parent> <sub> [options...]"
+            var commandMatches = ClipanionCommandLinePattern().Matches(categorySection);
+            foreach (Match commandMatch in commandMatches)
             {
-                sectionEnd = doubleNewline;
-            }
+                var commandPart = commandMatch.Groups["command"].Value.Trim();
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-
-            // Parse command list: "  - add, bin, cache, ..." or separate lines
-            var lines = section.Split('\n');
-            foreach (var line in lines)
-            {
-                var trimmed = line.Trim().TrimStart('-').Trim();
-                if (string.IsNullOrEmpty(trimmed))
+                if (!string.IsNullOrEmpty(commandPart))
                 {
-                    continue;
+                    // Extract just the first command word (e.g., "add" from "add [--json]")
+                    // Handle multi-word commands like "npm info" or "workspaces focus"
+                    var commandWords = commandPart.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (commandWords.Length > 0)
+                    {
+                        // Get the full command path (may be multi-word like "npm info")
+                        var fullCommand = new List<string>();
+                        foreach (var word in commandWords)
+                        {
+                            // Stop at options (words starting with [ or -)
+                            if (word.StartsWith('[') || word.StartsWith('-') || word.StartsWith('<'))
+                            {
+                                break;
+                            }
+
+                            fullCommand.Add(word);
+                        }
+
+                        if (fullCommand.Count > 0)
+                        {
+                            // For now, take the first command part (we can expand later for subcommands)
+                            var commandName = fullCommand[0];
+                            if (IsValidCommand(commandName) && seenCommands.Add(commandName))
+                            {
+                                subcommands.Add(commandName);
+                            }
+
+                            // Also add the full multi-word command if different
+                            if (fullCommand.Count > 1)
+                            {
+                                var fullCommandName = string.Join(" ", fullCommand);
+                                if (seenCommands.Add(fullCommandName))
+                                {
+                                    subcommands.Add(fullCommandName);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback: Try to find "Where <command> is one of:" section (Yarn Classic format)
+        if (subcommands.Count == 0)
+        {
+            var whereMatch = WhereCommandPattern().Match(helpText);
+            if (whereMatch.Success)
+            {
+                var sectionStart = whereMatch.Index + whereMatch.Length;
+
+                // Find section content until double newline or end
+                var sectionEnd = helpText.Length;
+                var doubleNewline = helpText.IndexOf("\n\n", sectionStart, StringComparison.Ordinal);
+                if (doubleNewline > 0)
+                {
+                    sectionEnd = doubleNewline;
                 }
 
-                // Handle comma-separated list
-                var parts = trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries);
-                foreach (var part in parts)
+                var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+
+                // Parse command list: "  - add, bin, cache, ..." or separate lines
+                var lines = section.Split('\n');
+                foreach (var line in lines)
                 {
-                    var commandName = part.Trim();
-                    if (!string.IsNullOrEmpty(commandName) &&
-                        !commandName.Contains(' ') &&
-                        IsValidCommand(commandName) &&
-                        seenCommands.Add(commandName))
+                    var trimmed = line.Trim().TrimStart('-').Trim();
+                    if (string.IsNullOrEmpty(trimmed))
                     {
-                        subcommands.Add(commandName);
+                        continue;
+                    }
+
+                    // Handle comma-separated list
+                    var parts = trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var part in parts)
+                    {
+                        var commandName = part.Trim();
+                        if (!string.IsNullOrEmpty(commandName) &&
+                            !commandName.Contains(' ') &&
+                            IsValidCommand(commandName) &&
+                            seenCommands.Add(commandName))
+                        {
+                            subcommands.Add(commandName);
+                        }
                     }
                 }
             }
         }
 
         // Also try to find commands in "Commands:" or similar sections
-        var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
-        if (commandsSectionMatch.Success)
+        if (subcommands.Count == 0)
         {
-            var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-            var sectionEnd = helpText.Length;
-
-            var nextSection = NextSectionPattern().Match(helpText, sectionStart);
-            if (nextSection.Success)
+            var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
+            if (commandsSectionMatch.Success)
             {
-                sectionEnd = nextSection.Index;
-            }
+                var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
+                var sectionEnd = helpText.Length;
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
-            var lines = section.Split('\n');
-
-            foreach (var line in lines)
-            {
-                var match = SubcommandLinePattern().Match(line);
-                if (match.Success)
+                var nextSection = NextSectionPattern().Match(helpText, sectionStart);
+                if (nextSection.Success)
                 {
-                    var commandName = match.Groups["name"].Value.Trim();
-                    if (!string.IsNullOrEmpty(commandName) &&
-                        IsValidCommand(commandName) &&
-                        seenCommands.Add(commandName))
+                    sectionEnd = nextSection.Index;
+                }
+
+                var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+                var lines = section.Split('\n');
+
+                foreach (var line in lines)
+                {
+                    var match = SubcommandLinePattern().Match(line);
+                    if (match.Success)
                     {
-                        subcommands.Add(commandName);
+                        var commandName = match.Groups["name"].Value.Trim();
+                        if (!string.IsNullOrEmpty(commandName) &&
+                            IsValidCommand(commandName) &&
+                            seenCommands.Add(commandName))
+                        {
+                            subcommands.Add(commandName);
+                        }
                     }
                 }
             }
@@ -214,7 +289,35 @@ public partial class YarnCliScraper : CliScraperBase
     /// </summary>
     private static string? ExtractDescription(string helpText)
     {
-        // Look for "Details:" section
+        // Try Clipanion-style "━━━ Details ━━━" section first (Yarn Berry)
+        var clipanionDetailsMatch = ClipanionDetailsSectionPattern().Match(helpText);
+        if (clipanionDetailsMatch.Success)
+        {
+            var sectionStart = clipanionDetailsMatch.Index + clipanionDetailsMatch.Length;
+            var sectionEnd = helpText.Length;
+
+            // Find end of section (next Clipanion section header)
+            var nextSection = ClipanionSectionPattern().Match(helpText, sectionStart);
+            if (nextSection.Success)
+            {
+                sectionEnd = nextSection.Index;
+            }
+
+            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart).Trim();
+            var lines = section.Split('\n');
+
+            // Get first non-empty line as description
+            foreach (var line in lines)
+            {
+                var trimmed = line.Trim();
+                if (!string.IsNullOrEmpty(trimmed) && trimmed.Length > 10)
+                {
+                    return trimmed;
+                }
+            }
+        }
+
+        // Fallback: Look for classic "Details:" section
         var detailsMatch = DetailsSectionPattern().Match(helpText);
         if (detailsMatch.Success)
         {
@@ -244,6 +347,12 @@ public partial class YarnCliScraper : CliScraperBase
 
         // Fallback: look for first descriptive line after Usage
         var usageMatch = UsagePattern().Match(helpText);
+        if (!usageMatch.Success)
+        {
+            // Try Clipanion Usage section
+            usageMatch = ClipanionUsageSectionPattern().Match(helpText);
+        }
+
         if (usageMatch.Success)
         {
             var afterUsage = helpText.Substring(usageMatch.Index + usageMatch.Length);
@@ -259,8 +368,8 @@ public partial class YarnCliScraper : CliScraperBase
                     continue;
                 }
 
-                // Skip section headers
-                if (trimmed.EndsWith(":") || trimmed.StartsWith("Where"))
+                // Skip section headers (both classic and Clipanion style)
+                if (trimmed.EndsWith(":") || trimmed.StartsWith("Where") || trimmed.Contains("━━━"))
                 {
                     continue;
                 }
@@ -277,8 +386,8 @@ public partial class YarnCliScraper : CliScraperBase
 
     /// <summary>
     /// Parses options from Yarn help text.
-    /// Format: --option                Description
-    ///         -S,--short              Description
+    /// Format (Clipanion): --option                Description
+    ///                     -S,--short              Description
     /// </summary>
     private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
     {
@@ -286,8 +395,14 @@ public partial class YarnCliScraper : CliScraperBase
         var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
-        // Find "Options:" section
-        var optionsMatch = OptionsSectionPattern().Match(helpText);
+        // Try Clipanion-style "━━━ Options ━━━" section first (Yarn Berry)
+        var optionsMatch = ClipanionOptionsSectionPattern().Match(helpText);
+        if (!optionsMatch.Success)
+        {
+            // Fallback to classic "Options:" section
+            optionsMatch = OptionsSectionPattern().Match(helpText);
+        }
+
         if (!optionsMatch.Success)
         {
             return options;
@@ -297,7 +412,14 @@ public partial class YarnCliScraper : CliScraperBase
 
         // Find where this section ends
         var sectionEnd = helpText.Length;
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
+
+        // Try Clipanion section header first
+        var nextSection = ClipanionSectionPattern().Match(helpText, sectionStart);
+        if (!nextSection.Success)
+        {
+            nextSection = NextSectionPattern().Match(helpText, sectionStart);
+        }
+
         if (nextSection.Success)
         {
             sectionEnd = nextSection.Index;
@@ -476,14 +598,61 @@ public partial class YarnCliScraper : CliScraperBase
     /// </summary>
     protected override bool HasOptions(string helpText)
     {
-        return helpText.Contains("Options:") ||
+        // Check for Clipanion-style "━━━ Options ━━━" section
+        return helpText.Contains("━━━ Options") ||
+               helpText.Contains("Options:") ||
                helpText.Contains("--");
     }
 
     #region Regex Patterns
 
+    // ===== Clipanion-style patterns (Yarn Berry v2+/v4+) =====
+
     /// <summary>
-    /// Matches "Where <command> is one of:" section.
+    /// Matches Clipanion category headers in yarn --help output.
+    /// Format: ━━━ General commands ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    /// The ━ character (U+2501) is the box drawing heavy horizontal line.
+    /// </summary>
+    [GeneratedRegex(@"━+\s+(?<category>[^━]+?)\s+━+\s*\n", RegexOptions.Multiline)]
+    private static partial Regex ClipanionCategoryPattern();
+
+    /// <summary>
+    /// Matches command lines within a Clipanion category section.
+    /// Format: "  yarn add [--json] [-E,--exact] ..."
+    /// or: "  yarn npm info [--json] ..."
+    /// </summary>
+    [GeneratedRegex(@"^\s{2,}yarn\s+(?<command>.+?)\s*$", RegexOptions.Multiline)]
+    private static partial Regex ClipanionCommandLinePattern();
+
+    /// <summary>
+    /// Matches Clipanion-style "━━━ Details ━━━" section header.
+    /// </summary>
+    [GeneratedRegex(@"━+\s+Details\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    private static partial Regex ClipanionDetailsSectionPattern();
+
+    /// <summary>
+    /// Matches Clipanion-style "━━━ Options ━━━" section header.
+    /// </summary>
+    [GeneratedRegex(@"━+\s+Options\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    private static partial Regex ClipanionOptionsSectionPattern();
+
+    /// <summary>
+    /// Matches Clipanion-style "━━━ Usage ━━━" section header.
+    /// </summary>
+    [GeneratedRegex(@"━+\s+Usage\s+━+\s*\n", RegexOptions.IgnoreCase)]
+    private static partial Regex ClipanionUsageSectionPattern();
+
+    /// <summary>
+    /// Matches any Clipanion section header (used to find section boundaries).
+    /// Format: ━━━ Section Name ━━━━━━━━━━━━
+    /// </summary>
+    [GeneratedRegex(@"━+\s+[^━]+?\s+━+", RegexOptions.Multiline)]
+    private static partial Regex ClipanionSectionPattern();
+
+    // ===== Yarn Classic patterns (v1) =====
+
+    /// <summary>
+    /// Matches "Where <command> is one of:" section (Yarn Classic).
     /// </summary>
     [GeneratedRegex(@"Where\s+<command>\s+is\s+one\s+of:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex WhereCommandPattern();
