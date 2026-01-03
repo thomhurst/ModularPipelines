@@ -12,23 +12,23 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
+/// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring winget and packages.
 /// </summary>
 [ExcludeFromCodeCoverage]
-[CliSubCommand("settings")]
-public record WingetSettingsOptions : WingetOptions
+[CliSubCommand("dscv3")]
+public record WingetDscv3Options : WingetOptions
 {
     /// <summary>
-    /// Enables the specific administrator setting
+    /// Get the resource manifest
     /// </summary>
-    [CliFlag("--enable")]
-    public bool? Enable { get; set; }
+    [CliOption("--manifest")]
+    public string? Manifest { get; set; }
 
     /// <summary>
-    /// Disables the specific administrator setting
+    /// Directory where the results are to be written
     /// </summary>
-    [CliFlag("--disable")]
-    public bool? Disable { get; set; }
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
