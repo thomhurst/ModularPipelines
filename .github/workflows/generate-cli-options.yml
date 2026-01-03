@@ -71,6 +71,43 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
+      # Clean up legacy manual files before generation
+      - name: Clean up legacy files
+        if: steps.should-run.outputs.run == 'true'
+        run: |
+          # Map tool to package directory
+          declare -A TOOL_MAP=(
+            ["helm"]="ModularPipelines.Helm"
+            ["kubectl"]="ModularPipelines.Kubernetes"
+            ["docker"]="ModularPipelines.Docker"
+            ["az"]="ModularPipelines.Azure"
+            ["dotnet"]="ModularPipelines.DotNet"
+            ["gcloud"]="ModularPipelines.Google"
+            ["terraform"]="ModularPipelines.Terraform"
+            ["yarn"]="ModularPipelines.Yarn"
+            ["aws"]="ModularPipelines.AmazonWebServices"
+          )
+
+          PACKAGE="${TOOL_MAP[${{ matrix.tool }}]}"
+          if [ -n "$PACKAGE" ]; then
+            PKG_DIR="src/$PACKAGE"
+            if [ -d "$PKG_DIR" ]; then
+              echo "Cleaning up legacy files in $PKG_DIR..."
+
+              # Delete root-level interface files (legacy location)
+              find "$PKG_DIR" -maxdepth 1 -name "I*.cs" -type f -delete 2>/dev/null || true
+
+              # Delete root-level implementation files that match tool pattern (legacy)
+              # Be careful not to delete Extensions.cs or other legitimate files
+              find "$PKG_DIR" -maxdepth 1 -name "${PACKAGE#ModularPipelines.}.cs" -type f -delete 2>/dev/null || true
+
+              # Delete old .Generated.cs files in Services folder (will be replaced with non-.Generated names)
+              find "$PKG_DIR/Services" -name "*.Generated.cs" -type f -delete 2>/dev/null || true
+
+              echo "Cleanup complete for $PACKAGE"
+            fi
+          fi
+
       # Install CLI tools needed for CLI-first scraping
       - name: Install Helm
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'helm'
@@ -226,6 +263,43 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+
+      # Clean up legacy manual files before generation
+      - name: Clean up legacy files
+        if: steps.should-run.outputs.run == 'true'
+        shell: pwsh
+        run: |
+          # Map tool to package directory
+          $toolMap = @{
+            "choco" = "ModularPipelines.Chocolatey"
+            "winget" = "ModularPipelines.WinGet"
+          }
+
+          $package = $toolMap["${{ matrix.tool }}"]
+          if ($package) {
+            $pkgDir = "src/$package"
+            if (Test-Path $pkgDir) {
+              Write-Host "Cleaning up legacy files in $pkgDir..."
+
+              # Delete root-level interface files (legacy location)
+              Get-ChildItem -Path $pkgDir -Filter "I*.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+
+              # Delete root-level implementation files that match tool pattern (legacy)
+              $implName = $package -replace "ModularPipelines\.", ""
+              $implFile = Join-Path $pkgDir "$implName.cs"
+              if (Test-Path $implFile) {
+                Remove-Item $implFile -Force -ErrorAction SilentlyContinue
+              }
+
+              # Delete old .Generated.cs files in Services folder
+              $servicesDir = Join-Path $pkgDir "Services"
+              if (Test-Path $servicesDir) {
+                Get-ChildItem -Path $servicesDir -Filter "*.Generated.cs" -File -ErrorAction SilentlyContinue | Remove-Item -Force -ErrorAction SilentlyContinue
+              }
+
+              Write-Host "Cleanup complete for $package"
+            }
+          }
 
       - name: Install Chocolatey
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'choco'
