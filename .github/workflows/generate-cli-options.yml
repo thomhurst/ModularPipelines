@@ -6,11 +6,64 @@ on:
     - cron: '0 2 * * 0'
   workflow_dispatch:
     inputs:
-      tools:
-        description: 'Comma-separated list of tools to generate (or "all")'
+      # Linux tools
+      helm:
+        description: 'Helm'
         required: false
-        default: 'all'
-        type: string
+        default: true
+        type: boolean
+      kubectl:
+        description: 'Kubectl'
+        required: false
+        default: true
+        type: boolean
+      docker:
+        description: 'Docker'
+        required: false
+        default: true
+        type: boolean
+      az:
+        description: 'Azure CLI'
+        required: false
+        default: true
+        type: boolean
+      dotnet:
+        description: '.NET CLI'
+        required: false
+        default: true
+        type: boolean
+      gcloud:
+        description: 'Google Cloud CLI'
+        required: false
+        default: true
+        type: boolean
+      terraform:
+        description: 'Terraform'
+        required: false
+        default: true
+        type: boolean
+      yarn:
+        description: 'Yarn'
+        required: false
+        default: true
+        type: boolean
+      aws:
+        description: 'AWS CLI'
+        required: false
+        default: true
+        type: boolean
+      # Windows tools
+      choco:
+        description: 'Chocolatey'
+        required: false
+        default: true
+        type: boolean
+      winget:
+        description: 'WinGet'
+        required: false
+        default: true
+        type: boolean
+      # Options
       create-pr:
         description: 'Create a pull request with changes'
         required: false
@@ -42,11 +95,17 @@ jobs:
       - name: Check if tool should run
         id: should-run
         run: |
-          TOOLS="${{ github.event.inputs.tools || 'all' }}"
-          if [[ "$TOOLS" == "all" ]] || [[ "$TOOLS" == *"${{ matrix.tool }}"* ]]; then
+          # For scheduled runs, all tools run. For manual runs, check the checkbox.
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
             echo "run=true" >> $GITHUB_OUTPUT
           else
-            echo "run=false" >> $GITHUB_OUTPUT
+            # Get the input for this specific tool (defaults to true if not set)
+            TOOL_ENABLED="${{ github.event.inputs[matrix.tool] }}"
+            if [[ "$TOOL_ENABLED" != "false" ]]; then
+              echo "run=true" >> $GITHUB_OUTPUT
+            else
+              echo "run=false" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: Checkout
@@ -237,12 +296,17 @@ jobs:
         id: should-run
         shell: pwsh
         run: |
-          $tools = "${{ github.event.inputs.tools }}"
-          if ([string]::IsNullOrEmpty($tools)) { $tools = "all" }
-          if ($tools -eq "all" -or $tools -match "${{ matrix.tool }}") {
+          # For scheduled runs, all tools run. For manual runs, check the checkbox.
+          if ("${{ github.event_name }}" -eq "schedule") {
             "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           } else {
-            "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            # Get the input for this specific tool (defaults to true if not set)
+            $toolEnabled = "${{ github.event.inputs[matrix.tool] }}"
+            if ($toolEnabled -ne "false") {
+              "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            } else {
+              "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            }
           }
 
       - name: Checkout
