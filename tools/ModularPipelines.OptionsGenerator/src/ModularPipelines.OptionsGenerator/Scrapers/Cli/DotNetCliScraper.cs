@@ -306,7 +306,48 @@ public partial class DotNetCliScraper : CliScraperBase
             });
         }
 
+        // Add common MSBuild passthrough properties not shown in help
+        AddCommonMsBuildProperties(options, seenOptions, commandParts);
+
         return options;
+    }
+
+    /// <summary>
+    /// Adds common MSBuild passthrough properties that aren't shown in CLI help.
+    /// These are supported by most dotnet commands but not documented in --help.
+    /// </summary>
+    private static void AddCommonMsBuildProperties(List<CliOptionDefinition> options, HashSet<string> seenOptions, string[] commandParts)
+    {
+        // Commands that support MSBuild properties
+        var msBuildCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "build", "pack", "publish", "run", "test", "clean", "restore", "msbuild"
+        };
+
+        if (commandParts.Length == 0 || !msBuildCommands.Contains(commandParts[0]))
+        {
+            return;
+        }
+
+        // Add -p/--property if not already present
+        if (!seenOptions.Contains("property") && !seenOptions.Contains("p"))
+        {
+            options.Add(new CliOptionDefinition
+            {
+                SwitchName = "-p",
+                ShortForm = null,
+                PropertyName = "Properties",
+                CSharpType = "IEnumerable<KeyValue>?",
+                Description = "Set one or more MSBuild properties. Use format: PropertyName=Value",
+                IsFlag = false,
+                IsRequired = false,
+                AcceptsMultipleValues = true,
+                IsKeyValue = true,
+                IsNumeric = false,
+                ValueSeparator = ":",
+                EnumDefinition = null
+            });
+        }
     }
 
     /// <summary>
@@ -352,7 +393,14 @@ public partial class DotNetCliScraper : CliScraperBase
                 continue;
             }
 
-            var propertyName = NormalizePropertyName(argName.Replace(" | ", "_").Replace("|", "_"));
+            // Simplify combined argument names like "PROJECT | SOLUTION | FILE" to "ProjectSolution"
+            var simplifiedName = SimplifyPositionalArgName(argName);
+            var propertyName = NormalizePropertyName(simplifiedName);
+
+            if (propertyName is null)
+            {
+                continue;
+            }
 
             if (args.All(a => a.PropertyName != propertyName))
             {
@@ -370,6 +418,35 @@ public partial class DotNetCliScraper : CliScraperBase
         }
 
         return args;
+    }
+
+    /// <summary>
+    /// Simplifies combined positional argument names.
+    /// "PROJECT | SOLUTION | FILE" becomes "ProjectSolution"
+    /// "PROJECT | SOLUTION" becomes "ProjectSolution"
+    /// "PACKAGE_ID" stays as "PackageId"
+    /// </summary>
+    private static string SimplifyPositionalArgName(string argName)
+    {
+        // Handle common combined patterns
+        if (argName.Contains("PROJECT", StringComparison.OrdinalIgnoreCase) &&
+            argName.Contains("SOLUTION", StringComparison.OrdinalIgnoreCase))
+        {
+            return "ProjectSolution";
+        }
+
+        if (argName.Contains("PACKAGE", StringComparison.OrdinalIgnoreCase) &&
+            argName.Contains("VERSION", StringComparison.OrdinalIgnoreCase))
+        {
+            return "PackageVersion";
+        }
+
+        // For simple names or underscored names, just clean up
+        return argName
+            .Replace(" | ", "")
+            .Replace("|", "")
+            .Replace(" ", "")
+            .Replace("_", "");
     }
 
     /// <summary>
