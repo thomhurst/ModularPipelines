@@ -101,4 +101,10 @@ public record PipelineOptions
     /// Controls parallelism limits and resource-based throttling.
     /// </summary>
     public ConcurrencyOptions Concurrency { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the default execution options for all commands.
+    /// When set, these options apply to all command executions unless overridden per-call.
+    /// </summary>
+    public CommandExecutionOptions? DefaultExecutionOptions { get; set; }
 }
