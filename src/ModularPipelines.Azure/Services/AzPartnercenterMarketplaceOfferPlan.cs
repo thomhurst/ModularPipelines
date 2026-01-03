@@ -29,21 +29,21 @@ public class AzPartnercenterMarketplaceOfferPlan
 
     public async Task<CommandResult> Create(AzPartnercenterMarketplaceOfferPlanCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPartnercenterMarketplaceOfferPlanDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPartnercenterMarketplaceOfferPlanListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPartnercenterMarketplaceOfferPlanShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

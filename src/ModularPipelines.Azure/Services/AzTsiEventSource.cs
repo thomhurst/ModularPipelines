@@ -29,16 +29,16 @@ public class AzTsiEventSource
 
     public async Task<CommandResult> Delete(AzTsiEventSourceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzTsiEventSourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzTsiEventSourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceShowOptions(), cancellationToken: token);
     }
 }

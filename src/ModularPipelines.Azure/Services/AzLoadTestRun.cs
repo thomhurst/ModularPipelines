@@ -33,36 +33,36 @@ public class AzLoadTestRun
 
     public async Task<CommandResult> Create(AzLoadTestRunCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLoadTestRunDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DownloadFiles(AzLoadTestRunDownloadFilesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLoadTestRunListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLoadTestRunShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzLoadTestRunStopOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLoadTestRunUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

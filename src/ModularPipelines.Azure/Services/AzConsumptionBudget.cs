@@ -21,46 +21,46 @@ public class AzConsumptionBudget
 
     public async Task<CommandResult> Create(AzConsumptionBudgetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateWithRg(AzConsumptionBudgetCreateWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetCreateWithRgOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetCreateWithRgOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConsumptionBudgetDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteWithRg(AzConsumptionBudgetDeleteWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetDeleteWithRgOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetDeleteWithRgOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConsumptionBudgetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConsumptionBudgetShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowWithRg(AzConsumptionBudgetShowWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetShowWithRgOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetShowWithRgOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConsumptionBudgetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateWithRg(AzConsumptionBudgetUpdateWithRgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetUpdateWithRgOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionBudgetUpdateWithRgOptions(), cancellationToken: token);
     }
 }

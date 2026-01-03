@@ -21,31 +21,31 @@ public class AzIotDeviceC2dMessage
 
     public async Task<CommandResult> Abandon(AzIotDeviceC2dMessageAbandonOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Complete(AzIotDeviceC2dMessageCompleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Purge(AzIotDeviceC2dMessagePurgeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Receive(AzIotDeviceC2dMessageReceiveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzIotDeviceC2dMessageRejectOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Send(AzIotDeviceC2dMessageSendOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

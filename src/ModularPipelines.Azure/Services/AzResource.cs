@@ -27,51 +27,51 @@ public class AzResource
 
     public async Task<CommandResult> Create(AzResourceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzResourceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> InvokeAction(AzResourceInvokeActionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Move(AzResourceMoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Patch(AzResourcePatchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Tag(AzResourceTagOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzResourceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzResourceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceWaitOptions(), cancellationToken: token);
     }
 }

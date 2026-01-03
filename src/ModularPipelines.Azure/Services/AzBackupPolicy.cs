@@ -21,36 +21,36 @@ public class AzBackupPolicy
 
     public async Task<CommandResult> Create(AzBackupPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzBackupPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetDefaultForVm(AzBackupPolicyGetDefaultForVmOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBackupPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAssociatedItems(AzBackupPolicyListAssociatedItemsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyListAssociatedItemsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyListAssociatedItemsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzBackupPolicySetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicySetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicySetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupPolicyShowOptions(), cancellationToken: token);
     }
 }

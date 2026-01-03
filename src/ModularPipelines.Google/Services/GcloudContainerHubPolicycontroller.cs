@@ -51,9 +51,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudContainerHubPolicycontrollerDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -64,9 +65,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Detach(
         GcloudContainerHubPolicycontrollerDetachOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,9 +79,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudContainerHubPolicycontrollerDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,9 +93,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudContainerHubPolicycontrollerEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -103,9 +107,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Suspend(
         GcloudContainerHubPolicycontrollerSuspendOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -116,9 +121,10 @@ public class GcloudContainerHubPolicycontroller
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudContainerHubPolicycontrollerUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

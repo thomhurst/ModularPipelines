@@ -21,21 +21,21 @@ public class AzSqlMiServerConfigurationOption
 
     public async Task<CommandResult> List(AzSqlMiServerConfigurationOptionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzSqlMiServerConfigurationOptionSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiServerConfigurationOptionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlMiServerConfigurationOptionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiServerConfigurationOptionWaitOptions(), cancellationToken: token);
     }
 }

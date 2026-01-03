@@ -21,6 +21,6 @@ public class AzEventhubsGeorecoveryAliasAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzEventhubsGeorecoveryAliasAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

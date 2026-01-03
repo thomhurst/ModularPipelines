@@ -35,9 +35,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
         GcloudArtifactsRepositoriesAddIamPolicyBindingOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudArtifactsRepositoriesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteCleanupPolicies(
         GcloudArtifactsRepositoriesDeleteCleanupPoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudArtifactsRepositoriesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudArtifactsRepositoriesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudArtifactsRepositoriesGetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCleanupPolicies(
         GcloudArtifactsRepositoriesListCleanupPoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudArtifactsRepositoriesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudArtifactsRepositoriesRemoveIamPolicyBindingOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -152,9 +161,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetCleanupPolicies(
         GcloudArtifactsRepositoriesSetCleanupPoliciesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -165,9 +175,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudArtifactsRepositoriesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -178,9 +189,10 @@ public class GcloudArtifactsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudArtifactsRepositoriesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

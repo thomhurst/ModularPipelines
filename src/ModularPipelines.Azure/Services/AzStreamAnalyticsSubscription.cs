@@ -21,6 +21,6 @@ public class AzStreamAnalyticsSubscription
 
     public async Task<CommandResult> Inspect(AzStreamAnalyticsSubscriptionInspectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsSubscriptionInspectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsSubscriptionInspectOptions(), cancellationToken: token);
     }
 }

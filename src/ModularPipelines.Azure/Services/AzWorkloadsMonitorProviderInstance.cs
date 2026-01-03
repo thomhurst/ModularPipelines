@@ -21,26 +21,26 @@ public class AzWorkloadsMonitorProviderInstance
 
     public async Task<CommandResult> Create(AzWorkloadsMonitorProviderInstanceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWorkloadsMonitorProviderInstanceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWorkloadsMonitorProviderInstanceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWorkloadsMonitorProviderInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzWorkloadsMonitorProviderInstanceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsMonitorProviderInstanceWaitOptions(), cancellationToken: token);
     }
 }

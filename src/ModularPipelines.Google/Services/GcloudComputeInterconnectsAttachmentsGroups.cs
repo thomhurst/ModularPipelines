@@ -35,9 +35,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMembers(
         GcloudComputeInterconnectsAttachmentsGroupsAddMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeInterconnectsAttachmentsGroupsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInterconnectsAttachmentsGroupsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeInterconnectsAttachmentsGroupsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetOperationalStatus(
         GcloudComputeInterconnectsAttachmentsGroupsGetOperationalStatusOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudComputeInterconnectsAttachmentsGroupsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMembers(
         GcloudComputeInterconnectsAttachmentsGroupsRemoveMembersOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudComputeInterconnectsAttachmentsGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInterconnectsAttachmentsGroupsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

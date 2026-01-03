@@ -21,31 +21,31 @@ public class AzMonitorLogAnalyticsSolution
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsSolutionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsSolutionDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsSolutionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsSolutionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsSolutionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsSolutionShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsSolutionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorLogAnalyticsSolutionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsSolutionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsSolutionWaitOptions(), cancellationToken: token);
     }
 }

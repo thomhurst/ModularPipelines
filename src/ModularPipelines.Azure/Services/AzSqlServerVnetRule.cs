@@ -21,26 +21,26 @@ public class AzSqlServerVnetRule
 
     public async Task<CommandResult> Create(AzSqlServerVnetRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlServerVnetRuleDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlServerVnetRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerVnetRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerVnetRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerVnetRuleShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerVnetRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

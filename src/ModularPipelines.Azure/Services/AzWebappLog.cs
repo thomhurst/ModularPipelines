@@ -25,21 +25,21 @@ public class AzWebappLog
 
     public async Task<CommandResult> Config(AzWebappLogConfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogConfigOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogConfigOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Download(AzWebappLogDownloadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogDownloadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogDownloadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappLogShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Tail(AzWebappLogTailOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogTailOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogTailOptions(), cancellationToken: token);
     }
 }

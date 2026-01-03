@@ -35,9 +35,10 @@ public class GcloudComputeNetworksVpcAccessOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeNetworksVpcAccessOperationsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudComputeNetworksVpcAccessOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudComputeNetworksVpcAccessOperationsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

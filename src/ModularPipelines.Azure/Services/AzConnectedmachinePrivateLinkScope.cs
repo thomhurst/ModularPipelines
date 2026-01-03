@@ -21,36 +21,36 @@ public class AzConnectedmachinePrivateLinkScope
 
     public async Task<CommandResult> Create(AzConnectedmachinePrivateLinkScopeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedmachinePrivateLinkScopeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedmachinePrivateLinkScopeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedmachinePrivateLinkScopeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzConnectedmachinePrivateLinkScopeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateTag(AzConnectedmachinePrivateLinkScopeUpdateTagOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeUpdateTagOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeUpdateTagOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzConnectedmachinePrivateLinkScopeWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedmachinePrivateLinkScopeWaitOptions(), cancellationToken: token);
     }
 }

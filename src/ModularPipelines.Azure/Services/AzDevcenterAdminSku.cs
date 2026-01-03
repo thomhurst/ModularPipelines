@@ -21,6 +21,6 @@ public class AzDevcenterAdminSku
 
     public async Task<CommandResult> List(AzDevcenterAdminSkuListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminSkuListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminSkuListOptions(), cancellationToken: token);
     }
 }

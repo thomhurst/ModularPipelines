@@ -63,9 +63,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDesignCenterSpacesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -76,9 +77,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDesignCenterSpacesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,9 +91,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDesignCenterSpacesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -102,9 +105,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudDesignCenterSpacesGetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -115,9 +119,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDesignCenterSpacesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -128,9 +133,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDesignCenterSpacesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -141,9 +147,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIamPermissions(
         GcloudDesignCenterSpacesTestIamPermissionsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -154,9 +161,10 @@ public class GcloudDesignCenterSpaces
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDesignCenterSpacesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

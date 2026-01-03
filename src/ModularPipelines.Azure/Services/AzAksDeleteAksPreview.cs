@@ -21,6 +21,6 @@ public class AzAksDeleteAksPreview
 
     public async Task<CommandResult> Extension(AzAksDeleteAksPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

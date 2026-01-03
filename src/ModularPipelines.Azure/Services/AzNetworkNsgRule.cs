@@ -21,31 +21,31 @@ public class AzNetworkNsgRule
 
     public async Task<CommandResult> Create(AzNetworkNsgRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkNsgRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkNsgRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkNsgRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkNsgRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkNsgRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleWaitOptions(), cancellationToken: token);
     }
 }

@@ -45,9 +45,10 @@ public class GcloudDataCatalogTagTemplatesFields
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDataCatalogTagTemplatesFieldsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudDataCatalogTagTemplatesFields
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDataCatalogTagTemplatesFieldsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudDataCatalogTagTemplatesFields
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rename(
         GcloudDataCatalogTagTemplatesFieldsRenameOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudDataCatalogTagTemplatesFields
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDataCatalogTagTemplatesFieldsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

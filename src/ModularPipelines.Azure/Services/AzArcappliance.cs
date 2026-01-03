@@ -63,26 +63,26 @@ public class AzArcappliance
 
     public async Task<CommandResult> GetCredentials(AzArcapplianceGetCredentialsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceGetCredentialsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceGetCredentialsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetUpgrades(AzArcapplianceGetUpgradesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzArcapplianceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Notice(AzArcapplianceNoticeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceNoticeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceNoticeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzArcapplianceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

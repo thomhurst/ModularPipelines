@@ -19,11 +19,11 @@ public class AzCommandChange
 
     public async Task<CommandResult> MetaDiff(AzCommandChangeMetaDiffOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> VersionDiff(AzCommandChangeVersionDiffOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

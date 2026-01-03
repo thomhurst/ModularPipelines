@@ -21,26 +21,26 @@ public class AzFunctionappDeploymentSlot
 
     public async Task<CommandResult> AutoSwap(AzFunctionappDeploymentSlotAutoSwapOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzFunctionappDeploymentSlotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzFunctionappDeploymentSlotDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFunctionappDeploymentSlotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSlotListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Swap(AzFunctionappDeploymentSlotSwapOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzStorageBlobMetadata
 
     public async Task<CommandResult> Show(AzStorageBlobMetadataShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageBlobMetadataUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataUpdateOptions(), cancellationToken: token);
     }
 }

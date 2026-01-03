@@ -21,16 +21,16 @@ public class AzRedisIdentity
 
     public async Task<CommandResult> Assign(AzRedisIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzRedisIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRedisIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisIdentityShowOptions(), cancellationToken: token);
     }
 }

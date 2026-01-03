@@ -21,11 +21,11 @@ public class AzPostgresFlexibleServerAdvancedThreatProtectionSetting
 
     public async Task<CommandResult> Show(AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerAdvancedThreatProtectionSettingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPostgresFlexibleServerAdvancedThreatProtectionSettingUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

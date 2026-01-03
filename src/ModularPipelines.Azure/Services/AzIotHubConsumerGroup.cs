@@ -21,21 +21,21 @@ public class AzIotHubConsumerGroup
 
     public async Task<CommandResult> Create(AzIotHubConsumerGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotHubConsumerGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotHubConsumerGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubConsumerGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConsumerGroupShowOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzAksShowAksPreview
 
     public async Task<CommandResult> Extension(AzAksShowAksPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzAutomanageConfigurationProfileAssignmentClusterReport
 
     public async Task<CommandResult> List(AzAutomanageConfigurationProfileAssignmentClusterReportListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomanageConfigurationProfileAssignmentClusterReportShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterReportShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterReportShowOptions(), cancellationToken: token);
     }
 }

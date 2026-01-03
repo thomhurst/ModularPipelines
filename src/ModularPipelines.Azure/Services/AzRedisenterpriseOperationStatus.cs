@@ -21,6 +21,6 @@ public class AzRedisenterpriseOperationStatus
 
     public async Task<CommandResult> Show(AzRedisenterpriseOperationStatusShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseOperationStatusShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseOperationStatusShowOptions(), cancellationToken: token);
     }
 }

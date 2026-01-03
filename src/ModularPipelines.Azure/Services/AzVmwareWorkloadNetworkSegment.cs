@@ -21,31 +21,31 @@ public class AzVmwareWorkloadNetworkSegment
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkSegmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkSegmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkSegmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareWorkloadNetworkSegmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareWorkloadNetworkSegmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareWorkloadNetworkSegmentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkSegmentWaitOptions(), cancellationToken: token);
     }
 }

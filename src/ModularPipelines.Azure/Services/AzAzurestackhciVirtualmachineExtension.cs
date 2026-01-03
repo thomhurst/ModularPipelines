@@ -21,31 +21,31 @@ public class AzAzurestackhciVirtualmachineExtension
 
     public async Task<CommandResult> Create(AzAzurestackhciVirtualmachineExtensionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciVirtualmachineExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciVirtualmachineExtensionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciVirtualmachineExtensionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciVirtualmachineExtensionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAzurestackhciVirtualmachineExtensionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualmachineExtensionWaitOptions(), cancellationToken: token);
     }
 }

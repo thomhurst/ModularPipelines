@@ -21,6 +21,6 @@ public class AzSqlMiArcEndpoint
 
     public async Task<CommandResult> List(AzSqlMiArcEndpointListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiArcEndpointListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiArcEndpointListOptions(), cancellationToken: token);
     }
 }

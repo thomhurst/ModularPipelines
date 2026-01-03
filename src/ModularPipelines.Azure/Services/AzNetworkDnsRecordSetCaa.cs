@@ -21,36 +21,36 @@ public class AzNetworkDnsRecordSetCaa
 
     public async Task<CommandResult> AddRecord(AzNetworkDnsRecordSetCaaAddRecordOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNetworkDnsRecordSetCaaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkDnsRecordSetCaaDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkDnsRecordSetCaaListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RemoveRecord(AzNetworkDnsRecordSetCaaRemoveRecordOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkDnsRecordSetCaaShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkDnsRecordSetCaaUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsRecordSetCaaUpdateOptions(), cancellationToken: token);
     }
 }

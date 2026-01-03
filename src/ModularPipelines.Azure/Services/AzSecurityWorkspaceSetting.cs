@@ -21,21 +21,21 @@ public class AzSecurityWorkspaceSetting
 
     public async Task<CommandResult> Create(AzSecurityWorkspaceSettingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSecurityWorkspaceSettingDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSecurityWorkspaceSettingListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityWorkspaceSettingListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityWorkspaceSettingListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityWorkspaceSettingShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

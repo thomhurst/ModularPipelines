@@ -21,26 +21,26 @@ public class AzAppconfigSnapshot
 
     public async Task<CommandResult> Archive(AzAppconfigSnapshotArchiveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzAppconfigSnapshotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAppconfigSnapshotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Recover(AzAppconfigSnapshotRecoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAppconfigSnapshotShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

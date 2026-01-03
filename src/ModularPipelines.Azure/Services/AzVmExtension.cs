@@ -25,26 +25,26 @@ public class AzVmExtension
 
     public async Task<CommandResult> Delete(AzVmExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmExtensionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzVmExtensionSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmExtensionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmExtensionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionWaitOptions(), cancellationToken: token);
     }
 }

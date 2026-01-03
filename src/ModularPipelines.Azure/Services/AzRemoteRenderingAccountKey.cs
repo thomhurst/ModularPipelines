@@ -21,11 +21,11 @@ public class AzRemoteRenderingAccountKey
 
     public async Task<CommandResult> Renew(AzRemoteRenderingAccountKeyRenewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountKeyRenewOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountKeyRenewOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRemoteRenderingAccountKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountKeyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRemoteRenderingAccountKeyShowOptions(), cancellationToken: token);
     }
 }

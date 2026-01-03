@@ -21,26 +21,26 @@ public class AzEventhubsEventhubConsumerGroup
 
     public async Task<CommandResult> Create(AzEventhubsEventhubConsumerGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsEventhubConsumerGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsEventhubConsumerGroupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsEventhubConsumerGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsEventhubConsumerGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubConsumerGroupUpdateOptions(), cancellationToken: token);
     }
 }

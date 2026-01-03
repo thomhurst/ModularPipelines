@@ -25,26 +25,26 @@ public class AzMonitorLogAnalyticsQueryPack
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsQueryPackCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsQueryPackDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsQueryPackListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsQueryPackShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsQueryPackUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsQueryPackUpdateOptions(), cancellationToken: token);
     }
 }

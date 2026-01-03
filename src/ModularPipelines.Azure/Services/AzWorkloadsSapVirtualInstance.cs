@@ -21,41 +21,41 @@ public class AzWorkloadsSapVirtualInstance
 
     public async Task<CommandResult> Create(AzWorkloadsSapVirtualInstanceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWorkloadsSapVirtualInstanceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWorkloadsSapVirtualInstanceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWorkloadsSapVirtualInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzWorkloadsSapVirtualInstanceStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzWorkloadsSapVirtualInstanceStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWorkloadsSapVirtualInstanceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzWorkloadsSapVirtualInstanceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapVirtualInstanceWaitOptions(), cancellationToken: token);
     }
 }

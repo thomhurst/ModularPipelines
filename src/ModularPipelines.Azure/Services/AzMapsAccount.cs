@@ -25,26 +25,26 @@ public class AzMapsAccount
 
     public async Task<CommandResult> Create(AzMapsAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMapsAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMapsAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMapsAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMapsAccountUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzServicebusGeorecoveryAliasAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzServicebusGeorecoveryAliasAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

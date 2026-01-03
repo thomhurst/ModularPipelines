@@ -21,16 +21,16 @@ public class AzNetworkFirewallApplicationRuleCollection
 
     public async Task<CommandResult> Delete(AzNetworkFirewallApplicationRuleCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallApplicationRuleCollectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallApplicationRuleCollectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallApplicationRuleCollectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFirewallApplicationRuleCollectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallApplicationRuleCollectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallApplicationRuleCollectionShowOptions(), cancellationToken: token);
     }
 }

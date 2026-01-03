@@ -21,11 +21,11 @@ public class AzSfManagedNodeTypeVmExtension
 
     public async Task<CommandResult> Add(AzSfManagedNodeTypeVmExtensionAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSfManagedNodeTypeVmExtensionDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

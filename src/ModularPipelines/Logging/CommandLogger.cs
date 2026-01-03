@@ -27,6 +27,7 @@ internal class CommandLogger : ICommandLogger
 
     public void Log(
         CommandLineToolOptions options,
+        CommandExecutionOptions? execOpts,
         string? inputToLog,
         int? exitCode,
         TimeSpan? runTime,
@@ -35,7 +36,7 @@ internal class CommandLogger : ICommandLogger
         string commandWorkingDirPath)
     {
         // Determine effective logging options
-        var effectiveOptions = GetEffectiveLoggingOptions(options);
+        var effectiveOptions = GetEffectiveLoggingOptions(options, execOpts);
 
         // Silent = no logging at all
         if (effectiveOptions.Verbosity == CommandLogVerbosity.Silent)
@@ -43,26 +44,26 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        if (options.InternalDryRun)
+        if (execOpts?.InternalDryRun == true)
         {
             LogDryRunCommand(effectiveOptions, commandWorkingDirPath, inputToLog);
             return;
         }
 
-        LogCommandInput(effectiveOptions, options, commandWorkingDirPath, inputToLog);
+        LogCommandInput(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog);
         LogExitCode(effectiveOptions, exitCode);
         LogDuration(effectiveOptions, runTime);
-        LogOutput(effectiveOptions, options, standardOutput);
-        LogError(effectiveOptions, options, exitCode, standardError);
+        LogOutput(effectiveOptions, execOpts, standardOutput);
+        LogError(effectiveOptions, execOpts, exitCode, standardError);
         LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
     }
 
-    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options)
+    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandExecutionOptions? execOpts)
     {
-        // Priority: options property > pipeline default > legacy enum
-        if (options.LogSettings is not null)
+        // Priority: execOpts property > pipeline default > legacy enum
+        if (execOpts?.LogSettings is not null)
         {
-            return options.LogSettings;
+            return execOpts.LogSettings;
         }
 
         if (_pipelineOptions.Value.DefaultLoggingOptions is not null)
@@ -72,7 +73,7 @@ internal class CommandLogger : ICommandLogger
 
 #pragma warning disable CS0618 // Type or member is obsolete
         // Fall back to legacy CommandLogging enum conversion
-        var legacyLogging = options.CommandLogging ?? _pipelineOptions.Value.DefaultCommandLogging;
+        var legacyLogging = _pipelineOptions.Value.DefaultCommandLogging;
         return ConvertFromLegacy(legacyLogging);
 #pragma warning restore CS0618
     }
@@ -112,7 +113,7 @@ internal class CommandLogger : ICommandLogger
         Logger.LogInformation("{Timestamp}⚠ Dry-Run: No actual execution", timestamp);
     }
 
-    private void LogCommandInput(CommandLoggingOptions options, CommandLineToolOptions commandOptions, string workingDirectory, string? input)
+    private void LogCommandInput(CommandLoggingOptions options, CommandExecutionOptions? execOpts, string workingDirectory, string? input)
     {
         // Minimal and above shows command input
         if (options.Verbosity < CommandLogVerbosity.Minimal)
@@ -127,7 +128,7 @@ internal class CommandLogger : ICommandLogger
             Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> {Input}",
                 timestamp,
                 workingDirectory,
-                _secretObfuscator.Obfuscate(input, commandOptions));
+                _secretObfuscator.Obfuscate(input, execOpts));
         }
         else
         {
@@ -162,7 +163,7 @@ internal class CommandLogger : ICommandLogger
         Logger.LogInformation("{Timestamp}Duration: {Duration}", timestamp, runTime?.ToDisplayString());
     }
 
-    private void LogOutput(CommandLoggingOptions options, CommandLineToolOptions commandOptions, string standardOutput)
+    private void LogOutput(CommandLoggingOptions options, CommandExecutionOptions? execOpts, string standardOutput)
     {
         if (string.IsNullOrWhiteSpace(standardOutput))
         {
@@ -176,10 +177,10 @@ internal class CommandLogger : ICommandLogger
         }
 
         var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(standardOutput, commandOptions));
+        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(standardOutput, execOpts));
     }
 
-    private void LogError(CommandLoggingOptions options, CommandLineToolOptions commandOptions, int? exitCode, string standardError)
+    private void LogError(CommandLoggingOptions options, CommandExecutionOptions? execOpts, int? exitCode, string standardError)
     {
         if (string.IsNullOrWhiteSpace(standardError))
         {
@@ -194,7 +195,7 @@ internal class CommandLogger : ICommandLogger
         }
 
         var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(standardError, commandOptions));
+        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(standardError, execOpts));
     }
 
     private void LogWorkingDirectory(CommandLoggingOptions options, string workingDirectory)

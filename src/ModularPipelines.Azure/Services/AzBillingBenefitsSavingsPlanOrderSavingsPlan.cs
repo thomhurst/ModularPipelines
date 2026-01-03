@@ -21,21 +21,21 @@ public class AzBillingBenefitsSavingsPlanOrderSavingsPlan
 
     public async Task<CommandResult> List(AzBillingBenefitsSavingsPlanOrderSavingsPlanListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBillingBenefitsSavingsPlanOrderSavingsPlanShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzBillingBenefitsSavingsPlanOrderSavingsPlanUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ValidateUpdate(AzBillingBenefitsSavingsPlanOrderSavingsPlanValidateUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

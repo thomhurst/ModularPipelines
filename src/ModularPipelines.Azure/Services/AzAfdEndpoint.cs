@@ -21,31 +21,31 @@ public class AzAfdEndpoint
 
     public async Task<CommandResult> Create(AzAfdEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Purge(AzAfdEndpointPurgeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAfdEndpointUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdEndpointUpdateOptions(), cancellationToken: token);
     }
 }

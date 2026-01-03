@@ -21,26 +21,26 @@ public class AzDlsAccountTrustedProvider
 
     public async Task<CommandResult> Create(AzDlsAccountTrustedProviderCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDlsAccountTrustedProviderDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDlsAccountTrustedProviderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountTrustedProviderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlsAccountTrustedProviderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlsAccountTrustedProviderShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDlsAccountTrustedProviderUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

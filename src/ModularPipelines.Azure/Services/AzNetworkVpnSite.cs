@@ -25,31 +25,31 @@ public class AzNetworkVpnSite
 
     public async Task<CommandResult> Create(AzNetworkVpnSiteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVpnSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Download(AzNetworkVpnSiteDownloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnSiteListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVpnSiteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVpnSiteUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnSiteUpdateOptions(), cancellationToken: token);
     }
 }

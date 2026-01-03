@@ -21,6 +21,6 @@ public class AzNetworkP2sVpnGatewayVpnClient
 
     public async Task<CommandResult> Generate(AzNetworkP2sVpnGatewayVpnClientGenerateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

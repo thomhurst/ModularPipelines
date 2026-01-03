@@ -21,21 +21,21 @@ public class AzManagedservicesAssignment
 
     public async Task<CommandResult> Create(AzManagedservicesAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzManagedservicesAssignmentDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzManagedservicesAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzManagedservicesAssignmentShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

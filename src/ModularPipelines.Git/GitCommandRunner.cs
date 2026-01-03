@@ -18,22 +18,24 @@ public class GitCommandRunner : IGitCommandRunner
     }
 
     /// <inheritdoc />
-    public async Task<string> RunCommands(CommandLineOptions? commandEnvironmentOptions, params string?[] commands)
+    public async Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
     {
-        commandEnvironmentOptions ??= new CommandLineOptions();
+        commandEnvironmentOptions ??= new CommandExecutionOptions();
 
-        var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray()) with
+        var commandLineToolOptions = commandEnvironmentOptions.ToCommandLineToolOptions("git", commands.OfType<string>().ToArray());
+
+        var executionOptions = new CommandExecutionOptions
         {
             LogSettings = CommandLoggingOptions.Silent,
         };
 
-        var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions);
+        var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions, executionOptions);
 
         return commandResult.StandardOutput.Trim();
     }
 
     /// <inheritdoc />
-    public async Task<string?> RunCommandsOrNull(CommandLineOptions? commandEnvironmentOptions, params string?[] commands)
+    public async Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands)
     {
         try
         {

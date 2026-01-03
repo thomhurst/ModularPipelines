@@ -21,6 +21,6 @@ public class AzImportExportBitLockerKey
 
     public async Task<CommandResult> List(AzImportExportBitLockerKeyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

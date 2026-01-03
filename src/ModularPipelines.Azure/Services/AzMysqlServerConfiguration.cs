@@ -21,16 +21,16 @@ public class AzMysqlServerConfiguration
 
     public async Task<CommandResult> List(AzMysqlServerConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzMysqlServerConfigurationSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlServerConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerConfigurationShowOptions(), cancellationToken: token);
     }
 }

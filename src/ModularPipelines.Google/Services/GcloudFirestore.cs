@@ -81,9 +81,10 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudFirestoreOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -94,9 +95,10 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BulkDelete(
         GcloudFirestoreBulkDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -107,9 +109,10 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudFirestoreExportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -120,9 +123,10 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudFirestoreImportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

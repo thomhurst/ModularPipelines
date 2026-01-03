@@ -21,6 +21,6 @@ public class AzFunctionappDeploymentSourceConfigZipAppserviceKube
 
     public async Task<CommandResult> Extension(AzFunctionappDeploymentSourceConfigZipAppserviceKubeExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

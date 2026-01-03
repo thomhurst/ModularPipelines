@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -36,9 +37,10 @@ public class DockerAi
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         DockerAiOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerAiOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new DockerAiOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class DockerAi
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
         DockerAiConfigOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class DockerAi
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Feedback(
         DockerAiFeedbackOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

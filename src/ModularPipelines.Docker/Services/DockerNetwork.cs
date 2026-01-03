@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -36,9 +37,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         DockerNetworkOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new DockerNetworkOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
         DockerNetworkConnectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         DockerNetworkCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disconnect(
         DockerNetworkDisconnectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
         DockerNetworkInspectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,9 +107,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
         DockerNetworkLsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -114,9 +121,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
         DockerNetworkPruneOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -127,9 +135,10 @@ public class DockerNetwork
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
         DockerNetworkRmOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

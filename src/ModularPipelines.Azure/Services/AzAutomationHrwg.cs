@@ -25,26 +25,26 @@ public class AzAutomationHrwg
 
     public async Task<CommandResult> Create(AzAutomationHrwgCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomationHrwgDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAutomationHrwgListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomationHrwgShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAutomationHrwgUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationHrwgUpdateOptions(), cancellationToken: token);
     }
 }

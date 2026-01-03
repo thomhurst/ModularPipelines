@@ -21,26 +21,26 @@ public class AzStreamAnalyticsPrivateEndpoint
 
     public async Task<CommandResult> Create(AzStreamAnalyticsPrivateEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStreamAnalyticsPrivateEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStreamAnalyticsPrivateEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStreamAnalyticsPrivateEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStreamAnalyticsPrivateEndpointWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsPrivateEndpointWaitOptions(), cancellationToken: token);
     }
 }

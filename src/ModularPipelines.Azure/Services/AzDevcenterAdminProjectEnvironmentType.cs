@@ -21,26 +21,26 @@ public class AzDevcenterAdminProjectEnvironmentType
 
     public async Task<CommandResult> Create(AzDevcenterAdminProjectEnvironmentTypeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevcenterAdminProjectEnvironmentTypeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminProjectEnvironmentTypeListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterAdminProjectEnvironmentTypeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevcenterAdminProjectEnvironmentTypeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminProjectEnvironmentTypeUpdateOptions(), cancellationToken: token);
     }
 }

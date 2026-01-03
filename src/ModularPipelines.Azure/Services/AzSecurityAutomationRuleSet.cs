@@ -21,6 +21,6 @@ public class AzSecurityAutomationRuleSet
 
     public async Task<CommandResult> Create(AzSecurityAutomationRuleSetCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationRuleSetCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutomationRuleSetCreateOptions(), cancellationToken: token);
     }
 }

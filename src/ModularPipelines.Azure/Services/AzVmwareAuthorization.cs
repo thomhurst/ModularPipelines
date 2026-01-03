@@ -21,26 +21,26 @@ public class AzVmwareAuthorization
 
     public async Task<CommandResult> Create(AzVmwareAuthorizationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareAuthorizationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareAuthorizationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareAuthorizationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareAuthorizationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareAuthorizationWaitOptions(), cancellationToken: token);
     }
 }

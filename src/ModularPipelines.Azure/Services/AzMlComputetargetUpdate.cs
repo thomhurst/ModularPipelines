@@ -21,11 +21,11 @@ public class AzMlComputetargetUpdate
 
     public async Task<CommandResult> Aks(AzMlComputetargetUpdateAksOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Amlcompute(AzMlComputetargetUpdateAmlcomputeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

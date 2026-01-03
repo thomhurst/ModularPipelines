@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Helm.Options;
 
 namespace ModularPipelines.Helm.Services;
@@ -36,9 +37,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         HelmGetOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new HelmGetOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new HelmGetOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
         HelmGetAllOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hooks(
         HelmGetHooksOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Manifest(
         HelmGetManifestOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Metadata(
         HelmGetMetadataOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,9 +107,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Notes(
         HelmGetNotesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -114,9 +121,10 @@ public class HelmGet
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Values(
         HelmGetValuesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

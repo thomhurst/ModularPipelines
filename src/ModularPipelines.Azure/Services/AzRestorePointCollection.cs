@@ -21,36 +21,36 @@ public class AzRestorePointCollection
 
     public async Task<CommandResult> Create(AzRestorePointCollectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRestorePointCollectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRestorePointCollectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAll(AzRestorePointCollectionListAllOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionListAllOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionListAllOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRestorePointCollectionShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRestorePointCollectionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzRestorePointCollectionWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

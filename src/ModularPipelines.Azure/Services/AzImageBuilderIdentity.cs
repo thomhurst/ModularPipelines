@@ -21,16 +21,16 @@ public class AzImageBuilderIdentity
 
     public async Task<CommandResult> Assign(AzImageBuilderIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzImageBuilderIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImageBuilderIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityShowOptions(), cancellationToken: token);
     }
 }

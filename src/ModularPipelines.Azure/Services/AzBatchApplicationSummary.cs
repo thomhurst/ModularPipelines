@@ -21,11 +21,11 @@ public class AzBatchApplicationSummary
 
     public async Task<CommandResult> List(AzBatchApplicationSummaryListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationSummaryListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationSummaryListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBatchApplicationSummaryShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

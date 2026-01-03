@@ -21,21 +21,21 @@ public class AzNetworkFirewallIpConfig
 
     public async Task<CommandResult> Create(AzNetworkFirewallIpConfigCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFirewallIpConfigDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallIpConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFirewallIpConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallIpConfigShowOptions(), cancellationToken: token);
     }
 }

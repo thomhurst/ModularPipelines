@@ -21,26 +21,26 @@ public class AzApicService
 
     public async Task<CommandResult> Create(AzApicServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicServiceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicServiceUpdateOptions(), cancellationToken: token);
     }
 }

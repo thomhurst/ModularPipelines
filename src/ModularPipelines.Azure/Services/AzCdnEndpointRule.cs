@@ -29,16 +29,16 @@ public class AzCdnEndpointRule
 
     public async Task<CommandResult> Add(AzCdnEndpointRuleAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzCdnEndpointRuleRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCdnEndpointRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointRuleShowOptions(), cancellationToken: token);
     }
 }

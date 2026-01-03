@@ -35,9 +35,10 @@ public class GcloudImmersiveStreamXrInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudImmersiveStreamXrInstancesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudImmersiveStreamXrInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudImmersiveStreamXrInstancesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudImmersiveStreamXrInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudImmersiveStreamXrInstancesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudImmersiveStreamXrInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudImmersiveStreamXrInstancesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudImmersiveStreamXrInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudImmersiveStreamXrInstancesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

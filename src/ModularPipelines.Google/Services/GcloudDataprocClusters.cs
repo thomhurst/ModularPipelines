@@ -45,9 +45,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDataprocClustersCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDataprocClustersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDataprocClustersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diagnose(
         GcloudDataprocClustersDiagnoseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +101,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudDataprocClustersExportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,9 +115,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudDataprocClustersGetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -123,9 +129,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudDataprocClustersImportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -136,9 +143,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDataprocClustersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -149,9 +157,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataprocClustersSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -162,9 +171,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         GcloudDataprocClustersStartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -175,9 +185,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudDataprocClustersStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -188,9 +199,10 @@ public class GcloudDataprocClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDataprocClustersUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -21,6 +21,6 @@ public class AzStorageBlobDeleteStorageBlobPreview
 
     public async Task<CommandResult> Extension(AzStorageBlobDeleteStorageBlobPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDeleteStorageBlobPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDeleteStorageBlobPreviewExtensionOptions(), cancellationToken: token);
     }
 }

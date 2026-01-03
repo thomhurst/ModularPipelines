@@ -21,31 +21,31 @@ public class AzMonitorPrivateLinkScopePrivateEndpointConnection
 
     public async Task<CommandResult> Approve(AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionApproveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorPrivateLinkScopePrivateEndpointConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzMonitorPrivateLinkScopePrivateEndpointConnectionRejectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionRejectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionRejectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorPrivateLinkScopePrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorPrivateLinkScopePrivateEndpointConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopePrivateEndpointConnectionWaitOptions(), cancellationToken: token);
     }
 }

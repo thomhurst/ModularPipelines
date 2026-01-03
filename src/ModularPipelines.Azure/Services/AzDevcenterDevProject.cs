@@ -21,11 +21,11 @@ public class AzDevcenterDevProject
 
     public async Task<CommandResult> List(AzDevcenterDevProjectListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterDevProjectListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterDevProjectListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterDevProjectShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

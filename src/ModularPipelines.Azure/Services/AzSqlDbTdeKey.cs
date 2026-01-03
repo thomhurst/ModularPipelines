@@ -21,11 +21,11 @@ public class AzSqlDbTdeKey
 
     public async Task<CommandResult> Revalidate(AzSqlDbTdeKeyRevalidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeKeyRevalidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeKeyRevalidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Revert(AzSqlDbTdeKeyRevertOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeKeyRevertOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbTdeKeyRevertOptions(), cancellationToken: token);
     }
 }

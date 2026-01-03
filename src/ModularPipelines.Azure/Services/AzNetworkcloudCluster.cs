@@ -33,46 +33,46 @@ public class AzNetworkcloudCluster
 
     public async Task<CommandResult> Create(AzNetworkcloudClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deploy(AzNetworkcloudClusterDeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterDeployOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterDeployOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ScanRuntime(AzNetworkcloudClusterScanRuntimeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterScanRuntimeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterScanRuntimeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateVersion(AzNetworkcloudClusterUpdateVersionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudClusterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudClusterWaitOptions(), cancellationToken: token);
     }
 }

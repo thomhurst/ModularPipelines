@@ -33,31 +33,31 @@ public class AzNetworkApplicationGatewayWafPolicy
 
     public async Task<CommandResult> Create(AzNetworkApplicationGatewayWafPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkApplicationGatewayWafPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkApplicationGatewayWafPolicyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkApplicationGatewayWafPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkApplicationGatewayWafPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkApplicationGatewayWafPolicyWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyWaitOptions(), cancellationToken: token);
     }
 }

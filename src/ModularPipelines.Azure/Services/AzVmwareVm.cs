@@ -21,16 +21,16 @@ public class AzVmwareVm
 
     public async Task<CommandResult> List(AzVmwareVmListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RestrictMovement(AzVmwareVmRestrictMovementOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareVmRestrictMovementOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareVmRestrictMovementOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareVmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareVmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareVmShowOptions(), cancellationToken: token);
     }
 }

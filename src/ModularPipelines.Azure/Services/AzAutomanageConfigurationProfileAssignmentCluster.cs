@@ -25,21 +25,21 @@ public class AzAutomanageConfigurationProfileAssignmentCluster
 
     public async Task<CommandResult> Create(AzAutomanageConfigurationProfileAssignmentClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomanageConfigurationProfileAssignmentClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomanageConfigurationProfileAssignmentClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAutomanageConfigurationProfileAssignmentClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentClusterUpdateOptions(), cancellationToken: token);
     }
 }

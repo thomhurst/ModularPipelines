@@ -21,46 +21,46 @@ public class AzNetworkfabricFabric
 
     public async Task<CommandResult> CommitConfiguration(AzNetworkfabricFabricCommitConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricCommitConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricCommitConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNetworkfabricFabricCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricFabricDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deprovision(AzNetworkfabricFabricDeprovisionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricDeprovisionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricDeprovisionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricFabricListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Provision(AzNetworkfabricFabricProvisionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricProvisionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricProvisionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricFabricShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricFabricUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricFabricWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricFabricWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzOrbitalAvailableGroundStation
 
     public async Task<CommandResult> List(AzOrbitalAvailableGroundStationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalAvailableGroundStationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalAvailableGroundStationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOrbitalAvailableGroundStationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalAvailableGroundStationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalAvailableGroundStationShowOptions(), cancellationToken: token);
     }
 }

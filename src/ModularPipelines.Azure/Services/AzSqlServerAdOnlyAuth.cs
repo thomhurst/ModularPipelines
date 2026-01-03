@@ -21,16 +21,16 @@ public class AzSqlServerAdOnlyAuth
 
     public async Task<CommandResult> Disable(AzSqlServerAdOnlyAuthDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSqlServerAdOnlyAuthEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthEnableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Get(AzSqlServerAdOnlyAuthGetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthGetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAdOnlyAuthGetOptions(), cancellationToken: token);
     }
 }

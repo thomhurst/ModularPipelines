@@ -21,26 +21,26 @@ public class AzHybridaksNodepool
 
     public async Task<CommandResult> Add(AzHybridaksNodepoolAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHybridaksNodepoolDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHybridaksNodepoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Scale(AzHybridaksNodepoolScaleOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHybridaksNodepoolShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

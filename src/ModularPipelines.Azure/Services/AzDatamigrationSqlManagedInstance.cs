@@ -21,26 +21,26 @@ public class AzDatamigrationSqlManagedInstance
 
     public async Task<CommandResult> Cancel(AzDatamigrationSqlManagedInstanceCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzDatamigrationSqlManagedInstanceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Cutover(AzDatamigrationSqlManagedInstanceCutoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatamigrationSqlManagedInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlManagedInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlManagedInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatamigrationSqlManagedInstanceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlManagedInstanceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlManagedInstanceWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzScvmmVmExtension
 
     public async Task<CommandResult> Create(AzScvmmVmExtensionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzScvmmVmExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmExtensionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmExtensionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzScvmmVmExtensionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzScvmmVmExtensionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmExtensionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmExtensionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzScvmmVmExtensionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

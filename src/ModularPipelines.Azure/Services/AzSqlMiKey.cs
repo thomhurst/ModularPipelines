@@ -21,21 +21,21 @@ public class AzSqlMiKey
 
     public async Task<CommandResult> Create(AzSqlMiKeyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlMiKeyDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiKeyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiKeyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiKeyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiKeyShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

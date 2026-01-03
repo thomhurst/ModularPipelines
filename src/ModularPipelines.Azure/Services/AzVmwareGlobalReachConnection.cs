@@ -21,26 +21,26 @@ public class AzVmwareGlobalReachConnection
 
     public async Task<CommandResult> Create(AzVmwareGlobalReachConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareGlobalReachConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareGlobalReachConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareGlobalReachConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareGlobalReachConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareGlobalReachConnectionWaitOptions(), cancellationToken: token);
     }
 }

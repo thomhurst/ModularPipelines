@@ -21,11 +21,11 @@ public class AzBackupRestoreFiles
 
     public async Task<CommandResult> MountRp(AzBackupRestoreFilesMountRpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreFilesMountRpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreFilesMountRpOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UnmountRp(AzBackupRestoreFilesUnmountRpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreFilesUnmountRpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupRestoreFilesUnmountRpOptions(), cancellationToken: token);
     }
 }

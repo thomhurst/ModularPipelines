@@ -21,6 +21,6 @@ public class AzSynapseKustoOperation
 
     public async Task<CommandResult> List(AzSynapseKustoOperationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoOperationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoOperationListOptions(), cancellationToken: token);
     }
 }

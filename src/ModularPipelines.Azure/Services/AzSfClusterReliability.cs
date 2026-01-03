@@ -21,6 +21,6 @@ public class AzSfClusterReliability
 
     public async Task<CommandResult> Update(AzSfClusterReliabilityUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

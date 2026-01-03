@@ -29,61 +29,61 @@ public class AzDynatraceMonitor
 
     public async Task<CommandResult> Create(AzDynatraceMonitorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDynatraceMonitorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetSsoDetail(AzDynatraceMonitorGetSsoDetailOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetVmHostPayload(AzDynatraceMonitorGetVmHostPayloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDynatraceMonitorListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAppService(AzDynatraceMonitorListAppServiceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListHost(AzDynatraceMonitorListHostOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListLinkableEnvironment(AzDynatraceMonitorListLinkableEnvironmentOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListMonitoredResource(AzDynatraceMonitorListMonitoredResourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDynatraceMonitorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDynatraceMonitorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDynatraceMonitorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDynatraceMonitorWaitOptions(), cancellationToken: token);
     }
 }

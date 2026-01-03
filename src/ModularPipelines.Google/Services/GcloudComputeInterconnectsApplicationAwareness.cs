@@ -35,9 +35,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigureBandwidthPercentagePolicy(
         GcloudComputeInterconnectsApplicationAwarenessConfigureBandwidthPercentagePolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigureShaperAveragePercentage(
         GcloudComputeInterconnectsApplicationAwarenessConfigureShaperAveragePercentageOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigureStrictPriorityPolicy(
         GcloudComputeInterconnectsApplicationAwarenessConfigureStrictPriorityPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInterconnectsApplicationAwarenessDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
         GcloudComputeInterconnectsApplicationAwarenessGetConfigOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudComputeInterconnectsApplicationAwareness
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInterconnectsApplicationAwarenessUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

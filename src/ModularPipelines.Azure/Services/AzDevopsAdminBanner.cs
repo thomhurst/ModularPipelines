@@ -21,26 +21,26 @@ public class AzDevopsAdminBanner
 
     public async Task<CommandResult> Add(AzDevopsAdminBannerAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevopsAdminBannerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzDevopsAdminBannerRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevopsAdminBannerShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevopsAdminBannerUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

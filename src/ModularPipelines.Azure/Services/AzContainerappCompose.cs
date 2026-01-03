@@ -21,6 +21,6 @@ public class AzContainerappCompose
 
     public async Task<CommandResult> Create(AzContainerappComposeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

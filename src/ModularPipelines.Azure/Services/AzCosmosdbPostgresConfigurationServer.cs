@@ -21,6 +21,6 @@ public class AzCosmosdbPostgresConfigurationServer
 
     public async Task<CommandResult> List(AzCosmosdbPostgresConfigurationServerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

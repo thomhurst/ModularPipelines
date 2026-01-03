@@ -33,36 +33,36 @@ public class AzApicApi
 
     public async Task<CommandResult> Create(AzApicApiCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicApiDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicApiHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicApiListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Register(AzApicApiRegisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicApiShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicApiUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiUpdateOptions(), cancellationToken: token);
     }
 }

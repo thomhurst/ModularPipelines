@@ -21,11 +21,11 @@ public class AzAmsAccountMru
 
     public async Task<CommandResult> Set(AzAmsAccountMruSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountMruSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountMruSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAccountMruShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountMruShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountMruShowOptions(), cancellationToken: token);
     }
 }

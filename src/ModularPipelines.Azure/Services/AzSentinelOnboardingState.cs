@@ -21,26 +21,26 @@ public class AzSentinelOnboardingState
 
     public async Task<CommandResult> Create(AzSentinelOnboardingStateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelOnboardingStateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelOnboardingStateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelOnboardingStateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelOnboardingStateUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelOnboardingStateUpdateOptions(), cancellationToken: token);
     }
 }

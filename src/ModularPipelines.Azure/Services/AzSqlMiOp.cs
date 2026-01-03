@@ -21,16 +21,16 @@ public class AzSqlMiOp
 
     public async Task<CommandResult> Cancel(AzSqlMiOpCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiOpListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiOpListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiOpListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiOpShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzSecurityAutoProvisioningSetting
 
     public async Task<CommandResult> List(AzSecurityAutoProvisioningSettingListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutoProvisioningSettingListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAutoProvisioningSettingListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityAutoProvisioningSettingShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSecurityAutoProvisioningSettingUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

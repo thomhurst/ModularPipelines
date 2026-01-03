@@ -21,31 +21,31 @@ public class AzNetworkcloudKubernetesclusterAgentpool
 
     public async Task<CommandResult> Create(AzNetworkcloudKubernetesclusterAgentpoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudKubernetesclusterAgentpoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudKubernetesclusterAgentpoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudKubernetesclusterAgentpoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudKubernetesclusterAgentpoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudKubernetesclusterAgentpoolWaitOptions(), cancellationToken: token);
     }
 }

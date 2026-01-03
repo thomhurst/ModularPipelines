@@ -21,26 +21,26 @@ public class AzMaintenanceConfiguration
 
     public async Task<CommandResult> Create(AzMaintenanceConfigurationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMaintenanceConfigurationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMaintenanceConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMaintenanceConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMaintenanceConfigurationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceConfigurationUpdateOptions(), cancellationToken: token);
     }
 }

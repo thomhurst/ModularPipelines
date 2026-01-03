@@ -21,11 +21,11 @@ public class AzProviderhubManifest
 
     public async Task<CommandResult> Checkin(AzProviderhubManifestCheckinOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Generate(AzProviderhubManifestGenerateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubManifestGenerateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubManifestGenerateOptions(), cancellationToken: token);
     }
 }

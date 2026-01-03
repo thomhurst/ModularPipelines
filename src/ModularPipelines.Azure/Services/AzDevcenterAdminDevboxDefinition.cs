@@ -21,31 +21,31 @@ public class AzDevcenterAdminDevboxDefinition
 
     public async Task<CommandResult> Create(AzDevcenterAdminDevboxDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevcenterAdminDevboxDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminDevboxDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterAdminDevboxDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevcenterAdminDevboxDefinitionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDevcenterAdminDevboxDefinitionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminDevboxDefinitionWaitOptions(), cancellationToken: token);
     }
 }

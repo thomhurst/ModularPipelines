@@ -21,6 +21,6 @@ public class AzIotOpsSupport
 
     public async Task<CommandResult> CreateBundle(AzIotOpsSupportCreateBundleOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsSupportCreateBundleOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsSupportCreateBundleOptions(), cancellationToken: token);
     }
 }

@@ -14,7 +14,7 @@ public interface IGitCommandRunner
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command.</returns>
     /// <exception cref="Exception">Thrown when the git command fails.</exception>
-    Task<string> RunCommands(CommandLineOptions? commandEnvironmentOptions, params string?[] commands);
+    Task<string> RunCommands(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
 
     /// <summary>
     /// Executes git commands and returns the trimmed standard output, or null if the command fails.
@@ -22,5 +22,5 @@ public interface IGitCommandRunner
     /// <param name="commandEnvironmentOptions">Optional command environment configuration.</param>
     /// <param name="commands">Git command arguments to execute.</param>
     /// <returns>The trimmed standard output from the git command, or null if the command failed.</returns>
-    Task<string?> RunCommandsOrNull(CommandLineOptions? commandEnvironmentOptions, params string?[] commands);
+    Task<string?> RunCommandsOrNull(CommandExecutionOptions? commandEnvironmentOptions, params string?[] commands);
 }

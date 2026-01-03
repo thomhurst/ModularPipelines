@@ -21,31 +21,31 @@ public class AzGraphServicesAccount
 
     public async Task<CommandResult> Create(AzGraphServicesAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzGraphServicesAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzGraphServicesAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzGraphServicesAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzGraphServicesAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzGraphServicesAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGraphServicesAccountWaitOptions(), cancellationToken: token);
     }
 }

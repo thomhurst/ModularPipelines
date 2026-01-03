@@ -21,21 +21,21 @@ public class AzNetworkPerimeterLinkReference
 
     public async Task<CommandResult> Delete(AzNetworkPerimeterLinkReferenceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPerimeterLinkReferenceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPerimeterLinkReferenceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPerimeterLinkReferenceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterLinkReferenceWaitOptions(), cancellationToken: token);
     }
 }

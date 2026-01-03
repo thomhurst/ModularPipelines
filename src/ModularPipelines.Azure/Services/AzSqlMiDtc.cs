@@ -21,16 +21,16 @@ public class AzSqlMiDtc
 
     public async Task<CommandResult> Show(AzSqlMiDtcShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiDtcUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlMiDtcWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDtcWaitOptions(), cancellationToken: token);
     }
 }

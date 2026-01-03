@@ -21,26 +21,26 @@ public class AzSqlMidbLtrBackup
 
     public async Task<CommandResult> Delete(AzSqlMidbLtrBackupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrBackupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrBackupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMidbLtrBackupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzSqlMidbLtrBackupRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMidbLtrBackupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrBackupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLtrBackupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlMidbLtrBackupWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

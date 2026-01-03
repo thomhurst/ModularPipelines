@@ -45,16 +45,16 @@ public class AzKustoDatabase
 
     public async Task<CommandResult> AddPrincipal(AzKustoDatabaseAddPrincipalOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseAddPrincipalOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseAddPrincipalOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListPrincipal(AzKustoDatabaseListPrincipalOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RemovePrincipal(AzKustoDatabaseRemovePrincipalOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseRemovePrincipalOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseRemovePrincipalOptions(), cancellationToken: token);
     }
 }

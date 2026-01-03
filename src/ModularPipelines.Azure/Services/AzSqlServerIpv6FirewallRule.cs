@@ -21,26 +21,26 @@ public class AzSqlServerIpv6FirewallRule
 
     public async Task<CommandResult> Create(AzSqlServerIpv6FirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlServerIpv6FirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlServerIpv6FirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerIpv6FirewallRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerIpv6FirewallRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerIpv6FirewallRuleUpdateOptions(), cancellationToken: token);
     }
 }

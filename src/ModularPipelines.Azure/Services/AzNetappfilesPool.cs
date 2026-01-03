@@ -21,31 +21,31 @@ public class AzNetappfilesPool
 
     public async Task<CommandResult> Create(AzNetappfilesPoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetappfilesPoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesPoolListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetappfilesPoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesPoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesPoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzDataprotectionBackupInstanceRestore
 
     public async Task<CommandResult> InitializeForDataRecovery(AzDataprotectionBackupInstanceRestoreInitializeForDataRecoveryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> InitializeForDataRecoveryAsFiles(AzDataprotectionBackupInstanceRestoreInitializeForDataRecoveryAsFilesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> InitializeForItemRecovery(AzDataprotectionBackupInstanceRestoreInitializeForItemRecoveryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Trigger(AzDataprotectionBackupInstanceRestoreTriggerOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

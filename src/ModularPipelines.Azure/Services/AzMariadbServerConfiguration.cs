@@ -21,16 +21,16 @@ public class AzMariadbServerConfiguration
 
     public async Task<CommandResult> List(AzMariadbServerConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzMariadbServerConfigurationSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMariadbServerConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerConfigurationShowOptions(), cancellationToken: token);
     }
 }

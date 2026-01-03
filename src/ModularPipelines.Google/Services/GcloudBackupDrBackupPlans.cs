@@ -35,9 +35,10 @@ public class GcloudBackupDrBackupPlans
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudBackupDrBackupPlansCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudBackupDrBackupPlans
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudBackupDrBackupPlansDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudBackupDrBackupPlans
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBackupDrBackupPlansDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudBackupDrBackupPlans
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudBackupDrBackupPlansListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudBackupDrBackupPlans
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudBackupDrBackupPlansUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

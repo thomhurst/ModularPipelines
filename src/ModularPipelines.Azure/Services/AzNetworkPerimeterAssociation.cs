@@ -21,31 +21,31 @@ public class AzNetworkPerimeterAssociation
 
     public async Task<CommandResult> Create(AzNetworkPerimeterAssociationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPerimeterAssociationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPerimeterAssociationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPerimeterAssociationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPerimeterAssociationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPerimeterAssociationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPerimeterAssociationWaitOptions(), cancellationToken: token);
     }
 }

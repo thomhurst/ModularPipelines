@@ -99,9 +99,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudAppOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -112,9 +113,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Browse(
         GcloudAppBrowseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -125,9 +127,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAppCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -138,9 +141,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
         GcloudAppDeployOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -151,9 +155,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAppDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -164,9 +169,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> OpenConsole(
         GcloudAppOpenConsoleOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -177,9 +183,10 @@ public class GcloudApp
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAppUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

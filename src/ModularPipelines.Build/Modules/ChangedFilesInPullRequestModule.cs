@@ -18,7 +18,7 @@ public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
         {
             NameOnly = true,
             Arguments = ["origin/main"],
-        }, cancellationToken);
+        }, token: cancellationToken);
 
         return result.StandardOutput.Split(Environment.NewLine,
             StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)

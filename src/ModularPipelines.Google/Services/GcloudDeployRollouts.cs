@@ -35,9 +35,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Advance(
         GcloudDeployRolloutsAdvanceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
         GcloudDeployRolloutsApproveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudDeployRolloutsCancelOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeployRolloutsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> IgnoreJob(
         GcloudDeployRolloutsIgnoreJobOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDeployRolloutsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
         GcloudDeployRolloutsRejectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudDeployRollouts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RetryJob(
         GcloudDeployRolloutsRetryJobOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

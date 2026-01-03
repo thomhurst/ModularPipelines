@@ -21,11 +21,11 @@ public class AzConnectedvmwareVmGuestAgent
 
     public async Task<CommandResult> Enable(AzConnectedvmwareVmGuestAgentEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedvmwareVmGuestAgentShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

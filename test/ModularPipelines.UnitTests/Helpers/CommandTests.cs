@@ -16,10 +16,10 @@ public class CommandTests : TestBase
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Command.ExecuteCommandLineTool(
-                new CommandLineToolOptions(
-                    "pwsh",
-                    "-Command", "echo 'Foo bar!'"
-                ),
+                new GenericCommandLineToolOptions("pwsh")
+                {
+                    Arguments = ["-Command", "echo 'Foo bar!'"],
+                },
                 cancellationToken: cancellationToken);
         }
     }

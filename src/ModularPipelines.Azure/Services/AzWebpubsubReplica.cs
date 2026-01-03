@@ -21,21 +21,21 @@ public class AzWebpubsubReplica
 
     public async Task<CommandResult> Create(AzWebpubsubReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWebpubsubReplicaDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWebpubsubReplicaListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebpubsubReplicaShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubReplicaShowOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzCommunicationChatMessageReceipt
 
     public async Task<CommandResult> List(AzCommunicationChatMessageReceiptListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Send(AzCommunicationChatMessageReceiptSendOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

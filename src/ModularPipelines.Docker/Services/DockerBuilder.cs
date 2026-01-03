@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -36,9 +37,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bake(
         DockerBuilderBakeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
         DockerBuilderBuildOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         DockerBuilderCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DialStdio(
         DockerBuilderDialStdioOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Du(
         DockerBuilderDuOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,9 +107,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> History(
         DockerBuilderHistoryOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -114,9 +121,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Imagetools(
         DockerBuilderImagetoolsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -127,9 +135,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
         DockerBuilderInspectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -140,9 +149,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
         DockerBuilderLsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -153,9 +163,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
         DockerBuilderPruneOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -166,9 +177,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
         DockerBuilderRmOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -179,9 +191,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         DockerBuilderStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -192,9 +205,10 @@ public class DockerBuilder
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Use(
         DockerBuilderUseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

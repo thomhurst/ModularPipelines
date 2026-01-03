@@ -21,11 +21,11 @@ public class AzOffazureVmwareVcenter
 
     public async Task<CommandResult> List(AzOffazureVmwareVcenterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOffazureVmwareVcenterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareVcenterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureVmwareVcenterShowOptions(), cancellationToken: token);
     }
 }

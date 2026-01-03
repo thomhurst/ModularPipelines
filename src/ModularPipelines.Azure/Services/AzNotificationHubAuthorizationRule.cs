@@ -21,31 +21,31 @@ public class AzNotificationHubAuthorizationRule
 
     public async Task<CommandResult> Create(AzNotificationHubAuthorizationRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNotificationHubAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNotificationHubAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKeys(AzNotificationHubAuthorizationRuleListKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleListKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleListKeysOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegenerateKeys(AzNotificationHubAuthorizationRuleRegenerateKeysOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNotificationHubAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 }

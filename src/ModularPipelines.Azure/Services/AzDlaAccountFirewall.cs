@@ -21,26 +21,26 @@ public class AzDlaAccountFirewall
 
     public async Task<CommandResult> Create(AzDlaAccountFirewallCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDlaAccountFirewallDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDlaAccountFirewallListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountFirewallListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountFirewallListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaAccountFirewallShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDlaAccountFirewallUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

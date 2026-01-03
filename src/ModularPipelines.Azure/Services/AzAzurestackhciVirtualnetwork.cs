@@ -21,26 +21,26 @@ public class AzAzurestackhciVirtualnetwork
 
     public async Task<CommandResult> Create(AzAzurestackhciVirtualnetworkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciVirtualnetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciVirtualnetworkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciVirtualnetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciVirtualnetworkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualnetworkUpdateOptions(), cancellationToken: token);
     }
 }

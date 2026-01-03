@@ -21,31 +21,31 @@ public class AzGuestconfigGuestConfigurationAssignment
 
     public async Task<CommandResult> Create(AzGuestconfigGuestConfigurationAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzGuestconfigGuestConfigurationAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzGuestconfigGuestConfigurationAssignmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzGuestconfigGuestConfigurationAssignmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzGuestconfigGuestConfigurationAssignmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzGuestconfigGuestConfigurationAssignmentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationAssignmentWaitOptions(), cancellationToken: token);
     }
 }

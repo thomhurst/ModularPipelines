@@ -21,26 +21,26 @@ public class AzPaloAltoCloudngfwLocalRulestackPrefixlist
 
     public async Task<CommandResult> Create(AzPaloAltoCloudngfwLocalRulestackPrefixlistCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackPrefixlistListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPaloAltoCloudngfwLocalRulestackPrefixlistShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPaloAltoCloudngfwLocalRulestackPrefixlistWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackPrefixlistWaitOptions(), cancellationToken: token);
     }
 }

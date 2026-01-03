@@ -21,6 +21,6 @@ public class AzSecurityAutomationSource
 
     public async Task<CommandResult> Create(AzSecurityAutomationSourceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

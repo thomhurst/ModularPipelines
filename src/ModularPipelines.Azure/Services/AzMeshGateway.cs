@@ -21,16 +21,16 @@ public class AzMeshGateway
 
     public async Task<CommandResult> Delete(AzMeshGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMeshGatewayListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMeshGatewayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshGatewayShowOptions(), cancellationToken: token);
     }
 }

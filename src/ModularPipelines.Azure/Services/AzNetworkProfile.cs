@@ -21,21 +21,21 @@ public class AzNetworkProfile
 
     public async Task<CommandResult> Delete(AzNetworkProfileDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkProfileListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkProfileShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkProfileWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileWaitOptions(), cancellationToken: token);
     }
 }

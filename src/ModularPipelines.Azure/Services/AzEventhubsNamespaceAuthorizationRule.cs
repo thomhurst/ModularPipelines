@@ -25,26 +25,26 @@ public class AzEventhubsNamespaceAuthorizationRule
 
     public async Task<CommandResult> Create(AzEventhubsNamespaceAuthorizationRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsNamespaceAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespaceAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsNamespaceAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsNamespaceAuthorizationRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceAuthorizationRuleUpdateOptions(), cancellationToken: token);
     }
 }

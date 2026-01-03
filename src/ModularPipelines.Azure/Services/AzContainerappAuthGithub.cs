@@ -21,11 +21,11 @@ public class AzContainerappAuthGithub
 
     public async Task<CommandResult> Show(AzContainerappAuthGithubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthGithubShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthGithubShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappAuthGithubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthGithubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthGithubUpdateOptions(), cancellationToken: token);
     }
 }

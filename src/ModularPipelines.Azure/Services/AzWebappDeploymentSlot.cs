@@ -21,26 +21,26 @@ public class AzWebappDeploymentSlot
 
     public async Task<CommandResult> AutoSwap(AzWebappDeploymentSlotAutoSwapOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzWebappDeploymentSlotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWebappDeploymentSlotDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWebappDeploymentSlotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSlotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentSlotListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Swap(AzWebappDeploymentSlotSwapOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

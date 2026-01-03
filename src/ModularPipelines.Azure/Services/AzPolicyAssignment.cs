@@ -29,26 +29,26 @@ public class AzPolicyAssignment
 
     public async Task<CommandResult> Create(AzPolicyAssignmentCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPolicyAssignmentDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPolicyAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPolicyAssignmentShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPolicyAssignmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentUpdateOptions(), cancellationToken: token);
     }
 }

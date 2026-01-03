@@ -25,26 +25,26 @@ public class AzRelayNamespaceAuthorizationRule
 
     public async Task<CommandResult> Create(AzRelayNamespaceAuthorizationRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRelayNamespaceAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRelayNamespaceAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRelayNamespaceAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRelayNamespaceAuthorizationRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceAuthorizationRuleUpdateOptions(), cancellationToken: token);
     }
 }

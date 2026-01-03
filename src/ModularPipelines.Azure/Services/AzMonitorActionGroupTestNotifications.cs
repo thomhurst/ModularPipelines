@@ -21,6 +21,6 @@ public class AzMonitorActionGroupTestNotifications
 
     public async Task<CommandResult> Create(AzMonitorActionGroupTestNotificationsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

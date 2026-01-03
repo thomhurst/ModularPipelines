@@ -53,36 +53,36 @@ public class AzEventhubsNamespace
 
     public async Task<CommandResult> Create(AzEventhubsNamespaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzEventhubsNamespaceExistsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsNamespaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsNamespaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEventhubsNamespaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceWaitOptions(), cancellationToken: token);
     }
 }

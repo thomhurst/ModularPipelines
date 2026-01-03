@@ -21,6 +21,6 @@ public class AzNetappfilesVolumeUpdateNetappfilesPreview
 
     public async Task<CommandResult> Extension(AzNetappfilesVolumeUpdateNetappfilesPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeUpdateNetappfilesPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeUpdateNetappfilesPreviewExtensionOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzNetworkCrossConnectionPeering
 
     public async Task<CommandResult> Create(AzNetworkCrossConnectionPeeringCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkCrossConnectionPeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkCrossConnectionPeeringListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkCrossConnectionPeeringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkCrossConnectionPeeringUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossConnectionPeeringUpdateOptions(), cancellationToken: token);
     }
 }

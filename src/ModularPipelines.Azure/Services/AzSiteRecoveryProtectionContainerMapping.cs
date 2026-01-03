@@ -21,31 +21,31 @@ public class AzSiteRecoveryProtectionContainerMapping
 
     public async Task<CommandResult> Create(AzSiteRecoveryProtectionContainerMappingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSiteRecoveryProtectionContainerMappingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectionContainerMappingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSiteRecoveryProtectionContainerMappingRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryProtectionContainerMappingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryProtectionContainerMappingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerMappingUpdateOptions(), cancellationToken: token);
     }
 }

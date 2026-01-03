@@ -21,6 +21,6 @@ public class AzBillingTransaction
 
     public async Task<CommandResult> List(AzBillingTransactionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

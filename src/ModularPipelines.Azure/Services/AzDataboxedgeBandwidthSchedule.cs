@@ -21,31 +21,31 @@ public class AzDataboxedgeBandwidthSchedule
 
     public async Task<CommandResult> Create(AzDataboxedgeBandwidthScheduleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDataboxedgeBandwidthScheduleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDataboxedgeBandwidthScheduleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataboxedgeBandwidthScheduleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDataboxedgeBandwidthScheduleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDataboxedgeBandwidthScheduleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeBandwidthScheduleWaitOptions(), cancellationToken: token);
     }
 }

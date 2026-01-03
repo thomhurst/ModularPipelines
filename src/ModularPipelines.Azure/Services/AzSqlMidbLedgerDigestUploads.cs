@@ -21,16 +21,16 @@ public class AzSqlMidbLedgerDigestUploads
 
     public async Task<CommandResult> Disable(AzSqlMidbLedgerDigestUploadsDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSqlMidbLedgerDigestUploadsEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMidbLedgerDigestUploadsShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLedgerDigestUploadsShowOptions(), cancellationToken: token);
     }
 }

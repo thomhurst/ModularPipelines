@@ -29,26 +29,26 @@ public class AzDevopsServiceEndpoint
 
     public async Task<CommandResult> Create(AzDevopsServiceEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevopsServiceEndpointDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevopsServiceEndpointListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevopsServiceEndpointShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevopsServiceEndpointUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

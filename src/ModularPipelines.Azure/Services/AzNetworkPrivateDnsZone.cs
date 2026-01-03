@@ -21,41 +21,41 @@ public class AzNetworkPrivateDnsZone
 
     public async Task<CommandResult> Create(AzNetworkPrivateDnsZoneCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPrivateDnsZoneDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Export(AzNetworkPrivateDnsZoneExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzNetworkPrivateDnsZoneImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPrivateDnsZoneListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPrivateDnsZoneShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateDnsZoneUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPrivateDnsZoneWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsZoneWaitOptions(), cancellationToken: token);
     }
 }

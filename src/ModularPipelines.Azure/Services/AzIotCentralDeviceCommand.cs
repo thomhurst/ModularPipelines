@@ -21,11 +21,11 @@ public class AzIotCentralDeviceCommand
 
     public async Task<CommandResult> History(AzIotCentralDeviceCommandHistoryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Run(AzIotCentralDeviceCommandRunOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

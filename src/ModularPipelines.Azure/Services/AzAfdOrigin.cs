@@ -21,26 +21,26 @@ public class AzAfdOrigin
 
     public async Task<CommandResult> Create(AzAfdOriginCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdOriginDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdOriginListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdOriginShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAfdOriginUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdOriginUpdateOptions(), cancellationToken: token);
     }
 }

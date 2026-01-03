@@ -25,36 +25,36 @@ public class AzRelayNamespace
 
     public async Task<CommandResult> Create(AzRelayNamespaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRelayNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzRelayNamespaceExistsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRelayNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRelayNamespaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRelayNamespaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzRelayNamespaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceWaitOptions(), cancellationToken: token);
     }
 }

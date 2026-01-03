@@ -25,21 +25,21 @@ public class AzSqlDbClassification
 
     public async Task<CommandResult> Delete(AzSqlDbClassificationDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlDbClassificationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbClassificationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbClassificationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlDbClassificationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlDbClassificationUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -23,36 +23,36 @@ public class AzDiskEncryptionSet
 
     public async Task<CommandResult> Create(AzDiskEncryptionSetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDiskEncryptionSetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDiskEncryptionSetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAssociatedResources(AzDiskEncryptionSetListAssociatedResourcesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDiskEncryptionSetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDiskEncryptionSetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDiskEncryptionSetWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDiskEncryptionSetWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzNetworkWatcherFlowLog
 
     public async Task<CommandResult> Create(AzNetworkWatcherFlowLogCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkWatcherFlowLogDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkWatcherFlowLogListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkWatcherFlowLogShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkWatcherFlowLogUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkWatcherFlowLogWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherFlowLogWaitOptions(), cancellationToken: token);
     }
 }

@@ -201,13 +201,15 @@ public class SubDomainClassGenerator : ICodeGenerator
             : "Executes the parent command directly.";
         GeneratorUtils.GenerateXmlDocumentation(sb, description);
         sb.AppendLine("    /// <param name=\"options\">The command options.</param>");
+        sb.AppendLine("    /// <param name=\"executionOptions\">The execution configuration options.</param>");
         sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
         sb.AppendLine("    /// <returns>The command result.</returns>");
         sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
         sb.AppendLine($"        {command.ClassName}? options = default,");
+        sb.AppendLine("        CommandExecutionOptions? executionOptions = null,");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
-        sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), cancellationToken);");
+        sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");
         sb.AppendLine("    }");
     }
 }

@@ -21,21 +21,21 @@ public class AzVmBootDiagnostics
 
     public async Task<CommandResult> Disable(AzVmBootDiagnosticsDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzVmBootDiagnosticsEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsEnableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetBootLog(AzVmBootDiagnosticsGetBootLogOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetBootLogUris(AzVmBootDiagnosticsGetBootLogUrisOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), cancellationToken: token);
     }
 }

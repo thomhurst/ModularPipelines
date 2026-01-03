@@ -21,11 +21,11 @@ public class AzPolicyMetadata
 
     public async Task<CommandResult> List(AzPolicyMetadataListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyMetadataListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyMetadataListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPolicyMetadataShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

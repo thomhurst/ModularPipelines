@@ -21,11 +21,11 @@ public class AzVmssDisk
 
     public async Task<CommandResult> Attach(AzVmssDiskAttachOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssDiskAttachOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssDiskAttachOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Detach(AzVmssDiskDetachOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

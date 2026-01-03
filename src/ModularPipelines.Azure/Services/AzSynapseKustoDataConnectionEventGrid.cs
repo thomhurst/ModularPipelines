@@ -21,11 +21,11 @@ public class AzSynapseKustoDataConnectionEventGrid
 
     public async Task<CommandResult> Create(AzSynapseKustoDataConnectionEventGridCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSynapseKustoDataConnectionEventGridUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionEventGridUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDataConnectionEventGridUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzBatchJobTaskCounts
 
     public async Task<CommandResult> Show(AzBatchJobTaskCountsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

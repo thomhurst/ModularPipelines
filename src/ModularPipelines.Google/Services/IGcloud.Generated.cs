@@ -619,49 +619,55 @@ public partial interface IGcloud
     /// display gcloud cheat sheet
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> CheatSheet(GcloudCheatSheetOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> CheatSheet(GcloudCheatSheetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// enable Docker CLI access to Google Container Registry
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Docker(GcloudDockerOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Docker(GcloudDockerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// provide feedback to the Google Cloud CLI team
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Feedback(GcloudFeedbackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Feedback(GcloudFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// display information about the current gcloud environment
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Info(GcloudInfoOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Info(GcloudInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// initialize or reinitialize gcloud
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Init(GcloudInitOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(GcloudInitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// invoke a customer satisfaction survey for Google Cloud CLI
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Survey(GcloudSurveyOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Survey(GcloudSurveyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

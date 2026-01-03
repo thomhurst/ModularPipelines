@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -36,9 +37,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         DockerExtensionOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerExtensionOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new DockerExtensionOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Dev(
         DockerExtensionDevOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Init(
         DockerExtensionInitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
         DockerExtensionInstallOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
         DockerExtensionLsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,9 +107,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         DockerExtensionUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -114,9 +121,10 @@ public class DockerExtension
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
         DockerExtensionValidateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -29,36 +29,36 @@ public class AzSpringConnection
 
     public async Task<CommandResult> Delete(AzSpringConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSpringConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListConfiguration(AzSpringConnectionListConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSupportTypes(AzSpringConnectionListSupportTypesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListSupportTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionListSupportTypesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSpringConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Validate(AzSpringConnectionValidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionValidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionValidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSpringConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpringConnectionWaitOptions(), cancellationToken: token);
     }
 }

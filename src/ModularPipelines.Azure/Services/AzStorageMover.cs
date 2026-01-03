@@ -39,31 +39,31 @@ public class AzStorageMover
 
     public async Task<CommandResult> Create(AzStorageMoverCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStorageMoverDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageMoverListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStorageMoverShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageMoverUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStorageMoverWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverWaitOptions(), cancellationToken: token);
     }
 }

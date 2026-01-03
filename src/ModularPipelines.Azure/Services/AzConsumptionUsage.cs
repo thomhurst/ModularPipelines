@@ -21,6 +21,6 @@ public class AzConsumptionUsage
 
     public async Task<CommandResult> List(AzConsumptionUsageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionUsageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConsumptionUsageListOptions(), cancellationToken: token);
     }
 }

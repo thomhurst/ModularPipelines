@@ -25,61 +25,61 @@ public class AzNewRelicMonitor
 
     public async Task<CommandResult> Create(AzNewRelicMonitorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNewRelicMonitorDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetMetricRule(AzNewRelicMonitorGetMetricRuleOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetMetricStatu(AzNewRelicMonitorGetMetricStatuOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNewRelicMonitorListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAppService(AzNewRelicMonitorListAppServiceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListHost(AzNewRelicMonitorListHostOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> MonitoredResource(AzNewRelicMonitorMonitoredResourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNewRelicMonitorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SwitchBilling(AzNewRelicMonitorSwitchBillingOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> VmHostPayload(AzNewRelicMonitorVmHostPayloadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorVmHostPayloadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorVmHostPayloadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNewRelicMonitorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorWaitOptions(), cancellationToken: token);
     }
 }

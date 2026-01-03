@@ -41,36 +41,36 @@ public class AzBatchPool
 
     public async Task<CommandResult> Create(AzBatchPoolCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzBatchPoolDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzBatchPoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reset(AzBatchPoolResetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Resize(AzBatchPoolResizeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzBatchPoolSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBatchPoolShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

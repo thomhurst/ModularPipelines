@@ -51,9 +51,10 @@ public class GcloudDesignCenterSpacesCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDesignCenterSpacesCatalogsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -64,9 +65,10 @@ public class GcloudDesignCenterSpacesCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDesignCenterSpacesCatalogsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,9 +79,10 @@ public class GcloudDesignCenterSpacesCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDesignCenterSpacesCatalogsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,9 +93,10 @@ public class GcloudDesignCenterSpacesCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDesignCenterSpacesCatalogsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -103,9 +107,10 @@ public class GcloudDesignCenterSpacesCatalogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDesignCenterSpacesCatalogsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -25,31 +25,31 @@ public class AzSigGalleryApplication
 
     public async Task<CommandResult> Create(AzSigGalleryApplicationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSigGalleryApplicationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSigGalleryApplicationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSigGalleryApplicationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSigGalleryApplicationUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSigGalleryApplicationWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

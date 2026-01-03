@@ -19,36 +19,36 @@ public class AzDedicatedHsm
 
     public async Task<CommandResult> Create(AzDedicatedHsmCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDedicatedHsmDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDedicatedHsmListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListOutboundNetworkDependencyEndpoint(AzDedicatedHsmListOutboundNetworkDependencyEndpointOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDedicatedHsmShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDedicatedHsmUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDedicatedHsmWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDedicatedHsmWaitOptions(), cancellationToken: token);
     }
 }

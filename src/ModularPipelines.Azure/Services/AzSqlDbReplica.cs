@@ -21,21 +21,21 @@ public class AzSqlDbReplica
 
     public async Task<CommandResult> Create(AzSqlDbReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteLink(AzSqlDbReplicaDeleteLinkOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListLinks(AzSqlDbReplicaListLinksOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaListLinksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaListLinksOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SetPrimary(AzSqlDbReplicaSetPrimaryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaSetPrimaryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbReplicaSetPrimaryOptions(), cancellationToken: token);
     }
 }

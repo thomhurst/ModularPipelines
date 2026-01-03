@@ -8,49 +8,43 @@ namespace ModularPipelines.Extensions;
 public static class CommandExtensions
 {
     /// <summary>
-    /// Converts <see cref="CommandLineOptions"/> to <see cref="CommandLineToolOptions"/> with the specified tool and arguments.
+    /// Converts <see cref="CommandExecutionOptions"/> to <see cref="GenericCommandLineToolOptions"/> with the specified tool and arguments.
     /// </summary>
-    /// <param name="options">The command-line options to convert.</param>
+    /// <param name="options">The command execution options to convert.</param>
     /// <param name="tool">The name or path of the command-line tool.</param>
     /// <param name="arguments">The arguments to pass to the tool.</param>
-    /// <returns>A new <see cref="CommandLineToolOptions"/> instance configured with the specified tool and arguments.</returns>
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool,
+    /// <returns>A new <see cref="GenericCommandLineToolOptions"/> instance configured with the specified tool and arguments.</returns>
+    public static GenericCommandLineToolOptions ToCommandLineToolOptions(this CommandExecutionOptions options, string tool,
         IEnumerable<string> arguments)
     {
         return ToCommandLineToolOptions(options, tool, arguments.ToArray());
     }
 
     /// <summary>
-    /// Converts <see cref="CommandLineOptions"/> to <see cref="CommandLineToolOptions"/> with the specified tool and a single argument.
+    /// Converts <see cref="CommandExecutionOptions"/> to <see cref="GenericCommandLineToolOptions"/> with the specified tool and a single argument.
     /// </summary>
-    /// <param name="options">The command-line options to convert.</param>
+    /// <param name="options">The command execution options to convert.</param>
     /// <param name="tool">The name or path of the command-line tool.</param>
     /// <param name="singleArgument">A single argument to pass to the tool.</param>
-    /// <returns>A new <see cref="CommandLineToolOptions"/> instance configured with the specified tool and argument.</returns>
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool,
+    /// <returns>A new <see cref="GenericCommandLineToolOptions"/> instance configured with the specified tool and argument.</returns>
+    public static GenericCommandLineToolOptions ToCommandLineToolOptions(this CommandExecutionOptions options, string tool,
         string singleArgument)
     {
         return ToCommandLineToolOptions(options, tool, [singleArgument]);
     }
 
     /// <summary>
-    /// Converts <see cref="CommandLineOptions"/> to <see cref="CommandLineToolOptions"/> with the specified tool and arguments array.
+    /// Converts <see cref="CommandExecutionOptions"/> to <see cref="GenericCommandLineToolOptions"/> with the specified tool and arguments array.
     /// </summary>
-    /// <param name="options">The command-line options to convert.</param>
+    /// <param name="options">The command execution options to convert.</param>
     /// <param name="tool">The name or path of the command-line tool.</param>
     /// <param name="arguments">An array of arguments to pass to the tool.</param>
-    /// <returns>A new <see cref="CommandLineToolOptions"/> instance configured with the specified tool and arguments.</returns>
-    public static CommandLineToolOptions ToCommandLineToolOptions(this CommandLineOptions options, string tool, string[] arguments)
+    /// <returns>A new <see cref="GenericCommandLineToolOptions"/> instance configured with the specified tool and arguments.</returns>
+    public static GenericCommandLineToolOptions ToCommandLineToolOptions(this CommandExecutionOptions options, string tool, string[] arguments)
     {
-        return new CommandLineToolOptions(tool)
+        return new GenericCommandLineToolOptions(tool)
         {
             Arguments = arguments,
-            CommandLineCredentials = options.CommandLineCredentials,
-            EnvironmentVariables = options.EnvironmentVariables,
-            CommandLogging = options.CommandLogging,
-            LogSettings = options.LogSettings,
-            WorkingDirectory = options.WorkingDirectory,
-            OptionsObject = options,
         };
     }
 

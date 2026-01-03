@@ -23,16 +23,16 @@ public class AzSerialConsole
 
     public async Task<CommandResult> Connect(AzSerialConsoleConnectOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Disable(AzSerialConsoleDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSerialConsoleDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSerialConsoleDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSerialConsoleEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSerialConsoleEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSerialConsoleEnableOptions(), cancellationToken: token);
     }
 }

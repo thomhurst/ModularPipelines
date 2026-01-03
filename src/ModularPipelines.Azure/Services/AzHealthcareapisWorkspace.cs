@@ -41,31 +41,31 @@ public class AzHealthcareapisWorkspace
 
     public async Task<CommandResult> Create(AzHealthcareapisWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHealthcareapisWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHealthcareapisWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHealthcareapisWorkspaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceWaitOptions(), cancellationToken: token);
     }
 }

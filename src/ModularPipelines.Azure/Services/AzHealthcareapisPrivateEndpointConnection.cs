@@ -21,31 +21,31 @@ public class AzHealthcareapisPrivateEndpointConnection
 
     public async Task<CommandResult> Create(AzHealthcareapisPrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHealthcareapisPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisPrivateEndpointConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHealthcareapisPrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHealthcareapisPrivateEndpointConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHealthcareapisPrivateEndpointConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisPrivateEndpointConnectionWaitOptions(), cancellationToken: token);
     }
 }

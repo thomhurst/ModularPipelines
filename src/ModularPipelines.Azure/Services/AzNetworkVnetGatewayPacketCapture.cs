@@ -21,16 +21,16 @@ public class AzNetworkVnetGatewayPacketCapture
 
     public async Task<CommandResult> Start(AzNetworkVnetGatewayPacketCaptureStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzNetworkVnetGatewayPacketCaptureStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVnetGatewayPacketCaptureWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayPacketCaptureWaitOptions(), cancellationToken: token);
     }
 }

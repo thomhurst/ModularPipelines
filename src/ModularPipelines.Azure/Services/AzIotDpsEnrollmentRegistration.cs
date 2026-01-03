@@ -21,11 +21,11 @@ public class AzIotDpsEnrollmentRegistration
 
     public async Task<CommandResult> Delete(AzIotDpsEnrollmentRegistrationDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotDpsEnrollmentRegistrationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

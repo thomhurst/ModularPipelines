@@ -35,9 +35,10 @@ public class GcloudContainerFleetPolicycontrollerContentBundles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudContainerFleetPolicycontrollerContentBundlesRemoveOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudContainerFleetPolicycontrollerContentBundles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudContainerFleetPolicycontrollerContentBundlesSetOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

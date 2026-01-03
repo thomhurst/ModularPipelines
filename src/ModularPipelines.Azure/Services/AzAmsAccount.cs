@@ -41,31 +41,31 @@ public class AzAmsAccount
 
     public async Task<CommandResult> CheckName(AzAmsAccountCheckNameOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzAmsAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountUpdateOptions(), cancellationToken: token);
     }
 }

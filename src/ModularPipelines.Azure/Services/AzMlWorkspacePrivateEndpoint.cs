@@ -21,16 +21,16 @@ public class AzMlWorkspacePrivateEndpoint
 
     public async Task<CommandResult> Add(AzMlWorkspacePrivateEndpointAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMlWorkspacePrivateEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMlWorkspacePrivateEndpointListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlWorkspacePrivateEndpointListOptions(), cancellationToken: token);
     }
 }

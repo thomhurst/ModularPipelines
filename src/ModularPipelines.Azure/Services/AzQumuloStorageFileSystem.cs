@@ -21,26 +21,26 @@ public class AzQumuloStorageFileSystem
 
     public async Task<CommandResult> Create(AzQumuloStorageFileSystemCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzQumuloStorageFileSystemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzQumuloStorageFileSystemListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzQumuloStorageFileSystemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzQumuloStorageFileSystemWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQumuloStorageFileSystemWaitOptions(), cancellationToken: token);
     }
 }

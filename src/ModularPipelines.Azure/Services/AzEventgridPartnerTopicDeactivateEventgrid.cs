@@ -21,6 +21,6 @@ public class AzEventgridPartnerTopicDeactivateEventgrid
 
     public async Task<CommandResult> Extension(AzEventgridPartnerTopicDeactivateEventgridExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeactivateEventgridExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeactivateEventgridExtensionOptions(), cancellationToken: token);
     }
 }

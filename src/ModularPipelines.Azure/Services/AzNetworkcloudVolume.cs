@@ -21,31 +21,31 @@ public class AzNetworkcloudVolume
 
     public async Task<CommandResult> Create(AzNetworkcloudVolumeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkcloudVolumeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudVolumeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudVolumeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudVolumeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudVolumeWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudVolumeWaitOptions(), cancellationToken: token);
     }
 }

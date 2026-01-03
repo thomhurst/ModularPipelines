@@ -21,6 +21,6 @@ public class AzBatchPoolSupportedImages
 
     public async Task<CommandResult> List(AzBatchPoolSupportedImagesListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolSupportedImagesListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolSupportedImagesListOptions(), cancellationToken: token);
     }
 }

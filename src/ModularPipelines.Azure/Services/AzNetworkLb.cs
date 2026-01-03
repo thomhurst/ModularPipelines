@@ -49,41 +49,41 @@ public class AzNetworkLb
 
     public async Task<CommandResult> Create(AzNetworkLbCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkLbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkLbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListMapping(AzNetworkLbListMappingOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListNic(AzNetworkLbListNicOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkLbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkLbUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkLbWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbWaitOptions(), cancellationToken: token);
     }
 }

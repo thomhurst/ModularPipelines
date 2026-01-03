@@ -21,16 +21,16 @@ public class AzCdnEndpointWafPolicy
 
     public async Task<CommandResult> Remove(AzCdnEndpointWafPolicyRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicyRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicyRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzCdnEndpointWafPolicySetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicySetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicySetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCdnEndpointWafPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointWafPolicyShowOptions(), cancellationToken: token);
     }
 }

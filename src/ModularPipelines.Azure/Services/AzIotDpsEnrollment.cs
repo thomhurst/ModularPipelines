@@ -25,26 +25,26 @@ public class AzIotDpsEnrollment
 
     public async Task<CommandResult> Create(AzIotDpsEnrollmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotDpsEnrollmentDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotDpsEnrollmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsEnrollmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotDpsEnrollmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotDpsEnrollmentShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotDpsEnrollmentUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -37,41 +37,41 @@ public class AzNetworkWatcher
 
     public async Task<CommandResult> Configure(AzNetworkWatcherConfigureOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkWatcherListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RunConfigurationDiagnostic(AzNetworkWatcherRunConfigurationDiagnosticOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowNextHop(AzNetworkWatcherShowNextHopOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowSecurityGroupView(AzNetworkWatcherShowSecurityGroupViewOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowTopology(AzNetworkWatcherShowTopologyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowTopologyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowTopologyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> TestConnectivity(AzNetworkWatcherTestConnectivityOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> TestIpFlow(AzNetworkWatcherTestIpFlowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

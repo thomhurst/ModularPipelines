@@ -21,16 +21,16 @@ public class AzSqlDbStrPolicy
 
     public async Task<CommandResult> Set(AzSqlDbStrPolicySetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlDbStrPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbStrPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbStrPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlDbStrPolicyWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

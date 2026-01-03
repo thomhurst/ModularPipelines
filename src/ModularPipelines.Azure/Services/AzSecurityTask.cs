@@ -21,11 +21,11 @@ public class AzSecurityTask
 
     public async Task<CommandResult> List(AzSecurityTaskListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityTaskListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityTaskListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityTaskShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

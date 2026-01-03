@@ -21,26 +21,26 @@ public class AzAksDraft
 
     public async Task<CommandResult> Create(AzAksDraftCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateWorkflow(AzAksDraftGenerateWorkflowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftGenerateWorkflowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftGenerateWorkflowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SetupGh(AzAksDraftSetupGhOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftSetupGhOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftSetupGhOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzAksDraftUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftUpOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAksDraftUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAksDraftUpdateOptions(), cancellationToken: token);
     }
 }

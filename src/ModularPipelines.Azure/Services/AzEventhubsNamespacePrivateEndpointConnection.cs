@@ -21,41 +21,41 @@ public class AzEventhubsNamespacePrivateEndpointConnection
 
     public async Task<CommandResult> Approve(AzEventhubsNamespacePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionApproveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionApproveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzEventhubsNamespacePrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespacePrivateEndpointConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzEventhubsNamespacePrivateEndpointConnectionRejectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionRejectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionRejectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsNamespacePrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEventhubsNamespacePrivateEndpointConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespacePrivateEndpointConnectionWaitOptions(), cancellationToken: token);
     }
 }

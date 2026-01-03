@@ -21,96 +21,96 @@ public class AzMaintenanceAssignment
 
     public async Task<CommandResult> Create(AzMaintenanceAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateOrUpdateParent(AzMaintenanceAssignmentCreateOrUpdateParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateOrUpdateResourceGroup(AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateResourceGroupOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateOrUpdateSubscription(AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentCreateOrUpdateSubscriptionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMaintenanceAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteParent(AzMaintenanceAssignmentDeleteParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteResourceGroup(AzMaintenanceAssignmentDeleteResourceGroupOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteResourceGroupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteResourceGroupOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteSubscription(AzMaintenanceAssignmentDeleteSubscriptionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteSubscriptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentDeleteSubscriptionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMaintenanceAssignmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListParent(AzMaintenanceAssignmentListParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentListParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentListParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSubscription(AzMaintenanceAssignmentListSubscriptionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentListSubscriptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentListSubscriptionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMaintenanceAssignmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowParent(AzMaintenanceAssignmentShowParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowResourceGroup(AzMaintenanceAssignmentShowResourceGroupOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowResourceGroupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowResourceGroupOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowSubscription(AzMaintenanceAssignmentShowSubscriptionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowSubscriptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentShowSubscriptionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMaintenanceAssignmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateParent(AzMaintenanceAssignmentUpdateParentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateParentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateParentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateResourceGroup(AzMaintenanceAssignmentUpdateResourceGroupOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateResourceGroupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateResourceGroupOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateSubscription(AzMaintenanceAssignmentUpdateSubscriptionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateSubscriptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenanceAssignmentUpdateSubscriptionOptions(), cancellationToken: token);
     }
 }

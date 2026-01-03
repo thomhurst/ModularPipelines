@@ -21,26 +21,26 @@ public class AzMariadbServerVnetRule
 
     public async Task<CommandResult> Create(AzMariadbServerVnetRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMariadbServerVnetRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMariadbServerVnetRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMariadbServerVnetRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerVnetRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMariadbServerVnetRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

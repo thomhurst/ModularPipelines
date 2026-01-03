@@ -33,6 +33,6 @@ public class AzNetworkDns
 
     public async Task<CommandResult> ListReferences(AzNetworkDnsListReferencesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsListReferencesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsListReferencesOptions(), cancellationToken: token);
     }
 }

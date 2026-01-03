@@ -21,21 +21,21 @@ public class AzDncController
 
     public async Task<CommandResult> Create(AzDncControllerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDncControllerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDncControllerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDncControllerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncControllerWaitOptions(), cancellationToken: token);
     }
 }

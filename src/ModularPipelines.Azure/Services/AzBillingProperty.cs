@@ -21,11 +21,11 @@ public class AzBillingProperty
 
     public async Task<CommandResult> Show(AzBillingPropertyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingPropertyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingPropertyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzBillingPropertyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBillingPropertyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBillingPropertyUpdateOptions(), cancellationToken: token);
     }
 }

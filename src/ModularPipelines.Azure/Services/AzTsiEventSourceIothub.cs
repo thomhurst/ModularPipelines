@@ -21,11 +21,11 @@ public class AzTsiEventSourceIothub
 
     public async Task<CommandResult> Create(AzTsiEventSourceIothubCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzTsiEventSourceIothubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceIothubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzTsiEventSourceIothubUpdateOptions(), cancellationToken: token);
     }
 }

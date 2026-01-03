@@ -21,16 +21,16 @@ public class AzPostgresServerReplica
 
     public async Task<CommandResult> Create(AzPostgresServerReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPostgresServerReplicaListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerReplicaListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerReplicaListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzPostgresServerReplicaStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerReplicaStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerReplicaStopOptions(), cancellationToken: token);
     }
 }

@@ -21,16 +21,16 @@ public class AzNetworkVpnGatewayConnectionIpsecPolicy
 
     public async Task<CommandResult> Add(AzNetworkVpnGatewayConnectionIpsecPolicyAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnGatewayConnectionIpsecPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkVpnGatewayConnectionIpsecPolicyRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

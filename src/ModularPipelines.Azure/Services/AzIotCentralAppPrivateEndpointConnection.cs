@@ -21,26 +21,26 @@ public class AzIotCentralAppPrivateEndpointConnection
 
     public async Task<CommandResult> Approve(AzIotCentralAppPrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionApproveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionApproveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotCentralAppPrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotCentralAppPrivateEndpointConnectionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzIotCentralAppPrivateEndpointConnectionRejectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionRejectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionRejectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotCentralAppPrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppPrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzVmDiagnostics
 
     public async Task<CommandResult> GetDefaultConfig(AzVmDiagnosticsGetDefaultConfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmDiagnosticsGetDefaultConfigOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmDiagnosticsGetDefaultConfigOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzVmDiagnosticsSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

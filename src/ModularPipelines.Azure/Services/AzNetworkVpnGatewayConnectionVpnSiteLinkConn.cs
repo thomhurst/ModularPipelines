@@ -25,16 +25,16 @@ public class AzNetworkVpnGatewayConnectionVpnSiteLinkConn
 
     public async Task<CommandResult> Add(AzNetworkVpnGatewayConnectionVpnSiteLinkConnAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVpnGatewayConnectionVpnSiteLinkConnListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkVpnGatewayConnectionVpnSiteLinkConnRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

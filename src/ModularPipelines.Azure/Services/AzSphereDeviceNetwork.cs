@@ -25,36 +25,36 @@ public class AzSphereDeviceNetwork
 
     public async Task<CommandResult> Disable(AzSphereDeviceNetworkDisableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSphereDeviceNetworkEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListFirewallRules(AzSphereDeviceNetworkListFirewallRulesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkListFirewallRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkListFirewallRulesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListInterfaces(AzSphereDeviceNetworkListInterfacesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkListInterfacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkListInterfacesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDiagnostics(AzSphereDeviceNetworkShowDiagnosticsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkShowDiagnosticsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkShowDiagnosticsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowStatus(AzSphereDeviceNetworkShowStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkShowStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceNetworkShowStatusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateInterface(AzSphereDeviceNetworkUpdateInterfaceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

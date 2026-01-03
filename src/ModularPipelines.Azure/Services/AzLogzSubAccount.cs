@@ -21,51 +21,51 @@ public class AzLogzSubAccount
 
     public async Task<CommandResult> Create(AzLogzSubAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogzSubAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogzSubAccountListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListPayload(AzLogzSubAccountListPayloadOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListResource(AzLogzSubAccountListResourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListVm(AzLogzSubAccountListVmOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogzSubAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogzSubAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UpdateVm(AzLogzSubAccountUpdateVmOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountUpdateVmOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountUpdateVmOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzLogzSubAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSubAccountWaitOptions(), cancellationToken: token);
     }
 }

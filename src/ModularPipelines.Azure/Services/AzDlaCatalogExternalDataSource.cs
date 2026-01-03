@@ -21,11 +21,11 @@ public class AzDlaCatalogExternalDataSource
 
     public async Task<CommandResult> List(AzDlaCatalogExternalDataSourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaCatalogExternalDataSourceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

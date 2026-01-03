@@ -21,31 +21,31 @@ public class AzMobileNetworkSimPolicy
 
     public async Task<CommandResult> Create(AzMobileNetworkSimPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMobileNetworkSimPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMobileNetworkSimPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMobileNetworkSimPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMobileNetworkSimPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMobileNetworkSimPolicyWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkSimPolicyWaitOptions(), cancellationToken: token);
     }
 }

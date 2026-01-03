@@ -21,31 +21,31 @@ public class AzVmwareWorkloadNetworkDnsService
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkDnsServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkDnsServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkDnsServiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareWorkloadNetworkDnsServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareWorkloadNetworkDnsServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareWorkloadNetworkDnsServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsServiceWaitOptions(), cancellationToken: token);
     }
 }

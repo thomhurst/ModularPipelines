@@ -21,6 +21,6 @@ public class AzArcdataDcStatus
 
     public async Task<CommandResult> Show(AzArcdataDcStatusShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcStatusShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcdataDcStatusShowOptions(), cancellationToken: token);
     }
 }

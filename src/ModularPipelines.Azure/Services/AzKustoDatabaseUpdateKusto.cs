@@ -21,6 +21,6 @@ public class AzKustoDatabaseUpdateKusto
 
     public async Task<CommandResult> Extension(AzKustoDatabaseUpdateKustoExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseUpdateKustoExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDatabaseUpdateKustoExtensionOptions(), cancellationToken: token);
     }
 }

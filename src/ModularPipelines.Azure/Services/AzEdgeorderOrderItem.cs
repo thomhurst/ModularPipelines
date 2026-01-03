@@ -21,41 +21,41 @@ public class AzEdgeorderOrderItem
 
     public async Task<CommandResult> Cancel(AzEdgeorderOrderItemCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzEdgeorderOrderItemCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEdgeorderOrderItemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEdgeorderOrderItemListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Return(AzEdgeorderOrderItemReturnOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEdgeorderOrderItemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEdgeorderOrderItemUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderItemUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEdgeorderOrderItemWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

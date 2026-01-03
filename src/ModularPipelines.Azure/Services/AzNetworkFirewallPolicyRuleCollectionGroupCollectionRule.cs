@@ -21,16 +21,16 @@ public class AzNetworkFirewallPolicyRuleCollectionGroupCollectionRule
 
     public async Task<CommandResult> Add(AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFirewallPolicyRuleCollectionGroupCollectionRuleUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

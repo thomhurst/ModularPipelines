@@ -21,21 +21,21 @@ public class AzNetworkExpressRoutePortLink
 
     public async Task<CommandResult> List(AzNetworkExpressRoutePortLinkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRoutePortLinkShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkExpressRoutePortLinkUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRoutePortLinkWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLinkWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePortLinkWaitOptions(), cancellationToken: token);
     }
 }

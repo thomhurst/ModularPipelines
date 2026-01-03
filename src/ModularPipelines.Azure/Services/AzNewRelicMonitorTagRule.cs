@@ -21,31 +21,31 @@ public class AzNewRelicMonitorTagRule
 
     public async Task<CommandResult> Create(AzNewRelicMonitorTagRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNewRelicMonitorTagRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNewRelicMonitorTagRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNewRelicMonitorTagRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNewRelicMonitorTagRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNewRelicMonitorTagRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNewRelicMonitorTagRuleWaitOptions(), cancellationToken: token);
     }
 }

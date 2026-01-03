@@ -21,16 +21,16 @@ public class AzArcapplianceTroubleshootCommand
 
     public async Task<CommandResult> Hci(AzArcapplianceTroubleshootCommandHciOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandHciOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandHciOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Scvmm(AzArcapplianceTroubleshootCommandScvmmOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandScvmmOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandScvmmOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Vmware(AzArcapplianceTroubleshootCommandVmwareOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandVmwareOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzArcapplianceTroubleshootCommandVmwareOptions(), cancellationToken: token);
     }
 }

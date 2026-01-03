@@ -21,16 +21,16 @@ public class AzVmssNic
 
     public async Task<CommandResult> List(AzVmssNicListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListVmNics(AzVmssNicListVmNicsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmssNicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssNicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssNicShowOptions(), cancellationToken: token);
     }
 }

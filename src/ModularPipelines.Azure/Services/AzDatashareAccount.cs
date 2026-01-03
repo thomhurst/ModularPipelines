@@ -21,31 +21,31 @@ public class AzDatashareAccount
 
     public async Task<CommandResult> Create(AzDatashareAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatashareAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatashareAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatashareAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatashareAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatashareAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareAccountWaitOptions(), cancellationToken: token);
     }
 }

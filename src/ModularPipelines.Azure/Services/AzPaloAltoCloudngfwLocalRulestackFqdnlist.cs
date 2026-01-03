@@ -21,26 +21,26 @@ public class AzPaloAltoCloudngfwLocalRulestackFqdnlist
 
     public async Task<CommandResult> Create(AzPaloAltoCloudngfwLocalRulestackFqdnlistCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackFqdnlistDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackFqdnlistListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPaloAltoCloudngfwLocalRulestackFqdnlistShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPaloAltoCloudngfwLocalRulestackFqdnlistWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackFqdnlistWaitOptions(), cancellationToken: token);
     }
 }

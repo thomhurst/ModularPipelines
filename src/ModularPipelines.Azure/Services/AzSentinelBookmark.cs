@@ -25,31 +25,31 @@ public class AzSentinelBookmark
 
     public async Task<CommandResult> Create(AzSentinelBookmarkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelBookmarkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Expand(AzSentinelBookmarkExpandOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelBookmarkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelBookmarkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelBookmarkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelBookmarkUpdateOptions(), cancellationToken: token);
     }
 }

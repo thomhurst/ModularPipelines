@@ -21,11 +21,11 @@ public class AzWebpubsubNetworkRule
 
     public async Task<CommandResult> Show(AzWebpubsubNetworkRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubNetworkRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubNetworkRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebpubsubNetworkRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubNetworkRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebpubsubNetworkRuleUpdateOptions(), cancellationToken: token);
     }
 }

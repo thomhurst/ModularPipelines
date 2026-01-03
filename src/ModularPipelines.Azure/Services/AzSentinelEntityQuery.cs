@@ -25,26 +25,26 @@ public class AzSentinelEntityQuery
 
     public async Task<CommandResult> Create(AzSentinelEntityQueryCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelEntityQueryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelEntityQueryListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelEntityQueryShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelEntityQueryUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryUpdateOptions(), cancellationToken: token);
     }
 }

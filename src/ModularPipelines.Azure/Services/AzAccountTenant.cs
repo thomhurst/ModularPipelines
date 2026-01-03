@@ -21,6 +21,6 @@ public class AzAccountTenant
 
     public async Task<CommandResult> List(AzAccountTenantListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountTenantListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountTenantListOptions(), cancellationToken: token);
     }
 }

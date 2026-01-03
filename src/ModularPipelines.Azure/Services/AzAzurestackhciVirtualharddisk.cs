@@ -21,26 +21,26 @@ public class AzAzurestackhciVirtualharddisk
 
     public async Task<CommandResult> Create(AzAzurestackhciVirtualharddiskCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciVirtualharddiskDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciVirtualharddiskListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciVirtualharddiskShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciVirtualharddiskUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciVirtualharddiskUpdateOptions(), cancellationToken: token);
     }
 }

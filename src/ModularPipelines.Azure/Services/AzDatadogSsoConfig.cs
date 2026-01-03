@@ -21,26 +21,26 @@ public class AzDatadogSsoConfig
 
     public async Task<CommandResult> Create(AzDatadogSsoConfigCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatadogSsoConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatadogSsoConfigShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatadogSsoConfigUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatadogSsoConfigWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatadogSsoConfigWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzSentinelAlertRuleAction
 
     public async Task<CommandResult> Create(AzSentinelAlertRuleActionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelAlertRuleActionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelAlertRuleActionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelAlertRuleActionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelAlertRuleActionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelAlertRuleActionUpdateOptions(), cancellationToken: token);
     }
 }

@@ -35,9 +35,10 @@ public class GcloudSpannerSamples
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Backend(
         GcloudSpannerSamplesBackendOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudSpannerSamples
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Init(
         GcloudSpannerSamplesInitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudSpannerSamples
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudSpannerSamplesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudSpannerSamples
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudSpannerSamplesRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudSpannerSamples
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Workload(
         GcloudSpannerSamplesWorkloadOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

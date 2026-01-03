@@ -45,41 +45,41 @@ public class AzEventgridNamespace
 
     public async Task<CommandResult> Create(AzEventgridNamespaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridNamespaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKey(AzEventgridNamespaceListKeyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceListKeyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceListKeyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegenerateKey(AzEventgridNamespaceRegenerateKeyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridNamespaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridNamespaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEventgridNamespaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceWaitOptions(), cancellationToken: token);
     }
 }

@@ -25,16 +25,16 @@ public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
 
     public async Task<CommandResult> Add(AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

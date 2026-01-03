@@ -29,21 +29,21 @@ public class AzServicebusNamespaceNetworkRuleSet
 
     public async Task<CommandResult> Create(AzServicebusNamespaceNetworkRuleSetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusNamespaceNetworkRuleSetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusNamespaceNetworkRuleSetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusNamespaceNetworkRuleSetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetUpdateOptions(), cancellationToken: token);
     }
 }

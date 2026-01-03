@@ -29,11 +29,11 @@ public class AzCosmosdbRestorableDatabaseAccount
 
     public async Task<CommandResult> List(AzCosmosdbRestorableDatabaseAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzCosmosdbRestorableDatabaseAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowOptions(), cancellationToken: token);
     }
 }

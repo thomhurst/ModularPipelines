@@ -21,21 +21,21 @@ public class AzFunctionappConfigAccessRestriction
 
     public async Task<CommandResult> Add(AzFunctionappConfigAccessRestrictionAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzFunctionappConfigAccessRestrictionRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzFunctionappConfigAccessRestrictionSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFunctionappConfigAccessRestrictionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigAccessRestrictionShowOptions(), cancellationToken: token);
     }
 }

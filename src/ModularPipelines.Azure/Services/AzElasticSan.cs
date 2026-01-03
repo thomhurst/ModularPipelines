@@ -27,36 +27,36 @@ public class AzElasticSan
 
     public async Task<CommandResult> Create(AzElasticSanCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzElasticSanDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzElasticSanListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSku(AzElasticSanListSkuOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanListSkuOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanListSkuOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzElasticSanShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzElasticSanUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzElasticSanWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzAcrConnectedRegistryPermissions
 
     public async Task<CommandResult> Show(AzAcrConnectedRegistryPermissionsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAcrConnectedRegistryPermissionsUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

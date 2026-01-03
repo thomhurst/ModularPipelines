@@ -21,6 +21,6 @@ public class AzKeyvaultBackup
 
     public async Task<CommandResult> Start(AzKeyvaultBackupStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultBackupStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultBackupStartOptions(), cancellationToken: token);
     }
 }

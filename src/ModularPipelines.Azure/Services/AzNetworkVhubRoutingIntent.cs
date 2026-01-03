@@ -21,31 +21,31 @@ public class AzNetworkVhubRoutingIntent
 
     public async Task<CommandResult> Create(AzNetworkVhubRoutingIntentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVhubRoutingIntentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVhubRoutingIntentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVhubRoutingIntentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVhubRoutingIntentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVhubRoutingIntentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRoutingIntentWaitOptions(), cancellationToken: token);
     }
 }

@@ -33,6 +33,6 @@ public class AzAutomanageConfigurationProfileAssignment
 
     public async Task<CommandResult> List(AzAutomanageConfigurationProfileAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomanageConfigurationProfileAssignmentListOptions(), cancellationToken: token);
     }
 }

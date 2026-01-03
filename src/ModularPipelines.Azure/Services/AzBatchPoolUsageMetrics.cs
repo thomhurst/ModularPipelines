@@ -21,6 +21,6 @@ public class AzBatchPoolUsageMetrics
 
     public async Task<CommandResult> List(AzBatchPoolUsageMetricsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolUsageMetricsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolUsageMetricsListOptions(), cancellationToken: token);
     }
 }

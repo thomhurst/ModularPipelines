@@ -27,31 +27,31 @@ public class AzRedisenterprise
 
     public async Task<CommandResult> Create(AzRedisenterpriseCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRedisenterpriseDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRedisenterpriseListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRedisenterpriseShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRedisenterpriseUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzRedisenterpriseWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRedisenterpriseWaitOptions(), cancellationToken: token);
     }
 }

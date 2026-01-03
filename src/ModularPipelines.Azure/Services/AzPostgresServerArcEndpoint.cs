@@ -21,6 +21,6 @@ public class AzPostgresServerArcEndpoint
 
     public async Task<CommandResult> List(AzPostgresServerArcEndpointListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerArcEndpointListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerArcEndpointListOptions(), cancellationToken: token);
     }
 }

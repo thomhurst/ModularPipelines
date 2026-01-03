@@ -15,8 +15,12 @@ public interface ICommand
     /// <summary>
     /// Execute a command line tool.
     /// </summary>
-    /// <param name="options">The command options. Use <see cref="CommandLineToolOptions.LogSettings"/> to control logging behavior.</param>
+    /// <param name="options">The tool-specific options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    Task<CommandResult> ExecuteCommandLineTool(CommandLineToolOptions options, CancellationToken cancellationToken = default);
+    /// <returns>A task representing the asynchronous operation.</returns>
+    Task<CommandResult> ExecuteCommandLineTool(
+        CommandLineToolOptions options,
+        CommandExecutionOptions? executionOptions = null,
+        CancellationToken cancellationToken = default);
 }

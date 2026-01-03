@@ -21,31 +21,31 @@ public class AzApicApiDeployment
 
     public async Task<CommandResult> Create(AzApicApiDeploymentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzApicApiDeploymentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Head(AzApicApiDeploymentHeadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentHeadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentHeadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzApicApiDeploymentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzApicApiDeploymentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzApicApiDeploymentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzApicApiDeploymentUpdateOptions(), cancellationToken: token);
     }
 }

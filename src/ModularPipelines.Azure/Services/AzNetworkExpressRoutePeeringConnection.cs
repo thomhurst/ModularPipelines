@@ -25,26 +25,26 @@ public class AzNetworkExpressRoutePeeringConnection
 
     public async Task<CommandResult> Create(AzNetworkExpressRoutePeeringConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkExpressRoutePeeringConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkExpressRoutePeeringConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRoutePeeringConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRoutePeeringConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionWaitOptions(), cancellationToken: token);
     }
 }

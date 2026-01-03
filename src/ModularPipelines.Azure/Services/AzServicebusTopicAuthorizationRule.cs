@@ -25,26 +25,26 @@ public class AzServicebusTopicAuthorizationRule
 
     public async Task<CommandResult> Create(AzServicebusTopicAuthorizationRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusTopicAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusTopicAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusTopicAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusTopicAuthorizationRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicAuthorizationRuleUpdateOptions(), cancellationToken: token);
     }
 }

@@ -19,6 +19,6 @@ public class AzAiExamples
 
     public async Task<CommandResult> CheckConnection(AzAiExamplesCheckConnectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAiExamplesCheckConnectionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAiExamplesCheckConnectionOptions(), cancellationToken: token);
     }
 }

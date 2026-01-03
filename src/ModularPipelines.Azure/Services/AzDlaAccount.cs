@@ -37,26 +37,26 @@ public class AzDlaAccount
 
     public async Task<CommandResult> Create(AzDlaAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDlaAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDlaAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDlaAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountUpdateOptions(), cancellationToken: token);
     }
 }

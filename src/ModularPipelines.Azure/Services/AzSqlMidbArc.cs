@@ -21,6 +21,6 @@ public class AzSqlMidbArc
 
     public async Task<CommandResult> Restore(AzSqlMidbArcRestoreOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbArcRestoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbArcRestoreOptions(), cancellationToken: token);
     }
 }

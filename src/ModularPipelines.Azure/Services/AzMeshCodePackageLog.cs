@@ -21,6 +21,6 @@ public class AzMeshCodePackageLog
 
     public async Task<CommandResult> Get(AzMeshCodePackageLogGetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshCodePackageLogGetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshCodePackageLogGetOptions(), cancellationToken: token);
     }
 }

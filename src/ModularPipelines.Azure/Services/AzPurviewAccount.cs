@@ -21,41 +21,41 @@ public class AzPurviewAccount
 
     public async Task<CommandResult> AddRootCollectionAdmin(AzPurviewAccountAddRootCollectionAdminOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountAddRootCollectionAdminOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountAddRootCollectionAdminOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzPurviewAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPurviewAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPurviewAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListKey(AzPurviewAccountListKeyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPurviewAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPurviewAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPurviewAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPurviewAccountWaitOptions(), cancellationToken: token);
     }
 }

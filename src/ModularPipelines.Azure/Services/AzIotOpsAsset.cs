@@ -29,31 +29,31 @@ public class AzIotOpsAsset
 
     public async Task<CommandResult> Create(AzIotOpsAssetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzIotOpsAssetDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzIotOpsAssetListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsAssetListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsAssetListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Query(AzIotOpsAssetQueryOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsAssetQueryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotOpsAssetQueryOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotOpsAssetShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotOpsAssetUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

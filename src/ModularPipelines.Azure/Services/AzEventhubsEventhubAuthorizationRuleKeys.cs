@@ -21,11 +21,11 @@ public class AzEventhubsEventhubAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzEventhubsEventhubAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Renew(AzEventhubsEventhubAuthorizationRuleKeysRenewOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

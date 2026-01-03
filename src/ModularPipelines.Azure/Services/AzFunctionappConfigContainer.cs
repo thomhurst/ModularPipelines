@@ -25,16 +25,16 @@ public class AzFunctionappConfigContainer
 
     public async Task<CommandResult> Delete(AzFunctionappConfigContainerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzFunctionappConfigContainerSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFunctionappConfigContainerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerShowOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzNetworkAlbAssociation
 
     public async Task<CommandResult> Create(AzNetworkAlbAssociationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkAlbAssociationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkAlbAssociationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkAlbAssociationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkAlbAssociationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkAlbAssociationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkAlbAssociationWaitOptions(), cancellationToken: token);
     }
 }

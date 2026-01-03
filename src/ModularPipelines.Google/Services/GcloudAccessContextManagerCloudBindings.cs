@@ -35,9 +35,10 @@ public class GcloudAccessContextManagerCloudBindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAccessContextManagerCloudBindingsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudAccessContextManagerCloudBindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAccessContextManagerCloudBindingsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudAccessContextManagerCloudBindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAccessContextManagerCloudBindingsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudAccessContextManagerCloudBindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudAccessContextManagerCloudBindingsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudAccessContextManagerCloudBindings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAccessContextManagerCloudBindingsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -29,21 +29,21 @@ public class AzVmwareDatastore
 
     public async Task<CommandResult> Delete(AzVmwareDatastoreDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareDatastoreListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareDatastoreShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareDatastoreWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareDatastoreWaitOptions(), cancellationToken: token);
     }
 }

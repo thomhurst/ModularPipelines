@@ -21,16 +21,16 @@ public class AzProviderhubCustomRollout
 
     public async Task<CommandResult> Create(AzProviderhubCustomRolloutCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzProviderhubCustomRolloutListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzProviderhubCustomRolloutShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubCustomRolloutShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubCustomRolloutShowOptions(), cancellationToken: token);
     }
 }

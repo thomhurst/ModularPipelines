@@ -37,21 +37,21 @@ public class AzEventgridPartnerRegistration
 
     public async Task<CommandResult> Create(AzEventgridPartnerRegistrationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridPartnerRegistrationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridPartnerRegistrationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerRegistrationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationShowOptions(), cancellationToken: token);
     }
 }

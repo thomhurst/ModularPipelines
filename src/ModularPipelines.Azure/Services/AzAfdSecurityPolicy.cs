@@ -21,26 +21,26 @@ public class AzAfdSecurityPolicy
 
     public async Task<CommandResult> Create(AzAfdSecurityPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdSecurityPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdSecurityPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdSecurityPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAfdSecurityPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyUpdateOptions(), cancellationToken: token);
     }
 }

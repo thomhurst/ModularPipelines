@@ -21,11 +21,11 @@ public class AzHpcCacheNfsStorageTarget
 
     public async Task<CommandResult> Add(AzHpcCacheNfsStorageTargetAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHpcCacheNfsStorageTargetUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

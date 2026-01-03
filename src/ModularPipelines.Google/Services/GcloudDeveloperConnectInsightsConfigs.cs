@@ -35,9 +35,10 @@ public class GcloudDeveloperConnectInsightsConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDeveloperConnectInsightsConfigsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDeveloperConnectInsightsConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDeveloperConnectInsightsConfigsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDeveloperConnectInsightsConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeveloperConnectInsightsConfigsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDeveloperConnectInsightsConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDeveloperConnectInsightsConfigsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDeveloperConnectInsightsConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDeveloperConnectInsightsConfigsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

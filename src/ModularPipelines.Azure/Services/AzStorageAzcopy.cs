@@ -25,6 +25,6 @@ public class AzStorageAzcopy
 
     public async Task<CommandResult> RunCommand(AzStorageAzcopyRunCommandOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAzcopyRunCommandOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAzcopyRunCommandOptions(), cancellationToken: token);
     }
 }

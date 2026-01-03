@@ -21,11 +21,11 @@ public class AzNetworkP2sVpnGatewayConnection
 
     public async Task<CommandResult> List(AzNetworkP2sVpnGatewayConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkP2sVpnGatewayConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkP2sVpnGatewayConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkP2sVpnGatewayConnectionShowOptions(), cancellationToken: token);
     }
 }

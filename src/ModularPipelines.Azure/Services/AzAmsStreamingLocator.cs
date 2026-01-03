@@ -21,31 +21,31 @@ public class AzAmsStreamingLocator
 
     public async Task<CommandResult> Create(AzAmsStreamingLocatorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsStreamingLocatorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetPaths(AzAmsStreamingLocatorGetPathsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorGetPathsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorGetPathsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsStreamingLocatorListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListContentKeys(AzAmsStreamingLocatorListContentKeysOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorListContentKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorListContentKeysOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsStreamingLocatorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorShowOptions(), cancellationToken: token);
     }
 }

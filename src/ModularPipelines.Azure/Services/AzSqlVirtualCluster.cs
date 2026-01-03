@@ -21,16 +21,16 @@ public class AzSqlVirtualCluster
 
     public async Task<CommandResult> Delete(AzSqlVirtualClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlVirtualClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlVirtualClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterShowOptions(), cancellationToken: token);
     }
 }

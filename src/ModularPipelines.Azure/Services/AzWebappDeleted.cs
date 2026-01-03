@@ -21,11 +21,11 @@ public class AzWebappDeleted
 
     public async Task<CommandResult> List(AzWebappDeletedListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeletedListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeletedListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzWebappDeletedRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

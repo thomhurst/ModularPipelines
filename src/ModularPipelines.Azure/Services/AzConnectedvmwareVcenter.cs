@@ -25,21 +25,21 @@ public class AzConnectedvmwareVcenter
 
     public async Task<CommandResult> Connect(AzConnectedvmwareVcenterConnectOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedvmwareVcenterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedvmwareVcenterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedvmwareVcenterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVcenterShowOptions(), cancellationToken: token);
     }
 }

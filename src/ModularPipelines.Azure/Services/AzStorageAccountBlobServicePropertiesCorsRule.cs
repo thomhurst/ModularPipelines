@@ -21,16 +21,16 @@ public class AzStorageAccountBlobServicePropertiesCorsRule
 
     public async Task<CommandResult> Add(AzStorageAccountBlobServicePropertiesCorsRuleAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Clear(AzStorageAccountBlobServicePropertiesCorsRuleClearOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageAccountBlobServicePropertiesCorsRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

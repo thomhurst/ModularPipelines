@@ -21,21 +21,21 @@ public class AzImageBuilderOptimizer
 
     public async Task<CommandResult> Add(AzImageBuilderOptimizerAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzImageBuilderOptimizerRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImageBuilderOptimizerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzImageBuilderOptimizerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerUpdateOptions(), cancellationToken: token);
     }
 }

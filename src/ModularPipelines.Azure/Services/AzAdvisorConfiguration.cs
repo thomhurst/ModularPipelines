@@ -21,16 +21,16 @@ public class AzAdvisorConfiguration
 
     public async Task<CommandResult> List(AzAdvisorConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdvisorConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAdvisorConfigurationUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdvisorConfigurationUpdateOptions(), cancellationToken: token);
     }
 }

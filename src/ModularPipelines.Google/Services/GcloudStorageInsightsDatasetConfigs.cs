@@ -35,9 +35,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLink(
         GcloudStorageInsightsDatasetConfigsCreateLinkOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudStorageInsightsDatasetConfigsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteLink(
         GcloudStorageInsightsDatasetConfigsDeleteLinkOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudStorageInsightsDatasetConfigsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudStorageInsightsDatasetConfigsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudStorageInsightsDatasetConfigsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudStorageInsightsDatasetConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudStorageInsightsDatasetConfigsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

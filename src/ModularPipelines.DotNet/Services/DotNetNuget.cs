@@ -43,31 +43,31 @@ public class DotNetNuget
 
     public virtual async Task<CommandResult> Delete(DotNetNugetDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetDeleteOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Locals(DotNetNugetLocalsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Push(DotNetNugetPushOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetPushOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetPushOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Verify(DotNetNugetVerifyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetVerifyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetVerifyOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Trust(DotNetNugetTrustOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Sign(DotNetNugetSignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetSignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetSignOptions(), null, token);
     }
 }

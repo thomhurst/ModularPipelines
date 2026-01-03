@@ -21,16 +21,16 @@ public class AzVmAem
 
     public async Task<CommandResult> Delete(AzVmAemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzVmAemSetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemSetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemSetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Verify(AzVmAemVerifyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemVerifyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmAemVerifyOptions(), cancellationToken: token);
     }
 }

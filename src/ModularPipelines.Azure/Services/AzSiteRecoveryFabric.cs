@@ -21,31 +21,31 @@ public class AzSiteRecoveryFabric
 
     public async Task<CommandResult> Create(AzSiteRecoveryFabricCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSiteRecoveryFabricDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryFabricListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSiteRecoveryFabricRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryFabricShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryFabricUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryFabricUpdateOptions(), cancellationToken: token);
     }
 }

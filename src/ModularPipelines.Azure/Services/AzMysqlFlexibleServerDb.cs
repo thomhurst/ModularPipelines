@@ -21,21 +21,21 @@ public class AzMysqlFlexibleServerDb
 
     public async Task<CommandResult> Create(AzMysqlFlexibleServerDbCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMysqlFlexibleServerDbDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDbDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDbDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerDbListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMysqlFlexibleServerDbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerDbShowOptions(), cancellationToken: token);
     }
 }

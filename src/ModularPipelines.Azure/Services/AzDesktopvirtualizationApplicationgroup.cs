@@ -21,26 +21,26 @@ public class AzDesktopvirtualizationApplicationgroup
 
     public async Task<CommandResult> Create(AzDesktopvirtualizationApplicationgroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDesktopvirtualizationApplicationgroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDesktopvirtualizationApplicationgroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDesktopvirtualizationApplicationgroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDesktopvirtualizationApplicationgroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDesktopvirtualizationApplicationgroupUpdateOptions(), cancellationToken: token);
     }
 }

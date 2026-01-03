@@ -35,9 +35,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudEventarcMessageBusesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudEventarcMessageBusesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudEventarcMessageBusesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEnrollments(
         GcloudEventarcMessageBusesListEnrollmentsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudEventarcMessageBusesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Publish(
         GcloudEventarcMessageBusesPublishOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudEventarcMessageBuses
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudEventarcMessageBusesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

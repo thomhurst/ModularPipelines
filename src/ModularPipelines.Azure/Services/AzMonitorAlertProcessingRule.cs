@@ -21,26 +21,26 @@ public class AzMonitorAlertProcessingRule
 
     public async Task<CommandResult> Create(AzMonitorAlertProcessingRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorAlertProcessingRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorAlertProcessingRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAlertProcessingRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAlertProcessingRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAlertProcessingRuleUpdateOptions(), cancellationToken: token);
     }
 }

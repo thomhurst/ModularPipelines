@@ -21,41 +21,41 @@ public class AzServicebusNamespacePrivateEndpointConnection
 
     public async Task<CommandResult> Approve(AzServicebusNamespacePrivateEndpointConnectionApproveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionApproveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionApproveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzServicebusNamespacePrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusNamespacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusNamespacePrivateEndpointConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reject(AzServicebusNamespacePrivateEndpointConnectionRejectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionRejectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionRejectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusNamespacePrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusNamespacePrivateEndpointConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzServicebusNamespacePrivateEndpointConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespacePrivateEndpointConnectionWaitOptions(), cancellationToken: token);
     }
 }

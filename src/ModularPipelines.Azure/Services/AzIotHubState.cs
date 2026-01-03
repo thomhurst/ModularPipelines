@@ -21,16 +21,16 @@ public class AzIotHubState
 
     public async Task<CommandResult> Export(AzIotHubStateExportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzIotHubStateImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Migrate(AzIotHubStateMigrateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubStateMigrateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubStateMigrateOptions(), cancellationToken: token);
     }
 }

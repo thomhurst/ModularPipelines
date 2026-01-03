@@ -21,11 +21,11 @@ public class AzHdinsightOnAksClusterJob
 
     public async Task<CommandResult> List(AzHdinsightOnAksClusterJobListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Run(AzHdinsightOnAksClusterJobRunOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterJobRunOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterJobRunOptions(), cancellationToken: token);
     }
 }

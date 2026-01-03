@@ -37,6 +37,6 @@ public class AzWebpubsubService
 
     public async Task<CommandResult> Broadcast(AzWebpubsubServiceBroadcastOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

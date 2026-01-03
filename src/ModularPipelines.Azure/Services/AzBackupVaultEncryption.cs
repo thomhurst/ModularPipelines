@@ -21,11 +21,11 @@ public class AzBackupVaultEncryption
 
     public async Task<CommandResult> Show(AzBackupVaultEncryptionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultEncryptionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultEncryptionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzBackupVaultEncryptionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

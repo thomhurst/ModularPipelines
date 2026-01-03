@@ -23,21 +23,21 @@ public class AzManagedapp
 
     public async Task<CommandResult> Create(AzManagedappCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzManagedappDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzManagedappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzManagedappShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedappShowOptions(), cancellationToken: token);
     }
 }

@@ -19,11 +19,11 @@ public class DotNetAdd
 
     public virtual async Task<CommandResult> Package(DotNetAddPackageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Reference(DotNetAddReferenceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

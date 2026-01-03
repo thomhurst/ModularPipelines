@@ -21,16 +21,16 @@ public class AzProviderhubOperation
 
     public async Task<CommandResult> Create(AzProviderhubOperationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzProviderhubOperationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubOperationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubOperationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzProviderhubOperationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

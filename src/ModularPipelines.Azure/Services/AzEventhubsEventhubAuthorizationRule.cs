@@ -25,26 +25,26 @@ public class AzEventhubsEventhubAuthorizationRule
 
     public async Task<CommandResult> Create(AzEventhubsEventhubAuthorizationRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventhubsEventhubAuthorizationRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsEventhubAuthorizationRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsEventhubAuthorizationRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsEventhubAuthorizationRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubAuthorizationRuleUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzSecuritySecuritySolutions
 
     public async Task<CommandResult> List(AzSecuritySecuritySolutionsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecuritySolutionsListOptions(), cancellationToken: token);
     }
 }

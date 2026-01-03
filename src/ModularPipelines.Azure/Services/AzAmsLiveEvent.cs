@@ -21,51 +21,51 @@ public class AzAmsLiveEvent
 
     public async Task<CommandResult> Create(AzAmsLiveEventCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAmsLiveEventDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAmsLiveEventListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reset(AzAmsLiveEventResetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventResetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventResetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAmsLiveEventShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Standby(AzAmsLiveEventStandbyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStandbyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStandbyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzAmsLiveEventStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzAmsLiveEventStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAmsLiveEventUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzAmsLiveEventWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventWaitOptions(), cancellationToken: token);
     }
 }

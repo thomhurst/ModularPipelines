@@ -21,31 +21,31 @@ public class AzNginxDeploymentCertificate
 
     public async Task<CommandResult> Create(AzNginxDeploymentCertificateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNginxDeploymentCertificateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNginxDeploymentCertificateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNginxDeploymentCertificateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNginxDeploymentCertificateUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNginxDeploymentCertificateWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNginxDeploymentCertificateWaitOptions(), cancellationToken: token);
     }
 }

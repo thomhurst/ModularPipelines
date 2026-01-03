@@ -21,26 +21,26 @@ public class AzAzurestackhciNetworkinterface
 
     public async Task<CommandResult> Create(AzAzurestackhciNetworkinterfaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAzurestackhciNetworkinterfaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAzurestackhciNetworkinterfaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAzurestackhciNetworkinterfaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAzurestackhciNetworkinterfaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAzurestackhciNetworkinterfaceUpdateOptions(), cancellationToken: token);
     }
 }

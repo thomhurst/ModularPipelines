@@ -41,26 +41,26 @@ public class AzPartnercenterMarketplaceOffer
 
     public async Task<CommandResult> Create(AzPartnercenterMarketplaceOfferCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPartnercenterMarketplaceOfferDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPartnercenterMarketplaceOfferListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPartnercenterMarketplaceOfferListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPartnercenterMarketplaceOfferListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Publish(AzPartnercenterMarketplaceOfferPublishOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPartnercenterMarketplaceOfferShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

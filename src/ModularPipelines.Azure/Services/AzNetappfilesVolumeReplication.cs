@@ -21,41 +21,41 @@ public class AzNetappfilesVolumeReplication
 
     public async Task<CommandResult> Approve(AzNetappfilesVolumeReplicationApproveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesVolumeReplicationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ReInitialize(AzNetappfilesVolumeReplicationReInitializeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationReInitializeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationReInitializeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetappfilesVolumeReplicationRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Resume(AzNetappfilesVolumeReplicationResumeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationResumeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationResumeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Status(AzNetappfilesVolumeReplicationStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationStatusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Suspend(AzNetappfilesVolumeReplicationSuspendOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationSuspendOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationSuspendOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesVolumeReplicationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationWaitOptions(), cancellationToken: token);
     }
 }

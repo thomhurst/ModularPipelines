@@ -21,6 +21,6 @@ public class AzSfClusterDurability
 
     public async Task<CommandResult> Update(AzSfClusterDurabilityUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

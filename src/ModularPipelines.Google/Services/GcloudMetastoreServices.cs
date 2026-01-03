@@ -57,9 +57,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
         GcloudMetastoreServicesAddIamPolicyBindingOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,9 +71,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AlterMetadataResourceLocation(
         GcloudMetastoreServicesAlterMetadataResourceLocationOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,9 +85,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AlterTableProperties(
         GcloudMetastoreServicesAlterTablePropertiesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -96,9 +99,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudMetastoreServicesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -109,9 +113,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudMetastoreServicesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -122,9 +127,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudMetastoreServicesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -135,9 +141,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudMetastoreServicesGetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -148,9 +155,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudMetastoreServicesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -161,9 +169,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MoveTableToDatabase(
         GcloudMetastoreServicesMoveTableToDatabaseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -174,9 +183,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryMetadata(
         GcloudMetastoreServicesQueryMetadataOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -187,9 +197,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudMetastoreServicesRemoveIamPolicyBindingOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -200,9 +211,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudMetastoreServicesRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -213,9 +225,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudMetastoreServicesSetIamPolicyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -226,9 +239,10 @@ public class GcloudMetastoreServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudMetastoreServicesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

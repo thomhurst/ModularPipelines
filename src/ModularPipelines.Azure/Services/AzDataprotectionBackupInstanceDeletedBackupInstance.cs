@@ -21,16 +21,16 @@ public class AzDataprotectionBackupInstanceDeletedBackupInstance
 
     public async Task<CommandResult> List(AzDataprotectionBackupInstanceDeletedBackupInstanceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataprotectionBackupInstanceDeletedBackupInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeletedBackupInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeletedBackupInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Undelete(AzDataprotectionBackupInstanceDeletedBackupInstanceUndeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeletedBackupInstanceUndeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataprotectionBackupInstanceDeletedBackupInstanceUndeleteOptions(), cancellationToken: token);
     }
 }

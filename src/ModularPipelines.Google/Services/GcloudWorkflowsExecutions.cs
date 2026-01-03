@@ -35,9 +35,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudWorkflowsExecutionsCancelOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeLast(
         GcloudWorkflowsExecutionsDescribeLastOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudWorkflowsExecutionsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudWorkflowsExecutionsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WaitLast(
         GcloudWorkflowsExecutionsWaitLastOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudWorkflowsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
         GcloudWorkflowsExecutionsWaitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

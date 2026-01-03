@@ -21,16 +21,16 @@ public class AzContainerappJobIdentity
 
     public async Task<CommandResult> Assign(AzContainerappJobIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzContainerappJobIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappJobIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappJobIdentityShowOptions(), cancellationToken: token);
     }
 }

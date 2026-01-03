@@ -21,6 +21,6 @@ public class AzIotHubConnectionString
 
     public async Task<CommandResult> Show(AzIotHubConnectionStringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConnectionStringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubConnectionStringShowOptions(), cancellationToken: token);
     }
 }

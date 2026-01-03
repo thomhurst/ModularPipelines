@@ -35,9 +35,10 @@ public class GcloudEventarcChannelConnections
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudEventarcChannelConnectionsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudEventarcChannelConnections
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudEventarcChannelConnectionsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudEventarcChannelConnections
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudEventarcChannelConnectionsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudEventarcChannelConnections
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudEventarcChannelConnectionsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

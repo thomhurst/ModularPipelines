@@ -21,26 +21,26 @@ public class AzNetworkWatcherConnectionMonitorTestConfiguration
 
     public async Task<CommandResult> Add(AzNetworkWatcherConnectionMonitorTestConfigurationAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkWatcherConnectionMonitorTestConfigurationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkWatcherConnectionMonitorTestConfigurationRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkWatcherConnectionMonitorTestConfigurationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkWatcherConnectionMonitorTestConfigurationWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherConnectionMonitorTestConfigurationWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherConnectionMonitorTestConfigurationWaitOptions(), cancellationToken: token);
     }
 }

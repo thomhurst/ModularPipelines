@@ -21,6 +21,6 @@ public class AzEventgridTopicCreateEventgrid
 
     public async Task<CommandResult> Extension(AzEventgridTopicCreateEventgridExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

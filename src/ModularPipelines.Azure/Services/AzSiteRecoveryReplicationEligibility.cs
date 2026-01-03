@@ -21,11 +21,11 @@ public class AzSiteRecoveryReplicationEligibility
 
     public async Task<CommandResult> List(AzSiteRecoveryReplicationEligibilityListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDefault(AzSiteRecoveryReplicationEligibilityShowDefaultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryReplicationEligibilityShowDefaultOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryReplicationEligibilityShowDefaultOptions(), cancellationToken: token);
     }
 }

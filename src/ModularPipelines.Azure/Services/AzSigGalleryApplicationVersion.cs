@@ -21,31 +21,31 @@ public class AzSigGalleryApplicationVersion
 
     public async Task<CommandResult> Create(AzSigGalleryApplicationVersionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSigGalleryApplicationVersionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSigGalleryApplicationVersionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSigGalleryApplicationVersionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSigGalleryApplicationVersionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSigGalleryApplicationVersionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigGalleryApplicationVersionWaitOptions(), cancellationToken: token);
     }
 }

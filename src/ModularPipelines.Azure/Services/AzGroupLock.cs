@@ -21,26 +21,26 @@ public class AzGroupLock
 
     public async Task<CommandResult> Create(AzGroupLockCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzGroupLockDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzGroupLockListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzGroupLockShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzGroupLockUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGroupLockUpdateOptions(), cancellationToken: token);
     }
 }

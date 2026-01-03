@@ -21,11 +21,11 @@ public class AzIotHubMessageRouteFallback
 
     public async Task<CommandResult> Set(AzIotHubMessageRouteFallbackSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubMessageRouteFallbackShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

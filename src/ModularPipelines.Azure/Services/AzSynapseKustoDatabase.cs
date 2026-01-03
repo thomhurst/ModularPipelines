@@ -21,31 +21,31 @@ public class AzSynapseKustoDatabase
 
     public async Task<CommandResult> Create(AzSynapseKustoDatabaseCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSynapseKustoDatabaseDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSynapseKustoDatabaseListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSynapseKustoDatabaseShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSynapseKustoDatabaseUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseKustoDatabaseWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseKustoDatabaseWaitOptions(), cancellationToken: token);
     }
 }

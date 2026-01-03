@@ -91,81 +91,81 @@ public class AzWebapp
 
     public async Task<CommandResult> Browse(AzWebappBrowseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappBrowseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappBrowseOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzWebappCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateRemoteConnection(AzWebappCreateRemoteConnectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappCreateRemoteConnectionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappCreateRemoteConnectionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzWebappDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deploy(AzWebappDeployOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeployOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeployOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzWebappListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListInstances(AzWebappListInstancesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListRuntimes(AzWebappListRuntimesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListRuntimesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappListRuntimesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzWebappRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Scale(AzWebappScaleOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWebappShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Ssh(AzWebappSshOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappSshOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappSshOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzWebappStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzWebappStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzWebappUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWebappUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappUpdateOptions(), cancellationToken: token);
     }
 }

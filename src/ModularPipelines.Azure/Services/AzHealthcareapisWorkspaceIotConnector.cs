@@ -25,31 +25,31 @@ public class AzHealthcareapisWorkspaceIotConnector
 
     public async Task<CommandResult> Create(AzHealthcareapisWorkspaceIotConnectorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHealthcareapisWorkspaceIotConnectorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHealthcareapisWorkspaceIotConnectorListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHealthcareapisWorkspaceIotConnectorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHealthcareapisWorkspaceIotConnectorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHealthcareapisWorkspaceIotConnectorWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthcareapisWorkspaceIotConnectorWaitOptions(), cancellationToken: token);
     }
 }

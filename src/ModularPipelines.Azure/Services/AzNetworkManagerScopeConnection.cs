@@ -21,26 +21,26 @@ public class AzNetworkManagerScopeConnection
 
     public async Task<CommandResult> Create(AzNetworkManagerScopeConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkManagerScopeConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkManagerScopeConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkManagerScopeConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkManagerScopeConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkManagerScopeConnectionUpdateOptions(), cancellationToken: token);
     }
 }

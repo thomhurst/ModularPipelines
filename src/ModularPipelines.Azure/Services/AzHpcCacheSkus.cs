@@ -21,6 +21,6 @@ public class AzHpcCacheSkus
 
     public async Task<CommandResult> List(AzHpcCacheSkusListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheSkusListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHpcCacheSkusListOptions(), cancellationToken: token);
     }
 }

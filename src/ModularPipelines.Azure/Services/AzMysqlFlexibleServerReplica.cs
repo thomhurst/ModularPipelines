@@ -21,16 +21,16 @@ public class AzMysqlFlexibleServerReplica
 
     public async Task<CommandResult> Create(AzMysqlFlexibleServerReplicaCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMysqlFlexibleServerReplicaListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> StopReplication(AzMysqlFlexibleServerReplicaStopReplicationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerReplicaStopReplicationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerReplicaStopReplicationOptions(), cancellationToken: token);
     }
 }

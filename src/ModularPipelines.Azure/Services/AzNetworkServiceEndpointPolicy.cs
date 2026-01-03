@@ -21,31 +21,31 @@ public class AzNetworkServiceEndpointPolicy
 
     public async Task<CommandResult> Create(AzNetworkServiceEndpointPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkServiceEndpointPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkServiceEndpointPolicyListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkServiceEndpointPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkServiceEndpointPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkServiceEndpointPolicyWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkServiceEndpointPolicyWaitOptions(), cancellationToken: token);
     }
 }

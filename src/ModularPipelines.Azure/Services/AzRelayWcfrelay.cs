@@ -25,26 +25,26 @@ public class AzRelayWcfrelay
 
     public async Task<CommandResult> Create(AzRelayWcfrelayCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRelayWcfrelayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRelayWcfrelayListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRelayWcfrelayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRelayWcfrelayUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayUpdateOptions(), cancellationToken: token);
     }
 }

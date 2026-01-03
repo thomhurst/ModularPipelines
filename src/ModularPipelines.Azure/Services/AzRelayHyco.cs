@@ -25,26 +25,26 @@ public class AzRelayHyco
 
     public async Task<CommandResult> Create(AzRelayHycoCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRelayHycoDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRelayHycoListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzRelayHycoShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRelayHycoUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoUpdateOptions(), cancellationToken: token);
     }
 }

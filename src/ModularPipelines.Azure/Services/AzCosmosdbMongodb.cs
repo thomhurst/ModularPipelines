@@ -49,6 +49,6 @@ public class AzCosmosdbMongodb
 
     public async Task<CommandResult> RetrieveLatestBackupTime(AzCosmosdbMongodbRetrieveLatestBackupTimeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

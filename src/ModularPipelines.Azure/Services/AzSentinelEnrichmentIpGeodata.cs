@@ -21,6 +21,6 @@ public class AzSentinelEnrichmentIpGeodata
 
     public async Task<CommandResult> Show(AzSentinelEnrichmentIpGeodataShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

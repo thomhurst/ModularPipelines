@@ -21,31 +21,31 @@ public class AzEventgridNamespaceClientGroup
 
     public async Task<CommandResult> Create(AzEventgridNamespaceClientGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridNamespaceClientGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridNamespaceClientGroupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridNamespaceClientGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridNamespaceClientGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzEventgridNamespaceClientGroupWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridNamespaceClientGroupWaitOptions(), cancellationToken: token);
     }
 }

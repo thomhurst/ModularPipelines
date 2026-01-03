@@ -21,11 +21,11 @@ public class AzSynapseSqlPoolAuditPolicy
 
     public async Task<CommandResult> Show(AzSynapseSqlPoolAuditPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSynapseSqlPoolAuditPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyUpdateOptions(), cancellationToken: token);
     }
 }

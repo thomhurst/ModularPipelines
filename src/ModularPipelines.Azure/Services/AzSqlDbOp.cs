@@ -21,11 +21,11 @@ public class AzSqlDbOp
 
     public async Task<CommandResult> Cancel(AzSqlDbOpCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlDbOpListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbOpListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbOpListOptions(), cancellationToken: token);
     }
 }

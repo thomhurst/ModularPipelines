@@ -21,11 +21,11 @@ public class AzCognitiveservicesAccountKeys
 
     public async Task<CommandResult> List(AzCognitiveservicesAccountKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Regenerate(AzCognitiveservicesAccountKeysRegenerateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

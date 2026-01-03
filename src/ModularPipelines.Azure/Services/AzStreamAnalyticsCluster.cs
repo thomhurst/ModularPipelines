@@ -21,36 +21,36 @@ public class AzStreamAnalyticsCluster
 
     public async Task<CommandResult> Create(AzStreamAnalyticsClusterCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStreamAnalyticsClusterDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStreamAnalyticsClusterListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListStreamingJob(AzStreamAnalyticsClusterListStreamingJobOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStreamAnalyticsClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStreamAnalyticsClusterUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStreamAnalyticsClusterWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStreamAnalyticsClusterWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzMlFolder
 
     public async Task<CommandResult> Attach(AzMlFolderAttachOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMlFolderAttachOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMlFolderAttachOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzMeshVolume
 
     public async Task<CommandResult> Create(AzMeshVolumeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMeshVolumeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMeshVolumeListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMeshVolumeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMeshVolumeShowOptions(), cancellationToken: token);
     }
 }

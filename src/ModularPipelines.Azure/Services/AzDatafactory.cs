@@ -67,41 +67,41 @@ public class AzDatafactory
 
     public async Task<CommandResult> ConfigureFactoryRepo(AzDatafactoryConfigureFactoryRepoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryConfigureFactoryRepoOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryConfigureFactoryRepoOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzDatafactoryCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatafactoryDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetDataPlaneAccess(AzDatafactoryGetDataPlaneAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryGetDataPlaneAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryGetDataPlaneAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetGitHubAccessToken(AzDatafactoryGetGitHubAccessTokenOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatafactoryListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatafactoryShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatafactoryUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatafactoryUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzMonitorLogProfiles
 
     public async Task<CommandResult> Create(AzMonitorLogProfilesCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogProfilesDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogProfilesListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogProfilesShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogProfilesUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogProfilesUpdateOptions(), cancellationToken: token);
     }
 }

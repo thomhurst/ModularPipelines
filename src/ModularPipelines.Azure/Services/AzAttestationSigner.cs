@@ -21,16 +21,16 @@ public class AzAttestationSigner
 
     public async Task<CommandResult> Add(AzAttestationSignerAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAttestationSignerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzAttestationSignerRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAttestationSignerRemoveOptions(), cancellationToken: token);
     }
 }

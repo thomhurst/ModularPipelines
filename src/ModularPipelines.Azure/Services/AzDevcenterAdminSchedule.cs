@@ -21,31 +21,31 @@ public class AzDevcenterAdminSchedule
 
     public async Task<CommandResult> Create(AzDevcenterAdminScheduleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevcenterAdminScheduleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminScheduleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterAdminScheduleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevcenterAdminScheduleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDevcenterAdminScheduleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminScheduleWaitOptions(), cancellationToken: token);
     }
 }

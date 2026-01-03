@@ -21,21 +21,21 @@ public class AzSiteRecoveryAlertSetting
 
     public async Task<CommandResult> Create(AzSiteRecoveryAlertSettingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryAlertSettingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryAlertSettingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryAlertSettingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryAlertSettingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryAlertSettingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryAlertSettingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryAlertSettingUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzGuestconfigGuestConfigurationHcrpAssignment
 
     public async Task<CommandResult> Create(AzGuestconfigGuestConfigurationHcrpAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzGuestconfigGuestConfigurationHcrpAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzGuestconfigGuestConfigurationHcrpAssignmentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzGuestconfigGuestConfigurationHcrpAssignmentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzGuestconfigGuestConfigurationHcrpAssignmentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzGuestconfigGuestConfigurationHcrpAssignmentWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzGuestconfigGuestConfigurationHcrpAssignmentWaitOptions(), cancellationToken: token);
     }
 }

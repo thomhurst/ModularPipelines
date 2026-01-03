@@ -14,7 +14,7 @@ internal class Bash : IBash
 
     public virtual Task<CommandResult> Command(BashCommandOptions options, CancellationToken cancellationToken = default)
     {
-        return _command.ExecuteCommandLineTool(options, cancellationToken);
+        return _command.ExecuteCommandLineTool(options, null, cancellationToken);
     }
 
     public virtual async Task<CommandResult> FromFile(BashFileOptions options, CancellationToken cancellationToken = default)
@@ -22,14 +22,14 @@ internal class Bash : IBash
         return await _command.ExecuteCommandLineTool(options with
         {
             FilePath = await ToWslPath(options.FilePath).ConfigureAwait(false),
-        }, cancellationToken).ConfigureAwait(false);
+        }, null, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<string> ToWslPath(string path)
     {
         if (OperatingSystem.IsWindows())
         {
-            var result = await _command.ExecuteCommandLineTool(new CommandLineToolOptions("wsl")
+            var result = await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("wsl")
             {
                 Arguments = ["wslpath", "-a", path.Replace("\\", "\\\\")],
             }).ConfigureAwait(false);

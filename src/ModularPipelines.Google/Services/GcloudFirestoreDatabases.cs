@@ -35,9 +35,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clone(
         GcloudFirestoreDatabasesCloneOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectionString(
         GcloudFirestoreDatabasesConnectionStringOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudFirestoreDatabasesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudFirestoreDatabasesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFirestoreDatabasesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudFirestoreDatabasesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ping(
         GcloudFirestoreDatabasesPingOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudFirestoreDatabasesRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudFirestoreDatabases
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudFirestoreDatabasesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

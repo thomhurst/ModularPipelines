@@ -65,106 +65,106 @@ public class AzStorageBlob
 
     public async Task<CommandResult> Delete(AzStorageBlobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DeleteBatch(AzStorageBlobDeleteBatchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Download(AzStorageBlobDownloadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDownloadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobDownloadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DownloadBatch(AzStorageBlobDownloadBatchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Exists(AzStorageBlobExistsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobExistsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Filter(AzStorageBlobFilterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateSas(AzStorageBlobGenerateSasOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobGenerateSasOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobGenerateSasOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageBlobListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Query(AzStorageBlobQueryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Restore(AzStorageBlobRestoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Rewrite(AzStorageBlobRewriteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SetLegalHold(AzStorageBlobSetLegalHoldOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SetTier(AzStorageBlobSetTierOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStorageBlobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Snapshot(AzStorageBlobSnapshotOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobSnapshotOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobSnapshotOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Sync(AzStorageBlobSyncOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Undelete(AzStorageBlobUndeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobUndeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobUndeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageBlobUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Upload(AzStorageBlobUploadOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobUploadOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobUploadOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UploadBatch(AzStorageBlobUploadBatchOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Url(AzStorageBlobUrlOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

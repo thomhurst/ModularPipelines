@@ -21,21 +21,21 @@ public class AzIotHubDeviceTwin
 
     public async Task<CommandResult> List(AzIotHubDeviceTwinListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceTwinListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeviceTwinListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Replace(AzIotHubDeviceTwinReplaceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubDeviceTwinShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzIotHubDeviceTwinUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

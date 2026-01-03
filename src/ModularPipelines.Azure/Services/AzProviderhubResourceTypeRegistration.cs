@@ -21,21 +21,21 @@ public class AzProviderhubResourceTypeRegistration
 
     public async Task<CommandResult> Create(AzProviderhubResourceTypeRegistrationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzProviderhubResourceTypeRegistrationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubResourceTypeRegistrationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubResourceTypeRegistrationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzProviderhubResourceTypeRegistrationListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzProviderhubResourceTypeRegistrationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubResourceTypeRegistrationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubResourceTypeRegistrationShowOptions(), cancellationToken: token);
     }
 }

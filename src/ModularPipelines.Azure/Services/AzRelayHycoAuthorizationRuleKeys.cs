@@ -21,11 +21,11 @@ public class AzRelayHycoAuthorizationRuleKeys
 
     public async Task<CommandResult> List(AzRelayHycoAuthorizationRuleKeysListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Renew(AzRelayHycoAuthorizationRuleKeysRenewOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

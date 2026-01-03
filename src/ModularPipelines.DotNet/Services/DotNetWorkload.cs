@@ -19,36 +19,36 @@ public class DotNetWorkload
 
     public virtual async Task<CommandResult> Install(DotNetWorkloadInstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> List(DotNetWorkloadListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadListOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Update(DotNetWorkloadUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadUpdateOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Restore(DotNetWorkloadRestoreOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadRestoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadRestoreOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Repair(DotNetWorkloadRepairOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadRepairOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadRepairOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Uninstall(DotNetWorkloadUninstallOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 
     public virtual async Task<CommandResult> Search(DotNetWorkloadSearchOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadSearchOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadSearchOptions(), null, token);
     }
 }

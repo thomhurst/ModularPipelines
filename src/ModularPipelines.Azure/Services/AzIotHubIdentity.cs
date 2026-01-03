@@ -21,16 +21,16 @@ public class AzIotHubIdentity
 
     public async Task<CommandResult> Assign(AzIotHubIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzIotHubIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzIotHubIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzIotHubIdentityShowOptions(), cancellationToken: token);
     }
 }

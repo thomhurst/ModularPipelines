@@ -21,21 +21,21 @@ public class AzNetworkfabricInternetgateway
 
     public async Task<CommandResult> List(AzNetworkfabricInternetgatewayListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricInternetgatewayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricInternetgatewayUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricInternetgatewayWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayWaitOptions(), cancellationToken: token);
     }
 }

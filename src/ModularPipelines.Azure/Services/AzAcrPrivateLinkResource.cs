@@ -21,6 +21,6 @@ public class AzAcrPrivateLinkResource
 
     public async Task<CommandResult> List(AzAcrPrivateLinkResourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

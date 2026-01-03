@@ -21,11 +21,11 @@ public class AzContainerappDapr
 
     public async Task<CommandResult> Disable(AzContainerappDaprDisableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDaprDisableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDaprDisableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzContainerappDaprEnableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDaprEnableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappDaprEnableOptions(), cancellationToken: token);
     }
 }

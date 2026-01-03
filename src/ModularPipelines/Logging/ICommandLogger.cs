@@ -10,7 +10,8 @@ public interface ICommandLogger
     /// <summary>
     /// Logs the details of a command execution.
     /// </summary>
-    /// <param name="options">The command line tool options used for execution. Logging behavior is controlled via <see cref="CommandLineToolOptions.LogSettings"/>.</param>
+    /// <param name="options">The command line tool options used for execution.</param>
+    /// <param name="execOpts">The command execution options containing logging settings. Logging behavior is controlled via <see cref="CommandExecutionOptions.LogSettings"/>.</param>
     /// <param name="inputToLog">The input command to log.</param>
     /// <param name="exitCode">The exit code returned by the command.</param>
     /// <param name="runTime">The time taken to execute the command.</param>
@@ -19,6 +20,7 @@ public interface ICommandLogger
     /// <param name="commandWorkingDirPath">The working directory where the command was executed.</param>
     void Log(
         CommandLineToolOptions options,
+        CommandExecutionOptions? execOpts,
         string? inputToLog,
         int? exitCode,
         TimeSpan? runTime,

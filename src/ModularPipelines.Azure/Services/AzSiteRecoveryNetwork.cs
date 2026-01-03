@@ -25,11 +25,11 @@ public class AzSiteRecoveryNetwork
 
     public async Task<CommandResult> List(AzSiteRecoveryNetworkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryNetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryNetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryNetworkShowOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzFunctionappConfigHostname
 
     public async Task<CommandResult> Add(AzFunctionappConfigHostnameAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzFunctionappConfigHostnameDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetExternalIp(AzFunctionappConfigHostnameGetExternalIpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameGetExternalIpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigHostnameGetExternalIpOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFunctionappConfigHostnameListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

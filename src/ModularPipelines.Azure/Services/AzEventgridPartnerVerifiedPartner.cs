@@ -21,11 +21,11 @@ public class AzEventgridPartnerVerifiedPartner
 
     public async Task<CommandResult> List(AzEventgridPartnerVerifiedPartnerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerVerifiedPartnerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerVerifiedPartnerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerVerifiedPartnerShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

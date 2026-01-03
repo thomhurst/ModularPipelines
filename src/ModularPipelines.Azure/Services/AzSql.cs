@@ -91,21 +91,21 @@ public class AzSql
 
     public async Task<CommandResult> Down(AzSqlDownOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDownOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDownOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzSqlListUsagesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowUsage(AzSqlShowUsageOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Up(AzSqlUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlUpOptions(), cancellationToken: token);
     }
 }

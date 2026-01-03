@@ -21,26 +21,26 @@ public class AzPostgresServerAdAdmin
 
     public async Task<CommandResult> Create(AzPostgresServerAdAdminCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPostgresServerAdAdminDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPostgresServerAdAdminListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresServerAdAdminShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPostgresServerAdAdminWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerAdAdminWaitOptions(), cancellationToken: token);
     }
 }

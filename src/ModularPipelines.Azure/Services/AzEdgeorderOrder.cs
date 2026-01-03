@@ -21,11 +21,11 @@ public class AzEdgeorderOrder
 
     public async Task<CommandResult> List(AzEdgeorderOrderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEdgeorderOrderShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEdgeorderOrderShowOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzSentinelSetting
 
     public async Task<CommandResult> Create(AzSentinelSettingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelSettingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelSettingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelSettingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelSettingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelSettingUpdateOptions(), cancellationToken: token);
     }
 }

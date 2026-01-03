@@ -21,36 +21,36 @@ public class AzNetworkPrivateDnsRecordSetSrv
 
     public async Task<CommandResult> AddRecord(AzNetworkPrivateDnsRecordSetSrvAddRecordOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNetworkPrivateDnsRecordSetSrvCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPrivateDnsRecordSetSrvDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPrivateDnsRecordSetSrvListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RemoveRecord(AzNetworkPrivateDnsRecordSetSrvRemoveRecordOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPrivateDnsRecordSetSrvShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateDnsRecordSetSrvUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetSrvUpdateOptions(), cancellationToken: token);
     }
 }

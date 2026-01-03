@@ -29,21 +29,21 @@ public class AzEventhubsNamespaceNetworkRuleSet
 
     public async Task<CommandResult> Create(AzEventhubsNamespaceNetworkRuleSetCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventhubsNamespaceNetworkRuleSetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventhubsNamespaceNetworkRuleSetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventhubsNamespaceNetworkRuleSetUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceNetworkRuleSetUpdateOptions(), cancellationToken: token);
     }
 }

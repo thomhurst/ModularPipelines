@@ -21,31 +21,31 @@ public class AzWorkloadsSapDatabaseInstance
 
     public async Task<CommandResult> List(AzWorkloadsSapDatabaseInstanceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzWorkloadsSapDatabaseInstanceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzWorkloadsSapDatabaseInstanceStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceStartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Stop(AzWorkloadsSapDatabaseInstanceStopOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceStopOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceStopOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzWorkloadsSapDatabaseInstanceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzWorkloadsSapDatabaseInstanceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWorkloadsSapDatabaseInstanceWaitOptions(), cancellationToken: token);
     }
 }

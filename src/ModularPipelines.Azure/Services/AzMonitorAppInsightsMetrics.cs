@@ -21,11 +21,11 @@ public class AzMonitorAppInsightsMetrics
 
     public async Task<CommandResult> GetMetadata(AzMonitorAppInsightsMetricsGetMetadataOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsMetricsGetMetadataOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsMetricsGetMetadataOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsMetricsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

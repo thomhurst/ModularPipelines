@@ -39,7 +39,7 @@ internal class GitVersioning : IGitVersioning
                 return _prefetchedGitVersionInformation;
             }
 
-            await _command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+            await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("dotnet")
             {
                 Arguments =
                 [
@@ -54,13 +54,16 @@ internal class GitVersioning : IGitVersioning
             await TryWriteConfigurationFile();
 
             var gitVersionOutput = await _command.ExecuteCommandLineTool(
-                new CommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
+                new GenericCommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
                 {
-                    WorkingDirectory = _gitInformation.Root.Path,
                     Arguments =
                     [
                         "/output", "json"
                     ],
+                },
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = _gitInformation.Root.Path,
                 });
 
             return _prefetchedGitVersionInformation ??=

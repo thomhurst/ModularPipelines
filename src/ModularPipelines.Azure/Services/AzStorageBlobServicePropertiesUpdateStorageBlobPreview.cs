@@ -21,6 +21,6 @@ public class AzStorageBlobServicePropertiesUpdateStorageBlobPreview
 
     public async Task<CommandResult> Extension(AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesUpdateStorageBlobPreviewExtensionOptions(), cancellationToken: token);
     }
 }

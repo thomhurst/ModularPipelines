@@ -21,26 +21,26 @@ public class AzProviderhubProviderRegistration
 
     public async Task<CommandResult> Create(AzProviderhubProviderRegistrationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzProviderhubProviderRegistrationDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateOperation(AzProviderhubProviderRegistrationGenerateOperationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationGenerateOperationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationGenerateOperationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzProviderhubProviderRegistrationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzProviderhubProviderRegistrationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzProviderhubProviderRegistrationShowOptions(), cancellationToken: token);
     }
 }

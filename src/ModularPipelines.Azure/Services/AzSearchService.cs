@@ -21,31 +21,31 @@ public class AzSearchService
 
     public async Task<CommandResult> Create(AzSearchServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSearchServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSearchServiceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSearchServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSearchServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSearchServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceWaitOptions(), cancellationToken: token);
     }
 }

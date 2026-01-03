@@ -21,36 +21,36 @@ public class AzSentinelDataConnector
 
     public async Task<CommandResult> Connect(AzSentinelDataConnectorConnectOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzSentinelDataConnectorCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelDataConnectorDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Disconnect(AzSentinelDataConnectorDisconnectOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelDataConnectorListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelDataConnectorShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelDataConnectorUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelDataConnectorUpdateOptions(), cancellationToken: token);
     }
 }

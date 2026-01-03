@@ -19,26 +19,26 @@ public class AzLock
 
     public async Task<CommandResult> Create(AzLockCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLockDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLockDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLockDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLockListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLockListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLockListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLockShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLockShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLockShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLockUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLockUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLockUpdateOptions(), cancellationToken: token);
     }
 }

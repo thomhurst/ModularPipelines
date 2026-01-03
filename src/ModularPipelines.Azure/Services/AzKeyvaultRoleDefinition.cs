@@ -21,26 +21,26 @@ public class AzKeyvaultRoleDefinition
 
     public async Task<CommandResult> Create(AzKeyvaultRoleDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzKeyvaultRoleDefinitionDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzKeyvaultRoleDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleDefinitionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleDefinitionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzKeyvaultRoleDefinitionShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKeyvaultRoleDefinitionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

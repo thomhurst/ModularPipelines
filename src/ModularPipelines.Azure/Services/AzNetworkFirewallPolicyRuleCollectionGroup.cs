@@ -25,31 +25,31 @@ public class AzNetworkFirewallPolicyRuleCollectionGroup
 
     public async Task<CommandResult> Create(AzNetworkFirewallPolicyRuleCollectionGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkFirewallPolicyRuleCollectionGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallPolicyRuleCollectionGroupListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkFirewallPolicyRuleCollectionGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkFirewallPolicyRuleCollectionGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkFirewallPolicyRuleCollectionGroupWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyRuleCollectionGroupWaitOptions(), cancellationToken: token);
     }
 }

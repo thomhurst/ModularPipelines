@@ -21,31 +21,31 @@ public class AzScvmmVmTemplate
 
     public async Task<CommandResult> Create(AzScvmmVmTemplateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzScvmmVmTemplateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzScvmmVmTemplateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzScvmmVmTemplateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzScvmmVmTemplateUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVmTemplateUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmVmTemplateWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

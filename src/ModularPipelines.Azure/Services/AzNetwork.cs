@@ -195,16 +195,16 @@ public class AzNetwork
 
     public async Task<CommandResult> ListServiceAliases(AzNetworkListServiceAliasesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkListServiceAliasesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkListServiceAliasesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListServiceTags(AzNetworkListServiceTagsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzNetworkListUsagesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

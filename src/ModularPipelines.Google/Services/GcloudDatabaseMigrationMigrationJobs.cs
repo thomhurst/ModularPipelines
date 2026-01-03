@@ -35,9 +35,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDatabaseMigrationMigrationJobsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDatabaseMigrationMigrationJobsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DemoteDestination(
         GcloudDatabaseMigrationMigrationJobsDemoteDestinationOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDatabaseMigrationMigrationJobsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchSourceObjects(
         GcloudDatabaseMigrationMigrationJobsFetchSourceObjectsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateSshScript(
         GcloudDatabaseMigrationMigrationJobsGenerateSshScriptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDatabaseMigrationMigrationJobsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Promote(
         GcloudDatabaseMigrationMigrationJobsPromoteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         GcloudDatabaseMigrationMigrationJobsRestartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -152,9 +161,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
         GcloudDatabaseMigrationMigrationJobsResumeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -165,9 +175,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         GcloudDatabaseMigrationMigrationJobsStartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -178,9 +189,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         GcloudDatabaseMigrationMigrationJobsStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -191,9 +203,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDatabaseMigrationMigrationJobsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -204,9 +217,10 @@ public class GcloudDatabaseMigrationMigrationJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Verify(
         GcloudDatabaseMigrationMigrationJobsVerifyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

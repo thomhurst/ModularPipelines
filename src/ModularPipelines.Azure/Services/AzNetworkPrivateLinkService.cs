@@ -25,31 +25,31 @@ public class AzNetworkPrivateLinkService
 
     public async Task<CommandResult> Create(AzNetworkPrivateLinkServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkPrivateLinkServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPrivateLinkServiceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkPrivateLinkServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkPrivateLinkServiceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPrivateLinkServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceWaitOptions(), cancellationToken: token);
     }
 }

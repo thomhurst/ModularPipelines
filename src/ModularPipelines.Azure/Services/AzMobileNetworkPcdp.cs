@@ -21,31 +21,31 @@ public class AzMobileNetworkPcdp
 
     public async Task<CommandResult> Create(AzMobileNetworkPcdpCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMobileNetworkPcdpDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMobileNetworkPcdpListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMobileNetworkPcdpShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMobileNetworkPcdpUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMobileNetworkPcdpWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMobileNetworkPcdpWaitOptions(), cancellationToken: token);
     }
 }

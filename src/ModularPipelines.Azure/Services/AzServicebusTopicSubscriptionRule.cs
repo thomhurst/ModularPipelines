@@ -21,26 +21,26 @@ public class AzServicebusTopicSubscriptionRule
 
     public async Task<CommandResult> Create(AzServicebusTopicSubscriptionRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzServicebusTopicSubscriptionRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzServicebusTopicSubscriptionRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzServicebusTopicSubscriptionRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzServicebusTopicSubscriptionRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleUpdateOptions(), cancellationToken: token);
     }
 }

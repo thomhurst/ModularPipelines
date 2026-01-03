@@ -21,11 +21,11 @@ public class AzSecurityLocation
 
     public async Task<CommandResult> List(AzSecurityLocationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityLocationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecurityLocationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSecurityLocationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

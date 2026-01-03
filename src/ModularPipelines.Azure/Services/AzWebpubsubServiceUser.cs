@@ -21,11 +21,11 @@ public class AzWebpubsubServiceUser
 
     public async Task<CommandResult> Exist(AzWebpubsubServiceUserExistOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Send(AzWebpubsubServiceUserSendOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

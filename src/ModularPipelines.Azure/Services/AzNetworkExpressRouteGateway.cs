@@ -25,31 +25,31 @@ public class AzNetworkExpressRouteGateway
 
     public async Task<CommandResult> Create(AzNetworkExpressRouteGatewayCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkExpressRouteGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkExpressRouteGatewayListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkExpressRouteGatewayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkExpressRouteGatewayUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkExpressRouteGatewayWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayWaitOptions(), cancellationToken: token);
     }
 }

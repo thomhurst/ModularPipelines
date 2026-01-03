@@ -21,26 +21,26 @@ public class AzMonitorDataCollectionRuleAssociation
 
     public async Task<CommandResult> Create(AzMonitorDataCollectionRuleAssociationCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorDataCollectionRuleAssociationDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorDataCollectionRuleAssociationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleAssociationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDataCollectionRuleAssociationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorDataCollectionRuleAssociationShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorDataCollectionRuleAssociationUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

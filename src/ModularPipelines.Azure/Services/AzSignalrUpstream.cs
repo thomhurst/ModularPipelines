@@ -21,16 +21,16 @@ public class AzSignalrUpstream
 
     public async Task<CommandResult> Clear(AzSignalrUpstreamClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpstreamClearOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpstreamClearOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSignalrUpstreamListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSignalrUpstreamUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

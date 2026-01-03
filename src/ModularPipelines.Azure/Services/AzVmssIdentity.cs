@@ -21,16 +21,16 @@ public class AzVmssIdentity
 
     public async Task<CommandResult> Assign(AzVmssIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzVmssIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmssIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmssIdentityShowOptions(), cancellationToken: token);
     }
 }

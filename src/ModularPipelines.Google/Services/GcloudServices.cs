@@ -63,9 +63,10 @@ public class GcloudServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudServicesOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -76,9 +77,10 @@ public class GcloudServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudServicesDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -89,9 +91,10 @@ public class GcloudServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudServicesEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -102,9 +105,10 @@ public class GcloudServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudServicesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

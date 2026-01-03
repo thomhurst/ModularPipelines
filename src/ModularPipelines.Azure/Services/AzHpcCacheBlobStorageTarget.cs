@@ -21,11 +21,11 @@ public class AzHpcCacheBlobStorageTarget
 
     public async Task<CommandResult> Add(AzHpcCacheBlobStorageTargetAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHpcCacheBlobStorageTargetUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

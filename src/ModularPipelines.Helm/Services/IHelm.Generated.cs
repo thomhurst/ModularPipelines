@@ -4,6 +4,7 @@
 // </auto-generated>
 
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Helm.Options;
 
 namespace ModularPipelines.Helm.Services;
@@ -63,137 +64,154 @@ public partial interface IHelm
     /// create a new chart with the given name
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(HelmCreateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Create(HelmCreateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// helm client environment information
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Env(HelmEnvOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Env(HelmEnvOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// fetch release history
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> History(HelmHistoryOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> History(HelmHistoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command installs a chart archive.
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Install(HelmInstallOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Install(HelmInstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// examine a chart for possible issues
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Lint(HelmLintOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Lint(HelmLintOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command lists all of the releases for a specified namespace (uses current namespace context if namespace not specified).
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(HelmListOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> List(HelmListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// package a chart directory into a chart archive
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Package(HelmPackageOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Package(HelmPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// download a chart from a repository and (optionally) unpack it in local directory
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pull(HelmPullOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pull(HelmPullOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// push a chart to remote
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(HelmPushOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Push(HelmPushOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// roll back a release to a previous revision
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rollback(HelmRollbackOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rollback(HelmRollbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// display the status of the named release
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Status(HelmStatusOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Status(HelmStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// locally render templates
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Template(HelmTemplateOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Template(HelmTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// run tests for a release
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Test(HelmTestOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Test(HelmTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command takes a release name and uninstalls the release.
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Uninstall(HelmUninstallOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Uninstall(HelmUninstallOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command upgrades a release to a new version of a chart.
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Upgrade(HelmUpgradeOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Upgrade(HelmUpgradeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// verify that a chart at the given path has been signed and is valid
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Verify(HelmVerifyOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Verify(HelmVerifyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// print the helm version information
     /// </summary>
     /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Version(HelmVersionOptions options, CancellationToken cancellationToken = default);
+    Task<CommandResult> Version(HelmVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

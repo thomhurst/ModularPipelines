@@ -21,31 +21,31 @@ public class AzDnsResolverInboundEndpoint
 
     public async Task<CommandResult> Create(AzDnsResolverInboundEndpointCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDnsResolverInboundEndpointDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverInboundEndpointListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDnsResolverInboundEndpointShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDnsResolverInboundEndpointUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDnsResolverInboundEndpointWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverInboundEndpointWaitOptions(), cancellationToken: token);
     }
 }

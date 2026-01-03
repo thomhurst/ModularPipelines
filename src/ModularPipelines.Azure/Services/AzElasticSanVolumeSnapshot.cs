@@ -21,26 +21,26 @@ public class AzElasticSanVolumeSnapshot
 
     public async Task<CommandResult> Create(AzElasticSanVolumeSnapshotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzElasticSanVolumeSnapshotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzElasticSanVolumeSnapshotListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzElasticSanVolumeSnapshotShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzElasticSanVolumeSnapshotWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzElasticSanVolumeSnapshotWaitOptions(), cancellationToken: token);
     }
 }

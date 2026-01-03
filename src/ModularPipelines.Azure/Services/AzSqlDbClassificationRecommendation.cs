@@ -21,16 +21,16 @@ public class AzSqlDbClassificationRecommendation
 
     public async Task<CommandResult> Disable(AzSqlDbClassificationRecommendationDisableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Enable(AzSqlDbClassificationRecommendationEnableOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlDbClassificationRecommendationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbClassificationRecommendationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlDbClassificationRecommendationListOptions(), cancellationToken: token);
     }
 }

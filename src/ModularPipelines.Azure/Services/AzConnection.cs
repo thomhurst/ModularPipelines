@@ -31,36 +31,36 @@ public class AzConnection
 
     public async Task<CommandResult> Delete(AzConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GenerateConfiguration(AzConnectionGenerateConfigurationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionGenerateConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionGenerateConfigurationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListSupportTypes(AzConnectionListSupportTypesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionListSupportTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionListSupportTypesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Validate(AzConnectionValidateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionValidateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionValidateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectionWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzStackHciExtension
 
     public async Task<CommandResult> Create(AzStackHciExtensionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStackHciExtensionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStackHciExtensionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStackHciExtensionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStackHciExtensionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStackHciExtensionWaitOptions(), cancellationToken: token);
     }
 }

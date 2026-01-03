@@ -21,16 +21,16 @@ public class AzDevcenterAdminEnvironmentDefinition
 
     public async Task<CommandResult> GetErrorDetail(AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminEnvironmentDefinitionGetErrorDetailOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevcenterAdminEnvironmentDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevcenterAdminEnvironmentDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminEnvironmentDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevcenterAdminEnvironmentDefinitionShowOptions(), cancellationToken: token);
     }
 }

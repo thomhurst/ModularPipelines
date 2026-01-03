@@ -21,11 +21,11 @@ public class AzOffazureHypervCluster
 
     public async Task<CommandResult> List(AzOffazureHypervClusterListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOffazureHypervClusterShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervClusterShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOffazureHypervClusterShowOptions(), cancellationToken: token);
     }
 }

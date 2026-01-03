@@ -21,41 +21,41 @@ public class AzPaloAltoCloudngfwLocalRulestackLocalRule
 
     public async Task<CommandResult> Create(AzPaloAltoCloudngfwLocalRulestackLocalRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPaloAltoCloudngfwLocalRulestackLocalRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPaloAltoCloudngfwLocalRulestackLocalRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RefreshCounter(AzPaloAltoCloudngfwLocalRulestackLocalRuleRefreshCounterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleRefreshCounterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleRefreshCounterOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ResetCounter(AzPaloAltoCloudngfwLocalRulestackLocalRuleResetCounterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleResetCounterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleResetCounterOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPaloAltoCloudngfwLocalRulestackLocalRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowCounter(AzPaloAltoCloudngfwLocalRulestackLocalRuleShowCounterOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleShowCounterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleShowCounterOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzPaloAltoCloudngfwLocalRulestackLocalRuleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPaloAltoCloudngfwLocalRulestackLocalRuleWaitOptions(), cancellationToken: token);
     }
 }

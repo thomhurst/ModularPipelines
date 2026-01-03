@@ -45,61 +45,61 @@ public class AzMonitorLogAnalyticsWorkspace
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsWorkspaceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetSchema(AzMonitorLogAnalyticsWorkspaceGetSchemaOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> GetSharedKeys(AzMonitorLogAnalyticsWorkspaceGetSharedKeysOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListDeletedWorkspaces(AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceListDeletedWorkspacesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListManagementGroups(AzMonitorLogAnalyticsWorkspaceListManagementGroupsOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzMonitorLogAnalyticsWorkspaceListUsagesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Recover(AzMonitorLogAnalyticsWorkspaceRecoverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsWorkspaceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsWorkspaceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorLogAnalyticsWorkspaceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceWaitOptions(), cancellationToken: token);
     }
 }

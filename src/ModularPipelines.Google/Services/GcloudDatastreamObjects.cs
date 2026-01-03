@@ -35,9 +35,10 @@ public class GcloudDatastreamObjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDatastreamObjectsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDatastreamObjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDatastreamObjectsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDatastreamObjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
         GcloudDatastreamObjectsLookupOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDatastreamObjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBackfill(
         GcloudDatastreamObjectsStartBackfillOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudDatastreamObjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopBackfill(
         GcloudDatastreamObjectsStopBackfillOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

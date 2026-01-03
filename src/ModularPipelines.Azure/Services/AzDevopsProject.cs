@@ -21,21 +21,21 @@ public class AzDevopsProject
 
     public async Task<CommandResult> Create(AzDevopsProjectCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevopsProjectDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevopsProjectListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsProjectListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsProjectListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevopsProjectShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

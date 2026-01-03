@@ -25,31 +25,31 @@ public class AzLogicIntegrationAccount
 
     public async Task<CommandResult> Create(AzLogicIntegrationAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogicIntegrationAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Import(AzLogicIntegrationAccountImportOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogicIntegrationAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogicIntegrationAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogicIntegrationAccountUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

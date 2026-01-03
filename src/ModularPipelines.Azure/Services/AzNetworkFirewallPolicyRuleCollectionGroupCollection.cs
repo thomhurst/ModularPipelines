@@ -25,21 +25,21 @@ public class AzNetworkFirewallPolicyRuleCollectionGroupCollection
 
     public async Task<CommandResult> AddFilterCollection(AzNetworkFirewallPolicyRuleCollectionGroupCollectionAddFilterCollectionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> AddNatCollection(AzNetworkFirewallPolicyRuleCollectionGroupCollectionAddNatCollectionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallPolicyRuleCollectionGroupCollectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkFirewallPolicyRuleCollectionGroupCollectionRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

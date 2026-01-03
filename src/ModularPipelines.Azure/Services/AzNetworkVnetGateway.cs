@@ -49,61 +49,61 @@ public class AzNetworkVnetGateway
 
     public async Task<CommandResult> Create(AzNetworkVnetGatewayCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVnetGatewayDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> DisconnectVpnConnections(AzNetworkVnetGatewayDisconnectVpnConnectionsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDisconnectVpnConnectionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDisconnectVpnConnectionsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVnetGatewayListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListAdvertisedRoutes(AzNetworkVnetGatewayListAdvertisedRoutesOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListBgpPeerStatus(AzNetworkVnetGatewayListBgpPeerStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListBgpPeerStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListBgpPeerStatusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListLearnedRoutes(AzNetworkVnetGatewayListLearnedRoutesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListLearnedRoutesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListLearnedRoutesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reset(AzNetworkVnetGatewayResetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayResetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayResetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVnetGatewayShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowSupportedDevices(AzNetworkVnetGatewayShowSupportedDevicesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayShowSupportedDevicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayShowSupportedDevicesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVnetGatewayUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVnetGatewayWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayWaitOptions(), cancellationToken: token);
     }
 }

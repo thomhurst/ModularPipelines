@@ -21,31 +21,31 @@ public class AzNetworkVirtualApplianceSite
 
     public async Task<CommandResult> Create(AzNetworkVirtualApplianceSiteCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVirtualApplianceSiteDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVirtualApplianceSiteListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVirtualApplianceSiteShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVirtualApplianceSiteUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVirtualApplianceSiteWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,11 +21,11 @@ public class AzDatabricksWorkspacePrivateLinkResource
 
     public async Task<CommandResult> List(AzDatabricksWorkspacePrivateLinkResourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatabricksWorkspacePrivateLinkResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateLinkResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateLinkResourceShowOptions(), cancellationToken: token);
     }
 }

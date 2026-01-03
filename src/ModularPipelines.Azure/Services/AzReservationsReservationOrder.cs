@@ -21,41 +21,41 @@ public class AzReservationsReservationOrder
 
     public async Task<CommandResult> Calculate(AzReservationsReservationOrderCalculateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsReservationOrderCalculateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsReservationOrderCalculateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CalculateRefund(AzReservationsReservationOrderCalculateRefundOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ChangeDirectory(AzReservationsReservationOrderChangeDirectoryOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzReservationsReservationOrderListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsReservationOrderListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsReservationOrderListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Purchase(AzReservationsReservationOrderPurchaseOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Return(AzReservationsReservationOrderReturnOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzReservationsReservationOrderShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzReservationsReservationOrderWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

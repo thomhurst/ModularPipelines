@@ -7,6 +7,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Modules.Behaviors;
+using ModularPipelines.Options;
 using Polly;
 using Polly.Retry;
 
@@ -33,17 +34,21 @@ public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandRes
                 Framework = BuildConstants.TestFramework,
                 Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
                 Configuration = Configuration.Release,
-                EnvironmentVariables = new Dictionary<string, string?>
-                {
-                    ["GITHUB_ACTIONS"] = null,
-                    ["GITHUB_STEP_SUMMARY"] = null,
-                },
                 Properties =
                 [
                     new("RunAnalyzersDuringBuild", "false"),
                     new("RunAnalyzers", "false")
                 ],
-            }, cancellationToken))
+            },
+            new CommandExecutionOptions
+            {
+                EnvironmentVariables = new Dictionary<string, string?>
+                {
+                    ["GITHUB_ACTIONS"] = null,
+                    ["GITHUB_STEP_SUMMARY"] = null,
+                },
+            },
+            cancellationToken))
             .ProcessInParallel();
     }
 }

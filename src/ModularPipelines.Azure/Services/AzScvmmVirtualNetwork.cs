@@ -21,31 +21,31 @@ public class AzScvmmVirtualNetwork
 
     public async Task<CommandResult> Create(AzScvmmVirtualNetworkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzScvmmVirtualNetworkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzScvmmVirtualNetworkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzScvmmVirtualNetworkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzScvmmVirtualNetworkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzScvmmVirtualNetworkUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzScvmmVirtualNetworkWaitOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

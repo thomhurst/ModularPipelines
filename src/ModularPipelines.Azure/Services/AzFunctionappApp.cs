@@ -21,6 +21,6 @@ public class AzFunctionappApp
 
     public async Task<CommandResult> Up(AzFunctionappAppUpOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappAppUpOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappAppUpOptions(), cancellationToken: token);
     }
 }

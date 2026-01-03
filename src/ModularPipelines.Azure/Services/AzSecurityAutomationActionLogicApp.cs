@@ -21,6 +21,6 @@ public class AzSecurityAutomationActionLogicApp
 
     public async Task<CommandResult> Create(AzSecurityAutomationActionLogicAppCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

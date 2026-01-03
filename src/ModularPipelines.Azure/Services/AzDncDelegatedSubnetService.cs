@@ -21,21 +21,21 @@ public class AzDncDelegatedSubnetService
 
     public async Task<CommandResult> Create(AzDncDelegatedSubnetServiceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDncDelegatedSubnetServiceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDncDelegatedSubnetServiceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDncDelegatedSubnetServiceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDncDelegatedSubnetServiceWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzAppservicePlanShowAppserviceKube
 
     public async Task<CommandResult> Extension(AzAppservicePlanShowAppserviceKubeExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanShowAppserviceKubeExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAppservicePlanShowAppserviceKubeExtensionOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzDnsResolverVnetLink
 
     public async Task<CommandResult> Create(AzDnsResolverVnetLinkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDnsResolverVnetLinkDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDnsResolverVnetLinkListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDnsResolverVnetLinkShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDnsResolverVnetLinkUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDnsResolverVnetLinkWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDnsResolverVnetLinkWaitOptions(), cancellationToken: token);
     }
 }

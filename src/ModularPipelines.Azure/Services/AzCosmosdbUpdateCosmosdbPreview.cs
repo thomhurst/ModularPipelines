@@ -21,6 +21,6 @@ public class AzCosmosdbUpdateCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzCosmosdbUpdateCosmosdbPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbUpdateCosmosdbPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbUpdateCosmosdbPreviewExtensionOptions(), cancellationToken: token);
     }
 }

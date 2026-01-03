@@ -21,6 +21,6 @@ public class AzNetappfilesVolumeLatestBackupStatusCurrent
 
     public async Task<CommandResult> Show(AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeLatestBackupStatusCurrentShowOptions(), cancellationToken: token);
     }
 }

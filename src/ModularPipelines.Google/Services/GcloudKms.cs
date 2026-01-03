@@ -93,9 +93,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudKmsOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -106,9 +107,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AsymmetricDecrypt(
         GcloudKmsAsymmetricDecryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -119,9 +121,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AsymmetricSign(
         GcloudKmsAsymmetricSignOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -132,9 +135,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Decapsulate(
         GcloudKmsDecapsulateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -145,9 +149,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Decrypt(
         GcloudKmsDecryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -158,9 +163,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Encrypt(
         GcloudKmsEncryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -171,9 +177,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MacSign(
         GcloudKmsMacSignOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -184,9 +191,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MacVerify(
         GcloudKmsMacVerifyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -197,9 +205,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RawDecrypt(
         GcloudKmsRawDecryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -210,9 +219,10 @@ public class GcloudKms
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RawEncrypt(
         GcloudKmsRawEncryptOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

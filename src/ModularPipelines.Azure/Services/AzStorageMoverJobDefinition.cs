@@ -21,41 +21,41 @@ public class AzStorageMoverJobDefinition
 
     public async Task<CommandResult> Create(AzStorageMoverJobDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzStorageMoverJobDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzStorageMoverJobDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzStorageMoverJobDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StartJob(AzStorageMoverJobDefinitionStartJobOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionStartJobOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionStartJobOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StopJob(AzStorageMoverJobDefinitionStopJobOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionStopJobOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionStopJobOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzStorageMoverJobDefinitionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzStorageMoverJobDefinitionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzStorageMoverJobDefinitionWaitOptions(), cancellationToken: token);
     }
 }

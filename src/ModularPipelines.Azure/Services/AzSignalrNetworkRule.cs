@@ -21,11 +21,11 @@ public class AzSignalrNetworkRule
 
     public async Task<CommandResult> List(AzSignalrNetworkRuleListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSignalrNetworkRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrNetworkRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrNetworkRuleUpdateOptions(), cancellationToken: token);
     }
 }

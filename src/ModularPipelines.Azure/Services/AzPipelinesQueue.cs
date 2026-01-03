@@ -21,11 +21,11 @@ public class AzPipelinesQueue
 
     public async Task<CommandResult> List(AzPipelinesQueueListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesQueueListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesQueueListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesQueueShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

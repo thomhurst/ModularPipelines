@@ -178,9 +178,12 @@ public class CommandParserTests : TestBase
     {
         var command = await GetService<ICommand>();
 
-        options.InternalDryRun = true;
+        var executionOptions = new CommandExecutionOptions
+        {
+            InternalDryRun = true,
+        };
 
-        return await command.ExecuteCommandLineTool(options);
+        return await command.ExecuteCommandLineTool(options, executionOptions);
     }
 
     [CliCommand("mysupersecrettool", "do", "this", "then", "that")]

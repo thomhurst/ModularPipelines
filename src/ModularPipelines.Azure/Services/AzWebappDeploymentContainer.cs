@@ -21,11 +21,11 @@ public class AzWebappDeploymentContainer
 
     public async Task<CommandResult> Config(AzWebappDeploymentContainerConfigOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowCdUrl(AzWebappDeploymentContainerShowCdUrlOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerShowCdUrlOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerShowCdUrlOptions(), cancellationToken: token);
     }
 }

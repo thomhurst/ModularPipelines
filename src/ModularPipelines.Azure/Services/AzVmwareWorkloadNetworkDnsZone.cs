@@ -21,31 +21,31 @@ public class AzVmwareWorkloadNetworkDnsZone
 
     public async Task<CommandResult> Create(AzVmwareWorkloadNetworkDnsZoneCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzVmwareWorkloadNetworkDnsZoneDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzVmwareWorkloadNetworkDnsZoneListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzVmwareWorkloadNetworkDnsZoneShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzVmwareWorkloadNetworkDnsZoneUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzVmwareWorkloadNetworkDnsZoneWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVmwareWorkloadNetworkDnsZoneWaitOptions(), cancellationToken: token);
     }
 }

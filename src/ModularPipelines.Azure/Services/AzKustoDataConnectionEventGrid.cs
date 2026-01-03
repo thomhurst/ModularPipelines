@@ -21,16 +21,16 @@ public class AzKustoDataConnectionEventGrid
 
     public async Task<CommandResult> Create(AzKustoDataConnectionEventGridCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> DataConnectionValidation(AzKustoDataConnectionEventGridDataConnectionValidationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventGridDataConnectionValidationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventGridDataConnectionValidationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzKustoDataConnectionEventGridUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventGridUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoDataConnectionEventGridUpdateOptions(), cancellationToken: token);
     }
 }

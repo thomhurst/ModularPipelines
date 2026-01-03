@@ -21,21 +21,21 @@ public class AzNetworkPrivateEndpointIpConfig
 
     public async Task<CommandResult> Add(AzNetworkPrivateEndpointIpConfigAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkPrivateEndpointIpConfigListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkPrivateEndpointIpConfigRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkPrivateEndpointIpConfigWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointIpConfigWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointIpConfigWaitOptions(), cancellationToken: token);
     }
 }

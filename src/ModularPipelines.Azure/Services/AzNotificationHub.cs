@@ -31,36 +31,36 @@ public class AzNotificationHub
 
     public async Task<CommandResult> CheckAvailability(AzNotificationHubCheckAvailabilityOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNotificationHubCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNotificationHubDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNotificationHubListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNotificationHubShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> TestSend(AzNotificationHubTestSendOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNotificationHubUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNotificationHubUpdateOptions(), cancellationToken: token);
     }
 }

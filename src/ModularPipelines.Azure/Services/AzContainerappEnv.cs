@@ -41,31 +41,31 @@ public class AzContainerappEnv
 
     public async Task<CommandResult> Create(AzContainerappEnvCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzContainerappEnvDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzContainerappEnvListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzContainerappEnvListUsagesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvListUsagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvListUsagesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzContainerappEnvShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzContainerappEnvUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvUpdateOptions(), cancellationToken: token);
     }
 }

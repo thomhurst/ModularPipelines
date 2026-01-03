@@ -61,26 +61,26 @@ public class AzEventgridDomain
 
     public async Task<CommandResult> Create(AzEventgridDomainCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridDomainDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridDomainListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridDomainShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridDomainUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzEventgridPartnerNamespaceChannel
 
     public async Task<CommandResult> Create(AzEventgridPartnerNamespaceChannelCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridPartnerNamespaceChannelDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridPartnerNamespaceChannelListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerNamespaceChannelShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzEventgridPartnerNamespaceChannelUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelUpdateOptions(), cancellationToken: token);
     }
 }

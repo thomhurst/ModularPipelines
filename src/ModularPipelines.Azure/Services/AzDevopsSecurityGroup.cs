@@ -25,26 +25,26 @@ public class AzDevopsSecurityGroup
 
     public async Task<CommandResult> Create(AzDevopsSecurityGroupCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupCreateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDevopsSecurityGroupDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDevopsSecurityGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevopsSecurityGroupShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDevopsSecurityGroupUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

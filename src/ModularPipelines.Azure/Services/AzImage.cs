@@ -23,36 +23,36 @@ public class AzImage
 
     public async Task<CommandResult> Copy(AzImageCopyOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzImageCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzImageDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzImageListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImageShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzImageUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzImageWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageWaitOptions(), cancellationToken: token);
     }
 }

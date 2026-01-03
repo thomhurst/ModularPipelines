@@ -21,21 +21,21 @@ public class AzSphereDeviceSideload
 
     public async Task<CommandResult> Delete(AzSphereDeviceSideloadDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceSideloadDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceSideloadDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deploy(AzSphereDeviceSideloadDeployOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SetDeploymentTimeout(AzSphereDeviceSideloadSetDeploymentTimeoutOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowDeploymentTimeout(AzSphereDeviceSideloadShowDeploymentTimeoutOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceSideloadShowDeploymentTimeoutOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSphereDeviceSideloadShowDeploymentTimeoutOptions(), cancellationToken: token);
     }
 }

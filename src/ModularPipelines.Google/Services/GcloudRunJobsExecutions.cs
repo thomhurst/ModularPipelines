@@ -45,9 +45,10 @@ public class GcloudRunJobsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudRunJobsExecutionsCancelOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudRunJobsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudRunJobsExecutionsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudRunJobsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudRunJobsExecutionsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudRunJobsExecutions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudRunJobsExecutionsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

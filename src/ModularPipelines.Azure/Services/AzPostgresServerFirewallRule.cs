@@ -21,26 +21,26 @@ public class AzPostgresServerFirewallRule
 
     public async Task<CommandResult> Create(AzPostgresServerFirewallRuleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPostgresServerFirewallRuleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPostgresServerFirewallRuleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPostgresServerFirewallRuleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPostgresServerFirewallRuleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerFirewallRuleUpdateOptions(), cancellationToken: token);
     }
 }

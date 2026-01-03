@@ -21,41 +21,41 @@ public class AzDataboxJob
 
     public async Task<CommandResult> Cancel(AzDataboxJobCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzDataboxJobCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDataboxJobDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDataboxJobListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListCredential(AzDataboxJobListCredentialOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListCredentialOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobListCredentialOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> MarkDevicesShipped(AzDataboxJobMarkDevicesShippedOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDataboxJobShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDataboxJobUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDataboxJobUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzMonitorPrivateLinkScopeScopedResource
 
     public async Task<CommandResult> Create(AzMonitorPrivateLinkScopeScopedResourceCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorPrivateLinkScopeScopedResourceDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorPrivateLinkScopeScopedResourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorPrivateLinkScopeScopedResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorPrivateLinkScopeScopedResourceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorPrivateLinkScopeScopedResourceWaitOptions(), cancellationToken: token);
     }
 }

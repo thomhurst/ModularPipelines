@@ -29,21 +29,21 @@ public class AzPipelinesBuild
 
     public async Task<CommandResult> Cancel(AzPipelinesBuildCancelOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPipelinesBuildListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Queue(AzPipelinesBuildQueueOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildQueueOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildQueueOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesBuildShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

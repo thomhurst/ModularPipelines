@@ -21,11 +21,11 @@ public class AzNetworkfabricNpb
 
     public async Task<CommandResult> List(AzNetworkfabricNpbListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNpbListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNpbListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricNpbShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNpbShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNpbShowOptions(), cancellationToken: token);
     }
 }

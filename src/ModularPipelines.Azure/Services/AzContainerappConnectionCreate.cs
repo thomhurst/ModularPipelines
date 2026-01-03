@@ -37,106 +37,106 @@ public class AzContainerappConnectionCreate
 
     public async Task<CommandResult> Appconfig(AzContainerappConnectionCreateAppconfigOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateAppconfigOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateAppconfigOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ConfluentCloud(AzContainerappConnectionCreateConfluentCloudOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CosmosCassandra(AzContainerappConnectionCreateCosmosCassandraOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosCassandraOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosCassandraOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CosmosGremlin(AzContainerappConnectionCreateCosmosGremlinOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosGremlinOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosGremlinOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CosmosMongo(AzContainerappConnectionCreateCosmosMongoOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosMongoOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosMongoOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CosmosSql(AzContainerappConnectionCreateCosmosSqlOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosSqlOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosSqlOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> CosmosTable(AzContainerappConnectionCreateCosmosTableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosTableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateCosmosTableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Eventhub(AzContainerappConnectionCreateEventhubOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateEventhubOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateEventhubOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Keyvault(AzContainerappConnectionCreateKeyvaultOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateKeyvaultOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateKeyvaultOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> MysqlFlexible(AzContainerappConnectionCreateMysqlFlexibleOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateMysqlFlexibleOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateMysqlFlexibleOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> PostgresFlexible(AzContainerappConnectionCreatePostgresFlexibleOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreatePostgresFlexibleOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreatePostgresFlexibleOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Redis(AzContainerappConnectionCreateRedisOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateRedisOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateRedisOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RedisEnterprise(AzContainerappConnectionCreateRedisEnterpriseOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateRedisEnterpriseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateRedisEnterpriseOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Servicebus(AzContainerappConnectionCreateServicebusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateServicebusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateServicebusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Signalr(AzContainerappConnectionCreateSignalrOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateSignalrOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateSignalrOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Sql(AzContainerappConnectionCreateSqlOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateSqlOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateSqlOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StorageBlob(AzContainerappConnectionCreateStorageBlobOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageBlobOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageBlobOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StorageFile(AzContainerappConnectionCreateStorageFileOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageFileOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageFileOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StorageQueue(AzContainerappConnectionCreateStorageQueueOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageQueueOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageQueueOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> StorageTable(AzContainerappConnectionCreateStorageTableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageTableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateStorageTableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Webpubsub(AzContainerappConnectionCreateWebpubsubOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateWebpubsubOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzContainerappConnectionCreateWebpubsubOptions(), cancellationToken: token);
     }
 }

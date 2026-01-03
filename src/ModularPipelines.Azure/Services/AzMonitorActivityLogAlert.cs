@@ -29,26 +29,26 @@ public class AzMonitorActivityLogAlert
 
     public async Task<CommandResult> Create(AzMonitorActivityLogAlertCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorActivityLogAlertDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorActivityLogAlertListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorActivityLogAlertShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorActivityLogAlertUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActivityLogAlertUpdateOptions(), cancellationToken: token);
     }
 }

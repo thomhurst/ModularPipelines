@@ -19,11 +19,11 @@ public class DotNetList
 
     public virtual async Task<CommandResult> Package(DotNetListPackageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetListPackageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetListPackageOptions(), null, token);
     }
 
     public virtual async Task<CommandResult> Reference(DotNetListReferenceOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DotNetListReferenceOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new DotNetListReferenceOptions(), null, token);
     }
 }

@@ -9,7 +9,6 @@ public record DpkgInstallOptions : CommandLineToolOptions
     public DpkgInstallOptions(string path) : base("dpkg")
     {
         Path = path;
-        Sudo = true;
     }
 
     [CliOption("-i")]

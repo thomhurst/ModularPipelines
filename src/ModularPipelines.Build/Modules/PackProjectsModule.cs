@@ -82,6 +82,6 @@ public class PackProjectsModule : Module<CommandResult[]>
                 ("PackageVersion", packageVersion.Value!),
                 ("Version", packageVersion.Value!),
             },
-        }, cancellationToken);
+        }, token: cancellationToken);
     }
 }

@@ -51,9 +51,10 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudComputeSharedVpcDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -64,9 +65,10 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudComputeSharedVpcEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,9 +79,10 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHostProject(
         GcloudComputeSharedVpcGetHostProjectOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,9 +93,10 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssociatedResources(
         GcloudComputeSharedVpcListAssociatedResourcesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

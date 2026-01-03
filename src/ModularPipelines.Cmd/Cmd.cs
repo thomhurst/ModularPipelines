@@ -15,6 +15,6 @@ internal class Cmd : ICmd
 
     public virtual Task<CommandResult> Script(CmdScriptOptions options, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(options, cancellationToken);
+        return _context.Command.ExecuteCommandLineTool(options, null, cancellationToken);
     }
 }

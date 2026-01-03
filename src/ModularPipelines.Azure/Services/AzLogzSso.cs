@@ -21,26 +21,26 @@ public class AzLogzSso
 
     public async Task<CommandResult> Create(AzLogzSsoCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogzSsoListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogzSsoShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogzSsoUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzLogzSsoWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogzSsoWaitOptions(), cancellationToken: token);
     }
 }

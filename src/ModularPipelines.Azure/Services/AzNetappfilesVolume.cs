@@ -61,76 +61,76 @@ public class AzNetappfilesVolume
 
     public async Task<CommandResult> BreakFileLocks(AzNetappfilesVolumeBreakFileLocksOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBreakFileLocksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeBreakFileLocksOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Create(AzNetappfilesVolumeCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetappfilesVolumeDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> FinalizeRelocation(AzNetappfilesVolumeFinalizeRelocationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeFinalizeRelocationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeFinalizeRelocationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetGroupidListForLdapuser(AzNetappfilesVolumeGetGroupidListForLdapuserOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesVolumeListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> MigrateBackup(AzNetappfilesVolumeMigrateBackupOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> PoolChange(AzNetappfilesVolumePoolChangeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Relocate(AzNetappfilesVolumeRelocateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRelocateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRelocateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ResetCifsPw(AzNetappfilesVolumeResetCifsPwOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeResetCifsPwOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeResetCifsPwOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Revert(AzNetappfilesVolumeRevertOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> RevertRelocation(AzNetappfilesVolumeRevertRelocationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRevertRelocationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeRevertRelocationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetappfilesVolumeShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesVolumeUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesVolumeWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeWaitOptions(), cancellationToken: token);
     }
 }

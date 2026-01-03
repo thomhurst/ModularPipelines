@@ -21,26 +21,26 @@ public class AzSiteRecoveryPolicy
 
     public async Task<CommandResult> Create(AzSiteRecoveryPolicyCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSiteRecoveryPolicyDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryPolicyListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryPolicyUpdateOptions(), cancellationToken: token);
     }
 }

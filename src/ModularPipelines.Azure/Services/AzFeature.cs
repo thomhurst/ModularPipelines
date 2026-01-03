@@ -23,21 +23,21 @@ public class AzFeature
 
     public async Task<CommandResult> List(AzFeatureListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFeatureListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFeatureListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Register(AzFeatureRegisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFeatureShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Unregister(AzFeatureUnregisterOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

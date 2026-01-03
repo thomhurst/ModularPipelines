@@ -21,26 +21,26 @@ public class AzOrbitalSpacecraftContact
 
     public async Task<CommandResult> Create(AzOrbitalSpacecraftContactCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzOrbitalSpacecraftContactDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzOrbitalSpacecraftContactListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOrbitalSpacecraftContactShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzOrbitalSpacecraftContactWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalSpacecraftContactWaitOptions(), cancellationToken: token);
     }
 }

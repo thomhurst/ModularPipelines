@@ -21,16 +21,16 @@ public class AzNetworkFirewallPolicyIntrusionDetection
 
     public async Task<CommandResult> Add(AzNetworkFirewallPolicyIntrusionDetectionAddOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionAddOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionAddOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkFirewallPolicyIntrusionDetectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkFirewallPolicyIntrusionDetectionRemoveOptions(), cancellationToken: token);
     }
 }

@@ -93,9 +93,10 @@ public class GcloudSpanner
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudSpannerOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -106,9 +107,10 @@ public class GcloudSpanner
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cli(
         GcloudSpannerCliOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

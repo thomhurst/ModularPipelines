@@ -25,11 +25,11 @@ public class AzSupportServices
 
     public async Task<CommandResult> List(AzSupportServicesListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSupportServicesListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSupportServicesListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSupportServicesShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

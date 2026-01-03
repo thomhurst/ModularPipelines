@@ -21,26 +21,26 @@ public class AzResourceLock
 
     public async Task<CommandResult> Create(AzResourceLockCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzResourceLockDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzResourceLockListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzResourceLockShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzResourceLockUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourceLockUpdateOptions(), cancellationToken: token);
     }
 }

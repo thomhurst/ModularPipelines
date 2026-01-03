@@ -895,61 +895,61 @@ public class Az
 
     public async Task<CommandResult> Configure(AzConfigureOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfigureOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfigureOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Feedback(AzFeedbackOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFeedbackOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFeedbackOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Find(AzFindOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFindOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFindOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Init(AzInitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzInitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzInitOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Interactive(AzInteractiveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzInteractiveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzInteractiveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Login(AzLoginOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Logout(AzLogoutOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Next(AzNextOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNextOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNextOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Rest(AzRestOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Survey(AzSurveyOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSurveyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSurveyOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Upgrade(AzUpgradeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzUpgradeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzUpgradeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Version(AzVersionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzVersionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzVersionOptions(), cancellationToken: token);
     }
 }

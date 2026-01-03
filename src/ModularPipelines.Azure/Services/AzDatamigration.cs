@@ -35,36 +35,36 @@ public class AzDatamigration
 
     public async Task<CommandResult> GetAssessment(AzDatamigrationGetAssessmentOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetAssessmentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetAssessmentOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetSkuRecommendation(AzDatamigrationGetSkuRecommendationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetSkuRecommendationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationGetSkuRecommendationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> LoginMigration(AzDatamigrationLoginMigrationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationLoginMigrationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationLoginMigrationOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> PerformanceDataCollection(AzDatamigrationPerformanceDataCollectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationPerformanceDataCollectionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationPerformanceDataCollectionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RegisterIntegrationRuntime(AzDatamigrationRegisterIntegrationRuntimeOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> SqlServerSchema(AzDatamigrationSqlServerSchemaOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlServerSchemaOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationSqlServerSchemaOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> TdeMigration(AzDatamigrationTdeMigrationOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationTdeMigrationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatamigrationTdeMigrationOptions(), cancellationToken: token);
     }
 }

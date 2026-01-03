@@ -35,9 +35,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudKmsKeysVersionsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudKmsKeysVersionsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Destroy(
         GcloudKmsKeysVersionsDestroyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudKmsKeysVersionsDisableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -87,9 +91,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudKmsKeysVersionsEnableOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -100,9 +105,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCertificateChain(
         GcloudKmsKeysVersionsGetCertificateChainOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -113,9 +119,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetPublicKey(
         GcloudKmsKeysVersionsGetPublicKeyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -126,9 +133,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudKmsKeysVersionsImportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -139,9 +147,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudKmsKeysVersionsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -152,9 +161,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudKmsKeysVersionsRestoreOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -165,9 +175,10 @@ public class GcloudKmsKeysVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudKmsKeysVersionsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

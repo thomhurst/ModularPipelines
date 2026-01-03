@@ -21,11 +21,11 @@ public class AzFunctionappDeploymentGithubActions
 
     public async Task<CommandResult> Add(AzFunctionappDeploymentGithubActionsAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzFunctionappDeploymentGithubActionsRemoveOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

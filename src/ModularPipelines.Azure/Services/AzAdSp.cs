@@ -29,31 +29,31 @@ public class AzAdSp
 
     public async Task<CommandResult> Create(AzAdSpCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> CreateForRbac(AzAdSpCreateForRbacOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdSpCreateForRbacOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdSpCreateForRbacOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAdSpDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAdSpListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAdSpListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAdSpListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAdSpShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAdSpUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

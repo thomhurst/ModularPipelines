@@ -21,26 +21,26 @@ public class AzSentinelWatchlist
 
     public async Task<CommandResult> Create(AzSentinelWatchlistCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSentinelWatchlistDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSentinelWatchlistListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelWatchlistShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSentinelWatchlistUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelWatchlistUpdateOptions(), cancellationToken: token);
     }
 }

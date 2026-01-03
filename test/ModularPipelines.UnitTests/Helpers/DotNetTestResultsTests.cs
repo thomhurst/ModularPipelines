@@ -3,11 +3,11 @@ using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.DotNet.Parsers.Trx;
-using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using File = ModularPipelines.FileSystem.File;
@@ -17,7 +17,6 @@ namespace ModularPipelines.UnitTests.Helpers;
 [TUnit.Core.NotInParallel]
 public class DotNetTestResultsTests : TestBase
 {
-#pragma warning disable CS0618 // Type or member is obsolete - testing legacy CommandLogging enum
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -25,12 +24,22 @@ public class DotNetTestResultsTests : TestBase
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            return await context.DotNet().Test(new DotNetTestOptions
-            {
-                WorkingDirectory = testProject.Folder,
-                Framework = "net10.0",
-                CommandLogging = CommandLogging.Error,
-            }, token: cancellationToken);
+            return await context.DotNet().Test(
+                new DotNetTestOptions
+                {
+                    Framework = "net10.0",
+                },
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = testProject.Folder!.Path,
+                    LogSettings = new CommandLoggingOptions
+                    {
+                        Verbosity = CommandLogVerbosity.Minimal,
+                        ShowStandardOutput = false,
+                        ShowStandardError = true,
+                    },
+                },
+                cancellationToken);
         }
     }
 
@@ -43,17 +52,26 @@ public class DotNetTestResultsTests : TestBase
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            return await context.DotNet().Test(new DotNetTestOptions
-            {
-                WorkingDirectory = testProject.Folder,
-                Filter = "TestCategory=Pass",
-                Framework = "net10.0",
-                CommandLogging = CommandLogging.Error,
-                Logger = [$"trx;LogFileName={TrxFile}"]
-            }, token: cancellationToken);
+            return await context.DotNet().Test(
+                new DotNetTestOptions
+                {
+                    Filter = "TestCategory=Pass",
+                    Framework = "net10.0",
+                    Logger = [$"trx;LogFileName={TrxFile}"],
+                },
+                new CommandExecutionOptions
+                {
+                    WorkingDirectory = testProject.Folder!.Path,
+                    LogSettings = new CommandLoggingOptions
+                    {
+                        Verbosity = CommandLogVerbosity.Minimal,
+                        ShowStandardOutput = false,
+                        ShowStandardError = true,
+                    },
+                },
+                cancellationToken);
         }
     }
-#pragma warning restore CS0618
 
     [Test]
     public async Task Has_Errored()

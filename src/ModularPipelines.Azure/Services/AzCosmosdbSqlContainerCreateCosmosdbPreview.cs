@@ -21,6 +21,6 @@ public class AzCosmosdbSqlContainerCreateCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzCosmosdbSqlContainerCreateCosmosdbPreviewExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -19,6 +19,6 @@ public class DotNetNugetDisable
 
     public virtual async Task<CommandResult> Source(DotNetNugetDisableSourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

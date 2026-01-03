@@ -21,6 +21,6 @@ public class AzConfluentOfferDetail
 
     public async Task<CommandResult> Show(AzConfluentOfferDetailShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConfluentOfferDetailShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConfluentOfferDetailShowOptions(), cancellationToken: token);
     }
 }

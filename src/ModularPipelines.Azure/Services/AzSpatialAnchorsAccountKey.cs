@@ -21,11 +21,11 @@ public class AzSpatialAnchorsAccountKey
 
     public async Task<CommandResult> Renew(AzSpatialAnchorsAccountKeyRenewOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountKeyRenewOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountKeyRenewOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSpatialAnchorsAccountKeyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountKeyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSpatialAnchorsAccountKeyShowOptions(), cancellationToken: token);
     }
 }

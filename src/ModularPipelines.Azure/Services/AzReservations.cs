@@ -35,16 +35,16 @@ public class AzReservations
 
     public async Task<CommandResult> CalculateExchange(AzReservationsCalculateExchangeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsCalculateExchangeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsCalculateExchangeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Exchange(AzReservationsExchangeOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsExchangeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsExchangeOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzReservationsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzReservationsListOptions(), cancellationToken: token);
     }
 }

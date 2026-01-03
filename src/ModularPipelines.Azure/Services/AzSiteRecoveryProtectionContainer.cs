@@ -25,31 +25,31 @@ public class AzSiteRecoveryProtectionContainer
 
     public async Task<CommandResult> Create(AzSiteRecoveryProtectionContainerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectionContainerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSiteRecoveryProtectionContainerRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryProtectionContainerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> SwitchProtection(AzSiteRecoveryProtectionContainerSwitchProtectionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerSwitchProtectionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerSwitchProtectionOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryProtectionContainerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectionContainerUpdateOptions(), cancellationToken: token);
     }
 }

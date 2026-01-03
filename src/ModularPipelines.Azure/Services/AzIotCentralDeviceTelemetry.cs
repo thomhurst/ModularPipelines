@@ -21,6 +21,6 @@ public class AzIotCentralDeviceTelemetry
 
     public async Task<CommandResult> Show(AzIotCentralDeviceTelemetryShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

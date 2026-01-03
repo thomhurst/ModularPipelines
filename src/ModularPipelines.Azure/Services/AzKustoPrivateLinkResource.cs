@@ -21,11 +21,11 @@ public class AzKustoPrivateLinkResource
 
     public async Task<CommandResult> List(AzKustoPrivateLinkResourceListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzKustoPrivateLinkResourceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoPrivateLinkResourceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoPrivateLinkResourceShowOptions(), cancellationToken: token);
     }
 }

@@ -21,31 +21,31 @@ public class AzNetworkfabricInternetgatewayrule
 
     public async Task<CommandResult> Create(AzNetworkfabricInternetgatewayruleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricInternetgatewayruleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricInternetgatewayruleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricInternetgatewayruleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricInternetgatewayruleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricInternetgatewayruleWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricInternetgatewayruleWaitOptions(), cancellationToken: token);
     }
 }

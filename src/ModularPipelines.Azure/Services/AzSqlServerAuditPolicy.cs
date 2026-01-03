@@ -21,16 +21,16 @@ public class AzSqlServerAuditPolicy
 
     public async Task<CommandResult> Show(AzSqlServerAuditPolicyShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerAuditPolicyUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlServerAuditPolicyWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerAuditPolicyWaitOptions(), cancellationToken: token);
     }
 }

@@ -57,9 +57,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateOidc(
         GcloudIamWorkforcePoolsProvidersCreateOidcOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -70,9 +71,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSaml(
         GcloudIamWorkforcePoolsProvidersCreateSamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -83,9 +85,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIamWorkforcePoolsProvidersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -96,9 +99,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIamWorkforcePoolsProvidersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -109,9 +113,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudIamWorkforcePoolsProvidersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -122,9 +127,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudIamWorkforcePoolsProvidersUndeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -135,9 +141,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOidc(
         GcloudIamWorkforcePoolsProvidersUpdateOidcOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -148,9 +155,10 @@ public class GcloudIamWorkforcePoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSaml(
         GcloudIamWorkforcePoolsProvidersUpdateSamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

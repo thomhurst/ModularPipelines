@@ -21,6 +21,6 @@ public class AzWebappConnectionCreatePostgresServiceconnectorPasswordless
 
     public async Task<CommandResult> Extension(AzWebappConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzWebappConnectionCreatePostgresServiceconnectorPasswordlessExtensionOptions(), cancellationToken: token);
     }
 }

@@ -27,6 +27,6 @@ public class AzAdp
 
     public async Task<CommandResult> CheckNameAvailability(AzAdpCheckNameAvailabilityOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

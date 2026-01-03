@@ -21,11 +21,11 @@ public class AzDevopsSecurityPermissionNamespace
 
     public async Task<CommandResult> List(AzDevopsSecurityPermissionNamespaceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionNamespaceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionNamespaceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDevopsSecurityPermissionNamespaceShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

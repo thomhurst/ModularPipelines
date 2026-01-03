@@ -21,11 +21,11 @@ public class AzMonitorAppInsightsComponentBilling
 
     public async Task<CommandResult> Show(AzMonitorAppInsightsComponentBillingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentBillingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentBillingShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorAppInsightsComponentBillingUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentBillingUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAppInsightsComponentBillingUpdateOptions(), cancellationToken: token);
     }
 }

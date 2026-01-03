@@ -51,31 +51,31 @@ public class AzSignalr
 
     public async Task<CommandResult> Create(AzSignalrCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSignalrDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSignalrListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Restart(AzSignalrRestartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrRestartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrRestartOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSignalrShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSignalrUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpdateOptions(), cancellationToken: token);
     }
 }

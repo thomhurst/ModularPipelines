@@ -55,31 +55,31 @@ public class AzPipelines
 
     public async Task<CommandResult> Create(AzPipelinesCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzPipelinesDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzPipelinesListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Run(AzPipelinesRunOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzPipelinesShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzPipelinesUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -37,36 +37,36 @@ public class AzNetappfilesAccount
 
     public async Task<CommandResult> Create(AzNetappfilesAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetappfilesAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetappfilesAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RenewCredentials(AzNetappfilesAccountRenewCredentialsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountRenewCredentialsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountRenewCredentialsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetappfilesAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetappfilesAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetappfilesAccountWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountWaitOptions(), cancellationToken: token);
     }
 }

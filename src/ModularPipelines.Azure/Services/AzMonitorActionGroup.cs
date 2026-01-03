@@ -25,36 +25,36 @@ public class AzMonitorActionGroup
 
     public async Task<CommandResult> Create(AzMonitorActionGroupCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorActionGroupDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableReceiver(AzMonitorActionGroupEnableReceiverOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorActionGroupListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorActionGroupShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorActionGroupUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzMonitorActionGroupWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupWaitOptions(), cancellationToken: token);
     }
 }

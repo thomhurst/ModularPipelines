@@ -21,11 +21,11 @@ public class AzSecuritySecureScoreControls
 
     public async Task<CommandResult> List(AzSecuritySecureScoreControlsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSecuritySecureScoreControlsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List_by_score(AzSecuritySecureScoreControlsList_by_scoreOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

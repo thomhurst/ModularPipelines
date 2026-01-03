@@ -25,21 +25,21 @@ public class AzSupportTickets
 
     public async Task<CommandResult> Create(AzSupportTicketsCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSupportTicketsListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSupportTicketsListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSupportTicketsListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSupportTicketsShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSupportTicketsUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

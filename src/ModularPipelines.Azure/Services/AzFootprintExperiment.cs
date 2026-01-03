@@ -21,26 +21,26 @@ public class AzFootprintExperiment
 
     public async Task<CommandResult> Create(AzFootprintExperimentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzFootprintExperimentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzFootprintExperimentListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzFootprintExperimentShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzFootprintExperimentUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFootprintExperimentUpdateOptions(), cancellationToken: token);
     }
 }

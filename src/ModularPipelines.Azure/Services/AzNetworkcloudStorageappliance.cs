@@ -21,31 +21,31 @@ public class AzNetworkcloudStorageappliance
 
     public async Task<CommandResult> DisableRemoteVendorManagement(AzNetworkcloudStorageapplianceDisableRemoteVendorManagementOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceDisableRemoteVendorManagementOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceDisableRemoteVendorManagementOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> EnableRemoteVendorManagement(AzNetworkcloudStorageapplianceEnableRemoteVendorManagementOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceEnableRemoteVendorManagementOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceEnableRemoteVendorManagementOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkcloudStorageapplianceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkcloudStorageapplianceShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkcloudStorageapplianceUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkcloudStorageapplianceWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkcloudStorageapplianceWaitOptions(), cancellationToken: token);
     }
 }

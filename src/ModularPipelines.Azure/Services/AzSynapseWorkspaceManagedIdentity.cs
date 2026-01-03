@@ -21,21 +21,21 @@ public class AzSynapseWorkspaceManagedIdentity
 
     public async Task<CommandResult> GrantSqlAccess(AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RevokeSqlAccess(AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowSqlAccess(AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityShowSqlAccessOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSynapseWorkspaceManagedIdentityWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityWaitOptions(), cancellationToken: token);
     }
 }

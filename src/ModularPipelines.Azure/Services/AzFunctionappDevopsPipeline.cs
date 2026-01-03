@@ -21,6 +21,6 @@ public class AzFunctionappDevopsPipeline
 
     public async Task<CommandResult> Create(AzFunctionappDevopsPipelineCreateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDevopsPipelineCreateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDevopsPipelineCreateOptions(), cancellationToken: token);
     }
 }

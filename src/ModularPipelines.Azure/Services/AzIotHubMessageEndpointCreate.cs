@@ -21,26 +21,26 @@ public class AzIotHubMessageEndpointCreate
 
     public async Task<CommandResult> CosmosdbContainer(AzIotHubMessageEndpointCreateCosmosdbContainerOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Eventhub(AzIotHubMessageEndpointCreateEventhubOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ServicebusQueue(AzIotHubMessageEndpointCreateServicebusQueueOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ServicebusTopic(AzIotHubMessageEndpointCreateServicebusTopicOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> StorageContainer(AzIotHubMessageEndpointCreateStorageContainerOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

@@ -21,26 +21,26 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
 
     public async Task<CommandResult> Create(AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzMonitorLogAnalyticsWorkspaceSavedSearchListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

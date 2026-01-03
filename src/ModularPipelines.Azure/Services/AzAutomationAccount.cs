@@ -21,26 +21,26 @@ public class AzAutomationAccount
 
     public async Task<CommandResult> Create(AzAutomationAccountCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAutomationAccountDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAutomationAccountListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAutomationAccountShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAutomationAccountUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAutomationAccountUpdateOptions(), cancellationToken: token);
     }
 }

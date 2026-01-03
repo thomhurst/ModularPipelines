@@ -45,9 +45,10 @@ public class GcloudGeminiReleaseChannelSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudGeminiReleaseChannelSettingsCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +59,10 @@ public class GcloudGeminiReleaseChannelSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudGeminiReleaseChannelSettingsDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +73,10 @@ public class GcloudGeminiReleaseChannelSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudGeminiReleaseChannelSettingsDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +87,10 @@ public class GcloudGeminiReleaseChannelSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudGeminiReleaseChannelSettingsListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +101,10 @@ public class GcloudGeminiReleaseChannelSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudGeminiReleaseChannelSettingsUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -21,36 +21,36 @@ public class AzNetworkVnetPeering
 
     public async Task<CommandResult> Create(AzNetworkVnetPeeringCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVnetPeeringDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVnetPeeringListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVnetPeeringShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Sync(AzNetworkVnetPeeringSyncOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringSyncOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringSyncOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVnetPeeringUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVnetPeeringWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetPeeringWaitOptions(), cancellationToken: token);
     }
 }

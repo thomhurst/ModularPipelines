@@ -21,11 +21,11 @@ public class AzSentinelEntityQueryTemplate
 
     public async Task<CommandResult> List(AzSentinelEntityQueryTemplateListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSentinelEntityQueryTemplateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryTemplateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSentinelEntityQueryTemplateShowOptions(), cancellationToken: token);
     }
 }

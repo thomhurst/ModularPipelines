@@ -21,31 +21,31 @@ public class AzAfdProfile
 
     public async Task<CommandResult> Create(AzAfdProfileCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzAfdProfileDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzAfdProfileListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzAfdProfileShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzAfdProfileUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Usage(AzAfdProfileUsageOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileUsageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAfdProfileUsageOptions(), cancellationToken: token);
     }
 }

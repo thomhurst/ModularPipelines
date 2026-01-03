@@ -21,6 +21,6 @@ public class AzEventgridPartnerNamespaceKeyListEventgrid
 
     public async Task<CommandResult> Extension(AzEventgridPartnerNamespaceKeyListEventgridExtensionOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

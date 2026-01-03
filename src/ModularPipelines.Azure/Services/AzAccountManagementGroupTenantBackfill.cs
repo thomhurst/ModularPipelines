@@ -21,11 +21,11 @@ public class AzAccountManagementGroupTenantBackfill
 
     public async Task<CommandResult> Get(AzAccountManagementGroupTenantBackfillGetOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupTenantBackfillGetOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupTenantBackfillGetOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Start(AzAccountManagementGroupTenantBackfillStartOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupTenantBackfillStartOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupTenantBackfillStartOptions(), cancellationToken: token);
     }
 }

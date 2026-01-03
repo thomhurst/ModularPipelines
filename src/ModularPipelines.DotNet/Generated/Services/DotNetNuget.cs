@@ -5,6 +5,7 @@
 
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.DotNet.Generated.Options;
 
 namespace ModularPipelines.DotNet.Generated.Services;
@@ -32,9 +33,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetAddSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -45,9 +47,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         DotNetNugetDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -58,9 +61,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetDisableSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -71,9 +75,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetEnableSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -84,9 +89,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetListSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -97,9 +103,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Locals(
         DotNetNugetLocalsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -110,9 +117,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
         DotNetNugetPushOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -123,9 +131,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetRemoveSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -136,9 +145,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sign(
         DotNetNugetSignOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -149,9 +159,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Trust(
         DotNetNugetTrustOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -162,9 +173,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Source(
         DotNetNugetUpdateSourceOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -175,9 +187,10 @@ public class DotNetNuget
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Verify(
         DotNetNugetVerifyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
 }

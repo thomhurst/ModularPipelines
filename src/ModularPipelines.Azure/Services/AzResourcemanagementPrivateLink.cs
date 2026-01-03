@@ -21,21 +21,21 @@ public class AzResourcemanagementPrivateLink
 
     public async Task<CommandResult> Create(AzResourcemanagementPrivateLinkCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzResourcemanagementPrivateLinkDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzResourcemanagementPrivateLinkListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzResourcemanagementPrivateLinkShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

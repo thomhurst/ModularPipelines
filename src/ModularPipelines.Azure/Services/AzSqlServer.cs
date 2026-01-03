@@ -73,41 +73,41 @@ public class AzSqlServer
 
     public async Task<CommandResult> Create(AzSqlServerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlServerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlServerListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListUsages(AzSqlServerListUsagesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerListUsagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerListUsagesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> RefreshExternalGovernanceStatus(AzSqlServerRefreshExternalGovernanceStatusOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerRefreshExternalGovernanceStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerRefreshExternalGovernanceStatusOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlServerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlServerUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSqlServerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerWaitOptions(), cancellationToken: token);
     }
 }

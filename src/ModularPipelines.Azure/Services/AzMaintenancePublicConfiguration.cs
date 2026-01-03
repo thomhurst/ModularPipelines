@@ -21,11 +21,11 @@ public class AzMaintenancePublicConfiguration
 
     public async Task<CommandResult> List(AzMaintenancePublicConfigurationListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenancePublicConfigurationListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenancePublicConfigurationListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzMaintenancePublicConfigurationShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenancePublicConfigurationShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzMaintenancePublicConfigurationShowOptions(), cancellationToken: token);
     }
 }

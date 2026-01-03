@@ -21,31 +21,31 @@ public class AzOrbitalContactProfile
 
     public async Task<CommandResult> Create(AzOrbitalContactProfileCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzOrbitalContactProfileDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzOrbitalContactProfileListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzOrbitalContactProfileShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzOrbitalContactProfileUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzOrbitalContactProfileWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzOrbitalContactProfileWaitOptions(), cancellationToken: token);
     }
 }

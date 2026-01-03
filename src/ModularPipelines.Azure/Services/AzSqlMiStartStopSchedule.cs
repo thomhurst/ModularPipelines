@@ -21,26 +21,26 @@ public class AzSqlMiStartStopSchedule
 
     public async Task<CommandResult> Create(AzSqlMiStartStopScheduleCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSqlMiStartStopScheduleDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSqlMiStartStopScheduleListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSqlMiStartStopScheduleShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSqlMiStartStopScheduleUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartStopScheduleUpdateOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzDatashareDataSetMapping
 
     public async Task<CommandResult> Create(AzDatashareDataSetMappingCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatashareDataSetMappingDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetMappingDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetMappingDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatashareDataSetMappingListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatashareDataSetMappingShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetMappingShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatashareDataSetMappingShowOptions(), cancellationToken: token);
     }
 }

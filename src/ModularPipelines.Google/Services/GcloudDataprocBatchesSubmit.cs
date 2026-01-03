@@ -35,9 +35,10 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pyspark(
         GcloudDataprocBatchesSubmitPysparkOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -48,9 +49,10 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spark(
         GcloudDataprocBatchesSubmitSparkOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -61,9 +63,10 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkR(
         GcloudDataprocBatchesSubmitSparkROptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -74,9 +77,10 @@ public class GcloudDataprocBatchesSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkSql(
         GcloudDataprocBatchesSubmitSparkSqlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

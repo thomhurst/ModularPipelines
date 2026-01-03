@@ -21,21 +21,21 @@ public class AzConnectedvmwareVmTemplate
 
     public async Task<CommandResult> Create(AzConnectedvmwareVmTemplateCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzConnectedvmwareVmTemplateDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzConnectedvmwareVmTemplateListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzConnectedvmwareVmTemplateShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzConnectedvmwareVmTemplateShowOptions(), cancellationToken: token);
     }
 }

@@ -21,51 +21,51 @@ public class AzSiteRecoveryProtectedItem
 
     public async Task<CommandResult> Create(AzSiteRecoveryProtectedItemCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSiteRecoveryProtectedItemDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> FailoverCommit(AzSiteRecoveryProtectedItemFailoverCommitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemFailoverCommitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemFailoverCommitOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryProtectedItemListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> PlannedFailover(AzSiteRecoveryProtectedItemPlannedFailoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemPlannedFailoverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemPlannedFailoverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzSiteRecoveryProtectedItemRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Reprotect(AzSiteRecoveryProtectedItemReprotectOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemReprotectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemReprotectOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryProtectedItemShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> UnplannedFailover(AzSiteRecoveryProtectedItemUnplannedFailoverOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemUnplannedFailoverOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemUnplannedFailoverOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryProtectedItemUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryProtectedItemUpdateOptions(), cancellationToken: token);
     }
 }

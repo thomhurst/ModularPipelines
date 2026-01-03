@@ -29,51 +29,51 @@ public class AzSigImageDefinition
 
     public async Task<CommandResult> Create(AzSigImageDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSigImageDefinitionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSigImageDefinitionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> ListCommunity(AzSigImageDefinitionListCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionListCommunityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionListCommunityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListShared(AzSigImageDefinitionListSharedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionListSharedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionListSharedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSigImageDefinitionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowCommunity(AzSigImageDefinitionShowCommunityOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowCommunityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowCommunityOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowShared(AzSigImageDefinitionShowSharedOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowSharedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionShowSharedOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSigImageDefinitionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzSigImageDefinitionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSigImageDefinitionWaitOptions(), cancellationToken: token);
     }
 }

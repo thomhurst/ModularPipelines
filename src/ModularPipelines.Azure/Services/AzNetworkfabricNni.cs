@@ -21,31 +21,31 @@ public class AzNetworkfabricNni
 
     public async Task<CommandResult> Create(AzNetworkfabricNniCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkfabricNniDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkfabricNniListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkfabricNniShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkfabricNniUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkfabricNniWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkfabricNniWaitOptions(), cancellationToken: token);
     }
 }

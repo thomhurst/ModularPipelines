@@ -6,6 +6,7 @@
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
+using ModularPipelines.Options;
 using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Services;
@@ -36,9 +37,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         DockerComposeOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerComposeOptions(), cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new DockerComposeOptions(), executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -49,9 +51,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Attach(
         DockerComposeAttachOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -62,9 +65,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bridge(
         DockerComposeBridgeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +79,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
         DockerComposeBuildOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -88,9 +93,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
         DockerComposeCommitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -101,9 +107,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
         DockerComposeConfigOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -114,9 +121,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cp(
         DockerComposeCpOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -127,9 +135,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         DockerComposeCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -140,9 +149,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Down(
         DockerComposeDownOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -153,9 +163,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Events(
         DockerComposeEventsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -166,9 +177,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exec(
         DockerComposeExecOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -179,9 +191,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         DockerComposeExportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -192,9 +205,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Images(
         DockerComposeImagesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -205,9 +219,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kill(
         DockerComposeKillOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -218,9 +233,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
         DockerComposeLogsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -231,9 +247,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
         DockerComposeLsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -244,9 +261,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
         DockerComposePauseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -257,9 +275,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Port(
         DockerComposePortOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -270,9 +289,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ps(
         DockerComposePsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -283,9 +303,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Publish(
         DockerComposePublishOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -296,9 +317,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
         DockerComposePullOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -309,9 +331,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
         DockerComposePushOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -322,9 +345,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         DockerComposeRestartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -335,9 +359,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
         DockerComposeRmOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -348,9 +373,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         DockerComposeRunOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -361,9 +387,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scale(
         DockerComposeScaleOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -374,9 +401,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
         DockerComposeStartOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -387,9 +415,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stats(
         DockerComposeStatsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -400,9 +429,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
         DockerComposeStopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -413,9 +443,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Top(
         DockerComposeTopOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -426,9 +457,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unpause(
         DockerComposeUnpauseOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -439,9 +471,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Up(
         DockerComposeUpOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -452,9 +485,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Volumes(
         DockerComposeVolumesOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -465,9 +499,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
         DockerComposeWaitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -478,9 +513,10 @@ public class DockerCompose
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Watch(
         DockerComposeWatchOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

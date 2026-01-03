@@ -22,13 +22,13 @@ public class FileInstaller : IFileInstaller
     {
         if (OperatingSystem.IsWindows())
         {
-            return await _command.ExecuteCommandLineTool(new CommandLineToolOptions(options.Path)
+            return await _command.ExecuteCommandLineTool(new GenericCommandLineToolOptions(options.Path)
             {
                 Arguments = options.Arguments ?? Array.Empty<string>(),
-            }, cancellationToken).ConfigureAwait(false);
+            }, null, cancellationToken).ConfigureAwait(false);
         }
 
-        var escapedPath = options.Path.Replace("'", "'\\''");
+        var escapedPath = options.Path.Replace("'", "'\''");
         await _bash.Command(new BashCommandOptions($"chmod u+x '{escapedPath}'"), cancellationToken).ConfigureAwait(false);
 
         return await _bash.FromFile(new BashFileOptions(options.Path), cancellationToken).ConfigureAwait(false);

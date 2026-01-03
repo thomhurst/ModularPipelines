@@ -105,9 +105,10 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
         GcloudLoggingOptions? options = default,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -118,9 +119,10 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
         GcloudLoggingCopyOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -131,9 +133,10 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Read(
         GcloudLoggingReadOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -144,9 +147,10 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Write(
         GcloudLoggingWriteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -51,9 +51,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
         GcloudDesignCenterSpacesApplicationTemplatesCommitOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -64,9 +65,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDesignCenterSpacesApplicationTemplatesCreateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,9 +79,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDesignCenterSpacesApplicationTemplatesDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,9 +93,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDesignCenterSpacesApplicationTemplatesDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -103,9 +107,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
         GcloudDesignCenterSpacesApplicationTemplatesGenerateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -116,9 +121,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportIac(
         GcloudDesignCenterSpacesApplicationTemplatesImportIacOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -129,9 +135,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudDesignCenterSpacesApplicationTemplatesImportOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -142,9 +149,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudDesignCenterSpacesApplicationTemplatesListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -155,9 +163,10 @@ public class GcloudDesignCenterSpacesApplicationTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

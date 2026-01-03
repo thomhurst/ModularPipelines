@@ -21,6 +21,6 @@ public class AzKustoOperationResult
 
     public async Task<CommandResult> Show(AzKustoOperationResultShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzKustoOperationResultShowOptions(), cancellationToken: token);
     }
 }

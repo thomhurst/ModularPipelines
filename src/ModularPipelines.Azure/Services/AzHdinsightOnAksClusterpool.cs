@@ -21,31 +21,31 @@ public class AzHdinsightOnAksClusterpool
 
     public async Task<CommandResult> Create(AzHdinsightOnAksClusterpoolCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHdinsightOnAksClusterpoolDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHdinsightOnAksClusterpoolListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHdinsightOnAksClusterpoolShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHdinsightOnAksClusterpoolUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHdinsightOnAksClusterpoolWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightOnAksClusterpoolWaitOptions(), cancellationToken: token);
     }
 }

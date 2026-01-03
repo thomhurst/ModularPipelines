@@ -21,16 +21,16 @@ public class AzBatchNodeUser
 
     public async Task<CommandResult> Create(AzBatchNodeUserCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzBatchNodeUserDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 
     public async Task<CommandResult> Reset(AzBatchNodeUserResetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, cancellationToken: token);
     }
 }

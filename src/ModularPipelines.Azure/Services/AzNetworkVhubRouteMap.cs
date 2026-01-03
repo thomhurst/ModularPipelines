@@ -25,41 +25,41 @@ public class AzNetworkVhubRouteMap
 
     public async Task<CommandResult> Create(AzNetworkVhubRouteMapCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkVhubRouteMapDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetInboundRoutes(AzNetworkVhubRouteMapGetInboundRoutesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapGetInboundRoutesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapGetInboundRoutesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> GetOutboundRoutes(AzNetworkVhubRouteMapGetOutboundRoutesOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapGetOutboundRoutesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapGetOutboundRoutesOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkVhubRouteMapListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkVhubRouteMapShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkVhubRouteMapUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkVhubRouteMapWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVhubRouteMapWaitOptions(), cancellationToken: token);
     }
 }

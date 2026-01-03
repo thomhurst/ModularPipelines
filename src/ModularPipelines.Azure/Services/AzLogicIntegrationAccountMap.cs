@@ -21,26 +21,26 @@ public class AzLogicIntegrationAccountMap
 
     public async Task<CommandResult> Create(AzLogicIntegrationAccountMapCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzLogicIntegrationAccountMapDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzLogicIntegrationAccountMapListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzLogicIntegrationAccountMapShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzLogicIntegrationAccountMapUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzLogicIntegrationAccountMapUpdateOptions(), cancellationToken: token);
     }
 }

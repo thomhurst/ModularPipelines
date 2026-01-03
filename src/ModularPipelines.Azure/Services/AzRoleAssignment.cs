@@ -21,26 +21,26 @@ public class AzRoleAssignment
 
     public async Task<CommandResult> Create(AzRoleAssignmentCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRoleAssignmentDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRoleAssignmentListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListChangelogs(AzRoleAssignmentListChangelogsOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentListChangelogsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRoleAssignmentListChangelogsOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRoleAssignmentUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

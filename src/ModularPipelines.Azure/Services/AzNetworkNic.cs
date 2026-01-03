@@ -29,41 +29,41 @@ public class AzNetworkNic
 
     public async Task<CommandResult> Create(AzNetworkNicCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzNetworkNicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzNetworkNicListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ListEffectiveNsg(AzNetworkNicListEffectiveNsgOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListEffectiveNsgOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListEffectiveNsgOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzNetworkNicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> ShowEffectiveRouteTable(AzNetworkNicShowEffectiveRouteTableOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowEffectiveRouteTableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowEffectiveRouteTableOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzNetworkNicUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzNetworkNicWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicWaitOptions(), cancellationToken: token);
     }
 }

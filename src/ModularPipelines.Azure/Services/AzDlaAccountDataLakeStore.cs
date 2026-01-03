@@ -21,21 +21,21 @@ public class AzDlaAccountDataLakeStore
 
     public async Task<CommandResult> Add(AzDlaAccountDataLakeStoreAddOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDlaAccountDataLakeStoreDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDlaAccountDataLakeStoreListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountDataLakeStoreListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDlaAccountDataLakeStoreListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDlaAccountDataLakeStoreShowOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

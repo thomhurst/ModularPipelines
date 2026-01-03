@@ -21,6 +21,6 @@ public class AzManagedCassandraClusterListCosmosdbPreview
 
     public async Task<CommandResult> Extension(AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterListCosmosdbPreviewExtensionOptions(), cancellationToken: token);
     }
 }

@@ -19,31 +19,31 @@ public class AzHealthbot
 
     public async Task<CommandResult> Create(AzHealthbotCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzHealthbotDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzHealthbotListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzHealthbotShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzHealthbotUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzHealthbotWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzHealthbotWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,21 +21,21 @@ public class AzQuantumTarget
 
     public async Task<CommandResult> Clear(AzQuantumTargetClearOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumTargetClearOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumTargetClearOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzQuantumTargetListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Set(AzQuantumTargetSetOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzQuantumTargetShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumTargetShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzQuantumTargetShowOptions(), cancellationToken: token);
     }
 }

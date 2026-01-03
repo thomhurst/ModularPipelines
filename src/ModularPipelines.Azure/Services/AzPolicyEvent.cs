@@ -21,6 +21,6 @@ public class AzPolicyEvent
 
     public async Task<CommandResult> List(AzPolicyEventListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEventListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPolicyEventListOptions(), cancellationToken: token);
     }
 }

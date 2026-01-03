@@ -21,21 +21,21 @@ public class AzRoleDefinition
 
     public async Task<CommandResult> Create(AzRoleDefinitionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzRoleDefinitionDeleteOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzRoleDefinitionListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzRoleDefinitionUpdateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 }

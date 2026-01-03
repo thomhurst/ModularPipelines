@@ -21,31 +21,31 @@ public class AzDatabricksWorkspacePrivateEndpointConnection
 
     public async Task<CommandResult> Create(AzDatabricksWorkspacePrivateEndpointConnectionCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzDatabricksWorkspacePrivateEndpointConnectionListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzDatabricksWorkspacePrivateEndpointConnectionShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzDatabricksWorkspacePrivateEndpointConnectionUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionUpdateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzDatabricksWorkspacePrivateEndpointConnectionWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzDatabricksWorkspacePrivateEndpointConnectionWaitOptions(), cancellationToken: token);
     }
 }

@@ -21,6 +21,6 @@ public class AzPostgresServerPrivateLinkResource
 
     public async Task<CommandResult> List(AzPostgresServerPrivateLinkResourceListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateLinkResourceListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzPostgresServerPrivateLinkResourceListOptions(), cancellationToken: token);
     }
 }

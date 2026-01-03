@@ -51,9 +51,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateAws(
         GcloudIamWorkloadIdentityPoolsProvidersCreateAwsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -64,9 +65,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateOidc(
         GcloudIamWorkloadIdentityPoolsProvidersCreateOidcOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -77,9 +79,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSaml(
         GcloudIamWorkloadIdentityPoolsProvidersCreateSamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -90,9 +93,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateX509(
         GcloudIamWorkloadIdentityPoolsProvidersCreateX509Options options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -103,9 +107,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIamWorkloadIdentityPoolsProvidersDeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -116,9 +121,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIamWorkloadIdentityPoolsProvidersDescribeOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -129,9 +135,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudIamWorkloadIdentityPoolsProvidersListOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -142,9 +149,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudIamWorkloadIdentityPoolsProvidersUndeleteOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -155,9 +163,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAws(
         GcloudIamWorkloadIdentityPoolsProvidersUpdateAwsOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -168,9 +177,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOidc(
         GcloudIamWorkloadIdentityPoolsProvidersUpdateOidcOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -181,9 +191,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateSaml(
         GcloudIamWorkloadIdentityPoolsProvidersUpdateSamlOptions options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     /// <summary>
@@ -194,9 +205,10 @@ public class GcloudIamWorkloadIdentityPoolsProviders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateX509(
         GcloudIamWorkloadIdentityPoolsProvidersUpdateX509Options options,
+        CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
     #endregion

@@ -21,16 +21,16 @@ public class AzBackupVaultIdentity
 
     public async Task<CommandResult> Assign(AzBackupVaultIdentityAssignOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityAssignOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityAssignOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Remove(AzBackupVaultIdentityRemoveOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityRemoveOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityRemoveOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzBackupVaultIdentityShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultIdentityShowOptions(), cancellationToken: token);
     }
 }

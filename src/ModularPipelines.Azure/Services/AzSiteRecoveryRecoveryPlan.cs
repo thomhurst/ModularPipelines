@@ -21,26 +21,26 @@ public class AzSiteRecoveryRecoveryPlan
 
     public async Task<CommandResult> Create(AzSiteRecoveryRecoveryPlanCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzSiteRecoveryRecoveryPlanDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzSiteRecoveryRecoveryPlanListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzSiteRecoveryRecoveryPlanShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Update(AzSiteRecoveryRecoveryPlanUpdateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzSiteRecoveryRecoveryPlanUpdateOptions(), cancellationToken: token);
     }
 }

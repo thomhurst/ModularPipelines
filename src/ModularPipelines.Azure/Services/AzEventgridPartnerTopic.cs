@@ -45,26 +45,26 @@ public class AzEventgridPartnerTopic
 
     public async Task<CommandResult> Activate(AzEventgridPartnerTopicActivateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicActivateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicActivateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Deactivate(AzEventgridPartnerTopicDeactivateOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeactivateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeactivateOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzEventgridPartnerTopicDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzEventgridPartnerTopicListOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicListOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicListOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzEventgridPartnerTopicShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerTopicShowOptions(), cancellationToken: token);
     }
 }

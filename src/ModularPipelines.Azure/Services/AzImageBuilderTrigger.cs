@@ -21,26 +21,26 @@ public class AzImageBuilderTrigger
 
     public async Task<CommandResult> Create(AzImageBuilderTriggerCreateOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Delete(AzImageBuilderTriggerDeleteOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerDeleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerDeleteOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> List(AzImageBuilderTriggerListOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, cancellationToken: token);
     }
 
     public async Task<CommandResult> Show(AzImageBuilderTriggerShowOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerShowOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerShowOptions(), cancellationToken: token);
     }
 
     public async Task<CommandResult> Wait(AzImageBuilderTriggerWaitOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerWaitOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderTriggerWaitOptions(), cancellationToken: token);
     }
 }

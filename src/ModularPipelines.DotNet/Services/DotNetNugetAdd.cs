@@ -19,6 +19,6 @@ public class DotNetNugetAdd
 
     public virtual async Task<CommandResult> Source(DotNetNugetAddSourceOptions options, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, null, token);
     }
 }

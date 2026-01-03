@@ -21,6 +21,6 @@ public class AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordl
 
     public async Task<CommandResult> Extension(AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions? options = default, CancellationToken token = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMysqlFlexibleServiceconnectorPasswordlessExtensionOptions(), cancellationToken: token);
     }
 }
