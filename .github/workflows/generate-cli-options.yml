@@ -79,7 +79,7 @@ jobs:
           # Map tool to package directory and namespace prefix
           declare -A TOOL_MAP=(
             ["helm"]="ModularPipelines.Helm:Helm"
-            ["kubectl"]="ModularPipelines.Kubernetes:Kubectl"
+            ["kubectl"]="ModularPipelines.Kubernetes:Kubernetes"
             ["docker"]="ModularPipelines.Docker:Docker"
             ["az"]="ModularPipelines.Azure:Az"
             ["dotnet"]="ModularPipelines.DotNet:DotNet"
@@ -272,7 +272,7 @@ jobs:
           # Map tool to package directory and namespace prefix
           $toolMap = @{
             "choco" = @{ Package = "ModularPipelines.Chocolatey"; Prefix = "Choco" }
-            "winget" = @{ Package = "ModularPipelines.WinGet"; Prefix = "WinGet" }
+            "winget" = @{ Package = "ModularPipelines.WinGet"; Prefix = "Winget" }
           }
 
           $toolInfo = $toolMap["${{ matrix.tool }}"]
