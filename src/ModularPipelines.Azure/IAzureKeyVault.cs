@@ -8,7 +8,7 @@ namespace ModularPipelines.Azure;
 /// <summary>
 /// Provides access to Azure Key Vault clients with caching.
 /// </summary>
-internal interface IAzureKeyVault
+public interface IAzureKeyVault
 {
     /// <summary>
     /// Gets or creates a cached <see cref="SecretClient"/> for the specified vault.
