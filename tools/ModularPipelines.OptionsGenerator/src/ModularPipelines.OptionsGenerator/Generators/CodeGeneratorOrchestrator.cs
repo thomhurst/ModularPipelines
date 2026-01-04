@@ -123,6 +123,10 @@ public class CodeGeneratorOrchestrator
                             }
                         }
 
+                        // Generate AssemblyInfo with generation metadata
+                        await WriteAssemblyInfoAsync(outputDirectory, completeToolDefinition, cancellationToken);
+                        result.FilesGenerated.Add(Path.Combine(completeToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+
                         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
                             htmlScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
                         continue;
@@ -176,6 +180,10 @@ public class CodeGeneratorOrchestrator
                         result.FilesGenerated.Add(file.RelativePath);
                     }
                 }
+
+                // Generate AssemblyInfo with generation metadata
+                await WriteAssemblyInfoAsync(outputDirectory, htmlToolDefinition, cancellationToken);
+                result.FilesGenerated.Add(Path.Combine(htmlToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
 
                 _logger.LogInformation("Generated files for {Tool}", htmlScraper.ToolName);
             }
@@ -259,6 +267,10 @@ public class CodeGeneratorOrchestrator
                         }
                     }
 
+                    // Generate AssemblyInfo with generation metadata
+                    await WriteAssemblyInfoAsync(outputDirectory, completeToolDefinition, cancellationToken);
+                    result.FilesGenerated.Add(Path.Combine(completeToolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs"));
+
                     _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
                         cliScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
                 }
@@ -309,6 +321,21 @@ public class CodeGeneratorOrchestrator
         }
 
         await File.WriteAllTextAsync(path, content, cancellationToken);
+    }
+
+    /// <summary>
+    /// Generates and writes AssemblyInfo.Generated.cs with generation metadata.
+    /// This centralizes the generation timestamp in one file per assembly rather than in every generated file,
+    /// reducing unnecessary diffs when regenerating unchanged files.
+    /// </summary>
+    private static async Task WriteAssemblyInfoAsync(
+        string outputDirectory,
+        CliToolDefinition toolDefinition,
+        CancellationToken cancellationToken)
+    {
+        var content = GeneratorUtils.GenerateAssemblyInfo(toolDefinition.TargetNamespace, toolDefinition.ToolName);
+        var path = Path.Combine(outputDirectory, toolDefinition.OutputDirectory, "AssemblyInfo.Generated.cs");
+        await WriteFileAsync(path, content, cancellationToken);
     }
 
     /// <summary>
