@@ -3,6 +3,7 @@ using ModularPipelines.Azure.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
@@ -13,10 +14,10 @@ public class AzureCommandTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.Alias.Create(new AzAccountAliasCreateOptions("MyName")
+            return await context.Azure().Az.Account.List(new AzAccountListOptions
             {
-                InternalDryRun = true
-            }, cancellationToken);
+                All = true,
+            }, new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
         }
     }
 
@@ -24,10 +25,8 @@ public class AzureCommandTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Azure().Az.Account.ManagementGroup.Subscription.Add(new AzAccountManagementGroupSubscriptionAddOptions("MyName", "MySub")
-            {
-                InternalDryRun = true
-            }, cancellationToken);
+            return await context.Azure().Az.Account.ManagementGroup.List(new AzAccountManagementGroupListOptions(),
+                new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);
         }
     }
 
@@ -35,16 +34,16 @@ public class AzureCommandTests : TestBase
     public async Task Azure_Command_Is_Expected_Command()
     {
         var result = await await RunModule<AzureCommandModule>();
-        
+
         await Assert.That(result.Value!.CommandInput)
-            .IsEqualTo("az account alias create --name MyName");
+            .IsEqualTo("az account list --all");
     }
 
     [Test]
-    public async Task Azure_Command_With_Mandatory_Switch_Conflicting_With_Base_Default_Optional_Switch_Is_Expected_Command()
+    public async Task Azure_Command_With_Sub_Command_Group_Is_Expected_Command()
     {
         var result = await await RunModule<AzureCommandModule2>();
         await Assert.That(result.Value!.CommandInput)
-            .IsEqualTo("az account management-group subscription add --name MyName --subscription MySub");
+            .IsEqualTo("az account management-group list");
     }
 }
