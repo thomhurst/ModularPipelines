@@ -37,7 +37,7 @@ public class TrxParsingTests : TestBase
                 {
                     Framework = "net10.0",
                     ResultsDirectory = resultsDirectory,
-                    Logger = [$"trx;logfilename={trxFileName}"],
+                    Arguments = ["--report-trx", "--report-trx-filename", trxFileName]
                 },
                 new CommandExecutionOptions
                 {

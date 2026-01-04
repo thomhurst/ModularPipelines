@@ -18,10 +18,10 @@ public class DotNetTests : TestBase
         {
             // Use main solution explicitly - FindFile returns first match alphabetically
             // which could be ModularPipelines.Analyzers.sln causing flaky failures
-            return await context.DotNet().List.Package(new DotNetListPackageOptions
+            return await context.DotNet().Package.List(new DotNetPackageListOptions
             {
-                ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
-            }, token: cancellationToken);
+                Project = context.Git().RootDirectory.FindFile(x => x.Name == "ModularPipelines.sln").AssertExists(),
+            }, cancellationToken: cancellationToken);
         }
     }
 
@@ -32,7 +32,7 @@ public class DotNetTests : TestBase
             return await context.DotNet().Format(new DotNetFormatOptions
             {
                 ProjectSolution = context.Git().RootDirectory.FindFile(x => x.Name.Contains("TestsForTests")).AssertExists(),
-            }, token: cancellationToken);
+            }, cancellationToken: cancellationToken);
         }
     }
 

@@ -95,7 +95,7 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new MySuperSecretToolOptions
         {
-            Verbosity = Verbosity.Quiet,
+            Verbosity = "quiet",
         });
         await Assert.That(result.CommandInput).IsEqualTo("mysupersecrettool do this then that --verbosity quiet");
     }
@@ -150,15 +150,19 @@ public class CommandParserTests : TestBase
     [Test]
     public async Task DotNet_Nuget_Delete_With_Two_Positional_Arguments()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions("MyPackageName", "1.0.0"));
+        var result = await GetResult(new DotNetNugetDeleteOptions
+        {
+            Path = "MyPackageName 1.0.0"
+        });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0");
     }
 
     [Test]
     public async Task DotNet_Nuget_Delete_With_Source_Option()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions("MyPackageName", "1.0.0")
+        var result = await GetResult(new DotNetNugetDeleteOptions
         {
+            Path = "MyPackageName 1.0.0",
             Source = "https://api.nuget.org/v3/index.json"
         });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0 --source https://api.nuget.org/v3/index.json");
@@ -167,8 +171,9 @@ public class CommandParserTests : TestBase
     [Test]
     public async Task DotNet_Nuget_Delete_With_ApiKey_Option()
     {
-        var result = await GetResult(new DotNetNugetDeleteOptions("MyPackageName", "1.0.0")
+        var result = await GetResult(new DotNetNugetDeleteOptions
         {
+            Path = "MyPackageName 1.0.0",
             ApiKey = "my-secret-key"
         });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0 --api-key my-secret-key");

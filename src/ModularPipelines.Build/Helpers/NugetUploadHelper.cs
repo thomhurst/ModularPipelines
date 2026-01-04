@@ -18,11 +18,12 @@ public static class NugetUploadHelper
     {
         return await packagePaths
             .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
-            {
-                Path = nugetFile,
-                Source = source,
-                ApiKey = apiKey,
-            }, cancellationToken), cancellationToken: cancellationToken)
+                {
+                    Path = nugetFile,
+                    Source = source,
+                    ApiKey = apiKey,
+                }, cancellationToken: cancellationToken),
+                cancellationToken: cancellationToken)
             .ProcessOneAtATime();
     }
 }

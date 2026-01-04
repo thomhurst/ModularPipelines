@@ -33,7 +33,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandRes
                 NoBuild = true,
                 Framework = BuildConstants.TestFramework,
                 Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
-                Configuration = Configuration.Release,
+                Configuration = "Release",
                 Properties =
                 [
                     new("RunAnalyzersDuringBuild", "false"),

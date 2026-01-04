@@ -74,7 +74,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         return await context.DotNet().Pack(new DotNetPackOptions
         {
             ProjectSolution = projectFile.Path,
-            Configuration = Configuration.Release,
+            Configuration = "Release",
             IncludeSource = !projectFile.Path.Contains("Analyzer"),
             NoRestore = true,
             Properties = new List<KeyValue>
@@ -82,6 +82,6 @@ public class PackProjectsModule : Module<CommandResult[]>
                 ("PackageVersion", packageVersion.Value!),
                 ("Version", packageVersion.Value!),
             },
-        }, token: cancellationToken);
+        }, cancellationToken: cancellationToken);
     }
 }

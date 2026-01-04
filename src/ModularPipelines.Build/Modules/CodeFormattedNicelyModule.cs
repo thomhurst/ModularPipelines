@@ -90,6 +90,6 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
             Severity = "info",
         };
 
-        return context.DotNet().Format(options, token: cancellationToken);
+        return context.DotNet().Format(options, cancellationToken: cancellationToken);
     }
 }
