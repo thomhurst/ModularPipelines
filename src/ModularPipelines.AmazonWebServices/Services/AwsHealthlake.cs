@@ -18,68 +18,68 @@ public class AwsHealthlake
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateFhirDatastore(AwsHealthlakeCreateFhirDatastoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateFhirDatastore(AwsHealthlakeCreateFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFhirDatastore(AwsHealthlakeDeleteFhirDatastoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFhirDatastore(AwsHealthlakeDeleteFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFhirDatastore(AwsHealthlakeDescribeFhirDatastoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFhirDatastore(AwsHealthlakeDescribeFhirDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFhirExportJob(AwsHealthlakeDescribeFhirExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFhirExportJob(AwsHealthlakeDescribeFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFhirImportJob(AwsHealthlakeDescribeFhirImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFhirImportJob(AwsHealthlakeDescribeFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFhirDatastores(AwsHealthlakeListFhirDatastoresOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFhirDatastores(AwsHealthlakeListFhirDatastoresOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsHealthlakeListFhirDatastoresOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsHealthlakeListFhirDatastoresOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFhirExportJobs(AwsHealthlakeListFhirExportJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFhirExportJobs(AwsHealthlakeListFhirExportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFhirImportJobs(AwsHealthlakeListFhirImportJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFhirImportJobs(AwsHealthlakeListFhirImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsHealthlakeListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsHealthlakeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartFhirExportJob(AwsHealthlakeStartFhirExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartFhirExportJob(AwsHealthlakeStartFhirExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartFhirImportJob(AwsHealthlakeStartFhirImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartFhirImportJob(AwsHealthlakeStartFhirImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsHealthlakeTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsHealthlakeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsHealthlakeUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsHealthlakeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

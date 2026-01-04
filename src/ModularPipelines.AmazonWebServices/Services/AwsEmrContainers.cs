@@ -18,108 +18,108 @@ public class AwsEmrContainers
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelJobRun(AwsEmrContainersCancelJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelJobRun(AwsEmrContainersCancelJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateJobTemplate(AwsEmrContainersCreateJobTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateJobTemplate(AwsEmrContainersCreateJobTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateManagedEndpoint(AwsEmrContainersCreateManagedEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateManagedEndpoint(AwsEmrContainersCreateManagedEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateVirtualCluster(AwsEmrContainersCreateVirtualClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateVirtualCluster(AwsEmrContainersCreateVirtualClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteJobTemplate(AwsEmrContainersDeleteJobTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteJobTemplate(AwsEmrContainersDeleteJobTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteManagedEndpoint(AwsEmrContainersDeleteManagedEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteManagedEndpoint(AwsEmrContainersDeleteManagedEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteVirtualCluster(AwsEmrContainersDeleteVirtualClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteVirtualCluster(AwsEmrContainersDeleteVirtualClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeJobRun(AwsEmrContainersDescribeJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeJobRun(AwsEmrContainersDescribeJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeJobTemplate(AwsEmrContainersDescribeJobTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeJobTemplate(AwsEmrContainersDescribeJobTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeManagedEndpoint(AwsEmrContainersDescribeManagedEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeManagedEndpoint(AwsEmrContainersDescribeManagedEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeVirtualCluster(AwsEmrContainersDescribeVirtualClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeVirtualCluster(AwsEmrContainersDescribeVirtualClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetManagedEndpointSessionCredentials(AwsEmrContainersGetManagedEndpointSessionCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetManagedEndpointSessionCredentials(AwsEmrContainersGetManagedEndpointSessionCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobRuns(AwsEmrContainersListJobRunsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListJobRuns(AwsEmrContainersListJobRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobTemplates(AwsEmrContainersListJobTemplatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListJobTemplates(AwsEmrContainersListJobTemplatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrContainersListJobTemplatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrContainersListJobTemplatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListManagedEndpoints(AwsEmrContainersListManagedEndpointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListManagedEndpoints(AwsEmrContainersListManagedEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEmrContainersListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEmrContainersListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListVirtualClusters(AwsEmrContainersListVirtualClustersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListVirtualClusters(AwsEmrContainersListVirtualClustersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrContainersListVirtualClustersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrContainersListVirtualClustersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartJobRun(AwsEmrContainersStartJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartJobRun(AwsEmrContainersStartJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEmrContainersTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEmrContainersTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEmrContainersUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEmrContainersUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRoleTrustPolicy(AwsEmrContainersUpdateRoleTrustPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRoleTrustPolicy(AwsEmrContainersUpdateRoleTrustPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

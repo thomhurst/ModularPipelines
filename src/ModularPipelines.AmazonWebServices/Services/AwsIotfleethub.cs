@@ -18,43 +18,43 @@ public class AwsIotfleethub
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateApplication(AwsIotfleethubCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsIotfleethubCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsIotfleethubDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsIotfleethubDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApplication(AwsIotfleethubDescribeApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApplication(AwsIotfleethubDescribeApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplications(AwsIotfleethubListApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplications(AwsIotfleethubListApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsIotfleethubListApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsIotfleethubListApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsIotfleethubListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsIotfleethubListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsIotfleethubTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsIotfleethubTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsIotfleethubUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsIotfleethubUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsIotfleethubUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsIotfleethubUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,108 +18,108 @@ public class AwsAppintegrations
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateApplication(AwsAppintegrationsCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsAppintegrationsCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataIntegration(AwsAppintegrationsCreateDataIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataIntegration(AwsAppintegrationsCreateDataIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEventIntegration(AwsAppintegrationsCreateEventIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEventIntegration(AwsAppintegrationsCreateEventIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsAppintegrationsDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsAppintegrationsDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDataIntegration(AwsAppintegrationsDeleteDataIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDataIntegration(AwsAppintegrationsDeleteDataIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEventIntegration(AwsAppintegrationsDeleteEventIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEventIntegration(AwsAppintegrationsDeleteEventIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetApplication(AwsAppintegrationsGetApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetApplication(AwsAppintegrationsGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDataIntegration(AwsAppintegrationsGetDataIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDataIntegration(AwsAppintegrationsGetDataIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEventIntegration(AwsAppintegrationsGetEventIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEventIntegration(AwsAppintegrationsGetEventIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplicationAssociations(AwsAppintegrationsListApplicationAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListApplicationAssociations(AwsAppintegrationsListApplicationAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplications(AwsAppintegrationsListApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplications(AwsAppintegrationsListApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDataIntegrationAssociations(AwsAppintegrationsListDataIntegrationAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDataIntegrationAssociations(AwsAppintegrationsListDataIntegrationAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDataIntegrations(AwsAppintegrationsListDataIntegrationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDataIntegrations(AwsAppintegrationsListDataIntegrationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListDataIntegrationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListDataIntegrationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventIntegrationAssociations(AwsAppintegrationsListEventIntegrationAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEventIntegrationAssociations(AwsAppintegrationsListEventIntegrationAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventIntegrations(AwsAppintegrationsListEventIntegrationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEventIntegrations(AwsAppintegrationsListEventIntegrationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListEventIntegrationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppintegrationsListEventIntegrationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsAppintegrationsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsAppintegrationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsAppintegrationsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsAppintegrationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsAppintegrationsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsAppintegrationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsAppintegrationsUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsAppintegrationsUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDataIntegration(AwsAppintegrationsUpdateDataIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDataIntegration(AwsAppintegrationsUpdateDataIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEventIntegration(AwsAppintegrationsUpdateEventIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEventIntegration(AwsAppintegrationsUpdateEventIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

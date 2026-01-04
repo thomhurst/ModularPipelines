@@ -22,98 +22,98 @@ public class AwsSigner
 
     public AwsSignerWait Wait { get; }
 
-    public async Task<CommandResult> AddProfilePermission(AwsSignerAddProfilePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddProfilePermission(AwsSignerAddProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelSigningProfile(AwsSignerCancelSigningProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelSigningProfile(AwsSignerCancelSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSigningJob(AwsSignerDescribeSigningJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSigningJob(AwsSignerDescribeSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRevocationStatus(AwsSignerGetRevocationStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRevocationStatus(AwsSignerGetRevocationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSigningPlatform(AwsSignerGetSigningPlatformOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSigningPlatform(AwsSignerGetSigningPlatformOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSigningProfile(AwsSignerGetSigningProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSigningProfile(AwsSignerGetSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProfilePermissions(AwsSignerListProfilePermissionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProfilePermissions(AwsSignerListProfilePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSigningJobs(AwsSignerListSigningJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSigningJobs(AwsSignerListSigningJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSigningPlatforms(AwsSignerListSigningPlatformsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSigningPlatforms(AwsSignerListSigningPlatformsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningPlatformsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningPlatformsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSigningProfiles(AwsSignerListSigningProfilesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSigningProfiles(AwsSignerListSigningProfilesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningProfilesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSignerListSigningProfilesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsSignerListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsSignerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSigningProfile(AwsSignerPutSigningProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSigningProfile(AwsSignerPutSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveProfilePermission(AwsSignerRemoveProfilePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveProfilePermission(AwsSignerRemoveProfilePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RevokeSignature(AwsSignerRevokeSignatureOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RevokeSignature(AwsSignerRevokeSignatureOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RevokeSigningProfile(AwsSignerRevokeSigningProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RevokeSigningProfile(AwsSignerRevokeSigningProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SignPayload(AwsSignerSignPayloadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SignPayload(AwsSignerSignPayloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSigningJob(AwsSignerStartSigningJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartSigningJob(AwsSignerStartSigningJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsSignerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsSignerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsSignerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsSignerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

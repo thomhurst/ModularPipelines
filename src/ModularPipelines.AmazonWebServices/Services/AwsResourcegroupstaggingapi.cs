@@ -18,43 +18,43 @@ public class AwsResourcegroupstaggingapi
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeReportCreation(AwsResourcegroupstaggingapiDescribeReportCreationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReportCreation(AwsResourcegroupstaggingapiDescribeReportCreationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiDescribeReportCreationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiDescribeReportCreationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetComplianceSummary(AwsResourcegroupstaggingapiGetComplianceSummaryOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetComplianceSummary(AwsResourcegroupstaggingapiGetComplianceSummaryOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetComplianceSummaryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetComplianceSummaryOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResources(AwsResourcegroupstaggingapiGetResourcesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetResources(AwsResourcegroupstaggingapiGetResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetResourcesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetResourcesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTagKeys(AwsResourcegroupstaggingapiGetTagKeysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetTagKeys(AwsResourcegroupstaggingapiGetTagKeysOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetTagKeysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResourcegroupstaggingapiGetTagKeysOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTagValues(AwsResourcegroupstaggingapiGetTagValuesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTagValues(AwsResourcegroupstaggingapiGetTagValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartReportCreation(AwsResourcegroupstaggingapiStartReportCreationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartReportCreation(AwsResourcegroupstaggingapiStartReportCreationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResources(AwsResourcegroupstaggingapiTagResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResources(AwsResourcegroupstaggingapiTagResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResources(AwsResourcegroupstaggingapiUntagResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResources(AwsResourcegroupstaggingapiUntagResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -20,13 +20,13 @@ public class AwsSsmIncidentsWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> WaitForReplicationSetActive(AwsSsmIncidentsWaitWaitForReplicationSetActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WaitForReplicationSetActive(AwsSsmIncidentsWaitWaitForReplicationSetActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> WaitForReplicationSetDeleted(AwsSsmIncidentsWaitWaitForReplicationSetDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WaitForReplicationSetDeleted(AwsSsmIncidentsWaitWaitForReplicationSetDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

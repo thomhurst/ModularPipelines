@@ -20,63 +20,63 @@ public class AwsNimbleWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> LaunchProfileDeleted(AwsNimbleWaitLaunchProfileDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> LaunchProfileDeleted(AwsNimbleWaitLaunchProfileDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LaunchProfileReady(AwsNimbleWaitLaunchProfileReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> LaunchProfileReady(AwsNimbleWaitLaunchProfileReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingImageDeleted(AwsNimbleWaitStreamingImageDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingImageDeleted(AwsNimbleWaitStreamingImageDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingImageReady(AwsNimbleWaitStreamingImageReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingImageReady(AwsNimbleWaitStreamingImageReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingSessionDeleted(AwsNimbleWaitStreamingSessionDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingSessionDeleted(AwsNimbleWaitStreamingSessionDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingSessionReady(AwsNimbleWaitStreamingSessionReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingSessionReady(AwsNimbleWaitStreamingSessionReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingSessionStopped(AwsNimbleWaitStreamingSessionStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingSessionStopped(AwsNimbleWaitStreamingSessionStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingSessionStreamReady(AwsNimbleWaitStreamingSessionStreamReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingSessionStreamReady(AwsNimbleWaitStreamingSessionStreamReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StudioComponentDeleted(AwsNimbleWaitStudioComponentDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StudioComponentDeleted(AwsNimbleWaitStudioComponentDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StudioComponentReady(AwsNimbleWaitStudioComponentReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StudioComponentReady(AwsNimbleWaitStudioComponentReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StudioDeleted(AwsNimbleWaitStudioDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StudioDeleted(AwsNimbleWaitStudioDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StudioReady(AwsNimbleWaitStudioReadyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StudioReady(AwsNimbleWaitStudioReadyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

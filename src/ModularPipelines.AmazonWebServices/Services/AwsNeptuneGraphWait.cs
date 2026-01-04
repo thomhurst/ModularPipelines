@@ -20,43 +20,43 @@ public class AwsNeptuneGraphWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GraphAvailable(AwsNeptuneGraphWaitGraphAvailableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GraphAvailable(AwsNeptuneGraphWaitGraphAvailableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GraphDeleted(AwsNeptuneGraphWaitGraphDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GraphDeleted(AwsNeptuneGraphWaitGraphDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GraphSnapshotAvailable(AwsNeptuneGraphWaitGraphSnapshotAvailableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GraphSnapshotAvailable(AwsNeptuneGraphWaitGraphSnapshotAvailableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GraphSnapshotDeleted(AwsNeptuneGraphWaitGraphSnapshotDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GraphSnapshotDeleted(AwsNeptuneGraphWaitGraphSnapshotDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportTaskCancelled(AwsNeptuneGraphWaitImportTaskCancelledOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportTaskCancelled(AwsNeptuneGraphWaitImportTaskCancelledOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportTaskSuccessful(AwsNeptuneGraphWaitImportTaskSuccessfulOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportTaskSuccessful(AwsNeptuneGraphWaitImportTaskSuccessfulOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PrivateGraphEndpointAvailable(AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PrivateGraphEndpointAvailable(AwsNeptuneGraphWaitPrivateGraphEndpointAvailableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PrivateGraphEndpointDeleted(AwsNeptuneGraphWaitPrivateGraphEndpointDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PrivateGraphEndpointDeleted(AwsNeptuneGraphWaitPrivateGraphEndpointDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

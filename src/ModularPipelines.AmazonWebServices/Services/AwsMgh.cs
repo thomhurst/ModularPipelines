@@ -18,88 +18,88 @@ public class AwsMgh
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateCreatedArtifact(AwsMghAssociateCreatedArtifactOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateCreatedArtifact(AwsMghAssociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateDiscoveredResource(AwsMghAssociateDiscoveredResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateDiscoveredResource(AwsMghAssociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateProgressUpdateStream(AwsMghCreateProgressUpdateStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateProgressUpdateStream(AwsMghCreateProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteProgressUpdateStream(AwsMghDeleteProgressUpdateStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteProgressUpdateStream(AwsMghDeleteProgressUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApplicationState(AwsMghDescribeApplicationStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApplicationState(AwsMghDescribeApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMigrationTask(AwsMghDescribeMigrationTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMigrationTask(AwsMghDescribeMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateCreatedArtifact(AwsMghDisassociateCreatedArtifactOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateCreatedArtifact(AwsMghDisassociateCreatedArtifactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateDiscoveredResource(AwsMghDisassociateDiscoveredResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateDiscoveredResource(AwsMghDisassociateDiscoveredResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportMigrationTask(AwsMghImportMigrationTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportMigrationTask(AwsMghImportMigrationTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplicationStates(AwsMghListApplicationStatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplicationStates(AwsMghListApplicationStatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListApplicationStatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListApplicationStatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCreatedArtifacts(AwsMghListCreatedArtifactsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCreatedArtifacts(AwsMghListCreatedArtifactsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDiscoveredResources(AwsMghListDiscoveredResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDiscoveredResources(AwsMghListDiscoveredResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMigrationTasks(AwsMghListMigrationTasksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListMigrationTasks(AwsMghListMigrationTasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListMigrationTasksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListMigrationTasksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProgressUpdateStreams(AwsMghListProgressUpdateStreamsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListProgressUpdateStreams(AwsMghListProgressUpdateStreamsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListProgressUpdateStreamsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMghListProgressUpdateStreamsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotifyApplicationState(AwsMghNotifyApplicationStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotifyApplicationState(AwsMghNotifyApplicationStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotifyMigrationTaskState(AwsMghNotifyMigrationTaskStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotifyMigrationTaskState(AwsMghNotifyMigrationTaskStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourceAttributes(AwsMghPutResourceAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourceAttributes(AwsMghPutResourceAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

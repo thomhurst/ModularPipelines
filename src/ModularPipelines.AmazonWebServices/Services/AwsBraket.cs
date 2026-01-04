@@ -18,68 +18,68 @@ public class AwsBraket
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelJob(AwsBraketCancelJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelJob(AwsBraketCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelQuantumTask(AwsBraketCancelQuantumTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelQuantumTask(AwsBraketCancelQuantumTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateJob(AwsBraketCreateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateJob(AwsBraketCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateQuantumTask(AwsBraketCreateQuantumTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateQuantumTask(AwsBraketCreateQuantumTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDevice(AwsBraketGetDeviceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDevice(AwsBraketGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetJob(AwsBraketGetJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetJob(AwsBraketGetJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQuantumTask(AwsBraketGetQuantumTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQuantumTask(AwsBraketGetQuantumTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsBraketListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsBraketListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchDevices(AwsBraketSearchDevicesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchDevices(AwsBraketSearchDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchJobs(AwsBraketSearchJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchJobs(AwsBraketSearchJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchQuantumTasks(AwsBraketSearchQuantumTasksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchQuantumTasks(AwsBraketSearchQuantumTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsBraketTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsBraketTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsBraketUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsBraketUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

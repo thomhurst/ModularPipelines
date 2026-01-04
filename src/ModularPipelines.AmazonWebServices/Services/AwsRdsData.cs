@@ -18,28 +18,28 @@ public class AwsRdsData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchExecuteStatement(AwsRdsDataBatchExecuteStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchExecuteStatement(AwsRdsDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BeginTransaction(AwsRdsDataBeginTransactionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BeginTransaction(AwsRdsDataBeginTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CommitTransaction(AwsRdsDataCommitTransactionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CommitTransaction(AwsRdsDataCommitTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExecuteStatement(AwsRdsDataExecuteStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExecuteStatement(AwsRdsDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RollbackTransaction(AwsRdsDataRollbackTransactionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RollbackTransaction(AwsRdsDataRollbackTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

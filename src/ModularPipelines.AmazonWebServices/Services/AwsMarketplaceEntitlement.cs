@@ -18,8 +18,8 @@ public class AwsMarketplaceEntitlement
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetEntitlements(AwsMarketplaceEntitlementGetEntitlementsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEntitlements(AwsMarketplaceEntitlementGetEntitlementsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

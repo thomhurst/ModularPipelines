@@ -18,138 +18,138 @@ public class AwsEntityresolution
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateIdMappingWorkflow(AwsEntityresolutionCreateIdMappingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIdMappingWorkflow(AwsEntityresolutionCreateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMatchingWorkflow(AwsEntityresolutionCreateMatchingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMatchingWorkflow(AwsEntityresolutionCreateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSchemaMapping(AwsEntityresolutionCreateSchemaMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSchemaMapping(AwsEntityresolutionCreateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIdMappingWorkflow(AwsEntityresolutionDeleteIdMappingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIdMappingWorkflow(AwsEntityresolutionDeleteIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMatchingWorkflow(AwsEntityresolutionDeleteMatchingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMatchingWorkflow(AwsEntityresolutionDeleteMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSchemaMapping(AwsEntityresolutionDeleteSchemaMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSchemaMapping(AwsEntityresolutionDeleteSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIdMappingJob(AwsEntityresolutionGetIdMappingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIdMappingJob(AwsEntityresolutionGetIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIdMappingWorkflow(AwsEntityresolutionGetIdMappingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIdMappingWorkflow(AwsEntityresolutionGetIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMatchId(AwsEntityresolutionGetMatchIdOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMatchId(AwsEntityresolutionGetMatchIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMatchingJob(AwsEntityresolutionGetMatchingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMatchingJob(AwsEntityresolutionGetMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMatchingWorkflow(AwsEntityresolutionGetMatchingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMatchingWorkflow(AwsEntityresolutionGetMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetProviderService(AwsEntityresolutionGetProviderServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetProviderService(AwsEntityresolutionGetProviderServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSchemaMapping(AwsEntityresolutionGetSchemaMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSchemaMapping(AwsEntityresolutionGetSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIdMappingJobs(AwsEntityresolutionListIdMappingJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListIdMappingJobs(AwsEntityresolutionListIdMappingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIdMappingWorkflows(AwsEntityresolutionListIdMappingWorkflowsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListIdMappingWorkflows(AwsEntityresolutionListIdMappingWorkflowsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListIdMappingWorkflowsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListIdMappingWorkflowsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMatchingJobs(AwsEntityresolutionListMatchingJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMatchingJobs(AwsEntityresolutionListMatchingJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMatchingWorkflows(AwsEntityresolutionListMatchingWorkflowsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListMatchingWorkflows(AwsEntityresolutionListMatchingWorkflowsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListMatchingWorkflowsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListMatchingWorkflowsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProviderServices(AwsEntityresolutionListProviderServicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListProviderServices(AwsEntityresolutionListProviderServicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListProviderServicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListProviderServicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSchemaMappings(AwsEntityresolutionListSchemaMappingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSchemaMappings(AwsEntityresolutionListSchemaMappingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListSchemaMappingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEntityresolutionListSchemaMappingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEntityresolutionListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEntityresolutionListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartIdMappingJob(AwsEntityresolutionStartIdMappingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartIdMappingJob(AwsEntityresolutionStartIdMappingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartMatchingJob(AwsEntityresolutionStartMatchingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartMatchingJob(AwsEntityresolutionStartMatchingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEntityresolutionTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEntityresolutionTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEntityresolutionUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEntityresolutionUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIdMappingWorkflow(AwsEntityresolutionUpdateIdMappingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIdMappingWorkflow(AwsEntityresolutionUpdateIdMappingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMatchingWorkflow(AwsEntityresolutionUpdateMatchingWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMatchingWorkflow(AwsEntityresolutionUpdateMatchingWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSchemaMapping(AwsEntityresolutionUpdateSchemaMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSchemaMapping(AwsEntityresolutionUpdateSchemaMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,113 +18,113 @@ public class AwsConnectcampaigns
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateCampaign(AwsConnectcampaignsCreateCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCampaign(AwsConnectcampaignsCreateCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCampaign(AwsConnectcampaignsDeleteCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCampaign(AwsConnectcampaignsDeleteCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConnectInstanceConfig(AwsConnectcampaignsDeleteConnectInstanceConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConnectInstanceConfig(AwsConnectcampaignsDeleteConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteInstanceOnboardingJob(AwsConnectcampaignsDeleteInstanceOnboardingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteInstanceOnboardingJob(AwsConnectcampaignsDeleteInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCampaign(AwsConnectcampaignsDescribeCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCampaign(AwsConnectcampaignsDescribeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCampaignState(AwsConnectcampaignsGetCampaignStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCampaignState(AwsConnectcampaignsGetCampaignStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCampaignStateBatch(AwsConnectcampaignsGetCampaignStateBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCampaignStateBatch(AwsConnectcampaignsGetCampaignStateBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConnectInstanceConfig(AwsConnectcampaignsGetConnectInstanceConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnectInstanceConfig(AwsConnectcampaignsGetConnectInstanceConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetInstanceOnboardingJobStatus(AwsConnectcampaignsGetInstanceOnboardingJobStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetInstanceOnboardingJobStatus(AwsConnectcampaignsGetInstanceOnboardingJobStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCampaigns(AwsConnectcampaignsListCampaignsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCampaigns(AwsConnectcampaignsListCampaignsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsConnectcampaignsListCampaignsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsConnectcampaignsListCampaignsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsConnectcampaignsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsConnectcampaignsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PauseCampaign(AwsConnectcampaignsPauseCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PauseCampaign(AwsConnectcampaignsPauseCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDialRequestBatch(AwsConnectcampaignsPutDialRequestBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutDialRequestBatch(AwsConnectcampaignsPutDialRequestBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResumeCampaign(AwsConnectcampaignsResumeCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResumeCampaign(AwsConnectcampaignsResumeCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartCampaign(AwsConnectcampaignsStartCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartCampaign(AwsConnectcampaignsStartCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartInstanceOnboardingJob(AwsConnectcampaignsStartInstanceOnboardingJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartInstanceOnboardingJob(AwsConnectcampaignsStartInstanceOnboardingJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopCampaign(AwsConnectcampaignsStopCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopCampaign(AwsConnectcampaignsStopCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsConnectcampaignsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsConnectcampaignsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsConnectcampaignsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsConnectcampaignsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCampaignDialerConfig(AwsConnectcampaignsUpdateCampaignDialerConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCampaignDialerConfig(AwsConnectcampaignsUpdateCampaignDialerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCampaignName(AwsConnectcampaignsUpdateCampaignNameOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCampaignName(AwsConnectcampaignsUpdateCampaignNameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCampaignOutboundCallConfig(AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCampaignOutboundCallConfig(AwsConnectcampaignsUpdateCampaignOutboundCallConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

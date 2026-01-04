@@ -18,63 +18,63 @@ public class AwsScheduler
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateSchedule(AwsSchedulerCreateScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSchedule(AwsSchedulerCreateScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateScheduleGroup(AwsSchedulerCreateScheduleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateScheduleGroup(AwsSchedulerCreateScheduleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSchedule(AwsSchedulerDeleteScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSchedule(AwsSchedulerDeleteScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteScheduleGroup(AwsSchedulerDeleteScheduleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteScheduleGroup(AwsSchedulerDeleteScheduleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSchedule(AwsSchedulerGetScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSchedule(AwsSchedulerGetScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetScheduleGroup(AwsSchedulerGetScheduleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetScheduleGroup(AwsSchedulerGetScheduleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListScheduleGroups(AwsSchedulerListScheduleGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListScheduleGroups(AwsSchedulerListScheduleGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSchedulerListScheduleGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSchedulerListScheduleGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSchedules(AwsSchedulerListSchedulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSchedules(AwsSchedulerListSchedulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSchedulerListSchedulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSchedulerListSchedulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsSchedulerListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsSchedulerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsSchedulerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsSchedulerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsSchedulerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsSchedulerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSchedule(AwsSchedulerUpdateScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSchedule(AwsSchedulerUpdateScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

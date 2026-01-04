@@ -20,23 +20,23 @@ public class AwsMachinelearningWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchPredictionAvailable(AwsMachinelearningWaitBatchPredictionAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> BatchPredictionAvailable(AwsMachinelearningWaitBatchPredictionAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitBatchPredictionAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitBatchPredictionAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DataSourceAvailable(AwsMachinelearningWaitDataSourceAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DataSourceAvailable(AwsMachinelearningWaitDataSourceAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitDataSourceAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitDataSourceAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EvaluationAvailable(AwsMachinelearningWaitEvaluationAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EvaluationAvailable(AwsMachinelearningWaitEvaluationAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitEvaluationAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitEvaluationAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> MlModelAvailable(AwsMachinelearningWaitMlModelAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> MlModelAvailable(AwsMachinelearningWaitMlModelAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitMlModelAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningWaitMlModelAvailableOptions(), executionOptions, cancellationToken);
     }
 }

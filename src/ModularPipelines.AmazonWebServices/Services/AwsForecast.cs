@@ -18,318 +18,318 @@ public class AwsForecast
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateAutoPredictor(AwsForecastCreateAutoPredictorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAutoPredictor(AwsForecastCreateAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataset(AwsForecastCreateDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataset(AwsForecastCreateDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDatasetGroup(AwsForecastCreateDatasetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDatasetGroup(AwsForecastCreateDatasetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDatasetImportJob(AwsForecastCreateDatasetImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDatasetImportJob(AwsForecastCreateDatasetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExplainability(AwsForecastCreateExplainabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExplainability(AwsForecastCreateExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExplainabilityExport(AwsForecastCreateExplainabilityExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExplainabilityExport(AwsForecastCreateExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateForecast(AwsForecastCreateForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateForecast(AwsForecastCreateForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateForecastExportJob(AwsForecastCreateForecastExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateForecastExportJob(AwsForecastCreateForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMonitor(AwsForecastCreateMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMonitor(AwsForecastCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePredictor(AwsForecastCreatePredictorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePredictor(AwsForecastCreatePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePredictorBacktestExportJob(AwsForecastCreatePredictorBacktestExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePredictorBacktestExportJob(AwsForecastCreatePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWhatIfAnalysis(AwsForecastCreateWhatIfAnalysisOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWhatIfAnalysis(AwsForecastCreateWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWhatIfForecast(AwsForecastCreateWhatIfForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWhatIfForecast(AwsForecastCreateWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWhatIfForecastExport(AwsForecastCreateWhatIfForecastExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWhatIfForecastExport(AwsForecastCreateWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDataset(AwsForecastDeleteDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDataset(AwsForecastDeleteDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDatasetGroup(AwsForecastDeleteDatasetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDatasetGroup(AwsForecastDeleteDatasetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDatasetImportJob(AwsForecastDeleteDatasetImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDatasetImportJob(AwsForecastDeleteDatasetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteExplainability(AwsForecastDeleteExplainabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteExplainability(AwsForecastDeleteExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteExplainabilityExport(AwsForecastDeleteExplainabilityExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteExplainabilityExport(AwsForecastDeleteExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteForecast(AwsForecastDeleteForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteForecast(AwsForecastDeleteForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteForecastExportJob(AwsForecastDeleteForecastExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteForecastExportJob(AwsForecastDeleteForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMonitor(AwsForecastDeleteMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMonitor(AwsForecastDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePredictor(AwsForecastDeletePredictorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePredictor(AwsForecastDeletePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePredictorBacktestExportJob(AwsForecastDeletePredictorBacktestExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePredictorBacktestExportJob(AwsForecastDeletePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourceTree(AwsForecastDeleteResourceTreeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourceTree(AwsForecastDeleteResourceTreeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWhatIfAnalysis(AwsForecastDeleteWhatIfAnalysisOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWhatIfAnalysis(AwsForecastDeleteWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWhatIfForecast(AwsForecastDeleteWhatIfForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWhatIfForecast(AwsForecastDeleteWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWhatIfForecastExport(AwsForecastDeleteWhatIfForecastExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWhatIfForecastExport(AwsForecastDeleteWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAutoPredictor(AwsForecastDescribeAutoPredictorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAutoPredictor(AwsForecastDescribeAutoPredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDataset(AwsForecastDescribeDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDataset(AwsForecastDescribeDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDatasetGroup(AwsForecastDescribeDatasetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDatasetGroup(AwsForecastDescribeDatasetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDatasetImportJob(AwsForecastDescribeDatasetImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDatasetImportJob(AwsForecastDescribeDatasetImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeExplainability(AwsForecastDescribeExplainabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeExplainability(AwsForecastDescribeExplainabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeExplainabilityExport(AwsForecastDescribeExplainabilityExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeExplainabilityExport(AwsForecastDescribeExplainabilityExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeForecast(AwsForecastDescribeForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeForecast(AwsForecastDescribeForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeForecastExportJob(AwsForecastDescribeForecastExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeForecastExportJob(AwsForecastDescribeForecastExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMonitor(AwsForecastDescribeMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMonitor(AwsForecastDescribeMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePredictor(AwsForecastDescribePredictorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePredictor(AwsForecastDescribePredictorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePredictorBacktestExportJob(AwsForecastDescribePredictorBacktestExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePredictorBacktestExportJob(AwsForecastDescribePredictorBacktestExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWhatIfAnalysis(AwsForecastDescribeWhatIfAnalysisOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWhatIfAnalysis(AwsForecastDescribeWhatIfAnalysisOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWhatIfForecast(AwsForecastDescribeWhatIfForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWhatIfForecast(AwsForecastDescribeWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWhatIfForecastExport(AwsForecastDescribeWhatIfForecastExportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWhatIfForecastExport(AwsForecastDescribeWhatIfForecastExportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccuracyMetrics(AwsForecastGetAccuracyMetricsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccuracyMetrics(AwsForecastGetAccuracyMetricsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatasetGroups(AwsForecastListDatasetGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDatasetGroups(AwsForecastListDatasetGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatasetImportJobs(AwsForecastListDatasetImportJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDatasetImportJobs(AwsForecastListDatasetImportJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetImportJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetImportJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatasets(AwsForecastListDatasetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDatasets(AwsForecastListDatasetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListDatasetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExplainabilities(AwsForecastListExplainabilitiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListExplainabilities(AwsForecastListExplainabilitiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListExplainabilitiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListExplainabilitiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExplainabilityExports(AwsForecastListExplainabilityExportsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListExplainabilityExports(AwsForecastListExplainabilityExportsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListExplainabilityExportsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListExplainabilityExportsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListForecastExportJobs(AwsForecastListForecastExportJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListForecastExportJobs(AwsForecastListForecastExportJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListForecastExportJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListForecastExportJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListForecasts(AwsForecastListForecastsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListForecasts(AwsForecastListForecastsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListForecastsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListForecastsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMonitorEvaluations(AwsForecastListMonitorEvaluationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMonitorEvaluations(AwsForecastListMonitorEvaluationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMonitors(AwsForecastListMonitorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListMonitors(AwsForecastListMonitorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListMonitorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListMonitorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPredictorBacktestExportJobs(AwsForecastListPredictorBacktestExportJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPredictorBacktestExportJobs(AwsForecastListPredictorBacktestExportJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListPredictorBacktestExportJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListPredictorBacktestExportJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPredictors(AwsForecastListPredictorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPredictors(AwsForecastListPredictorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListPredictorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListPredictorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsForecastListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsForecastListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWhatIfAnalyses(AwsForecastListWhatIfAnalysesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWhatIfAnalyses(AwsForecastListWhatIfAnalysesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfAnalysesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfAnalysesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWhatIfForecastExports(AwsForecastListWhatIfForecastExportsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWhatIfForecastExports(AwsForecastListWhatIfForecastExportsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfForecastExportsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfForecastExportsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWhatIfForecasts(AwsForecastListWhatIfForecastsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWhatIfForecasts(AwsForecastListWhatIfForecastsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfForecastsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsForecastListWhatIfForecastsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResumeResource(AwsForecastResumeResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResumeResource(AwsForecastResumeResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopResource(AwsForecastStopResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopResource(AwsForecastStopResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsForecastTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsForecastTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsForecastUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsForecastUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDatasetGroup(AwsForecastUpdateDatasetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDatasetGroup(AwsForecastUpdateDatasetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

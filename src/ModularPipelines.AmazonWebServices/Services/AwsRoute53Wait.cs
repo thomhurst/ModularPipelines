@@ -20,8 +20,8 @@ public class AwsRoute53Wait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ResourceRecordSetsChanged(AwsRoute53WaitResourceRecordSetsChangedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResourceRecordSetsChanged(AwsRoute53WaitResourceRecordSetsChangedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

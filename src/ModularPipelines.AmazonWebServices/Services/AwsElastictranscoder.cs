@@ -22,83 +22,83 @@ public class AwsElastictranscoder
 
     public AwsElastictranscoderWait Wait { get; }
 
-    public async Task<CommandResult> CancelJob(AwsElastictranscoderCancelJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelJob(AwsElastictranscoderCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateJob(AwsElastictranscoderCreateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateJob(AwsElastictranscoderCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePipeline(AwsElastictranscoderCreatePipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePipeline(AwsElastictranscoderCreatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePreset(AwsElastictranscoderCreatePresetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePreset(AwsElastictranscoderCreatePresetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePipeline(AwsElastictranscoderDeletePipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePipeline(AwsElastictranscoderDeletePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePreset(AwsElastictranscoderDeletePresetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePreset(AwsElastictranscoderDeletePresetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobsByPipeline(AwsElastictranscoderListJobsByPipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListJobsByPipeline(AwsElastictranscoderListJobsByPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobsByStatus(AwsElastictranscoderListJobsByStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListJobsByStatus(AwsElastictranscoderListJobsByStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPipelines(AwsElastictranscoderListPipelinesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPipelines(AwsElastictranscoderListPipelinesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElastictranscoderListPipelinesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElastictranscoderListPipelinesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPresets(AwsElastictranscoderListPresetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPresets(AwsElastictranscoderListPresetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElastictranscoderListPresetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElastictranscoderListPresetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReadJob(AwsElastictranscoderReadJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReadJob(AwsElastictranscoderReadJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReadPipeline(AwsElastictranscoderReadPipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReadPipeline(AwsElastictranscoderReadPipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReadPreset(AwsElastictranscoderReadPresetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReadPreset(AwsElastictranscoderReadPresetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePipeline(AwsElastictranscoderUpdatePipelineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePipeline(AwsElastictranscoderUpdatePipelineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePipelineNotifications(AwsElastictranscoderUpdatePipelineNotificationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePipelineNotifications(AwsElastictranscoderUpdatePipelineNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePipelineStatus(AwsElastictranscoderUpdatePipelineStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePipelineStatus(AwsElastictranscoderUpdatePipelineStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

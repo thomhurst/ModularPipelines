@@ -20,13 +20,13 @@ public class AwsKinesisWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> StreamExists(AwsKinesisWaitStreamExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StreamExists(AwsKinesisWaitStreamExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisWaitStreamExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisWaitStreamExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamNotExists(AwsKinesisWaitStreamNotExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StreamNotExists(AwsKinesisWaitStreamNotExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisWaitStreamNotExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisWaitStreamNotExistsOptions(), executionOptions, cancellationToken);
     }
 }

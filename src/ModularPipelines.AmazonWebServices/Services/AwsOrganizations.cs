@@ -18,278 +18,278 @@ public class AwsOrganizations
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AcceptHandshake(AwsOrganizationsAcceptHandshakeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AcceptHandshake(AwsOrganizationsAcceptHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AttachPolicy(AwsOrganizationsAttachPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AttachPolicy(AwsOrganizationsAttachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelHandshake(AwsOrganizationsCancelHandshakeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelHandshake(AwsOrganizationsCancelHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CloseAccount(AwsOrganizationsCloseAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CloseAccount(AwsOrganizationsCloseAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAccount(AwsOrganizationsCreateAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccount(AwsOrganizationsCreateAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGovCloudAccount(AwsOrganizationsCreateGovCloudAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateGovCloudAccount(AwsOrganizationsCreateGovCloudAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateOrganization(AwsOrganizationsCreateOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateOrganization(AwsOrganizationsCreateOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsCreateOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsCreateOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateOrganizationalUnit(AwsOrganizationsCreateOrganizationalUnitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateOrganizationalUnit(AwsOrganizationsCreateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePolicy(AwsOrganizationsCreatePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePolicy(AwsOrganizationsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeclineHandshake(AwsOrganizationsDeclineHandshakeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeclineHandshake(AwsOrganizationsDeclineHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteOrganization(AwsOrganizationsDeleteOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeleteOrganization(AwsOrganizationsDeleteOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDeleteOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDeleteOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteOrganizationalUnit(AwsOrganizationsDeleteOrganizationalUnitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteOrganizationalUnit(AwsOrganizationsDeleteOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePolicy(AwsOrganizationsDeletePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePolicy(AwsOrganizationsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourcePolicy(AwsOrganizationsDeleteResourcePolicyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourcePolicy(AwsOrganizationsDeleteResourcePolicyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDeleteResourcePolicyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDeleteResourcePolicyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterDelegatedAdministrator(AwsOrganizationsDeregisterDelegatedAdministratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterDelegatedAdministrator(AwsOrganizationsDeregisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccount(AwsOrganizationsDescribeAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccount(AwsOrganizationsDescribeAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCreateAccountStatus(AwsOrganizationsDescribeCreateAccountStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCreateAccountStatus(AwsOrganizationsDescribeCreateAccountStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEffectivePolicy(AwsOrganizationsDescribeEffectivePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEffectivePolicy(AwsOrganizationsDescribeEffectivePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeHandshake(AwsOrganizationsDescribeHandshakeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeHandshake(AwsOrganizationsDescribeHandshakeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOrganization(AwsOrganizationsDescribeOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOrganization(AwsOrganizationsDescribeOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDescribeOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDescribeOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOrganizationalUnit(AwsOrganizationsDescribeOrganizationalUnitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOrganizationalUnit(AwsOrganizationsDescribeOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePolicy(AwsOrganizationsDescribePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePolicy(AwsOrganizationsDescribePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeResourcePolicy(AwsOrganizationsDescribeResourcePolicyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeResourcePolicy(AwsOrganizationsDescribeResourcePolicyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDescribeResourcePolicyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsDescribeResourcePolicyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetachPolicy(AwsOrganizationsDetachPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetachPolicy(AwsOrganizationsDetachPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisableAwsServiceAccess(AwsOrganizationsDisableAwsServiceAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisableAwsServiceAccess(AwsOrganizationsDisableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisablePolicyType(AwsOrganizationsDisablePolicyTypeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisablePolicyType(AwsOrganizationsDisablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableAllFeatures(AwsOrganizationsEnableAllFeaturesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EnableAllFeatures(AwsOrganizationsEnableAllFeaturesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsEnableAllFeaturesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsEnableAllFeaturesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableAwsServiceAccess(AwsOrganizationsEnableAwsServiceAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EnableAwsServiceAccess(AwsOrganizationsEnableAwsServiceAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnablePolicyType(AwsOrganizationsEnablePolicyTypeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EnablePolicyType(AwsOrganizationsEnablePolicyTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InviteAccountToOrganization(AwsOrganizationsInviteAccountToOrganizationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InviteAccountToOrganization(AwsOrganizationsInviteAccountToOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LeaveOrganization(AwsOrganizationsLeaveOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> LeaveOrganization(AwsOrganizationsLeaveOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsLeaveOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsLeaveOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccounts(AwsOrganizationsListAccountsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAccounts(AwsOrganizationsListAccountsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListAccountsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListAccountsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccountsForParent(AwsOrganizationsListAccountsForParentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAccountsForParent(AwsOrganizationsListAccountsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAwsServiceAccessForOrganization(AwsOrganizationsListAwsServiceAccessForOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAwsServiceAccessForOrganization(AwsOrganizationsListAwsServiceAccessForOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListAwsServiceAccessForOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListAwsServiceAccessForOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChildren(AwsOrganizationsListChildrenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListChildren(AwsOrganizationsListChildrenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCreateAccountStatus(AwsOrganizationsListCreateAccountStatusOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCreateAccountStatus(AwsOrganizationsListCreateAccountStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListCreateAccountStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListCreateAccountStatusOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDelegatedAdministrators(AwsOrganizationsListDelegatedAdministratorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDelegatedAdministrators(AwsOrganizationsListDelegatedAdministratorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListDelegatedAdministratorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListDelegatedAdministratorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDelegatedServicesForAccount(AwsOrganizationsListDelegatedServicesForAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDelegatedServicesForAccount(AwsOrganizationsListDelegatedServicesForAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHandshakesForAccount(AwsOrganizationsListHandshakesForAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListHandshakesForAccount(AwsOrganizationsListHandshakesForAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListHandshakesForAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListHandshakesForAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHandshakesForOrganization(AwsOrganizationsListHandshakesForOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListHandshakesForOrganization(AwsOrganizationsListHandshakesForOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListHandshakesForOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListHandshakesForOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListOrganizationalUnitsForParent(AwsOrganizationsListOrganizationalUnitsForParentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListOrganizationalUnitsForParent(AwsOrganizationsListOrganizationalUnitsForParentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListParents(AwsOrganizationsListParentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListParents(AwsOrganizationsListParentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPolicies(AwsOrganizationsListPoliciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPolicies(AwsOrganizationsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPoliciesForTarget(AwsOrganizationsListPoliciesForTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPoliciesForTarget(AwsOrganizationsListPoliciesForTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRoots(AwsOrganizationsListRootsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRoots(AwsOrganizationsListRootsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListRootsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOrganizationsListRootsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsOrganizationsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsOrganizationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTargetsForPolicy(AwsOrganizationsListTargetsForPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTargetsForPolicy(AwsOrganizationsListTargetsForPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> MoveAccount(AwsOrganizationsMoveAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> MoveAccount(AwsOrganizationsMoveAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourcePolicy(AwsOrganizationsPutResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourcePolicy(AwsOrganizationsPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterDelegatedAdministrator(AwsOrganizationsRegisterDelegatedAdministratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterDelegatedAdministrator(AwsOrganizationsRegisterDelegatedAdministratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveAccountFromOrganization(AwsOrganizationsRemoveAccountFromOrganizationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveAccountFromOrganization(AwsOrganizationsRemoveAccountFromOrganizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsOrganizationsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsOrganizationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsOrganizationsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsOrganizationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateOrganizationalUnit(AwsOrganizationsUpdateOrganizationalUnitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateOrganizationalUnit(AwsOrganizationsUpdateOrganizationalUnitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePolicy(AwsOrganizationsUpdatePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePolicy(AwsOrganizationsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

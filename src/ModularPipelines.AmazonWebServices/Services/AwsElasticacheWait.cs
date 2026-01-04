@@ -20,23 +20,23 @@ public class AwsElasticacheWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CacheClusterAvailable(AwsElasticacheWaitCacheClusterAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CacheClusterAvailable(AwsElasticacheWaitCacheClusterAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitCacheClusterAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitCacheClusterAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CacheClusterDeleted(AwsElasticacheWaitCacheClusterDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CacheClusterDeleted(AwsElasticacheWaitCacheClusterDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitCacheClusterDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitCacheClusterDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationGroupAvailable(AwsElasticacheWaitReplicationGroupAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationGroupAvailable(AwsElasticacheWaitReplicationGroupAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitReplicationGroupAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitReplicationGroupAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationGroupDeleted(AwsElasticacheWaitReplicationGroupDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationGroupDeleted(AwsElasticacheWaitReplicationGroupDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitReplicationGroupDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticacheWaitReplicationGroupDeletedOptions(), executionOptions, cancellationToken);
     }
 }

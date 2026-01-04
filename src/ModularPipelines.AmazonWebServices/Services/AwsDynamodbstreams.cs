@@ -18,23 +18,23 @@ public class AwsDynamodbstreams
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeStream(AwsDynamodbstreamsDescribeStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStream(AwsDynamodbstreamsDescribeStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRecords(AwsDynamodbstreamsGetRecordsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRecords(AwsDynamodbstreamsGetRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetShardIterator(AwsDynamodbstreamsGetShardIteratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetShardIterator(AwsDynamodbstreamsGetShardIteratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListStreams(AwsDynamodbstreamsListStreamsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListStreams(AwsDynamodbstreamsListStreamsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDynamodbstreamsListStreamsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDynamodbstreamsListStreamsOptions(), executionOptions, cancellationToken);
     }
 }

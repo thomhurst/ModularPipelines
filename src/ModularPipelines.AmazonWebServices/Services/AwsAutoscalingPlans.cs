@@ -18,33 +18,33 @@ public class AwsAutoscalingPlans
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateScalingPlan(AwsAutoscalingPlansCreateScalingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateScalingPlan(AwsAutoscalingPlansCreateScalingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteScalingPlan(AwsAutoscalingPlansDeleteScalingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteScalingPlan(AwsAutoscalingPlansDeleteScalingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeScalingPlanResources(AwsAutoscalingPlansDescribeScalingPlanResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeScalingPlanResources(AwsAutoscalingPlansDescribeScalingPlanResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeScalingPlans(AwsAutoscalingPlansDescribeScalingPlansOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeScalingPlans(AwsAutoscalingPlansDescribeScalingPlansOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAutoscalingPlansDescribeScalingPlansOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAutoscalingPlansDescribeScalingPlansOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetScalingPlanResourceForecastData(AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetScalingPlanResourceForecastData(AwsAutoscalingPlansGetScalingPlanResourceForecastDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateScalingPlan(AwsAutoscalingPlansUpdateScalingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateScalingPlan(AwsAutoscalingPlansUpdateScalingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

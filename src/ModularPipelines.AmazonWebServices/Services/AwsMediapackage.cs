@@ -18,93 +18,93 @@ public class AwsMediapackage
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ConfigureLogs(AwsMediapackageConfigureLogsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ConfigureLogs(AwsMediapackageConfigureLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateChannel(AwsMediapackageCreateChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateChannel(AwsMediapackageCreateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateHarvestJob(AwsMediapackageCreateHarvestJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateHarvestJob(AwsMediapackageCreateHarvestJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateOriginEndpoint(AwsMediapackageCreateOriginEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateOriginEndpoint(AwsMediapackageCreateOriginEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteChannel(AwsMediapackageDeleteChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteChannel(AwsMediapackageDeleteChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteOriginEndpoint(AwsMediapackageDeleteOriginEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteOriginEndpoint(AwsMediapackageDeleteOriginEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeChannel(AwsMediapackageDescribeChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeChannel(AwsMediapackageDescribeChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeHarvestJob(AwsMediapackageDescribeHarvestJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeHarvestJob(AwsMediapackageDescribeHarvestJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOriginEndpoint(AwsMediapackageDescribeOriginEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOriginEndpoint(AwsMediapackageDescribeOriginEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChannels(AwsMediapackageListChannelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListChannels(AwsMediapackageListChannelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListChannelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListChannelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHarvestJobs(AwsMediapackageListHarvestJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListHarvestJobs(AwsMediapackageListHarvestJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListHarvestJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListHarvestJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListOriginEndpoints(AwsMediapackageListOriginEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListOriginEndpoints(AwsMediapackageListOriginEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListOriginEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMediapackageListOriginEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsMediapackageListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsMediapackageListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RotateIngestEndpointCredentials(AwsMediapackageRotateIngestEndpointCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RotateIngestEndpointCredentials(AwsMediapackageRotateIngestEndpointCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsMediapackageTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsMediapackageTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsMediapackageUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsMediapackageUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateChannel(AwsMediapackageUpdateChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateChannel(AwsMediapackageUpdateChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateOriginEndpoint(AwsMediapackageUpdateOriginEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateOriginEndpoint(AwsMediapackageUpdateOriginEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

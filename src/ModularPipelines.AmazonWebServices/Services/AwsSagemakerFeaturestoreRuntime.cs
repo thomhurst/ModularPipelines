@@ -18,23 +18,23 @@ public class AwsSagemakerFeaturestoreRuntime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchGetRecord(AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetRecord(AwsSagemakerFeaturestoreRuntimeBatchGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRecord(AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRecord(AwsSagemakerFeaturestoreRuntimeDeleteRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRecord(AwsSagemakerFeaturestoreRuntimeGetRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRecord(AwsSagemakerFeaturestoreRuntimeGetRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRecord(AwsSagemakerFeaturestoreRuntimePutRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRecord(AwsSagemakerFeaturestoreRuntimePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

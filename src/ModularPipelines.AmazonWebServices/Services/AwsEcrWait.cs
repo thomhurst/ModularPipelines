@@ -20,13 +20,13 @@ public class AwsEcrWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ImageScanComplete(AwsEcrWaitImageScanCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageScanComplete(AwsEcrWaitImageScanCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LifecyclePolicyPreviewComplete(AwsEcrWaitLifecyclePolicyPreviewCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> LifecyclePolicyPreviewComplete(AwsEcrWaitLifecyclePolicyPreviewCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

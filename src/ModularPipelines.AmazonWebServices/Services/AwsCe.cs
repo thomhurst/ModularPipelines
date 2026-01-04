@@ -18,193 +18,193 @@ public class AwsCe
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateAnomalyMonitor(AwsCeCreateAnomalyMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAnomalyMonitor(AwsCeCreateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAnomalySubscription(AwsCeCreateAnomalySubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAnomalySubscription(AwsCeCreateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCostCategoryDefinition(AwsCeCreateCostCategoryDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCostCategoryDefinition(AwsCeCreateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAnomalyMonitor(AwsCeDeleteAnomalyMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAnomalyMonitor(AwsCeDeleteAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAnomalySubscription(AwsCeDeleteAnomalySubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAnomalySubscription(AwsCeDeleteAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCostCategoryDefinition(AwsCeDeleteCostCategoryDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCostCategoryDefinition(AwsCeDeleteCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCostCategoryDefinition(AwsCeDescribeCostCategoryDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCostCategoryDefinition(AwsCeDescribeCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAnomalies(AwsCeGetAnomaliesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAnomalies(AwsCeGetAnomaliesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAnomalyMonitors(AwsCeGetAnomalyMonitorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAnomalyMonitors(AwsCeGetAnomalyMonitorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeGetAnomalyMonitorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeGetAnomalyMonitorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAnomalySubscriptions(AwsCeGetAnomalySubscriptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAnomalySubscriptions(AwsCeGetAnomalySubscriptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeGetAnomalySubscriptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeGetAnomalySubscriptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCostAndUsage(AwsCeGetCostAndUsageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCostAndUsage(AwsCeGetCostAndUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCostAndUsageWithResources(AwsCeGetCostAndUsageWithResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCostAndUsageWithResources(AwsCeGetCostAndUsageWithResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCostCategories(AwsCeGetCostCategoriesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCostCategories(AwsCeGetCostCategoriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCostForecast(AwsCeGetCostForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCostForecast(AwsCeGetCostForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDimensionValues(AwsCeGetDimensionValuesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDimensionValues(AwsCeGetDimensionValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetReservationCoverage(AwsCeGetReservationCoverageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetReservationCoverage(AwsCeGetReservationCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetReservationPurchaseRecommendation(AwsCeGetReservationPurchaseRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetReservationPurchaseRecommendation(AwsCeGetReservationPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetReservationUtilization(AwsCeGetReservationUtilizationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetReservationUtilization(AwsCeGetReservationUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRightsizingRecommendation(AwsCeGetRightsizingRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRightsizingRecommendation(AwsCeGetRightsizingRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSavingsPlanPurchaseRecommendationDetails(AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSavingsPlanPurchaseRecommendationDetails(AwsCeGetSavingsPlanPurchaseRecommendationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSavingsPlansCoverage(AwsCeGetSavingsPlansCoverageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSavingsPlansCoverage(AwsCeGetSavingsPlansCoverageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSavingsPlansPurchaseRecommendation(AwsCeGetSavingsPlansPurchaseRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSavingsPlansPurchaseRecommendation(AwsCeGetSavingsPlansPurchaseRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSavingsPlansUtilization(AwsCeGetSavingsPlansUtilizationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSavingsPlansUtilization(AwsCeGetSavingsPlansUtilizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSavingsPlansUtilizationDetails(AwsCeGetSavingsPlansUtilizationDetailsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSavingsPlansUtilizationDetails(AwsCeGetSavingsPlansUtilizationDetailsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTags(AwsCeGetTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTags(AwsCeGetTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUsageForecast(AwsCeGetUsageForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUsageForecast(AwsCeGetUsageForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCostAllocationTags(AwsCeListCostAllocationTagsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCostAllocationTags(AwsCeListCostAllocationTagsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListCostAllocationTagsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListCostAllocationTagsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCostCategoryDefinitions(AwsCeListCostCategoryDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCostCategoryDefinitions(AwsCeListCostCategoryDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListCostCategoryDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListCostCategoryDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSavingsPlansPurchaseRecommendationGeneration(AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSavingsPlansPurchaseRecommendationGeneration(AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeListSavingsPlansPurchaseRecommendationGenerationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsCeListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsCeListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ProvideAnomalyFeedback(AwsCeProvideAnomalyFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ProvideAnomalyFeedback(AwsCeProvideAnomalyFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSavingsPlansPurchaseRecommendationGeneration(AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StartSavingsPlansPurchaseRecommendationGeneration(AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCeStartSavingsPlansPurchaseRecommendationGenerationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsCeTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsCeTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsCeUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsCeUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAnomalyMonitor(AwsCeUpdateAnomalyMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAnomalyMonitor(AwsCeUpdateAnomalyMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAnomalySubscription(AwsCeUpdateAnomalySubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAnomalySubscription(AwsCeUpdateAnomalySubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCostAllocationTagsStatus(AwsCeUpdateCostAllocationTagsStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCostAllocationTagsStatus(AwsCeUpdateCostAllocationTagsStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCostCategoryDefinition(AwsCeUpdateCostCategoryDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCostCategoryDefinition(AwsCeUpdateCostCategoryDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

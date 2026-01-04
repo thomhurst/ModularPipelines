@@ -18,23 +18,23 @@ public class AwsLicenseManagerLinuxSubscriptions
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetServiceSettings(AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetServiceSettings(AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsGetServiceSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLinuxSubscriptionInstances(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListLinuxSubscriptionInstances(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLinuxSubscriptions(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListLinuxSubscriptions(AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsLicenseManagerLinuxSubscriptionsListLinuxSubscriptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateServiceSettings(AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateServiceSettings(AwsLicenseManagerLinuxSubscriptionsUpdateServiceSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

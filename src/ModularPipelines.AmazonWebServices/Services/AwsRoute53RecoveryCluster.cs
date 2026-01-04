@@ -18,23 +18,23 @@ public class AwsRoute53RecoveryCluster
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetRoutingControlState(AwsRoute53RecoveryClusterGetRoutingControlStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRoutingControlState(AwsRoute53RecoveryClusterGetRoutingControlStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRoutingControls(AwsRoute53RecoveryClusterListRoutingControlsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRoutingControls(AwsRoute53RecoveryClusterListRoutingControlsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRoute53RecoveryClusterListRoutingControlsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRoute53RecoveryClusterListRoutingControlsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRoutingControlState(AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRoutingControlState(AwsRoute53RecoveryClusterUpdateRoutingControlStateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRoutingControlStates(AwsRoute53RecoveryClusterUpdateRoutingControlStatesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRoutingControlStates(AwsRoute53RecoveryClusterUpdateRoutingControlStatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

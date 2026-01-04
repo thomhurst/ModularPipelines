@@ -20,13 +20,13 @@ public class AwsGlacierWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> VaultExists(AwsGlacierWaitVaultExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VaultExists(AwsGlacierWaitVaultExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VaultNotExists(AwsGlacierWaitVaultNotExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VaultNotExists(AwsGlacierWaitVaultNotExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

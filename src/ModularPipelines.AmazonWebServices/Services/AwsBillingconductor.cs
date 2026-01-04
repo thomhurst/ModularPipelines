@@ -18,163 +18,163 @@ public class AwsBillingconductor
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateAccounts(AwsBillingconductorAssociateAccountsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateAccounts(AwsBillingconductorAssociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociatePricingRules(AwsBillingconductorAssociatePricingRulesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociatePricingRules(AwsBillingconductorAssociatePricingRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchAssociateResourcesToCustomLineItem(AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchAssociateResourcesToCustomLineItem(AwsBillingconductorBatchAssociateResourcesToCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDisassociateResourcesFromCustomLineItem(AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDisassociateResourcesFromCustomLineItem(AwsBillingconductorBatchDisassociateResourcesFromCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBillingGroup(AwsBillingconductorCreateBillingGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBillingGroup(AwsBillingconductorCreateBillingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomLineItem(AwsBillingconductorCreateCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomLineItem(AwsBillingconductorCreateCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePricingPlan(AwsBillingconductorCreatePricingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePricingPlan(AwsBillingconductorCreatePricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePricingRule(AwsBillingconductorCreatePricingRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePricingRule(AwsBillingconductorCreatePricingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBillingGroup(AwsBillingconductorDeleteBillingGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBillingGroup(AwsBillingconductorDeleteBillingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomLineItem(AwsBillingconductorDeleteCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomLineItem(AwsBillingconductorDeleteCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePricingPlan(AwsBillingconductorDeletePricingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePricingPlan(AwsBillingconductorDeletePricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePricingRule(AwsBillingconductorDeletePricingRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePricingRule(AwsBillingconductorDeletePricingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateAccounts(AwsBillingconductorDisassociateAccountsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateAccounts(AwsBillingconductorDisassociateAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociatePricingRules(AwsBillingconductorDisassociatePricingRulesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociatePricingRules(AwsBillingconductorDisassociatePricingRulesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBillingGroupCostReport(AwsBillingconductorGetBillingGroupCostReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBillingGroupCostReport(AwsBillingconductorGetBillingGroupCostReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccountAssociations(AwsBillingconductorListAccountAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAccountAssociations(AwsBillingconductorListAccountAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListAccountAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListAccountAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBillingGroupCostReports(AwsBillingconductorListBillingGroupCostReportsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBillingGroupCostReports(AwsBillingconductorListBillingGroupCostReportsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListBillingGroupCostReportsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListBillingGroupCostReportsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBillingGroups(AwsBillingconductorListBillingGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBillingGroups(AwsBillingconductorListBillingGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListBillingGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListBillingGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomLineItemVersions(AwsBillingconductorListCustomLineItemVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomLineItemVersions(AwsBillingconductorListCustomLineItemVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomLineItems(AwsBillingconductorListCustomLineItemsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomLineItems(AwsBillingconductorListCustomLineItemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListCustomLineItemsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListCustomLineItemsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPricingPlans(AwsBillingconductorListPricingPlansOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPricingPlans(AwsBillingconductorListPricingPlansOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListPricingPlansOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListPricingPlansOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPricingPlansAssociatedWithPricingRule(AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPricingPlansAssociatedWithPricingRule(AwsBillingconductorListPricingPlansAssociatedWithPricingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPricingRules(AwsBillingconductorListPricingRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPricingRules(AwsBillingconductorListPricingRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListPricingRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsBillingconductorListPricingRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPricingRulesAssociatedToPricingPlan(AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPricingRulesAssociatedToPricingPlan(AwsBillingconductorListPricingRulesAssociatedToPricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourcesAssociatedToCustomLineItem(AwsBillingconductorListResourcesAssociatedToCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResourcesAssociatedToCustomLineItem(AwsBillingconductorListResourcesAssociatedToCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsBillingconductorListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsBillingconductorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsBillingconductorTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsBillingconductorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsBillingconductorUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsBillingconductorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBillingGroup(AwsBillingconductorUpdateBillingGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBillingGroup(AwsBillingconductorUpdateBillingGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCustomLineItem(AwsBillingconductorUpdateCustomLineItemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCustomLineItem(AwsBillingconductorUpdateCustomLineItemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePricingPlan(AwsBillingconductorUpdatePricingPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePricingPlan(AwsBillingconductorUpdatePricingPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePricingRule(AwsBillingconductorUpdatePricingRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePricingRule(AwsBillingconductorUpdatePricingRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

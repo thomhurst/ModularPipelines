@@ -22,378 +22,378 @@ public class AwsOpsworks
 
     public AwsOpsworksWait Wait { get; }
 
-    public async Task<CommandResult> AssignInstance(AwsOpsworksAssignInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssignInstance(AwsOpsworksAssignInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssignVolume(AwsOpsworksAssignVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssignVolume(AwsOpsworksAssignVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateElasticIp(AwsOpsworksAssociateElasticIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateElasticIp(AwsOpsworksAssociateElasticIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AttachElasticLoadBalancer(AwsOpsworksAttachElasticLoadBalancerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AttachElasticLoadBalancer(AwsOpsworksAttachElasticLoadBalancerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CloneStack(AwsOpsworksCloneStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CloneStack(AwsOpsworksCloneStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApp(AwsOpsworksCreateAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApp(AwsOpsworksCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeployment(AwsOpsworksCreateDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeployment(AwsOpsworksCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateInstance(AwsOpsworksCreateInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateInstance(AwsOpsworksCreateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateLayer(AwsOpsworksCreateLayerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateLayer(AwsOpsworksCreateLayerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateStack(AwsOpsworksCreateStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateStack(AwsOpsworksCreateStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUserProfile(AwsOpsworksCreateUserProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUserProfile(AwsOpsworksCreateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApp(AwsOpsworksDeleteAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApp(AwsOpsworksDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteInstance(AwsOpsworksDeleteInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteInstance(AwsOpsworksDeleteInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteLayer(AwsOpsworksDeleteLayerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteLayer(AwsOpsworksDeleteLayerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteStack(AwsOpsworksDeleteStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteStack(AwsOpsworksDeleteStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteUserProfile(AwsOpsworksDeleteUserProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteUserProfile(AwsOpsworksDeleteUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterEcsCluster(AwsOpsworksDeregisterEcsClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterEcsCluster(AwsOpsworksDeregisterEcsClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterElasticIp(AwsOpsworksDeregisterElasticIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterElasticIp(AwsOpsworksDeregisterElasticIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterInstance(AwsOpsworksDeregisterInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterInstance(AwsOpsworksDeregisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterRdsDbInstance(AwsOpsworksDeregisterRdsDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterRdsDbInstance(AwsOpsworksDeregisterRdsDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterVolume(AwsOpsworksDeregisterVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterVolume(AwsOpsworksDeregisterVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAgentVersions(AwsOpsworksDescribeAgentVersionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAgentVersions(AwsOpsworksDescribeAgentVersionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeAgentVersionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeAgentVersionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApps(AwsOpsworksDescribeAppsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApps(AwsOpsworksDescribeAppsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeAppsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeAppsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCommands(AwsOpsworksDescribeCommandsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCommands(AwsOpsworksDescribeCommandsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeCommandsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeCommandsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDeployments(AwsOpsworksDescribeDeploymentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDeployments(AwsOpsworksDescribeDeploymentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeDeploymentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeDeploymentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEcsClusters(AwsOpsworksDescribeEcsClustersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEcsClusters(AwsOpsworksDescribeEcsClustersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeEcsClustersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeEcsClustersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeElasticIps(AwsOpsworksDescribeElasticIpsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeElasticIps(AwsOpsworksDescribeElasticIpsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeElasticIpsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeElasticIpsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeElasticLoadBalancers(AwsOpsworksDescribeElasticLoadBalancersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeElasticLoadBalancers(AwsOpsworksDescribeElasticLoadBalancersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeElasticLoadBalancersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeElasticLoadBalancersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeInstances(AwsOpsworksDescribeInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeInstances(AwsOpsworksDescribeInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeLayers(AwsOpsworksDescribeLayersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeLayers(AwsOpsworksDescribeLayersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeLayersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeLayersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeLoadBasedAutoScaling(AwsOpsworksDescribeLoadBasedAutoScalingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeLoadBasedAutoScaling(AwsOpsworksDescribeLoadBasedAutoScalingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMyUserProfile(AwsOpsworksDescribeMyUserProfileOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMyUserProfile(AwsOpsworksDescribeMyUserProfileOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeMyUserProfileOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeMyUserProfileOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOperatingSystems(AwsOpsworksDescribeOperatingSystemsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOperatingSystems(AwsOpsworksDescribeOperatingSystemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeOperatingSystemsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeOperatingSystemsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePermissions(AwsOpsworksDescribePermissionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribePermissions(AwsOpsworksDescribePermissionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribePermissionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribePermissionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRaidArrays(AwsOpsworksDescribeRaidArraysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRaidArrays(AwsOpsworksDescribeRaidArraysOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeRaidArraysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeRaidArraysOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRdsDbInstances(AwsOpsworksDescribeRdsDbInstancesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRdsDbInstances(AwsOpsworksDescribeRdsDbInstancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeServiceErrors(AwsOpsworksDescribeServiceErrorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeServiceErrors(AwsOpsworksDescribeServiceErrorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeServiceErrorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeServiceErrorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStackProvisioningParameters(AwsOpsworksDescribeStackProvisioningParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStackProvisioningParameters(AwsOpsworksDescribeStackProvisioningParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStackSummary(AwsOpsworksDescribeStackSummaryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStackSummary(AwsOpsworksDescribeStackSummaryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStacks(AwsOpsworksDescribeStacksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStacks(AwsOpsworksDescribeStacksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeStacksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeStacksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTimeBasedAutoScaling(AwsOpsworksDescribeTimeBasedAutoScalingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTimeBasedAutoScaling(AwsOpsworksDescribeTimeBasedAutoScalingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeUserProfiles(AwsOpsworksDescribeUserProfilesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeUserProfiles(AwsOpsworksDescribeUserProfilesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeUserProfilesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeUserProfilesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeVolumes(AwsOpsworksDescribeVolumesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeVolumes(AwsOpsworksDescribeVolumesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeVolumesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksDescribeVolumesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetachElasticLoadBalancer(AwsOpsworksDetachElasticLoadBalancerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetachElasticLoadBalancer(AwsOpsworksDetachElasticLoadBalancerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateElasticIp(AwsOpsworksDisassociateElasticIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateElasticIp(AwsOpsworksDisassociateElasticIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetHostnameSuggestion(AwsOpsworksGetHostnameSuggestionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetHostnameSuggestion(AwsOpsworksGetHostnameSuggestionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GrantAccess(AwsOpsworksGrantAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GrantAccess(AwsOpsworksGrantAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTags(AwsOpsworksListTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTags(AwsOpsworksListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RebootInstance(AwsOpsworksRebootInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RebootInstance(AwsOpsworksRebootInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Register(AwsOpsworksRegisterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Register(AwsOpsworksRegisterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterEcsCluster(AwsOpsworksRegisterEcsClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterEcsCluster(AwsOpsworksRegisterEcsClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterElasticIp(AwsOpsworksRegisterElasticIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterElasticIp(AwsOpsworksRegisterElasticIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterInstance(AwsOpsworksRegisterInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterInstance(AwsOpsworksRegisterInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterRdsDbInstance(AwsOpsworksRegisterRdsDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterRdsDbInstance(AwsOpsworksRegisterRdsDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterVolume(AwsOpsworksRegisterVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterVolume(AwsOpsworksRegisterVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetLoadBasedAutoScaling(AwsOpsworksSetLoadBasedAutoScalingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetLoadBasedAutoScaling(AwsOpsworksSetLoadBasedAutoScalingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetPermission(AwsOpsworksSetPermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetPermission(AwsOpsworksSetPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetTimeBasedAutoScaling(AwsOpsworksSetTimeBasedAutoScalingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetTimeBasedAutoScaling(AwsOpsworksSetTimeBasedAutoScalingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartInstance(AwsOpsworksStartInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartInstance(AwsOpsworksStartInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartStack(AwsOpsworksStartStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartStack(AwsOpsworksStartStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopInstance(AwsOpsworksStopInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopInstance(AwsOpsworksStopInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopStack(AwsOpsworksStopStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopStack(AwsOpsworksStopStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsOpsworksTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsOpsworksTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UnassignInstance(AwsOpsworksUnassignInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UnassignInstance(AwsOpsworksUnassignInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UnassignVolume(AwsOpsworksUnassignVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UnassignVolume(AwsOpsworksUnassignVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsOpsworksUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsOpsworksUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApp(AwsOpsworksUpdateAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApp(AwsOpsworksUpdateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateElasticIp(AwsOpsworksUpdateElasticIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateElasticIp(AwsOpsworksUpdateElasticIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateInstance(AwsOpsworksUpdateInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateInstance(AwsOpsworksUpdateInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateLayer(AwsOpsworksUpdateLayerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateLayer(AwsOpsworksUpdateLayerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMyUserProfile(AwsOpsworksUpdateMyUserProfileOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMyUserProfile(AwsOpsworksUpdateMyUserProfileOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksUpdateMyUserProfileOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksUpdateMyUserProfileOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRdsDbInstance(AwsOpsworksUpdateRdsDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRdsDbInstance(AwsOpsworksUpdateRdsDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateStack(AwsOpsworksUpdateStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateStack(AwsOpsworksUpdateStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUserProfile(AwsOpsworksUpdateUserProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUserProfile(AwsOpsworksUpdateUserProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateVolume(AwsOpsworksUpdateVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateVolume(AwsOpsworksUpdateVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

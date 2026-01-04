@@ -18,38 +18,38 @@ public class AwsIotData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteThingShadow(AwsIotDataDeleteThingShadowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteThingShadow(AwsIotDataDeleteThingShadowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRetainedMessage(AwsIotDataGetRetainedMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRetainedMessage(AwsIotDataGetRetainedMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetThingShadow(AwsIotDataGetThingShadowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetThingShadow(AwsIotDataGetThingShadowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNamedShadowsForThing(AwsIotDataListNamedShadowsForThingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListNamedShadowsForThing(AwsIotDataListNamedShadowsForThingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRetainedMessages(AwsIotDataListRetainedMessagesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRetainedMessages(AwsIotDataListRetainedMessagesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsIotDataListRetainedMessagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsIotDataListRetainedMessagesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Publish(AwsIotDataPublishOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Publish(AwsIotDataPublishOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateThingShadow(AwsIotDataUpdateThingShadowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateThingShadow(AwsIotDataUpdateThingShadowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

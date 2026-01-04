@@ -18,58 +18,58 @@ public class AwsPaymentCryptographyData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DecryptData(AwsPaymentCryptographyDataDecryptDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DecryptData(AwsPaymentCryptographyDataDecryptDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EncryptData(AwsPaymentCryptographyDataEncryptDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EncryptData(AwsPaymentCryptographyDataEncryptDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GenerateCardValidationData(AwsPaymentCryptographyDataGenerateCardValidationDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateCardValidationData(AwsPaymentCryptographyDataGenerateCardValidationDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GenerateMac(AwsPaymentCryptographyDataGenerateMacOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateMac(AwsPaymentCryptographyDataGenerateMacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GeneratePinData(AwsPaymentCryptographyDataGeneratePinDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GeneratePinData(AwsPaymentCryptographyDataGeneratePinDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReEncryptData(AwsPaymentCryptographyDataReEncryptDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReEncryptData(AwsPaymentCryptographyDataReEncryptDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TranslatePinData(AwsPaymentCryptographyDataTranslatePinDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TranslatePinData(AwsPaymentCryptographyDataTranslatePinDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VerifyAuthRequestCryptogram(AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VerifyAuthRequestCryptogram(AwsPaymentCryptographyDataVerifyAuthRequestCryptogramOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VerifyCardValidationData(AwsPaymentCryptographyDataVerifyCardValidationDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VerifyCardValidationData(AwsPaymentCryptographyDataVerifyCardValidationDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VerifyMac(AwsPaymentCryptographyDataVerifyMacOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VerifyMac(AwsPaymentCryptographyDataVerifyMacOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VerifyPinData(AwsPaymentCryptographyDataVerifyPinDataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VerifyPinData(AwsPaymentCryptographyDataVerifyPinDataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,53 +18,53 @@ public class AwsRedshiftData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchExecuteStatement(AwsRedshiftDataBatchExecuteStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchExecuteStatement(AwsRedshiftDataBatchExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelStatement(AwsRedshiftDataCancelStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelStatement(AwsRedshiftDataCancelStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStatement(AwsRedshiftDataDescribeStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStatement(AwsRedshiftDataDescribeStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTable(AwsRedshiftDataDescribeTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTable(AwsRedshiftDataDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExecuteStatement(AwsRedshiftDataExecuteStatementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExecuteStatement(AwsRedshiftDataExecuteStatementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetStatementResult(AwsRedshiftDataGetStatementResultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetStatementResult(AwsRedshiftDataGetStatementResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatabases(AwsRedshiftDataListDatabasesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDatabases(AwsRedshiftDataListDatabasesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSchemas(AwsRedshiftDataListSchemasOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSchemas(AwsRedshiftDataListSchemasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListStatements(AwsRedshiftDataListStatementsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListStatements(AwsRedshiftDataListStatementsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftDataListStatementsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftDataListStatementsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTables(AwsRedshiftDataListTablesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTables(AwsRedshiftDataListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

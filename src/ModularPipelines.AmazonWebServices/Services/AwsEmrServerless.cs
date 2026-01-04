@@ -18,78 +18,78 @@ public class AwsEmrServerless
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelJobRun(AwsEmrServerlessCancelJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelJobRun(AwsEmrServerlessCancelJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApplication(AwsEmrServerlessCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsEmrServerlessCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsEmrServerlessDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsEmrServerlessDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetApplication(AwsEmrServerlessGetApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetApplication(AwsEmrServerlessGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDashboardForJobRun(AwsEmrServerlessGetDashboardForJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDashboardForJobRun(AwsEmrServerlessGetDashboardForJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetJobRun(AwsEmrServerlessGetJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetJobRun(AwsEmrServerlessGetJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplications(AwsEmrServerlessListApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplications(AwsEmrServerlessListApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrServerlessListApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEmrServerlessListApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobRuns(AwsEmrServerlessListJobRunsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListJobRuns(AwsEmrServerlessListJobRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEmrServerlessListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEmrServerlessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartApplication(AwsEmrServerlessStartApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartApplication(AwsEmrServerlessStartApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartJobRun(AwsEmrServerlessStartJobRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartJobRun(AwsEmrServerlessStartJobRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopApplication(AwsEmrServerlessStopApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopApplication(AwsEmrServerlessStopApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEmrServerlessTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEmrServerlessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEmrServerlessUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEmrServerlessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsEmrServerlessUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsEmrServerlessUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

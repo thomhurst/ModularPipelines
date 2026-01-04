@@ -18,23 +18,23 @@ public class AwsEc2InstanceConnect
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> OpenTunnel(AwsEc2InstanceConnectOpenTunnelOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> OpenTunnel(AwsEc2InstanceConnectOpenTunnelOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEc2InstanceConnectOpenTunnelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEc2InstanceConnectOpenTunnelOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendSerialConsoleSshPublicKey(AwsEc2InstanceConnectSendSerialConsoleSshPublicKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendSerialConsoleSshPublicKey(AwsEc2InstanceConnectSendSerialConsoleSshPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendSshPublicKey(AwsEc2InstanceConnectSendSshPublicKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendSshPublicKey(AwsEc2InstanceConnectSendSshPublicKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Ssh(AwsEc2InstanceConnectSshOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Ssh(AwsEc2InstanceConnectSshOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

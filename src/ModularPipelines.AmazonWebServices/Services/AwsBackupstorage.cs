@@ -18,48 +18,48 @@ public class AwsBackupstorage
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteObject(AwsBackupstorageDeleteObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteObject(AwsBackupstorageDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetChunk(AwsBackupstorageGetChunkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetChunk(AwsBackupstorageGetChunkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetObjectMetadata(AwsBackupstorageGetObjectMetadataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetObjectMetadata(AwsBackupstorageGetObjectMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChunks(AwsBackupstorageListChunksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListChunks(AwsBackupstorageListChunksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListObjects(AwsBackupstorageListObjectsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListObjects(AwsBackupstorageListObjectsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotifyObjectComplete(AwsBackupstorageNotifyObjectCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotifyObjectComplete(AwsBackupstorageNotifyObjectCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutChunk(AwsBackupstoragePutChunkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutChunk(AwsBackupstoragePutChunkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutObject(AwsBackupstoragePutObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutObject(AwsBackupstoragePutObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartObject(AwsBackupstorageStartObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartObject(AwsBackupstorageStartObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

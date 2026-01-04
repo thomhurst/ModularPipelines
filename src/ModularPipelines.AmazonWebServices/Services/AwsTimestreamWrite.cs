@@ -18,98 +18,98 @@ public class AwsTimestreamWrite
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateBatchLoadTask(AwsTimestreamWriteCreateBatchLoadTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBatchLoadTask(AwsTimestreamWriteCreateBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDatabase(AwsTimestreamWriteCreateDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDatabase(AwsTimestreamWriteCreateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTable(AwsTimestreamWriteCreateTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTable(AwsTimestreamWriteCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDatabase(AwsTimestreamWriteDeleteDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDatabase(AwsTimestreamWriteDeleteDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTable(AwsTimestreamWriteDeleteTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTable(AwsTimestreamWriteDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBatchLoadTask(AwsTimestreamWriteDescribeBatchLoadTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBatchLoadTask(AwsTimestreamWriteDescribeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDatabase(AwsTimestreamWriteDescribeDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDatabase(AwsTimestreamWriteDescribeDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEndpoints(AwsTimestreamWriteDescribeEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEndpoints(AwsTimestreamWriteDescribeEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteDescribeEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteDescribeEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTable(AwsTimestreamWriteDescribeTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTable(AwsTimestreamWriteDescribeTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBatchLoadTasks(AwsTimestreamWriteListBatchLoadTasksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBatchLoadTasks(AwsTimestreamWriteListBatchLoadTasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListBatchLoadTasksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListBatchLoadTasksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatabases(AwsTimestreamWriteListDatabasesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDatabases(AwsTimestreamWriteListDatabasesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListDatabasesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListDatabasesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTables(AwsTimestreamWriteListTablesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTables(AwsTimestreamWriteListTablesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListTablesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamWriteListTablesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsTimestreamWriteListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsTimestreamWriteListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResumeBatchLoadTask(AwsTimestreamWriteResumeBatchLoadTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResumeBatchLoadTask(AwsTimestreamWriteResumeBatchLoadTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsTimestreamWriteTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsTimestreamWriteTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsTimestreamWriteUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsTimestreamWriteUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDatabase(AwsTimestreamWriteUpdateDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDatabase(AwsTimestreamWriteUpdateDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateTable(AwsTimestreamWriteUpdateTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateTable(AwsTimestreamWriteUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> WriteRecords(AwsTimestreamWriteWriteRecordsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WriteRecords(AwsTimestreamWriteWriteRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

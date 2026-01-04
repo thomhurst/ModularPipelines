@@ -18,33 +18,33 @@ public class AwsEbs
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CompleteSnapshot(AwsEbsCompleteSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CompleteSnapshot(AwsEbsCompleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSnapshotBlock(AwsEbsGetSnapshotBlockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSnapshotBlock(AwsEbsGetSnapshotBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChangedBlocks(AwsEbsListChangedBlocksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListChangedBlocks(AwsEbsListChangedBlocksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSnapshotBlocks(AwsEbsListSnapshotBlocksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSnapshotBlocks(AwsEbsListSnapshotBlocksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSnapshotBlock(AwsEbsPutSnapshotBlockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSnapshotBlock(AwsEbsPutSnapshotBlockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSnapshot(AwsEbsStartSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartSnapshot(AwsEbsStartSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

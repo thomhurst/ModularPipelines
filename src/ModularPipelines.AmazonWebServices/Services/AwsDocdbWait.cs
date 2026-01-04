@@ -20,13 +20,13 @@ public class AwsDocdbWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DbInstanceAvailable(AwsDocdbWaitDbInstanceAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DbInstanceAvailable(AwsDocdbWaitDbInstanceAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDocdbWaitDbInstanceAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDocdbWaitDbInstanceAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DbInstanceDeleted(AwsDocdbWaitDbInstanceDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DbInstanceDeleted(AwsDocdbWaitDbInstanceDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDocdbWaitDbInstanceDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDocdbWaitDbInstanceDeletedOptions(), executionOptions, cancellationToken);
     }
 }

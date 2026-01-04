@@ -20,43 +20,43 @@ public class AwsCloudformationWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ChangeSetCreateComplete(AwsCloudformationWaitChangeSetCreateCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ChangeSetCreateComplete(AwsCloudformationWaitChangeSetCreateCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackCreateComplete(AwsCloudformationWaitStackCreateCompleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackCreateComplete(AwsCloudformationWaitStackCreateCompleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackCreateCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackCreateCompleteOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackDeleteComplete(AwsCloudformationWaitStackDeleteCompleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackDeleteComplete(AwsCloudformationWaitStackDeleteCompleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackDeleteCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackDeleteCompleteOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackExists(AwsCloudformationWaitStackExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackExists(AwsCloudformationWaitStackExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackImportComplete(AwsCloudformationWaitStackImportCompleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackImportComplete(AwsCloudformationWaitStackImportCompleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackImportCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackImportCompleteOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackRollbackComplete(AwsCloudformationWaitStackRollbackCompleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackRollbackComplete(AwsCloudformationWaitStackRollbackCompleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackRollbackCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackRollbackCompleteOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StackUpdateComplete(AwsCloudformationWaitStackUpdateCompleteOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> StackUpdateComplete(AwsCloudformationWaitStackUpdateCompleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackUpdateCompleteOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudformationWaitStackUpdateCompleteOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TypeRegistrationComplete(AwsCloudformationWaitTypeRegistrationCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TypeRegistrationComplete(AwsCloudformationWaitTypeRegistrationCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

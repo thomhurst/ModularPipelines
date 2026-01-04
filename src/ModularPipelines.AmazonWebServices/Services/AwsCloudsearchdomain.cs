@@ -18,18 +18,18 @@ public class AwsCloudsearchdomain
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> Search(AwsCloudsearchdomainSearchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Search(AwsCloudsearchdomainSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Suggest(AwsCloudsearchdomainSuggestOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Suggest(AwsCloudsearchdomainSuggestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UploadDocuments(AwsCloudsearchdomainUploadDocumentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UploadDocuments(AwsCloudsearchdomainUploadDocumentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }
