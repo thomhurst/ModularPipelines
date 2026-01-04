@@ -27,13 +27,13 @@ public record DotNetNugetWhyOptions : DotNetOptions
     /// <summary>
     /// A path to a project, solution file, or directory.
     /// </summary>
-    [CliArgument(0, Name = "PROJECT|SOLUTION")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
 
     /// <summary>
     /// The package name to lookup in the dependency graph.
     /// </summary>
-    [CliArgument(1, Name = "PACKAGE")]
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Package { get; set; }
 
 }

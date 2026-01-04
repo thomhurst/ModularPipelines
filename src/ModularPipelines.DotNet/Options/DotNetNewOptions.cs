@@ -63,13 +63,13 @@ public record DotNetNewOptions : DotNetOptions
     /// <summary>
     /// A short name of the template to create.
     /// </summary>
-    [CliArgument(0, Name = "template-short-name")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? TemplateShortName { get; set; }
 
     /// <summary>
     /// Template specific options to use.
     /// </summary>
-    [CliArgument(1, Name = "template-args")]
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
     public string? TemplateArgs { get; set; }
 
 }

@@ -152,7 +152,8 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new DotNetNugetDeleteOptions
         {
-            Path = "MyPackageName 1.0.0"
+            PackageName = "MyPackageName",
+            Version = "1.0.0"
         });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0");
     }
@@ -162,7 +163,8 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new DotNetNugetDeleteOptions
         {
-            Path = "MyPackageName 1.0.0",
+            PackageName = "MyPackageName",
+            Version = "1.0.0",
             Source = "https://api.nuget.org/v3/index.json"
         });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0 --source https://api.nuget.org/v3/index.json");
@@ -173,7 +175,8 @@ public class CommandParserTests : TestBase
     {
         var result = await GetResult(new DotNetNugetDeleteOptions
         {
-            Path = "MyPackageName 1.0.0",
+            PackageName = "MyPackageName",
+            Version = "1.0.0",
             ApiKey = "my-secret-key"
         });
         await Assert.That(result.CommandInput).IsEqualTo("dotnet nuget delete MyPackageName 1.0.0 --api-key my-secret-key");

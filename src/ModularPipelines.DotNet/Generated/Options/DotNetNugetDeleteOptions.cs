@@ -40,7 +40,10 @@ public record DotNetNugetDeleteOptions : DotNetOptions
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
-    [CliArgument(0, Name = "PACKAGE_NAME")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? PackageName { get; set; }
+
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Version { get; set; }
 
 }

@@ -79,9 +79,9 @@ public record DotNetFormatOptions : DotNetOptions
     public string? Report { get; set; }
 
     /// <summary>
-    /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. [default: C:\git\ModularPipelines\]
+    /// The project or solution file to operate on. If a file is not specified, the command will search the current directory for one. [default: C:\git\ModularPipelines\tools\ModularPipelines.OptionsGenerator\src\ModularPipelines.OptionsGenerator\]
     /// </summary>
-    [CliArgument(0, Name = "PROJECT | SOLUTION")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
 
 }

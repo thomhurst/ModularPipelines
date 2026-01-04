@@ -5,6 +5,6 @@
     "allowPrerelease": false
   },
   "test": {
-    "runner": "VSTest"
+    "runner": "Microsoft.Testing.Platform"
   }
 }

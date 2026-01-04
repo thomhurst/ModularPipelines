@@ -398,7 +398,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
         // We need to be selective to avoid picking up option value placeholders
         var validPositionalArgs = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
-            "PROJECT", "SOLUTION", "PACKAGE_NAME", "PACKAGE_ID", "TOOL_ID",
+            "PROJECT", "SOLUTION", "PACKAGE_NAME", "PACKAGE_ID", "PACKAGE_VERSION", "TOOL_ID",
             "TEMPLATE_NAME", "SEARCH_TERM", "COMMAND", "PATH_TO_SLN"
         };
 
@@ -444,7 +444,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                         PropertyName = propertyName,
                         CSharpType = "string?",
                         Description = null,
-                        Placement = PositionalArgumentPosition.AfterOptions,
+                        Placement = PositionalArgumentPosition.BeforeOptions,
                         PositionIndex = index++,
                         IsRequired = false
                     });

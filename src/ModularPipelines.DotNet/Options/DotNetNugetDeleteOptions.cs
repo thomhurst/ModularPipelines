@@ -52,9 +52,15 @@ public record DotNetNugetDeleteOptions : DotNetOptions
     public bool? Interactive { get; set; }
 
     /// <summary>
-    /// The Package Id and version.
+    /// The package ID to delete.
     /// </summary>
-    [CliArgument(0, Name = "root")]
-    public string? Path { get; set; }
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? PackageName { get; set; }
+
+    /// <summary>
+    /// The package version to delete.
+    /// </summary>
+    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Version { get; set; }
 
 }

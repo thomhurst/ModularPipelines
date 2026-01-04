@@ -66,7 +66,7 @@ public record DotNetNugetAddSourceOptions : DotNetOptions
     /// <summary>
     /// Path to the package source.
     /// </summary>
-    [CliArgument(0, Name = "PackageSourcePath")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Packagesourcepath { get; set; }
 
 }

@@ -201,10 +201,10 @@ public class OptionsClassGenerator : ICodeGenerator
             parts.Add($"Placement = {placement}");
         }
 
-        if (!string.IsNullOrEmpty(positional.PlaceholderName))
-        {
-            parts.Add($"Name = \"{positional.PlaceholderName}\"");
-        }
+        // Note: We intentionally do NOT add the Name property here.
+        // The Name property is only for documentation/help text and causes
+        // CommandArgumentBuilder to skip the argument (it assumes Name means
+        // the argument is handled via placeholder replacement).
 
         return $"CliArgument({string.Join(", ", parts)})";
     }

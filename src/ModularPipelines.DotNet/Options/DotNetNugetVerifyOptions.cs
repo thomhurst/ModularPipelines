@@ -42,7 +42,7 @@ public record DotNetNugetVerifyOptions : DotNetOptions
     /// <summary>
     /// Specify the path to the package
     /// </summary>
-    [CliArgument(0, Name = "package-paths")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? PackagePaths { get; set; }
 
 }

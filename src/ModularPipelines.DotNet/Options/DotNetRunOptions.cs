@@ -130,7 +130,7 @@ public record DotNetRunOptions : DotNetOptions
     /// <summary>
     /// Arguments passed to the application that is being run. []
     /// </summary>
-    [CliArgument(0, Name = "applicationArguments")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Applicationarguments { get; set; }
 
 }

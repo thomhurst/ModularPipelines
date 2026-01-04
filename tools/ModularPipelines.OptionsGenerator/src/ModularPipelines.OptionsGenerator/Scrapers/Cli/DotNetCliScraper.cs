@@ -143,6 +143,9 @@ public partial class DotNetCliScraper : CliScraperBase
         // Parse positional arguments
         var positionalArgs = ParsePositionalArguments(helpText);
 
+        // Apply command-specific positional argument fixes
+        positionalArgs = ApplyPositionalArgumentFixes(commandParts, positionalArgs);
+
         // Extract enums from options
         var enums = options
             .Where(o => o.EnumDefinition is not null)
@@ -411,11 +414,52 @@ public partial class DotNetCliScraper : CliScraperBase
                     PropertyName = propertyName,
                     CSharpType = "string?",
                     Description = description,
-                    Placement = PositionalArgumentPosition.AfterOptions,
+                    Placement = PositionalArgumentPosition.BeforeOptions,
                     PositionIndex = index++,
                     IsRequired = false
                 });
             }
+        }
+
+        return args;
+    }
+
+    /// <summary>
+    /// Applies command-specific fixes for positional arguments.
+    /// Some CLI commands have misleading help text (e.g., combining multiple args into one).
+    /// </summary>
+    private static List<CliPositionalArgument> ApplyPositionalArgumentFixes(
+        string[] commandParts,
+        List<CliPositionalArgument> args)
+    {
+        var commandKey = string.Join(" ", commandParts);
+
+        // nuget delete: The CLI shows [root] as one argument, but it's actually PACKAGE_ID and PACKAGE_VERSION
+        if (commandKey.Equals("nuget delete", StringComparison.OrdinalIgnoreCase))
+        {
+            return
+            [
+                new CliPositionalArgument
+                {
+                    PlaceholderName = "PACKAGE_ID",
+                    PropertyName = "PackageName",
+                    CSharpType = "string?",
+                    Description = "The package ID to delete.",
+                    Placement = PositionalArgumentPosition.BeforeOptions,
+                    PositionIndex = 0,
+                    IsRequired = false
+                },
+                new CliPositionalArgument
+                {
+                    PlaceholderName = "PACKAGE_VERSION",
+                    PropertyName = "Version",
+                    CSharpType = "string?",
+                    Description = "The package version to delete.",
+                    Placement = PositionalArgumentPosition.BeforeOptions,
+                    PositionIndex = 1,
+                    IsRequired = false
+                }
+            ];
         }
 
         return args;

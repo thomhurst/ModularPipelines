@@ -118,7 +118,7 @@ public record DotNetPublishOptions : DotNetOptions
     /// <summary>
     /// The project or solution or C# (file-based program) file to operate on. If a file is not specified, the command will search the current directory for a project or solution.
     /// </summary>
-    [CliArgument(0, Name = "PROJECT | SOLUTION | FILE")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? ProjectSolution { get; set; }
 
 }

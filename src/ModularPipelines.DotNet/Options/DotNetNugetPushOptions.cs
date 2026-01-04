@@ -96,7 +96,7 @@ public record DotNetNugetPushOptions : DotNetOptions
     /// <summary>
     /// Specify the path to the package and your API key to push the package to the server.
     /// </summary>
-    [CliArgument(0, Name = "root")]
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Path { get; set; }
 
 }

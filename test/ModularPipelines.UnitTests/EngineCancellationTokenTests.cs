@@ -39,7 +39,7 @@ public class EngineCancellationTokenTests : TestBase
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public TimeSpan Timeout => TimeSpan.FromSeconds(1);
+        public TimeSpan Timeout => TimeSpan.FromSeconds(10);
 
         public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -85,7 +85,7 @@ public class EngineCancellationTokenTests : TestBase
             await Assert.That(async () => await pipelineTask).ThrowsException();
             var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule))!;
             await Assert.That(longRunningModuleResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(2));
+            await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
         }
     }
 

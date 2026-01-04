@@ -2,7 +2,7 @@
 
 public static class GlobalTestSetup
 {
-    [Before(Assembly)]
+    [Before(TestDiscovery)]
     public static void Setup()
     {
         Environment.CurrentDirectory = TestContext.OutputDirectory;

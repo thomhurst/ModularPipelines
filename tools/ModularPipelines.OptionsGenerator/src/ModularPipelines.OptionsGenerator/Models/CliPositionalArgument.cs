@@ -26,9 +26,10 @@ public record CliPositionalArgument
     public string? Description { get; init; }
 
     /// <summary>
-    /// Placement relative to options.
+    /// Placement relative to options. Defaults to BeforeOptions as most CLI tools
+    /// expect positional arguments before options (e.g., "cmd arg --option value").
     /// </summary>
-    public PositionalArgumentPosition Placement { get; init; } = PositionalArgumentPosition.AfterOptions;
+    public PositionalArgumentPosition Placement { get; init; } = PositionalArgumentPosition.BeforeOptions;
 
     /// <summary>
     /// Zero-based position index among positional arguments with the same placement.
@@ -48,12 +49,13 @@ public record CliPositionalArgument
 public enum PositionalArgumentPosition
 {
     /// <summary>
-    /// Argument is placed after all options and flags (default).
+    /// Argument is placed after all options and flags.
     /// </summary>
     AfterOptions,
 
     /// <summary>
-    /// Argument is placed before any options and flags.
+    /// Argument is placed before any options and flags (default).
+    /// Most CLI tools expect: "cmd arg --option value"
     /// </summary>
     BeforeOptions,
 

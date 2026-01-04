@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -45,21 +46,28 @@ public class DotNetTestResultsTests : TestBase
 
     private class DotNetTestWithoutFailureModule : Module<CommandResult>
     {
-        public static File TrxFile { get; } = File.GetNewTemporaryFilePath();
+        private const string TrxFileName = "test-results.trx";
+        public static File? TrxFile { get; private set; }
 
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
 
-            return await context.DotNet().Test(
-                new DotNetTestOptions
+            var outputDir = testProject.Folder!.GetFolder("bin/Debug/net10.0/TestResults");
+
+            // Run all tests without filtering - the TRX file will contain all results
+            // Use Arguments with explicit -- to pass TUnit arguments correctly
+            var result = await context.DotNet().Run(
+                new DotNetRunOptions
                 {
+                    Project = testProject.Path,
                     Framework = "net10.0",
-                    Arguments = 
+                    Arguments =
                     [
-                        "--treenode-filter", "/**[Category=Pass]",
-                        "--report-trx", "report-trx-filename", TrxFile.Name
+                        "--",
+                        "--report-trx",
+                        "--report-trx-filename", TrxFileName,
                     ],
                 },
                 new CommandExecutionOptions
@@ -71,8 +79,13 @@ public class DotNetTestResultsTests : TestBase
                         ShowStandardOutput = false,
                         ShowStandardError = true,
                     },
+                    ThrowOnNonZeroExitCode = false, // Some tests intentionally fail
                 },
                 cancellationToken);
+
+            // Set the TRX file location after the test runs
+            TrxFile = new File(Path.Combine(outputDir.Path, TrxFileName));
+            return result;
         }
     }
 
@@ -95,7 +108,7 @@ public class DotNetTestResultsTests : TestBase
         await RunModule<DotNetTestWithoutFailureModule>();
         var parsedResults = new TrxParser().ParseTrxContents(await DotNetTestWithoutFailureModule.TrxFile.ReadAsync());
 
-        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
+        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(4);
     }
 
     [Test]
@@ -113,6 +126,6 @@ public class DotNetTestResultsTests : TestBase
         var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
         var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile);
 
-        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(2);
+        await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(4);
     }
 }
