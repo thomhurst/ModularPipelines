@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace ModularPipelines.Helpers;
 
 /// <summary>
@@ -6,6 +8,8 @@ namespace ModularPipelines.Helpers;
 /// </summary>
 /// <remarks>
 /// This implementation is inspired by the TUnit testing framework's TimeoutHelper.
+/// It uses Task.WhenAny to detect timeout even when operations ignore the cancellation token,
+/// ensuring timeout enforcement regardless of operation cooperation.
 /// </remarks>
 internal static class TimeoutHelper
 {
@@ -48,6 +52,41 @@ internal static class TimeoutHelper
         CancellationToken cancellationToken,
         string? timeoutMessage = null)
     {
+        var result = await ExecuteWithTimeoutAndDetailsAsync(
+            taskFactory,
+            timeout,
+            cancellationToken,
+            timeoutMessage).ConfigureAwait(false);
+
+        if (result.TimedOut)
+        {
+            throw new TimeoutException(
+                timeoutMessage ?? $"Operation timed out after {timeout}");
+        }
+
+        return result.Value!;
+    }
+
+    /// <summary>
+    /// Executes a task with an optional timeout and returns detailed execution information.
+    /// Unlike <see cref="ExecuteWithTimeoutAsync{T}"/>, this method returns a result object
+    /// instead of throwing an exception on timeout, providing information about whether
+    /// the cancellation token was respected.
+    /// </summary>
+    /// <typeparam name="T">The type of the result value.</typeparam>
+    /// <param name="taskFactory">Factory function that creates the task to execute.</param>
+    /// <param name="timeout">The timeout duration, or null/zero to disable timeout.</param>
+    /// <param name="cancellationToken">Cancellation token for external cancellation.</param>
+    /// <param name="timeoutMessage">Optional message for timeout exceptions.</param>
+    /// <returns>A result containing execution details including timeout status and token cooperation.</returns>
+    public static async Task<TimeoutExecutionResult<T>> ExecuteWithTimeoutAndDetailsAsync<T>(
+        Func<CancellationToken, Task<T>> taskFactory,
+        TimeSpan? timeout,
+        CancellationToken cancellationToken,
+        string? timeoutMessage = null)
+    {
+        var stopwatch = Stopwatch.StartNew();
+
         // Fast path: no timeout specified
         if (!timeout.HasValue || timeout.Value == TimeSpan.Zero)
         {
@@ -56,7 +95,8 @@ internal static class TimeoutHelper
             // If the token can't be cancelled, just await directly (avoid allocations)
             if (!cancellationToken.CanBeCanceled)
             {
-                return await task.ConfigureAwait(false);
+                var result = await task.ConfigureAwait(false);
+                return TimeoutExecutionResult<T>.Success(result, stopwatch.Elapsed);
             }
 
             // Race against cancellation - TrySetCanceled makes the TCS throw
@@ -69,8 +109,9 @@ internal static class TimeoutHelper
 
             // await await: first gets winning task, then awaits it
             // (propagates result or exception)
-            return await await Task.WhenAny(task, tcs.Task)
+            var winningResult = await await Task.WhenAny(task, tcs.Task)
                 .ConfigureAwait(false);
+            return TimeoutExecutionResult<T>.Success(winningResult, stopwatch.Elapsed);
         }
 
         // Timeout path: create linked token so task can observe both timeout
@@ -104,24 +145,40 @@ internal static class TimeoutHelper
                 throw new OperationCanceledException(cancellationToken);
             }
 
-            // Timeout occurred - give the execution task a brief grace period
-            // to clean up
+            // Timeout occurred - the task did NOT respond to the cancellation token
+            // in time (otherwise executionTask would have completed first with a
+            // TaskCanceledException). Give it a brief grace period to clean up.
+            var taskRespondedDuringGrace = false;
             try
             {
                 await executionTask.WaitAsync(GracePeriod, CancellationToken.None).ConfigureAwait(false);
+
+                // Task completed during grace period - it did eventually respond
+                taskRespondedDuringGrace = true;
+            }
+            catch (TimeoutException)
+            {
+                // Task still didn't complete - definitely not respecting the token
+                taskRespondedDuringGrace = false;
             }
             catch
             {
-                // Ignore all exceptions - task was cancelled, we're just giving
-                // it time to clean up
+                // Task threw an exception (could be TaskCanceledException from
+                // finally observing the token) - consider it responsive
+                taskRespondedDuringGrace = true;
             }
 
-            // Even if task completed during grace period, timeout already elapsed
-            // so we throw
-            throw new TimeoutException(
-                timeoutMessage ?? $"Operation timed out after {timeout.Value}");
+            var elapsedTime = stopwatch.Elapsed;
+
+            // If the task completed exactly when timeout fired (race condition),
+            // we still consider it a timeout since the deadline was reached
+            return taskRespondedDuringGrace
+                ? TimeoutExecutionResult<T>.TimeoutWithTokenRespected(elapsedTime)
+                : TimeoutExecutionResult<T>.TimeoutWithTokenIgnored(elapsedTime);
         }
 
-        return await executionTask.ConfigureAwait(false);
+        // Task completed before timeout - success
+        var value = await executionTask.ConfigureAwait(false);
+        return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
     }
 }
