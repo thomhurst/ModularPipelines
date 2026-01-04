@@ -6,25 +6,23 @@ public class Tests
     [Category("Pass")]
     public void Pass()
     {
-        Assert.Pass();
     }
 
     [Test]
     [Category("Pass")]
     public void Pass2()
     {
-        Assert.Pass();
     }
 
     [Test]
     public void Ignore()
     {
-        Assert.Ignore();
+        Skip.Test("Ignoring this test");
     }
 
     [Test]
     public void Fail()
     {
-        Assert.Fail();
+        Assert.Fail("This test is meant to fail");
     }
 }

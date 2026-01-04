@@ -55,9 +55,12 @@ public class DotNetTestResultsTests : TestBase
             return await context.DotNet().Test(
                 new DotNetTestOptions
                 {
-                    Filter = "TestCategory=Pass",
                     Framework = "net10.0",
-                    Logger = [$"trx;LogFileName={TrxFile}"],
+                    Arguments = 
+                    [
+                        "--treenode-filter", "/**[Category=Pass]",
+                        "--report-trx", "report-trx-filename", TrxFile.Name
+                    ],
                 },
                 new CommandExecutionOptions
                 {
