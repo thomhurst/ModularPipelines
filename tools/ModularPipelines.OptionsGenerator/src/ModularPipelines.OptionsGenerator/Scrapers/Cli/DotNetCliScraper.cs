@@ -282,7 +282,8 @@ public partial class DotNetCliScraper : CliScraperBase
             }
 
             // Determine type based on value hint
-            var isFlag = string.IsNullOrEmpty(valueHint);
+            // Some nuget options don't have value hints but still take values (e.g., -n|--name)
+            var isFlag = string.IsNullOrEmpty(valueHint) && !IsLikelyValueOption(primaryFlag, description);
             var isRequired = false;
             var acceptsMultiple = description.Contains("multiple", StringComparison.OrdinalIgnoreCase) ||
                                   description.Contains("can be specified more than once", StringComparison.OrdinalIgnoreCase);
@@ -422,31 +423,40 @@ public partial class DotNetCliScraper : CliScraperBase
 
     /// <summary>
     /// Simplifies combined positional argument names.
-    /// "PROJECT | SOLUTION | FILE" becomes "ProjectSolution"
-    /// "PROJECT | SOLUTION" becomes "ProjectSolution"
-    /// "PACKAGE_ID" stays as "PackageId"
+    /// Returns names with hyphens so NormalizePropertyName can properly PascalCase them.
+    /// "PROJECT | SOLUTION | FILE" becomes "Project-Solution" → "ProjectSolution"
+    /// "PROJECT | SOLUTION" becomes "Project-Solution" → "ProjectSolution"
+    /// "root" becomes "Path" (for nuget push compatibility)
+    /// "PACKAGE_ID" stays as "Package-Id" → "PackageId"
     /// </summary>
     private static string SimplifyPositionalArgName(string argName)
     {
-        // Handle common combined patterns
+        // Handle specific name mappings for backward compatibility
+        if (string.Equals(argName, "root", StringComparison.OrdinalIgnoreCase))
+        {
+            return "Path";
+        }
+
+        // Handle common combined patterns - use hyphen separator for proper PascalCase conversion
         if (argName.Contains("PROJECT", StringComparison.OrdinalIgnoreCase) &&
             argName.Contains("SOLUTION", StringComparison.OrdinalIgnoreCase))
         {
-            return "ProjectSolution";
+            return "Project-Solution";
         }
 
         if (argName.Contains("PACKAGE", StringComparison.OrdinalIgnoreCase) &&
             argName.Contains("VERSION", StringComparison.OrdinalIgnoreCase))
         {
-            return "PackageVersion";
+            return "Package-Version";
         }
 
-        // For simple names or underscored names, just clean up
+        // For simple names or underscored names, replace underscores with hyphens
+        // and clean up other characters so NormalizePropertyName can split properly
         return argName
-            .Replace(" | ", "")
-            .Replace("|", "")
-            .Replace(" ", "")
-            .Replace("_", "");
+            .Replace(" | ", "-")
+            .Replace("|", "-")
+            .Replace(" ", "-")
+            .Replace("_", "-");
     }
 
     /// <summary>
@@ -489,6 +499,39 @@ public partial class DotNetCliScraper : CliScraperBase
         };
 
         return globalOptions.Contains(optionName);
+    }
+
+    /// <summary>
+    /// Checks if an option without a value hint is likely a value option based on name or description.
+    /// This handles cases like nuget options that don't show value hints (e.g., -n|--name).
+    /// </summary>
+    private static bool IsLikelyValueOption(string optionName, string description)
+    {
+        // Option names that typically take values
+        var valueOptionNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "name", "username", "password", "source", "url", "path", "file", "directory", "dir",
+            "key", "api-key", "apikey", "token", "secret", "config", "configfile", "output",
+            "timeout", "version", "protocol-version", "valid-authentication-types"
+        };
+
+        if (valueOptionNames.Contains(optionName))
+        {
+            return true;
+        }
+
+        // Description patterns that indicate a value is expected
+        var lowerDesc = description.ToLowerInvariant();
+        return lowerDesc.Contains("name of") ||
+               lowerDesc.Contains("path to") ||
+               lowerDesc.Contains("url to") ||
+               lowerDesc.Contains("specify the") ||
+               lowerDesc.Contains("specifies the") ||
+               lowerDesc.Contains("set the") ||
+               lowerDesc.Contains("sets the") ||
+               lowerDesc.Contains("username") ||
+               lowerDesc.Contains("password") ||
+               lowerDesc.Contains("comma-separated list");
     }
 
     /// <summary>
@@ -591,18 +634,22 @@ public partial class DotNetCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches .NET CLI-style option lines:
-    /// -c, --configuration <CONFIGURATION>  Description
-    /// --no-restore                         Description
-    /// -v, --verbosity <LEVEL>              Description
+    /// -c, --configuration <CONFIGURATION>  Description    (comma + space separator)
+    /// --no-restore                         Description    (long only)
+    /// -v, --verbosity <LEVEL>              Description    (comma + space separator)
+    /// -s|--source <source>                 Description    (pipe separator, nuget style)
+    /// -ss|--symbol-source <source>         Description    (multi-char short, pipe separator)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?:-(?<short>\w),\s+)?--(?<long>[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:-(?<short>\w+)[,|]\s*)?--(?<long>[\w-]+)(?:\s+<(?<value>[^>]+)>)?\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex DotNetOptionPattern();
 
     /// <summary>
-    /// Matches positional argument lines:
-    /// <PROJECT | SOLUTION>  Description
+    /// Matches positional argument lines with various bracket styles:
+    /// <PROJECT | SOLUTION>    Description    (angle brackets)
+    /// [root]                  Description    (square brackets)
+    /// PackageSourcePath       Description    (no brackets)
     /// </summary>
-    [GeneratedRegex(@"^\s+<(?<name>[^>]+)>\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:<(?<name>[^>]+)>|\[(?<name>[^\]]+)\]|(?<name>[A-Z][\w]*(?:[A-Z][\w]*)*))\s{2,}(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex PositionalArgPattern();
 
     #endregion

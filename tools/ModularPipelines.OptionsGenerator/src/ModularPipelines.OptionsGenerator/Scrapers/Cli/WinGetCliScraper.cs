@@ -154,11 +154,14 @@ public partial class WinGetCliScraper : CliScraperBase
         // Parse description from help text (first non-empty line before usage)
         var description = ExtractDescription(helpText);
 
-        // Parse options from the help text
-        var options = ParseOptions(helpText, commandParts);
+        // Track seen options across both sections to avoid duplicates
+        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Parse arguments from the help text
-        var arguments = ParseArguments(helpText);
+        // Parse options from the help text
+        var options = ParseOptions(helpText, commandParts, seenOptions);
+
+        // Parse arguments from the help text (shares seenOptions to avoid duplicates)
+        var arguments = ParseArguments(helpText, seenOptions);
         options.AddRange(arguments);
 
         // Extract enums from options
@@ -233,10 +236,9 @@ public partial class WinGetCliScraper : CliScraperBase
     /// Parses options from WinGet help text.
     /// Format: -short,--long     Description
     /// </summary>
-    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts)
+    private List<CliOptionDefinition> ParseOptions(string helpText, string[] commandParts, HashSet<string> seenOptions)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var className = GenerateClassName([ToolName, .. commandParts]);
 
         // Find "The following options are available:" section
@@ -276,10 +278,9 @@ public partial class WinGetCliScraper : CliScraperBase
     /// Parses arguments from WinGet help text.
     /// Format: -short,--long     Description
     /// </summary>
-    private List<CliOptionDefinition> ParseArguments(string helpText)
+    private List<CliOptionDefinition> ParseArguments(string helpText, HashSet<string> seenOptions)
     {
         var options = new List<CliOptionDefinition>();
-        var seenOptions = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // Find "The following arguments are available:" section
         var argsMatch = ArgumentsSectionPattern().Match(helpText);
