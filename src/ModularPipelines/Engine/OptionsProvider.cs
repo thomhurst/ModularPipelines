@@ -5,6 +5,20 @@ using ModularPipelines.DependencyInjection;
 
 namespace ModularPipelines.Engine;
 
+/// <summary>
+/// Provides access to all configured options in the service container.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. All public methods can be called
+/// concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// The options type cache uses <see cref="Lazy{T}"/> for thread-safe initialization,
+/// and all static caches use <see cref="ConcurrentDictionary{TKey,TValue}"/>.
+/// </para>
+/// </remarks>
+/// <threadsafety static="true" instance="true"/>
 internal class OptionsProvider : IOptionsProvider
 {
     /// <summary>
@@ -21,6 +35,7 @@ internal class OptionsProvider : IOptionsProvider
     /// <summary>
     /// Set of generic type definitions that indicate an options-related type.
     /// Using a HashSet for O(1) lookup instead of multiple IsAssignableTo calls.
+    /// This is read-only after static initialization so no synchronization needed.
     /// </summary>
     private static readonly HashSet<Type> OptionsTypeDefinitions = new()
     {
@@ -37,28 +52,37 @@ internal class OptionsProvider : IOptionsProvider
     private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
-    /// Cached list of option types. Populated lazily on first access since
+    /// Thread-safe lazy-initialized cache of option types. Populated on first access since
     /// the service collection does not change after startup.
     /// </summary>
-    private List<Type>? _cachedOptionTypes;
+    private readonly Lazy<IReadOnlyList<Type>> _cachedOptionTypes;
 
     public OptionsProvider(IPipelineServiceContainerWrapper pipelineServiceContainerWrapper, IServiceProvider serviceProvider)
     {
         _pipelineServiceContainerWrapper = pipelineServiceContainerWrapper;
         _serviceProvider = serviceProvider;
+
+        // Use Lazy<T> for thread-safe initialization
+        _cachedOptionTypes = new Lazy<IReadOnlyList<Type>>(
+            () => _pipelineServiceContainerWrapper.ServiceCollection
+                .Select(sd => sd.ServiceType)
+                .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
+                .Select(s => s.GetGenericArguments()[0])
+                .Distinct()
+                .ToList(),
+            LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
+    /// <summary>
+    /// Gets all configured options from the service container.
+    /// </summary>
+    /// <returns>An enumerable of option values.</returns>
+    /// <remarks>
+    /// This method is thread-safe. The options type list is cached on first access.
+    /// </remarks>
     public IEnumerable<object?> GetOptions()
     {
-        // Cache the types list since service collection doesn't change after startup
-        _cachedOptionTypes ??= _pipelineServiceContainerWrapper.ServiceCollection
-            .Select(sd => sd.ServiceType)
-            .Where(t => t.IsGenericType && t.IsConstructedGenericType && IsOptionsType(t.GetGenericTypeDefinition()))
-            .Select(s => s.GetGenericArguments()[0])
-            .Distinct()
-            .ToList();
-
-        foreach (var t in _cachedOptionTypes)
+        foreach (var t in _cachedOptionTypes.Value)
         {
             var optionsType = IOptionsTypeCache.GetOrAdd(t, static innerType => typeof(IOptions<>).MakeGenericType(innerType));
             var option = _serviceProvider.GetService(optionsType);
