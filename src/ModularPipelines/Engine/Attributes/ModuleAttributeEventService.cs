@@ -6,7 +6,9 @@ namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>
 /// Discovers and caches attribute event receivers on modules.
-/// Receivers are returned in declaration order.
+/// Receivers are returned sorted by priority (lower values first).
+/// Receivers that implement <see cref="IEventHandlerPriority"/> are sorted by their <see cref="IEventHandlerPriority.Priority"/> value.
+/// Receivers without priority default to 0.
 /// </summary>
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
@@ -78,14 +80,32 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
             }
         }
 
+        // Sort all receivers by priority (lower values first)
+        // Receivers without IEventHandlerPriority default to 0
         return new AttributeReceiverCache(
-            registrationReceivers,
-            readyReceivers,
-            startReceivers,
-            endReceivers,
-            failureReceivers,
-            skippedReceivers);
+            SortByPriority(registrationReceivers),
+            SortByPriority(readyReceivers),
+            SortByPriority(startReceivers),
+            SortByPriority(endReceivers),
+            SortByPriority(failureReceivers),
+            SortByPriority(skippedReceivers));
     }
+
+    private static IReadOnlyList<T> SortByPriority<T>(List<T> receivers)
+    {
+        if (receivers.Count <= 1)
+        {
+            return receivers;
+        }
+
+        // Use stable sort to preserve declaration order for receivers with same priority
+        return receivers
+            .OrderBy(r => GetPriority(r))
+            .ToList();
+    }
+
+    private static int GetPriority<T>(T receiver)
+        => receiver is IEventHandlerPriority prioritized ? prioritized.Priority : 0;
 
     private sealed record AttributeReceiverCache(
         IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers,
