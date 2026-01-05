@@ -15,8 +15,14 @@ public static class ModuleDependencyValidator
     /// Validates all registered module dependencies.
     /// </summary>
     /// <param name="registeredModuleTypes">The types of all registered modules.</param>
+    /// <exception cref="ModuleReferencingSelfException">
+    /// Thrown when a module depends on itself.
+    /// </exception>
+    /// <exception cref="DependencyCollisionException">
+    /// Thrown when circular dependencies are detected.
+    /// </exception>
     /// <exception cref="InvalidModuleConfigurationException">
-    /// Thrown when validation fails due to missing dependencies, circular dependencies, or self-references.
+    /// Thrown when a required dependency is not registered.
     /// </exception>
     public static void Validate(IEnumerable<Type> registeredModuleTypes)
     {
@@ -45,9 +51,9 @@ public static class ModuleDependencyValidator
             {
                 if (dependencyType == moduleType)
                 {
-                    throw new InvalidModuleConfigurationException(
-                        $"Module '{moduleType.Name}' cannot depend on itself. " +
-                        "Remove the self-referencing [DependsOn] attribute.");
+                    throw new ModuleReferencingSelfException(
+                        $"Module '{moduleType.Name}' cannot reference itself. " +
+                        "A module cannot depend on its own result.");
                 }
             }
         }
@@ -117,11 +123,16 @@ public static class ModuleDependencyValidator
                 if (cycleStart != null)
                 {
                     var cycle = BuildCyclePath(cycleStart, parent);
-                    var cycleDescription = string.Join(" -> ", cycle.Select(t => t.Name));
+                    var formattedArray = cycle.Select(t => t.Name).ToArray();
 
-                    throw new InvalidModuleConfigurationException(
-                        $"Circular dependency detected: {cycleDescription}. " +
-                        "Modules cannot have circular dependencies.");
+                    // Format with bold markers on first and last to match existing behavior
+                    formattedArray[0] = $"**{formattedArray[0]}**";
+                    formattedArray[^1] = $"**{formattedArray[^1]}**";
+
+                    var cycleDescription = string.Join(" -> ", formattedArray);
+
+                    throw new DependencyCollisionException(
+                        $"Dependency collision detected: {cycleDescription}");
                 }
             }
         }
