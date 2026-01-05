@@ -221,19 +221,24 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             ? ct => retryPolicy.ExecuteAsync(() => module.ExecuteAsync(moduleContext, ct))
             : ct => module.ExecuteAsync(moduleContext, ct);
 
-        // Use TimeoutHelper for clean timeout handling with grace period
-        try
+        // Use TimeoutHelper with detailed results to get information about token cooperation
+        var timeoutResult = await TimeoutHelper.ExecuteWithTimeoutAndDetailsAsync(
+            executeFunc,
+            timeout == TimeSpan.Zero ? null : timeout,
+            cancellationToken,
+            $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+
+        if (timeoutResult.TimedOut)
         {
-            return await TimeoutHelper.ExecuteWithTimeoutAsync(
-                executeFunc,
-                timeout == TimeSpan.Zero ? null : timeout,
-                cancellationToken,
-                $"Module {executionContext.ModuleType.Name} timed out after {timeout}").ConfigureAwait(false);
+            // Create a detailed timeout exception with information about token cooperation
+            throw new ModuleTimeoutException(
+                executionContext.ModuleType,
+                timeout,
+                timeoutResult.ElapsedTime,
+                timeoutResult.WasCancellationTokenRespected);
         }
-        catch (TimeoutException)
-        {
-            throw new ModuleTimeoutException(executionContext.ModuleType, timeout);
-        }
+
+        return timeoutResult.Value;
     }
 
     private TimeSpan GetTimeout(IModule module)
@@ -296,12 +301,25 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
         executionContext.Exception = exception;
 
-        // Check for timeout
-        if (IsTimeout(module, executionContext, exception))
+        // Check for timeout - use the enhanced exception type for detailed logging
+        if (exception is ModuleTimeoutException timeoutException)
+        {
+            executionContext.Status = Status.TimedOut;
+
+            // Log additional timeout details
+            if (!timeoutException.WasCancellationTokenRespected)
+            {
+                logger.LogWarning(
+                    "Module {ModuleName} did not respond to cancellation token and was forcibly terminated after {ElapsedTime}",
+                    executionContext.ModuleType.Name,
+                    timeoutException.ElapsedTime.ToDisplayString());
+            }
+        }
+
+        else if (IsTimeout(module, executionContext, exception))
         {
             executionContext.Status = Status.TimedOut;
         }
-
         // Check for pipeline cancellation
         else if (IsPipelineCancelled(exception))
         {
@@ -334,7 +352,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Create a failed result before cancelling and throwing
-        var failedResult = new ModuleResult<T>(exception, executionContext);
+        // Use TimedOutModuleResult for timeout exceptions to expose detailed timeout information
+        ModuleResult<T> failedResult = exception is ModuleTimeoutException timeoutEx
+            ? new TimedOutModuleResult<T>(executionContext, timeoutEx)
+            : new ModuleResult<T>(exception, executionContext);
         executionContext.SetTypedResult(failedResult);
 
         // Cancel the pipeline and propagate
