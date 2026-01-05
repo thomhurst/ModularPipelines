@@ -18,6 +18,7 @@ using ModularPipelines.Interfaces;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
+using ModularPipelines.Validation;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -39,6 +40,7 @@ internal static class DependencyInjectionSetup
         RegisterBuildSystemServices(services);
         RegisterAttributeEventServices(services);
         RegisterUtilityServices(services);
+        RegisterValidationServices(services);
     }
 
     /// <summary>
@@ -253,5 +255,18 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IXml, Xml>()
             .AddSingleton<IYaml, Yaml>()
             .AddSingleton<IHasher, Hasher>();
+    }
+
+    /// <summary>
+    /// Registers pipeline validation services:
+    /// validators for options, dependencies, and module configuration.
+    /// </summary>
+    private static void RegisterValidationServices(IServiceCollection services)
+    {
+        services
+            .AddSingleton<IPipelineValidationService, PipelineValidationService>()
+            .AddSingleton<IPipelineValidator, OptionsValidator>()
+            .AddSingleton<IPipelineValidator, DependencyValidator>()
+            .AddSingleton<IPipelineValidator, ModuleConfigurationValidator>();
     }
 }

@@ -5,8 +5,10 @@ using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Host;
@@ -107,5 +109,11 @@ internal class PipelineHost : IPipelineHost
         var moduleTypes = modules.Select(m => m.GetType());
 
         ModuleDependencyValidator.Validate(moduleTypes);
+    }
+
+    /// <inheritdoc />
+    public async Task<PipelineSummary> RunAsync(CancellationToken cancellationToken = default)
+    {
+        return await Services.GetRequiredService<IExecutionOrchestrator>().ExecuteAsync(cancellationToken).ConfigureAwait(false);
     }
 }
