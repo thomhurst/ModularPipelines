@@ -21,7 +21,7 @@ public static class ModuleDependencyValidator
     /// <exception cref="DependencyCollisionException">
     /// Thrown when circular dependencies are detected.
     /// </exception>
-    /// <exception cref="InvalidModuleConfigurationException">
+    /// <exception cref="ModuleNotRegisteredException">
     /// Thrown when a required dependency is not registered.
     /// </exception>
     public static void Validate(IEnumerable<Type> registeredModuleTypes)
@@ -77,10 +77,10 @@ public static class ModuleDependencyValidator
 
                 if (!moduleTypes.Contains(dependencyType))
                 {
-                    throw new InvalidModuleConfigurationException(
+                    throw new ModuleNotRegisteredException(
                         $"Module '{moduleType.Name}' depends on '{dependencyType.Name}', " +
                         $"but '{dependencyType.Name}' is not registered. " +
-                        "Either register the dependency module or set IgnoreIfNotRegistered = true on the [DependsOn] attribute.");
+                        "Either register the dependency module or set IgnoreIfNotRegistered = true on the [DependsOn] attribute.", null);
                 }
             }
         }
