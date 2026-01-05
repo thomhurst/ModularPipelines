@@ -8,7 +8,6 @@ namespace ModularPipelines.Exceptions;
 public class PipelineValidationException : PipelineException
 {
     /// <summary>
-    /// Initialises a new instance of the <see cref="PipelineValidationException"/> class.
     /// Initializes a new instance of the <see cref="PipelineValidationException"/> class.
     /// </summary>
     /// <param name="validationResult">The validation result containing the errors.</param>

@@ -302,4 +302,71 @@ public class ValidationTests
             e.Category == ValidationErrorCategory.Options &&
             e.Message.Contains("Category1"))).IsTrue();
     }
+
+    [Test]
+    public async Task ValidateAsync_WithSelfReferencingModule_ReturnsError()
+    {
+        // Arrange
+        var builder = PipelineHostBuilder.Create()
+            .AddModule<SelfReferencingModule>();
+
+        // Act
+        var result = await builder.ValidateAsync();
+
+        // Assert
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Dependency &&
+            e.Message.Contains("SelfReferencingModule") &&
+            e.Message.Contains("cannot reference itself"))).IsTrue();
+    }
+
+    [Test]
+    public async Task ValidateAsync_WithCircularDependency_ReturnsError()
+    {
+        // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
+        var builder = PipelineHostBuilder.Create()
+            .AddModule<ModuleA>()
+            .AddModule<ModuleB>()
+            .AddModule<ModuleC>();
+
+        // Act
+        var result = await builder.ValidateAsync();
+
+        // Assert
+        await Assert.That(result.HasErrors).IsTrue();
+        await Assert.That(result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Dependency &&
+            (e.Message.Contains("Circular dependency") || e.Message.Contains("Dependency collision")))).IsTrue();
+    }
+
+    [Test]
+    public async Task BuildAsync_WithSelfReferencingModule_ThrowsValidationException()
+    {
+        // Arrange
+        var builder = PipelineHostBuilder.Create()
+            .AddModule<SelfReferencingModule>();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PipelineValidationException>(async () =>
+        {
+            await builder.BuildAsync();
+        });
+    }
+
+    [Test]
+    public async Task BuildAsync_WithCircularDependency_ThrowsValidationException()
+    {
+        // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
+        var builder = PipelineHostBuilder.Create()
+            .AddModule<ModuleA>()
+            .AddModule<ModuleB>()
+            .AddModule<ModuleC>();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<PipelineValidationException>(async () =>
+        {
+            await builder.BuildAsync();
+        });
+    }
 }

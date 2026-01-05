@@ -276,6 +276,20 @@ public class PipelineHostBuilder
                 ValidationErrorCategory.Dependency,
                 ex.Message));
         }
+        catch (ModuleReferencingSelfException ex)
+        {
+            // Convert self-reference exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (DependencyCollisionException ex)
+        {
+            // Convert circular dependency exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
 
         if (validationResult.HasErrors)
         {
@@ -324,6 +338,20 @@ public class PipelineHostBuilder
         catch (ModuleNotRegisteredException ex)
         {
             // Convert missing dependency exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (ModuleReferencingSelfException ex)
+        {
+            // Convert self-reference exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (DependencyCollisionException ex)
+        {
+            // Convert circular dependency exception to validation error
             return ValidationResult.WithError(new ValidationError(
                 ValidationErrorCategory.Dependency,
                 ex.Message));
