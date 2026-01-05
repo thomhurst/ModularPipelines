@@ -18,23 +18,23 @@ public class AwsMigrationhubConfig
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateHomeRegionControl(AwsMigrationhubConfigCreateHomeRegionControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateHomeRegionControl(AwsMigrationhubConfigCreateHomeRegionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteHomeRegionControl(AwsMigrationhubConfigDeleteHomeRegionControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteHomeRegionControl(AwsMigrationhubConfigDeleteHomeRegionControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeHomeRegionControls(AwsMigrationhubConfigDescribeHomeRegionControlsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeHomeRegionControls(AwsMigrationhubConfigDescribeHomeRegionControlsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhubConfigDescribeHomeRegionControlsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhubConfigDescribeHomeRegionControlsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetHomeRegion(AwsMigrationhubConfigGetHomeRegionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetHomeRegion(AwsMigrationhubConfigGetHomeRegionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhubConfigGetHomeRegionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhubConfigGetHomeRegionOptions(), executionOptions, cancellationToken);
     }
 }

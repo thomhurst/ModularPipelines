@@ -18,43 +18,43 @@ public class AwsManagedblockchainQuery
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchGetTokenBalance(AwsManagedblockchainQueryBatchGetTokenBalanceOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetTokenBalance(AwsManagedblockchainQueryBatchGetTokenBalanceOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainQueryBatchGetTokenBalanceOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainQueryBatchGetTokenBalanceOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssetContract(AwsManagedblockchainQueryGetAssetContractOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssetContract(AwsManagedblockchainQueryGetAssetContractOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTokenBalance(AwsManagedblockchainQueryGetTokenBalanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTokenBalance(AwsManagedblockchainQueryGetTokenBalanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTransaction(AwsManagedblockchainQueryGetTransactionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTransaction(AwsManagedblockchainQueryGetTransactionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssetContracts(AwsManagedblockchainQueryListAssetContractsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssetContracts(AwsManagedblockchainQueryListAssetContractsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTokenBalances(AwsManagedblockchainQueryListTokenBalancesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTokenBalances(AwsManagedblockchainQueryListTokenBalancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTransactionEvents(AwsManagedblockchainQueryListTransactionEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTransactionEvents(AwsManagedblockchainQueryListTransactionEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTransactions(AwsManagedblockchainQueryListTransactionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTransactions(AwsManagedblockchainQueryListTransactionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,68 +18,68 @@ public class AwsCodestarNotifications
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateNotificationRule(AwsCodestarNotificationsCreateNotificationRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNotificationRule(AwsCodestarNotificationsCreateNotificationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteNotificationRule(AwsCodestarNotificationsDeleteNotificationRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteNotificationRule(AwsCodestarNotificationsDeleteNotificationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTarget(AwsCodestarNotificationsDeleteTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTarget(AwsCodestarNotificationsDeleteTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeNotificationRule(AwsCodestarNotificationsDescribeNotificationRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeNotificationRule(AwsCodestarNotificationsDescribeNotificationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventTypes(AwsCodestarNotificationsListEventTypesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEventTypes(AwsCodestarNotificationsListEventTypesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListEventTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListEventTypesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNotificationRules(AwsCodestarNotificationsListNotificationRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListNotificationRules(AwsCodestarNotificationsListNotificationRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListNotificationRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListNotificationRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsCodestarNotificationsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsCodestarNotificationsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTargets(AwsCodestarNotificationsListTargetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTargets(AwsCodestarNotificationsListTargetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListTargetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCodestarNotificationsListTargetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Subscribe(AwsCodestarNotificationsSubscribeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Subscribe(AwsCodestarNotificationsSubscribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsCodestarNotificationsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsCodestarNotificationsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Unsubscribe(AwsCodestarNotificationsUnsubscribeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Unsubscribe(AwsCodestarNotificationsUnsubscribeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsCodestarNotificationsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsCodestarNotificationsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNotificationRule(AwsCodestarNotificationsUpdateNotificationRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNotificationRule(AwsCodestarNotificationsUpdateNotificationRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

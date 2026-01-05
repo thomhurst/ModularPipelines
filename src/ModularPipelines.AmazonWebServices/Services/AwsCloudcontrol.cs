@@ -22,43 +22,43 @@ public class AwsCloudcontrol
 
     public AwsCloudcontrolWait Wait { get; }
 
-    public async Task<CommandResult> CancelResourceRequest(AwsCloudcontrolCancelResourceRequestOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelResourceRequest(AwsCloudcontrolCancelResourceRequestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResource(AwsCloudcontrolCreateResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResource(AwsCloudcontrolCreateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResource(AwsCloudcontrolDeleteResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResource(AwsCloudcontrolDeleteResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResource(AwsCloudcontrolGetResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResource(AwsCloudcontrolGetResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceRequestStatus(AwsCloudcontrolGetResourceRequestStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceRequestStatus(AwsCloudcontrolGetResourceRequestStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourceRequests(AwsCloudcontrolListResourceRequestsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListResourceRequests(AwsCloudcontrolListResourceRequestsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudcontrolListResourceRequestsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudcontrolListResourceRequestsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResources(AwsCloudcontrolListResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResources(AwsCloudcontrolListResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateResource(AwsCloudcontrolUpdateResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateResource(AwsCloudcontrolUpdateResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

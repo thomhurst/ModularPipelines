@@ -17,7 +17,7 @@ public class AzAks
 {
     private readonly ICommand _command;
     private AzAksApprouting? _approuting;
-    private AzAksCommand? _command;
+    private AzAksCommand? _commandSubGroup;
     private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
     private AzAksMesh? _mesh;
     private AzAksNamespace? _namespace;
@@ -44,7 +44,7 @@ public class AzAks
     /// <summary>
     /// az command sub-commands.
     /// </summary>
-    public AzAksCommand Command => _command ??= new AzAksCommand(_command);
+    public AzAksCommand Command => _commandSubGroup ??= new AzAksCommand(_command);
 
     /// <summary>
     /// az maintenanceconfiguration sub-commands.

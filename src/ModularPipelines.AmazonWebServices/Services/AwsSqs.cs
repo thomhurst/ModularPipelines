@@ -18,118 +18,118 @@ public class AwsSqs
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddPermission(AwsSqsAddPermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddPermission(AwsSqsAddPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelMessageMoveTask(AwsSqsCancelMessageMoveTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelMessageMoveTask(AwsSqsCancelMessageMoveTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ChangeMessageVisibility(AwsSqsChangeMessageVisibilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ChangeMessageVisibility(AwsSqsChangeMessageVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ChangeMessageVisibilityBatch(AwsSqsChangeMessageVisibilityBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ChangeMessageVisibilityBatch(AwsSqsChangeMessageVisibilityBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateQueue(AwsSqsCreateQueueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateQueue(AwsSqsCreateQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMessage(AwsSqsDeleteMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMessage(AwsSqsDeleteMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMessageBatch(AwsSqsDeleteMessageBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMessageBatch(AwsSqsDeleteMessageBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteQueue(AwsSqsDeleteQueueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteQueue(AwsSqsDeleteQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQueueAttributes(AwsSqsGetQueueAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQueueAttributes(AwsSqsGetQueueAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQueueUrl(AwsSqsGetQueueUrlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQueueUrl(AwsSqsGetQueueUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeadLetterSourceQueues(AwsSqsListDeadLetterSourceQueuesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeadLetterSourceQueues(AwsSqsListDeadLetterSourceQueuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMessageMoveTasks(AwsSqsListMessageMoveTasksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMessageMoveTasks(AwsSqsListMessageMoveTasksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListQueueTags(AwsSqsListQueueTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListQueueTags(AwsSqsListQueueTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListQueues(AwsSqsListQueuesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListQueues(AwsSqsListQueuesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSqsListQueuesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSqsListQueuesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PurgeQueue(AwsSqsPurgeQueueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PurgeQueue(AwsSqsPurgeQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReceiveMessage(AwsSqsReceiveMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReceiveMessage(AwsSqsReceiveMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemovePermission(AwsSqsRemovePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemovePermission(AwsSqsRemovePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendMessage(AwsSqsSendMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendMessage(AwsSqsSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendMessageBatch(AwsSqsSendMessageBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendMessageBatch(AwsSqsSendMessageBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetQueueAttributes(AwsSqsSetQueueAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetQueueAttributes(AwsSqsSetQueueAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartMessageMoveTask(AwsSqsStartMessageMoveTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartMessageMoveTask(AwsSqsStartMessageMoveTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagQueue(AwsSqsTagQueueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagQueue(AwsSqsTagQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagQueue(AwsSqsUntagQueueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagQueue(AwsSqsUntagQueueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -20,33 +20,33 @@ public class AwsRoute53RecoveryControlConfigWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ClusterCreated(AwsRoute53RecoveryControlConfigWaitClusterCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterCreated(AwsRoute53RecoveryControlConfigWaitClusterCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterDeleted(AwsRoute53RecoveryControlConfigWaitClusterDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterDeleted(AwsRoute53RecoveryControlConfigWaitClusterDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ControlPanelCreated(AwsRoute53RecoveryControlConfigWaitControlPanelCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ControlPanelCreated(AwsRoute53RecoveryControlConfigWaitControlPanelCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ControlPanelDeleted(AwsRoute53RecoveryControlConfigWaitControlPanelDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ControlPanelDeleted(AwsRoute53RecoveryControlConfigWaitControlPanelDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RoutingControlCreated(AwsRoute53RecoveryControlConfigWaitRoutingControlCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RoutingControlCreated(AwsRoute53RecoveryControlConfigWaitRoutingControlCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RoutingControlDeleted(AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RoutingControlDeleted(AwsRoute53RecoveryControlConfigWaitRoutingControlDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

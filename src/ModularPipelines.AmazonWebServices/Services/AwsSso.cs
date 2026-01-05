@@ -18,28 +18,28 @@ public class AwsSso
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetRoleCredentials(AwsSsoGetRoleCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRoleCredentials(AwsSsoGetRoleCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccountRoles(AwsSsoListAccountRolesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAccountRoles(AwsSsoListAccountRolesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccounts(AwsSsoListAccountsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAccounts(AwsSsoListAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Login(AwsSsoLoginOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Login(AwsSsoLoginOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSsoLoginOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSsoLoginOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Logout(AwsSsoLogoutOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Logout(AwsSsoLogoutOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSsoLogoutOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSsoLogoutOptions(), executionOptions, cancellationToken);
     }
 }

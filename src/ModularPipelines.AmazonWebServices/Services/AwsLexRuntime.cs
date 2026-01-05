@@ -18,28 +18,28 @@ public class AwsLexRuntime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteSession(AwsLexRuntimeDeleteSessionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSession(AwsLexRuntimeDeleteSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSession(AwsLexRuntimeGetSessionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSession(AwsLexRuntimeGetSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PostContent(AwsLexRuntimePostContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PostContent(AwsLexRuntimePostContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PostText(AwsLexRuntimePostTextOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PostText(AwsLexRuntimePostTextOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSession(AwsLexRuntimePutSessionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSession(AwsLexRuntimePutSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

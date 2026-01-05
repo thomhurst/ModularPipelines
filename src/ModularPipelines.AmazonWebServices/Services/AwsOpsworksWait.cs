@@ -20,33 +20,33 @@ public class AwsOpsworksWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AppExists(AwsOpsworksWaitAppExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> AppExists(AwsOpsworksWaitAppExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitAppExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitAppExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeploymentSuccessful(AwsOpsworksWaitDeploymentSuccessfulOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeploymentSuccessful(AwsOpsworksWaitDeploymentSuccessfulOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitDeploymentSuccessfulOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitDeploymentSuccessfulOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceOnline(AwsOpsworksWaitInstanceOnlineOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> InstanceOnline(AwsOpsworksWaitInstanceOnlineOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceOnlineOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceOnlineOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceRegistered(AwsOpsworksWaitInstanceRegisteredOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> InstanceRegistered(AwsOpsworksWaitInstanceRegisteredOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceRegisteredOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceRegisteredOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceStopped(AwsOpsworksWaitInstanceStoppedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> InstanceStopped(AwsOpsworksWaitInstanceStoppedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceStoppedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceStoppedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceTerminated(AwsOpsworksWaitInstanceTerminatedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> InstanceTerminated(AwsOpsworksWaitInstanceTerminatedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceTerminatedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworksWaitInstanceTerminatedOptions(), executionOptions, cancellationToken);
     }
 }

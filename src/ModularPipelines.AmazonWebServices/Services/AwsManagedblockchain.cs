@@ -18,138 +18,138 @@ public class AwsManagedblockchain
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateAccessor(AwsManagedblockchainCreateAccessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccessor(AwsManagedblockchainCreateAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMember(AwsManagedblockchainCreateMemberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMember(AwsManagedblockchainCreateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateNetwork(AwsManagedblockchainCreateNetworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNetwork(AwsManagedblockchainCreateNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateNode(AwsManagedblockchainCreateNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNode(AwsManagedblockchainCreateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateProposal(AwsManagedblockchainCreateProposalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateProposal(AwsManagedblockchainCreateProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAccessor(AwsManagedblockchainDeleteAccessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAccessor(AwsManagedblockchainDeleteAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMember(AwsManagedblockchainDeleteMemberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMember(AwsManagedblockchainDeleteMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteNode(AwsManagedblockchainDeleteNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteNode(AwsManagedblockchainDeleteNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccessor(AwsManagedblockchainGetAccessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccessor(AwsManagedblockchainGetAccessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMember(AwsManagedblockchainGetMemberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMember(AwsManagedblockchainGetMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetNetwork(AwsManagedblockchainGetNetworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetNetwork(AwsManagedblockchainGetNetworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetNode(AwsManagedblockchainGetNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetNode(AwsManagedblockchainGetNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetProposal(AwsManagedblockchainGetProposalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetProposal(AwsManagedblockchainGetProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccessors(AwsManagedblockchainListAccessorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAccessors(AwsManagedblockchainListAccessorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListAccessorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListAccessorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListInvitations(AwsManagedblockchainListInvitationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListInvitations(AwsManagedblockchainListInvitationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListInvitationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListInvitationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMembers(AwsManagedblockchainListMembersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMembers(AwsManagedblockchainListMembersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNetworks(AwsManagedblockchainListNetworksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListNetworks(AwsManagedblockchainListNetworksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListNetworksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsManagedblockchainListNetworksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNodes(AwsManagedblockchainListNodesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListNodes(AwsManagedblockchainListNodesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProposalVotes(AwsManagedblockchainListProposalVotesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProposalVotes(AwsManagedblockchainListProposalVotesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProposals(AwsManagedblockchainListProposalsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProposals(AwsManagedblockchainListProposalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsManagedblockchainListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsManagedblockchainListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RejectInvitation(AwsManagedblockchainRejectInvitationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RejectInvitation(AwsManagedblockchainRejectInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsManagedblockchainTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsManagedblockchainTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsManagedblockchainUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsManagedblockchainUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMember(AwsManagedblockchainUpdateMemberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMember(AwsManagedblockchainUpdateMemberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNode(AwsManagedblockchainUpdateNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNode(AwsManagedblockchainUpdateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> VoteOnProposal(AwsManagedblockchainVoteOnProposalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> VoteOnProposal(AwsManagedblockchainVoteOnProposalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,28 +18,28 @@ public class AwsSagemakerA2iRuntime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteHumanLoop(AwsSagemakerA2iRuntimeDeleteHumanLoopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteHumanLoop(AwsSagemakerA2iRuntimeDeleteHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeHumanLoop(AwsSagemakerA2iRuntimeDescribeHumanLoopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeHumanLoop(AwsSagemakerA2iRuntimeDescribeHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHumanLoops(AwsSagemakerA2iRuntimeListHumanLoopsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListHumanLoops(AwsSagemakerA2iRuntimeListHumanLoopsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartHumanLoop(AwsSagemakerA2iRuntimeStartHumanLoopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartHumanLoop(AwsSagemakerA2iRuntimeStartHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopHumanLoop(AwsSagemakerA2iRuntimeStopHumanLoopOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopHumanLoop(AwsSagemakerA2iRuntimeStopHumanLoopOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

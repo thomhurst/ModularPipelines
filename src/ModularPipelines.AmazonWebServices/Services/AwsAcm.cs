@@ -22,78 +22,78 @@ public class AwsAcm
 
     public AwsAcmWait Wait { get; }
 
-    public async Task<CommandResult> AddTagsToCertificate(AwsAcmAddTagsToCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddTagsToCertificate(AwsAcmAddTagsToCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCertificate(AwsAcmDeleteCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCertificate(AwsAcmDeleteCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCertificate(AwsAcmDescribeCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCertificate(AwsAcmDescribeCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExportCertificate(AwsAcmExportCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExportCertificate(AwsAcmExportCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccountConfiguration(AwsAcmGetAccountConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAccountConfiguration(AwsAcmGetAccountConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAcmGetAccountConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAcmGetAccountConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCertificate(AwsAcmGetCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCertificate(AwsAcmGetCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportCertificate(AwsAcmImportCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportCertificate(AwsAcmImportCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCertificates(AwsAcmListCertificatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCertificates(AwsAcmListCertificatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAcmListCertificatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAcmListCertificatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForCertificate(AwsAcmListTagsForCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForCertificate(AwsAcmListTagsForCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutAccountConfiguration(AwsAcmPutAccountConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutAccountConfiguration(AwsAcmPutAccountConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveTagsFromCertificate(AwsAcmRemoveTagsFromCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveTagsFromCertificate(AwsAcmRemoveTagsFromCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RenewCertificate(AwsAcmRenewCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RenewCertificate(AwsAcmRenewCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RequestCertificate(AwsAcmRequestCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RequestCertificate(AwsAcmRequestCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResendValidationEmail(AwsAcmResendValidationEmailOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResendValidationEmail(AwsAcmResendValidationEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCertificateOptions(AwsAcmUpdateCertificateOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCertificateOptions(AwsAcmUpdateCertificateOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

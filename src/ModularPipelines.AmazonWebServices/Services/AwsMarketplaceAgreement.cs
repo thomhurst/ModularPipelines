@@ -18,18 +18,18 @@ public class AwsMarketplaceAgreement
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeAgreement(AwsMarketplaceAgreementDescribeAgreementOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAgreement(AwsMarketplaceAgreementDescribeAgreementOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAgreementTerms(AwsMarketplaceAgreementGetAgreementTermsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAgreementTerms(AwsMarketplaceAgreementGetAgreementTermsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchAgreements(AwsMarketplaceAgreementSearchAgreementsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SearchAgreements(AwsMarketplaceAgreementSearchAgreementsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMarketplaceAgreementSearchAgreementsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMarketplaceAgreementSearchAgreementsOptions(), executionOptions, cancellationToken);
     }
 }

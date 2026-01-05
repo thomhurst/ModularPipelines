@@ -18,48 +18,48 @@ public class AwsKendraRanking
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateRescoreExecutionPlan(AwsKendraRankingCreateRescoreExecutionPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRescoreExecutionPlan(AwsKendraRankingCreateRescoreExecutionPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRescoreExecutionPlan(AwsKendraRankingDeleteRescoreExecutionPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRescoreExecutionPlan(AwsKendraRankingDeleteRescoreExecutionPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRescoreExecutionPlan(AwsKendraRankingDescribeRescoreExecutionPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRescoreExecutionPlan(AwsKendraRankingDescribeRescoreExecutionPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRescoreExecutionPlans(AwsKendraRankingListRescoreExecutionPlansOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRescoreExecutionPlans(AwsKendraRankingListRescoreExecutionPlansOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKendraRankingListRescoreExecutionPlansOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKendraRankingListRescoreExecutionPlansOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsKendraRankingListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsKendraRankingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Rescore(AwsKendraRankingRescoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Rescore(AwsKendraRankingRescoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsKendraRankingTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsKendraRankingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsKendraRankingUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsKendraRankingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRescoreExecutionPlan(AwsKendraRankingUpdateRescoreExecutionPlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRescoreExecutionPlan(AwsKendraRankingUpdateRescoreExecutionPlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

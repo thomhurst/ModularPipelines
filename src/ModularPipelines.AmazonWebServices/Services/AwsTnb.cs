@@ -18,168 +18,168 @@ public class AwsTnb
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelSolNetworkOperation(AwsTnbCancelSolNetworkOperationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelSolNetworkOperation(AwsTnbCancelSolNetworkOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSolFunctionPackage(AwsTnbCreateSolFunctionPackageOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateSolFunctionPackage(AwsTnbCreateSolFunctionPackageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbCreateSolFunctionPackageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbCreateSolFunctionPackageOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSolNetworkInstance(AwsTnbCreateSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSolNetworkInstance(AwsTnbCreateSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSolNetworkPackage(AwsTnbCreateSolNetworkPackageOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateSolNetworkPackage(AwsTnbCreateSolNetworkPackageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbCreateSolNetworkPackageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbCreateSolNetworkPackageOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSolFunctionPackage(AwsTnbDeleteSolFunctionPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSolFunctionPackage(AwsTnbDeleteSolFunctionPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSolNetworkInstance(AwsTnbDeleteSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSolNetworkInstance(AwsTnbDeleteSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSolNetworkPackage(AwsTnbDeleteSolNetworkPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSolNetworkPackage(AwsTnbDeleteSolNetworkPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolFunctionInstance(AwsTnbGetSolFunctionInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolFunctionInstance(AwsTnbGetSolFunctionInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolFunctionPackage(AwsTnbGetSolFunctionPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolFunctionPackage(AwsTnbGetSolFunctionPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolFunctionPackageContent(AwsTnbGetSolFunctionPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolFunctionPackageContent(AwsTnbGetSolFunctionPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolFunctionPackageDescriptor(AwsTnbGetSolFunctionPackageDescriptorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolFunctionPackageDescriptor(AwsTnbGetSolFunctionPackageDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolNetworkInstance(AwsTnbGetSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolNetworkInstance(AwsTnbGetSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolNetworkOperation(AwsTnbGetSolNetworkOperationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolNetworkOperation(AwsTnbGetSolNetworkOperationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolNetworkPackage(AwsTnbGetSolNetworkPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolNetworkPackage(AwsTnbGetSolNetworkPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolNetworkPackageContent(AwsTnbGetSolNetworkPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolNetworkPackageContent(AwsTnbGetSolNetworkPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSolNetworkPackageDescriptor(AwsTnbGetSolNetworkPackageDescriptorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSolNetworkPackageDescriptor(AwsTnbGetSolNetworkPackageDescriptorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstantiateSolNetworkInstance(AwsTnbInstantiateSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InstantiateSolNetworkInstance(AwsTnbInstantiateSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSolFunctionInstances(AwsTnbListSolFunctionInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSolFunctionInstances(AwsTnbListSolFunctionInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolFunctionInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolFunctionInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSolFunctionPackages(AwsTnbListSolFunctionPackagesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSolFunctionPackages(AwsTnbListSolFunctionPackagesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolFunctionPackagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolFunctionPackagesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSolNetworkInstances(AwsTnbListSolNetworkInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSolNetworkInstances(AwsTnbListSolNetworkInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSolNetworkOperations(AwsTnbListSolNetworkOperationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSolNetworkOperations(AwsTnbListSolNetworkOperationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkOperationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkOperationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSolNetworkPackages(AwsTnbListSolNetworkPackagesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSolNetworkPackages(AwsTnbListSolNetworkPackagesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkPackagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTnbListSolNetworkPackagesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsTnbListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsTnbListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSolFunctionPackageContent(AwsTnbPutSolFunctionPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSolFunctionPackageContent(AwsTnbPutSolFunctionPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSolNetworkPackageContent(AwsTnbPutSolNetworkPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSolNetworkPackageContent(AwsTnbPutSolNetworkPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsTnbTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsTnbTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TerminateSolNetworkInstance(AwsTnbTerminateSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TerminateSolNetworkInstance(AwsTnbTerminateSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsTnbUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsTnbUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSolFunctionPackage(AwsTnbUpdateSolFunctionPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSolFunctionPackage(AwsTnbUpdateSolFunctionPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSolNetworkInstance(AwsTnbUpdateSolNetworkInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSolNetworkInstance(AwsTnbUpdateSolNetworkInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSolNetworkPackage(AwsTnbUpdateSolNetworkPackageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSolNetworkPackage(AwsTnbUpdateSolNetworkPackageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateSolFunctionPackageContent(AwsTnbValidateSolFunctionPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateSolFunctionPackageContent(AwsTnbValidateSolFunctionPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateSolNetworkPackageContent(AwsTnbValidateSolNetworkPackageContentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateSolNetworkPackageContent(AwsTnbValidateSolNetworkPackageContentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

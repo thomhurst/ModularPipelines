@@ -1498,18 +1498,18 @@ public class Aws
 
     public AwsXray Xray { get; }
 
-    public async Task<CommandResult> Configure(AwsConfigureOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Configure(AwsConfigureOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsConfigureOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsConfigureOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> History(AwsHistoryOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> History(AwsHistoryOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsHistoryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsHistoryOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> S3(AwsS3Options? options = default, CancellationToken token = default)
+    public async Task<CommandResult> S3(AwsS3Options? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsS3Options(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsS3Options(), executionOptions, cancellationToken);
     }
 }

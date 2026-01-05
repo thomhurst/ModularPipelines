@@ -18,143 +18,143 @@ public class AwsEfs
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateAccessPoint(AwsEfsCreateAccessPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccessPoint(AwsEfsCreateAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFileSystem(AwsEfsCreateFileSystemOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateFileSystem(AwsEfsCreateFileSystemOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsCreateFileSystemOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsCreateFileSystemOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMountTarget(AwsEfsCreateMountTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMountTarget(AwsEfsCreateMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateReplicationConfiguration(AwsEfsCreateReplicationConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateReplicationConfiguration(AwsEfsCreateReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAccessPoint(AwsEfsDeleteAccessPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAccessPoint(AwsEfsDeleteAccessPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFileSystem(AwsEfsDeleteFileSystemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFileSystem(AwsEfsDeleteFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFileSystemPolicy(AwsEfsDeleteFileSystemPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFileSystemPolicy(AwsEfsDeleteFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMountTarget(AwsEfsDeleteMountTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMountTarget(AwsEfsDeleteMountTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteReplicationConfiguration(AwsEfsDeleteReplicationConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteReplicationConfiguration(AwsEfsDeleteReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccessPoints(AwsEfsDescribeAccessPointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccessPoints(AwsEfsDescribeAccessPointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeAccessPointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeAccessPointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccountPreferences(AwsEfsDescribeAccountPreferencesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccountPreferences(AwsEfsDescribeAccountPreferencesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeAccountPreferencesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeAccountPreferencesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBackupPolicy(AwsEfsDescribeBackupPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBackupPolicy(AwsEfsDescribeBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFileSystemPolicy(AwsEfsDescribeFileSystemPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFileSystemPolicy(AwsEfsDescribeFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFileSystems(AwsEfsDescribeFileSystemsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFileSystems(AwsEfsDescribeFileSystemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeFileSystemsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeFileSystemsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeLifecycleConfiguration(AwsEfsDescribeLifecycleConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeLifecycleConfiguration(AwsEfsDescribeLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMountTargetSecurityGroups(AwsEfsDescribeMountTargetSecurityGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMountTargetSecurityGroups(AwsEfsDescribeMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMountTargets(AwsEfsDescribeMountTargetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMountTargets(AwsEfsDescribeMountTargetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeMountTargetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeMountTargetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeReplicationConfigurations(AwsEfsDescribeReplicationConfigurationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReplicationConfigurations(AwsEfsDescribeReplicationConfigurationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeReplicationConfigurationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEfsDescribeReplicationConfigurationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEfsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEfsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyMountTargetSecurityGroups(AwsEfsModifyMountTargetSecurityGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyMountTargetSecurityGroups(AwsEfsModifyMountTargetSecurityGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutAccountPreferences(AwsEfsPutAccountPreferencesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutAccountPreferences(AwsEfsPutAccountPreferencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutBackupPolicy(AwsEfsPutBackupPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutBackupPolicy(AwsEfsPutBackupPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutFileSystemPolicy(AwsEfsPutFileSystemPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutFileSystemPolicy(AwsEfsPutFileSystemPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutLifecycleConfiguration(AwsEfsPutLifecycleConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutLifecycleConfiguration(AwsEfsPutLifecycleConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEfsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEfsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEfsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEfsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFileSystem(AwsEfsUpdateFileSystemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFileSystem(AwsEfsUpdateFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFileSystemProtection(AwsEfsUpdateFileSystemProtectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFileSystemProtection(AwsEfsUpdateFileSystemProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

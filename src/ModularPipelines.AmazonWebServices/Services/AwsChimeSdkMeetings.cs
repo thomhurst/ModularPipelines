@@ -18,83 +18,83 @@ public class AwsChimeSdkMeetings
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchCreateAttendee(AwsChimeSdkMeetingsBatchCreateAttendeeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchCreateAttendee(AwsChimeSdkMeetingsBatchCreateAttendeeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUpdateAttendeeCapabilitiesExcept(AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUpdateAttendeeCapabilitiesExcept(AwsChimeSdkMeetingsBatchUpdateAttendeeCapabilitiesExceptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAttendee(AwsChimeSdkMeetingsCreateAttendeeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAttendee(AwsChimeSdkMeetingsCreateAttendeeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMeeting(AwsChimeSdkMeetingsCreateMeetingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMeeting(AwsChimeSdkMeetingsCreateMeetingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMeetingWithAttendees(AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMeetingWithAttendees(AwsChimeSdkMeetingsCreateMeetingWithAttendeesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAttendee(AwsChimeSdkMeetingsDeleteAttendeeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAttendee(AwsChimeSdkMeetingsDeleteAttendeeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMeeting(AwsChimeSdkMeetingsDeleteMeetingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMeeting(AwsChimeSdkMeetingsDeleteMeetingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAttendee(AwsChimeSdkMeetingsGetAttendeeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAttendee(AwsChimeSdkMeetingsGetAttendeeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMeeting(AwsChimeSdkMeetingsGetMeetingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMeeting(AwsChimeSdkMeetingsGetMeetingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAttendees(AwsChimeSdkMeetingsListAttendeesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAttendees(AwsChimeSdkMeetingsListAttendeesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsChimeSdkMeetingsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsChimeSdkMeetingsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartMeetingTranscription(AwsChimeSdkMeetingsStartMeetingTranscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartMeetingTranscription(AwsChimeSdkMeetingsStartMeetingTranscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopMeetingTranscription(AwsChimeSdkMeetingsStopMeetingTranscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopMeetingTranscription(AwsChimeSdkMeetingsStopMeetingTranscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsChimeSdkMeetingsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsChimeSdkMeetingsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsChimeSdkMeetingsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsChimeSdkMeetingsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAttendeeCapabilities(AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAttendeeCapabilities(AwsChimeSdkMeetingsUpdateAttendeeCapabilitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

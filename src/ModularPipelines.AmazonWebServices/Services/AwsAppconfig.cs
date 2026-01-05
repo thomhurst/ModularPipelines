@@ -18,213 +18,213 @@ public class AwsAppconfig
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateApplication(AwsAppconfigCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsAppconfigCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConfigurationProfile(AwsAppconfigCreateConfigurationProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConfigurationProfile(AwsAppconfigCreateConfigurationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeploymentStrategy(AwsAppconfigCreateDeploymentStrategyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeploymentStrategy(AwsAppconfigCreateDeploymentStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEnvironment(AwsAppconfigCreateEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEnvironment(AwsAppconfigCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExtension(AwsAppconfigCreateExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExtension(AwsAppconfigCreateExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExtensionAssociation(AwsAppconfigCreateExtensionAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExtensionAssociation(AwsAppconfigCreateExtensionAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateHostedConfigurationVersion(AwsAppconfigCreateHostedConfigurationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateHostedConfigurationVersion(AwsAppconfigCreateHostedConfigurationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsAppconfigDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsAppconfigDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfigurationProfile(AwsAppconfigDeleteConfigurationProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfigurationProfile(AwsAppconfigDeleteConfigurationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDeploymentStrategy(AwsAppconfigDeleteDeploymentStrategyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDeploymentStrategy(AwsAppconfigDeleteDeploymentStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEnvironment(AwsAppconfigDeleteEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEnvironment(AwsAppconfigDeleteEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteExtension(AwsAppconfigDeleteExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteExtension(AwsAppconfigDeleteExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteExtensionAssociation(AwsAppconfigDeleteExtensionAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteExtensionAssociation(AwsAppconfigDeleteExtensionAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteHostedConfigurationVersion(AwsAppconfigDeleteHostedConfigurationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteHostedConfigurationVersion(AwsAppconfigDeleteHostedConfigurationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetApplication(AwsAppconfigGetApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetApplication(AwsAppconfigGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConfigurationProfile(AwsAppconfigGetConfigurationProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConfigurationProfile(AwsAppconfigGetConfigurationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeployment(AwsAppconfigGetDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeployment(AwsAppconfigGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeploymentStrategy(AwsAppconfigGetDeploymentStrategyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeploymentStrategy(AwsAppconfigGetDeploymentStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEnvironment(AwsAppconfigGetEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEnvironment(AwsAppconfigGetEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetExtension(AwsAppconfigGetExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetExtension(AwsAppconfigGetExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetExtensionAssociation(AwsAppconfigGetExtensionAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetExtensionAssociation(AwsAppconfigGetExtensionAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetHostedConfigurationVersion(AwsAppconfigGetHostedConfigurationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetHostedConfigurationVersion(AwsAppconfigGetHostedConfigurationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplications(AwsAppconfigListApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplications(AwsAppconfigListApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConfigurationProfiles(AwsAppconfigListConfigurationProfilesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListConfigurationProfiles(AwsAppconfigListConfigurationProfilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeploymentStrategies(AwsAppconfigListDeploymentStrategiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDeploymentStrategies(AwsAppconfigListDeploymentStrategiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListDeploymentStrategiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListDeploymentStrategiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeployments(AwsAppconfigListDeploymentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeployments(AwsAppconfigListDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEnvironments(AwsAppconfigListEnvironmentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEnvironments(AwsAppconfigListEnvironmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExtensionAssociations(AwsAppconfigListExtensionAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListExtensionAssociations(AwsAppconfigListExtensionAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListExtensionAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListExtensionAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExtensions(AwsAppconfigListExtensionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListExtensions(AwsAppconfigListExtensionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListExtensionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppconfigListExtensionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHostedConfigurationVersions(AwsAppconfigListHostedConfigurationVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListHostedConfigurationVersions(AwsAppconfigListHostedConfigurationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsAppconfigListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsAppconfigListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDeployment(AwsAppconfigStartDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDeployment(AwsAppconfigStartDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDeployment(AwsAppconfigStopDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDeployment(AwsAppconfigStopDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsAppconfigTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsAppconfigTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsAppconfigUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsAppconfigUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsAppconfigUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsAppconfigUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConfigurationProfile(AwsAppconfigUpdateConfigurationProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConfigurationProfile(AwsAppconfigUpdateConfigurationProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDeploymentStrategy(AwsAppconfigUpdateDeploymentStrategyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDeploymentStrategy(AwsAppconfigUpdateDeploymentStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEnvironment(AwsAppconfigUpdateEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEnvironment(AwsAppconfigUpdateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateExtension(AwsAppconfigUpdateExtensionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateExtension(AwsAppconfigUpdateExtensionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateExtensionAssociation(AwsAppconfigUpdateExtensionAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateExtensionAssociation(AwsAppconfigUpdateExtensionAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateConfiguration(AwsAppconfigValidateConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateConfiguration(AwsAppconfigValidateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

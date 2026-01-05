@@ -18,188 +18,188 @@ public class AwsInspector
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddAttributesToFindings(AwsInspectorAddAttributesToFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddAttributesToFindings(AwsInspectorAddAttributesToFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAssessmentTarget(AwsInspectorCreateAssessmentTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAssessmentTarget(AwsInspectorCreateAssessmentTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAssessmentTemplate(AwsInspectorCreateAssessmentTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAssessmentTemplate(AwsInspectorCreateAssessmentTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExclusionsPreview(AwsInspectorCreateExclusionsPreviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExclusionsPreview(AwsInspectorCreateExclusionsPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResourceGroup(AwsInspectorCreateResourceGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResourceGroup(AwsInspectorCreateResourceGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentRun(AwsInspectorDeleteAssessmentRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentRun(AwsInspectorDeleteAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentTarget(AwsInspectorDeleteAssessmentTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentTarget(AwsInspectorDeleteAssessmentTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentTemplate(AwsInspectorDeleteAssessmentTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentTemplate(AwsInspectorDeleteAssessmentTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAssessmentRuns(AwsInspectorDescribeAssessmentRunsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAssessmentRuns(AwsInspectorDescribeAssessmentRunsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAssessmentTargets(AwsInspectorDescribeAssessmentTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAssessmentTargets(AwsInspectorDescribeAssessmentTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAssessmentTemplates(AwsInspectorDescribeAssessmentTemplatesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAssessmentTemplates(AwsInspectorDescribeAssessmentTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCrossAccountAccessRole(AwsInspectorDescribeCrossAccountAccessRoleOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCrossAccountAccessRole(AwsInspectorDescribeCrossAccountAccessRoleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorDescribeCrossAccountAccessRoleOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorDescribeCrossAccountAccessRoleOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeExclusions(AwsInspectorDescribeExclusionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeExclusions(AwsInspectorDescribeExclusionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFindings(AwsInspectorDescribeFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFindings(AwsInspectorDescribeFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeResourceGroups(AwsInspectorDescribeResourceGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeResourceGroups(AwsInspectorDescribeResourceGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRulesPackages(AwsInspectorDescribeRulesPackagesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRulesPackages(AwsInspectorDescribeRulesPackagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssessmentReport(AwsInspectorGetAssessmentReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssessmentReport(AwsInspectorGetAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetExclusionsPreview(AwsInspectorGetExclusionsPreviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetExclusionsPreview(AwsInspectorGetExclusionsPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTelemetryMetadata(AwsInspectorGetTelemetryMetadataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTelemetryMetadata(AwsInspectorGetTelemetryMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentRunAgents(AwsInspectorListAssessmentRunAgentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentRunAgents(AwsInspectorListAssessmentRunAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentRuns(AwsInspectorListAssessmentRunsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentRuns(AwsInspectorListAssessmentRunsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentRunsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentRunsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentTargets(AwsInspectorListAssessmentTargetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentTargets(AwsInspectorListAssessmentTargetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentTargetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentTargetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentTemplates(AwsInspectorListAssessmentTemplatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentTemplates(AwsInspectorListAssessmentTemplatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentTemplatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListAssessmentTemplatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventSubscriptions(AwsInspectorListEventSubscriptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEventSubscriptions(AwsInspectorListEventSubscriptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListEventSubscriptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListEventSubscriptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExclusions(AwsInspectorListExclusionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListExclusions(AwsInspectorListExclusionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFindings(AwsInspectorListFindingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFindings(AwsInspectorListFindingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListFindingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListFindingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRulesPackages(AwsInspectorListRulesPackagesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRulesPackages(AwsInspectorListRulesPackagesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListRulesPackagesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInspectorListRulesPackagesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsInspectorListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsInspectorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PreviewAgents(AwsInspectorPreviewAgentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PreviewAgents(AwsInspectorPreviewAgentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterCrossAccountAccessRole(AwsInspectorRegisterCrossAccountAccessRoleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterCrossAccountAccessRole(AwsInspectorRegisterCrossAccountAccessRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveAttributesFromFindings(AwsInspectorRemoveAttributesFromFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveAttributesFromFindings(AwsInspectorRemoveAttributesFromFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetTagsForResource(AwsInspectorSetTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetTagsForResource(AwsInspectorSetTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAssessmentRun(AwsInspectorStartAssessmentRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAssessmentRun(AwsInspectorStartAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopAssessmentRun(AwsInspectorStopAssessmentRunOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopAssessmentRun(AwsInspectorStopAssessmentRunOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SubscribeToEvent(AwsInspectorSubscribeToEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SubscribeToEvent(AwsInspectorSubscribeToEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UnsubscribeFromEvent(AwsInspectorUnsubscribeFromEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UnsubscribeFromEvent(AwsInspectorUnsubscribeFromEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentTarget(AwsInspectorUpdateAssessmentTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentTarget(AwsInspectorUpdateAssessmentTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

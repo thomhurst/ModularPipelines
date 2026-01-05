@@ -18,73 +18,73 @@ public class AwsServerlessrepo
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateApplication(AwsServerlessrepoCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsServerlessrepoCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApplicationVersion(AwsServerlessrepoCreateApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplicationVersion(AwsServerlessrepoCreateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCloudFormationChangeSet(AwsServerlessrepoCreateCloudFormationChangeSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCloudFormationChangeSet(AwsServerlessrepoCreateCloudFormationChangeSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCloudFormationTemplate(AwsServerlessrepoCreateCloudFormationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCloudFormationTemplate(AwsServerlessrepoCreateCloudFormationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsServerlessrepoDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsServerlessrepoDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetApplication(AwsServerlessrepoGetApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetApplication(AwsServerlessrepoGetApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetApplicationPolicy(AwsServerlessrepoGetApplicationPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetApplicationPolicy(AwsServerlessrepoGetApplicationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCloudFormationTemplate(AwsServerlessrepoGetCloudFormationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCloudFormationTemplate(AwsServerlessrepoGetCloudFormationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplicationDependencies(AwsServerlessrepoListApplicationDependenciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListApplicationDependencies(AwsServerlessrepoListApplicationDependenciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplicationVersions(AwsServerlessrepoListApplicationVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListApplicationVersions(AwsServerlessrepoListApplicationVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApplications(AwsServerlessrepoListApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApplications(AwsServerlessrepoListApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsServerlessrepoListApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsServerlessrepoListApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutApplicationPolicy(AwsServerlessrepoPutApplicationPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutApplicationPolicy(AwsServerlessrepoPutApplicationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UnshareApplication(AwsServerlessrepoUnshareApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UnshareApplication(AwsServerlessrepoUnshareApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsServerlessrepoUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsServerlessrepoUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

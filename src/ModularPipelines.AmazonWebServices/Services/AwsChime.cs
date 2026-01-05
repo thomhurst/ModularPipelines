@@ -18,313 +18,313 @@ public class AwsChime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociatePhoneNumberWithUser(AwsChimeAssociatePhoneNumberWithUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociatePhoneNumberWithUser(AwsChimeAssociatePhoneNumberWithUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateSigninDelegateGroupsWithAccount(AwsChimeAssociateSigninDelegateGroupsWithAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateSigninDelegateGroupsWithAccount(AwsChimeAssociateSigninDelegateGroupsWithAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchCreateRoomMembership(AwsChimeBatchCreateRoomMembershipOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchCreateRoomMembership(AwsChimeBatchCreateRoomMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeletePhoneNumber(AwsChimeBatchDeletePhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeletePhoneNumber(AwsChimeBatchDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchSuspendUser(AwsChimeBatchSuspendUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchSuspendUser(AwsChimeBatchSuspendUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUnsuspendUser(AwsChimeBatchUnsuspendUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUnsuspendUser(AwsChimeBatchUnsuspendUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUpdatePhoneNumber(AwsChimeBatchUpdatePhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUpdatePhoneNumber(AwsChimeBatchUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUpdateUser(AwsChimeBatchUpdateUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUpdateUser(AwsChimeBatchUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAccount(AwsChimeCreateAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccount(AwsChimeCreateAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBot(AwsChimeCreateBotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBot(AwsChimeCreateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMeetingDialOut(AwsChimeCreateMeetingDialOutOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMeetingDialOut(AwsChimeCreateMeetingDialOutOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePhoneNumberOrder(AwsChimeCreatePhoneNumberOrderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePhoneNumberOrder(AwsChimeCreatePhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRoom(AwsChimeCreateRoomOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRoom(AwsChimeCreateRoomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRoomMembership(AwsChimeCreateRoomMembershipOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRoomMembership(AwsChimeCreateRoomMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUser(AwsChimeCreateUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUser(AwsChimeCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAccount(AwsChimeDeleteAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAccount(AwsChimeDeleteAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEventsConfiguration(AwsChimeDeleteEventsConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEventsConfiguration(AwsChimeDeleteEventsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePhoneNumber(AwsChimeDeletePhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePhoneNumber(AwsChimeDeletePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRoom(AwsChimeDeleteRoomOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRoom(AwsChimeDeleteRoomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRoomMembership(AwsChimeDeleteRoomMembershipOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRoomMembership(AwsChimeDeleteRoomMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociatePhoneNumberFromUser(AwsChimeDisassociatePhoneNumberFromUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociatePhoneNumberFromUser(AwsChimeDisassociatePhoneNumberFromUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateSigninDelegateGroupsFromAccount(AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateSigninDelegateGroupsFromAccount(AwsChimeDisassociateSigninDelegateGroupsFromAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccount(AwsChimeGetAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccount(AwsChimeGetAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccountSettings(AwsChimeGetAccountSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccountSettings(AwsChimeGetAccountSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBot(AwsChimeGetBotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBot(AwsChimeGetBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEventsConfiguration(AwsChimeGetEventsConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEventsConfiguration(AwsChimeGetEventsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGlobalSettings(AwsChimeGetGlobalSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetGlobalSettings(AwsChimeGetGlobalSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeGetGlobalSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeGetGlobalSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPhoneNumber(AwsChimeGetPhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPhoneNumber(AwsChimeGetPhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPhoneNumberOrder(AwsChimeGetPhoneNumberOrderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPhoneNumberOrder(AwsChimeGetPhoneNumberOrderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPhoneNumberSettings(AwsChimeGetPhoneNumberSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetPhoneNumberSettings(AwsChimeGetPhoneNumberSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeGetPhoneNumberSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeGetPhoneNumberSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRetentionSettings(AwsChimeGetRetentionSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRetentionSettings(AwsChimeGetRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRoom(AwsChimeGetRoomOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRoom(AwsChimeGetRoomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUser(AwsChimeGetUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUser(AwsChimeGetUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUserSettings(AwsChimeGetUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUserSettings(AwsChimeGetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InviteUsers(AwsChimeInviteUsersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InviteUsers(AwsChimeInviteUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccounts(AwsChimeListAccountsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAccounts(AwsChimeListAccountsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListAccountsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListAccountsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBots(AwsChimeListBotsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListBots(AwsChimeListBotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPhoneNumberOrders(AwsChimeListPhoneNumberOrdersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPhoneNumberOrders(AwsChimeListPhoneNumberOrdersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListPhoneNumberOrdersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListPhoneNumberOrdersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPhoneNumbers(AwsChimeListPhoneNumbersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPhoneNumbers(AwsChimeListPhoneNumbersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListPhoneNumbersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeListPhoneNumbersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRoomMemberships(AwsChimeListRoomMembershipsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRoomMemberships(AwsChimeListRoomMembershipsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRooms(AwsChimeListRoomsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRooms(AwsChimeListRoomsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSupportedPhoneNumberCountries(AwsChimeListSupportedPhoneNumberCountriesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSupportedPhoneNumberCountries(AwsChimeListSupportedPhoneNumberCountriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUsers(AwsChimeListUsersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListUsers(AwsChimeListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LogoutUser(AwsChimeLogoutUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> LogoutUser(AwsChimeLogoutUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutEventsConfiguration(AwsChimePutEventsConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutEventsConfiguration(AwsChimePutEventsConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRetentionSettings(AwsChimePutRetentionSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRetentionSettings(AwsChimePutRetentionSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RedactConversationMessage(AwsChimeRedactConversationMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RedactConversationMessage(AwsChimeRedactConversationMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RedactRoomMessage(AwsChimeRedactRoomMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RedactRoomMessage(AwsChimeRedactRoomMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegenerateSecurityToken(AwsChimeRegenerateSecurityTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegenerateSecurityToken(AwsChimeRegenerateSecurityTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetPersonalPin(AwsChimeResetPersonalPinOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResetPersonalPin(AwsChimeResetPersonalPinOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestorePhoneNumber(AwsChimeRestorePhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestorePhoneNumber(AwsChimeRestorePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchAvailablePhoneNumbers(AwsChimeSearchAvailablePhoneNumbersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SearchAvailablePhoneNumbers(AwsChimeSearchAvailablePhoneNumbersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeSearchAvailablePhoneNumbersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeSearchAvailablePhoneNumbersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAccount(AwsChimeUpdateAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAccount(AwsChimeUpdateAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAccountSettings(AwsChimeUpdateAccountSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAccountSettings(AwsChimeUpdateAccountSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBot(AwsChimeUpdateBotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBot(AwsChimeUpdateBotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGlobalSettings(AwsChimeUpdateGlobalSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGlobalSettings(AwsChimeUpdateGlobalSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeUpdateGlobalSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsChimeUpdateGlobalSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePhoneNumber(AwsChimeUpdatePhoneNumberOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePhoneNumber(AwsChimeUpdatePhoneNumberOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePhoneNumberSettings(AwsChimeUpdatePhoneNumberSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePhoneNumberSettings(AwsChimeUpdatePhoneNumberSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRoom(AwsChimeUpdateRoomOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRoom(AwsChimeUpdateRoomOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRoomMembership(AwsChimeUpdateRoomMembershipOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRoomMembership(AwsChimeUpdateRoomMembershipOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUser(AwsChimeUpdateUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUser(AwsChimeUpdateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUserSettings(AwsChimeUpdateUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUserSettings(AwsChimeUpdateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

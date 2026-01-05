@@ -18,33 +18,33 @@ public class AwsCloudfrontKeyvaluestore
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteKey(AwsCloudfrontKeyvaluestoreDeleteKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteKey(AwsCloudfrontKeyvaluestoreDeleteKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeKeyValueStore(AwsCloudfrontKeyvaluestoreDescribeKeyValueStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeKeyValueStore(AwsCloudfrontKeyvaluestoreDescribeKeyValueStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetKey(AwsCloudfrontKeyvaluestoreGetKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetKey(AwsCloudfrontKeyvaluestoreGetKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListKeys(AwsCloudfrontKeyvaluestoreListKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKeys(AwsCloudfrontKeyvaluestoreListKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutKey(AwsCloudfrontKeyvaluestorePutKeyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutKey(AwsCloudfrontKeyvaluestorePutKeyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateKeys(AwsCloudfrontKeyvaluestoreUpdateKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateKeys(AwsCloudfrontKeyvaluestoreUpdateKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

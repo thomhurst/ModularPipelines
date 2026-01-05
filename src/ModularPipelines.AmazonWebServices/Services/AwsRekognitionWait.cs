@@ -20,13 +20,13 @@ public class AwsRekognitionWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ProjectVersionRunning(AwsRekognitionWaitProjectVersionRunningOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ProjectVersionRunning(AwsRekognitionWaitProjectVersionRunningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ProjectVersionTrainingCompleted(AwsRekognitionWaitProjectVersionTrainingCompletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ProjectVersionTrainingCompleted(AwsRekognitionWaitProjectVersionTrainingCompletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,278 +18,278 @@ public class AwsRedshiftServerless
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ConvertRecoveryPointToSnapshot(AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ConvertRecoveryPointToSnapshot(AwsRedshiftServerlessConvertRecoveryPointToSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomDomainAssociation(AwsRedshiftServerlessCreateCustomDomainAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomDomainAssociation(AwsRedshiftServerlessCreateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEndpointAccess(AwsRedshiftServerlessCreateEndpointAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEndpointAccess(AwsRedshiftServerlessCreateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateNamespace(AwsRedshiftServerlessCreateNamespaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNamespace(AwsRedshiftServerlessCreateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateScheduledAction(AwsRedshiftServerlessCreateScheduledActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateScheduledAction(AwsRedshiftServerlessCreateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSnapshot(AwsRedshiftServerlessCreateSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSnapshot(AwsRedshiftServerlessCreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSnapshotCopyConfiguration(AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSnapshotCopyConfiguration(AwsRedshiftServerlessCreateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUsageLimit(AwsRedshiftServerlessCreateUsageLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUsageLimit(AwsRedshiftServerlessCreateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorkgroup(AwsRedshiftServerlessCreateWorkgroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorkgroup(AwsRedshiftServerlessCreateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomDomainAssociation(AwsRedshiftServerlessDeleteCustomDomainAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomDomainAssociation(AwsRedshiftServerlessDeleteCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEndpointAccess(AwsRedshiftServerlessDeleteEndpointAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEndpointAccess(AwsRedshiftServerlessDeleteEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteNamespace(AwsRedshiftServerlessDeleteNamespaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteNamespace(AwsRedshiftServerlessDeleteNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourcePolicy(AwsRedshiftServerlessDeleteResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourcePolicy(AwsRedshiftServerlessDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteScheduledAction(AwsRedshiftServerlessDeleteScheduledActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteScheduledAction(AwsRedshiftServerlessDeleteScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSnapshot(AwsRedshiftServerlessDeleteSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSnapshot(AwsRedshiftServerlessDeleteSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSnapshotCopyConfiguration(AwsRedshiftServerlessDeleteSnapshotCopyConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSnapshotCopyConfiguration(AwsRedshiftServerlessDeleteSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteUsageLimit(AwsRedshiftServerlessDeleteUsageLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteUsageLimit(AwsRedshiftServerlessDeleteUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWorkgroup(AwsRedshiftServerlessDeleteWorkgroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWorkgroup(AwsRedshiftServerlessDeleteWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCredentials(AwsRedshiftServerlessGetCredentialsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetCredentials(AwsRedshiftServerlessGetCredentialsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessGetCredentialsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessGetCredentialsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCustomDomainAssociation(AwsRedshiftServerlessGetCustomDomainAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCustomDomainAssociation(AwsRedshiftServerlessGetCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEndpointAccess(AwsRedshiftServerlessGetEndpointAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEndpointAccess(AwsRedshiftServerlessGetEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetNamespace(AwsRedshiftServerlessGetNamespaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetNamespace(AwsRedshiftServerlessGetNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRecoveryPoint(AwsRedshiftServerlessGetRecoveryPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRecoveryPoint(AwsRedshiftServerlessGetRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourcePolicy(AwsRedshiftServerlessGetResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourcePolicy(AwsRedshiftServerlessGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetScheduledAction(AwsRedshiftServerlessGetScheduledActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetScheduledAction(AwsRedshiftServerlessGetScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSnapshot(AwsRedshiftServerlessGetSnapshotOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetSnapshot(AwsRedshiftServerlessGetSnapshotOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessGetSnapshotOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessGetSnapshotOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTableRestoreStatus(AwsRedshiftServerlessGetTableRestoreStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTableRestoreStatus(AwsRedshiftServerlessGetTableRestoreStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUsageLimit(AwsRedshiftServerlessGetUsageLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUsageLimit(AwsRedshiftServerlessGetUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorkgroup(AwsRedshiftServerlessGetWorkgroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWorkgroup(AwsRedshiftServerlessGetWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomDomainAssociations(AwsRedshiftServerlessListCustomDomainAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomDomainAssociations(AwsRedshiftServerlessListCustomDomainAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListCustomDomainAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListCustomDomainAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEndpointAccess(AwsRedshiftServerlessListEndpointAccessOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEndpointAccess(AwsRedshiftServerlessListEndpointAccessOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListEndpointAccessOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListEndpointAccessOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNamespaces(AwsRedshiftServerlessListNamespacesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListNamespaces(AwsRedshiftServerlessListNamespacesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListNamespacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListNamespacesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecoveryPoints(AwsRedshiftServerlessListRecoveryPointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRecoveryPoints(AwsRedshiftServerlessListRecoveryPointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListRecoveryPointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListRecoveryPointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListScheduledActions(AwsRedshiftServerlessListScheduledActionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListScheduledActions(AwsRedshiftServerlessListScheduledActionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListScheduledActionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListScheduledActionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSnapshotCopyConfigurations(AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSnapshotCopyConfigurations(AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListSnapshotCopyConfigurationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSnapshots(AwsRedshiftServerlessListSnapshotsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSnapshots(AwsRedshiftServerlessListSnapshotsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListSnapshotsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListSnapshotsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTableRestoreStatus(AwsRedshiftServerlessListTableRestoreStatusOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTableRestoreStatus(AwsRedshiftServerlessListTableRestoreStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListTableRestoreStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListTableRestoreStatusOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsRedshiftServerlessListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsRedshiftServerlessListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUsageLimits(AwsRedshiftServerlessListUsageLimitsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListUsageLimits(AwsRedshiftServerlessListUsageLimitsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListUsageLimitsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListUsageLimitsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkgroups(AwsRedshiftServerlessListWorkgroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkgroups(AwsRedshiftServerlessListWorkgroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListWorkgroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftServerlessListWorkgroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourcePolicy(AwsRedshiftServerlessPutResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourcePolicy(AwsRedshiftServerlessPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreFromRecoveryPoint(AwsRedshiftServerlessRestoreFromRecoveryPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreFromRecoveryPoint(AwsRedshiftServerlessRestoreFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreFromSnapshot(AwsRedshiftServerlessRestoreFromSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreFromSnapshot(AwsRedshiftServerlessRestoreFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreTableFromRecoveryPoint(AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreTableFromRecoveryPoint(AwsRedshiftServerlessRestoreTableFromRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreTableFromSnapshot(AwsRedshiftServerlessRestoreTableFromSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreTableFromSnapshot(AwsRedshiftServerlessRestoreTableFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsRedshiftServerlessTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsRedshiftServerlessTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsRedshiftServerlessUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsRedshiftServerlessUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCustomDomainAssociation(AwsRedshiftServerlessUpdateCustomDomainAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCustomDomainAssociation(AwsRedshiftServerlessUpdateCustomDomainAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEndpointAccess(AwsRedshiftServerlessUpdateEndpointAccessOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEndpointAccess(AwsRedshiftServerlessUpdateEndpointAccessOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNamespace(AwsRedshiftServerlessUpdateNamespaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNamespace(AwsRedshiftServerlessUpdateNamespaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateScheduledAction(AwsRedshiftServerlessUpdateScheduledActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateScheduledAction(AwsRedshiftServerlessUpdateScheduledActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSnapshot(AwsRedshiftServerlessUpdateSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSnapshot(AwsRedshiftServerlessUpdateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSnapshotCopyConfiguration(AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSnapshotCopyConfiguration(AwsRedshiftServerlessUpdateSnapshotCopyConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUsageLimit(AwsRedshiftServerlessUpdateUsageLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUsageLimit(AwsRedshiftServerlessUpdateUsageLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWorkgroup(AwsRedshiftServerlessUpdateWorkgroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWorkgroup(AwsRedshiftServerlessUpdateWorkgroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

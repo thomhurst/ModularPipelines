@@ -18,48 +18,48 @@ public class AwsConnectparticipant
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CompleteAttachmentUpload(AwsConnectparticipantCompleteAttachmentUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CompleteAttachmentUpload(AwsConnectparticipantCompleteAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateParticipantConnection(AwsConnectparticipantCreateParticipantConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateParticipantConnection(AwsConnectparticipantCreateParticipantConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeView(AwsConnectparticipantDescribeViewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeView(AwsConnectparticipantDescribeViewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisconnectParticipant(AwsConnectparticipantDisconnectParticipantOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisconnectParticipant(AwsConnectparticipantDisconnectParticipantOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAttachment(AwsConnectparticipantGetAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAttachment(AwsConnectparticipantGetAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTranscript(AwsConnectparticipantGetTranscriptOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTranscript(AwsConnectparticipantGetTranscriptOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendEvent(AwsConnectparticipantSendEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendEvent(AwsConnectparticipantSendEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendMessage(AwsConnectparticipantSendMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendMessage(AwsConnectparticipantSendMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAttachmentUpload(AwsConnectparticipantStartAttachmentUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAttachmentUpload(AwsConnectparticipantStartAttachmentUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

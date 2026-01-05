@@ -18,453 +18,453 @@ public class AwsStoragegateway
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ActivateGateway(AwsStoragegatewayActivateGatewayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ActivateGateway(AwsStoragegatewayActivateGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddCache(AwsStoragegatewayAddCacheOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddCache(AwsStoragegatewayAddCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddTagsToResource(AwsStoragegatewayAddTagsToResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddTagsToResource(AwsStoragegatewayAddTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddUploadBuffer(AwsStoragegatewayAddUploadBufferOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddUploadBuffer(AwsStoragegatewayAddUploadBufferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddWorkingStorage(AwsStoragegatewayAddWorkingStorageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddWorkingStorage(AwsStoragegatewayAddWorkingStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssignTapePool(AwsStoragegatewayAssignTapePoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssignTapePool(AwsStoragegatewayAssignTapePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateFileSystem(AwsStoragegatewayAssociateFileSystemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateFileSystem(AwsStoragegatewayAssociateFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AttachVolume(AwsStoragegatewayAttachVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AttachVolume(AwsStoragegatewayAttachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelArchival(AwsStoragegatewayCancelArchivalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelArchival(AwsStoragegatewayCancelArchivalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelRetrieval(AwsStoragegatewayCancelRetrievalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelRetrieval(AwsStoragegatewayCancelRetrievalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCachedIscsiVolume(AwsStoragegatewayCreateCachedIscsiVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCachedIscsiVolume(AwsStoragegatewayCreateCachedIscsiVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateNfsFileShare(AwsStoragegatewayCreateNfsFileShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNfsFileShare(AwsStoragegatewayCreateNfsFileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSmbFileShare(AwsStoragegatewayCreateSmbFileShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSmbFileShare(AwsStoragegatewayCreateSmbFileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSnapshot(AwsStoragegatewayCreateSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSnapshot(AwsStoragegatewayCreateSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSnapshotFromVolumeRecoveryPoint(AwsStoragegatewayCreateSnapshotFromVolumeRecoveryPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSnapshotFromVolumeRecoveryPoint(AwsStoragegatewayCreateSnapshotFromVolumeRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateStoredIscsiVolume(AwsStoragegatewayCreateStoredIscsiVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateStoredIscsiVolume(AwsStoragegatewayCreateStoredIscsiVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTapePool(AwsStoragegatewayCreateTapePoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTapePool(AwsStoragegatewayCreateTapePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTapeWithBarcode(AwsStoragegatewayCreateTapeWithBarcodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTapeWithBarcode(AwsStoragegatewayCreateTapeWithBarcodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTapes(AwsStoragegatewayCreateTapesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTapes(AwsStoragegatewayCreateTapesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAutomaticTapeCreationPolicy(AwsStoragegatewayDeleteAutomaticTapeCreationPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAutomaticTapeCreationPolicy(AwsStoragegatewayDeleteAutomaticTapeCreationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBandwidthRateLimit(AwsStoragegatewayDeleteBandwidthRateLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBandwidthRateLimit(AwsStoragegatewayDeleteBandwidthRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteChapCredentials(AwsStoragegatewayDeleteChapCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteChapCredentials(AwsStoragegatewayDeleteChapCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFileShare(AwsStoragegatewayDeleteFileShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFileShare(AwsStoragegatewayDeleteFileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteGateway(AwsStoragegatewayDeleteGatewayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteGateway(AwsStoragegatewayDeleteGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSnapshotSchedule(AwsStoragegatewayDeleteSnapshotScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSnapshotSchedule(AwsStoragegatewayDeleteSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTape(AwsStoragegatewayDeleteTapeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTape(AwsStoragegatewayDeleteTapeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTapeArchive(AwsStoragegatewayDeleteTapeArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTapeArchive(AwsStoragegatewayDeleteTapeArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTapePool(AwsStoragegatewayDeleteTapePoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTapePool(AwsStoragegatewayDeleteTapePoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteVolume(AwsStoragegatewayDeleteVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteVolume(AwsStoragegatewayDeleteVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAvailabilityMonitorTest(AwsStoragegatewayDescribeAvailabilityMonitorTestOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAvailabilityMonitorTest(AwsStoragegatewayDescribeAvailabilityMonitorTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBandwidthRateLimit(AwsStoragegatewayDescribeBandwidthRateLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBandwidthRateLimit(AwsStoragegatewayDescribeBandwidthRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBandwidthRateLimitSchedule(AwsStoragegatewayDescribeBandwidthRateLimitScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBandwidthRateLimitSchedule(AwsStoragegatewayDescribeBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCache(AwsStoragegatewayDescribeCacheOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCache(AwsStoragegatewayDescribeCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCachedIscsiVolumes(AwsStoragegatewayDescribeCachedIscsiVolumesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCachedIscsiVolumes(AwsStoragegatewayDescribeCachedIscsiVolumesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeChapCredentials(AwsStoragegatewayDescribeChapCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeChapCredentials(AwsStoragegatewayDescribeChapCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFileSystemAssociations(AwsStoragegatewayDescribeFileSystemAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFileSystemAssociations(AwsStoragegatewayDescribeFileSystemAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeGatewayInformation(AwsStoragegatewayDescribeGatewayInformationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeGatewayInformation(AwsStoragegatewayDescribeGatewayInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMaintenanceStartTime(AwsStoragegatewayDescribeMaintenanceStartTimeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMaintenanceStartTime(AwsStoragegatewayDescribeMaintenanceStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeNfsFileShares(AwsStoragegatewayDescribeNfsFileSharesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeNfsFileShares(AwsStoragegatewayDescribeNfsFileSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSmbFileShares(AwsStoragegatewayDescribeSmbFileSharesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSmbFileShares(AwsStoragegatewayDescribeSmbFileSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSmbSettings(AwsStoragegatewayDescribeSmbSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSmbSettings(AwsStoragegatewayDescribeSmbSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSnapshotSchedule(AwsStoragegatewayDescribeSnapshotScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSnapshotSchedule(AwsStoragegatewayDescribeSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStoredIscsiVolumes(AwsStoragegatewayDescribeStoredIscsiVolumesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStoredIscsiVolumes(AwsStoragegatewayDescribeStoredIscsiVolumesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTapeArchives(AwsStoragegatewayDescribeTapeArchivesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTapeArchives(AwsStoragegatewayDescribeTapeArchivesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayDescribeTapeArchivesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayDescribeTapeArchivesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTapeRecoveryPoints(AwsStoragegatewayDescribeTapeRecoveryPointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTapeRecoveryPoints(AwsStoragegatewayDescribeTapeRecoveryPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTapes(AwsStoragegatewayDescribeTapesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTapes(AwsStoragegatewayDescribeTapesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeUploadBuffer(AwsStoragegatewayDescribeUploadBufferOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeUploadBuffer(AwsStoragegatewayDescribeUploadBufferOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeVtlDevices(AwsStoragegatewayDescribeVtlDevicesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeVtlDevices(AwsStoragegatewayDescribeVtlDevicesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWorkingStorage(AwsStoragegatewayDescribeWorkingStorageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWorkingStorage(AwsStoragegatewayDescribeWorkingStorageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetachVolume(AwsStoragegatewayDetachVolumeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetachVolume(AwsStoragegatewayDetachVolumeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisableGateway(AwsStoragegatewayDisableGatewayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisableGateway(AwsStoragegatewayDisableGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateFileSystem(AwsStoragegatewayDisassociateFileSystemOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateFileSystem(AwsStoragegatewayDisassociateFileSystemOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> JoinDomain(AwsStoragegatewayJoinDomainOptions options, CancellationToken token = default)
+    public async Task<CommandResult> JoinDomain(AwsStoragegatewayJoinDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAutomaticTapeCreationPolicies(AwsStoragegatewayListAutomaticTapeCreationPoliciesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAutomaticTapeCreationPolicies(AwsStoragegatewayListAutomaticTapeCreationPoliciesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListAutomaticTapeCreationPoliciesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListAutomaticTapeCreationPoliciesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFileShares(AwsStoragegatewayListFileSharesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFileShares(AwsStoragegatewayListFileSharesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListFileSharesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListFileSharesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFileSystemAssociations(AwsStoragegatewayListFileSystemAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFileSystemAssociations(AwsStoragegatewayListFileSystemAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListFileSystemAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListFileSystemAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGateways(AwsStoragegatewayListGatewaysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListGateways(AwsStoragegatewayListGatewaysOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListGatewaysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListGatewaysOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLocalDisks(AwsStoragegatewayListLocalDisksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListLocalDisks(AwsStoragegatewayListLocalDisksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsStoragegatewayListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsStoragegatewayListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTapePools(AwsStoragegatewayListTapePoolsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTapePools(AwsStoragegatewayListTapePoolsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListTapePoolsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListTapePoolsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTapes(AwsStoragegatewayListTapesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTapes(AwsStoragegatewayListTapesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListTapesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListTapesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListVolumeInitiators(AwsStoragegatewayListVolumeInitiatorsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVolumeInitiators(AwsStoragegatewayListVolumeInitiatorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListVolumeRecoveryPoints(AwsStoragegatewayListVolumeRecoveryPointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVolumeRecoveryPoints(AwsStoragegatewayListVolumeRecoveryPointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListVolumes(AwsStoragegatewayListVolumesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListVolumes(AwsStoragegatewayListVolumesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListVolumesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStoragegatewayListVolumesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotifyWhenUploaded(AwsStoragegatewayNotifyWhenUploadedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotifyWhenUploaded(AwsStoragegatewayNotifyWhenUploadedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RefreshCache(AwsStoragegatewayRefreshCacheOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RefreshCache(AwsStoragegatewayRefreshCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveTagsFromResource(AwsStoragegatewayRemoveTagsFromResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveTagsFromResource(AwsStoragegatewayRemoveTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetCache(AwsStoragegatewayResetCacheOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResetCache(AwsStoragegatewayResetCacheOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RetrieveTapeArchive(AwsStoragegatewayRetrieveTapeArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RetrieveTapeArchive(AwsStoragegatewayRetrieveTapeArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RetrieveTapeRecoveryPoint(AwsStoragegatewayRetrieveTapeRecoveryPointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RetrieveTapeRecoveryPoint(AwsStoragegatewayRetrieveTapeRecoveryPointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetLocalConsolePassword(AwsStoragegatewaySetLocalConsolePasswordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetLocalConsolePassword(AwsStoragegatewaySetLocalConsolePasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetSmbGuestPassword(AwsStoragegatewaySetSmbGuestPasswordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetSmbGuestPassword(AwsStoragegatewaySetSmbGuestPasswordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ShutdownGateway(AwsStoragegatewayShutdownGatewayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ShutdownGateway(AwsStoragegatewayShutdownGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAvailabilityMonitorTest(AwsStoragegatewayStartAvailabilityMonitorTestOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAvailabilityMonitorTest(AwsStoragegatewayStartAvailabilityMonitorTestOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartGateway(AwsStoragegatewayStartGatewayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartGateway(AwsStoragegatewayStartGatewayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAutomaticTapeCreationPolicy(AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAutomaticTapeCreationPolicy(AwsStoragegatewayUpdateAutomaticTapeCreationPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBandwidthRateLimit(AwsStoragegatewayUpdateBandwidthRateLimitOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBandwidthRateLimit(AwsStoragegatewayUpdateBandwidthRateLimitOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBandwidthRateLimitSchedule(AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBandwidthRateLimitSchedule(AwsStoragegatewayUpdateBandwidthRateLimitScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateChapCredentials(AwsStoragegatewayUpdateChapCredentialsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateChapCredentials(AwsStoragegatewayUpdateChapCredentialsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFileSystemAssociation(AwsStoragegatewayUpdateFileSystemAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFileSystemAssociation(AwsStoragegatewayUpdateFileSystemAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGatewayInformation(AwsStoragegatewayUpdateGatewayInformationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGatewayInformation(AwsStoragegatewayUpdateGatewayInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGatewaySoftwareNow(AwsStoragegatewayUpdateGatewaySoftwareNowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGatewaySoftwareNow(AwsStoragegatewayUpdateGatewaySoftwareNowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMaintenanceStartTime(AwsStoragegatewayUpdateMaintenanceStartTimeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMaintenanceStartTime(AwsStoragegatewayUpdateMaintenanceStartTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNfsFileShare(AwsStoragegatewayUpdateNfsFileShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNfsFileShare(AwsStoragegatewayUpdateNfsFileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSmbFileShare(AwsStoragegatewayUpdateSmbFileShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSmbFileShare(AwsStoragegatewayUpdateSmbFileShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSmbFileShareVisibility(AwsStoragegatewayUpdateSmbFileShareVisibilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSmbFileShareVisibility(AwsStoragegatewayUpdateSmbFileShareVisibilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSmbLocalGroups(AwsStoragegatewayUpdateSmbLocalGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSmbLocalGroups(AwsStoragegatewayUpdateSmbLocalGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSmbSecurityStrategy(AwsStoragegatewayUpdateSmbSecurityStrategyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSmbSecurityStrategy(AwsStoragegatewayUpdateSmbSecurityStrategyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSnapshotSchedule(AwsStoragegatewayUpdateSnapshotScheduleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSnapshotSchedule(AwsStoragegatewayUpdateSnapshotScheduleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateVtlDeviceType(AwsStoragegatewayUpdateVtlDeviceTypeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateVtlDeviceType(AwsStoragegatewayUpdateVtlDeviceTypeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

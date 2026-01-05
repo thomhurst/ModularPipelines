@@ -18,128 +18,128 @@ public class AwsCleanroomsml
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateAudienceModel(AwsCleanroomsmlCreateAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAudienceModel(AwsCleanroomsmlCreateAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConfiguredAudienceModel(AwsCleanroomsmlCreateConfiguredAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConfiguredAudienceModel(AwsCleanroomsmlCreateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTrainingDataset(AwsCleanroomsmlCreateTrainingDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTrainingDataset(AwsCleanroomsmlCreateTrainingDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAudienceGenerationJob(AwsCleanroomsmlDeleteAudienceGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAudienceGenerationJob(AwsCleanroomsmlDeleteAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAudienceModel(AwsCleanroomsmlDeleteAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAudienceModel(AwsCleanroomsmlDeleteAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfiguredAudienceModel(AwsCleanroomsmlDeleteConfiguredAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfiguredAudienceModel(AwsCleanroomsmlDeleteConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfiguredAudienceModelPolicy(AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfiguredAudienceModelPolicy(AwsCleanroomsmlDeleteConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTrainingDataset(AwsCleanroomsmlDeleteTrainingDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTrainingDataset(AwsCleanroomsmlDeleteTrainingDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAudienceGenerationJob(AwsCleanroomsmlGetAudienceGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAudienceGenerationJob(AwsCleanroomsmlGetAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAudienceModel(AwsCleanroomsmlGetAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAudienceModel(AwsCleanroomsmlGetAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConfiguredAudienceModel(AwsCleanroomsmlGetConfiguredAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConfiguredAudienceModel(AwsCleanroomsmlGetConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConfiguredAudienceModelPolicy(AwsCleanroomsmlGetConfiguredAudienceModelPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConfiguredAudienceModelPolicy(AwsCleanroomsmlGetConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTrainingDataset(AwsCleanroomsmlGetTrainingDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTrainingDataset(AwsCleanroomsmlGetTrainingDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAudienceExportJobs(AwsCleanroomsmlListAudienceExportJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAudienceExportJobs(AwsCleanroomsmlListAudienceExportJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceExportJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceExportJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAudienceGenerationJobs(AwsCleanroomsmlListAudienceGenerationJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAudienceGenerationJobs(AwsCleanroomsmlListAudienceGenerationJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceGenerationJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceGenerationJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAudienceModels(AwsCleanroomsmlListAudienceModelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAudienceModels(AwsCleanroomsmlListAudienceModelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceModelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListAudienceModelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConfiguredAudienceModels(AwsCleanroomsmlListConfiguredAudienceModelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConfiguredAudienceModels(AwsCleanroomsmlListConfiguredAudienceModelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListConfiguredAudienceModelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListConfiguredAudienceModelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsCleanroomsmlListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsCleanroomsmlListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTrainingDatasets(AwsCleanroomsmlListTrainingDatasetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTrainingDatasets(AwsCleanroomsmlListTrainingDatasetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListTrainingDatasetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCleanroomsmlListTrainingDatasetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutConfiguredAudienceModelPolicy(AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutConfiguredAudienceModelPolicy(AwsCleanroomsmlPutConfiguredAudienceModelPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAudienceExportJob(AwsCleanroomsmlStartAudienceExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAudienceExportJob(AwsCleanroomsmlStartAudienceExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAudienceGenerationJob(AwsCleanroomsmlStartAudienceGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAudienceGenerationJob(AwsCleanroomsmlStartAudienceGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsCleanroomsmlTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsCleanroomsmlTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsCleanroomsmlUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsCleanroomsmlUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConfiguredAudienceModel(AwsCleanroomsmlUpdateConfiguredAudienceModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConfiguredAudienceModel(AwsCleanroomsmlUpdateConfiguredAudienceModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

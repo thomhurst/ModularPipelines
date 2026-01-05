@@ -18,333 +18,333 @@ public class AwsKendra
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateEntitiesToExperience(AwsKendraAssociateEntitiesToExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateEntitiesToExperience(AwsKendraAssociateEntitiesToExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociatePersonasToEntities(AwsKendraAssociatePersonasToEntitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociatePersonasToEntities(AwsKendraAssociatePersonasToEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeleteDocument(AwsKendraBatchDeleteDocumentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteDocument(AwsKendraBatchDeleteDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeleteFeaturedResultsSet(AwsKendraBatchDeleteFeaturedResultsSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteFeaturedResultsSet(AwsKendraBatchDeleteFeaturedResultsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchGetDocumentStatus(AwsKendraBatchGetDocumentStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetDocumentStatus(AwsKendraBatchGetDocumentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchPutDocument(AwsKendraBatchPutDocumentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchPutDocument(AwsKendraBatchPutDocumentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClearQuerySuggestions(AwsKendraClearQuerySuggestionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClearQuerySuggestions(AwsKendraClearQuerySuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAccessControlConfiguration(AwsKendraCreateAccessControlConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccessControlConfiguration(AwsKendraCreateAccessControlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataSource(AwsKendraCreateDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataSource(AwsKendraCreateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateExperience(AwsKendraCreateExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateExperience(AwsKendraCreateExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFaq(AwsKendraCreateFaqOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateFaq(AwsKendraCreateFaqOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFeaturedResultsSet(AwsKendraCreateFeaturedResultsSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateFeaturedResultsSet(AwsKendraCreateFeaturedResultsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIndex(AwsKendraCreateIndexOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIndex(AwsKendraCreateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateQuerySuggestionsBlockList(AwsKendraCreateQuerySuggestionsBlockListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateQuerySuggestionsBlockList(AwsKendraCreateQuerySuggestionsBlockListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateThesaurus(AwsKendraCreateThesaurusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateThesaurus(AwsKendraCreateThesaurusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAccessControlConfiguration(AwsKendraDeleteAccessControlConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAccessControlConfiguration(AwsKendraDeleteAccessControlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDataSource(AwsKendraDeleteDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDataSource(AwsKendraDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteExperience(AwsKendraDeleteExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteExperience(AwsKendraDeleteExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFaq(AwsKendraDeleteFaqOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFaq(AwsKendraDeleteFaqOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIndex(AwsKendraDeleteIndexOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIndex(AwsKendraDeleteIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePrincipalMapping(AwsKendraDeletePrincipalMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePrincipalMapping(AwsKendraDeletePrincipalMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteQuerySuggestionsBlockList(AwsKendraDeleteQuerySuggestionsBlockListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteQuerySuggestionsBlockList(AwsKendraDeleteQuerySuggestionsBlockListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteThesaurus(AwsKendraDeleteThesaurusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteThesaurus(AwsKendraDeleteThesaurusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccessControlConfiguration(AwsKendraDescribeAccessControlConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccessControlConfiguration(AwsKendraDescribeAccessControlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDataSource(AwsKendraDescribeDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDataSource(AwsKendraDescribeDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeExperience(AwsKendraDescribeExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeExperience(AwsKendraDescribeExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFaq(AwsKendraDescribeFaqOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFaq(AwsKendraDescribeFaqOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFeaturedResultsSet(AwsKendraDescribeFeaturedResultsSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFeaturedResultsSet(AwsKendraDescribeFeaturedResultsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeIndex(AwsKendraDescribeIndexOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeIndex(AwsKendraDescribeIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePrincipalMapping(AwsKendraDescribePrincipalMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePrincipalMapping(AwsKendraDescribePrincipalMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeQuerySuggestionsBlockList(AwsKendraDescribeQuerySuggestionsBlockListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeQuerySuggestionsBlockList(AwsKendraDescribeQuerySuggestionsBlockListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeQuerySuggestionsConfig(AwsKendraDescribeQuerySuggestionsConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeQuerySuggestionsConfig(AwsKendraDescribeQuerySuggestionsConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeThesaurus(AwsKendraDescribeThesaurusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeThesaurus(AwsKendraDescribeThesaurusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateEntitiesFromExperience(AwsKendraDisassociateEntitiesFromExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateEntitiesFromExperience(AwsKendraDisassociateEntitiesFromExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociatePersonasFromEntities(AwsKendraDisassociatePersonasFromEntitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociatePersonasFromEntities(AwsKendraDisassociatePersonasFromEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQuerySuggestions(AwsKendraGetQuerySuggestionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQuerySuggestions(AwsKendraGetQuerySuggestionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSnapshots(AwsKendraGetSnapshotsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSnapshots(AwsKendraGetSnapshotsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccessControlConfigurations(AwsKendraListAccessControlConfigurationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAccessControlConfigurations(AwsKendraListAccessControlConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDataSourceSyncJobs(AwsKendraListDataSourceSyncJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDataSourceSyncJobs(AwsKendraListDataSourceSyncJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDataSources(AwsKendraListDataSourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDataSources(AwsKendraListDataSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEntityPersonas(AwsKendraListEntityPersonasOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEntityPersonas(AwsKendraListEntityPersonasOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExperienceEntities(AwsKendraListExperienceEntitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListExperienceEntities(AwsKendraListExperienceEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListExperiences(AwsKendraListExperiencesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListExperiences(AwsKendraListExperiencesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFaqs(AwsKendraListFaqsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFaqs(AwsKendraListFaqsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFeaturedResultsSets(AwsKendraListFeaturedResultsSetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFeaturedResultsSets(AwsKendraListFeaturedResultsSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGroupsOlderThanOrderingId(AwsKendraListGroupsOlderThanOrderingIdOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListGroupsOlderThanOrderingId(AwsKendraListGroupsOlderThanOrderingIdOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIndices(AwsKendraListIndicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListIndices(AwsKendraListIndicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKendraListIndicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKendraListIndicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListQuerySuggestionsBlockLists(AwsKendraListQuerySuggestionsBlockListsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListQuerySuggestionsBlockLists(AwsKendraListQuerySuggestionsBlockListsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsKendraListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsKendraListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListThesauri(AwsKendraListThesauriOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListThesauri(AwsKendraListThesauriOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutPrincipalMapping(AwsKendraPutPrincipalMappingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutPrincipalMapping(AwsKendraPutPrincipalMappingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Query(AwsKendraQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Query(AwsKendraQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Retrieve(AwsKendraRetrieveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Retrieve(AwsKendraRetrieveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDataSourceSyncJob(AwsKendraStartDataSourceSyncJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDataSourceSyncJob(AwsKendraStartDataSourceSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDataSourceSyncJob(AwsKendraStopDataSourceSyncJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDataSourceSyncJob(AwsKendraStopDataSourceSyncJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SubmitFeedback(AwsKendraSubmitFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SubmitFeedback(AwsKendraSubmitFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsKendraTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsKendraTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsKendraUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsKendraUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAccessControlConfiguration(AwsKendraUpdateAccessControlConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAccessControlConfiguration(AwsKendraUpdateAccessControlConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDataSource(AwsKendraUpdateDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDataSource(AwsKendraUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateExperience(AwsKendraUpdateExperienceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateExperience(AwsKendraUpdateExperienceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFeaturedResultsSet(AwsKendraUpdateFeaturedResultsSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFeaturedResultsSet(AwsKendraUpdateFeaturedResultsSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIndex(AwsKendraUpdateIndexOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIndex(AwsKendraUpdateIndexOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateQuerySuggestionsBlockList(AwsKendraUpdateQuerySuggestionsBlockListOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateQuerySuggestionsBlockList(AwsKendraUpdateQuerySuggestionsBlockListOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateQuerySuggestionsConfig(AwsKendraUpdateQuerySuggestionsConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateQuerySuggestionsConfig(AwsKendraUpdateQuerySuggestionsConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateThesaurus(AwsKendraUpdateThesaurusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateThesaurus(AwsKendraUpdateThesaurusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

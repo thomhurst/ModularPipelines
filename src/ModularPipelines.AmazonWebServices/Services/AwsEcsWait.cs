@@ -20,23 +20,23 @@ public class AwsEcsWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ServicesInactive(AwsEcsWaitServicesInactiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ServicesInactive(AwsEcsWaitServicesInactiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ServicesStable(AwsEcsWaitServicesStableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ServicesStable(AwsEcsWaitServicesStableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TasksRunning(AwsEcsWaitTasksRunningOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TasksRunning(AwsEcsWaitTasksRunningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TasksStopped(AwsEcsWaitTasksStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TasksStopped(AwsEcsWaitTasksStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

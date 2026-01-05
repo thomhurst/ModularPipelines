@@ -18,68 +18,68 @@ public class AwsKeyspaces
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateKeyspace(AwsKeyspacesCreateKeyspaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateKeyspace(AwsKeyspacesCreateKeyspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTable(AwsKeyspacesCreateTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTable(AwsKeyspacesCreateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteKeyspace(AwsKeyspacesDeleteKeyspaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteKeyspace(AwsKeyspacesDeleteKeyspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTable(AwsKeyspacesDeleteTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTable(AwsKeyspacesDeleteTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetKeyspace(AwsKeyspacesGetKeyspaceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetKeyspace(AwsKeyspacesGetKeyspaceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTable(AwsKeyspacesGetTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTable(AwsKeyspacesGetTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListKeyspaces(AwsKeyspacesListKeyspacesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListKeyspaces(AwsKeyspacesListKeyspacesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKeyspacesListKeyspacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKeyspacesListKeyspacesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTables(AwsKeyspacesListTablesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTables(AwsKeyspacesListTablesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsKeyspacesListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsKeyspacesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreTable(AwsKeyspacesRestoreTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreTable(AwsKeyspacesRestoreTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsKeyspacesTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsKeyspacesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsKeyspacesUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsKeyspacesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateTable(AwsKeyspacesUpdateTableOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateTable(AwsKeyspacesUpdateTableOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

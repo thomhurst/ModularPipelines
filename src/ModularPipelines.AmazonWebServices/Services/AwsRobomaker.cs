@@ -18,213 +18,213 @@ public class AwsRobomaker
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchDeleteWorlds(AwsRobomakerBatchDeleteWorldsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteWorlds(AwsRobomakerBatchDeleteWorldsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDescribeSimulationJob(AwsRobomakerBatchDescribeSimulationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDescribeSimulationJob(AwsRobomakerBatchDescribeSimulationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelSimulationJob(AwsRobomakerCancelSimulationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelSimulationJob(AwsRobomakerCancelSimulationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelSimulationJobBatch(AwsRobomakerCancelSimulationJobBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelSimulationJobBatch(AwsRobomakerCancelSimulationJobBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelWorldExportJob(AwsRobomakerCancelWorldExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelWorldExportJob(AwsRobomakerCancelWorldExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelWorldGenerationJob(AwsRobomakerCancelWorldGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelWorldGenerationJob(AwsRobomakerCancelWorldGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRobotApplication(AwsRobomakerCreateRobotApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRobotApplication(AwsRobomakerCreateRobotApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRobotApplicationVersion(AwsRobomakerCreateRobotApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRobotApplicationVersion(AwsRobomakerCreateRobotApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSimulationApplication(AwsRobomakerCreateSimulationApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSimulationApplication(AwsRobomakerCreateSimulationApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSimulationApplicationVersion(AwsRobomakerCreateSimulationApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSimulationApplicationVersion(AwsRobomakerCreateSimulationApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSimulationJob(AwsRobomakerCreateSimulationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSimulationJob(AwsRobomakerCreateSimulationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorldExportJob(AwsRobomakerCreateWorldExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorldExportJob(AwsRobomakerCreateWorldExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorldGenerationJob(AwsRobomakerCreateWorldGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorldGenerationJob(AwsRobomakerCreateWorldGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorldTemplate(AwsRobomakerCreateWorldTemplateOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorldTemplate(AwsRobomakerCreateWorldTemplateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerCreateWorldTemplateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerCreateWorldTemplateOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRobotApplication(AwsRobomakerDeleteRobotApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRobotApplication(AwsRobomakerDeleteRobotApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSimulationApplication(AwsRobomakerDeleteSimulationApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSimulationApplication(AwsRobomakerDeleteSimulationApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWorldTemplate(AwsRobomakerDeleteWorldTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWorldTemplate(AwsRobomakerDeleteWorldTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRobotApplication(AwsRobomakerDescribeRobotApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRobotApplication(AwsRobomakerDescribeRobotApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSimulationApplication(AwsRobomakerDescribeSimulationApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSimulationApplication(AwsRobomakerDescribeSimulationApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSimulationJob(AwsRobomakerDescribeSimulationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSimulationJob(AwsRobomakerDescribeSimulationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSimulationJobBatch(AwsRobomakerDescribeSimulationJobBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSimulationJobBatch(AwsRobomakerDescribeSimulationJobBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWorld(AwsRobomakerDescribeWorldOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWorld(AwsRobomakerDescribeWorldOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWorldExportJob(AwsRobomakerDescribeWorldExportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWorldExportJob(AwsRobomakerDescribeWorldExportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWorldGenerationJob(AwsRobomakerDescribeWorldGenerationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWorldGenerationJob(AwsRobomakerDescribeWorldGenerationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeWorldTemplate(AwsRobomakerDescribeWorldTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeWorldTemplate(AwsRobomakerDescribeWorldTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorldTemplateBody(AwsRobomakerGetWorldTemplateBodyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetWorldTemplateBody(AwsRobomakerGetWorldTemplateBodyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerGetWorldTemplateBodyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerGetWorldTemplateBodyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRobotApplications(AwsRobomakerListRobotApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRobotApplications(AwsRobomakerListRobotApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListRobotApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListRobotApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSimulationApplications(AwsRobomakerListSimulationApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSimulationApplications(AwsRobomakerListSimulationApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSimulationJobBatches(AwsRobomakerListSimulationJobBatchesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSimulationJobBatches(AwsRobomakerListSimulationJobBatchesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationJobBatchesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationJobBatchesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSimulationJobs(AwsRobomakerListSimulationJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSimulationJobs(AwsRobomakerListSimulationJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListSimulationJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsRobomakerListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsRobomakerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorldExportJobs(AwsRobomakerListWorldExportJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorldExportJobs(AwsRobomakerListWorldExportJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldExportJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldExportJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorldGenerationJobs(AwsRobomakerListWorldGenerationJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorldGenerationJobs(AwsRobomakerListWorldGenerationJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldGenerationJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldGenerationJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorldTemplates(AwsRobomakerListWorldTemplatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorldTemplates(AwsRobomakerListWorldTemplatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldTemplatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldTemplatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorlds(AwsRobomakerListWorldsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorlds(AwsRobomakerListWorldsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRobomakerListWorldsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestartSimulationJob(AwsRobomakerRestartSimulationJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestartSimulationJob(AwsRobomakerRestartSimulationJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSimulationJobBatch(AwsRobomakerStartSimulationJobBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartSimulationJobBatch(AwsRobomakerStartSimulationJobBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsRobomakerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsRobomakerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsRobomakerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsRobomakerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRobotApplication(AwsRobomakerUpdateRobotApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRobotApplication(AwsRobomakerUpdateRobotApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSimulationApplication(AwsRobomakerUpdateSimulationApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSimulationApplication(AwsRobomakerUpdateSimulationApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWorldTemplate(AwsRobomakerUpdateWorldTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWorldTemplate(AwsRobomakerUpdateWorldTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

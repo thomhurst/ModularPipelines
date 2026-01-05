@@ -18,38 +18,38 @@ public class AwsCur
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteReportDefinition(AwsCurDeleteReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteReportDefinition(AwsCurDeleteReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeReportDefinitions(AwsCurDescribeReportDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReportDefinitions(AwsCurDescribeReportDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCurDescribeReportDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCurDescribeReportDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsCurListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsCurListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyReportDefinition(AwsCurModifyReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyReportDefinition(AwsCurModifyReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutReportDefinition(AwsCurPutReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutReportDefinition(AwsCurPutReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsCurTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsCurTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsCurUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsCurUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

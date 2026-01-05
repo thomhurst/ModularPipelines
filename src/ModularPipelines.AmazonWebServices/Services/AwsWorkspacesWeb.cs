@@ -18,293 +18,293 @@ public class AwsWorkspacesWeb
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateBrowserSettings(AwsWorkspacesWebAssociateBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateBrowserSettings(AwsWorkspacesWebAssociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateIpAccessSettings(AwsWorkspacesWebAssociateIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateIpAccessSettings(AwsWorkspacesWebAssociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateNetworkSettings(AwsWorkspacesWebAssociateNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateNetworkSettings(AwsWorkspacesWebAssociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateTrustStore(AwsWorkspacesWebAssociateTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateTrustStore(AwsWorkspacesWebAssociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateUserAccessLoggingSettings(AwsWorkspacesWebAssociateUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateUserAccessLoggingSettings(AwsWorkspacesWebAssociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateUserSettings(AwsWorkspacesWebAssociateUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateUserSettings(AwsWorkspacesWebAssociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBrowserSettings(AwsWorkspacesWebCreateBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBrowserSettings(AwsWorkspacesWebCreateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIdentityProvider(AwsWorkspacesWebCreateIdentityProviderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIdentityProvider(AwsWorkspacesWebCreateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIpAccessSettings(AwsWorkspacesWebCreateIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIpAccessSettings(AwsWorkspacesWebCreateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateNetworkSettings(AwsWorkspacesWebCreateNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateNetworkSettings(AwsWorkspacesWebCreateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePortal(AwsWorkspacesWebCreatePortalOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreatePortal(AwsWorkspacesWebCreatePortalOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebCreatePortalOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebCreatePortalOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTrustStore(AwsWorkspacesWebCreateTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTrustStore(AwsWorkspacesWebCreateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUserAccessLoggingSettings(AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUserAccessLoggingSettings(AwsWorkspacesWebCreateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUserSettings(AwsWorkspacesWebCreateUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUserSettings(AwsWorkspacesWebCreateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBrowserSettings(AwsWorkspacesWebDeleteBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBrowserSettings(AwsWorkspacesWebDeleteBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIdentityProvider(AwsWorkspacesWebDeleteIdentityProviderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIdentityProvider(AwsWorkspacesWebDeleteIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIpAccessSettings(AwsWorkspacesWebDeleteIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIpAccessSettings(AwsWorkspacesWebDeleteIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteNetworkSettings(AwsWorkspacesWebDeleteNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteNetworkSettings(AwsWorkspacesWebDeleteNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePortal(AwsWorkspacesWebDeletePortalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePortal(AwsWorkspacesWebDeletePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTrustStore(AwsWorkspacesWebDeleteTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTrustStore(AwsWorkspacesWebDeleteTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteUserAccessLoggingSettings(AwsWorkspacesWebDeleteUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteUserAccessLoggingSettings(AwsWorkspacesWebDeleteUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteUserSettings(AwsWorkspacesWebDeleteUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteUserSettings(AwsWorkspacesWebDeleteUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateBrowserSettings(AwsWorkspacesWebDisassociateBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateBrowserSettings(AwsWorkspacesWebDisassociateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateIpAccessSettings(AwsWorkspacesWebDisassociateIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateIpAccessSettings(AwsWorkspacesWebDisassociateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateNetworkSettings(AwsWorkspacesWebDisassociateNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateNetworkSettings(AwsWorkspacesWebDisassociateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateTrustStore(AwsWorkspacesWebDisassociateTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateTrustStore(AwsWorkspacesWebDisassociateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateUserAccessLoggingSettings(AwsWorkspacesWebDisassociateUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateUserAccessLoggingSettings(AwsWorkspacesWebDisassociateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateUserSettings(AwsWorkspacesWebDisassociateUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateUserSettings(AwsWorkspacesWebDisassociateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBrowserSettings(AwsWorkspacesWebGetBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBrowserSettings(AwsWorkspacesWebGetBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIdentityProvider(AwsWorkspacesWebGetIdentityProviderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIdentityProvider(AwsWorkspacesWebGetIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIpAccessSettings(AwsWorkspacesWebGetIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIpAccessSettings(AwsWorkspacesWebGetIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetNetworkSettings(AwsWorkspacesWebGetNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetNetworkSettings(AwsWorkspacesWebGetNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPortal(AwsWorkspacesWebGetPortalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPortal(AwsWorkspacesWebGetPortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPortalServiceProviderMetadata(AwsWorkspacesWebGetPortalServiceProviderMetadataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPortalServiceProviderMetadata(AwsWorkspacesWebGetPortalServiceProviderMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTrustStore(AwsWorkspacesWebGetTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTrustStore(AwsWorkspacesWebGetTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTrustStoreCertificate(AwsWorkspacesWebGetTrustStoreCertificateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTrustStoreCertificate(AwsWorkspacesWebGetTrustStoreCertificateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUserAccessLoggingSettings(AwsWorkspacesWebGetUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUserAccessLoggingSettings(AwsWorkspacesWebGetUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetUserSettings(AwsWorkspacesWebGetUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetUserSettings(AwsWorkspacesWebGetUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBrowserSettings(AwsWorkspacesWebListBrowserSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBrowserSettings(AwsWorkspacesWebListBrowserSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListBrowserSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListBrowserSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIdentityProviders(AwsWorkspacesWebListIdentityProvidersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListIdentityProviders(AwsWorkspacesWebListIdentityProvidersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIpAccessSettings(AwsWorkspacesWebListIpAccessSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListIpAccessSettings(AwsWorkspacesWebListIpAccessSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListIpAccessSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListIpAccessSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNetworkSettings(AwsWorkspacesWebListNetworkSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListNetworkSettings(AwsWorkspacesWebListNetworkSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListNetworkSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListNetworkSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPortals(AwsWorkspacesWebListPortalsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPortals(AwsWorkspacesWebListPortalsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListPortalsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListPortalsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsWorkspacesWebListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsWorkspacesWebListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTrustStoreCertificates(AwsWorkspacesWebListTrustStoreCertificatesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTrustStoreCertificates(AwsWorkspacesWebListTrustStoreCertificatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTrustStores(AwsWorkspacesWebListTrustStoresOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTrustStores(AwsWorkspacesWebListTrustStoresOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListTrustStoresOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListTrustStoresOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUserAccessLoggingSettings(AwsWorkspacesWebListUserAccessLoggingSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListUserAccessLoggingSettings(AwsWorkspacesWebListUserAccessLoggingSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListUserAccessLoggingSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListUserAccessLoggingSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUserSettings(AwsWorkspacesWebListUserSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListUserSettings(AwsWorkspacesWebListUserSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListUserSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesWebListUserSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsWorkspacesWebTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsWorkspacesWebTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsWorkspacesWebUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsWorkspacesWebUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBrowserSettings(AwsWorkspacesWebUpdateBrowserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBrowserSettings(AwsWorkspacesWebUpdateBrowserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIdentityProvider(AwsWorkspacesWebUpdateIdentityProviderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIdentityProvider(AwsWorkspacesWebUpdateIdentityProviderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIpAccessSettings(AwsWorkspacesWebUpdateIpAccessSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIpAccessSettings(AwsWorkspacesWebUpdateIpAccessSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNetworkSettings(AwsWorkspacesWebUpdateNetworkSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNetworkSettings(AwsWorkspacesWebUpdateNetworkSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePortal(AwsWorkspacesWebUpdatePortalOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePortal(AwsWorkspacesWebUpdatePortalOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateTrustStore(AwsWorkspacesWebUpdateTrustStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateTrustStore(AwsWorkspacesWebUpdateTrustStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUserAccessLoggingSettings(AwsWorkspacesWebUpdateUserAccessLoggingSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUserAccessLoggingSettings(AwsWorkspacesWebUpdateUserAccessLoggingSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateUserSettings(AwsWorkspacesWebUpdateUserSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateUserSettings(AwsWorkspacesWebUpdateUserSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,43 +18,43 @@ public class AwsSts
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssumeRole(AwsStsAssumeRoleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssumeRole(AwsStsAssumeRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssumeRoleWithSaml(AwsStsAssumeRoleWithSamlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssumeRoleWithSaml(AwsStsAssumeRoleWithSamlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssumeRoleWithWebIdentity(AwsStsAssumeRoleWithWebIdentityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssumeRoleWithWebIdentity(AwsStsAssumeRoleWithWebIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DecodeAuthorizationMessage(AwsStsDecodeAuthorizationMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DecodeAuthorizationMessage(AwsStsDecodeAuthorizationMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccessKeyInfo(AwsStsGetAccessKeyInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAccessKeyInfo(AwsStsGetAccessKeyInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCallerIdentity(AwsStsGetCallerIdentityOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetCallerIdentity(AwsStsGetCallerIdentityOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStsGetCallerIdentityOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStsGetCallerIdentityOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFederationToken(AwsStsGetFederationTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFederationToken(AwsStsGetFederationTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSessionToken(AwsStsGetSessionTokenOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetSessionToken(AwsStsGetSessionTokenOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsStsGetSessionTokenOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsStsGetSessionTokenOptions(), executionOptions, cancellationToken);
     }
 }

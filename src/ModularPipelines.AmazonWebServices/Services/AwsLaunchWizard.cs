@@ -18,43 +18,43 @@ public class AwsLaunchWizard
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateDeployment(AwsLaunchWizardCreateDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeployment(AwsLaunchWizardCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDeployment(AwsLaunchWizardDeleteDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDeployment(AwsLaunchWizardDeleteDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeployment(AwsLaunchWizardGetDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeployment(AwsLaunchWizardGetDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorkload(AwsLaunchWizardGetWorkloadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWorkload(AwsLaunchWizardGetWorkloadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeploymentEvents(AwsLaunchWizardListDeploymentEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeploymentEvents(AwsLaunchWizardListDeploymentEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeployments(AwsLaunchWizardListDeploymentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDeployments(AwsLaunchWizardListDeploymentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsLaunchWizardListDeploymentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsLaunchWizardListDeploymentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkloadDeploymentPatterns(AwsLaunchWizardListWorkloadDeploymentPatternsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkloadDeploymentPatterns(AwsLaunchWizardListWorkloadDeploymentPatternsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkloads(AwsLaunchWizardListWorkloadsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkloads(AwsLaunchWizardListWorkloadsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsLaunchWizardListWorkloadsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsLaunchWizardListWorkloadsOptions(), executionOptions, cancellationToken);
     }
 }

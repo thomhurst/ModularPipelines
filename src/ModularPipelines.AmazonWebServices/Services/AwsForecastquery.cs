@@ -18,13 +18,13 @@ public class AwsForecastquery
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> QueryForecast(AwsForecastqueryQueryForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> QueryForecast(AwsForecastqueryQueryForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> QueryWhatIfForecast(AwsForecastqueryQueryWhatIfForecastOptions options, CancellationToken token = default)
+    public async Task<CommandResult> QueryWhatIfForecast(AwsForecastqueryQueryWhatIfForecastOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

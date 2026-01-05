@@ -18,128 +18,128 @@ public class AwsVerifiedpermissions
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchIsAuthorized(AwsVerifiedpermissionsBatchIsAuthorizedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchIsAuthorized(AwsVerifiedpermissionsBatchIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIdentitySource(AwsVerifiedpermissionsCreateIdentitySourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIdentitySource(AwsVerifiedpermissionsCreateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePolicy(AwsVerifiedpermissionsCreatePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePolicy(AwsVerifiedpermissionsCreatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePolicyStore(AwsVerifiedpermissionsCreatePolicyStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePolicyStore(AwsVerifiedpermissionsCreatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePolicyTemplate(AwsVerifiedpermissionsCreatePolicyTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePolicyTemplate(AwsVerifiedpermissionsCreatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIdentitySource(AwsVerifiedpermissionsDeleteIdentitySourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIdentitySource(AwsVerifiedpermissionsDeleteIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePolicy(AwsVerifiedpermissionsDeletePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePolicy(AwsVerifiedpermissionsDeletePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePolicyStore(AwsVerifiedpermissionsDeletePolicyStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePolicyStore(AwsVerifiedpermissionsDeletePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePolicyTemplate(AwsVerifiedpermissionsDeletePolicyTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePolicyTemplate(AwsVerifiedpermissionsDeletePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIdentitySource(AwsVerifiedpermissionsGetIdentitySourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIdentitySource(AwsVerifiedpermissionsGetIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPolicy(AwsVerifiedpermissionsGetPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPolicy(AwsVerifiedpermissionsGetPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPolicyStore(AwsVerifiedpermissionsGetPolicyStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPolicyStore(AwsVerifiedpermissionsGetPolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPolicyTemplate(AwsVerifiedpermissionsGetPolicyTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPolicyTemplate(AwsVerifiedpermissionsGetPolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSchema(AwsVerifiedpermissionsGetSchemaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSchema(AwsVerifiedpermissionsGetSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> IsAuthorized(AwsVerifiedpermissionsIsAuthorizedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> IsAuthorized(AwsVerifiedpermissionsIsAuthorizedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> IsAuthorizedWithToken(AwsVerifiedpermissionsIsAuthorizedWithTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> IsAuthorizedWithToken(AwsVerifiedpermissionsIsAuthorizedWithTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIdentitySources(AwsVerifiedpermissionsListIdentitySourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListIdentitySources(AwsVerifiedpermissionsListIdentitySourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPolicies(AwsVerifiedpermissionsListPoliciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPolicies(AwsVerifiedpermissionsListPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPolicyStores(AwsVerifiedpermissionsListPolicyStoresOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPolicyStores(AwsVerifiedpermissionsListPolicyStoresOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsVerifiedpermissionsListPolicyStoresOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsVerifiedpermissionsListPolicyStoresOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPolicyTemplates(AwsVerifiedpermissionsListPolicyTemplatesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPolicyTemplates(AwsVerifiedpermissionsListPolicyTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSchema(AwsVerifiedpermissionsPutSchemaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSchema(AwsVerifiedpermissionsPutSchemaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIdentitySource(AwsVerifiedpermissionsUpdateIdentitySourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIdentitySource(AwsVerifiedpermissionsUpdateIdentitySourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePolicy(AwsVerifiedpermissionsUpdatePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePolicy(AwsVerifiedpermissionsUpdatePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePolicyStore(AwsVerifiedpermissionsUpdatePolicyStoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePolicyStore(AwsVerifiedpermissionsUpdatePolicyStoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePolicyTemplate(AwsVerifiedpermissionsUpdatePolicyTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePolicyTemplate(AwsVerifiedpermissionsUpdatePolicyTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

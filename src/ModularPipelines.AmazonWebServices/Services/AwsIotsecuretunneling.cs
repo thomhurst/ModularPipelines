@@ -18,43 +18,43 @@ public class AwsIotsecuretunneling
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CloseTunnel(AwsIotsecuretunnelingCloseTunnelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CloseTunnel(AwsIotsecuretunnelingCloseTunnelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTunnel(AwsIotsecuretunnelingDescribeTunnelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTunnel(AwsIotsecuretunnelingDescribeTunnelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsIotsecuretunnelingListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsIotsecuretunnelingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTunnels(AwsIotsecuretunnelingListTunnelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTunnels(AwsIotsecuretunnelingListTunnelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsIotsecuretunnelingListTunnelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsIotsecuretunnelingListTunnelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> OpenTunnel(AwsIotsecuretunnelingOpenTunnelOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> OpenTunnel(AwsIotsecuretunnelingOpenTunnelOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsIotsecuretunnelingOpenTunnelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsIotsecuretunnelingOpenTunnelOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RotateTunnelAccessToken(AwsIotsecuretunnelingRotateTunnelAccessTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RotateTunnelAccessToken(AwsIotsecuretunnelingRotateTunnelAccessTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsIotsecuretunnelingTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsIotsecuretunnelingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsIotsecuretunnelingUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsIotsecuretunnelingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

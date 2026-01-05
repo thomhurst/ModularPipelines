@@ -18,143 +18,143 @@ public class AwsMigrationhuborchestrator
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateWorkflow(AwsMigrationhuborchestratorCreateWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorkflow(AwsMigrationhuborchestratorCreateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorkflowStep(AwsMigrationhuborchestratorCreateWorkflowStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorkflowStep(AwsMigrationhuborchestratorCreateWorkflowStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWorkflowStepGroup(AwsMigrationhuborchestratorCreateWorkflowStepGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWorkflowStepGroup(AwsMigrationhuborchestratorCreateWorkflowStepGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWorkflow(AwsMigrationhuborchestratorDeleteWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWorkflow(AwsMigrationhuborchestratorDeleteWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWorkflowStep(AwsMigrationhuborchestratorDeleteWorkflowStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWorkflowStep(AwsMigrationhuborchestratorDeleteWorkflowStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWorkflowStepGroup(AwsMigrationhuborchestratorDeleteWorkflowStepGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWorkflowStepGroup(AwsMigrationhuborchestratorDeleteWorkflowStepGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTemplate(AwsMigrationhuborchestratorGetTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTemplate(AwsMigrationhuborchestratorGetTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTemplateStep(AwsMigrationhuborchestratorGetTemplateStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTemplateStep(AwsMigrationhuborchestratorGetTemplateStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTemplateStepGroup(AwsMigrationhuborchestratorGetTemplateStepGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTemplateStepGroup(AwsMigrationhuborchestratorGetTemplateStepGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorkflow(AwsMigrationhuborchestratorGetWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWorkflow(AwsMigrationhuborchestratorGetWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorkflowStep(AwsMigrationhuborchestratorGetWorkflowStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWorkflowStep(AwsMigrationhuborchestratorGetWorkflowStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWorkflowStepGroup(AwsMigrationhuborchestratorGetWorkflowStepGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWorkflowStepGroup(AwsMigrationhuborchestratorGetWorkflowStepGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPlugins(AwsMigrationhuborchestratorListPluginsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPlugins(AwsMigrationhuborchestratorListPluginsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListPluginsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListPluginsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsMigrationhuborchestratorListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsMigrationhuborchestratorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTemplateStepGroups(AwsMigrationhuborchestratorListTemplateStepGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTemplateStepGroups(AwsMigrationhuborchestratorListTemplateStepGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTemplateSteps(AwsMigrationhuborchestratorListTemplateStepsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTemplateSteps(AwsMigrationhuborchestratorListTemplateStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTemplates(AwsMigrationhuborchestratorListTemplatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTemplates(AwsMigrationhuborchestratorListTemplatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListTemplatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListTemplatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkflowStepGroups(AwsMigrationhuborchestratorListWorkflowStepGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkflowStepGroups(AwsMigrationhuborchestratorListWorkflowStepGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkflowSteps(AwsMigrationhuborchestratorListWorkflowStepsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkflowSteps(AwsMigrationhuborchestratorListWorkflowStepsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWorkflows(AwsMigrationhuborchestratorListWorkflowsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWorkflows(AwsMigrationhuborchestratorListWorkflowsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListWorkflowsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMigrationhuborchestratorListWorkflowsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RetryWorkflowStep(AwsMigrationhuborchestratorRetryWorkflowStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RetryWorkflowStep(AwsMigrationhuborchestratorRetryWorkflowStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartWorkflow(AwsMigrationhuborchestratorStartWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartWorkflow(AwsMigrationhuborchestratorStartWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopWorkflow(AwsMigrationhuborchestratorStopWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopWorkflow(AwsMigrationhuborchestratorStopWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsMigrationhuborchestratorTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsMigrationhuborchestratorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsMigrationhuborchestratorUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsMigrationhuborchestratorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWorkflow(AwsMigrationhuborchestratorUpdateWorkflowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWorkflow(AwsMigrationhuborchestratorUpdateWorkflowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWorkflowStep(AwsMigrationhuborchestratorUpdateWorkflowStepOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWorkflowStep(AwsMigrationhuborchestratorUpdateWorkflowStepOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWorkflowStepGroup(AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWorkflowStepGroup(AwsMigrationhuborchestratorUpdateWorkflowStepGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,83 +18,83 @@ public class AwsWorkspacesThinClient
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateEnvironment(AwsWorkspacesThinClientCreateEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEnvironment(AwsWorkspacesThinClientCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDevice(AwsWorkspacesThinClientDeleteDeviceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDevice(AwsWorkspacesThinClientDeleteDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEnvironment(AwsWorkspacesThinClientDeleteEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEnvironment(AwsWorkspacesThinClientDeleteEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterDevice(AwsWorkspacesThinClientDeregisterDeviceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterDevice(AwsWorkspacesThinClientDeregisterDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDevice(AwsWorkspacesThinClientGetDeviceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDevice(AwsWorkspacesThinClientGetDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEnvironment(AwsWorkspacesThinClientGetEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEnvironment(AwsWorkspacesThinClientGetEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSoftwareSet(AwsWorkspacesThinClientGetSoftwareSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSoftwareSet(AwsWorkspacesThinClientGetSoftwareSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDevices(AwsWorkspacesThinClientListDevicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDevices(AwsWorkspacesThinClientListDevicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListDevicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListDevicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEnvironments(AwsWorkspacesThinClientListEnvironmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEnvironments(AwsWorkspacesThinClientListEnvironmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListEnvironmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListEnvironmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSoftwareSets(AwsWorkspacesThinClientListSoftwareSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSoftwareSets(AwsWorkspacesThinClientListSoftwareSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListSoftwareSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWorkspacesThinClientListSoftwareSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsWorkspacesThinClientListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsWorkspacesThinClientListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsWorkspacesThinClientTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsWorkspacesThinClientTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsWorkspacesThinClientUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsWorkspacesThinClientUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDevice(AwsWorkspacesThinClientUpdateDeviceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDevice(AwsWorkspacesThinClientUpdateDeviceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEnvironment(AwsWorkspacesThinClientUpdateEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEnvironment(AwsWorkspacesThinClientUpdateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSoftwareSet(AwsWorkspacesThinClientUpdateSoftwareSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSoftwareSet(AwsWorkspacesThinClientUpdateSoftwareSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,18 +18,18 @@ public class AwsPersonalizeRuntime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetActionRecommendations(AwsPersonalizeRuntimeGetActionRecommendationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetActionRecommendations(AwsPersonalizeRuntimeGetActionRecommendationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPersonalizeRuntimeGetActionRecommendationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPersonalizeRuntimeGetActionRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPersonalizedRanking(AwsPersonalizeRuntimeGetPersonalizedRankingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPersonalizedRanking(AwsPersonalizeRuntimeGetPersonalizedRankingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRecommendations(AwsPersonalizeRuntimeGetRecommendationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetRecommendations(AwsPersonalizeRuntimeGetRecommendationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPersonalizeRuntimeGetRecommendationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPersonalizeRuntimeGetRecommendationsOptions(), executionOptions, cancellationToken);
     }
 }

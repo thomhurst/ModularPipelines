@@ -22,158 +22,158 @@ public class AwsSsmIncidents
 
     public AwsSsmIncidentsWait Wait { get; }
 
-    public async Task<CommandResult> BatchGetIncidentFindings(AwsSsmIncidentsBatchGetIncidentFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetIncidentFindings(AwsSsmIncidentsBatchGetIncidentFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateReplicationSet(AwsSsmIncidentsCreateReplicationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateReplicationSet(AwsSsmIncidentsCreateReplicationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResponsePlan(AwsSsmIncidentsCreateResponsePlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResponsePlan(AwsSsmIncidentsCreateResponsePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTimelineEvent(AwsSsmIncidentsCreateTimelineEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTimelineEvent(AwsSsmIncidentsCreateTimelineEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIncidentRecord(AwsSsmIncidentsDeleteIncidentRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIncidentRecord(AwsSsmIncidentsDeleteIncidentRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteReplicationSet(AwsSsmIncidentsDeleteReplicationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteReplicationSet(AwsSsmIncidentsDeleteReplicationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourcePolicy(AwsSsmIncidentsDeleteResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourcePolicy(AwsSsmIncidentsDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResponsePlan(AwsSsmIncidentsDeleteResponsePlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResponsePlan(AwsSsmIncidentsDeleteResponsePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTimelineEvent(AwsSsmIncidentsDeleteTimelineEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTimelineEvent(AwsSsmIncidentsDeleteTimelineEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIncidentRecord(AwsSsmIncidentsGetIncidentRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIncidentRecord(AwsSsmIncidentsGetIncidentRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetReplicationSet(AwsSsmIncidentsGetReplicationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetReplicationSet(AwsSsmIncidentsGetReplicationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourcePolicies(AwsSsmIncidentsGetResourcePoliciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourcePolicies(AwsSsmIncidentsGetResourcePoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResponsePlan(AwsSsmIncidentsGetResponsePlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResponsePlan(AwsSsmIncidentsGetResponsePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTimelineEvent(AwsSsmIncidentsGetTimelineEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTimelineEvent(AwsSsmIncidentsGetTimelineEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIncidentFindings(AwsSsmIncidentsListIncidentFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListIncidentFindings(AwsSsmIncidentsListIncidentFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIncidentRecords(AwsSsmIncidentsListIncidentRecordsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListIncidentRecords(AwsSsmIncidentsListIncidentRecordsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListIncidentRecordsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListIncidentRecordsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRelatedItems(AwsSsmIncidentsListRelatedItemsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRelatedItems(AwsSsmIncidentsListRelatedItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListReplicationSets(AwsSsmIncidentsListReplicationSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListReplicationSets(AwsSsmIncidentsListReplicationSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListReplicationSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListReplicationSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResponsePlans(AwsSsmIncidentsListResponsePlansOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListResponsePlans(AwsSsmIncidentsListResponsePlansOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListResponsePlansOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSsmIncidentsListResponsePlansOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsSsmIncidentsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsSsmIncidentsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTimelineEvents(AwsSsmIncidentsListTimelineEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTimelineEvents(AwsSsmIncidentsListTimelineEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourcePolicy(AwsSsmIncidentsPutResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourcePolicy(AwsSsmIncidentsPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartIncident(AwsSsmIncidentsStartIncidentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartIncident(AwsSsmIncidentsStartIncidentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsSsmIncidentsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsSsmIncidentsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsSsmIncidentsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsSsmIncidentsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDeletionProtection(AwsSsmIncidentsUpdateDeletionProtectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDeletionProtection(AwsSsmIncidentsUpdateDeletionProtectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIncidentRecord(AwsSsmIncidentsUpdateIncidentRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIncidentRecord(AwsSsmIncidentsUpdateIncidentRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRelatedItems(AwsSsmIncidentsUpdateRelatedItemsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRelatedItems(AwsSsmIncidentsUpdateRelatedItemsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateReplicationSet(AwsSsmIncidentsUpdateReplicationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateReplicationSet(AwsSsmIncidentsUpdateReplicationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateResponsePlan(AwsSsmIncidentsUpdateResponsePlanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateResponsePlan(AwsSsmIncidentsUpdateResponsePlanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateTimelineEvent(AwsSsmIncidentsUpdateTimelineEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateTimelineEvent(AwsSsmIncidentsUpdateTimelineEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

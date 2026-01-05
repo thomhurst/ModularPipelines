@@ -18,213 +18,213 @@ public class AwsPinpointEmail
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateConfigurationSet(AwsPinpointEmailCreateConfigurationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConfigurationSet(AwsPinpointEmailCreateConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConfigurationSetEventDestination(AwsPinpointEmailCreateConfigurationSetEventDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConfigurationSetEventDestination(AwsPinpointEmailCreateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDedicatedIpPool(AwsPinpointEmailCreateDedicatedIpPoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDedicatedIpPool(AwsPinpointEmailCreateDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeliverabilityTestReport(AwsPinpointEmailCreateDeliverabilityTestReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeliverabilityTestReport(AwsPinpointEmailCreateDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEmailIdentity(AwsPinpointEmailCreateEmailIdentityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEmailIdentity(AwsPinpointEmailCreateEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfigurationSet(AwsPinpointEmailDeleteConfigurationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfigurationSet(AwsPinpointEmailDeleteConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfigurationSetEventDestination(AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfigurationSetEventDestination(AwsPinpointEmailDeleteConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDedicatedIpPool(AwsPinpointEmailDeleteDedicatedIpPoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDedicatedIpPool(AwsPinpointEmailDeleteDedicatedIpPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEmailIdentity(AwsPinpointEmailDeleteEmailIdentityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEmailIdentity(AwsPinpointEmailDeleteEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccount(AwsPinpointEmailGetAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAccount(AwsPinpointEmailGetAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBlacklistReports(AwsPinpointEmailGetBlacklistReportsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBlacklistReports(AwsPinpointEmailGetBlacklistReportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConfigurationSet(AwsPinpointEmailGetConfigurationSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConfigurationSet(AwsPinpointEmailGetConfigurationSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConfigurationSetEventDestinations(AwsPinpointEmailGetConfigurationSetEventDestinationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConfigurationSetEventDestinations(AwsPinpointEmailGetConfigurationSetEventDestinationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDedicatedIp(AwsPinpointEmailGetDedicatedIpOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDedicatedIp(AwsPinpointEmailGetDedicatedIpOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDedicatedIps(AwsPinpointEmailGetDedicatedIpsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetDedicatedIps(AwsPinpointEmailGetDedicatedIpsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetDedicatedIpsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetDedicatedIpsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeliverabilityDashboardOptions(AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetDeliverabilityDashboardOptions(AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailGetDeliverabilityDashboardOptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeliverabilityTestReport(AwsPinpointEmailGetDeliverabilityTestReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeliverabilityTestReport(AwsPinpointEmailGetDeliverabilityTestReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDomainDeliverabilityCampaign(AwsPinpointEmailGetDomainDeliverabilityCampaignOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDomainDeliverabilityCampaign(AwsPinpointEmailGetDomainDeliverabilityCampaignOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDomainStatisticsReport(AwsPinpointEmailGetDomainStatisticsReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDomainStatisticsReport(AwsPinpointEmailGetDomainStatisticsReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEmailIdentity(AwsPinpointEmailGetEmailIdentityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEmailIdentity(AwsPinpointEmailGetEmailIdentityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConfigurationSets(AwsPinpointEmailListConfigurationSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConfigurationSets(AwsPinpointEmailListConfigurationSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListConfigurationSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListConfigurationSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDedicatedIpPools(AwsPinpointEmailListDedicatedIpPoolsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDedicatedIpPools(AwsPinpointEmailListDedicatedIpPoolsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListDedicatedIpPoolsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListDedicatedIpPoolsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeliverabilityTestReports(AwsPinpointEmailListDeliverabilityTestReportsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDeliverabilityTestReports(AwsPinpointEmailListDeliverabilityTestReportsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListDeliverabilityTestReportsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListDeliverabilityTestReportsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDomainDeliverabilityCampaigns(AwsPinpointEmailListDomainDeliverabilityCampaignsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDomainDeliverabilityCampaigns(AwsPinpointEmailListDomainDeliverabilityCampaignsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEmailIdentities(AwsPinpointEmailListEmailIdentitiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEmailIdentities(AwsPinpointEmailListEmailIdentitiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListEmailIdentitiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailListEmailIdentitiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsPinpointEmailListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsPinpointEmailListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutAccountDedicatedIpWarmupAttributes(AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> PutAccountDedicatedIpWarmupAttributes(AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutAccountDedicatedIpWarmupAttributesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutAccountSendingAttributes(AwsPinpointEmailPutAccountSendingAttributesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> PutAccountSendingAttributes(AwsPinpointEmailPutAccountSendingAttributesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutAccountSendingAttributesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutAccountSendingAttributesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutConfigurationSetDeliveryOptions(AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutConfigurationSetDeliveryOptions(AwsPinpointEmailPutConfigurationSetDeliveryOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutConfigurationSetReputationOptions(AwsPinpointEmailPutConfigurationSetReputationOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutConfigurationSetReputationOptions(AwsPinpointEmailPutConfigurationSetReputationOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutConfigurationSetSendingOptions(AwsPinpointEmailPutConfigurationSetSendingOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutConfigurationSetSendingOptions(AwsPinpointEmailPutConfigurationSetSendingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutConfigurationSetTrackingOptions(AwsPinpointEmailPutConfigurationSetTrackingOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutConfigurationSetTrackingOptions(AwsPinpointEmailPutConfigurationSetTrackingOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDedicatedIpInPool(AwsPinpointEmailPutDedicatedIpInPoolOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutDedicatedIpInPool(AwsPinpointEmailPutDedicatedIpInPoolOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDedicatedIpWarmupAttributes(AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutDedicatedIpWarmupAttributes(AwsPinpointEmailPutDedicatedIpWarmupAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDeliverabilityDashboardOption(AwsPinpointEmailPutDeliverabilityDashboardOptionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> PutDeliverabilityDashboardOption(AwsPinpointEmailPutDeliverabilityDashboardOptionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutDeliverabilityDashboardOptionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPinpointEmailPutDeliverabilityDashboardOptionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutEmailIdentityDkimAttributes(AwsPinpointEmailPutEmailIdentityDkimAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutEmailIdentityDkimAttributes(AwsPinpointEmailPutEmailIdentityDkimAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutEmailIdentityFeedbackAttributes(AwsPinpointEmailPutEmailIdentityFeedbackAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutEmailIdentityFeedbackAttributes(AwsPinpointEmailPutEmailIdentityFeedbackAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutEmailIdentityMailFromAttributes(AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutEmailIdentityMailFromAttributes(AwsPinpointEmailPutEmailIdentityMailFromAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendEmail(AwsPinpointEmailSendEmailOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendEmail(AwsPinpointEmailSendEmailOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsPinpointEmailTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsPinpointEmailTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsPinpointEmailUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsPinpointEmailUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConfigurationSetEventDestination(AwsPinpointEmailUpdateConfigurationSetEventDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConfigurationSetEventDestination(AwsPinpointEmailUpdateConfigurationSetEventDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

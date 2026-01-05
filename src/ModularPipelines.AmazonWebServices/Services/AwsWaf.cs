@@ -18,388 +18,388 @@ public class AwsWaf
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateByteMatchSet(AwsWafCreateByteMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateByteMatchSet(AwsWafCreateByteMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGeoMatchSet(AwsWafCreateGeoMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateGeoMatchSet(AwsWafCreateGeoMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIpSet(AwsWafCreateIpSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIpSet(AwsWafCreateIpSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRateBasedRule(AwsWafCreateRateBasedRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRateBasedRule(AwsWafCreateRateBasedRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRegexMatchSet(AwsWafCreateRegexMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRegexMatchSet(AwsWafCreateRegexMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRegexPatternSet(AwsWafCreateRegexPatternSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRegexPatternSet(AwsWafCreateRegexPatternSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRule(AwsWafCreateRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRule(AwsWafCreateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRuleGroup(AwsWafCreateRuleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRuleGroup(AwsWafCreateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSizeConstraintSet(AwsWafCreateSizeConstraintSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSizeConstraintSet(AwsWafCreateSizeConstraintSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSqlInjectionMatchSet(AwsWafCreateSqlInjectionMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSqlInjectionMatchSet(AwsWafCreateSqlInjectionMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWebAcl(AwsWafCreateWebAclOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWebAcl(AwsWafCreateWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateWebAclMigrationStack(AwsWafCreateWebAclMigrationStackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateWebAclMigrationStack(AwsWafCreateWebAclMigrationStackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateXssMatchSet(AwsWafCreateXssMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateXssMatchSet(AwsWafCreateXssMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteByteMatchSet(AwsWafDeleteByteMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteByteMatchSet(AwsWafDeleteByteMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteGeoMatchSet(AwsWafDeleteGeoMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteGeoMatchSet(AwsWafDeleteGeoMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIpSet(AwsWafDeleteIpSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIpSet(AwsWafDeleteIpSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteLoggingConfiguration(AwsWafDeleteLoggingConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteLoggingConfiguration(AwsWafDeleteLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePermissionPolicy(AwsWafDeletePermissionPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePermissionPolicy(AwsWafDeletePermissionPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRateBasedRule(AwsWafDeleteRateBasedRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRateBasedRule(AwsWafDeleteRateBasedRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRegexMatchSet(AwsWafDeleteRegexMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRegexMatchSet(AwsWafDeleteRegexMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRegexPatternSet(AwsWafDeleteRegexPatternSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRegexPatternSet(AwsWafDeleteRegexPatternSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRule(AwsWafDeleteRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRule(AwsWafDeleteRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRuleGroup(AwsWafDeleteRuleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRuleGroup(AwsWafDeleteRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSizeConstraintSet(AwsWafDeleteSizeConstraintSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSizeConstraintSet(AwsWafDeleteSizeConstraintSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSqlInjectionMatchSet(AwsWafDeleteSqlInjectionMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSqlInjectionMatchSet(AwsWafDeleteSqlInjectionMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteWebAcl(AwsWafDeleteWebAclOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteWebAcl(AwsWafDeleteWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteXssMatchSet(AwsWafDeleteXssMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteXssMatchSet(AwsWafDeleteXssMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetByteMatchSet(AwsWafGetByteMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetByteMatchSet(AwsWafGetByteMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetChangeToken(AwsWafGetChangeTokenOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetChangeToken(AwsWafGetChangeTokenOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafGetChangeTokenOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafGetChangeTokenOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetChangeTokenStatus(AwsWafGetChangeTokenStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetChangeTokenStatus(AwsWafGetChangeTokenStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGeoMatchSet(AwsWafGetGeoMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetGeoMatchSet(AwsWafGetGeoMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetIpSet(AwsWafGetIpSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIpSet(AwsWafGetIpSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLoggingConfiguration(AwsWafGetLoggingConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLoggingConfiguration(AwsWafGetLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPermissionPolicy(AwsWafGetPermissionPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPermissionPolicy(AwsWafGetPermissionPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRateBasedRule(AwsWafGetRateBasedRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRateBasedRule(AwsWafGetRateBasedRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRateBasedRuleManagedKeys(AwsWafGetRateBasedRuleManagedKeysOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRateBasedRuleManagedKeys(AwsWafGetRateBasedRuleManagedKeysOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRegexMatchSet(AwsWafGetRegexMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRegexMatchSet(AwsWafGetRegexMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRegexPatternSet(AwsWafGetRegexPatternSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRegexPatternSet(AwsWafGetRegexPatternSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRule(AwsWafGetRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRule(AwsWafGetRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRuleGroup(AwsWafGetRuleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRuleGroup(AwsWafGetRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSampledRequests(AwsWafGetSampledRequestsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSampledRequests(AwsWafGetSampledRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSizeConstraintSet(AwsWafGetSizeConstraintSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSizeConstraintSet(AwsWafGetSizeConstraintSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSqlInjectionMatchSet(AwsWafGetSqlInjectionMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSqlInjectionMatchSet(AwsWafGetSqlInjectionMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetWebAcl(AwsWafGetWebAclOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetWebAcl(AwsWafGetWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetXssMatchSet(AwsWafGetXssMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetXssMatchSet(AwsWafGetXssMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListActivatedRulesInRuleGroup(AwsWafListActivatedRulesInRuleGroupOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListActivatedRulesInRuleGroup(AwsWafListActivatedRulesInRuleGroupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListActivatedRulesInRuleGroupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListActivatedRulesInRuleGroupOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListByteMatchSets(AwsWafListByteMatchSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListByteMatchSets(AwsWafListByteMatchSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListByteMatchSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListByteMatchSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGeoMatchSets(AwsWafListGeoMatchSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListGeoMatchSets(AwsWafListGeoMatchSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListGeoMatchSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListGeoMatchSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListIpSets(AwsWafListIpSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListIpSets(AwsWafListIpSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListIpSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListIpSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLoggingConfigurations(AwsWafListLoggingConfigurationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListLoggingConfigurations(AwsWafListLoggingConfigurationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListLoggingConfigurationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListLoggingConfigurationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRateBasedRules(AwsWafListRateBasedRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRateBasedRules(AwsWafListRateBasedRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRateBasedRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRateBasedRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRegexMatchSets(AwsWafListRegexMatchSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRegexMatchSets(AwsWafListRegexMatchSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRegexMatchSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRegexMatchSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRegexPatternSets(AwsWafListRegexPatternSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRegexPatternSets(AwsWafListRegexPatternSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRegexPatternSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRegexPatternSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRuleGroups(AwsWafListRuleGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRuleGroups(AwsWafListRuleGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRuleGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRuleGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRules(AwsWafListRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRules(AwsWafListRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSizeConstraintSets(AwsWafListSizeConstraintSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSizeConstraintSets(AwsWafListSizeConstraintSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSizeConstraintSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSizeConstraintSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSqlInjectionMatchSets(AwsWafListSqlInjectionMatchSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSqlInjectionMatchSets(AwsWafListSqlInjectionMatchSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSqlInjectionMatchSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSqlInjectionMatchSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSubscribedRuleGroups(AwsWafListSubscribedRuleGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSubscribedRuleGroups(AwsWafListSubscribedRuleGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSubscribedRuleGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListSubscribedRuleGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsWafListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsWafListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListWebAcls(AwsWafListWebAclsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListWebAcls(AwsWafListWebAclsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListWebAclsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListWebAclsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListXssMatchSets(AwsWafListXssMatchSetsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListXssMatchSets(AwsWafListXssMatchSetsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListXssMatchSetsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsWafListXssMatchSetsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutLoggingConfiguration(AwsWafPutLoggingConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutLoggingConfiguration(AwsWafPutLoggingConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutPermissionPolicy(AwsWafPutPermissionPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutPermissionPolicy(AwsWafPutPermissionPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsWafTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsWafTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsWafUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsWafUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateByteMatchSet(AwsWafUpdateByteMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateByteMatchSet(AwsWafUpdateByteMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGeoMatchSet(AwsWafUpdateGeoMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGeoMatchSet(AwsWafUpdateGeoMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateIpSet(AwsWafUpdateIpSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateIpSet(AwsWafUpdateIpSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRateBasedRule(AwsWafUpdateRateBasedRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRateBasedRule(AwsWafUpdateRateBasedRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRegexMatchSet(AwsWafUpdateRegexMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRegexMatchSet(AwsWafUpdateRegexMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRegexPatternSet(AwsWafUpdateRegexPatternSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRegexPatternSet(AwsWafUpdateRegexPatternSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRule(AwsWafUpdateRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRule(AwsWafUpdateRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRuleGroup(AwsWafUpdateRuleGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRuleGroup(AwsWafUpdateRuleGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSizeConstraintSet(AwsWafUpdateSizeConstraintSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSizeConstraintSet(AwsWafUpdateSizeConstraintSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSqlInjectionMatchSet(AwsWafUpdateSqlInjectionMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSqlInjectionMatchSet(AwsWafUpdateSqlInjectionMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateWebAcl(AwsWafUpdateWebAclOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateWebAcl(AwsWafUpdateWebAclOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateXssMatchSet(AwsWafUpdateXssMatchSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateXssMatchSet(AwsWafUpdateXssMatchSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

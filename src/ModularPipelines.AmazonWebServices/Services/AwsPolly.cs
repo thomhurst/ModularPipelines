@@ -18,48 +18,48 @@ public class AwsPolly
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteLexicon(AwsPollyDeleteLexiconOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteLexicon(AwsPollyDeleteLexiconOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeVoices(AwsPollyDescribeVoicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeVoices(AwsPollyDescribeVoicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyDescribeVoicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyDescribeVoicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLexicon(AwsPollyGetLexiconOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLexicon(AwsPollyGetLexiconOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSpeechSynthesisTask(AwsPollyGetSpeechSynthesisTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSpeechSynthesisTask(AwsPollyGetSpeechSynthesisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLexicons(AwsPollyListLexiconsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListLexicons(AwsPollyListLexiconsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyListLexiconsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyListLexiconsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSpeechSynthesisTasks(AwsPollyListSpeechSynthesisTasksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSpeechSynthesisTasks(AwsPollyListSpeechSynthesisTasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyListSpeechSynthesisTasksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPollyListSpeechSynthesisTasksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutLexicon(AwsPollyPutLexiconOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutLexicon(AwsPollyPutLexiconOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSpeechSynthesisTask(AwsPollyStartSpeechSynthesisTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartSpeechSynthesisTask(AwsPollyStartSpeechSynthesisTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SynthesizeSpeech(AwsPollySynthesizeSpeechOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SynthesizeSpeech(AwsPollySynthesizeSpeechOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

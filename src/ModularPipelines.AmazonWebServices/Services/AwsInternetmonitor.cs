@@ -18,73 +18,73 @@ public class AwsInternetmonitor
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateMonitor(AwsInternetmonitorCreateMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMonitor(AwsInternetmonitorCreateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMonitor(AwsInternetmonitorDeleteMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMonitor(AwsInternetmonitorDeleteMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetHealthEvent(AwsInternetmonitorGetHealthEventOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetHealthEvent(AwsInternetmonitorGetHealthEventOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMonitor(AwsInternetmonitorGetMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMonitor(AwsInternetmonitorGetMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQueryResults(AwsInternetmonitorGetQueryResultsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQueryResults(AwsInternetmonitorGetQueryResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetQueryStatus(AwsInternetmonitorGetQueryStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetQueryStatus(AwsInternetmonitorGetQueryStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListHealthEvents(AwsInternetmonitorListHealthEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListHealthEvents(AwsInternetmonitorListHealthEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMonitors(AwsInternetmonitorListMonitorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListMonitors(AwsInternetmonitorListMonitorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsInternetmonitorListMonitorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsInternetmonitorListMonitorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsInternetmonitorListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsInternetmonitorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartQuery(AwsInternetmonitorStartQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartQuery(AwsInternetmonitorStartQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopQuery(AwsInternetmonitorStopQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopQuery(AwsInternetmonitorStopQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsInternetmonitorTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsInternetmonitorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsInternetmonitorUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsInternetmonitorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMonitor(AwsInternetmonitorUpdateMonitorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMonitor(AwsInternetmonitorUpdateMonitorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

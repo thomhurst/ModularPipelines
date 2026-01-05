@@ -18,23 +18,23 @@ public class AwsMeteringmarketplace
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchMeterUsage(AwsMeteringmarketplaceBatchMeterUsageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchMeterUsage(AwsMeteringmarketplaceBatchMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> MeterUsage(AwsMeteringmarketplaceMeterUsageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> MeterUsage(AwsMeteringmarketplaceMeterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterUsage(AwsMeteringmarketplaceRegisterUsageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterUsage(AwsMeteringmarketplaceRegisterUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResolveCustomer(AwsMeteringmarketplaceResolveCustomerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResolveCustomer(AwsMeteringmarketplaceResolveCustomerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

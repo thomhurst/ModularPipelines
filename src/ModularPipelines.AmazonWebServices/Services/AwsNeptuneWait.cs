@@ -20,13 +20,13 @@ public class AwsNeptuneWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DbInstanceAvailable(AwsNeptuneWaitDbInstanceAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DbInstanceAvailable(AwsNeptuneWaitDbInstanceAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsNeptuneWaitDbInstanceAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsNeptuneWaitDbInstanceAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DbInstanceDeleted(AwsNeptuneWaitDbInstanceDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DbInstanceDeleted(AwsNeptuneWaitDbInstanceDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsNeptuneWaitDbInstanceDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsNeptuneWaitDbInstanceDeletedOptions(), executionOptions, cancellationToken);
     }
 }

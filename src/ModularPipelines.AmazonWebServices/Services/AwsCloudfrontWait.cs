@@ -20,18 +20,18 @@ public class AwsCloudfrontWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DistributionDeployed(AwsCloudfrontWaitDistributionDeployedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DistributionDeployed(AwsCloudfrontWaitDistributionDeployedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InvalidationCompleted(AwsCloudfrontWaitInvalidationCompletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InvalidationCompleted(AwsCloudfrontWaitInvalidationCompletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StreamingDistributionDeployed(AwsCloudfrontWaitStreamingDistributionDeployedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StreamingDistributionDeployed(AwsCloudfrontWaitStreamingDistributionDeployedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

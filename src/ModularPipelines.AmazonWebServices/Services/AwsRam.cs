@@ -18,173 +18,173 @@ public class AwsRam
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AcceptResourceShareInvitation(AwsRamAcceptResourceShareInvitationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AcceptResourceShareInvitation(AwsRamAcceptResourceShareInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateResourceShare(AwsRamAssociateResourceShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateResourceShare(AwsRamAssociateResourceShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateResourceSharePermission(AwsRamAssociateResourceSharePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateResourceSharePermission(AwsRamAssociateResourceSharePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePermission(AwsRamCreatePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePermission(AwsRamCreatePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePermissionVersion(AwsRamCreatePermissionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePermissionVersion(AwsRamCreatePermissionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResourceShare(AwsRamCreateResourceShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResourceShare(AwsRamCreateResourceShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePermission(AwsRamDeletePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePermission(AwsRamDeletePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePermissionVersion(AwsRamDeletePermissionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePermissionVersion(AwsRamDeletePermissionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourceShare(AwsRamDeleteResourceShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourceShare(AwsRamDeleteResourceShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateResourceShare(AwsRamDisassociateResourceShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateResourceShare(AwsRamDisassociateResourceShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateResourceSharePermission(AwsRamDisassociateResourceSharePermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateResourceSharePermission(AwsRamDisassociateResourceSharePermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableSharingWithAwsOrganization(AwsRamEnableSharingWithAwsOrganizationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EnableSharingWithAwsOrganization(AwsRamEnableSharingWithAwsOrganizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamEnableSharingWithAwsOrganizationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamEnableSharingWithAwsOrganizationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPermission(AwsRamGetPermissionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPermission(AwsRamGetPermissionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourcePolicies(AwsRamGetResourcePoliciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourcePolicies(AwsRamGetResourcePoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceShareAssociations(AwsRamGetResourceShareAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceShareAssociations(AwsRamGetResourceShareAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceShareInvitations(AwsRamGetResourceShareInvitationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceShareInvitations(AwsRamGetResourceShareInvitationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamGetResourceShareInvitationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamGetResourceShareInvitationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceShares(AwsRamGetResourceSharesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceShares(AwsRamGetResourceSharesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPendingInvitationResources(AwsRamListPendingInvitationResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPendingInvitationResources(AwsRamListPendingInvitationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPermissionAssociations(AwsRamListPermissionAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPermissionAssociations(AwsRamListPermissionAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListPermissionAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListPermissionAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPermissionVersions(AwsRamListPermissionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPermissionVersions(AwsRamListPermissionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPermissions(AwsRamListPermissionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPermissions(AwsRamListPermissionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListPermissionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListPermissionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPrincipals(AwsRamListPrincipalsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPrincipals(AwsRamListPrincipalsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListReplacePermissionAssociationsWork(AwsRamListReplacePermissionAssociationsWorkOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListReplacePermissionAssociationsWork(AwsRamListReplacePermissionAssociationsWorkOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListReplacePermissionAssociationsWorkOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListReplacePermissionAssociationsWorkOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourceSharePermissions(AwsRamListResourceSharePermissionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResourceSharePermissions(AwsRamListResourceSharePermissionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourceTypes(AwsRamListResourceTypesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListResourceTypes(AwsRamListResourceTypesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListResourceTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRamListResourceTypesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResources(AwsRamListResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResources(AwsRamListResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PromotePermissionCreatedFromPolicy(AwsRamPromotePermissionCreatedFromPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PromotePermissionCreatedFromPolicy(AwsRamPromotePermissionCreatedFromPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PromoteResourceShareCreatedFromPolicy(AwsRamPromoteResourceShareCreatedFromPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PromoteResourceShareCreatedFromPolicy(AwsRamPromoteResourceShareCreatedFromPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RejectResourceShareInvitation(AwsRamRejectResourceShareInvitationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RejectResourceShareInvitation(AwsRamRejectResourceShareInvitationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplacePermissionAssociations(AwsRamReplacePermissionAssociationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReplacePermissionAssociations(AwsRamReplacePermissionAssociationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetDefaultPermissionVersion(AwsRamSetDefaultPermissionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetDefaultPermissionVersion(AwsRamSetDefaultPermissionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsRamTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsRamTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsRamUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsRamUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateResourceShare(AwsRamUpdateResourceShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateResourceShare(AwsRamUpdateResourceShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

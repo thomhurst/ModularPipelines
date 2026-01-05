@@ -22,168 +22,168 @@ public class AwsGlacier
 
     public AwsGlacierWait Wait { get; }
 
-    public async Task<CommandResult> AbortMultipartUpload(AwsGlacierAbortMultipartUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AbortMultipartUpload(AwsGlacierAbortMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AbortVaultLock(AwsGlacierAbortVaultLockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AbortVaultLock(AwsGlacierAbortVaultLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddTagsToVault(AwsGlacierAddTagsToVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddTagsToVault(AwsGlacierAddTagsToVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CompleteMultipartUpload(AwsGlacierCompleteMultipartUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CompleteMultipartUpload(AwsGlacierCompleteMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CompleteVaultLock(AwsGlacierCompleteVaultLockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CompleteVaultLock(AwsGlacierCompleteVaultLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateVault(AwsGlacierCreateVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateVault(AwsGlacierCreateVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteArchive(AwsGlacierDeleteArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteArchive(AwsGlacierDeleteArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteVault(AwsGlacierDeleteVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteVault(AwsGlacierDeleteVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteVaultAccessPolicy(AwsGlacierDeleteVaultAccessPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteVaultAccessPolicy(AwsGlacierDeleteVaultAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteVaultNotifications(AwsGlacierDeleteVaultNotificationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteVaultNotifications(AwsGlacierDeleteVaultNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeJob(AwsGlacierDescribeJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeJob(AwsGlacierDescribeJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeVault(AwsGlacierDescribeVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeVault(AwsGlacierDescribeVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDataRetrievalPolicy(AwsGlacierGetDataRetrievalPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDataRetrievalPolicy(AwsGlacierGetDataRetrievalPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetJobOutput(AwsGlacierGetJobOutputOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetJobOutput(AwsGlacierGetJobOutputOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetVaultAccessPolicy(AwsGlacierGetVaultAccessPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetVaultAccessPolicy(AwsGlacierGetVaultAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetVaultLock(AwsGlacierGetVaultLockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetVaultLock(AwsGlacierGetVaultLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetVaultNotifications(AwsGlacierGetVaultNotificationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetVaultNotifications(AwsGlacierGetVaultNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InitiateJob(AwsGlacierInitiateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InitiateJob(AwsGlacierInitiateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InitiateMultipartUpload(AwsGlacierInitiateMultipartUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InitiateMultipartUpload(AwsGlacierInitiateMultipartUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InitiateVaultLock(AwsGlacierInitiateVaultLockOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InitiateVaultLock(AwsGlacierInitiateVaultLockOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobs(AwsGlacierListJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListJobs(AwsGlacierListJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMultipartUploads(AwsGlacierListMultipartUploadsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListMultipartUploads(AwsGlacierListMultipartUploadsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListParts(AwsGlacierListPartsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListParts(AwsGlacierListPartsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProvisionedCapacity(AwsGlacierListProvisionedCapacityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProvisionedCapacity(AwsGlacierListProvisionedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForVault(AwsGlacierListTagsForVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForVault(AwsGlacierListTagsForVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListVaults(AwsGlacierListVaultsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListVaults(AwsGlacierListVaultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PurchaseProvisionedCapacity(AwsGlacierPurchaseProvisionedCapacityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PurchaseProvisionedCapacity(AwsGlacierPurchaseProvisionedCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveTagsFromVault(AwsGlacierRemoveTagsFromVaultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveTagsFromVault(AwsGlacierRemoveTagsFromVaultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetDataRetrievalPolicy(AwsGlacierSetDataRetrievalPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetDataRetrievalPolicy(AwsGlacierSetDataRetrievalPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetVaultAccessPolicy(AwsGlacierSetVaultAccessPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetVaultAccessPolicy(AwsGlacierSetVaultAccessPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetVaultNotifications(AwsGlacierSetVaultNotificationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetVaultNotifications(AwsGlacierSetVaultNotificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UploadArchive(AwsGlacierUploadArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UploadArchive(AwsGlacierUploadArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UploadMultipartPart(AwsGlacierUploadMultipartPartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UploadMultipartPart(AwsGlacierUploadMultipartPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }
