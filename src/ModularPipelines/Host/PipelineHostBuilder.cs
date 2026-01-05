@@ -7,12 +7,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Requirements;
+using ModularPipelines.Validation;
 using Vertical.SpectreLogger.Options;
 
 namespace ModularPipelines.Host;
@@ -236,6 +238,137 @@ public class PipelineHostBuilder
         {
             return await host.ExecutePipelineAsync().ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    /// Builds the pipeline host and validates configuration.
+    /// This separates the build phase from execution, allowing early detection of configuration errors.
+    /// </summary>
+    /// <returns>A validated pipeline host ready for execution.</returns>
+    /// <exception cref="PipelineValidationException">Thrown when validation fails with configuration errors.</exception>
+    /// <example>
+    /// <code>
+    /// var host = await builder.BuildAsync(); // Error here if misconfigured
+    /// var result = await host.RunAsync();    // Only executes if valid
+    /// </code>
+    /// </example>
+    public async Task<IPipelineHost> BuildAsync()
+    {
+        IPipelineHost? host = null;
+        ValidationResult validationResult;
+
+        try
+        {
+            host = await BuildHostAsync().ConfigureAwait(false);
+            validationResult = ValidateHost(host.Services);
+        }
+        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
+        {
+            // Convert "no modules" exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.ModuleConfiguration,
+                "No modules are registered. A pipeline must have at least one module."));
+        }
+        catch (ModuleNotRegisteredException ex)
+        {
+            // Convert missing dependency exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (ModuleReferencingSelfException ex)
+        {
+            // Convert self-reference exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (DependencyCollisionException ex)
+        {
+            // Convert circular dependency exception to validation error
+            validationResult = ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+
+        if (validationResult.HasErrors)
+        {
+            if (host != null)
+            {
+                await host.DisposeAsync().ConfigureAwait(false);
+            }
+
+            throw new PipelineValidationException(validationResult);
+        }
+
+        return host!;
+    }
+
+    /// <summary>
+    /// Validates the pipeline configuration without executing it.
+    /// Use this for dry-run validation to catch configuration errors early.
+    /// </summary>
+    /// <returns>A validation result containing any errors found.</returns>
+    /// <example>
+    /// <code>
+    /// var validationResults = await builder.ValidateAsync();
+    /// if (validationResults.HasErrors)
+    /// {
+    ///     foreach (var error in validationResults.Errors)
+    ///         Console.WriteLine($"  - {error.Message}");
+    /// }
+    /// </code>
+    /// </example>
+    public async Task<ValidationResult> ValidateAsync()
+    {
+        IPipelineHost? host = null;
+
+        try
+        {
+            host = await BuildHostAsync().ConfigureAwait(false);
+            return ValidateHost(host.Services);
+        }
+        catch (PipelineException ex) when (ex.Message.Contains("No modules"))
+        {
+            // Convert "no modules" exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.ModuleConfiguration,
+                "No modules are registered. A pipeline must have at least one module."));
+        }
+        catch (ModuleNotRegisteredException ex)
+        {
+            // Convert missing dependency exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (ModuleReferencingSelfException ex)
+        {
+            // Convert self-reference exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        catch (DependencyCollisionException ex)
+        {
+            // Convert circular dependency exception to validation error
+            return ValidationResult.WithError(new ValidationError(
+                ValidationErrorCategory.Dependency,
+                ex.Message));
+        }
+        finally
+        {
+            if (host != null)
+            {
+                await host.DisposeAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
+    private static ValidationResult ValidateHost(IServiceProvider services)
+    {
+        var validationService = services.GetService<IPipelineValidationService>();
+        return validationService?.Validate(services) ?? ValidationResult.Success();
     }
 
     /// <summary>
