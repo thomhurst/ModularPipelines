@@ -155,7 +155,8 @@ internal class ModuleScheduler : IModuleScheduler
             }
 
             // Use the overload that includes dynamic dependencies from registration events
-            var dependencies = ModuleDependencyResolver.GetAllDependencies(moduleType, availableModuleTypes, _dependencyRegistry);
+            // and programmatic dependencies from DeclareDependencies method
+            var dependencies = ModuleDependencyResolver.GetAllDependencies(state.Module, availableModuleTypes, _dependencyRegistry);
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
@@ -202,7 +203,9 @@ internal class ModuleScheduler : IModuleScheduler
         {
             // Resolve dependencies inside write lock to prevent race conditions
             // where _moduleStates could change between resolution and processing
-            var dependencies = ModuleDependencyResolver.GetDependencies(moduleType);
+            var dependencies = ConcatDependencies(
+                ModuleDependencyResolver.GetDependencies(moduleType),
+                ModuleDependencyResolver.GetProgrammaticDependencies(module));
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
@@ -589,5 +592,23 @@ internal class ModuleScheduler : IModuleScheduler
 
         // Delegate constraint checking to the evaluator
         return _constraintEvaluator.CanQueue(moduleState, activeModules);
+    }
+
+    /// <summary>
+    /// Concatenates two dependency enumerables into a single sequence.
+    /// </summary>
+    private static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> ConcatDependencies(
+        IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> first,
+        IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> second)
+    {
+        foreach (var dep in first)
+        {
+            yield return dep;
+        }
+
+        foreach (var dep in second)
+        {
+            yield return dep;
+        }
     }
 }

@@ -1,13 +1,15 @@
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Dependencies;
+using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Resolves module dependencies by inspecting DependsOn attributes.
+/// Resolves module dependencies by inspecting DependsOn attributes and programmatic declarations.
 /// </summary>
 internal static class ModuleDependencyResolver
 {
@@ -66,6 +68,36 @@ internal static class ModuleDependencyResolver
     }
 
     /// <summary>
+    /// Gets programmatic dependencies declared via DeclareDependencies method on a module instance.
+    /// </summary>
+    /// <param name="module">The module instance to get programmatic dependencies from.</param>
+    /// <returns>An enumerable of dependency tuples (DependencyType, IgnoreIfNotRegistered).</returns>
+    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetProgrammaticDependencies(IModule module)
+    {
+        // Use reflection to call the internal GetDeclaredDependencies method
+        var moduleType = module.GetType();
+        var method = moduleType.GetMethod("GetDeclaredDependencies",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+        if (method == null)
+        {
+            yield break;
+        }
+
+        var dependencies = method.Invoke(module, null) as IReadOnlyList<DeclaredDependency>;
+
+        if (dependencies == null)
+        {
+            yield break;
+        }
+
+        foreach (var dep in dependencies)
+        {
+            yield return (dep.DependencyType, dep.IgnoreIfNotRegistered);
+        }
+    }
+
+    /// <summary>
     /// Gets all dependencies declared on a module type via DependsOn attributes,
     /// including both static (attribute-based) and dynamic (runtime-added) dependencies.
     /// </summary>
@@ -76,6 +108,41 @@ internal static class ModuleDependencyResolver
     {
         // Static dependencies from attributes
         foreach (var dep in GetDependencies(moduleType, availableModuleTypes))
+        {
+            yield return dep;
+        }
+
+        // Dynamic dependencies from registration
+        if (dynamicRegistry != null)
+        {
+            foreach (var dynamicDep in dynamicRegistry.GetDynamicDependencies(moduleType))
+            {
+                yield return (dynamicDep, false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets all dependencies declared on a module instance, including:
+    /// - Static dependencies from DependsOn attributes
+    /// - Programmatic dependencies from DeclareDependencies method
+    /// - Dynamic dependencies from the registry
+    /// </summary>
+    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependencies(
+        IModule module,
+        IEnumerable<Type> availableModuleTypes,
+        IModuleDependencyRegistry? dynamicRegistry = null)
+    {
+        var moduleType = module.GetType();
+
+        // Static dependencies from attributes
+        foreach (var dep in GetDependencies(moduleType, availableModuleTypes))
+        {
+            yield return dep;
+        }
+
+        // Programmatic dependencies from DeclareDependencies method
+        foreach (var dep in GetProgrammaticDependencies(module))
         {
             yield return dep;
         }

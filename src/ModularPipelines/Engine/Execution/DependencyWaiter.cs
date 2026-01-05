@@ -27,7 +27,8 @@ internal class DependencyWaiter : IDependencyWaiter
     /// <inheritdoc />
     public async Task WaitForDependenciesAsync(ModuleState moduleState, IModuleScheduler scheduler, IServiceProvider scopedServiceProvider)
     {
-        var dependencies = ModuleDependencyResolver.GetDependencies(moduleState.ModuleType);
+        // Get both attribute-based and programmatic dependencies
+        var dependencies = GetAllDependencies(moduleState);
 
         foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
         {
@@ -54,11 +55,29 @@ internal class DependencyWaiter : IDependencyWaiter
                               $"but '{dependencyType.Name}' has not been registered in the pipeline.\n\n" +
                               $"Suggestions:\n" +
                               $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration before '.AddModule<{moduleState.ModuleType.Name}>()'\n" +
-                              $"  2. Use '[DependsOn<{dependencyType.Name}>(ignoreIfNotRegistered: true)]' if this dependency is optional\n" +
+                              $"  2. Use 'deps.DependsOnOptional<{dependencyType.Name}>()' or '[DependsOn<{dependencyType.Name}>(IgnoreIfNotRegistered = true)]' if this dependency is optional\n" +
                               $"  3. Check for typos in the dependency type name\n" +
                               $"  4. Verify that '{dependencyType.Name}' is in a project referenced by your pipeline project";
                 throw new ModuleNotRegisteredException(message, null);
             }
+        }
+    }
+
+    /// <summary>
+    /// Gets all dependencies for a module, combining attribute-based and programmatic dependencies.
+    /// </summary>
+    private static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependencies(ModuleState moduleState)
+    {
+        // Attribute-based dependencies
+        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleState.ModuleType))
+        {
+            yield return dep;
+        }
+
+        // Programmatic dependencies from DeclareDependencies method
+        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(moduleState.Module))
+        {
+            yield return dep;
         }
     }
 }
