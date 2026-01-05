@@ -352,7 +352,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Create a failed result before cancelling and throwing
-        var failedResult = new ModuleResult<T>(exception, executionContext);
+        // Use TimedOutModuleResult for timeout exceptions to expose detailed timeout information
+        ModuleResult<T> failedResult = exception is ModuleTimeoutException timeoutEx
+            ? new TimedOutModuleResult<T>(executionContext, timeoutEx)
+            : new ModuleResult<T>(exception, executionContext);
         executionContext.SetTypedResult(failedResult);
 
         // Cancel the pipeline and propagate

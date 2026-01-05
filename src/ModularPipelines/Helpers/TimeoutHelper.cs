@@ -177,8 +177,19 @@ internal static class TimeoutHelper
                 : TimeoutExecutionResult<T>.TimeoutWithTokenIgnored(elapsedTime);
         }
 
-        // Task completed before timeout - success
-        var value = await executionTask.ConfigureAwait(false);
-        return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
+        // Task completed before timeout
+        try
+        {
+            var value = await executionTask.ConfigureAwait(false);
+            return TimeoutExecutionResult<T>.Success(value, stopwatch.Elapsed);
+        }
+        catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+        {
+            // The task threw OperationCanceledException/TaskCanceledException in response to
+            // our timeout cancellation - this means it DID respect the token.
+            // This can happen when executionTask and cancelledTcs.Task complete at nearly
+            // the same time, and executionTask wins the race.
+            return TimeoutExecutionResult<T>.TimeoutWithTokenRespected(stopwatch.Elapsed);
+        }
     }
 }
