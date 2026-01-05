@@ -20,13 +20,13 @@ public class AwsTransferWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ServerOffline(AwsTransferWaitServerOfflineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ServerOffline(AwsTransferWaitServerOfflineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ServerOnline(AwsTransferWaitServerOnlineOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ServerOnline(AwsTransferWaitServerOnlineOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

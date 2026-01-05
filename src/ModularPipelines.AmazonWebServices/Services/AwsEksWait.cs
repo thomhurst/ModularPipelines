@@ -20,43 +20,43 @@ public class AwsEksWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddonActive(AwsEksWaitAddonActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddonActive(AwsEksWaitAddonActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddonDeleted(AwsEksWaitAddonDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddonDeleted(AwsEksWaitAddonDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterActive(AwsEksWaitClusterActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterActive(AwsEksWaitClusterActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterDeleted(AwsEksWaitClusterDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterDeleted(AwsEksWaitClusterDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> FargateProfileActive(AwsEksWaitFargateProfileActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FargateProfileActive(AwsEksWaitFargateProfileActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> FargateProfileDeleted(AwsEksWaitFargateProfileDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FargateProfileDeleted(AwsEksWaitFargateProfileDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NodegroupActive(AwsEksWaitNodegroupActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NodegroupActive(AwsEksWaitNodegroupActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NodegroupDeleted(AwsEksWaitNodegroupDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NodegroupDeleted(AwsEksWaitNodegroupDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

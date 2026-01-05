@@ -22,223 +22,223 @@ public class AwsEcr
 
     public AwsEcrWait Wait { get; }
 
-    public async Task<CommandResult> BatchCheckLayerAvailability(AwsEcrBatchCheckLayerAvailabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchCheckLayerAvailability(AwsEcrBatchCheckLayerAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeleteImage(AwsEcrBatchDeleteImageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteImage(AwsEcrBatchDeleteImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchGetImage(AwsEcrBatchGetImageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetImage(AwsEcrBatchGetImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchGetRepositoryScanningConfiguration(AwsEcrBatchGetRepositoryScanningConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetRepositoryScanningConfiguration(AwsEcrBatchGetRepositoryScanningConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CompleteLayerUpload(AwsEcrCompleteLayerUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CompleteLayerUpload(AwsEcrCompleteLayerUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePullThroughCacheRule(AwsEcrCreatePullThroughCacheRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePullThroughCacheRule(AwsEcrCreatePullThroughCacheRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRepository(AwsEcrCreateRepositoryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRepository(AwsEcrCreateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteLifecyclePolicy(AwsEcrDeleteLifecyclePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteLifecyclePolicy(AwsEcrDeleteLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePullThroughCacheRule(AwsEcrDeletePullThroughCacheRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePullThroughCacheRule(AwsEcrDeletePullThroughCacheRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRegistryPolicy(AwsEcrDeleteRegistryPolicyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRegistryPolicy(AwsEcrDeleteRegistryPolicyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDeleteRegistryPolicyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDeleteRegistryPolicyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRepository(AwsEcrDeleteRepositoryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRepository(AwsEcrDeleteRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRepositoryPolicy(AwsEcrDeleteRepositoryPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRepositoryPolicy(AwsEcrDeleteRepositoryPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeImageReplicationStatus(AwsEcrDescribeImageReplicationStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeImageReplicationStatus(AwsEcrDescribeImageReplicationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeImageScanFindings(AwsEcrDescribeImageScanFindingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeImageScanFindings(AwsEcrDescribeImageScanFindingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeImages(AwsEcrDescribeImagesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeImages(AwsEcrDescribeImagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePullThroughCacheRules(AwsEcrDescribePullThroughCacheRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribePullThroughCacheRules(AwsEcrDescribePullThroughCacheRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribePullThroughCacheRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribePullThroughCacheRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRegistry(AwsEcrDescribeRegistryOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRegistry(AwsEcrDescribeRegistryOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribeRegistryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribeRegistryOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRepositories(AwsEcrDescribeRepositoriesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRepositories(AwsEcrDescribeRepositoriesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribeRepositoriesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrDescribeRepositoriesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAuthorizationToken(AwsEcrGetAuthorizationTokenOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAuthorizationToken(AwsEcrGetAuthorizationTokenOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetAuthorizationTokenOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetAuthorizationTokenOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDownloadUrlForLayer(AwsEcrGetDownloadUrlForLayerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDownloadUrlForLayer(AwsEcrGetDownloadUrlForLayerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLifecyclePolicy(AwsEcrGetLifecyclePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLifecyclePolicy(AwsEcrGetLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLifecyclePolicyPreview(AwsEcrGetLifecyclePolicyPreviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLifecyclePolicyPreview(AwsEcrGetLifecyclePolicyPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLoginPassword(AwsEcrGetLoginPasswordOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetLoginPassword(AwsEcrGetLoginPasswordOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetLoginPasswordOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetLoginPasswordOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRegistryPolicy(AwsEcrGetRegistryPolicyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetRegistryPolicy(AwsEcrGetRegistryPolicyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetRegistryPolicyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetRegistryPolicyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRegistryScanningConfiguration(AwsEcrGetRegistryScanningConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetRegistryScanningConfiguration(AwsEcrGetRegistryScanningConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetRegistryScanningConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrGetRegistryScanningConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRepositoryPolicy(AwsEcrGetRepositoryPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRepositoryPolicy(AwsEcrGetRepositoryPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InitiateLayerUpload(AwsEcrInitiateLayerUploadOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InitiateLayerUpload(AwsEcrInitiateLayerUploadOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListImages(AwsEcrListImagesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListImages(AwsEcrListImagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEcrListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEcrListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutImage(AwsEcrPutImageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutImage(AwsEcrPutImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutImageScanningConfiguration(AwsEcrPutImageScanningConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutImageScanningConfiguration(AwsEcrPutImageScanningConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutImageTagMutability(AwsEcrPutImageTagMutabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutImageTagMutability(AwsEcrPutImageTagMutabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutLifecyclePolicy(AwsEcrPutLifecyclePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutLifecyclePolicy(AwsEcrPutLifecyclePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRegistryPolicy(AwsEcrPutRegistryPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRegistryPolicy(AwsEcrPutRegistryPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRegistryScanningConfiguration(AwsEcrPutRegistryScanningConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> PutRegistryScanningConfiguration(AwsEcrPutRegistryScanningConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrPutRegistryScanningConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEcrPutRegistryScanningConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutReplicationConfiguration(AwsEcrPutReplicationConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutReplicationConfiguration(AwsEcrPutReplicationConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SetRepositoryPolicy(AwsEcrSetRepositoryPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SetRepositoryPolicy(AwsEcrSetRepositoryPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartImageScan(AwsEcrStartImageScanOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartImageScan(AwsEcrStartImageScanOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartLifecyclePolicyPreview(AwsEcrStartLifecyclePolicyPreviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartLifecyclePolicyPreview(AwsEcrStartLifecyclePolicyPreviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEcrTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEcrTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEcrUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEcrUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePullThroughCacheRule(AwsEcrUpdatePullThroughCacheRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePullThroughCacheRule(AwsEcrUpdatePullThroughCacheRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UploadLayerPart(AwsEcrUploadLayerPartOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UploadLayerPart(AwsEcrUploadLayerPartOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidatePullThroughCacheRule(AwsEcrValidatePullThroughCacheRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidatePullThroughCacheRule(AwsEcrValidatePullThroughCacheRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

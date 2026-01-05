@@ -22,793 +22,793 @@ public class AwsRds
 
     public AwsRdsWait Wait { get; }
 
-    public async Task<CommandResult> AddOptionToOptionGroup(AwsRdsAddOptionToOptionGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddOptionToOptionGroup(AwsRdsAddOptionToOptionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddRoleToDbCluster(AwsRdsAddRoleToDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddRoleToDbCluster(AwsRdsAddRoleToDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddRoleToDbInstance(AwsRdsAddRoleToDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddRoleToDbInstance(AwsRdsAddRoleToDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddSourceIdentifierToSubscription(AwsRdsAddSourceIdentifierToSubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddSourceIdentifierToSubscription(AwsRdsAddSourceIdentifierToSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddTagsToResource(AwsRdsAddTagsToResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddTagsToResource(AwsRdsAddTagsToResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ApplyPendingMaintenanceAction(AwsRdsApplyPendingMaintenanceActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ApplyPendingMaintenanceAction(AwsRdsApplyPendingMaintenanceActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AuthorizeDbSecurityGroupIngress(AwsRdsAuthorizeDbSecurityGroupIngressOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AuthorizeDbSecurityGroupIngress(AwsRdsAuthorizeDbSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BacktrackDbCluster(AwsRdsBacktrackDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BacktrackDbCluster(AwsRdsBacktrackDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelExportTask(AwsRdsCancelExportTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelExportTask(AwsRdsCancelExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyDbClusterParameterGroup(AwsRdsCopyDbClusterParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyDbClusterParameterGroup(AwsRdsCopyDbClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyDbClusterSnapshot(AwsRdsCopyDbClusterSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyDbClusterSnapshot(AwsRdsCopyDbClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyDbParameterGroup(AwsRdsCopyDbParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyDbParameterGroup(AwsRdsCopyDbParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyDbSnapshot(AwsRdsCopyDbSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyDbSnapshot(AwsRdsCopyDbSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyOptionGroup(AwsRdsCopyOptionGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyOptionGroup(AwsRdsCopyOptionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBlueGreenDeployment(AwsRdsCreateBlueGreenDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBlueGreenDeployment(AwsRdsCreateBlueGreenDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomDbEngineVersion(AwsRdsCreateCustomDbEngineVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomDbEngineVersion(AwsRdsCreateCustomDbEngineVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbCluster(AwsRdsCreateDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbCluster(AwsRdsCreateDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbClusterEndpoint(AwsRdsCreateDbClusterEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbClusterEndpoint(AwsRdsCreateDbClusterEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbClusterParameterGroup(AwsRdsCreateDbClusterParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbClusterParameterGroup(AwsRdsCreateDbClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbClusterSnapshot(AwsRdsCreateDbClusterSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbClusterSnapshot(AwsRdsCreateDbClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbInstance(AwsRdsCreateDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbInstance(AwsRdsCreateDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbInstanceReadReplica(AwsRdsCreateDbInstanceReadReplicaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbInstanceReadReplica(AwsRdsCreateDbInstanceReadReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbParameterGroup(AwsRdsCreateDbParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbParameterGroup(AwsRdsCreateDbParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbProxy(AwsRdsCreateDbProxyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbProxy(AwsRdsCreateDbProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbProxyEndpoint(AwsRdsCreateDbProxyEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbProxyEndpoint(AwsRdsCreateDbProxyEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbSecurityGroup(AwsRdsCreateDbSecurityGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbSecurityGroup(AwsRdsCreateDbSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbSnapshot(AwsRdsCreateDbSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbSnapshot(AwsRdsCreateDbSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDbSubnetGroup(AwsRdsCreateDbSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDbSubnetGroup(AwsRdsCreateDbSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEventSubscription(AwsRdsCreateEventSubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEventSubscription(AwsRdsCreateEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGlobalCluster(AwsRdsCreateGlobalClusterOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateGlobalCluster(AwsRdsCreateGlobalClusterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsCreateGlobalClusterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsCreateGlobalClusterOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateIntegration(AwsRdsCreateIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateIntegration(AwsRdsCreateIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateOptionGroup(AwsRdsCreateOptionGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateOptionGroup(AwsRdsCreateOptionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTenantDatabase(AwsRdsCreateTenantDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTenantDatabase(AwsRdsCreateTenantDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBlueGreenDeployment(AwsRdsDeleteBlueGreenDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBlueGreenDeployment(AwsRdsDeleteBlueGreenDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomDbEngineVersion(AwsRdsDeleteCustomDbEngineVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomDbEngineVersion(AwsRdsDeleteCustomDbEngineVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbCluster(AwsRdsDeleteDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbCluster(AwsRdsDeleteDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbClusterAutomatedBackup(AwsRdsDeleteDbClusterAutomatedBackupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbClusterAutomatedBackup(AwsRdsDeleteDbClusterAutomatedBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbClusterEndpoint(AwsRdsDeleteDbClusterEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbClusterEndpoint(AwsRdsDeleteDbClusterEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbClusterParameterGroup(AwsRdsDeleteDbClusterParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbClusterParameterGroup(AwsRdsDeleteDbClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbClusterSnapshot(AwsRdsDeleteDbClusterSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbClusterSnapshot(AwsRdsDeleteDbClusterSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbInstance(AwsRdsDeleteDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbInstance(AwsRdsDeleteDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbInstanceAutomatedBackup(AwsRdsDeleteDbInstanceAutomatedBackupOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbInstanceAutomatedBackup(AwsRdsDeleteDbInstanceAutomatedBackupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDeleteDbInstanceAutomatedBackupOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDeleteDbInstanceAutomatedBackupOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbParameterGroup(AwsRdsDeleteDbParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbParameterGroup(AwsRdsDeleteDbParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbProxy(AwsRdsDeleteDbProxyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbProxy(AwsRdsDeleteDbProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbProxyEndpoint(AwsRdsDeleteDbProxyEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbProxyEndpoint(AwsRdsDeleteDbProxyEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbSecurityGroup(AwsRdsDeleteDbSecurityGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbSecurityGroup(AwsRdsDeleteDbSecurityGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbSnapshot(AwsRdsDeleteDbSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbSnapshot(AwsRdsDeleteDbSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDbSubnetGroup(AwsRdsDeleteDbSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDbSubnetGroup(AwsRdsDeleteDbSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEventSubscription(AwsRdsDeleteEventSubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEventSubscription(AwsRdsDeleteEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteGlobalCluster(AwsRdsDeleteGlobalClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteGlobalCluster(AwsRdsDeleteGlobalClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteIntegration(AwsRdsDeleteIntegrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteIntegration(AwsRdsDeleteIntegrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteOptionGroup(AwsRdsDeleteOptionGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteOptionGroup(AwsRdsDeleteOptionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTenantDatabase(AwsRdsDeleteTenantDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTenantDatabase(AwsRdsDeleteTenantDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterDbProxyTargets(AwsRdsDeregisterDbProxyTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterDbProxyTargets(AwsRdsDeregisterDbProxyTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccountAttributes(AwsRdsDescribeAccountAttributesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccountAttributes(AwsRdsDescribeAccountAttributesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeAccountAttributesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeAccountAttributesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBlueGreenDeployments(AwsRdsDescribeBlueGreenDeploymentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBlueGreenDeployments(AwsRdsDescribeBlueGreenDeploymentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeBlueGreenDeploymentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeBlueGreenDeploymentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCertificates(AwsRdsDescribeCertificatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCertificates(AwsRdsDescribeCertificatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeCertificatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeCertificatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterAutomatedBackups(AwsRdsDescribeDbClusterAutomatedBackupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterAutomatedBackups(AwsRdsDescribeDbClusterAutomatedBackupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterAutomatedBackupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterAutomatedBackupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterBacktracks(AwsRdsDescribeDbClusterBacktracksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterBacktracks(AwsRdsDescribeDbClusterBacktracksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterEndpoints(AwsRdsDescribeDbClusterEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterEndpoints(AwsRdsDescribeDbClusterEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterParameterGroups(AwsRdsDescribeDbClusterParameterGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterParameterGroups(AwsRdsDescribeDbClusterParameterGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterParameterGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterParameterGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterParameters(AwsRdsDescribeDbClusterParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterParameters(AwsRdsDescribeDbClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterSnapshotAttributes(AwsRdsDescribeDbClusterSnapshotAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterSnapshotAttributes(AwsRdsDescribeDbClusterSnapshotAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusterSnapshots(AwsRdsDescribeDbClusterSnapshotsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusterSnapshots(AwsRdsDescribeDbClusterSnapshotsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterSnapshotsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClusterSnapshotsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbClusters(AwsRdsDescribeDbClustersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbClusters(AwsRdsDescribeDbClustersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClustersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbClustersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbEngineVersions(AwsRdsDescribeDbEngineVersionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbEngineVersions(AwsRdsDescribeDbEngineVersionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbEngineVersionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbEngineVersionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbInstanceAutomatedBackups(AwsRdsDescribeDbInstanceAutomatedBackupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbInstanceAutomatedBackups(AwsRdsDescribeDbInstanceAutomatedBackupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbInstanceAutomatedBackupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbInstanceAutomatedBackupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbInstances(AwsRdsDescribeDbInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbInstances(AwsRdsDescribeDbInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbLogFiles(AwsRdsDescribeDbLogFilesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbLogFiles(AwsRdsDescribeDbLogFilesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbParameterGroups(AwsRdsDescribeDbParameterGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbParameterGroups(AwsRdsDescribeDbParameterGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbParameterGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbParameterGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbParameters(AwsRdsDescribeDbParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbParameters(AwsRdsDescribeDbParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbProxies(AwsRdsDescribeDbProxiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbProxies(AwsRdsDescribeDbProxiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbProxiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbProxiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbProxyEndpoints(AwsRdsDescribeDbProxyEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbProxyEndpoints(AwsRdsDescribeDbProxyEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbProxyEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbProxyEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbProxyTargetGroups(AwsRdsDescribeDbProxyTargetGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbProxyTargetGroups(AwsRdsDescribeDbProxyTargetGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbProxyTargets(AwsRdsDescribeDbProxyTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbProxyTargets(AwsRdsDescribeDbProxyTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbRecommendations(AwsRdsDescribeDbRecommendationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbRecommendations(AwsRdsDescribeDbRecommendationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbRecommendationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbSecurityGroups(AwsRdsDescribeDbSecurityGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbSecurityGroups(AwsRdsDescribeDbSecurityGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSecurityGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSecurityGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbSnapshotAttributes(AwsRdsDescribeDbSnapshotAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbSnapshotAttributes(AwsRdsDescribeDbSnapshotAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbSnapshotTenantDatabases(AwsRdsDescribeDbSnapshotTenantDatabasesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbSnapshotTenantDatabases(AwsRdsDescribeDbSnapshotTenantDatabasesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSnapshotTenantDatabasesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSnapshotTenantDatabasesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbSnapshots(AwsRdsDescribeDbSnapshotsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbSnapshots(AwsRdsDescribeDbSnapshotsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSnapshotsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSnapshotsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDbSubnetGroups(AwsRdsDescribeDbSubnetGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDbSubnetGroups(AwsRdsDescribeDbSubnetGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSubnetGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeDbSubnetGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEngineDefaultClusterParameters(AwsRdsDescribeEngineDefaultClusterParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEngineDefaultClusterParameters(AwsRdsDescribeEngineDefaultClusterParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEngineDefaultParameters(AwsRdsDescribeEngineDefaultParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEngineDefaultParameters(AwsRdsDescribeEngineDefaultParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEventCategories(AwsRdsDescribeEventCategoriesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEventCategories(AwsRdsDescribeEventCategoriesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventCategoriesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventCategoriesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEventSubscriptions(AwsRdsDescribeEventSubscriptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEventSubscriptions(AwsRdsDescribeEventSubscriptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventSubscriptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventSubscriptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEvents(AwsRdsDescribeEventsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEvents(AwsRdsDescribeEventsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeEventsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeExportTasks(AwsRdsDescribeExportTasksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeExportTasks(AwsRdsDescribeExportTasksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeExportTasksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeExportTasksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeGlobalClusters(AwsRdsDescribeGlobalClustersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeGlobalClusters(AwsRdsDescribeGlobalClustersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeGlobalClustersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeGlobalClustersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeIntegrations(AwsRdsDescribeIntegrationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeIntegrations(AwsRdsDescribeIntegrationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeIntegrationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeIntegrationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOptionGroupOptions(AwsRdsDescribeOptionGroupOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOptionGroupOptions(AwsRdsDescribeOptionGroupOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOptionGroups(AwsRdsDescribeOptionGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOptionGroups(AwsRdsDescribeOptionGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeOptionGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeOptionGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeOrderableDbInstanceOptions(AwsRdsDescribeOrderableDbInstanceOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeOrderableDbInstanceOptions(AwsRdsDescribeOrderableDbInstanceOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePendingMaintenanceActions(AwsRdsDescribePendingMaintenanceActionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribePendingMaintenanceActions(AwsRdsDescribePendingMaintenanceActionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribePendingMaintenanceActionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribePendingMaintenanceActionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeReservedDbInstances(AwsRdsDescribeReservedDbInstancesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReservedDbInstances(AwsRdsDescribeReservedDbInstancesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeReservedDbInstancesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeReservedDbInstancesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeReservedDbInstancesOfferings(AwsRdsDescribeReservedDbInstancesOfferingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReservedDbInstancesOfferings(AwsRdsDescribeReservedDbInstancesOfferingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeReservedDbInstancesOfferingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeReservedDbInstancesOfferingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSourceRegions(AwsRdsDescribeSourceRegionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSourceRegions(AwsRdsDescribeSourceRegionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeSourceRegionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeSourceRegionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTenantDatabases(AwsRdsDescribeTenantDatabasesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTenantDatabases(AwsRdsDescribeTenantDatabasesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeTenantDatabasesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsDescribeTenantDatabasesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeValidDbInstanceModifications(AwsRdsDescribeValidDbInstanceModificationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeValidDbInstanceModifications(AwsRdsDescribeValidDbInstanceModificationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisableHttpEndpoint(AwsRdsDisableHttpEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisableHttpEndpoint(AwsRdsDisableHttpEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DownloadDbLogFilePortion(AwsRdsDownloadDbLogFilePortionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DownloadDbLogFilePortion(AwsRdsDownloadDbLogFilePortionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableHttpEndpoint(AwsRdsEnableHttpEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EnableHttpEndpoint(AwsRdsEnableHttpEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> FailoverDbCluster(AwsRdsFailoverDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FailoverDbCluster(AwsRdsFailoverDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> FailoverGlobalCluster(AwsRdsFailoverGlobalClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> FailoverGlobalCluster(AwsRdsFailoverGlobalClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GenerateDbAuthToken(AwsRdsGenerateDbAuthTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GenerateDbAuthToken(AwsRdsGenerateDbAuthTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsRdsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsRdsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyActivityStream(AwsRdsModifyActivityStreamOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ModifyActivityStream(AwsRdsModifyActivityStreamOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyActivityStreamOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyActivityStreamOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyCertificates(AwsRdsModifyCertificatesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ModifyCertificates(AwsRdsModifyCertificatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyCertificatesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyCertificatesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyCurrentDbClusterCapacity(AwsRdsModifyCurrentDbClusterCapacityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyCurrentDbClusterCapacity(AwsRdsModifyCurrentDbClusterCapacityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyCustomDbEngineVersion(AwsRdsModifyCustomDbEngineVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyCustomDbEngineVersion(AwsRdsModifyCustomDbEngineVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbCluster(AwsRdsModifyDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbCluster(AwsRdsModifyDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbClusterEndpoint(AwsRdsModifyDbClusterEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbClusterEndpoint(AwsRdsModifyDbClusterEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbClusterParameterGroup(AwsRdsModifyDbClusterParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbClusterParameterGroup(AwsRdsModifyDbClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbClusterSnapshotAttribute(AwsRdsModifyDbClusterSnapshotAttributeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbClusterSnapshotAttribute(AwsRdsModifyDbClusterSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbInstance(AwsRdsModifyDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbInstance(AwsRdsModifyDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbParameterGroup(AwsRdsModifyDbParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbParameterGroup(AwsRdsModifyDbParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbProxy(AwsRdsModifyDbProxyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbProxy(AwsRdsModifyDbProxyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbProxyEndpoint(AwsRdsModifyDbProxyEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbProxyEndpoint(AwsRdsModifyDbProxyEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbProxyTargetGroup(AwsRdsModifyDbProxyTargetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbProxyTargetGroup(AwsRdsModifyDbProxyTargetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbRecommendation(AwsRdsModifyDbRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbRecommendation(AwsRdsModifyDbRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbSnapshot(AwsRdsModifyDbSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbSnapshot(AwsRdsModifyDbSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbSnapshotAttribute(AwsRdsModifyDbSnapshotAttributeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbSnapshotAttribute(AwsRdsModifyDbSnapshotAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyDbSubnetGroup(AwsRdsModifyDbSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyDbSubnetGroup(AwsRdsModifyDbSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyEventSubscription(AwsRdsModifyEventSubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyEventSubscription(AwsRdsModifyEventSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyGlobalCluster(AwsRdsModifyGlobalClusterOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ModifyGlobalCluster(AwsRdsModifyGlobalClusterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyGlobalClusterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsModifyGlobalClusterOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ModifyTenantDatabase(AwsRdsModifyTenantDatabaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ModifyTenantDatabase(AwsRdsModifyTenantDatabaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PromoteReadReplica(AwsRdsPromoteReadReplicaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PromoteReadReplica(AwsRdsPromoteReadReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PromoteReadReplicaDbCluster(AwsRdsPromoteReadReplicaDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PromoteReadReplicaDbCluster(AwsRdsPromoteReadReplicaDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PurchaseReservedDbInstancesOffering(AwsRdsPurchaseReservedDbInstancesOfferingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PurchaseReservedDbInstancesOffering(AwsRdsPurchaseReservedDbInstancesOfferingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RebootDbCluster(AwsRdsRebootDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RebootDbCluster(AwsRdsRebootDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RebootDbInstance(AwsRdsRebootDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RebootDbInstance(AwsRdsRebootDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterDbProxyTargets(AwsRdsRegisterDbProxyTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterDbProxyTargets(AwsRdsRegisterDbProxyTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveFromGlobalCluster(AwsRdsRemoveFromGlobalClusterOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RemoveFromGlobalCluster(AwsRdsRemoveFromGlobalClusterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsRemoveFromGlobalClusterOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRdsRemoveFromGlobalClusterOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveOptionFromOptionGroup(AwsRdsRemoveOptionFromOptionGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveOptionFromOptionGroup(AwsRdsRemoveOptionFromOptionGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveRoleFromDbCluster(AwsRdsRemoveRoleFromDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveRoleFromDbCluster(AwsRdsRemoveRoleFromDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveRoleFromDbInstance(AwsRdsRemoveRoleFromDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveRoleFromDbInstance(AwsRdsRemoveRoleFromDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveSourceIdentifierFromSubscription(AwsRdsRemoveSourceIdentifierFromSubscriptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveSourceIdentifierFromSubscription(AwsRdsRemoveSourceIdentifierFromSubscriptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveTagsFromResource(AwsRdsRemoveTagsFromResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveTagsFromResource(AwsRdsRemoveTagsFromResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetDbClusterParameterGroup(AwsRdsResetDbClusterParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResetDbClusterParameterGroup(AwsRdsResetDbClusterParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetDbParameterGroup(AwsRdsResetDbParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResetDbParameterGroup(AwsRdsResetDbParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbClusterFromS3(AwsRdsRestoreDbClusterFromS3Options options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbClusterFromS3(AwsRdsRestoreDbClusterFromS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbClusterFromSnapshot(AwsRdsRestoreDbClusterFromSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbClusterFromSnapshot(AwsRdsRestoreDbClusterFromSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbClusterToPointInTime(AwsRdsRestoreDbClusterToPointInTimeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbClusterToPointInTime(AwsRdsRestoreDbClusterToPointInTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbInstanceFromDbSnapshot(AwsRdsRestoreDbInstanceFromDbSnapshotOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbInstanceFromDbSnapshot(AwsRdsRestoreDbInstanceFromDbSnapshotOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbInstanceFromS3(AwsRdsRestoreDbInstanceFromS3Options options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbInstanceFromS3(AwsRdsRestoreDbInstanceFromS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreDbInstanceToPointInTime(AwsRdsRestoreDbInstanceToPointInTimeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreDbInstanceToPointInTime(AwsRdsRestoreDbInstanceToPointInTimeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RevokeDbSecurityGroupIngress(AwsRdsRevokeDbSecurityGroupIngressOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RevokeDbSecurityGroupIngress(AwsRdsRevokeDbSecurityGroupIngressOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartActivityStream(AwsRdsStartActivityStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartActivityStream(AwsRdsStartActivityStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDbCluster(AwsRdsStartDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDbCluster(AwsRdsStartDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDbInstance(AwsRdsStartDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDbInstance(AwsRdsStartDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDbInstanceAutomatedBackupsReplication(AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDbInstanceAutomatedBackupsReplication(AwsRdsStartDbInstanceAutomatedBackupsReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartExportTask(AwsRdsStartExportTaskOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartExportTask(AwsRdsStartExportTaskOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopActivityStream(AwsRdsStopActivityStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopActivityStream(AwsRdsStopActivityStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDbCluster(AwsRdsStopDbClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDbCluster(AwsRdsStopDbClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDbInstance(AwsRdsStopDbInstanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDbInstance(AwsRdsStopDbInstanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDbInstanceAutomatedBackupsReplication(AwsRdsStopDbInstanceAutomatedBackupsReplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDbInstanceAutomatedBackupsReplication(AwsRdsStopDbInstanceAutomatedBackupsReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SwitchoverBlueGreenDeployment(AwsRdsSwitchoverBlueGreenDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SwitchoverBlueGreenDeployment(AwsRdsSwitchoverBlueGreenDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SwitchoverGlobalCluster(AwsRdsSwitchoverGlobalClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SwitchoverGlobalCluster(AwsRdsSwitchoverGlobalClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SwitchoverReadReplica(AwsRdsSwitchoverReadReplicaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SwitchoverReadReplica(AwsRdsSwitchoverReadReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

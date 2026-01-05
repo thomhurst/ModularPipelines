@@ -18,128 +18,128 @@ public class AwsAppflow
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelFlowExecutions(AwsAppflowCancelFlowExecutionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelFlowExecutions(AwsAppflowCancelFlowExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConnectorProfile(AwsAppflowCreateConnectorProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConnectorProfile(AwsAppflowCreateConnectorProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFlow(AwsAppflowCreateFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateFlow(AwsAppflowCreateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConnectorProfile(AwsAppflowDeleteConnectorProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConnectorProfile(AwsAppflowDeleteConnectorProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFlow(AwsAppflowDeleteFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFlow(AwsAppflowDeleteFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConnector(AwsAppflowDescribeConnectorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConnector(AwsAppflowDescribeConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConnectorEntity(AwsAppflowDescribeConnectorEntityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConnectorEntity(AwsAppflowDescribeConnectorEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConnectorProfiles(AwsAppflowDescribeConnectorProfilesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConnectorProfiles(AwsAppflowDescribeConnectorProfilesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowDescribeConnectorProfilesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowDescribeConnectorProfilesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConnectors(AwsAppflowDescribeConnectorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConnectors(AwsAppflowDescribeConnectorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowDescribeConnectorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowDescribeConnectorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFlow(AwsAppflowDescribeFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFlow(AwsAppflowDescribeFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeFlowExecutionRecords(AwsAppflowDescribeFlowExecutionRecordsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeFlowExecutionRecords(AwsAppflowDescribeFlowExecutionRecordsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConnectorEntities(AwsAppflowListConnectorEntitiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConnectorEntities(AwsAppflowListConnectorEntitiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListConnectorEntitiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListConnectorEntitiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConnectors(AwsAppflowListConnectorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConnectors(AwsAppflowListConnectorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListConnectorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListConnectorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFlows(AwsAppflowListFlowsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFlows(AwsAppflowListFlowsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListFlowsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowListFlowsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsAppflowListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsAppflowListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterConnector(AwsAppflowRegisterConnectorOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RegisterConnector(AwsAppflowRegisterConnectorOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowRegisterConnectorOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowRegisterConnectorOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetConnectorMetadataCache(AwsAppflowResetConnectorMetadataCacheOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ResetConnectorMetadataCache(AwsAppflowResetConnectorMetadataCacheOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowResetConnectorMetadataCacheOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAppflowResetConnectorMetadataCacheOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartFlow(AwsAppflowStartFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartFlow(AwsAppflowStartFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopFlow(AwsAppflowStopFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopFlow(AwsAppflowStopFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsAppflowTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsAppflowTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UnregisterConnector(AwsAppflowUnregisterConnectorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UnregisterConnector(AwsAppflowUnregisterConnectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsAppflowUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsAppflowUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConnectorProfile(AwsAppflowUpdateConnectorProfileOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConnectorProfile(AwsAppflowUpdateConnectorProfileOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConnectorRegistration(AwsAppflowUpdateConnectorRegistrationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConnectorRegistration(AwsAppflowUpdateConnectorRegistrationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFlow(AwsAppflowUpdateFlowOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFlow(AwsAppflowUpdateFlowOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -20,23 +20,23 @@ public class AwsS3apiWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BucketExists(AwsS3apiWaitBucketExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BucketExists(AwsS3apiWaitBucketExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BucketNotExists(AwsS3apiWaitBucketNotExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BucketNotExists(AwsS3apiWaitBucketNotExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ObjectExists(AwsS3apiWaitObjectExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ObjectExists(AwsS3apiWaitObjectExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ObjectNotExists(AwsS3apiWaitObjectNotExistsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ObjectNotExists(AwsS3apiWaitObjectNotExistsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

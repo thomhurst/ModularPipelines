@@ -20,13 +20,13 @@ public class AwsCodeguruReviewerWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CodeReviewCompleted(AwsCodeguruReviewerWaitCodeReviewCompletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CodeReviewCompleted(AwsCodeguruReviewerWaitCodeReviewCompletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RepositoryAssociationSucceeded(AwsCodeguruReviewerWaitRepositoryAssociationSucceededOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RepositoryAssociationSucceeded(AwsCodeguruReviewerWaitRepositoryAssociationSucceededOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

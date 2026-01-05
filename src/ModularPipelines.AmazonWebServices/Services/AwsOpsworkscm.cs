@@ -22,98 +22,98 @@ public class AwsOpsworkscm
 
     public AwsOpsworkscmWait Wait { get; }
 
-    public async Task<CommandResult> AssociateNode(AwsOpsworkscmAssociateNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateNode(AwsOpsworkscmAssociateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBackup(AwsOpsworkscmCreateBackupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBackup(AwsOpsworkscmCreateBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateServer(AwsOpsworkscmCreateServerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateServer(AwsOpsworkscmCreateServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBackup(AwsOpsworkscmDeleteBackupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBackup(AwsOpsworkscmDeleteBackupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteServer(AwsOpsworkscmDeleteServerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteServer(AwsOpsworkscmDeleteServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccountAttributes(AwsOpsworkscmDescribeAccountAttributesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccountAttributes(AwsOpsworkscmDescribeAccountAttributesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeAccountAttributesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeAccountAttributesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBackups(AwsOpsworkscmDescribeBackupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBackups(AwsOpsworkscmDescribeBackupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeBackupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeBackupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEvents(AwsOpsworkscmDescribeEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEvents(AwsOpsworkscmDescribeEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeNodeAssociationStatus(AwsOpsworkscmDescribeNodeAssociationStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeNodeAssociationStatus(AwsOpsworkscmDescribeNodeAssociationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeServers(AwsOpsworkscmDescribeServersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeServers(AwsOpsworkscmDescribeServersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeServersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsOpsworkscmDescribeServersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateNode(AwsOpsworkscmDisassociateNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateNode(AwsOpsworkscmDisassociateNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExportServerEngineAttribute(AwsOpsworkscmExportServerEngineAttributeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExportServerEngineAttribute(AwsOpsworkscmExportServerEngineAttributeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsOpsworkscmListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsOpsworkscmListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreServer(AwsOpsworkscmRestoreServerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreServer(AwsOpsworkscmRestoreServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartMaintenance(AwsOpsworkscmStartMaintenanceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartMaintenance(AwsOpsworkscmStartMaintenanceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsOpsworkscmTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsOpsworkscmTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsOpsworkscmUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsOpsworkscmUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateServer(AwsOpsworkscmUpdateServerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateServer(AwsOpsworkscmUpdateServerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateServerEngineAttributes(AwsOpsworkscmUpdateServerEngineAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateServerEngineAttributes(AwsOpsworkscmUpdateServerEngineAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

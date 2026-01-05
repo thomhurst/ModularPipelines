@@ -18,28 +18,28 @@ public class AwsMediastoreData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteObject(AwsMediastoreDataDeleteObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteObject(AwsMediastoreDataDeleteObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeObject(AwsMediastoreDataDescribeObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeObject(AwsMediastoreDataDescribeObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetObject(AwsMediastoreDataGetObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetObject(AwsMediastoreDataGetObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListItems(AwsMediastoreDataListItemsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListItems(AwsMediastoreDataListItemsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMediastoreDataListItemsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMediastoreDataListItemsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutObject(AwsMediastoreDataPutObjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutObject(AwsMediastoreDataPutObjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

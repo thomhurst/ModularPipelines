@@ -18,283 +18,283 @@ public class AwsGlobalaccelerator
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddCustomRoutingEndpoints(AwsGlobalacceleratorAddCustomRoutingEndpointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddCustomRoutingEndpoints(AwsGlobalacceleratorAddCustomRoutingEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddEndpoints(AwsGlobalacceleratorAddEndpointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddEndpoints(AwsGlobalacceleratorAddEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AdvertiseByoipCidr(AwsGlobalacceleratorAdvertiseByoipCidrOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AdvertiseByoipCidr(AwsGlobalacceleratorAdvertiseByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AllowCustomRoutingTraffic(AwsGlobalacceleratorAllowCustomRoutingTrafficOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AllowCustomRoutingTraffic(AwsGlobalacceleratorAllowCustomRoutingTrafficOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAccelerator(AwsGlobalacceleratorCreateAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAccelerator(AwsGlobalacceleratorCreateAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCrossAccountAttachment(AwsGlobalacceleratorCreateCrossAccountAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCrossAccountAttachment(AwsGlobalacceleratorCreateCrossAccountAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomRoutingAccelerator(AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomRoutingAccelerator(AwsGlobalacceleratorCreateCustomRoutingAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomRoutingEndpointGroup(AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomRoutingEndpointGroup(AwsGlobalacceleratorCreateCustomRoutingEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCustomRoutingListener(AwsGlobalacceleratorCreateCustomRoutingListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCustomRoutingListener(AwsGlobalacceleratorCreateCustomRoutingListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEndpointGroup(AwsGlobalacceleratorCreateEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEndpointGroup(AwsGlobalacceleratorCreateEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateListener(AwsGlobalacceleratorCreateListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateListener(AwsGlobalacceleratorCreateListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAccelerator(AwsGlobalacceleratorDeleteAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAccelerator(AwsGlobalacceleratorDeleteAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCrossAccountAttachment(AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCrossAccountAttachment(AwsGlobalacceleratorDeleteCrossAccountAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomRoutingAccelerator(AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomRoutingAccelerator(AwsGlobalacceleratorDeleteCustomRoutingAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomRoutingEndpointGroup(AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomRoutingEndpointGroup(AwsGlobalacceleratorDeleteCustomRoutingEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCustomRoutingListener(AwsGlobalacceleratorDeleteCustomRoutingListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCustomRoutingListener(AwsGlobalacceleratorDeleteCustomRoutingListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEndpointGroup(AwsGlobalacceleratorDeleteEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEndpointGroup(AwsGlobalacceleratorDeleteEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteListener(AwsGlobalacceleratorDeleteListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteListener(AwsGlobalacceleratorDeleteListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DenyCustomRoutingTraffic(AwsGlobalacceleratorDenyCustomRoutingTrafficOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DenyCustomRoutingTraffic(AwsGlobalacceleratorDenyCustomRoutingTrafficOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeprovisionByoipCidr(AwsGlobalacceleratorDeprovisionByoipCidrOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeprovisionByoipCidr(AwsGlobalacceleratorDeprovisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccelerator(AwsGlobalacceleratorDescribeAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccelerator(AwsGlobalacceleratorDescribeAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAcceleratorAttributes(AwsGlobalacceleratorDescribeAcceleratorAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAcceleratorAttributes(AwsGlobalacceleratorDescribeAcceleratorAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCrossAccountAttachment(AwsGlobalacceleratorDescribeCrossAccountAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCrossAccountAttachment(AwsGlobalacceleratorDescribeCrossAccountAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCustomRoutingAccelerator(AwsGlobalacceleratorDescribeCustomRoutingAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCustomRoutingAccelerator(AwsGlobalacceleratorDescribeCustomRoutingAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCustomRoutingAcceleratorAttributes(AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCustomRoutingAcceleratorAttributes(AwsGlobalacceleratorDescribeCustomRoutingAcceleratorAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCustomRoutingEndpointGroup(AwsGlobalacceleratorDescribeCustomRoutingEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCustomRoutingEndpointGroup(AwsGlobalacceleratorDescribeCustomRoutingEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCustomRoutingListener(AwsGlobalacceleratorDescribeCustomRoutingListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCustomRoutingListener(AwsGlobalacceleratorDescribeCustomRoutingListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEndpointGroup(AwsGlobalacceleratorDescribeEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEndpointGroup(AwsGlobalacceleratorDescribeEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeListener(AwsGlobalacceleratorDescribeListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeListener(AwsGlobalacceleratorDescribeListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAccelerators(AwsGlobalacceleratorListAcceleratorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAccelerators(AwsGlobalacceleratorListAcceleratorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListAcceleratorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListAcceleratorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListByoipCidrs(AwsGlobalacceleratorListByoipCidrsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListByoipCidrs(AwsGlobalacceleratorListByoipCidrsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListByoipCidrsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListByoipCidrsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCrossAccountAttachments(AwsGlobalacceleratorListCrossAccountAttachmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCrossAccountAttachments(AwsGlobalacceleratorListCrossAccountAttachmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCrossAccountAttachmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCrossAccountAttachmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCrossAccountResourceAccounts(AwsGlobalacceleratorListCrossAccountResourceAccountsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCrossAccountResourceAccounts(AwsGlobalacceleratorListCrossAccountResourceAccountsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCrossAccountResourceAccountsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCrossAccountResourceAccountsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCrossAccountResources(AwsGlobalacceleratorListCrossAccountResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCrossAccountResources(AwsGlobalacceleratorListCrossAccountResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomRoutingAccelerators(AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomRoutingAccelerators(AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGlobalacceleratorListCustomRoutingAcceleratorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomRoutingEndpointGroups(AwsGlobalacceleratorListCustomRoutingEndpointGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomRoutingEndpointGroups(AwsGlobalacceleratorListCustomRoutingEndpointGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomRoutingListeners(AwsGlobalacceleratorListCustomRoutingListenersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomRoutingListeners(AwsGlobalacceleratorListCustomRoutingListenersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomRoutingPortMappings(AwsGlobalacceleratorListCustomRoutingPortMappingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomRoutingPortMappings(AwsGlobalacceleratorListCustomRoutingPortMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCustomRoutingPortMappingsByDestination(AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCustomRoutingPortMappingsByDestination(AwsGlobalacceleratorListCustomRoutingPortMappingsByDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEndpointGroups(AwsGlobalacceleratorListEndpointGroupsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEndpointGroups(AwsGlobalacceleratorListEndpointGroupsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListListeners(AwsGlobalacceleratorListListenersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListListeners(AwsGlobalacceleratorListListenersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsGlobalacceleratorListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsGlobalacceleratorListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ProvisionByoipCidr(AwsGlobalacceleratorProvisionByoipCidrOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ProvisionByoipCidr(AwsGlobalacceleratorProvisionByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveCustomRoutingEndpoints(AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveCustomRoutingEndpoints(AwsGlobalacceleratorRemoveCustomRoutingEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveEndpoints(AwsGlobalacceleratorRemoveEndpointsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveEndpoints(AwsGlobalacceleratorRemoveEndpointsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsGlobalacceleratorTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsGlobalacceleratorTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsGlobalacceleratorUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsGlobalacceleratorUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAccelerator(AwsGlobalacceleratorUpdateAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAccelerator(AwsGlobalacceleratorUpdateAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAcceleratorAttributes(AwsGlobalacceleratorUpdateAcceleratorAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAcceleratorAttributes(AwsGlobalacceleratorUpdateAcceleratorAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCrossAccountAttachment(AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCrossAccountAttachment(AwsGlobalacceleratorUpdateCrossAccountAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCustomRoutingAccelerator(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCustomRoutingAccelerator(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCustomRoutingAcceleratorAttributes(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCustomRoutingAcceleratorAttributes(AwsGlobalacceleratorUpdateCustomRoutingAcceleratorAttributesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCustomRoutingListener(AwsGlobalacceleratorUpdateCustomRoutingListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCustomRoutingListener(AwsGlobalacceleratorUpdateCustomRoutingListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEndpointGroup(AwsGlobalacceleratorUpdateEndpointGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEndpointGroup(AwsGlobalacceleratorUpdateEndpointGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateListener(AwsGlobalacceleratorUpdateListenerOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateListener(AwsGlobalacceleratorUpdateListenerOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> WithdrawByoipCidr(AwsGlobalacceleratorWithdrawByoipCidrOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WithdrawByoipCidr(AwsGlobalacceleratorWithdrawByoipCidrOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

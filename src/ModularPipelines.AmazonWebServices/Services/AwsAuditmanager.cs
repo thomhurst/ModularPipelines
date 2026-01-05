@@ -18,313 +18,313 @@ public class AwsAuditmanager
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateAssessmentReportEvidenceFolder(AwsAuditmanagerAssociateAssessmentReportEvidenceFolderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateAssessmentReportEvidenceFolder(AwsAuditmanagerAssociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchAssociateAssessmentReportEvidence(AwsAuditmanagerBatchAssociateAssessmentReportEvidenceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchAssociateAssessmentReportEvidence(AwsAuditmanagerBatchAssociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchCreateDelegationByAssessment(AwsAuditmanagerBatchCreateDelegationByAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchCreateDelegationByAssessment(AwsAuditmanagerBatchCreateDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeleteDelegationByAssessment(AwsAuditmanagerBatchDeleteDelegationByAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteDelegationByAssessment(AwsAuditmanagerBatchDeleteDelegationByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDisassociateAssessmentReportEvidence(AwsAuditmanagerBatchDisassociateAssessmentReportEvidenceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDisassociateAssessmentReportEvidence(AwsAuditmanagerBatchDisassociateAssessmentReportEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchImportEvidenceToAssessmentControl(AwsAuditmanagerBatchImportEvidenceToAssessmentControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchImportEvidenceToAssessmentControl(AwsAuditmanagerBatchImportEvidenceToAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAssessment(AwsAuditmanagerCreateAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAssessment(AwsAuditmanagerCreateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAssessmentFramework(AwsAuditmanagerCreateAssessmentFrameworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAssessmentFramework(AwsAuditmanagerCreateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAssessmentReport(AwsAuditmanagerCreateAssessmentReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAssessmentReport(AwsAuditmanagerCreateAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateControl(AwsAuditmanagerCreateControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateControl(AwsAuditmanagerCreateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessment(AwsAuditmanagerDeleteAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessment(AwsAuditmanagerDeleteAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentFramework(AwsAuditmanagerDeleteAssessmentFrameworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentFramework(AwsAuditmanagerDeleteAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentFrameworkShare(AwsAuditmanagerDeleteAssessmentFrameworkShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentFrameworkShare(AwsAuditmanagerDeleteAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAssessmentReport(AwsAuditmanagerDeleteAssessmentReportOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAssessmentReport(AwsAuditmanagerDeleteAssessmentReportOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteControl(AwsAuditmanagerDeleteControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteControl(AwsAuditmanagerDeleteControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterAccount(AwsAuditmanagerDeregisterAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterAccount(AwsAuditmanagerDeregisterAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerDeregisterAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerDeregisterAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeregisterOrganizationAdminAccount(AwsAuditmanagerDeregisterOrganizationAdminAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeregisterOrganizationAdminAccount(AwsAuditmanagerDeregisterOrganizationAdminAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerDeregisterOrganizationAdminAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerDeregisterOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateAssessmentReportEvidenceFolder(AwsAuditmanagerDisassociateAssessmentReportEvidenceFolderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateAssessmentReportEvidenceFolder(AwsAuditmanagerDisassociateAssessmentReportEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAccountStatus(AwsAuditmanagerGetAccountStatusOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetAccountStatus(AwsAuditmanagerGetAccountStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetAccountStatusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetAccountStatusOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssessment(AwsAuditmanagerGetAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssessment(AwsAuditmanagerGetAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssessmentFramework(AwsAuditmanagerGetAssessmentFrameworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssessmentFramework(AwsAuditmanagerGetAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssessmentReportUrl(AwsAuditmanagerGetAssessmentReportUrlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssessmentReportUrl(AwsAuditmanagerGetAssessmentReportUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetChangeLogs(AwsAuditmanagerGetChangeLogsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetChangeLogs(AwsAuditmanagerGetChangeLogsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetControl(AwsAuditmanagerGetControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetControl(AwsAuditmanagerGetControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDelegations(AwsAuditmanagerGetDelegationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetDelegations(AwsAuditmanagerGetDelegationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetDelegationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetDelegationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidence(AwsAuditmanagerGetEvidenceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidence(AwsAuditmanagerGetEvidenceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidenceByEvidenceFolder(AwsAuditmanagerGetEvidenceByEvidenceFolderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidenceByEvidenceFolder(AwsAuditmanagerGetEvidenceByEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidenceFileUploadUrl(AwsAuditmanagerGetEvidenceFileUploadUrlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidenceFileUploadUrl(AwsAuditmanagerGetEvidenceFileUploadUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidenceFolder(AwsAuditmanagerGetEvidenceFolderOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidenceFolder(AwsAuditmanagerGetEvidenceFolderOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidenceFoldersByAssessment(AwsAuditmanagerGetEvidenceFoldersByAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidenceFoldersByAssessment(AwsAuditmanagerGetEvidenceFoldersByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvidenceFoldersByAssessmentControl(AwsAuditmanagerGetEvidenceFoldersByAssessmentControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvidenceFoldersByAssessmentControl(AwsAuditmanagerGetEvidenceFoldersByAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetInsights(AwsAuditmanagerGetInsightsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetInsights(AwsAuditmanagerGetInsightsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetInsightsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetInsightsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetInsightsByAssessment(AwsAuditmanagerGetInsightsByAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetInsightsByAssessment(AwsAuditmanagerGetInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetOrganizationAdminAccount(AwsAuditmanagerGetOrganizationAdminAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetOrganizationAdminAccount(AwsAuditmanagerGetOrganizationAdminAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetOrganizationAdminAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetOrganizationAdminAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetServicesInScope(AwsAuditmanagerGetServicesInScopeOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetServicesInScope(AwsAuditmanagerGetServicesInScopeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetServicesInScopeOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerGetServicesInScopeOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSettings(AwsAuditmanagerGetSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSettings(AwsAuditmanagerGetSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentControlInsightsByControlDomain(AwsAuditmanagerListAssessmentControlInsightsByControlDomainOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentControlInsightsByControlDomain(AwsAuditmanagerListAssessmentControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentFrameworkShareRequests(AwsAuditmanagerListAssessmentFrameworkShareRequestsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentFrameworkShareRequests(AwsAuditmanagerListAssessmentFrameworkShareRequestsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentFrameworks(AwsAuditmanagerListAssessmentFrameworksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentFrameworks(AwsAuditmanagerListAssessmentFrameworksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessmentReports(AwsAuditmanagerListAssessmentReportsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessmentReports(AwsAuditmanagerListAssessmentReportsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListAssessmentReportsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListAssessmentReportsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAssessments(AwsAuditmanagerListAssessmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAssessments(AwsAuditmanagerListAssessmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListAssessmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListAssessmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListControlDomainInsights(AwsAuditmanagerListControlDomainInsightsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListControlDomainInsights(AwsAuditmanagerListControlDomainInsightsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListControlDomainInsightsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListControlDomainInsightsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListControlDomainInsightsByAssessment(AwsAuditmanagerListControlDomainInsightsByAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListControlDomainInsightsByAssessment(AwsAuditmanagerListControlDomainInsightsByAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListControlInsightsByControlDomain(AwsAuditmanagerListControlInsightsByControlDomainOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListControlInsightsByControlDomain(AwsAuditmanagerListControlInsightsByControlDomainOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListControls(AwsAuditmanagerListControlsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListControls(AwsAuditmanagerListControlsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListKeywordsForDataSource(AwsAuditmanagerListKeywordsForDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListKeywordsForDataSource(AwsAuditmanagerListKeywordsForDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListNotifications(AwsAuditmanagerListNotificationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListNotifications(AwsAuditmanagerListNotificationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListNotificationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerListNotificationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsAuditmanagerListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsAuditmanagerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterAccount(AwsAuditmanagerRegisterAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RegisterAccount(AwsAuditmanagerRegisterAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerRegisterAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerRegisterAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterOrganizationAdminAccount(AwsAuditmanagerRegisterOrganizationAdminAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterOrganizationAdminAccount(AwsAuditmanagerRegisterOrganizationAdminAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAssessmentFrameworkShare(AwsAuditmanagerStartAssessmentFrameworkShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAssessmentFrameworkShare(AwsAuditmanagerStartAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsAuditmanagerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsAuditmanagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsAuditmanagerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsAuditmanagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessment(AwsAuditmanagerUpdateAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessment(AwsAuditmanagerUpdateAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentControl(AwsAuditmanagerUpdateAssessmentControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentControl(AwsAuditmanagerUpdateAssessmentControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentControlSetStatus(AwsAuditmanagerUpdateAssessmentControlSetStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentControlSetStatus(AwsAuditmanagerUpdateAssessmentControlSetStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentFramework(AwsAuditmanagerUpdateAssessmentFrameworkOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentFramework(AwsAuditmanagerUpdateAssessmentFrameworkOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentFrameworkShare(AwsAuditmanagerUpdateAssessmentFrameworkShareOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentFrameworkShare(AwsAuditmanagerUpdateAssessmentFrameworkShareOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAssessmentStatus(AwsAuditmanagerUpdateAssessmentStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAssessmentStatus(AwsAuditmanagerUpdateAssessmentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateControl(AwsAuditmanagerUpdateControlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateControl(AwsAuditmanagerUpdateControlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSettings(AwsAuditmanagerUpdateSettingsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSettings(AwsAuditmanagerUpdateSettingsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerUpdateSettingsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAuditmanagerUpdateSettingsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateAssessmentReportIntegrity(AwsAuditmanagerValidateAssessmentReportIntegrityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateAssessmentReportIntegrity(AwsAuditmanagerValidateAssessmentReportIntegrityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

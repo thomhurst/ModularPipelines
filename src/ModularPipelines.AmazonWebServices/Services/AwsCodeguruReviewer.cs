@@ -22,73 +22,73 @@ public class AwsCodeguruReviewer
 
     public AwsCodeguruReviewerWait Wait { get; }
 
-    public async Task<CommandResult> AssociateRepository(AwsCodeguruReviewerAssociateRepositoryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateRepository(AwsCodeguruReviewerAssociateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCodeReview(AwsCodeguruReviewerCreateCodeReviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCodeReview(AwsCodeguruReviewerCreateCodeReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCodeReview(AwsCodeguruReviewerDescribeCodeReviewOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCodeReview(AwsCodeguruReviewerDescribeCodeReviewOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRecommendationFeedback(AwsCodeguruReviewerDescribeRecommendationFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRecommendationFeedback(AwsCodeguruReviewerDescribeRecommendationFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRepositoryAssociation(AwsCodeguruReviewerDescribeRepositoryAssociationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRepositoryAssociation(AwsCodeguruReviewerDescribeRepositoryAssociationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateRepository(AwsCodeguruReviewerDisassociateRepositoryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateRepository(AwsCodeguruReviewerDisassociateRepositoryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCodeReviews(AwsCodeguruReviewerListCodeReviewsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCodeReviews(AwsCodeguruReviewerListCodeReviewsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecommendationFeedback(AwsCodeguruReviewerListRecommendationFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRecommendationFeedback(AwsCodeguruReviewerListRecommendationFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecommendations(AwsCodeguruReviewerListRecommendationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRecommendations(AwsCodeguruReviewerListRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRepositoryAssociations(AwsCodeguruReviewerListRepositoryAssociationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRepositoryAssociations(AwsCodeguruReviewerListRepositoryAssociationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCodeguruReviewerListRepositoryAssociationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCodeguruReviewerListRepositoryAssociationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsCodeguruReviewerListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsCodeguruReviewerListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRecommendationFeedback(AwsCodeguruReviewerPutRecommendationFeedbackOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRecommendationFeedback(AwsCodeguruReviewerPutRecommendationFeedbackOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsCodeguruReviewerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsCodeguruReviewerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsCodeguruReviewerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsCodeguruReviewerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

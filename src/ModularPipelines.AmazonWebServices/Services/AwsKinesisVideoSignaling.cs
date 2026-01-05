@@ -18,13 +18,13 @@ public class AwsKinesisVideoSignaling
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetIceServerConfig(AwsKinesisVideoSignalingGetIceServerConfigOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetIceServerConfig(AwsKinesisVideoSignalingGetIceServerConfigOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SendAlexaOfferToMaster(AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SendAlexaOfferToMaster(AwsKinesisVideoSignalingSendAlexaOfferToMasterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

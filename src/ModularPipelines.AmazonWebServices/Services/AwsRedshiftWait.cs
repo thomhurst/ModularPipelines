@@ -20,23 +20,23 @@ public class AwsRedshiftWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ClusterAvailable(AwsRedshiftWaitClusterAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ClusterAvailable(AwsRedshiftWaitClusterAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterDeleted(AwsRedshiftWaitClusterDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ClusterDeleted(AwsRedshiftWaitClusterDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterRestored(AwsRedshiftWaitClusterRestoredOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ClusterRestored(AwsRedshiftWaitClusterRestoredOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterRestoredOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitClusterRestoredOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SnapshotAvailable(AwsRedshiftWaitSnapshotAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SnapshotAvailable(AwsRedshiftWaitSnapshotAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitSnapshotAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRedshiftWaitSnapshotAvailableOptions(), executionOptions, cancellationToken);
     }
 }

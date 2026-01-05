@@ -22,143 +22,143 @@ public class AwsMachinelearning
 
     public AwsMachinelearningWait Wait { get; }
 
-    public async Task<CommandResult> AddTags(AwsMachinelearningAddTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddTags(AwsMachinelearningAddTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateBatchPrediction(AwsMachinelearningCreateBatchPredictionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateBatchPrediction(AwsMachinelearningCreateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataSourceFromRds(AwsMachinelearningCreateDataSourceFromRdsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataSourceFromRds(AwsMachinelearningCreateDataSourceFromRdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataSourceFromRedshift(AwsMachinelearningCreateDataSourceFromRedshiftOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataSourceFromRedshift(AwsMachinelearningCreateDataSourceFromRedshiftOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataSourceFromS3(AwsMachinelearningCreateDataSourceFromS3Options options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataSourceFromS3(AwsMachinelearningCreateDataSourceFromS3Options options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEvaluation(AwsMachinelearningCreateEvaluationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEvaluation(AwsMachinelearningCreateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateMlModel(AwsMachinelearningCreateMlModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateMlModel(AwsMachinelearningCreateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRealtimeEndpoint(AwsMachinelearningCreateRealtimeEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRealtimeEndpoint(AwsMachinelearningCreateRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteBatchPrediction(AwsMachinelearningDeleteBatchPredictionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteBatchPrediction(AwsMachinelearningDeleteBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDataSource(AwsMachinelearningDeleteDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDataSource(AwsMachinelearningDeleteDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEvaluation(AwsMachinelearningDeleteEvaluationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEvaluation(AwsMachinelearningDeleteEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteMlModel(AwsMachinelearningDeleteMlModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteMlModel(AwsMachinelearningDeleteMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRealtimeEndpoint(AwsMachinelearningDeleteRealtimeEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRealtimeEndpoint(AwsMachinelearningDeleteRealtimeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteTags(AwsMachinelearningDeleteTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteTags(AwsMachinelearningDeleteTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBatchPredictions(AwsMachinelearningDescribeBatchPredictionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBatchPredictions(AwsMachinelearningDescribeBatchPredictionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeBatchPredictionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeBatchPredictionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDataSources(AwsMachinelearningDescribeDataSourcesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDataSources(AwsMachinelearningDescribeDataSourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeDataSourcesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeDataSourcesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEvaluations(AwsMachinelearningDescribeEvaluationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEvaluations(AwsMachinelearningDescribeEvaluationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeEvaluationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeEvaluationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMlModels(AwsMachinelearningDescribeMlModelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMlModels(AwsMachinelearningDescribeMlModelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeMlModelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMachinelearningDescribeMlModelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTags(AwsMachinelearningDescribeTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTags(AwsMachinelearningDescribeTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBatchPrediction(AwsMachinelearningGetBatchPredictionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBatchPrediction(AwsMachinelearningGetBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDataSource(AwsMachinelearningGetDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDataSource(AwsMachinelearningGetDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetEvaluation(AwsMachinelearningGetEvaluationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetEvaluation(AwsMachinelearningGetEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMlModel(AwsMachinelearningGetMlModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMlModel(AwsMachinelearningGetMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Predict(AwsMachinelearningPredictOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Predict(AwsMachinelearningPredictOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateBatchPrediction(AwsMachinelearningUpdateBatchPredictionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateBatchPrediction(AwsMachinelearningUpdateBatchPredictionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDataSource(AwsMachinelearningUpdateDataSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDataSource(AwsMachinelearningUpdateDataSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEvaluation(AwsMachinelearningUpdateEvaluationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEvaluation(AwsMachinelearningUpdateEvaluationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMlModel(AwsMachinelearningUpdateMlModelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMlModel(AwsMachinelearningUpdateMlModelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

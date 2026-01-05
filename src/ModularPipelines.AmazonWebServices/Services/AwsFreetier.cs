@@ -18,8 +18,8 @@ public class AwsFreetier
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetFreeTierUsage(AwsFreetierGetFreeTierUsageOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetFreeTierUsage(AwsFreetierGetFreeTierUsageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsFreetierGetFreeTierUsageOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsFreetierGetFreeTierUsageOptions(), executionOptions, cancellationToken);
     }
 }

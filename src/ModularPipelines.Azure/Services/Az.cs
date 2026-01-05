@@ -13,7 +13,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// Generated implementation for az CLI commands.
 /// </summary>
-internal class Az : IAz
+public class Az : IAz
 {
     private readonly ICommand _command;
 

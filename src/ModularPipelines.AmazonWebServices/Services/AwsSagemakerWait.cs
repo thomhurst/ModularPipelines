@@ -20,68 +20,68 @@ public class AwsSagemakerWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> EndpointDeleted(AwsSagemakerWaitEndpointDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EndpointDeleted(AwsSagemakerWaitEndpointDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EndpointInService(AwsSagemakerWaitEndpointInServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EndpointInService(AwsSagemakerWaitEndpointInServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImageCreated(AwsSagemakerWaitImageCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageCreated(AwsSagemakerWaitImageCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImageDeleted(AwsSagemakerWaitImageDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageDeleted(AwsSagemakerWaitImageDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImageUpdated(AwsSagemakerWaitImageUpdatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageUpdated(AwsSagemakerWaitImageUpdatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImageVersionCreated(AwsSagemakerWaitImageVersionCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageVersionCreated(AwsSagemakerWaitImageVersionCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImageVersionDeleted(AwsSagemakerWaitImageVersionDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImageVersionDeleted(AwsSagemakerWaitImageVersionDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotebookInstanceDeleted(AwsSagemakerWaitNotebookInstanceDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotebookInstanceDeleted(AwsSagemakerWaitNotebookInstanceDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotebookInstanceInService(AwsSagemakerWaitNotebookInstanceInServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotebookInstanceInService(AwsSagemakerWaitNotebookInstanceInServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> NotebookInstanceStopped(AwsSagemakerWaitNotebookInstanceStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NotebookInstanceStopped(AwsSagemakerWaitNotebookInstanceStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ProcessingJobCompletedOrStopped(AwsSagemakerWaitProcessingJobCompletedOrStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ProcessingJobCompletedOrStopped(AwsSagemakerWaitProcessingJobCompletedOrStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TrainingJobCompletedOrStopped(AwsSagemakerWaitTrainingJobCompletedOrStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TrainingJobCompletedOrStopped(AwsSagemakerWaitTrainingJobCompletedOrStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TransformJobCompletedOrStopped(AwsSagemakerWaitTransformJobCompletedOrStoppedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TransformJobCompletedOrStopped(AwsSagemakerWaitTransformJobCompletedOrStoppedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

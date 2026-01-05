@@ -18,48 +18,48 @@ public class AwsAccount
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteAlternateContact(AwsAccountDeleteAlternateContactOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAlternateContact(AwsAccountDeleteAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisableRegion(AwsAccountDisableRegionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisableRegion(AwsAccountDisableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableRegion(AwsAccountEnableRegionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EnableRegion(AwsAccountEnableRegionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAlternateContact(AwsAccountGetAlternateContactOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAlternateContact(AwsAccountGetAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetContactInformation(AwsAccountGetContactInformationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetContactInformation(AwsAccountGetContactInformationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAccountGetContactInformationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAccountGetContactInformationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRegionOptStatus(AwsAccountGetRegionOptStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRegionOptStatus(AwsAccountGetRegionOptStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRegions(AwsAccountListRegionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRegions(AwsAccountListRegionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsAccountListRegionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsAccountListRegionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutAlternateContact(AwsAccountPutAlternateContactOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutAlternateContact(AwsAccountPutAlternateContactOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutContactInformation(AwsAccountPutContactInformationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutContactInformation(AwsAccountPutContactInformationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

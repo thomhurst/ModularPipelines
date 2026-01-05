@@ -18,93 +18,93 @@ public class AwsMedicalImaging
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CopyImageSet(AwsMedicalImagingCopyImageSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyImageSet(AwsMedicalImagingCopyImageSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDatastore(AwsMedicalImagingCreateDatastoreOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateDatastore(AwsMedicalImagingCreateDatastoreOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMedicalImagingCreateDatastoreOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMedicalImagingCreateDatastoreOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDatastore(AwsMedicalImagingDeleteDatastoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDatastore(AwsMedicalImagingDeleteDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteImageSet(AwsMedicalImagingDeleteImageSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteImageSet(AwsMedicalImagingDeleteImageSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDatastore(AwsMedicalImagingGetDatastoreOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDatastore(AwsMedicalImagingGetDatastoreOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDicomImportJob(AwsMedicalImagingGetDicomImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDicomImportJob(AwsMedicalImagingGetDicomImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetImageFrame(AwsMedicalImagingGetImageFrameOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetImageFrame(AwsMedicalImagingGetImageFrameOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetImageSet(AwsMedicalImagingGetImageSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetImageSet(AwsMedicalImagingGetImageSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetImageSetMetadata(AwsMedicalImagingGetImageSetMetadataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetImageSetMetadata(AwsMedicalImagingGetImageSetMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatastores(AwsMedicalImagingListDatastoresOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDatastores(AwsMedicalImagingListDatastoresOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMedicalImagingListDatastoresOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMedicalImagingListDatastoresOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDicomImportJobs(AwsMedicalImagingListDicomImportJobsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDicomImportJobs(AwsMedicalImagingListDicomImportJobsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListImageSetVersions(AwsMedicalImagingListImageSetVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListImageSetVersions(AwsMedicalImagingListImageSetVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsMedicalImagingListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsMedicalImagingListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchImageSets(AwsMedicalImagingSearchImageSetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchImageSets(AwsMedicalImagingSearchImageSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDicomImportJob(AwsMedicalImagingStartDicomImportJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDicomImportJob(AwsMedicalImagingStartDicomImportJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsMedicalImagingTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsMedicalImagingTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsMedicalImagingUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsMedicalImagingUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateImageSetMetadata(AwsMedicalImagingUpdateImageSetMetadataOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateImageSetMetadata(AwsMedicalImagingUpdateImageSetMetadataOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

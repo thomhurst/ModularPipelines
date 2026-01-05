@@ -18,63 +18,63 @@ public class AwsFirehose
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateDeliveryStream(AwsFirehoseCreateDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeliveryStream(AwsFirehoseCreateDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDeliveryStream(AwsFirehoseDeleteDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDeliveryStream(AwsFirehoseDeleteDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDeliveryStream(AwsFirehoseDescribeDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDeliveryStream(AwsFirehoseDescribeDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeliveryStreams(AwsFirehoseListDeliveryStreamsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDeliveryStreams(AwsFirehoseListDeliveryStreamsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsFirehoseListDeliveryStreamsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsFirehoseListDeliveryStreamsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForDeliveryStream(AwsFirehoseListTagsForDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForDeliveryStream(AwsFirehoseListTagsForDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRecord(AwsFirehosePutRecordOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRecord(AwsFirehosePutRecordOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRecordBatch(AwsFirehosePutRecordBatchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRecordBatch(AwsFirehosePutRecordBatchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDeliveryStreamEncryption(AwsFirehoseStartDeliveryStreamEncryptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDeliveryStreamEncryption(AwsFirehoseStartDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopDeliveryStreamEncryption(AwsFirehoseStopDeliveryStreamEncryptionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopDeliveryStreamEncryption(AwsFirehoseStopDeliveryStreamEncryptionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagDeliveryStream(AwsFirehoseTagDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagDeliveryStream(AwsFirehoseTagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagDeliveryStream(AwsFirehoseUntagDeliveryStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagDeliveryStream(AwsFirehoseUntagDeliveryStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDestination(AwsFirehoseUpdateDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDestination(AwsFirehoseUpdateDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

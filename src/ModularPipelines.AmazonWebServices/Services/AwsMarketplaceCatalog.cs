@@ -18,68 +18,68 @@ public class AwsMarketplaceCatalog
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchDescribeEntities(AwsMarketplaceCatalogBatchDescribeEntitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDescribeEntities(AwsMarketplaceCatalogBatchDescribeEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelChangeSet(AwsMarketplaceCatalogCancelChangeSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelChangeSet(AwsMarketplaceCatalogCancelChangeSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourcePolicy(AwsMarketplaceCatalogDeleteResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourcePolicy(AwsMarketplaceCatalogDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeChangeSet(AwsMarketplaceCatalogDescribeChangeSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeChangeSet(AwsMarketplaceCatalogDescribeChangeSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEntity(AwsMarketplaceCatalogDescribeEntityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEntity(AwsMarketplaceCatalogDescribeEntityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourcePolicy(AwsMarketplaceCatalogGetResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourcePolicy(AwsMarketplaceCatalogGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChangeSets(AwsMarketplaceCatalogListChangeSetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListChangeSets(AwsMarketplaceCatalogListChangeSetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEntities(AwsMarketplaceCatalogListEntitiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEntities(AwsMarketplaceCatalogListEntitiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsMarketplaceCatalogListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsMarketplaceCatalogListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourcePolicy(AwsMarketplaceCatalogPutResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourcePolicy(AwsMarketplaceCatalogPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartChangeSet(AwsMarketplaceCatalogStartChangeSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartChangeSet(AwsMarketplaceCatalogStartChangeSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsMarketplaceCatalogTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsMarketplaceCatalogTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsMarketplaceCatalogUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsMarketplaceCatalogUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

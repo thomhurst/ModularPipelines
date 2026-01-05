@@ -20,28 +20,28 @@ public class AwsElbv2Wait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> LoadBalancerAvailable(AwsElbv2WaitLoadBalancerAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> LoadBalancerAvailable(AwsElbv2WaitLoadBalancerAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancerAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancerAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LoadBalancerExists(AwsElbv2WaitLoadBalancerExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> LoadBalancerExists(AwsElbv2WaitLoadBalancerExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancerExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancerExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> LoadBalancersDeleted(AwsElbv2WaitLoadBalancersDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> LoadBalancersDeleted(AwsElbv2WaitLoadBalancersDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancersDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElbv2WaitLoadBalancersDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TargetDeregistered(AwsElbv2WaitTargetDeregisteredOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TargetDeregistered(AwsElbv2WaitTargetDeregisteredOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TargetInService(AwsElbv2WaitTargetInServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TargetInService(AwsElbv2WaitTargetInServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

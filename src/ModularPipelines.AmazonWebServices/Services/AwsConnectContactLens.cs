@@ -18,8 +18,8 @@ public class AwsConnectContactLens
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ListRealtimeContactAnalysisSegments(AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRealtimeContactAnalysisSegments(AwsConnectContactLensListRealtimeContactAnalysisSegmentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

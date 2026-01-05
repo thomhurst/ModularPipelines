@@ -10,6 +10,30 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 /// </summary>
 public class SubDomainClassGenerator : ICodeGenerator
 {
+    /// <summary>
+    /// Reserved field names that cannot be used for backing fields.
+    /// </summary>
+    private static readonly HashSet<string> ReservedFieldNames = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "_command" // Used for ICommand dependency injection
+    };
+
+    /// <summary>
+    /// Generates a safe backing field name for a child sub-command group.
+    /// Avoids conflicts with reserved field names like _command.
+    /// </summary>
+    private static string GetSafeFieldName(string pascalSegment)
+    {
+        var baseName = $"_{char.ToLowerInvariant(pascalSegment[0])}{pascalSegment[1..]}";
+
+        if (ReservedFieldNames.Contains(baseName))
+        {
+            return $"{baseName}SubGroup";
+        }
+
+        return baseName;
+    }
+
     public Task<IReadOnlyList<GeneratedFile>> GenerateAsync(CliToolDefinition tool, CancellationToken cancellationToken = default)
     {
         var files = new List<GeneratedFile>();
@@ -122,7 +146,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         // Private fields for child instances (lazy)
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
-            sb.AppendLine($"    private {child.ClassName}? _{char.ToLowerInvariant(child.PascalSegment[0])}{child.PascalSegment[1..]};");
+            var fieldName = GetSafeFieldName(child.PascalSegment);
+            sb.AppendLine($"    private {child.ClassName}? {fieldName};");
         }
 
         sb.AppendLine();
@@ -145,7 +170,7 @@ public class SubDomainClassGenerator : ICodeGenerator
 
             foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
             {
-                var fieldName = $"_{char.ToLowerInvariant(child.PascalSegment[0])}{child.PascalSegment[1..]}";
+                var fieldName = GetSafeFieldName(child.PascalSegment);
 
                 sb.AppendLine($"    /// <summary>");
                 sb.AppendLine($"    /// {tool.ToolName} {child.Segment.ToLowerInvariant()} sub-commands.");

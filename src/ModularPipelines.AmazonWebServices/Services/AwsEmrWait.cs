@@ -20,18 +20,18 @@ public class AwsEmrWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ClusterRunning(AwsEmrWaitClusterRunningOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterRunning(AwsEmrWaitClusterRunningOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ClusterTerminated(AwsEmrWaitClusterTerminatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ClusterTerminated(AwsEmrWaitClusterTerminatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StepComplete(AwsEmrWaitStepCompleteOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StepComplete(AwsEmrWaitStepCompleteOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

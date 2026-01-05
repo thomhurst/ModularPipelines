@@ -20,8 +20,8 @@ public class AwsOpsworkscmWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> NodeAssociated(AwsOpsworkscmWaitNodeAssociatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> NodeAssociated(AwsOpsworkscmWaitNodeAssociatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

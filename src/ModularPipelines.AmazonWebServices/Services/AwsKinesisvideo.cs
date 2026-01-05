@@ -18,153 +18,153 @@ public class AwsKinesisvideo
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateSignalingChannel(AwsKinesisvideoCreateSignalingChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSignalingChannel(AwsKinesisvideoCreateSignalingChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateStream(AwsKinesisvideoCreateStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateStream(AwsKinesisvideoCreateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEdgeConfiguration(AwsKinesisvideoDeleteEdgeConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEdgeConfiguration(AwsKinesisvideoDeleteEdgeConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDeleteEdgeConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDeleteEdgeConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSignalingChannel(AwsKinesisvideoDeleteSignalingChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSignalingChannel(AwsKinesisvideoDeleteSignalingChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteStream(AwsKinesisvideoDeleteStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteStream(AwsKinesisvideoDeleteStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEdgeConfiguration(AwsKinesisvideoDescribeEdgeConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEdgeConfiguration(AwsKinesisvideoDescribeEdgeConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeEdgeConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeEdgeConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeImageGenerationConfiguration(AwsKinesisvideoDescribeImageGenerationConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeImageGenerationConfiguration(AwsKinesisvideoDescribeImageGenerationConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeImageGenerationConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeImageGenerationConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMappedResourceConfiguration(AwsKinesisvideoDescribeMappedResourceConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMappedResourceConfiguration(AwsKinesisvideoDescribeMappedResourceConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeMappedResourceConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeMappedResourceConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeMediaStorageConfiguration(AwsKinesisvideoDescribeMediaStorageConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeMediaStorageConfiguration(AwsKinesisvideoDescribeMediaStorageConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeMediaStorageConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeMediaStorageConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeNotificationConfiguration(AwsKinesisvideoDescribeNotificationConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeNotificationConfiguration(AwsKinesisvideoDescribeNotificationConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeNotificationConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeNotificationConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSignalingChannel(AwsKinesisvideoDescribeSignalingChannelOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSignalingChannel(AwsKinesisvideoDescribeSignalingChannelOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeSignalingChannelOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeSignalingChannelOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStream(AwsKinesisvideoDescribeStreamOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStream(AwsKinesisvideoDescribeStreamOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeStreamOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoDescribeStreamOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDataEndpoint(AwsKinesisvideoGetDataEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDataEndpoint(AwsKinesisvideoGetDataEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSignalingChannelEndpoint(AwsKinesisvideoGetSignalingChannelEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSignalingChannelEndpoint(AwsKinesisvideoGetSignalingChannelEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEdgeAgentConfigurations(AwsKinesisvideoListEdgeAgentConfigurationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListEdgeAgentConfigurations(AwsKinesisvideoListEdgeAgentConfigurationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSignalingChannels(AwsKinesisvideoListSignalingChannelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSignalingChannels(AwsKinesisvideoListSignalingChannelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListSignalingChannelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListSignalingChannelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListStreams(AwsKinesisvideoListStreamsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListStreams(AwsKinesisvideoListStreamsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListStreamsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListStreamsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsKinesisvideoListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsKinesisvideoListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForStream(AwsKinesisvideoListTagsForStreamOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForStream(AwsKinesisvideoListTagsForStreamOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListTagsForStreamOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoListTagsForStreamOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartEdgeConfigurationUpdate(AwsKinesisvideoStartEdgeConfigurationUpdateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartEdgeConfigurationUpdate(AwsKinesisvideoStartEdgeConfigurationUpdateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsKinesisvideoTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsKinesisvideoTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagStream(AwsKinesisvideoTagStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagStream(AwsKinesisvideoTagStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsKinesisvideoUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsKinesisvideoUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagStream(AwsKinesisvideoUntagStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagStream(AwsKinesisvideoUntagStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDataRetention(AwsKinesisvideoUpdateDataRetentionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDataRetention(AwsKinesisvideoUpdateDataRetentionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateImageGenerationConfiguration(AwsKinesisvideoUpdateImageGenerationConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateImageGenerationConfiguration(AwsKinesisvideoUpdateImageGenerationConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoUpdateImageGenerationConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoUpdateImageGenerationConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateMediaStorageConfiguration(AwsKinesisvideoUpdateMediaStorageConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateMediaStorageConfiguration(AwsKinesisvideoUpdateMediaStorageConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateNotificationConfiguration(AwsKinesisvideoUpdateNotificationConfigurationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateNotificationConfiguration(AwsKinesisvideoUpdateNotificationConfigurationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoUpdateNotificationConfigurationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsKinesisvideoUpdateNotificationConfigurationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSignalingChannel(AwsKinesisvideoUpdateSignalingChannelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSignalingChannel(AwsKinesisvideoUpdateSignalingChannelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateStream(AwsKinesisvideoUpdateStreamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateStream(AwsKinesisvideoUpdateStreamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

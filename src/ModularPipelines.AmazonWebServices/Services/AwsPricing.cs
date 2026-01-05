@@ -18,28 +18,28 @@ public class AwsPricing
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeServices(AwsPricingDescribeServicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeServices(AwsPricingDescribeServicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPricingDescribeServicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPricingDescribeServicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAttributeValues(AwsPricingGetAttributeValuesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAttributeValues(AwsPricingGetAttributeValuesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPriceListFileUrl(AwsPricingGetPriceListFileUrlOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPriceListFileUrl(AwsPricingGetPriceListFileUrlOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetProducts(AwsPricingGetProductsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetProducts(AwsPricingGetProductsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPriceLists(AwsPricingListPriceListsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPriceLists(AwsPricingListPriceListsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,33 +18,33 @@ public class AwsImportexport
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelJob(AwsImportexportCancelJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelJob(AwsImportexportCancelJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateJob(AwsImportexportCreateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateJob(AwsImportexportCreateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetShippingLabel(AwsImportexportGetShippingLabelOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetShippingLabel(AwsImportexportGetShippingLabelOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetStatus(AwsImportexportGetStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetStatus(AwsImportexportGetStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListJobs(AwsImportexportListJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListJobs(AwsImportexportListJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsImportexportListJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsImportexportListJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateJob(AwsImportexportUpdateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateJob(AwsImportexportUpdateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

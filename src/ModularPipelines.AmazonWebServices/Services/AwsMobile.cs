@@ -18,48 +18,48 @@ public class AwsMobile
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateProject(AwsMobileCreateProjectOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateProject(AwsMobileCreateProjectOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileCreateProjectOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileCreateProjectOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteProject(AwsMobileDeleteProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteProject(AwsMobileDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeBundle(AwsMobileDescribeBundleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeBundle(AwsMobileDescribeBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeProject(AwsMobileDescribeProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeProject(AwsMobileDescribeProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExportBundle(AwsMobileExportBundleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExportBundle(AwsMobileExportBundleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExportProject(AwsMobileExportProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExportProject(AwsMobileExportProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBundles(AwsMobileListBundlesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBundles(AwsMobileListBundlesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileListBundlesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileListBundlesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProjects(AwsMobileListProjectsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListProjects(AwsMobileListProjectsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileListProjectsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsMobileListProjectsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateProject(AwsMobileUpdateProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateProject(AwsMobileUpdateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

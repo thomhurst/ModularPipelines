@@ -18,63 +18,63 @@ public class AwsIoteventsData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchAcknowledgeAlarm(AwsIoteventsDataBatchAcknowledgeAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchAcknowledgeAlarm(AwsIoteventsDataBatchAcknowledgeAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDeleteDetector(AwsIoteventsDataBatchDeleteDetectorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDeleteDetector(AwsIoteventsDataBatchDeleteDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchDisableAlarm(AwsIoteventsDataBatchDisableAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchDisableAlarm(AwsIoteventsDataBatchDisableAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchEnableAlarm(AwsIoteventsDataBatchEnableAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchEnableAlarm(AwsIoteventsDataBatchEnableAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchPutMessage(AwsIoteventsDataBatchPutMessageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchPutMessage(AwsIoteventsDataBatchPutMessageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchResetAlarm(AwsIoteventsDataBatchResetAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchResetAlarm(AwsIoteventsDataBatchResetAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchSnoozeAlarm(AwsIoteventsDataBatchSnoozeAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchSnoozeAlarm(AwsIoteventsDataBatchSnoozeAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUpdateDetector(AwsIoteventsDataBatchUpdateDetectorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUpdateDetector(AwsIoteventsDataBatchUpdateDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAlarm(AwsIoteventsDataDescribeAlarmOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAlarm(AwsIoteventsDataDescribeAlarmOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDetector(AwsIoteventsDataDescribeDetectorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDetector(AwsIoteventsDataDescribeDetectorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAlarms(AwsIoteventsDataListAlarmsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAlarms(AwsIoteventsDataListAlarmsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDetectors(AwsIoteventsDataListDetectorsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDetectors(AwsIoteventsDataListDetectorsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

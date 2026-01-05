@@ -18,68 +18,68 @@ public class AwsTimestreamQuery
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CancelQuery(AwsTimestreamQueryCancelQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelQuery(AwsTimestreamQueryCancelQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateScheduledQuery(AwsTimestreamQueryCreateScheduledQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateScheduledQuery(AwsTimestreamQueryCreateScheduledQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteScheduledQuery(AwsTimestreamQueryDeleteScheduledQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteScheduledQuery(AwsTimestreamQueryDeleteScheduledQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEndpoints(AwsTimestreamQueryDescribeEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEndpoints(AwsTimestreamQueryDescribeEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamQueryDescribeEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamQueryDescribeEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeScheduledQuery(AwsTimestreamQueryDescribeScheduledQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeScheduledQuery(AwsTimestreamQueryDescribeScheduledQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ExecuteScheduledQuery(AwsTimestreamQueryExecuteScheduledQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ExecuteScheduledQuery(AwsTimestreamQueryExecuteScheduledQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListScheduledQueries(AwsTimestreamQueryListScheduledQueriesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListScheduledQueries(AwsTimestreamQueryListScheduledQueriesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamQueryListScheduledQueriesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTimestreamQueryListScheduledQueriesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsTimestreamQueryListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsTimestreamQueryListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PrepareQuery(AwsTimestreamQueryPrepareQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PrepareQuery(AwsTimestreamQueryPrepareQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Query(AwsTimestreamQueryQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> Query(AwsTimestreamQueryQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsTimestreamQueryTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsTimestreamQueryTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsTimestreamQueryUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsTimestreamQueryUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateScheduledQuery(AwsTimestreamQueryUpdateScheduledQueryOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateScheduledQuery(AwsTimestreamQueryUpdateScheduledQueryOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

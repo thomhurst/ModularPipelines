@@ -18,23 +18,23 @@ public class AwsMarketplaceDeployment
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ListTagsForResource(AwsMarketplaceDeploymentListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsMarketplaceDeploymentListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDeploymentParameter(AwsMarketplaceDeploymentPutDeploymentParameterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutDeploymentParameter(AwsMarketplaceDeploymentPutDeploymentParameterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsMarketplaceDeploymentTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsMarketplaceDeploymentTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsMarketplaceDeploymentUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsMarketplaceDeploymentUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

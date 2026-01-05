@@ -18,288 +18,288 @@ public class AwsEvents
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ActivateEventSource(AwsEventsActivateEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ActivateEventSource(AwsEventsActivateEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelReplay(AwsEventsCancelReplayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelReplay(AwsEventsCancelReplayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApiDestination(AwsEventsCreateApiDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApiDestination(AwsEventsCreateApiDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateArchive(AwsEventsCreateArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateArchive(AwsEventsCreateArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConnection(AwsEventsCreateConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConnection(AwsEventsCreateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEndpoint(AwsEventsCreateEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEndpoint(AwsEventsCreateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEventBus(AwsEventsCreateEventBusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEventBus(AwsEventsCreateEventBusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePartnerEventSource(AwsEventsCreatePartnerEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePartnerEventSource(AwsEventsCreatePartnerEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeactivateEventSource(AwsEventsDeactivateEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeactivateEventSource(AwsEventsDeactivateEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeauthorizeConnection(AwsEventsDeauthorizeConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeauthorizeConnection(AwsEventsDeauthorizeConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApiDestination(AwsEventsDeleteApiDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApiDestination(AwsEventsDeleteApiDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteArchive(AwsEventsDeleteArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteArchive(AwsEventsDeleteArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConnection(AwsEventsDeleteConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConnection(AwsEventsDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEndpoint(AwsEventsDeleteEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEndpoint(AwsEventsDeleteEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEventBus(AwsEventsDeleteEventBusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEventBus(AwsEventsDeleteEventBusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePartnerEventSource(AwsEventsDeletePartnerEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePartnerEventSource(AwsEventsDeletePartnerEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRule(AwsEventsDeleteRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRule(AwsEventsDeleteRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApiDestination(AwsEventsDescribeApiDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApiDestination(AwsEventsDescribeApiDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeArchive(AwsEventsDescribeArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeArchive(AwsEventsDescribeArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConnection(AwsEventsDescribeConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConnection(AwsEventsDescribeConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEndpoint(AwsEventsDescribeEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEndpoint(AwsEventsDescribeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEventBus(AwsEventsDescribeEventBusOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEventBus(AwsEventsDescribeEventBusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsDescribeEventBusOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsDescribeEventBusOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEventSource(AwsEventsDescribeEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEventSource(AwsEventsDescribeEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePartnerEventSource(AwsEventsDescribePartnerEventSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePartnerEventSource(AwsEventsDescribePartnerEventSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeReplay(AwsEventsDescribeReplayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeReplay(AwsEventsDescribeReplayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeRule(AwsEventsDescribeRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeRule(AwsEventsDescribeRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisableRule(AwsEventsDisableRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisableRule(AwsEventsDisableRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnableRule(AwsEventsEnableRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> EnableRule(AwsEventsEnableRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApiDestinations(AwsEventsListApiDestinationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApiDestinations(AwsEventsListApiDestinationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListApiDestinationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListApiDestinationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListArchives(AwsEventsListArchivesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListArchives(AwsEventsListArchivesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListArchivesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListArchivesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConnections(AwsEventsListConnectionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConnections(AwsEventsListConnectionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListConnectionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListConnectionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEndpoints(AwsEventsListEndpointsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEndpoints(AwsEventsListEndpointsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEndpointsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEndpointsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventBuses(AwsEventsListEventBusesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEventBuses(AwsEventsListEventBusesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEventBusesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEventBusesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListEventSources(AwsEventsListEventSourcesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListEventSources(AwsEventsListEventSourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEventSourcesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListEventSourcesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPartnerEventSourceAccounts(AwsEventsListPartnerEventSourceAccountsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPartnerEventSourceAccounts(AwsEventsListPartnerEventSourceAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPartnerEventSources(AwsEventsListPartnerEventSourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListPartnerEventSources(AwsEventsListPartnerEventSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListReplays(AwsEventsListReplaysOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListReplays(AwsEventsListReplaysOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListReplaysOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListReplaysOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRuleNamesByTarget(AwsEventsListRuleNamesByTargetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRuleNamesByTarget(AwsEventsListRuleNamesByTargetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRules(AwsEventsListRulesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRules(AwsEventsListRulesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListRulesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsListRulesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsEventsListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsEventsListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTargetsByRule(AwsEventsListTargetsByRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTargetsByRule(AwsEventsListTargetsByRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutEvents(AwsEventsPutEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutEvents(AwsEventsPutEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutPartnerEvents(AwsEventsPutPartnerEventsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutPartnerEvents(AwsEventsPutPartnerEventsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutPermission(AwsEventsPutPermissionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> PutPermission(AwsEventsPutPermissionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsPutPermissionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsPutPermissionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutRule(AwsEventsPutRuleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutRule(AwsEventsPutRuleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutTargets(AwsEventsPutTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutTargets(AwsEventsPutTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemovePermission(AwsEventsRemovePermissionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RemovePermission(AwsEventsRemovePermissionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsRemovePermissionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsRemovePermissionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveTargets(AwsEventsRemoveTargetsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveTargets(AwsEventsRemoveTargetsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartReplay(AwsEventsStartReplayOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartReplay(AwsEventsStartReplayOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsEventsTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsEventsTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TestEventPattern(AwsEventsTestEventPatternOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TestEventPattern(AwsEventsTestEventPatternOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsEventsUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsEventsUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApiDestination(AwsEventsUpdateApiDestinationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApiDestination(AwsEventsUpdateApiDestinationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateArchive(AwsEventsUpdateArchiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateArchive(AwsEventsUpdateArchiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConnection(AwsEventsUpdateConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConnection(AwsEventsUpdateConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEndpoint(AwsEventsUpdateEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEndpoint(AwsEventsUpdateEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> Wizard(AwsEventsWizardOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> Wizard(AwsEventsWizardOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsWizardOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsEventsWizardOptions(), executionOptions, cancellationToken);
     }
 }

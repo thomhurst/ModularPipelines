@@ -18,13 +18,13 @@ public class AwsAppconfigdata
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetLatestConfiguration(AwsAppconfigdataGetLatestConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLatestConfiguration(AwsAppconfigdataGetLatestConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartConfigurationSession(AwsAppconfigdataStartConfigurationSessionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartConfigurationSession(AwsAppconfigdataStartConfigurationSessionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

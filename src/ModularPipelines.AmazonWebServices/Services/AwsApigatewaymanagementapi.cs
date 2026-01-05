@@ -18,18 +18,18 @@ public class AwsApigatewaymanagementapi
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteConnection(AwsApigatewaymanagementapiDeleteConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConnection(AwsApigatewaymanagementapiDeleteConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConnection(AwsApigatewaymanagementapiGetConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnection(AwsApigatewaymanagementapiGetConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PostToConnection(AwsApigatewaymanagementapiPostToConnectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PostToConnection(AwsApigatewaymanagementapiPostToConnectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

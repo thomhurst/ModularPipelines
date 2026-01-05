@@ -20,18 +20,18 @@ public class AwsElbWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AnyInstanceInService(AwsElbWaitAnyInstanceInServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AnyInstanceInService(AwsElbWaitAnyInstanceInServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceDeregistered(AwsElbWaitInstanceDeregisteredOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InstanceDeregistered(AwsElbWaitInstanceDeregisteredOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InstanceInService(AwsElbWaitInstanceInServiceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InstanceInService(AwsElbWaitInstanceInServiceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

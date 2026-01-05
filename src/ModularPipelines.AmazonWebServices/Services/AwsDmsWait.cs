@@ -20,43 +20,43 @@ public class AwsDmsWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> EndpointDeleted(AwsDmsWaitEndpointDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EndpointDeleted(AwsDmsWaitEndpointDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitEndpointDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitEndpointDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationInstanceAvailable(AwsDmsWaitReplicationInstanceAvailableOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationInstanceAvailable(AwsDmsWaitReplicationInstanceAvailableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationInstanceAvailableOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationInstanceAvailableOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationInstanceDeleted(AwsDmsWaitReplicationInstanceDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationInstanceDeleted(AwsDmsWaitReplicationInstanceDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationInstanceDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationInstanceDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationTaskDeleted(AwsDmsWaitReplicationTaskDeletedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationTaskDeleted(AwsDmsWaitReplicationTaskDeletedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskDeletedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskDeletedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationTaskReady(AwsDmsWaitReplicationTaskReadyOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationTaskReady(AwsDmsWaitReplicationTaskReadyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskReadyOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskReadyOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationTaskRunning(AwsDmsWaitReplicationTaskRunningOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationTaskRunning(AwsDmsWaitReplicationTaskRunningOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskRunningOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskRunningOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicationTaskStopped(AwsDmsWaitReplicationTaskStoppedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ReplicationTaskStopped(AwsDmsWaitReplicationTaskStoppedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskStoppedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitReplicationTaskStoppedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TestConnectionSucceeds(AwsDmsWaitTestConnectionSucceedsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> TestConnectionSucceeds(AwsDmsWaitTestConnectionSucceedsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitTestConnectionSucceedsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDmsWaitTestConnectionSucceedsOptions(), executionOptions, cancellationToken);
     }
 }

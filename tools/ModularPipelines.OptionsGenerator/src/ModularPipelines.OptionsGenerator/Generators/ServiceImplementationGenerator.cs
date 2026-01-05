@@ -55,7 +55,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// Generated implementation for {tool.ToolName} CLI commands.");
         sb.AppendLine("/// </summary>");
-        sb.AppendLine($"internal class {className} : {interfaceName}");
+        sb.AppendLine($"public class {className} : {interfaceName}");
         sb.AppendLine("{");
 
         // Private field for ICommand

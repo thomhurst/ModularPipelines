@@ -18,33 +18,33 @@ public class AwsApplicationcostprofiler
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DeleteReportDefinition(AwsApplicationcostprofilerDeleteReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteReportDefinition(AwsApplicationcostprofilerDeleteReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetReportDefinition(AwsApplicationcostprofilerGetReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetReportDefinition(AwsApplicationcostprofilerGetReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportApplicationUsage(AwsApplicationcostprofilerImportApplicationUsageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportApplicationUsage(AwsApplicationcostprofilerImportApplicationUsageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListReportDefinitions(AwsApplicationcostprofilerListReportDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListReportDefinitions(AwsApplicationcostprofilerListReportDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsApplicationcostprofilerListReportDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsApplicationcostprofilerListReportDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutReportDefinition(AwsApplicationcostprofilerPutReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutReportDefinition(AwsApplicationcostprofilerPutReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateReportDefinition(AwsApplicationcostprofilerUpdateReportDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateReportDefinition(AwsApplicationcostprofilerUpdateReportDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,108 +18,108 @@ public class AwsDax
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateCluster(AwsDaxCreateClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCluster(AwsDaxCreateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateParameterGroup(AwsDaxCreateParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateParameterGroup(AwsDaxCreateParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSubnetGroup(AwsDaxCreateSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSubnetGroup(AwsDaxCreateSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DecreaseReplicationFactor(AwsDaxDecreaseReplicationFactorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DecreaseReplicationFactor(AwsDaxDecreaseReplicationFactorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCluster(AwsDaxDeleteClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCluster(AwsDaxDeleteClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteParameterGroup(AwsDaxDeleteParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteParameterGroup(AwsDaxDeleteParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSubnetGroup(AwsDaxDeleteSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSubnetGroup(AwsDaxDeleteSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeClusters(AwsDaxDescribeClustersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeClusters(AwsDaxDescribeClustersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeClustersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeClustersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDefaultParameters(AwsDaxDescribeDefaultParametersOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDefaultParameters(AwsDaxDescribeDefaultParametersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeDefaultParametersOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeDefaultParametersOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEvents(AwsDaxDescribeEventsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEvents(AwsDaxDescribeEventsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeEventsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeEventsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeParameterGroups(AwsDaxDescribeParameterGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeParameterGroups(AwsDaxDescribeParameterGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeParameterGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeParameterGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeParameters(AwsDaxDescribeParametersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeParameters(AwsDaxDescribeParametersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSubnetGroups(AwsDaxDescribeSubnetGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSubnetGroups(AwsDaxDescribeSubnetGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeSubnetGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsDaxDescribeSubnetGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> IncreaseReplicationFactor(AwsDaxIncreaseReplicationFactorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> IncreaseReplicationFactor(AwsDaxIncreaseReplicationFactorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTags(AwsDaxListTagsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTags(AwsDaxListTagsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RebootNode(AwsDaxRebootNodeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RebootNode(AwsDaxRebootNodeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsDaxTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsDaxTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsDaxUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsDaxUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCluster(AwsDaxUpdateClusterOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCluster(AwsDaxUpdateClusterOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateParameterGroup(AwsDaxUpdateParameterGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateParameterGroup(AwsDaxUpdateParameterGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSubnetGroup(AwsDaxUpdateSubnetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSubnetGroup(AwsDaxUpdateSubnetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

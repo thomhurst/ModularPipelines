@@ -18,23 +18,23 @@ public class AwsIotJobsData
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeJobExecution(AwsIotJobsDataDescribeJobExecutionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeJobExecution(AwsIotJobsDataDescribeJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPendingJobExecutions(AwsIotJobsDataGetPendingJobExecutionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPendingJobExecutions(AwsIotJobsDataGetPendingJobExecutionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartNextPendingJobExecution(AwsIotJobsDataStartNextPendingJobExecutionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartNextPendingJobExecution(AwsIotJobsDataStartNextPendingJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateJobExecution(AwsIotJobsDataUpdateJobExecutionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateJobExecution(AwsIotJobsDataUpdateJobExecutionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

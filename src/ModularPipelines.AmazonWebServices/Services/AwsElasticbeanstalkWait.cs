@@ -20,18 +20,18 @@ public class AwsElasticbeanstalkWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> EnvironmentExists(AwsElasticbeanstalkWaitEnvironmentExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EnvironmentExists(AwsElasticbeanstalkWaitEnvironmentExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnvironmentTerminated(AwsElasticbeanstalkWaitEnvironmentTerminatedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EnvironmentTerminated(AwsElasticbeanstalkWaitEnvironmentTerminatedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentTerminatedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentTerminatedOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> EnvironmentUpdated(AwsElasticbeanstalkWaitEnvironmentUpdatedOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> EnvironmentUpdated(AwsElasticbeanstalkWaitEnvironmentUpdatedOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentUpdatedOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkWaitEnvironmentUpdatedOptions(), executionOptions, cancellationToken);
     }
 }

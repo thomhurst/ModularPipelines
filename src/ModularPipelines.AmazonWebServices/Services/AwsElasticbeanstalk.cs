@@ -22,238 +22,238 @@ public class AwsElasticbeanstalk
 
     public AwsElasticbeanstalkWait Wait { get; }
 
-    public async Task<CommandResult> AbortEnvironmentUpdate(AwsElasticbeanstalkAbortEnvironmentUpdateOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> AbortEnvironmentUpdate(AwsElasticbeanstalkAbortEnvironmentUpdateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkAbortEnvironmentUpdateOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkAbortEnvironmentUpdateOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ApplyEnvironmentManagedAction(AwsElasticbeanstalkApplyEnvironmentManagedActionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ApplyEnvironmentManagedAction(AwsElasticbeanstalkApplyEnvironmentManagedActionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateEnvironmentOperationsRole(AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateEnvironmentOperationsRole(AwsElasticbeanstalkAssociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CheckDnsAvailability(AwsElasticbeanstalkCheckDnsAvailabilityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CheckDnsAvailability(AwsElasticbeanstalkCheckDnsAvailabilityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ComposeEnvironments(AwsElasticbeanstalkComposeEnvironmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ComposeEnvironments(AwsElasticbeanstalkComposeEnvironmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkComposeEnvironmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkComposeEnvironmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApplication(AwsElasticbeanstalkCreateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplication(AwsElasticbeanstalkCreateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApplicationVersion(AwsElasticbeanstalkCreateApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApplicationVersion(AwsElasticbeanstalkCreateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConfigurationTemplate(AwsElasticbeanstalkCreateConfigurationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConfigurationTemplate(AwsElasticbeanstalkCreateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateEnvironment(AwsElasticbeanstalkCreateEnvironmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateEnvironment(AwsElasticbeanstalkCreateEnvironmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreatePlatformVersion(AwsElasticbeanstalkCreatePlatformVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePlatformVersion(AwsElasticbeanstalkCreatePlatformVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateStorageLocation(AwsElasticbeanstalkCreateStorageLocationOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateStorageLocation(AwsElasticbeanstalkCreateStorageLocationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkCreateStorageLocationOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkCreateStorageLocationOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplication(AwsElasticbeanstalkDeleteApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplication(AwsElasticbeanstalkDeleteApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApplicationVersion(AwsElasticbeanstalkDeleteApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApplicationVersion(AwsElasticbeanstalkDeleteApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConfigurationTemplate(AwsElasticbeanstalkDeleteConfigurationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConfigurationTemplate(AwsElasticbeanstalkDeleteConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteEnvironmentConfiguration(AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteEnvironmentConfiguration(AwsElasticbeanstalkDeleteEnvironmentConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePlatformVersion(AwsElasticbeanstalkDeletePlatformVersionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DeletePlatformVersion(AwsElasticbeanstalkDeletePlatformVersionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDeletePlatformVersionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDeletePlatformVersionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccountAttributes(AwsElasticbeanstalkDescribeAccountAttributesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccountAttributes(AwsElasticbeanstalkDescribeAccountAttributesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeAccountAttributesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeAccountAttributesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApplicationVersions(AwsElasticbeanstalkDescribeApplicationVersionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApplicationVersions(AwsElasticbeanstalkDescribeApplicationVersionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeApplicationVersionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeApplicationVersionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApplications(AwsElasticbeanstalkDescribeApplicationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApplications(AwsElasticbeanstalkDescribeApplicationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeApplicationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConfigurationOptions(AwsElasticbeanstalkDescribeConfigurationOptionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConfigurationOptions(AwsElasticbeanstalkDescribeConfigurationOptionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeConfigurationOptionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeConfigurationOptionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeConfigurationSettings(AwsElasticbeanstalkDescribeConfigurationSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeConfigurationSettings(AwsElasticbeanstalkDescribeConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEnvironmentHealth(AwsElasticbeanstalkDescribeEnvironmentHealthOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEnvironmentHealth(AwsElasticbeanstalkDescribeEnvironmentHealthOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentHealthOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentHealthOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEnvironmentManagedActionHistory(AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEnvironmentManagedActionHistory(AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentManagedActionHistoryOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEnvironmentManagedActions(AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEnvironmentManagedActions(AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentManagedActionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEnvironmentResources(AwsElasticbeanstalkDescribeEnvironmentResourcesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEnvironmentResources(AwsElasticbeanstalkDescribeEnvironmentResourcesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentResourcesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentResourcesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEnvironments(AwsElasticbeanstalkDescribeEnvironmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEnvironments(AwsElasticbeanstalkDescribeEnvironmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEnvironmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeEvents(AwsElasticbeanstalkDescribeEventsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeEvents(AwsElasticbeanstalkDescribeEventsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEventsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeEventsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeInstancesHealth(AwsElasticbeanstalkDescribeInstancesHealthOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeInstancesHealth(AwsElasticbeanstalkDescribeInstancesHealthOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeInstancesHealthOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribeInstancesHealthOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePlatformVersion(AwsElasticbeanstalkDescribePlatformVersionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribePlatformVersion(AwsElasticbeanstalkDescribePlatformVersionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribePlatformVersionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkDescribePlatformVersionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateEnvironmentOperationsRole(AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateEnvironmentOperationsRole(AwsElasticbeanstalkDisassociateEnvironmentOperationsRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAvailableSolutionStacks(AwsElasticbeanstalkListAvailableSolutionStacksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAvailableSolutionStacks(AwsElasticbeanstalkListAvailableSolutionStacksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListAvailableSolutionStacksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListAvailableSolutionStacksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPlatformBranches(AwsElasticbeanstalkListPlatformBranchesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPlatformBranches(AwsElasticbeanstalkListPlatformBranchesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListPlatformBranchesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListPlatformBranchesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPlatformVersions(AwsElasticbeanstalkListPlatformVersionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPlatformVersions(AwsElasticbeanstalkListPlatformVersionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListPlatformVersionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkListPlatformVersionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsElasticbeanstalkListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsElasticbeanstalkListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RebuildEnvironment(AwsElasticbeanstalkRebuildEnvironmentOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RebuildEnvironment(AwsElasticbeanstalkRebuildEnvironmentOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkRebuildEnvironmentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkRebuildEnvironmentOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RequestEnvironmentInfo(AwsElasticbeanstalkRequestEnvironmentInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RequestEnvironmentInfo(AwsElasticbeanstalkRequestEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestartAppServer(AwsElasticbeanstalkRestartAppServerOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RestartAppServer(AwsElasticbeanstalkRestartAppServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkRestartAppServerOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkRestartAppServerOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RetrieveEnvironmentInfo(AwsElasticbeanstalkRetrieveEnvironmentInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RetrieveEnvironmentInfo(AwsElasticbeanstalkRetrieveEnvironmentInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SwapEnvironmentCnames(AwsElasticbeanstalkSwapEnvironmentCnamesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SwapEnvironmentCnames(AwsElasticbeanstalkSwapEnvironmentCnamesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkSwapEnvironmentCnamesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkSwapEnvironmentCnamesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TerminateEnvironment(AwsElasticbeanstalkTerminateEnvironmentOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> TerminateEnvironment(AwsElasticbeanstalkTerminateEnvironmentOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkTerminateEnvironmentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkTerminateEnvironmentOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplication(AwsElasticbeanstalkUpdateApplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplication(AwsElasticbeanstalkUpdateApplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplicationResourceLifecycle(AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplicationResourceLifecycle(AwsElasticbeanstalkUpdateApplicationResourceLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApplicationVersion(AwsElasticbeanstalkUpdateApplicationVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApplicationVersion(AwsElasticbeanstalkUpdateApplicationVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConfigurationTemplate(AwsElasticbeanstalkUpdateConfigurationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConfigurationTemplate(AwsElasticbeanstalkUpdateConfigurationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateEnvironment(AwsElasticbeanstalkUpdateEnvironmentOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> UpdateEnvironment(AwsElasticbeanstalkUpdateEnvironmentOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkUpdateEnvironmentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticbeanstalkUpdateEnvironmentOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateTagsForResource(AwsElasticbeanstalkUpdateTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateTagsForResource(AwsElasticbeanstalkUpdateTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateConfigurationSettings(AwsElasticbeanstalkValidateConfigurationSettingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateConfigurationSettings(AwsElasticbeanstalkValidateConfigurationSettingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -20,13 +20,13 @@ public class AwsCloudwatchWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AlarmExists(AwsCloudwatchWaitAlarmExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> AlarmExists(AwsCloudwatchWaitAlarmExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudwatchWaitAlarmExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudwatchWaitAlarmExistsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CompositeAlarmExists(AwsCloudwatchWaitCompositeAlarmExistsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CompositeAlarmExists(AwsCloudwatchWaitCompositeAlarmExistsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudwatchWaitCompositeAlarmExistsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsCloudwatchWaitCompositeAlarmExistsOptions(), executionOptions, cancellationToken);
     }
 }

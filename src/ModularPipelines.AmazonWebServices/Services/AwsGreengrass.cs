@@ -18,463 +18,463 @@ public class AwsGreengrass
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AssociateRoleToGroup(AwsGreengrassAssociateRoleToGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateRoleToGroup(AwsGreengrassAssociateRoleToGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AssociateServiceRoleToAccount(AwsGreengrassAssociateServiceRoleToAccountOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateServiceRoleToAccount(AwsGreengrassAssociateServiceRoleToAccountOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConnectorDefinition(AwsGreengrassCreateConnectorDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateConnectorDefinition(AwsGreengrassCreateConnectorDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateConnectorDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateConnectorDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateConnectorDefinitionVersion(AwsGreengrassCreateConnectorDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateConnectorDefinitionVersion(AwsGreengrassCreateConnectorDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCoreDefinition(AwsGreengrassCreateCoreDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateCoreDefinition(AwsGreengrassCreateCoreDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateCoreDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateCoreDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCoreDefinitionVersion(AwsGreengrassCreateCoreDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCoreDefinitionVersion(AwsGreengrassCreateCoreDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeployment(AwsGreengrassCreateDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeployment(AwsGreengrassCreateDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeviceDefinition(AwsGreengrassCreateDeviceDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeviceDefinition(AwsGreengrassCreateDeviceDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateDeviceDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateDeviceDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDeviceDefinitionVersion(AwsGreengrassCreateDeviceDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDeviceDefinitionVersion(AwsGreengrassCreateDeviceDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFunctionDefinition(AwsGreengrassCreateFunctionDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateFunctionDefinition(AwsGreengrassCreateFunctionDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateFunctionDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateFunctionDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFunctionDefinitionVersion(AwsGreengrassCreateFunctionDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateFunctionDefinitionVersion(AwsGreengrassCreateFunctionDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGroup(AwsGreengrassCreateGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateGroup(AwsGreengrassCreateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGroupCertificateAuthority(AwsGreengrassCreateGroupCertificateAuthorityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateGroupCertificateAuthority(AwsGreengrassCreateGroupCertificateAuthorityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateGroupVersion(AwsGreengrassCreateGroupVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateGroupVersion(AwsGreengrassCreateGroupVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateLoggerDefinition(AwsGreengrassCreateLoggerDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateLoggerDefinition(AwsGreengrassCreateLoggerDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateLoggerDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateLoggerDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateLoggerDefinitionVersion(AwsGreengrassCreateLoggerDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateLoggerDefinitionVersion(AwsGreengrassCreateLoggerDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResourceDefinition(AwsGreengrassCreateResourceDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateResourceDefinition(AwsGreengrassCreateResourceDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateResourceDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateResourceDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResourceDefinitionVersion(AwsGreengrassCreateResourceDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResourceDefinitionVersion(AwsGreengrassCreateResourceDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSoftwareUpdateJob(AwsGreengrassCreateSoftwareUpdateJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSoftwareUpdateJob(AwsGreengrassCreateSoftwareUpdateJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSubscriptionDefinition(AwsGreengrassCreateSubscriptionDefinitionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateSubscriptionDefinition(AwsGreengrassCreateSubscriptionDefinitionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateSubscriptionDefinitionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassCreateSubscriptionDefinitionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSubscriptionDefinitionVersion(AwsGreengrassCreateSubscriptionDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSubscriptionDefinitionVersion(AwsGreengrassCreateSubscriptionDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteConnectorDefinition(AwsGreengrassDeleteConnectorDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteConnectorDefinition(AwsGreengrassDeleteConnectorDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCoreDefinition(AwsGreengrassDeleteCoreDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCoreDefinition(AwsGreengrassDeleteCoreDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDeviceDefinition(AwsGreengrassDeleteDeviceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDeviceDefinition(AwsGreengrassDeleteDeviceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFunctionDefinition(AwsGreengrassDeleteFunctionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFunctionDefinition(AwsGreengrassDeleteFunctionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteGroup(AwsGreengrassDeleteGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteGroup(AwsGreengrassDeleteGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteLoggerDefinition(AwsGreengrassDeleteLoggerDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteLoggerDefinition(AwsGreengrassDeleteLoggerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourceDefinition(AwsGreengrassDeleteResourceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourceDefinition(AwsGreengrassDeleteResourceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSubscriptionDefinition(AwsGreengrassDeleteSubscriptionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSubscriptionDefinition(AwsGreengrassDeleteSubscriptionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateRoleFromGroup(AwsGreengrassDisassociateRoleFromGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateRoleFromGroup(AwsGreengrassDisassociateRoleFromGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateServiceRoleFromAccount(AwsGreengrassDisassociateServiceRoleFromAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateServiceRoleFromAccount(AwsGreengrassDisassociateServiceRoleFromAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassDisassociateServiceRoleFromAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassDisassociateServiceRoleFromAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetAssociatedRole(AwsGreengrassGetAssociatedRoleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetAssociatedRole(AwsGreengrassGetAssociatedRoleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetBulkDeploymentStatus(AwsGreengrassGetBulkDeploymentStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetBulkDeploymentStatus(AwsGreengrassGetBulkDeploymentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConnectivityInfo(AwsGreengrassGetConnectivityInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnectivityInfo(AwsGreengrassGetConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConnectorDefinition(AwsGreengrassGetConnectorDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnectorDefinition(AwsGreengrassGetConnectorDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetConnectorDefinitionVersion(AwsGreengrassGetConnectorDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetConnectorDefinitionVersion(AwsGreengrassGetConnectorDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCoreDefinition(AwsGreengrassGetCoreDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCoreDefinition(AwsGreengrassGetCoreDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCoreDefinitionVersion(AwsGreengrassGetCoreDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCoreDefinitionVersion(AwsGreengrassGetCoreDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeploymentStatus(AwsGreengrassGetDeploymentStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeploymentStatus(AwsGreengrassGetDeploymentStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeviceDefinition(AwsGreengrassGetDeviceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeviceDefinition(AwsGreengrassGetDeviceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetDeviceDefinitionVersion(AwsGreengrassGetDeviceDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetDeviceDefinitionVersion(AwsGreengrassGetDeviceDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFunctionDefinition(AwsGreengrassGetFunctionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFunctionDefinition(AwsGreengrassGetFunctionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFunctionDefinitionVersion(AwsGreengrassGetFunctionDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFunctionDefinitionVersion(AwsGreengrassGetFunctionDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGroup(AwsGreengrassGetGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetGroup(AwsGreengrassGetGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGroupCertificateAuthority(AwsGreengrassGetGroupCertificateAuthorityOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetGroupCertificateAuthority(AwsGreengrassGetGroupCertificateAuthorityOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGroupCertificateConfiguration(AwsGreengrassGetGroupCertificateConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetGroupCertificateConfiguration(AwsGreengrassGetGroupCertificateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetGroupVersion(AwsGreengrassGetGroupVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetGroupVersion(AwsGreengrassGetGroupVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLoggerDefinition(AwsGreengrassGetLoggerDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLoggerDefinition(AwsGreengrassGetLoggerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLoggerDefinitionVersion(AwsGreengrassGetLoggerDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLoggerDefinitionVersion(AwsGreengrassGetLoggerDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceDefinition(AwsGreengrassGetResourceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceDefinition(AwsGreengrassGetResourceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourceDefinitionVersion(AwsGreengrassGetResourceDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourceDefinitionVersion(AwsGreengrassGetResourceDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetServiceRoleForAccount(AwsGreengrassGetServiceRoleForAccountOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetServiceRoleForAccount(AwsGreengrassGetServiceRoleForAccountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassGetServiceRoleForAccountOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassGetServiceRoleForAccountOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSubscriptionDefinition(AwsGreengrassGetSubscriptionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSubscriptionDefinition(AwsGreengrassGetSubscriptionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSubscriptionDefinitionVersion(AwsGreengrassGetSubscriptionDefinitionVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSubscriptionDefinitionVersion(AwsGreengrassGetSubscriptionDefinitionVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetThingRuntimeConfiguration(AwsGreengrassGetThingRuntimeConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetThingRuntimeConfiguration(AwsGreengrassGetThingRuntimeConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBulkDeploymentDetailedReports(AwsGreengrassListBulkDeploymentDetailedReportsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListBulkDeploymentDetailedReports(AwsGreengrassListBulkDeploymentDetailedReportsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListBulkDeployments(AwsGreengrassListBulkDeploymentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListBulkDeployments(AwsGreengrassListBulkDeploymentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListBulkDeploymentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListBulkDeploymentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConnectorDefinitionVersions(AwsGreengrassListConnectorDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListConnectorDefinitionVersions(AwsGreengrassListConnectorDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListConnectorDefinitions(AwsGreengrassListConnectorDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListConnectorDefinitions(AwsGreengrassListConnectorDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListConnectorDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListConnectorDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCoreDefinitionVersions(AwsGreengrassListCoreDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListCoreDefinitionVersions(AwsGreengrassListCoreDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCoreDefinitions(AwsGreengrassListCoreDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCoreDefinitions(AwsGreengrassListCoreDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListCoreDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListCoreDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeployments(AwsGreengrassListDeploymentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeployments(AwsGreengrassListDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeviceDefinitionVersions(AwsGreengrassListDeviceDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDeviceDefinitionVersions(AwsGreengrassListDeviceDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDeviceDefinitions(AwsGreengrassListDeviceDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListDeviceDefinitions(AwsGreengrassListDeviceDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListDeviceDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListDeviceDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFunctionDefinitionVersions(AwsGreengrassListFunctionDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFunctionDefinitionVersions(AwsGreengrassListFunctionDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFunctionDefinitions(AwsGreengrassListFunctionDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListFunctionDefinitions(AwsGreengrassListFunctionDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListFunctionDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListFunctionDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGroupCertificateAuthorities(AwsGreengrassListGroupCertificateAuthoritiesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListGroupCertificateAuthorities(AwsGreengrassListGroupCertificateAuthoritiesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGroupVersions(AwsGreengrassListGroupVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListGroupVersions(AwsGreengrassListGroupVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListGroups(AwsGreengrassListGroupsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListGroups(AwsGreengrassListGroupsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListGroupsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListGroupsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLoggerDefinitionVersions(AwsGreengrassListLoggerDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListLoggerDefinitionVersions(AwsGreengrassListLoggerDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListLoggerDefinitions(AwsGreengrassListLoggerDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListLoggerDefinitions(AwsGreengrassListLoggerDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListLoggerDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListLoggerDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourceDefinitionVersions(AwsGreengrassListResourceDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListResourceDefinitionVersions(AwsGreengrassListResourceDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResourceDefinitions(AwsGreengrassListResourceDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListResourceDefinitions(AwsGreengrassListResourceDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListResourceDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListResourceDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSubscriptionDefinitionVersions(AwsGreengrassListSubscriptionDefinitionVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSubscriptionDefinitionVersions(AwsGreengrassListSubscriptionDefinitionVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSubscriptionDefinitions(AwsGreengrassListSubscriptionDefinitionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSubscriptionDefinitions(AwsGreengrassListSubscriptionDefinitionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListSubscriptionDefinitionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsGreengrassListSubscriptionDefinitionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsGreengrassListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsGreengrassListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResetDeployments(AwsGreengrassResetDeploymentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResetDeployments(AwsGreengrassResetDeploymentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartBulkDeployment(AwsGreengrassStartBulkDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartBulkDeployment(AwsGreengrassStartBulkDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopBulkDeployment(AwsGreengrassStopBulkDeploymentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopBulkDeployment(AwsGreengrassStopBulkDeploymentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsGreengrassTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsGreengrassTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsGreengrassUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsGreengrassUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConnectivityInfo(AwsGreengrassUpdateConnectivityInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConnectivityInfo(AwsGreengrassUpdateConnectivityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateConnectorDefinition(AwsGreengrassUpdateConnectorDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateConnectorDefinition(AwsGreengrassUpdateConnectorDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateCoreDefinition(AwsGreengrassUpdateCoreDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateCoreDefinition(AwsGreengrassUpdateCoreDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDeviceDefinition(AwsGreengrassUpdateDeviceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDeviceDefinition(AwsGreengrassUpdateDeviceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateFunctionDefinition(AwsGreengrassUpdateFunctionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateFunctionDefinition(AwsGreengrassUpdateFunctionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGroup(AwsGreengrassUpdateGroupOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGroup(AwsGreengrassUpdateGroupOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateGroupCertificateConfiguration(AwsGreengrassUpdateGroupCertificateConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateGroupCertificateConfiguration(AwsGreengrassUpdateGroupCertificateConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateLoggerDefinition(AwsGreengrassUpdateLoggerDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateLoggerDefinition(AwsGreengrassUpdateLoggerDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateResourceDefinition(AwsGreengrassUpdateResourceDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateResourceDefinition(AwsGreengrassUpdateResourceDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSubscriptionDefinition(AwsGreengrassUpdateSubscriptionDefinitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSubscriptionDefinition(AwsGreengrassUpdateSubscriptionDefinitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateThingRuntimeConfiguration(AwsGreengrassUpdateThingRuntimeConfigurationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateThingRuntimeConfiguration(AwsGreengrassUpdateThingRuntimeConfigurationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

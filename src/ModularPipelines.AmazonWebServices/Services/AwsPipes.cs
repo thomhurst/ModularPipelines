@@ -18,53 +18,53 @@ public class AwsPipes
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreatePipe(AwsPipesCreatePipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreatePipe(AwsPipesCreatePipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeletePipe(AwsPipesDeletePipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeletePipe(AwsPipesDeletePipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribePipe(AwsPipesDescribePipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribePipe(AwsPipesDescribePipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListPipes(AwsPipesListPipesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListPipes(AwsPipesListPipesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsPipesListPipesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsPipesListPipesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsPipesListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsPipesListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartPipe(AwsPipesStartPipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartPipe(AwsPipesStartPipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopPipe(AwsPipesStopPipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopPipe(AwsPipesStopPipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsPipesTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsPipesTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsPipesUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsPipesUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdatePipe(AwsPipesUpdatePipeOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdatePipe(AwsPipesUpdatePipeOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

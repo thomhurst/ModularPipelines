@@ -18,118 +18,118 @@ public class AwsSecretsmanager
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> BatchGetSecretValue(AwsSecretsmanagerBatchGetSecretValueOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> BatchGetSecretValue(AwsSecretsmanagerBatchGetSecretValueOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerBatchGetSecretValueOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerBatchGetSecretValueOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CancelRotateSecret(AwsSecretsmanagerCancelRotateSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CancelRotateSecret(AwsSecretsmanagerCancelRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateSecret(AwsSecretsmanagerCreateSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateSecret(AwsSecretsmanagerCreateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResourcePolicy(AwsSecretsmanagerDeleteResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResourcePolicy(AwsSecretsmanagerDeleteResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteSecret(AwsSecretsmanagerDeleteSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteSecret(AwsSecretsmanagerDeleteSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSecret(AwsSecretsmanagerDescribeSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSecret(AwsSecretsmanagerDescribeSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRandomPassword(AwsSecretsmanagerGetRandomPasswordOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> GetRandomPassword(AwsSecretsmanagerGetRandomPasswordOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerGetRandomPasswordOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerGetRandomPasswordOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetResourcePolicy(AwsSecretsmanagerGetResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetResourcePolicy(AwsSecretsmanagerGetResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSecretValue(AwsSecretsmanagerGetSecretValueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSecretValue(AwsSecretsmanagerGetSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSecretVersionIds(AwsSecretsmanagerListSecretVersionIdsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSecretVersionIds(AwsSecretsmanagerListSecretVersionIdsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSecrets(AwsSecretsmanagerListSecretsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSecrets(AwsSecretsmanagerListSecretsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerListSecretsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSecretsmanagerListSecretsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutResourcePolicy(AwsSecretsmanagerPutResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutResourcePolicy(AwsSecretsmanagerPutResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutSecretValue(AwsSecretsmanagerPutSecretValueOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutSecretValue(AwsSecretsmanagerPutSecretValueOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveRegionsFromReplication(AwsSecretsmanagerRemoveRegionsFromReplicationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveRegionsFromReplication(AwsSecretsmanagerRemoveRegionsFromReplicationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ReplicateSecretToRegions(AwsSecretsmanagerReplicateSecretToRegionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ReplicateSecretToRegions(AwsSecretsmanagerReplicateSecretToRegionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RestoreSecret(AwsSecretsmanagerRestoreSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RestoreSecret(AwsSecretsmanagerRestoreSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RotateSecret(AwsSecretsmanagerRotateSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RotateSecret(AwsSecretsmanagerRotateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopReplicationToReplica(AwsSecretsmanagerStopReplicationToReplicaOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopReplicationToReplica(AwsSecretsmanagerStopReplicationToReplicaOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsSecretsmanagerTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsSecretsmanagerTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsSecretsmanagerUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsSecretsmanagerUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSecret(AwsSecretsmanagerUpdateSecretOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSecret(AwsSecretsmanagerUpdateSecretOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateSecretVersionStage(AwsSecretsmanagerUpdateSecretVersionStageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateSecretVersionStage(AwsSecretsmanagerUpdateSecretVersionStageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ValidateResourcePolicy(AwsSecretsmanagerValidateResourcePolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ValidateResourcePolicy(AwsSecretsmanagerValidateResourcePolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

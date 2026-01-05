@@ -18,8 +18,8 @@ public class AwsQldbSession
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> SendCommand(AwsQldbSessionSendCommandOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> SendCommand(AwsQldbSessionSendCommandOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsQldbSessionSendCommandOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsQldbSessionSendCommandOptions(), executionOptions, cancellationToken);
     }
 }

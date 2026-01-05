@@ -22,378 +22,378 @@ public class AwsRekognition
 
     public AwsRekognitionWait Wait { get; }
 
-    public async Task<CommandResult> AssociateFaces(AwsRekognitionAssociateFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AssociateFaces(AwsRekognitionAssociateFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CompareFaces(AwsRekognitionCompareFacesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CompareFaces(AwsRekognitionCompareFacesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionCompareFacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionCompareFacesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CopyProjectVersion(AwsRekognitionCopyProjectVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CopyProjectVersion(AwsRekognitionCopyProjectVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCollection(AwsRekognitionCreateCollectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCollection(AwsRekognitionCreateCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateDataset(AwsRekognitionCreateDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateDataset(AwsRekognitionCreateDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateFaceLivenessSession(AwsRekognitionCreateFaceLivenessSessionOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> CreateFaceLivenessSession(AwsRekognitionCreateFaceLivenessSessionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionCreateFaceLivenessSessionOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionCreateFaceLivenessSessionOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateProject(AwsRekognitionCreateProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateProject(AwsRekognitionCreateProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateProjectVersion(AwsRekognitionCreateProjectVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateProjectVersion(AwsRekognitionCreateProjectVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateStreamProcessor(AwsRekognitionCreateStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateStreamProcessor(AwsRekognitionCreateStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateUser(AwsRekognitionCreateUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateUser(AwsRekognitionCreateUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteCollection(AwsRekognitionDeleteCollectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteCollection(AwsRekognitionDeleteCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteDataset(AwsRekognitionDeleteDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteDataset(AwsRekognitionDeleteDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteFaces(AwsRekognitionDeleteFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteFaces(AwsRekognitionDeleteFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteProject(AwsRekognitionDeleteProjectOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteProject(AwsRekognitionDeleteProjectOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteProjectPolicy(AwsRekognitionDeleteProjectPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteProjectPolicy(AwsRekognitionDeleteProjectPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteProjectVersion(AwsRekognitionDeleteProjectVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteProjectVersion(AwsRekognitionDeleteProjectVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteStreamProcessor(AwsRekognitionDeleteStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteStreamProcessor(AwsRekognitionDeleteStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteUser(AwsRekognitionDeleteUserOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteUser(AwsRekognitionDeleteUserOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCollection(AwsRekognitionDescribeCollectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCollection(AwsRekognitionDescribeCollectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDataset(AwsRekognitionDescribeDatasetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDataset(AwsRekognitionDescribeDatasetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeProjectVersions(AwsRekognitionDescribeProjectVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeProjectVersions(AwsRekognitionDescribeProjectVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeProjects(AwsRekognitionDescribeProjectsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeProjects(AwsRekognitionDescribeProjectsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDescribeProjectsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDescribeProjectsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeStreamProcessor(AwsRekognitionDescribeStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeStreamProcessor(AwsRekognitionDescribeStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectCustomLabels(AwsRekognitionDetectCustomLabelsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DetectCustomLabels(AwsRekognitionDetectCustomLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectFaces(AwsRekognitionDetectFacesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DetectFaces(AwsRekognitionDetectFacesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectFacesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectFacesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectLabels(AwsRekognitionDetectLabelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DetectLabels(AwsRekognitionDetectLabelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectLabelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectLabelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectModerationLabels(AwsRekognitionDetectModerationLabelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DetectModerationLabels(AwsRekognitionDetectModerationLabelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectModerationLabelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectModerationLabelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectProtectiveEquipment(AwsRekognitionDetectProtectiveEquipmentOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DetectProtectiveEquipment(AwsRekognitionDetectProtectiveEquipmentOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectProtectiveEquipmentOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectProtectiveEquipmentOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DetectText(AwsRekognitionDetectTextOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DetectText(AwsRekognitionDetectTextOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectTextOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionDetectTextOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DisassociateFaces(AwsRekognitionDisassociateFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DisassociateFaces(AwsRekognitionDisassociateFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DistributeDatasetEntries(AwsRekognitionDistributeDatasetEntriesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DistributeDatasetEntries(AwsRekognitionDistributeDatasetEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCelebrityInfo(AwsRekognitionGetCelebrityInfoOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCelebrityInfo(AwsRekognitionGetCelebrityInfoOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetCelebrityRecognition(AwsRekognitionGetCelebrityRecognitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetCelebrityRecognition(AwsRekognitionGetCelebrityRecognitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetContentModeration(AwsRekognitionGetContentModerationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetContentModeration(AwsRekognitionGetContentModerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFaceDetection(AwsRekognitionGetFaceDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFaceDetection(AwsRekognitionGetFaceDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFaceLivenessSessionResults(AwsRekognitionGetFaceLivenessSessionResultsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFaceLivenessSessionResults(AwsRekognitionGetFaceLivenessSessionResultsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetFaceSearch(AwsRekognitionGetFaceSearchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetFaceSearch(AwsRekognitionGetFaceSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetLabelDetection(AwsRekognitionGetLabelDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetLabelDetection(AwsRekognitionGetLabelDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetMediaAnalysisJob(AwsRekognitionGetMediaAnalysisJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetMediaAnalysisJob(AwsRekognitionGetMediaAnalysisJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetPersonTracking(AwsRekognitionGetPersonTrackingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetPersonTracking(AwsRekognitionGetPersonTrackingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetSegmentDetection(AwsRekognitionGetSegmentDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetSegmentDetection(AwsRekognitionGetSegmentDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetTextDetection(AwsRekognitionGetTextDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetTextDetection(AwsRekognitionGetTextDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> IndexFaces(AwsRekognitionIndexFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> IndexFaces(AwsRekognitionIndexFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListCollections(AwsRekognitionListCollectionsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListCollections(AwsRekognitionListCollectionsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListCollectionsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListCollectionsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatasetEntries(AwsRekognitionListDatasetEntriesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDatasetEntries(AwsRekognitionListDatasetEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListDatasetLabels(AwsRekognitionListDatasetLabelsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListDatasetLabels(AwsRekognitionListDatasetLabelsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListFaces(AwsRekognitionListFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListFaces(AwsRekognitionListFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListMediaAnalysisJobs(AwsRekognitionListMediaAnalysisJobsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListMediaAnalysisJobs(AwsRekognitionListMediaAnalysisJobsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListMediaAnalysisJobsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListMediaAnalysisJobsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListProjectPolicies(AwsRekognitionListProjectPoliciesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListProjectPolicies(AwsRekognitionListProjectPoliciesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListStreamProcessors(AwsRekognitionListStreamProcessorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListStreamProcessors(AwsRekognitionListStreamProcessorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListStreamProcessorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionListStreamProcessorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsRekognitionListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsRekognitionListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUsers(AwsRekognitionListUsersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListUsers(AwsRekognitionListUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutProjectPolicy(AwsRekognitionPutProjectPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutProjectPolicy(AwsRekognitionPutProjectPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RecognizeCelebrities(AwsRekognitionRecognizeCelebritiesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> RecognizeCelebrities(AwsRekognitionRecognizeCelebritiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionRecognizeCelebritiesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsRekognitionRecognizeCelebritiesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchFaces(AwsRekognitionSearchFacesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchFaces(AwsRekognitionSearchFacesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchFacesByImage(AwsRekognitionSearchFacesByImageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchFacesByImage(AwsRekognitionSearchFacesByImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchUsers(AwsRekognitionSearchUsersOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchUsers(AwsRekognitionSearchUsersOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> SearchUsersByImage(AwsRekognitionSearchUsersByImageOptions options, CancellationToken token = default)
+    public async Task<CommandResult> SearchUsersByImage(AwsRekognitionSearchUsersByImageOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartCelebrityRecognition(AwsRekognitionStartCelebrityRecognitionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartCelebrityRecognition(AwsRekognitionStartCelebrityRecognitionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartContentModeration(AwsRekognitionStartContentModerationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartContentModeration(AwsRekognitionStartContentModerationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartFaceDetection(AwsRekognitionStartFaceDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartFaceDetection(AwsRekognitionStartFaceDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartFaceSearch(AwsRekognitionStartFaceSearchOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartFaceSearch(AwsRekognitionStartFaceSearchOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartLabelDetection(AwsRekognitionStartLabelDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartLabelDetection(AwsRekognitionStartLabelDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartMediaAnalysisJob(AwsRekognitionStartMediaAnalysisJobOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartMediaAnalysisJob(AwsRekognitionStartMediaAnalysisJobOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartPersonTracking(AwsRekognitionStartPersonTrackingOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartPersonTracking(AwsRekognitionStartPersonTrackingOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartProjectVersion(AwsRekognitionStartProjectVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartProjectVersion(AwsRekognitionStartProjectVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartSegmentDetection(AwsRekognitionStartSegmentDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartSegmentDetection(AwsRekognitionStartSegmentDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartStreamProcessor(AwsRekognitionStartStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartStreamProcessor(AwsRekognitionStartStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartTextDetection(AwsRekognitionStartTextDetectionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartTextDetection(AwsRekognitionStartTextDetectionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopProjectVersion(AwsRekognitionStopProjectVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopProjectVersion(AwsRekognitionStopProjectVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StopStreamProcessor(AwsRekognitionStopStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StopStreamProcessor(AwsRekognitionStopStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsRekognitionTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsRekognitionTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsRekognitionUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsRekognitionUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateDatasetEntries(AwsRekognitionUpdateDatasetEntriesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateDatasetEntries(AwsRekognitionUpdateDatasetEntriesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateStreamProcessor(AwsRekognitionUpdateStreamProcessorOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateStreamProcessor(AwsRekognitionUpdateStreamProcessorOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

@@ -18,23 +18,23 @@ public class AwsSsoOidc
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> CreateToken(AwsSsoOidcCreateTokenOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateToken(AwsSsoOidcCreateTokenOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateTokenWithIam(AwsSsoOidcCreateTokenWithIamOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateTokenWithIam(AwsSsoOidcCreateTokenWithIamOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RegisterClient(AwsSsoOidcRegisterClientOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RegisterClient(AwsSsoOidcRegisterClientOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartDeviceAuthorization(AwsSsoOidcStartDeviceAuthorizationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartDeviceAuthorization(AwsSsoOidcStartDeviceAuthorizationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

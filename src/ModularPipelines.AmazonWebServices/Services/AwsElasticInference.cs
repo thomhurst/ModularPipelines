@@ -18,33 +18,33 @@ public class AwsElasticInference
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> DescribeAcceleratorOfferings(AwsElasticInferenceDescribeAcceleratorOfferingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAcceleratorOfferings(AwsElasticInferenceDescribeAcceleratorOfferingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAcceleratorTypes(AwsElasticInferenceDescribeAcceleratorTypesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAcceleratorTypes(AwsElasticInferenceDescribeAcceleratorTypesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticInferenceDescribeAcceleratorTypesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticInferenceDescribeAcceleratorTypesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAccelerators(AwsElasticInferenceDescribeAcceleratorsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAccelerators(AwsElasticInferenceDescribeAcceleratorsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticInferenceDescribeAcceleratorsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsElasticInferenceDescribeAcceleratorsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsElasticInferenceListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsElasticInferenceListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsElasticInferenceTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsElasticInferenceTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsElasticInferenceUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsElasticInferenceUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

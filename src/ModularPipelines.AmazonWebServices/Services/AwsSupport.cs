@@ -18,83 +18,83 @@ public class AwsSupport
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddAttachmentsToSet(AwsSupportAddAttachmentsToSetOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddAttachmentsToSet(AwsSupportAddAttachmentsToSetOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> AddCommunicationToCase(AwsSupportAddCommunicationToCaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddCommunicationToCase(AwsSupportAddCommunicationToCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateCase(AwsSupportCreateCaseOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateCase(AwsSupportCreateCaseOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAttachment(AwsSupportDescribeAttachmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAttachment(AwsSupportDescribeAttachmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCases(AwsSupportDescribeCasesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCases(AwsSupportDescribeCasesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeCasesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeCasesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCommunications(AwsSupportDescribeCommunicationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCommunications(AwsSupportDescribeCommunicationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeCreateCaseOptions(AwsSupportDescribeCreateCaseOptionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeCreateCaseOptions(AwsSupportDescribeCreateCaseOptionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeServices(AwsSupportDescribeServicesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeServices(AwsSupportDescribeServicesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeServicesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeServicesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSeverityLevels(AwsSupportDescribeSeverityLevelsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSeverityLevels(AwsSupportDescribeSeverityLevelsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeSeverityLevelsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportDescribeSeverityLevelsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeSupportedLanguages(AwsSupportDescribeSupportedLanguagesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeSupportedLanguages(AwsSupportDescribeSupportedLanguagesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTrustedAdvisorCheckRefreshStatuses(AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTrustedAdvisorCheckRefreshStatuses(AwsSupportDescribeTrustedAdvisorCheckRefreshStatusesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTrustedAdvisorCheckResult(AwsSupportDescribeTrustedAdvisorCheckResultOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTrustedAdvisorCheckResult(AwsSupportDescribeTrustedAdvisorCheckResultOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTrustedAdvisorCheckSummaries(AwsSupportDescribeTrustedAdvisorCheckSummariesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTrustedAdvisorCheckSummaries(AwsSupportDescribeTrustedAdvisorCheckSummariesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeTrustedAdvisorChecks(AwsSupportDescribeTrustedAdvisorChecksOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeTrustedAdvisorChecks(AwsSupportDescribeTrustedAdvisorChecksOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RefreshTrustedAdvisorCheck(AwsSupportRefreshTrustedAdvisorCheckOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RefreshTrustedAdvisorCheck(AwsSupportRefreshTrustedAdvisorCheckOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResolveCase(AwsSupportResolveCaseOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ResolveCase(AwsSupportResolveCaseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportResolveCaseOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsSupportResolveCaseOptions(), executionOptions, cancellationToken);
     }
 }

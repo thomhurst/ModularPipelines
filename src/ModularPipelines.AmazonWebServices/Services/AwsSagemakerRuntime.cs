@@ -18,13 +18,13 @@ public class AwsSagemakerRuntime
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> InvokeEndpoint(AwsSagemakerRuntimeInvokeEndpointOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InvokeEndpoint(AwsSagemakerRuntimeInvokeEndpointOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> InvokeEndpointAsync(AwsSagemakerRuntimeInvokeEndpointAsyncOptions options, CancellationToken token = default)
+    public async Task<CommandResult> InvokeEndpointAsync(AwsSagemakerRuntimeInvokeEndpointAsyncOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

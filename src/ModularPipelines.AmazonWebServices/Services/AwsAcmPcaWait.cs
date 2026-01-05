@@ -20,18 +20,18 @@ public class AwsAcmPcaWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AuditReportCreated(AwsAcmPcaWaitAuditReportCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AuditReportCreated(AwsAcmPcaWaitAuditReportCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CertificateAuthorityCsrCreated(AwsAcmPcaWaitCertificateAuthorityCsrCreatedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CertificateAuthorityCsrCreated(AwsAcmPcaWaitCertificateAuthorityCsrCreatedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CertificateIssued(AwsAcmPcaWaitCertificateIssuedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CertificateIssued(AwsAcmPcaWaitCertificateIssuedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

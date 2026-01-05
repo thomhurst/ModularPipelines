@@ -18,53 +18,53 @@ public class AwsTrustedadvisor
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> GetOrganizationRecommendation(AwsTrustedadvisorGetOrganizationRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetOrganizationRecommendation(AwsTrustedadvisorGetOrganizationRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> GetRecommendation(AwsTrustedadvisorGetRecommendationOptions options, CancellationToken token = default)
+    public async Task<CommandResult> GetRecommendation(AwsTrustedadvisorGetRecommendationOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListChecks(AwsTrustedadvisorListChecksOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListChecks(AwsTrustedadvisorListChecksOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListChecksOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListChecksOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListOrganizationRecommendationAccounts(AwsTrustedadvisorListOrganizationRecommendationAccountsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListOrganizationRecommendationAccounts(AwsTrustedadvisorListOrganizationRecommendationAccountsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListOrganizationRecommendationResources(AwsTrustedadvisorListOrganizationRecommendationResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListOrganizationRecommendationResources(AwsTrustedadvisorListOrganizationRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListOrganizationRecommendations(AwsTrustedadvisorListOrganizationRecommendationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListOrganizationRecommendations(AwsTrustedadvisorListOrganizationRecommendationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListOrganizationRecommendationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListOrganizationRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecommendationResources(AwsTrustedadvisorListRecommendationResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRecommendationResources(AwsTrustedadvisorListRecommendationResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecommendations(AwsTrustedadvisorListRecommendationsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListRecommendations(AwsTrustedadvisorListRecommendationsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListRecommendationsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsTrustedadvisorListRecommendationsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateOrganizationRecommendationLifecycle(AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateOrganizationRecommendationLifecycle(AwsTrustedadvisorUpdateOrganizationRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateRecommendationLifecycle(AwsTrustedadvisorUpdateRecommendationLifecycleOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateRecommendationLifecycle(AwsTrustedadvisorUpdateRecommendationLifecycleOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

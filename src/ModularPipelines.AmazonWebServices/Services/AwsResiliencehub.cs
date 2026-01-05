@@ -18,273 +18,273 @@ public class AwsResiliencehub
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> AddDraftAppVersionResourceMappings(AwsResiliencehubAddDraftAppVersionResourceMappingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> AddDraftAppVersionResourceMappings(AwsResiliencehubAddDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> BatchUpdateRecommendationStatus(AwsResiliencehubBatchUpdateRecommendationStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> BatchUpdateRecommendationStatus(AwsResiliencehubBatchUpdateRecommendationStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateApp(AwsResiliencehubCreateAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateApp(AwsResiliencehubCreateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAppVersionAppComponent(AwsResiliencehubCreateAppVersionAppComponentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAppVersionAppComponent(AwsResiliencehubCreateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateAppVersionResource(AwsResiliencehubCreateAppVersionResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateAppVersionResource(AwsResiliencehubCreateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateRecommendationTemplate(AwsResiliencehubCreateRecommendationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateRecommendationTemplate(AwsResiliencehubCreateRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> CreateResiliencyPolicy(AwsResiliencehubCreateResiliencyPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> CreateResiliencyPolicy(AwsResiliencehubCreateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteApp(AwsResiliencehubDeleteAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteApp(AwsResiliencehubDeleteAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAppAssessment(AwsResiliencehubDeleteAppAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAppAssessment(AwsResiliencehubDeleteAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAppInputSource(AwsResiliencehubDeleteAppInputSourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAppInputSource(AwsResiliencehubDeleteAppInputSourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAppVersionAppComponent(AwsResiliencehubDeleteAppVersionAppComponentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAppVersionAppComponent(AwsResiliencehubDeleteAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteAppVersionResource(AwsResiliencehubDeleteAppVersionResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteAppVersionResource(AwsResiliencehubDeleteAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteRecommendationTemplate(AwsResiliencehubDeleteRecommendationTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteRecommendationTemplate(AwsResiliencehubDeleteRecommendationTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DeleteResiliencyPolicy(AwsResiliencehubDeleteResiliencyPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DeleteResiliencyPolicy(AwsResiliencehubDeleteResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeApp(AwsResiliencehubDescribeAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeApp(AwsResiliencehubDescribeAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppAssessment(AwsResiliencehubDescribeAppAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppAssessment(AwsResiliencehubDescribeAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppVersion(AwsResiliencehubDescribeAppVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppVersion(AwsResiliencehubDescribeAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppVersionAppComponent(AwsResiliencehubDescribeAppVersionAppComponentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppVersionAppComponent(AwsResiliencehubDescribeAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppVersionResource(AwsResiliencehubDescribeAppVersionResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppVersionResource(AwsResiliencehubDescribeAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppVersionResourcesResolutionStatus(AwsResiliencehubDescribeAppVersionResourcesResolutionStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppVersionResourcesResolutionStatus(AwsResiliencehubDescribeAppVersionResourcesResolutionStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeAppVersionTemplate(AwsResiliencehubDescribeAppVersionTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeAppVersionTemplate(AwsResiliencehubDescribeAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeDraftAppVersionResourcesImportStatus(AwsResiliencehubDescribeDraftAppVersionResourcesImportStatusOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeDraftAppVersionResourcesImportStatus(AwsResiliencehubDescribeDraftAppVersionResourcesImportStatusOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> DescribeResiliencyPolicy(AwsResiliencehubDescribeResiliencyPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> DescribeResiliencyPolicy(AwsResiliencehubDescribeResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ImportResourcesToDraftAppVersion(AwsResiliencehubImportResourcesToDraftAppVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ImportResourcesToDraftAppVersion(AwsResiliencehubImportResourcesToDraftAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAlarmRecommendations(AwsResiliencehubListAlarmRecommendationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAlarmRecommendations(AwsResiliencehubListAlarmRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppAssessmentComplianceDrifts(AwsResiliencehubListAppAssessmentComplianceDriftsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppAssessmentComplianceDrifts(AwsResiliencehubListAppAssessmentComplianceDriftsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppAssessments(AwsResiliencehubListAppAssessmentsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListAppAssessments(AwsResiliencehubListAppAssessmentsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListAppAssessmentsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListAppAssessmentsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppComponentCompliances(AwsResiliencehubListAppComponentCompliancesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppComponentCompliances(AwsResiliencehubListAppComponentCompliancesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppComponentRecommendations(AwsResiliencehubListAppComponentRecommendationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppComponentRecommendations(AwsResiliencehubListAppComponentRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppInputSources(AwsResiliencehubListAppInputSourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppInputSources(AwsResiliencehubListAppInputSourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppVersionAppComponents(AwsResiliencehubListAppVersionAppComponentsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppVersionAppComponents(AwsResiliencehubListAppVersionAppComponentsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppVersionResourceMappings(AwsResiliencehubListAppVersionResourceMappingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppVersionResourceMappings(AwsResiliencehubListAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppVersionResources(AwsResiliencehubListAppVersionResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppVersionResources(AwsResiliencehubListAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListAppVersions(AwsResiliencehubListAppVersionsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListAppVersions(AwsResiliencehubListAppVersionsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListApps(AwsResiliencehubListAppsOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListApps(AwsResiliencehubListAppsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListAppsOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListAppsOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListRecommendationTemplates(AwsResiliencehubListRecommendationTemplatesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListRecommendationTemplates(AwsResiliencehubListRecommendationTemplatesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListResiliencyPolicies(AwsResiliencehubListResiliencyPoliciesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListResiliencyPolicies(AwsResiliencehubListResiliencyPoliciesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListResiliencyPoliciesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListResiliencyPoliciesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSopRecommendations(AwsResiliencehubListSopRecommendationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListSopRecommendations(AwsResiliencehubListSopRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListSuggestedResiliencyPolicies(AwsResiliencehubListSuggestedResiliencyPoliciesOptions? options = default, CancellationToken token = default)
+    public async Task<CommandResult> ListSuggestedResiliencyPolicies(AwsResiliencehubListSuggestedResiliencyPoliciesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListSuggestedResiliencyPoliciesOptions(), token);
+        return await _command.ExecuteCommandLineTool(options ?? new AwsResiliencehubListSuggestedResiliencyPoliciesOptions(), executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTagsForResource(AwsResiliencehubListTagsForResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTagsForResource(AwsResiliencehubListTagsForResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListTestRecommendations(AwsResiliencehubListTestRecommendationsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListTestRecommendations(AwsResiliencehubListTestRecommendationsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ListUnsupportedAppVersionResources(AwsResiliencehubListUnsupportedAppVersionResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ListUnsupportedAppVersionResources(AwsResiliencehubListUnsupportedAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PublishAppVersion(AwsResiliencehubPublishAppVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PublishAppVersion(AwsResiliencehubPublishAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> PutDraftAppVersionTemplate(AwsResiliencehubPutDraftAppVersionTemplateOptions options, CancellationToken token = default)
+    public async Task<CommandResult> PutDraftAppVersionTemplate(AwsResiliencehubPutDraftAppVersionTemplateOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> RemoveDraftAppVersionResourceMappings(AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions options, CancellationToken token = default)
+    public async Task<CommandResult> RemoveDraftAppVersionResourceMappings(AwsResiliencehubRemoveDraftAppVersionResourceMappingsOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ResolveAppVersionResources(AwsResiliencehubResolveAppVersionResourcesOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ResolveAppVersionResources(AwsResiliencehubResolveAppVersionResourcesOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> StartAppAssessment(AwsResiliencehubStartAppAssessmentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> StartAppAssessment(AwsResiliencehubStartAppAssessmentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> TagResource(AwsResiliencehubTagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> TagResource(AwsResiliencehubTagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UntagResource(AwsResiliencehubUntagResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UntagResource(AwsResiliencehubUntagResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateApp(AwsResiliencehubUpdateAppOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateApp(AwsResiliencehubUpdateAppOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAppVersion(AwsResiliencehubUpdateAppVersionOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAppVersion(AwsResiliencehubUpdateAppVersionOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAppVersionAppComponent(AwsResiliencehubUpdateAppVersionAppComponentOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAppVersionAppComponent(AwsResiliencehubUpdateAppVersionAppComponentOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateAppVersionResource(AwsResiliencehubUpdateAppVersionResourceOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateAppVersionResource(AwsResiliencehubUpdateAppVersionResourceOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> UpdateResiliencyPolicy(AwsResiliencehubUpdateResiliencyPolicyOptions options, CancellationToken token = default)
+    public async Task<CommandResult> UpdateResiliencyPolicy(AwsResiliencehubUpdateResiliencyPolicyOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }

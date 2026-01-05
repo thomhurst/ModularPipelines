@@ -20,23 +20,23 @@ public class AwsAmpWait
 
     private readonly ICommand _command;
 
-    public async Task<CommandResult> ScraperActive(AwsAmpWaitScraperActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ScraperActive(AwsAmpWaitScraperActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> ScraperDeleted(AwsAmpWaitScraperDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> ScraperDeleted(AwsAmpWaitScraperDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> WorkspaceActive(AwsAmpWaitWorkspaceActiveOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WorkspaceActive(AwsAmpWaitWorkspaceActiveOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 
-    public async Task<CommandResult> WorkspaceDeleted(AwsAmpWaitWorkspaceDeletedOptions options, CancellationToken token = default)
+    public async Task<CommandResult> WorkspaceDeleted(AwsAmpWaitWorkspaceDeletedOptions options, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options, token);
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
     }
 }
