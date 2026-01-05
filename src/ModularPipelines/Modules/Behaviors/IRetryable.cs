@@ -8,8 +8,18 @@ namespace ModularPipelines.Modules.Behaviors;
 /// </summary>
 /// <typeparam name="T">The result type of the module.</typeparam>
 /// <remarks>
-/// If not implemented, modules do not retry on failure.
+/// <para>
+/// <strong>Configuration Precedence:</strong>
+/// Implementing this interface on a module takes precedence over the global
+/// <see cref="Options.PipelineOptions.DefaultRetryCount"/> setting.
+/// </para>
+/// <para>
+/// If not implemented, modules will use <see cref="Options.PipelineOptions.DefaultRetryCount"/>
+/// if set to a value greater than 0. Otherwise, no retries are attempted.
+/// </para>
+/// <para>
 /// The retry policy is applied to the <see cref="Module{T}.ExecuteAsync"/> call.
+/// </para>
 /// </remarks>
 public interface IRetryable<T>
 {

@@ -62,10 +62,43 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
-    /// Used to configure the pipeline options.
+    /// Used to configure the pipeline options for the entire pipeline.
     /// </summary>
     /// <param name="configureDelegate">A delegate to amend the options.</param>
     /// <returns>The same pipeline host builder.</returns>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence:</strong>
+    /// Settings configured here represent the "Global Configuration" level in the precedence hierarchy.
+    /// These settings apply as defaults across the pipeline but can be overridden at more specific levels.
+    /// </para>
+    /// <para>
+    /// <strong>Precedence order (highest to lowest):</strong>
+    /// </para>
+    /// <list type="number">
+    /// <item>Per-Call Configuration - Options passed to individual method calls (e.g., <see cref="CommandExecutionOptions.LogSettings"/>)</item>
+    /// <item>Module Configuration - Behavior interfaces on modules (e.g., <see cref="Modules.Behaviors.IRetryable{T}"/>, <see cref="Modules.Behaviors.ITimeoutable"/>)</item>
+    /// <item>Global Configuration - Settings in <see cref="PipelineOptions"/> configured here</item>
+    /// <item>System Defaults - Built-in framework defaults (e.g., 30-minute module timeout)</item>
+    /// </list>
+    /// <para>
+    /// Example: If <see cref="PipelineOptions.DefaultRetryCount"/> is set to 3, all modules will retry
+    /// up to 3 times on failure. However, a module implementing <see cref="Modules.Behaviors.IRetryable{T}"/>
+    /// will use its custom retry policy instead.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .ConfigurePipelineOptions((context, options) =>
+    ///     {
+    ///         options.DefaultRetryCount = 3;
+    ///         options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+    ///     })
+    ///     .AddModule&lt;MyModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
     public PipelineHostBuilder ConfigurePipelineOptions(Action<HostBuilderContext, PipelineOptions> configureDelegate)
     {
         _internalHost.ConfigureServices((context, collection) =>
