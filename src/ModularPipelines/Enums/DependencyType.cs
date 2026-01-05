@@ -19,12 +19,16 @@ public enum DependencyType
     Optional = 1,
 
     /// <summary>
-    /// Lazy dependency. The dependency is only executed if explicitly awaited within the module.
+    /// Lazy dependency. Behaves the same as <see cref="Optional"/> for dependency resolution purposes -
+    /// the dependency is optional and will not fail if not registered. This is a semantic marker to
+    /// indicate intent that the dependency may be awaited on-demand rather than required upfront.
     /// </summary>
     Lazy = 2,
 
     /// <summary>
-    /// Conditional dependency. The dependency is only active if a condition is met.
+    /// Conditional dependency. Used when a dependency is added based on a runtime condition via
+    /// <see cref="Modules.IDependencyDeclaration.DependsOnIf{TModule}(bool)"/>. For dependency resolution,
+    /// this behaves as a required dependency (will fail if condition is true and dependency is not registered).
     /// </summary>
     Conditional = 3,
 }

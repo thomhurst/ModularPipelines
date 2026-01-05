@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Reflection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Dependencies;
@@ -13,6 +14,11 @@ namespace ModularPipelines.Engine;
 /// </summary>
 internal static class ModuleDependencyResolver
 {
+    /// <summary>
+    /// Cache for GetDeclaredDependencies method lookups to avoid repeated reflection.
+    /// </summary>
+    private static readonly ConcurrentDictionary<Type, MethodInfo?> GetDeclaredDependenciesMethodCache = new();
+
     /// <summary>
     /// Gets all dependencies declared on a module type via DependsOn attributes.
     /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
@@ -74,10 +80,11 @@ internal static class ModuleDependencyResolver
     /// <returns>An enumerable of dependency tuples (DependencyType, IgnoreIfNotRegistered).</returns>
     public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetProgrammaticDependencies(IModule module)
     {
-        // Use reflection to call the internal GetDeclaredDependencies method
+        // Use cached reflection lookup for GetDeclaredDependencies method
         var moduleType = module.GetType();
-        var method = moduleType.GetMethod("GetDeclaredDependencies",
-            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        var method = GetDeclaredDependenciesMethodCache.GetOrAdd(moduleType, type =>
+            type.GetMethod("GetDeclaredDependencies",
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public));
 
         if (method == null)
         {
@@ -93,7 +100,7 @@ internal static class ModuleDependencyResolver
 
         foreach (var dep in dependencies)
         {
-            yield return (dep.DependencyType, dep.IgnoreIfNotRegistered);
+            yield return (dep.ModuleType, dep.IgnoreIfNotRegistered);
         }
     }
 

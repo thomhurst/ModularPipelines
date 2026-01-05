@@ -5,12 +5,12 @@ namespace ModularPipelines.Models;
 /// <summary>
 /// Represents a dependency declared programmatically via <see cref="Modules.IDependencyDeclaration"/>.
 /// </summary>
-/// <param name="DependencyType">The type of the module being depended on.</param>
-/// <param name="Type">The type of dependency (Required, Optional, Lazy, Conditional).</param>
+/// <param name="ModuleType">The type of the module being depended on.</param>
+/// <param name="Kind">The kind of dependency (Required, Optional, Lazy, Conditional).</param>
 /// <param name="IgnoreIfNotRegistered">Whether to ignore this dependency if not registered.</param>
 public readonly record struct DeclaredDependency(
-    Type DependencyType,
-    DependencyType Type,
+    Type ModuleType,
+    DependencyType Kind,
     bool IgnoreIfNotRegistered)
 {
     /// <summary>
