@@ -7,6 +7,45 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Configuration options for pipeline execution behavior.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <strong>Configuration Precedence:</strong>
+/// ModularPipelines uses a layered configuration system where more specific settings override more general ones.
+/// The precedence order from lowest to highest priority is:
+/// </para>
+/// <list type="number">
+/// <item>
+/// <term>System Defaults (lowest priority)</term>
+/// <description>Built-in defaults in the framework code (e.g., 30-minute module timeout, no retries)</description>
+/// </item>
+/// <item>
+/// <term>Global Configuration</term>
+/// <description>Settings in this <see cref="PipelineOptions"/> class, configured via <see cref="Host.PipelineHostBuilder.ConfigurePipelineOptions"/></description>
+/// </item>
+/// <item>
+/// <term>Module Configuration</term>
+/// <description>Settings defined on individual modules via behavior interfaces
+/// (<see cref="Modules.Behaviors.IRetryable{T}"/>, <see cref="Modules.Behaviors.ITimeoutable"/>, etc.)</description>
+/// </item>
+/// <item>
+/// <term>Per-Call Configuration (highest priority)</term>
+/// <description>Options passed to individual method calls (e.g., <see cref="CommandExecutionOptions.LogSettings"/>,
+/// <see cref="HttpOptions.LogSettings"/>)</description>
+/// </item>
+/// </list>
+/// <para>
+/// <strong>Example:</strong>
+/// If <see cref="DefaultLoggingOptions"/> is set globally, it applies to all command executions.
+/// However, if a specific command call passes <see cref="CommandExecutionOptions.LogSettings"/>,
+/// that per-call setting takes precedence for that execution only.
+/// </para>
+/// <para>
+/// <strong>Module Behaviors:</strong>
+/// Module-level configuration uses the behavior interface pattern. A module implementing
+/// <see cref="Modules.Behaviors.IRetryable{T}"/> will use its custom retry policy instead of
+/// <see cref="DefaultRetryCount"/>. Modules without behavior interfaces fall back to global settings.
+/// </para>
+/// </remarks>
 [ExcludeFromCodeCoverage]
 public record PipelineOptions
 {
@@ -54,12 +93,32 @@ public record PipelineOptions
     /// <summary>
     /// Gets or sets the default number of retry attempts for failed operations.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence:</strong>
+    /// This is a global default that applies when a module does not implement <see cref="Modules.Behaviors.IRetryable{T}"/>.
+    /// </para>
+    /// <list type="bullet">
+    /// <item>If a module implements <see cref="Modules.Behaviors.IRetryable{T}"/>, its custom retry policy takes precedence</item>
+    /// <item>Otherwise, this global <see cref="DefaultRetryCount"/> is used</item>
+    /// <item>If this value is 0 (default), no retries are attempted</item>
+    /// </list>
+    /// </remarks>
     public int DefaultRetryCount { get; set; }
 
     /// <summary>
     /// Gets or sets the default logging options for all commands.
-    /// When set, this takes precedence over DefaultCommandLogging.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence (highest to lowest):</strong>
+    /// </para>
+    /// <list type="number">
+    /// <item><see cref="CommandExecutionOptions.LogSettings"/> - Per-call override (highest priority)</item>
+    /// <item>This <see cref="DefaultLoggingOptions"/> - Global default</item>
+    /// <item><see cref="DefaultCommandLogging"/> - Legacy enum-based fallback (lowest priority)</item>
+    /// </list>
+    /// </remarks>
     public CommandLoggingOptions? DefaultLoggingOptions { get; set; }
 
     /// <summary>
@@ -76,6 +135,16 @@ public record PipelineOptions
     /// <see cref="HttpLoggingOptions.Headers"/> for headers without body,
     /// or <see cref="HttpLoggingOptions.Full"/> for complete logging.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence (highest to lowest):</strong>
+    /// </para>
+    /// <list type="number">
+    /// <item><see cref="HttpOptions.LogSettings"/> - Per-request override (highest priority)</item>
+    /// <item>This <see cref="DefaultHttpLoggingOptions"/> - Global default</item>
+    /// <item><see cref="HttpLoggingOptions.Default"/> - System default (lowest priority)</item>
+    /// </list>
+    /// </remarks>
     public HttpLoggingOptions? DefaultHttpLoggingOptions { get; set; }
 
     /// <summary>
@@ -84,6 +153,16 @@ public record PipelineOptions
     /// unless overridden by <see cref="HttpOptions.Timeout"/> on individual requests.
     /// If not set (null), HTTP requests will use the default HttpClient timeout.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence (highest to lowest):</strong>
+    /// </para>
+    /// <list type="number">
+    /// <item><see cref="HttpOptions.Timeout"/> - Per-request override (highest priority)</item>
+    /// <item>This <see cref="DefaultHttpTimeout"/> - Global default</item>
+    /// <item>HttpClient default timeout - System default (lowest priority)</item>
+    /// </list>
+    /// </remarks>
     public TimeSpan? DefaultHttpTimeout { get; set; }
 
     /// <summary>
@@ -106,5 +185,12 @@ public record PipelineOptions
     /// Gets or sets the default execution options for all commands.
     /// When set, these options apply to all command executions unless overridden per-call.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <strong>Configuration Precedence:</strong>
+    /// Per-call options always take precedence over these global defaults.
+    /// Properties set on per-call <see cref="CommandExecutionOptions"/> override matching properties here.
+    /// </para>
+    /// </remarks>
     public CommandExecutionOptions? DefaultExecutionOptions { get; set; }
 }
