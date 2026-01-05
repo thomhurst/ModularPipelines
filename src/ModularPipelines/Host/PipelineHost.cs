@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Host;
 
@@ -38,10 +39,21 @@ internal class PipelineHost : IPipelineHost
     {
         var host = new PipelineHost(hostBuilder.Build());
 
+        // Validate module dependencies early, before pipeline execution
+        ValidateModuleDependencies(host.RootServices);
+
         await host.RootServices.InitializeAsync().ConfigureAwait(false);
 
         return host;
     }
+
+    public IServiceProvider Services
+    {
+        [StackTraceHidden]
+        get => _serviceScope.ServiceProvider;
+    }
+
+    public IServiceProvider RootServices => _hostImplementation.Services;
 
     [ExcludeFromCodeCoverage]
     [StackTraceHidden]
@@ -55,12 +67,6 @@ internal class PipelineHost : IPipelineHost
     public Task StopAsync(CancellationToken cancellationToken = default)
     {
         return _hostImplementation.StopAsync(cancellationToken);
-    }
-
-    public IServiceProvider Services
-    {
-        [StackTraceHidden]
-        get => _serviceScope.ServiceProvider;
     }
 
     [ExcludeFromCodeCoverage]
@@ -91,5 +97,15 @@ internal class PipelineHost : IPipelineHost
         GC.SuppressFinalize(this);
     }
 
-    public IServiceProvider RootServices => _hostImplementation.Services;
+    /// <summary>
+    /// Validates all registered module dependencies at host creation time.
+    /// This catches configuration errors early, preventing runtime failures.
+    /// </summary>
+    private static void ValidateModuleDependencies(IServiceProvider services)
+    {
+        var modules = services.GetServices<IModule>();
+        var moduleTypes = modules.Select(m => m.GetType());
+
+        ModuleDependencyValidator.Validate(moduleTypes);
+    }
 }
