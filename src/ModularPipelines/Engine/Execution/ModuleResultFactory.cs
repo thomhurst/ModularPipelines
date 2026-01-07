@@ -1,3 +1,4 @@
+using ModularPipelines.Enums;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Execution;
@@ -63,5 +64,37 @@ internal static class ModuleResultFactory
     private static IModuleResult CreateFailureGeneric<T>(Exception exception, ModuleExecutionContext ctx)
     {
         return ModuleResult<T>.CreateFailure(exception, ctx);
+    }
+
+    /// <summary>
+    /// Creates a copy of the result with a different status (type-erased version for engine use).
+    /// </summary>
+    public static IModuleResult WithStatus(IModuleResult result, Status status)
+    {
+        var resultType = result.GetType();
+
+        // Get the generic type argument from ModuleResult<T>
+        var genericType = resultType;
+        while (genericType != null && (!genericType.IsGenericType || genericType.GetGenericTypeDefinition() != typeof(ModuleResult<>)))
+        {
+            genericType = genericType.BaseType;
+        }
+
+        if (genericType == null)
+        {
+            throw new InvalidOperationException($"Cannot determine generic type from {resultType}");
+        }
+
+        var valueType = genericType.GetGenericArguments()[0];
+        var method = typeof(ModuleResultFactory)
+            .GetMethod(nameof(WithStatusGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+            .MakeGenericMethod(valueType);
+
+        return (IModuleResult)method.Invoke(null, [result, status])!;
+    }
+
+    private static IModuleResult WithStatusGeneric<T>(ModuleResult<T> result, Status status)
+    {
+        return result with { ModuleStatus = status };
     }
 }

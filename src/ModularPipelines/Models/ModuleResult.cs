@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Enums;
@@ -26,6 +27,7 @@ namespace ModularPipelines.Models;
 /// }
 /// </code>
 /// </example>
+[JsonConverter(typeof(ModuleResultJsonConverterFactory))]
 public abstract record ModuleResult<T> : IModuleResult
 {
     // === Metadata (available on all outcomes) ===
@@ -208,5 +210,250 @@ public abstract record ModuleResult<T> : IModuleResult
     // Prevent external inheritance - only Success, Failure, Skipped are valid
     private protected ModuleResult()
     {
+    }
+}
+
+/// <summary>
+/// JSON converter for Exception objects. Serializes essential exception data
+/// and deserializes to a wrapper exception preserving the message.
+/// </summary>
+internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
+{
+    public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.Null)
+        {
+            return null;
+        }
+
+        string? typeName = null;
+        string? message = null;
+        string? stackTrace = null;
+
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonTokenType.EndObject)
+            {
+                break;
+            }
+
+            if (reader.TokenType == JsonTokenType.PropertyName)
+            {
+                var propertyName = reader.GetString();
+                reader.Read();
+
+                switch (propertyName)
+                {
+                    case "Type":
+                        typeName = reader.GetString();
+                        break;
+                    case "Message":
+                        message = reader.GetString();
+                        break;
+                    case "StackTrace":
+                        stackTrace = reader.GetString();
+                        break;
+                }
+            }
+        }
+
+        // Try to reconstruct the original exception type if possible
+        if (typeName != null)
+        {
+            var exceptionType = Type.GetType(typeName);
+            if (exceptionType != null && typeof(Exception).IsAssignableFrom(exceptionType))
+            {
+                try
+                {
+                    var ex = Activator.CreateInstance(exceptionType, message) as Exception;
+                    if (ex != null)
+                    {
+                        return ex;
+                    }
+                }
+                catch
+                {
+                    // Fall through to default
+                }
+            }
+        }
+
+        return new Exception(message ?? "Deserialized exception");
+    }
+
+    public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+        writer.WriteString("Type", value.GetType().AssemblyQualifiedName);
+        writer.WriteString("Message", value.Message);
+        writer.WriteString("StackTrace", value.StackTrace);
+        writer.WriteEndObject();
+    }
+}
+
+/// <summary>
+/// JSON converter factory that creates typed converters for ModuleResult&lt;T&gt;.
+/// </summary>
+internal sealed class ModuleResultJsonConverterFactory : JsonConverterFactory
+{
+    public override bool CanConvert(Type typeToConvert)
+    {
+        return typeToConvert.IsGenericType &&
+               typeToConvert.GetGenericTypeDefinition() == typeof(ModuleResult<>);
+    }
+
+    public override JsonConverter? CreateConverter(Type typeToConvert, JsonSerializerOptions options)
+    {
+        var valueType = typeToConvert.GetGenericArguments()[0];
+        var converterType = typeof(ModuleResultJsonConverter<>).MakeGenericType(valueType);
+        return (JsonConverter?)Activator.CreateInstance(converterType);
+    }
+}
+
+/// <summary>
+/// JSON converter for ModuleResult&lt;T&gt; that handles polymorphic serialization/deserialization.
+/// </summary>
+internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<T>>
+{
+    private static readonly ExceptionJsonConverter ExceptionConverter = new();
+
+    public override ModuleResult<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType == JsonTokenType.Null)
+        {
+            return null;
+        }
+
+        string? discriminator = null;
+        string? moduleName = null;
+        TimeSpan moduleDuration = TimeSpan.Zero;
+        DateTimeOffset moduleStart = DateTimeOffset.MinValue;
+        DateTimeOffset moduleEnd = DateTimeOffset.MinValue;
+        Status moduleStatus = Status.NotYetStarted;
+        T? value = default;
+        Exception? exception = null;
+        SkipDecision? skipDecision = null;
+
+        if (reader.TokenType != JsonTokenType.StartObject)
+        {
+            throw new JsonException("Expected StartObject token");
+        }
+
+        while (reader.Read())
+        {
+            if (reader.TokenType == JsonTokenType.EndObject)
+            {
+                break;
+            }
+
+            if (reader.TokenType == JsonTokenType.PropertyName)
+            {
+                var propertyName = reader.GetString();
+                reader.Read();
+
+                switch (propertyName)
+                {
+                    case "$type":
+                        discriminator = reader.GetString();
+                        break;
+                    case "ModuleName":
+                        moduleName = reader.GetString();
+                        break;
+                    case "ModuleDuration":
+                        moduleDuration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
+                        break;
+                    case "ModuleStart":
+                        moduleStart = reader.GetDateTimeOffset();
+                        break;
+                    case "ModuleEnd":
+                        moduleEnd = reader.GetDateTimeOffset();
+                        break;
+                    case "ModuleStatus":
+                        moduleStatus = JsonSerializer.Deserialize<Status>(ref reader, options);
+                        break;
+                    case "Value":
+                        value = JsonSerializer.Deserialize<T>(ref reader, options);
+                        break;
+                    case "Exception":
+                        exception = ExceptionConverter.Read(ref reader, typeof(Exception), options);
+                        break;
+                    case "Decision":
+                        skipDecision = JsonSerializer.Deserialize<SkipDecision>(ref reader, options);
+                        break;
+                }
+            }
+        }
+
+        return discriminator switch
+        {
+            "Success" => new ModuleResult<T>.Success(value!)
+            {
+                ModuleName = moduleName!,
+                ModuleDuration = moduleDuration,
+                ModuleStart = moduleStart,
+                ModuleEnd = moduleEnd,
+                ModuleStatus = moduleStatus
+            },
+            "Failure" => new ModuleResult<T>.Failure(exception!)
+            {
+                ModuleName = moduleName!,
+                ModuleDuration = moduleDuration,
+                ModuleStart = moduleStart,
+                ModuleEnd = moduleEnd,
+                ModuleStatus = moduleStatus
+            },
+            "Skipped" => new ModuleResult<T>.Skipped(skipDecision!)
+            {
+                ModuleName = moduleName!,
+                ModuleDuration = moduleDuration,
+                ModuleStart = moduleStart,
+                ModuleEnd = moduleEnd,
+                ModuleStatus = moduleStatus
+            },
+            _ => throw new JsonException($"Unknown discriminator: {discriminator}")
+        };
+    }
+
+    public override void Write(Utf8JsonWriter writer, ModuleResult<T> value, JsonSerializerOptions options)
+    {
+        writer.WriteStartObject();
+
+        // Write discriminator
+        var discriminator = value switch
+        {
+            ModuleResult<T>.Success => "Success",
+            ModuleResult<T>.Failure => "Failure",
+            ModuleResult<T>.Skipped => "Skipped",
+            _ => throw new JsonException("Unknown ModuleResult type")
+        };
+        writer.WriteString("$type", discriminator);
+
+        // Write common properties
+        writer.WriteString("ModuleName", value.ModuleName);
+        writer.WritePropertyName("ModuleDuration");
+        JsonSerializer.Serialize(writer, value.ModuleDuration, options);
+        writer.WriteString("ModuleStart", value.ModuleStart);
+        writer.WriteString("ModuleEnd", value.ModuleEnd);
+        writer.WritePropertyName("ModuleStatus");
+        JsonSerializer.Serialize(writer, value.ModuleStatus, options);
+
+        // Write variant-specific properties
+        switch (value)
+        {
+            case ModuleResult<T>.Success success:
+                writer.WritePropertyName("Value");
+                JsonSerializer.Serialize(writer, success.Value, options);
+                break;
+            case ModuleResult<T>.Failure failure:
+                writer.WritePropertyName("Exception");
+                ExceptionConverter.Write(writer, failure.Exception, options);
+                break;
+            case ModuleResult<T>.Skipped skipped:
+                writer.WritePropertyName("Decision");
+                JsonSerializer.Serialize(writer, skipped.Decision, options);
+                break;
+        }
+
+        writer.WriteEndObject();
     }
 }
