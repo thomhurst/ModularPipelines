@@ -44,14 +44,14 @@ public class ReturnNothingTests : TestBase
         await Assert(result);
     }
 
-    private static async Task Assert(ModuleResult<CommandResult> result)
+    private static async Task Assert(ModuleResult<CommandResult?> result)
     {
         using (TUnit.Assertions.Assert.Multiple())
         {
-            await TUnit.Assertions.Assert.That(result.HasValue).IsFalse();
+            await TUnit.Assertions.Assert.That(result.IsSuccess).IsTrue();
             await TUnit.Assertions.Assert.That(result.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await TUnit.Assertions.Assert.That(result.Value).IsNull();
-            await TUnit.Assertions.Assert.That(result.Exception).IsNull();
+            await TUnit.Assertions.Assert.That(result.ValueOrDefault).IsNull();
+            await TUnit.Assertions.Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
 }

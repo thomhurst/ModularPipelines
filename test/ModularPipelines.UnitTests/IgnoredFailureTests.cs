@@ -36,7 +36,7 @@ public class IgnoredFailureTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Failure);
-            await Assert.That(moduleResult.Exception).IsNotNull();
+            await Assert.That(moduleResult.ExceptionOrDefault).IsNotNull();
             await Assert.That(engineCancellationToken.IsCancellationRequested).IsFalse();
         }
     }

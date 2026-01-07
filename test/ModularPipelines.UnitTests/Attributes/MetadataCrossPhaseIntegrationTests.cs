@@ -56,7 +56,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
             _key = key;
         }
 
-        public Task OnModuleEndAsync(IModuleEventContext context, ModuleResult result)
+        public Task OnModuleEndAsync(IModuleEventContext context, IModuleResult result)
         {
             var value = context.GetMetadata<string>(_key);
             EventLog.Add($"End:ReadMetadata:{_key}={value ?? "null"}");

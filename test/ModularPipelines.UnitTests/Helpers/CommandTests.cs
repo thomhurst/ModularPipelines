@@ -54,6 +54,6 @@ public class CommandTests : TestBase
     {
         var moduleResult = await await RunModule<CommandEchoTimeoutModule>();
 
-        await Assert.That(moduleResult.Value!.Trim()).IsEqualTo(TestConstants.TestString);
+        await Assert.That(moduleResult.ValueOrDefault!.Trim()).IsEqualTo(TestConstants.TestString);
     }
 }

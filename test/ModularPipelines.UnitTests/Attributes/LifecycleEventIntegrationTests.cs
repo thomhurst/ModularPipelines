@@ -25,7 +25,7 @@ public class LifecycleEventIntegrationTests : TestBase
 
     public class LogEndAttribute : Attribute, IModuleEndEventReceiver
     {
-        public Task OnModuleEndAsync(IModuleEventContext context, ModuleResult result)
+        public Task OnModuleEndAsync(IModuleEventContext context, IModuleResult result)
         {
             EventLog.Add($"End:{context.ModuleName}");
             return Task.CompletedTask;

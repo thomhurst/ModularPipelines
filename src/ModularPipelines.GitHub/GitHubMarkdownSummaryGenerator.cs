@@ -63,8 +63,8 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
         var exception = results
                             .FirstOrDefault(x => x.ModuleStatus == Status.Failed)
-                            ?.Exception
-                        ?? results.Select(x => x.Exception).FirstOrDefault();
+                            ?.ExceptionOrDefault
+                        ?? results.Select(x => x.ExceptionOrDefault).FirstOrDefault();
 
         if (exception is null)
         {
