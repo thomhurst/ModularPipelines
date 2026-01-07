@@ -107,6 +107,19 @@ public abstract class Module<T> : IModule
     /// <param name="context">The module context.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A task representing the operation.</returns>
+    /// <remarks>
+    /// <para>
+    /// Exceptions thrown from this method will prevent <see cref="ExecuteAsync"/> from running
+    /// and will be propagated as a module failure.
+    /// </para>
+    /// <para>
+    /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
+    /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
+    /// Similarly, <see cref="OnAfterExecuteAsync"/> will NOT be called because the before hooks
+    /// did not complete successfully. Only <see cref="Behaviors.IHookable.OnAfterExecute"/>
+    /// (if implemented) will still run in the finally block.
+    /// </para>
+    /// </remarks>
     protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         => Task.CompletedTask;
 
@@ -114,9 +127,23 @@ public abstract class Module<T> : IModule
     /// Called after the module completes (success or failure). Override to add cleanup or result transformation.
     /// </summary>
     /// <param name="context">The module context.</param>
-    /// <param name="result">The module result.</param>
+    /// <param name="result">The module result (may contain an exception on failure).</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A modified result, or null to keep the original.</returns>
+    /// <remarks>
+    /// <para>
+    /// This hook is called after both successful execution and failures. On failure, it is called
+    /// after <see cref="OnFailedAsync"/>. Check <see cref="ModuleResult{T}.Exception"/> to determine
+    /// if the module failed.
+    /// </para>
+    /// <para>
+    /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
+    /// <see cref="OnAfterExecuteAsync"/> will NOT be called because the module execution never started.
+    /// </para>
+    /// <para>
+    /// Exceptions thrown from this hook are logged but do not affect the module result.
+    /// </para>
+    /// </remarks>
     protected virtual Task<ModuleResult<T>?> OnAfterExecuteAsync(
         IModuleContext context,
         ModuleResult<T> result,
@@ -144,6 +171,21 @@ public abstract class Module<T> : IModule
     /// <param name="exception">The exception that caused the failure.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A task representing the operation.</returns>
+    /// <remarks>
+    /// <para>
+    /// This hook is called when <see cref="ExecuteAsync"/> throws an exception.
+    /// </para>
+    /// <para>
+    /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
+    /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
+    /// The exception from <see cref="OnBeforeExecuteAsync"/> is treated as a setup failure,
+    /// not a module execution failure.
+    /// </para>
+    /// <para>
+    /// Exceptions thrown from this hook are logged but do not prevent <see cref="OnAfterExecuteAsync"/>
+    /// from being called.
+    /// </para>
+    /// </remarks>
     protected virtual Task OnFailedAsync(
         IModuleContext context,
         Exception exception,

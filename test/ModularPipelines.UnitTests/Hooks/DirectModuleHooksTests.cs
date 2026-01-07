@@ -104,6 +104,7 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
         public Exception? ReceivedFailureException { get; private set; }
+        public ModuleResult<string>? ReceivedAfterResult { get; private set; }
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -127,8 +128,9 @@ public class DirectModuleHooksTests : TestBase
             ModuleResult<string> result,
             CancellationToken cancellationToken)
         {
-            // This should NOT be called for failed modules in the current implementation
+            // OnAfterExecuteAsync is called for both success and failure (after OnFailedAsync for failures)
             HooksCalled.Add("OnAfterExecuteAsync");
+            ReceivedAfterResult = result;
             return Task.FromResult<ModuleResult<string>?>(null);
         }
 
@@ -280,6 +282,25 @@ public class DirectModuleHooksTests : TestBase
         await Assert.That(module.HooksCalled).Contains("OnFailedAsync");
         await Assert.That(module.ReceivedFailureException).IsNotNull();
         await Assert.That(module.ReceivedFailureException).IsTypeOf<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task OnAfterExecuteAsync_CalledWhenModuleFails()
+    {
+        var module = await RunModule<FailingHookTrackingModule>();
+
+        // OnAfterExecuteAsync should be called even when module fails
+        await Assert.That(module.HooksCalled).Contains("OnAfterExecuteAsync");
+
+        // It should be called after OnFailedAsync
+        var failedIndex = module.HooksCalled.IndexOf("OnFailedAsync");
+        var afterIndex = module.HooksCalled.IndexOf("OnAfterExecuteAsync");
+        await Assert.That(failedIndex).IsLessThan(afterIndex);
+
+        // The result passed to OnAfterExecuteAsync should contain the exception
+        await Assert.That(module.ReceivedAfterResult).IsNotNull();
+        await Assert.That(module.ReceivedAfterResult!.Exception).IsNotNull();
+        await Assert.That(module.ReceivedAfterResult.Exception).IsTypeOf<InvalidOperationException>();
     }
 
     [Test]

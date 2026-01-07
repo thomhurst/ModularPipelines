@@ -70,6 +70,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     {
         var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
+        ModuleResult<T>? moduleResult = null;
+        var beforeHooksExecuted = false;
 
         try
         {
@@ -101,6 +103,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 await hookable.OnBeforeExecute(moduleContext).ConfigureAwait(false);
             }
 
+            // Track that before hooks have executed (for OnAfterExecuteAsync in finally)
+            beforeHooksExecuted = true;
+
             // Mark as processing
             executionContext.Status = Status.Processing;
             executionContext.StartTime = DateTimeOffset.UtcNow;
@@ -115,14 +120,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.RecordEndTime();
             executionContext.Status = Status.Successful;
 
-            var moduleResult = new ModuleResult<T>(result, executionContext);
-
-            // Call direct after hook (can modify result)
-            var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
-            if (modifiedResult != null)
-            {
-                moduleResult = modifiedResult;
-            }
+            moduleResult = new ModuleResult<T>(result, executionContext);
 
             module.CompletionSource.TrySetResult(moduleResult!);
 
@@ -139,16 +137,38 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             executionContext.RecordEndTime();
 
-            // Call direct failed hook first (before OnAfterExecuteAsync in finally)
+            // Call direct failed hook (before OnAfterExecuteAsync in finally)
             await _directHookInvoker.InvokeFailedAsync(module, moduleContext, exception, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            module.CompletionSource.TrySetResult(new ModuleResult<T>(exception, executionContext)!);
+            // Create the failed result for OnAfterExecuteAsync to receive
+            moduleResult = new ModuleResult<T>(exception, executionContext);
+
+            module.CompletionSource.TrySetResult(moduleResult!);
 
             return await HandleException(module, executionContext, moduleContext, exception, logger).ConfigureAwait(false);
         }
         finally
         {
-            // Execute after hook
+            // Call direct OnAfterExecuteAsync hook - runs on both success and failure
+            // Only run if before hooks were executed (module actually started)
+            if (beforeHooksExecuted && moduleResult != null)
+            {
+                try
+                {
+                    var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+                    if (modifiedResult != null)
+                    {
+                        moduleResult = modifiedResult;
+                        executionContext.SetTypedResult(moduleResult);
+                    }
+                }
+                catch (Exception afterHookException)
+                {
+                    logger.LogError(afterHookException, "Error in OnAfterExecuteAsync hook");
+                }
+            }
+
+            // Execute IHookable after hook
             if (module is IHookable hookable)
             {
                 try

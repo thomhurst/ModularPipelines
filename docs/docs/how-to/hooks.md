@@ -77,6 +77,13 @@ public class MyModule : Module<string>
 - `OnSkippedAsync` exceptions are **logged** but don't affect skip behavior
 - `OnFailedAsync` exceptions are **logged** but don't prevent `OnAfterExecuteAsync`
 
+**Edge case: OnBeforeExecuteAsync throws**
+If `OnBeforeExecuteAsync` throws an exception:
+- `ExecuteAsync` will NOT be called
+- `OnFailedAsync` will NOT be called (module never started)
+- `OnAfterExecuteAsync` will NOT be called (before hooks didn't complete)
+- `IHookable.OnAfterExecute` WILL still be called (in finally block)
+
 ### IHookable Interface
 
 For backward compatibility, you can implement `IHookable` to add hooks:
