@@ -144,9 +144,10 @@ namespace ModularPipelines.Models;
 /// }
 /// </code>
 /// </example>
-[JsonDerivedType(typeof(Success), "Success")]
-[JsonDerivedType(typeof(Failure), "Failure")]
-[JsonDerivedType(typeof(Skipped), "Skipped")]
+// NOTE: Actual implementation uses a custom JsonConverter instead of JsonDerivedType
+// because JsonDerivedType doesn't handle generic types well at runtime.
+// The actual attribute is: [JsonConverter(typeof(ModuleResultJsonConverterFactory))]
+[JsonConverter(typeof(ModuleResultJsonConverterFactory))]
 public abstract record ModuleResult<T> : IModuleResult
 {
     // === Metadata (available on all outcomes) ===

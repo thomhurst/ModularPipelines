@@ -38,7 +38,7 @@ public class PackProjectsModule : Module<CommandResult[]>
         var others = await projectFiles.ValueOrDefault!.Others
             .Where(x =>
             {
-                if (changedFiles.SkipDecisionOrDefault.ShouldSkip)
+                if (changedFiles.SkipDecisionOrDefault?.ShouldSkip == true)
                 {
                     return true;
                 }

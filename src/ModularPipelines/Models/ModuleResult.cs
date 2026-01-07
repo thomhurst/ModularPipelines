@@ -335,6 +335,10 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
             }
         }
 
+        // NOTE: StackTrace is intentionally not restored during deserialization.
+        // Setting the StackTrace property via reflection is fragile and can cause issues.
+        // The original stack trace is preserved in the JSON for diagnostic purposes,
+        // but deserialized exceptions will have a new stack trace from deserialization.
         return new Exception(message ?? "Deserialized exception");
     }
 
