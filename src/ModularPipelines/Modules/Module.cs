@@ -102,6 +102,88 @@ public abstract class Module<T> : IModule
     public abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Called before the module executes. Override to add setup logic.
+    /// </summary>
+    /// <param name="context">The module context.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task representing the operation.</returns>
+    protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => Task.CompletedTask;
+
+    /// <summary>
+    /// Called after the module completes (success or failure). Override to add cleanup or result transformation.
+    /// </summary>
+    /// <param name="context">The module context.</param>
+    /// <param name="result">The module result.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A modified result, or null to keep the original.</returns>
+    protected virtual Task<ModuleResult<T>?> OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken)
+        => Task.FromResult<ModuleResult<T>?>(null);
+
+    /// <summary>
+    /// Called when the module is skipped. Override to add skip notification logic.
+    /// </summary>
+    /// <param name="context">The module context.</param>
+    /// <param name="skipDecision">The skip decision with reason.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task representing the operation.</returns>
+    protected virtual Task OnSkippedAsync(
+        IModuleContext context,
+        SkipDecision skipDecision,
+        CancellationToken cancellationToken)
+        => Task.CompletedTask;
+
+    /// <summary>
+    /// Called when the module fails with an exception. Override to add error handling.
+    /// Called before OnAfterExecuteAsync.
+    /// </summary>
+    /// <param name="context">The module context.</param>
+    /// <param name="exception">The exception that caused the failure.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>A task representing the operation.</returns>
+    protected virtual Task OnFailedAsync(
+        IModuleContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+        => Task.CompletedTask;
+
+    /// <summary>
+    /// Internal accessor to invoke OnBeforeExecuteAsync from the engine.
+    /// </summary>
+    internal Task InvokeOnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        => OnBeforeExecuteAsync(context, cancellationToken);
+
+    /// <summary>
+    /// Internal accessor to invoke OnAfterExecuteAsync from the engine.
+    /// </summary>
+    internal Task<ModuleResult<T>?> InvokeOnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<T> result,
+        CancellationToken cancellationToken)
+        => OnAfterExecuteAsync(context, result, cancellationToken);
+
+    /// <summary>
+    /// Internal accessor to invoke OnSkippedAsync from the engine.
+    /// </summary>
+    internal Task InvokeOnSkippedAsync(
+        IModuleContext context,
+        SkipDecision skipDecision,
+        CancellationToken cancellationToken)
+        => OnSkippedAsync(context, skipDecision, cancellationToken);
+
+    /// <summary>
+    /// Internal accessor to invoke OnFailedAsync from the engine.
+    /// </summary>
+    internal Task InvokeOnFailedAsync(
+        IModuleContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+        => OnFailedAsync(context, exception, cancellationToken);
+
+    /// <summary>
     /// Gets an awaiter for this module's result.
     /// </summary>
     public TaskAwaiter<ModuleResult<T?>> GetAwaiter() => CompletionSource.Task.GetAwaiter();

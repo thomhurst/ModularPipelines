@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -49,13 +50,16 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
     private readonly IModuleResultRepository _resultRepository;
     private readonly EngineCancellationToken _engineCancellationToken;
+    private readonly IDirectHookInvoker _directHookInvoker;
 
     public ModuleExecutionPipeline(
         IModuleResultRepository resultRepository,
-        EngineCancellationToken engineCancellationToken)
+        EngineCancellationToken engineCancellationToken,
+        IDirectHookInvoker directHookInvoker)
     {
         _resultRepository = resultRepository;
         _engineCancellationToken = engineCancellationToken;
+        _directHookInvoker = directHookInvoker;
     }
 
     public async Task<ModuleResult<T>> ExecuteAsync<T>(
@@ -78,6 +82,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 var skipDecision = await skippable.ShouldSkip(moduleContext).ConfigureAwait(false);
                 if (skipDecision.ShouldSkip)
                 {
+                    // Call direct skip hook first
+                    await _directHookInvoker.InvokeSkippedAsync(module, moduleContext, skipDecision, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+
                     return await HandleSkipped(module, executionContext, moduleContext, skipDecision, logger).ConfigureAwait(false);
                 }
             }
@@ -85,7 +92,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Check for cancellation after skip check
             executionContext.ModuleCancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-            // Execute before hook
+            // Execute direct before hook first (virtual override)
+            await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+
+            // Execute IHookable before hook second
             if (module is IHookable hookable)
             {
                 await hookable.OnBeforeExecute(moduleContext).ConfigureAwait(false);
@@ -107,6 +117,13 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             var moduleResult = new ModuleResult<T>(result, executionContext);
 
+            // Call direct after hook (can modify result)
+            var modifiedResult = await _directHookInvoker.InvokeAfterExecuteAsync(module, moduleContext, moduleResult, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
+            if (modifiedResult != null)
+            {
+                moduleResult = modifiedResult;
+            }
+
             module.CompletionSource.TrySetResult(moduleResult!);
 
             // Save to history if applicable
@@ -121,6 +138,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         catch (Exception exception)
         {
             executionContext.RecordEndTime();
+
+            // Call direct failed hook first (before OnAfterExecuteAsync in finally)
+            await _directHookInvoker.InvokeFailedAsync(module, moduleContext, exception, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
             module.CompletionSource.TrySetResult(new ModuleResult<T>(exception, executionContext)!);
 
