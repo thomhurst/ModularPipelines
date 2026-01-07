@@ -17,7 +17,7 @@ public class PackagePathsParserModule : Module<List<File>>
     {
         var packPackagesModuleResult = context.GetModule<PackProjectsModule, CommandResult[]>();
 
-        return Task.FromResult<List<File>?>(packPackagesModuleResult.Value!
+        return Task.FromResult<List<File>?>(packPackagesModuleResult.ValueOrDefault!
             .Select(x => x.StandardOutput)
             .Select(x => x.Split(PackageCreationSuccessPrefix)[1])
             .Select(x => x.Split(PackagePathSuffix)[0])

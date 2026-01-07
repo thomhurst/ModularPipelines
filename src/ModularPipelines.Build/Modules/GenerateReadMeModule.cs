@@ -27,7 +27,7 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>, IAlways
 
         var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
 
-        foreach (var project in projects.Value!
+        foreach (var project in projects.ValueOrDefault!
                      .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers")))
         {
             var moduleName = project.NameWithoutExtension;

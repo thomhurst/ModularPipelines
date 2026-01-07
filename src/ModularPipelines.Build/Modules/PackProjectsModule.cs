@@ -28,23 +28,23 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var changedFiles = context.GetModule<ChangedFilesInPullRequestModule, IReadOnlyList<File>>();
 
-        var dependencies = await projectFiles.Value!.Dependencies
+        var dependencies = await projectFiles.ValueOrDefault!.Dependencies
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
 
         var gitVersioningInformation = await context.Git().Versioning.GetGitVersioningInformation();
 
-        var others = await projectFiles.Value!.Others
+        var others = await projectFiles.ValueOrDefault!.Others
             .Where(x =>
             {
-                if (changedFiles.SkipDecision.ShouldSkip)
+                if (changedFiles.SkipDecisionOrDefault.ShouldSkip)
                 {
                     return true;
                 }
 
                 return ProjectHasChanged(x,
-                    changedFiles.Value!, context);
+                    changedFiles.ValueOrDefault!, context);
             })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
@@ -79,8 +79,8 @@ public class PackProjectsModule : Module<CommandResult[]>
             NoRestore = true,
             Properties = new List<KeyValue>
             {
-                ("PackageVersion", packageVersion.Value!),
-                ("Version", packageVersion.Value!),
+                ("PackageVersion", packageVersion.ValueOrDefault!),
+                ("Version", packageVersion.ValueOrDefault!),
             },
         }, cancellationToken: cancellationToken);
     }
