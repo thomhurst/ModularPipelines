@@ -1,6 +1,6 @@
 namespace ModularPipelines.Exceptions;
 
-[Obsolete("Use pattern matching on ModuleResult<T>.Skipped instead. This exception is no longer thrown by ModuleResult<T>.Value.")]
+[Obsolete("Use pattern matching on ModuleResult<T>.Skipped instead. The .Value property has been removed; use ValueOrDefault or Match() for safe access.")]
 public class ModuleSkippedException : PipelineException
 {
     public string ModuleName { get; }

@@ -174,38 +174,66 @@ public abstract record ModuleResult<T> : IModuleResult
 
     // === Internal factory methods ===
 
-    internal static Success CreateSuccess(T value, ModuleExecutionContext ctx) => new(value)
+    internal static Success CreateSuccess(T value, ModuleExecutionContext ctx)
     {
-        ModuleName = ctx.ModuleType.Name,
-        ModuleDuration = (ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime) -
-                        (ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime),
-        ModuleStart = ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime,
-        ModuleEnd = ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime,
-        ModuleStatus = ctx.Status,
-        ModuleType = ctx.ModuleType
-    };
+        var (start, end, duration) = GetTimingInfo(ctx);
+        return new(value)
+        {
+            ModuleName = ctx.ModuleType.Name,
+            ModuleDuration = duration,
+            ModuleStart = start,
+            ModuleEnd = end,
+            ModuleStatus = ctx.Status,
+            ModuleType = ctx.ModuleType
+        };
+    }
 
-    internal static Failure CreateFailure(Exception exception, ModuleExecutionContext ctx) => new(exception)
+    internal static Failure CreateFailure(Exception exception, ModuleExecutionContext ctx)
     {
-        ModuleName = ctx.ModuleType.Name,
-        ModuleDuration = (ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime) -
-                        (ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime),
-        ModuleStart = ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime,
-        ModuleEnd = ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime,
-        ModuleStatus = ctx.Status,
-        ModuleType = ctx.ModuleType
-    };
+        var (start, end, duration) = GetTimingInfo(ctx);
+        return new(exception)
+        {
+            ModuleName = ctx.ModuleType.Name,
+            ModuleDuration = duration,
+            ModuleStart = start,
+            ModuleEnd = end,
+            ModuleStatus = ctx.Status,
+            ModuleType = ctx.ModuleType
+        };
+    }
 
-    internal static Skipped CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx) => new(decision)
+    internal static Skipped CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
     {
-        ModuleName = ctx.ModuleType.Name,
-        ModuleDuration = (ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime) -
-                        (ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime),
-        ModuleStart = ctx.StartTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.StartTime,
-        ModuleEnd = ctx.EndTime == DateTimeOffset.MinValue ? DateTimeOffset.Now : ctx.EndTime,
-        ModuleStatus = ctx.Status,
-        ModuleType = ctx.ModuleType
-    };
+        var (start, end, duration) = GetTimingInfo(ctx);
+        return new(decision)
+        {
+            ModuleName = ctx.ModuleType.Name,
+            ModuleDuration = duration,
+            ModuleStart = start,
+            ModuleEnd = end,
+            ModuleStatus = ctx.Status,
+            ModuleType = ctx.ModuleType
+        };
+    }
+
+    /// <summary>
+    /// Gets consistent timing information from the execution context.
+    /// If either start or end time is MinValue, returns TimeSpan.Zero for duration
+    /// to avoid inconsistent results from calling DateTimeOffset.Now multiple times.
+    /// </summary>
+    private static (DateTimeOffset Start, DateTimeOffset End, TimeSpan Duration) GetTimingInfo(ModuleExecutionContext ctx)
+    {
+        var now = DateTimeOffset.Now;
+        var start = ctx.StartTime == DateTimeOffset.MinValue ? now : ctx.StartTime;
+        var end = ctx.EndTime == DateTimeOffset.MinValue ? now : ctx.EndTime;
+
+        // If either time was originally MinValue, duration is unreliable - use Zero
+        var duration = (ctx.StartTime == DateTimeOffset.MinValue || ctx.EndTime == DateTimeOffset.MinValue)
+            ? TimeSpan.Zero
+            : end - start;
+
+        return (start, end, duration);
+    }
 
     // Prevent external inheritance - only Success, Failure, Skipped are valid
     private protected ModuleResult()
@@ -217,6 +245,32 @@ public abstract record ModuleResult<T> : IModuleResult
 /// JSON converter for Exception objects. Serializes essential exception data
 /// and deserializes to a wrapper exception preserving the message.
 /// </summary>
+/// <remarks>
+/// <para><strong>Security Considerations:</strong></para>
+/// <para>
+/// This converter intentionally serializes limited exception information:
+/// </para>
+/// <list type="bullet">
+/// <item><description>
+/// <strong>Type:</strong> Only the full type name (not AssemblyQualifiedName) is serialized
+/// to avoid leaking internal assembly version and culture information.
+/// </description></item>
+/// <item><description>
+/// <strong>Message:</strong> Exception messages may contain sensitive data (file paths,
+/// user input, etc.). Consumers should sanitize exception messages before serialization
+/// if they may contain sensitive information.
+/// </description></item>
+/// <item><description>
+/// <strong>StackTrace:</strong> Stack traces may reveal internal file paths and code structure.
+/// Consider whether this is acceptable for your use case. For production logging to external
+/// systems, you may want to omit or truncate stack traces.
+/// </description></item>
+/// </list>
+/// <para>
+/// On deserialization, only well-known exception types from the System namespace are
+/// reconstructed. Unknown types fall back to a generic Exception to prevent type injection.
+/// </para>
+/// </remarks>
 internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
 {
     public override Exception? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -258,10 +312,13 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
         }
 
         // Try to reconstruct the original exception type if possible
+        // Security: Only allow well-known exception types from System namespace
         if (typeName != null)
         {
             var exceptionType = Type.GetType(typeName);
-            if (exceptionType != null && typeof(Exception).IsAssignableFrom(exceptionType))
+            if (exceptionType != null &&
+                typeof(Exception).IsAssignableFrom(exceptionType) &&
+                (exceptionType.Namespace?.StartsWith("System", StringComparison.Ordinal) == true))
             {
                 try
                 {
@@ -284,7 +341,9 @@ internal sealed class ExceptionJsonConverter : JsonConverter<Exception>
     public override void Write(Utf8JsonWriter writer, Exception value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
-        writer.WriteString("Type", value.GetType().AssemblyQualifiedName);
+        // Security: Use FullName instead of AssemblyQualifiedName to avoid leaking
+        // assembly version, culture, and public key token information
+        writer.WriteString("Type", value.GetType().FullName);
         writer.WriteString("Message", value.Message);
         writer.WriteString("StackTrace", value.StackTrace);
         writer.WriteEndObject();
