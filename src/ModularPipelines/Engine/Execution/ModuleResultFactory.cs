@@ -1,110 +1,67 @@
-using System.Collections.Concurrent;
-using System.Linq.Expressions;
-using System.Reflection;
 using ModularPipelines.Models;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Execution;
 
 /// <summary>
-/// Factory for creating ModuleResult instances without reflection.
+/// Factory for creating ModuleResult instances.
 /// </summary>
-/// <remarks>
-/// Replaces reflection-based constructor invocation with compiled expression trees.
-/// </remarks>
 internal static class ModuleResultFactory
 {
     /// <summary>
-    /// Delegate for creating a ModuleResult with a null value (for skipped modules).
+    /// Creates a successful ModuleResult for the specified value.
     /// </summary>
-    internal delegate IModuleResult CreateSkippedResultDelegate(ModuleExecutionContext executionContext);
+    public static ModuleResult<T> CreateSuccess<T>(T value, ModuleExecutionContext ctx)
+    {
+        return ModuleResult<T>.CreateSuccess(value, ctx);
+    }
 
     /// <summary>
-    /// Delegate for creating a ModuleResult with an exception.
+    /// Creates a failure ModuleResult for the specified exception.
     /// </summary>
-    internal delegate IModuleResult CreateExceptionResultDelegate(Exception exception, ModuleExecutionContext executionContext);
-
-    private static readonly ConcurrentDictionary<Type, CreateSkippedResultDelegate> SkippedResultCache = new();
-    private static readonly ConcurrentDictionary<Type, CreateExceptionResultDelegate> ExceptionResultCache = new();
+    public static ModuleResult<T> CreateFailure<T>(Exception exception, ModuleExecutionContext ctx)
+    {
+        return ModuleResult<T>.CreateFailure(exception, ctx);
+    }
 
     /// <summary>
-    /// Creates a skipped ModuleResult for the specified result type.
+    /// Creates a skipped ModuleResult for the specified skip decision.
+    /// </summary>
+    public static ModuleResult<T> CreateSkipped<T>(SkipDecision decision, ModuleExecutionContext ctx)
+    {
+        return ModuleResult<T>.CreateSkipped(decision, ctx);
+    }
+
+    /// <summary>
+    /// Creates a skipped ModuleResult (type-erased version for engine use).
     /// </summary>
     public static IModuleResult CreateSkipped(Type resultType, ModuleExecutionContext executionContext)
     {
-        var factory = SkippedResultCache.GetOrAdd(resultType, CreateSkippedFactory);
-        return factory(executionContext);
+        var method = typeof(ModuleResultFactory)
+            .GetMethod(nameof(CreateSkippedGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+            .MakeGenericMethod(resultType);
+
+        return (IModuleResult)method.Invoke(null, [executionContext.SkipResult ?? SkipDecision.DoNotSkip, executionContext])!;
     }
 
     /// <summary>
-    /// Creates an exception ModuleResult for the specified result type.
+    /// Creates a failure ModuleResult (type-erased version for engine use).
     /// </summary>
     public static IModuleResult CreateException(Type resultType, Exception exception, ModuleExecutionContext executionContext)
     {
-        var factory = ExceptionResultCache.GetOrAdd(resultType, CreateExceptionFactory);
-        return factory(exception, executionContext);
+        var method = typeof(ModuleResultFactory)
+            .GetMethod(nameof(CreateFailureGeneric), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
+            .MakeGenericMethod(resultType);
+
+        return (IModuleResult)method.Invoke(null, [exception, executionContext])!;
     }
 
-    private static CreateSkippedResultDelegate CreateSkippedFactory(Type resultType)
+    private static IModuleResult CreateSkippedGeneric<T>(SkipDecision decision, ModuleExecutionContext ctx)
     {
-        var contextParam = Expression.Parameter(typeof(ModuleExecutionContext), "executionContext");
-        var resultGenericType = typeof(ModuleResult<>).MakeGenericType(resultType);
-        var typedContextType = typeof(ModuleExecutionContext<>).MakeGenericType(resultType);
-
-        // Cast to typed context
-        var castContext = Expression.Convert(contextParam, typedContextType);
-
-        // Find the internal constructor: ModuleResult<T>(T? value, ModuleExecutionContext context)
-        var constructor = resultGenericType.GetConstructor(
-            BindingFlags.NonPublic | BindingFlags.Instance,
-            null,
-            new[] { resultType, typeof(ModuleExecutionContext) },
-            null);
-
-        if (constructor == null)
-        {
-            throw new InvalidOperationException(
-                $"Could not find internal constructor for ModuleResult<{resultType.Name}>(T?, ModuleExecutionContext)");
-        }
-
-        // Create: new ModuleResult<T>(default(T), executionContext)
-        var defaultValue = Expression.Default(resultType);
-        var newResult = Expression.New(constructor, defaultValue, contextParam);
-
-        // Cast to IModuleResult
-        var castToInterface = Expression.Convert(newResult, typeof(IModuleResult));
-
-        var lambda = Expression.Lambda<CreateSkippedResultDelegate>(castToInterface, contextParam);
-        return lambda.Compile();
+        return ModuleResult<T>.CreateSkipped(decision, ctx);
     }
 
-    private static CreateExceptionResultDelegate CreateExceptionFactory(Type resultType)
+    private static IModuleResult CreateFailureGeneric<T>(Exception exception, ModuleExecutionContext ctx)
     {
-        var exceptionParam = Expression.Parameter(typeof(Exception), "exception");
-        var contextParam = Expression.Parameter(typeof(ModuleExecutionContext), "executionContext");
-        var resultGenericType = typeof(ModuleResult<>).MakeGenericType(resultType);
-
-        // Find the internal constructor: ModuleResult<T>(Exception exception, ModuleExecutionContext context)
-        // Note: The constructor takes the base class ModuleExecutionContext, not ModuleExecutionContext<T>
-        var constructor = resultGenericType.GetConstructor(
-            BindingFlags.NonPublic | BindingFlags.Instance,
-            null,
-            new[] { typeof(Exception), typeof(ModuleExecutionContext) },
-            null);
-
-        if (constructor == null)
-        {
-            throw new InvalidOperationException(
-                $"Could not find internal constructor for ModuleResult<{resultType.Name}>(Exception, ModuleExecutionContext)");
-        }
-
-        // Create: new ModuleResult<T>(exception, executionContext)
-        var newResult = Expression.New(constructor, exceptionParam, contextParam);
-
-        // Cast to IModuleResult
-        var castToInterface = Expression.Convert(newResult, typeof(IModuleResult));
-
-        var lambda = Expression.Lambda<CreateExceptionResultDelegate>(castToInterface, exceptionParam, contextParam);
-        return lambda.Compile();
+        return ModuleResult<T>.CreateFailure(exception, ctx);
     }
 }
