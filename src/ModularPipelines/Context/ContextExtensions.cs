@@ -85,7 +85,7 @@ public static class ContextExtensions
         {
             throw new InvalidOperationException(
                 $"Configuration key '{key}' is required but was not found or has no value. " +
-                $"Ensure the configuration is properly set in appsettings.json, environment variables, or user secrets.");
+                $"Ensure this key is provided by the configured configuration sources for this pipeline.");
         }
 
         return value;

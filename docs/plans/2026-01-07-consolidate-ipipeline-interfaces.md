@@ -379,6 +379,10 @@ Addresses #1867"
 
 ### Task 5: Consolidate Validation Interfaces
 
+> **Note:** This task is deferred to a future PR. The IPipelineValidator rename requires
+> careful consideration of existing custom validator implementations. For now,
+> IPipelineValidator remains unchanged.
+
 **Files:**
 - Modify: `src/ModularPipelines/Validation/IPipelineValidationService.cs`
 - Modify: `src/ModularPipelines/Validation/IPipelineValidator.cs`
@@ -389,9 +393,11 @@ Addresses #1867"
 // IPipelineValidationService - orchestrates validation
 // IPipelineValidator - individual validator
 
-// Should be:
+// Originally planned:
 // - IPipelineValidationService stays (internal)
 // - IPipelineValidator renamed to IValidator (simpler)
+//
+// DEFERRED: Keep IPipelineValidator as-is for now to avoid breaking custom validators
 ```
 
 **Step 2: Make validation service internal if not already**
