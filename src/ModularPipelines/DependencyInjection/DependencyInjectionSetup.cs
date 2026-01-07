@@ -206,6 +206,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<Engine.Execution.IParallelLimitHandler, Engine.Execution.ParallelLimitHandler>()
             .AddSingleton<Engine.Execution.IDependencyWaiter, Engine.Execution.DependencyWaiter>()
             .AddSingleton<Engine.Execution.IModuleLifecycleEventInvoker, Engine.Execution.ModuleLifecycleEventInvoker>()
+            .AddSingleton<Engine.Execution.IDirectHookInvoker, Engine.Execution.DirectHookInvoker>()
             .AddSingleton<Engine.Execution.IModuleRunner, Engine.Execution.ModuleRunner>()
             .AddSingleton<Engine.Execution.IAlwaysRunHandler, Engine.Execution.AlwaysRunHandler>()
 

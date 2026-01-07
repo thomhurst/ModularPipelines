@@ -6,7 +6,13 @@ namespace ModularPipelines.Context;
 /// <summary>
 /// Context provided to modules during execution, extending pipeline context with module-specific capabilities.
 /// </summary>
+/// <remarks>
+/// This is the primary interface for module developers. It provides access to all pipeline capabilities
+/// including DI, configuration, file system, commands, serialization, and module results.
+/// </remarks>
+#pragma warning disable CS0618 // IPipelineContext is obsolete - IModuleContext needs to inherit from it for backwards compatibility
 public interface IModuleContext : IPipelineContext
+#pragma warning restore CS0618
 {
     /// <summary>
     /// Gets a module by type and returns its result when awaited.
