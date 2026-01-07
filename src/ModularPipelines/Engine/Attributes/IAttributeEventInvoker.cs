@@ -14,7 +14,7 @@ internal interface IAttributeEventInvoker
 
     Task InvokeStartReceiversAsync(IEnumerable<IModuleStartEventReceiver> receivers, IModuleEventContext context);
 
-    Task InvokeEndReceiversAsync(IEnumerable<IModuleEndEventReceiver> receivers, IModuleEventContext context, ModuleResult result);
+    Task InvokeEndReceiversAsync(IEnumerable<IModuleEndEventReceiver> receivers, IModuleEventContext context, IModuleResult result);
 
     Task InvokeFailureReceiversAsync(IEnumerable<IModuleFailureEventReceiver> receivers, IModuleEventContext context, Exception exception);
 
