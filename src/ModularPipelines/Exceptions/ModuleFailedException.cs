@@ -5,6 +5,7 @@ namespace ModularPipelines.Exceptions;
 /// <summary>
 /// An exception that occurs when a module execution fails.
 /// </summary>
+[Obsolete("Use pattern matching on ModuleResult<T>.Failure instead. This exception is no longer thrown by ModuleResult<T>.Value.")]
 public class ModuleFailedException : PipelineException
 {
     /// <summary>
