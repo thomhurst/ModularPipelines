@@ -31,7 +31,7 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
                 {
-                    UserAssignedIdentities = { { userAssignedIdentity.Value!.Id, new UserAssignedIdentity() } },
+                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } },
                 },
                 SiteConfig = new SiteConfigProperties
                 {
@@ -40,12 +40,12 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                         new()
                         {
                             Name = "BlobStorageConnectionString",
-                            Value = storageAccount.Value!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri,
+                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri,
                         },
                         new()
                         {
                             Name = "BlobContainerName",
-                            Value = blobContainer.Value!.Data.Name,
+                            Value = blobContainer.ValueOrDefault!.Data.Name,
                         },
                     },
                 },

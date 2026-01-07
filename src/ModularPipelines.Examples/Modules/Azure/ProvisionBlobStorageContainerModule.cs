@@ -15,7 +15,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
         var blobStorageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
 
         var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
-            blobStorageAccount.Value!.Id,
+            blobStorageAccount.ValueOrDefault!.Id,
             "MyContainer",
             new BlobContainerData()
         );
