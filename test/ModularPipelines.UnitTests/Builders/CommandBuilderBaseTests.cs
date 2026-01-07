@@ -209,22 +209,21 @@ public class CommandBuilderBaseTests : TestBase
     }
 
     [Test]
-    public async Task WithLogging_ConfiguresUsingAction()
+    public async Task WithLogging_ConfiguresUsingFunc()
     {
         var mockCommand = new Mock<ICommand>();
         var builder = new TestToolBuilder(mockCommand.Object);
 
-        builder.WithLogging(options =>
+        builder.WithLogging(options => options with
         {
-            options = options with
-            {
-                Verbosity = CommandLogVerbosity.Silent,
-                ShowWorkingDirectory = true
-            };
+            Verbosity = CommandLogVerbosity.Silent,
+            ShowWorkingDirectory = true
         });
 
         var (_, execOptions) = builder.ToOptions();
         await Assert.That(execOptions.LogSettings).IsNotNull();
+        await Assert.That(execOptions.LogSettings!.Verbosity).IsEqualTo(CommandLogVerbosity.Silent);
+        await Assert.That(execOptions.LogSettings.ShowWorkingDirectory).IsTrue();
     }
 
     #endregion

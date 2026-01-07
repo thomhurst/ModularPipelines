@@ -128,10 +128,9 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     }
 
     /// <inheritdoc />
-    public TBuilder WithLogging(Action<CommandLoggingOptions> configure)
+    public TBuilder WithLogging(Func<CommandLoggingOptions, CommandLoggingOptions> configure)
     {
-        var options = new CommandLoggingOptions();
-        configure(options);
+        var options = configure(new CommandLoggingOptions());
         return WithLogging(options);
     }
 
@@ -160,7 +159,7 @@ public abstract class CommandBuilderBase<TBuilder, TOptions> : ICommandBuilder<T
     ICommandBuilder ICommandBuilder.WithLogging(CommandLoggingOptions options) => WithLogging(options);
 
     /// <inheritdoc />
-    ICommandBuilder ICommandBuilder.WithLogging(Action<CommandLoggingOptions> configure) => WithLogging(configure);
+    ICommandBuilder ICommandBuilder.WithLogging(Func<CommandLoggingOptions, CommandLoggingOptions> configure) => WithLogging(configure);
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ExecuteAsync(CancellationToken cancellationToken = default)

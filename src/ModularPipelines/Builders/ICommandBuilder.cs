@@ -66,11 +66,16 @@ public interface ICommandBuilder
     ICommandBuilder WithLogging(CommandLoggingOptions options);
 
     /// <summary>
-    /// Configures logging options using a builder action.
+    /// Configures logging options using a configuration function.
     /// </summary>
-    /// <param name="configure">An action to configure the logging options.</param>
+    /// <param name="configure">A function that takes the current logging options and returns modified options.</param>
     /// <returns>The builder instance for chaining.</returns>
-    ICommandBuilder WithLogging(Action<CommandLoggingOptions> configure);
+    /// <example>
+    /// <code>
+    /// builder.WithLogging(opts => opts with { Verbosity = CommandLogVerbosity.Diagnostic });
+    /// </code>
+    /// </example>
+    ICommandBuilder WithLogging(Func<CommandLoggingOptions, CommandLoggingOptions> configure);
 }
 
 /// <summary>
@@ -154,9 +159,14 @@ public interface ICommandBuilder<TBuilder, TOptions> : ICommandBuilder
     new TBuilder WithLogging(CommandLoggingOptions options);
 
     /// <summary>
-    /// Configures logging options using a builder action.
+    /// Configures logging options using a configuration function.
     /// </summary>
-    /// <param name="configure">An action to configure the logging options.</param>
+    /// <param name="configure">A function that takes the current logging options and returns modified options.</param>
     /// <returns>The builder instance for chaining.</returns>
-    new TBuilder WithLogging(Action<CommandLoggingOptions> configure);
+    /// <example>
+    /// <code>
+    /// builder.WithLogging(opts => opts with { Verbosity = CommandLogVerbosity.Diagnostic });
+    /// </code>
+    /// </example>
+    new TBuilder WithLogging(Func<CommandLoggingOptions, CommandLoggingOptions> configure);
 }
