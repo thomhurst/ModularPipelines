@@ -13,7 +13,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// Generated implementation for dotnet CLI commands.
 /// </summary>
-internal class DotNet : IDotNet
+internal partial class DotNet : IDotNet
 {
     private readonly ICommand _command;
 
