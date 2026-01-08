@@ -106,9 +106,18 @@ internal class ProgressPrinter : IProgressPrinter,
                         progressTask.Increment(ticksPerSecond);
                     }
                 }
-                catch
+                catch (ObjectDisposedException)
                 {
-                    // Ignore exceptions in progress updates to prevent unobserved task exceptions
+                    // Expected when progress context is disposed during module completion
+                }
+                catch (InvalidOperationException)
+                {
+                    // Expected when progress task is stopped or context is in invalid state
+                }
+                catch (Exception)
+                {
+                    // Suppress other exceptions to prevent unobserved task exceptions
+                    // Progress updates are non-critical UI feedback
                 }
             }, CancellationToken.None);
         }
@@ -230,9 +239,18 @@ internal class ProgressPrinter : IProgressPrinter,
                         progressTask.Increment(ticksPerSecond);
                     }
                 }
-                catch
+                catch (ObjectDisposedException)
                 {
-                    // Ignore exceptions in progress updates to prevent unobserved task exceptions
+                    // Expected when progress context is disposed during submodule completion
+                }
+                catch (InvalidOperationException)
+                {
+                    // Expected when progress task is stopped or context is in invalid state
+                }
+                catch (Exception)
+                {
+                    // Suppress other exceptions to prevent unobserved task exceptions
+                    // Progress updates are non-critical UI feedback
                 }
             }, CancellationToken.None);
         }

@@ -52,9 +52,18 @@ public static class Disposer
         {
             await DisposeObjectAsync(obj).ConfigureAwait(false);
         }
-        catch
+        catch (ObjectDisposedException)
         {
-            // Suppress exceptions during shutdown - process is exiting anyway
+            // Expected - object may already be disposed during shutdown
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected - operations may be cancelled during shutdown
+        }
+        catch (Exception)
+        {
+            // Suppress all other exceptions during shutdown - process is exiting anyway
+            // and there's no meaningful way to handle or report them at this point
         }
     }
 }

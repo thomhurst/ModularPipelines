@@ -161,10 +161,16 @@ internal static class TimeoutHelper
                 // Task still didn't complete - definitely not respecting the token
                 taskRespondedDuringGrace = false;
             }
-            catch
+            catch (OperationCanceledException)
             {
-                // Task threw an exception (could be TaskCanceledException from
-                // finally observing the token) - consider it responsive
+                // Task threw OperationCanceledException/TaskCanceledException from
+                // finally observing the cancellation token - consider it responsive
+                taskRespondedDuringGrace = true;
+            }
+            catch (Exception)
+            {
+                // Task threw some other exception during grace period - it did respond
+                // (with an error), so consider it responsive to the cancellation
                 taskRespondedDuringGrace = true;
             }
 
