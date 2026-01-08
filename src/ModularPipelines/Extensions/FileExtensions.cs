@@ -30,9 +30,14 @@ public static class FileExtensions
     /// <returns>The input object if not null.</returns>
     public static File AssertExists(this File? file, string? message = null)
     {
-        if (file is null || !file.Exists)
+        if (file is null)
         {
-            throw new FileNotFoundException($"The file does not exist{GetMessage(file, message)}", file?.Path);
+            throw new ArgumentNullException(nameof(file), $"File reference is null{GetMessage(null, message)}");
+        }
+
+        if (!file.Exists)
+        {
+            throw new FileNotFoundException($"The file does not exist{GetMessage(file, message)}", file.Path);
         }
 
         return file;

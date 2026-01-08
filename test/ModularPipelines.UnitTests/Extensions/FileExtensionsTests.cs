@@ -49,9 +49,9 @@ public class FileExtensionsTests
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
 
-        var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists("My message"));
+        var exception = Assert.Throws<ArgumentNullException>(() => file.AssertExists("My message"));
 
-        await Assert.That(exception.Message).IsEqualTo("The file does not exist - My message");
+        await Assert.That(exception.Message).IsEqualTo("File reference is null - My message (Parameter 'file')");
     }
 
     [Test]
@@ -59,8 +59,8 @@ public class FileExtensionsTests
     {
         var file = new Folder(Environment.CurrentDirectory).FindFile(_ => false);
 
-        var exception = Assert.Throws<FileNotFoundException>(() => file.AssertExists());
+        var exception = Assert.Throws<ArgumentNullException>(() => file.AssertExists());
 
-        await Assert.That(exception.Message).IsEqualTo("The file does not exist");
+        await Assert.That(exception.Message).IsEqualTo("File reference is null (Parameter 'file')");
     }
 }

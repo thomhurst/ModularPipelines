@@ -80,7 +80,7 @@ public static class CommandExtensions
     {
         return options with
         {
-            Arguments = (options.Arguments ?? Array.Empty<string>()).Concat(arguments),
+            Arguments = (options.Arguments ?? Array.Empty<string>()).Concat(arguments).ToArray(),
         };
     }
 }

@@ -328,7 +328,7 @@ public class FileTests : TestBase
     public async Task AssertExists_ThrowsWhenNull()
     {
         var file = null as File;
-        await Assert.That(() => file.AssertExists()).Throws<FileNotFoundException>();
+        await Assert.That(() => file.AssertExists()).Throws<ArgumentNullException>();
     }
 
     [Test]
