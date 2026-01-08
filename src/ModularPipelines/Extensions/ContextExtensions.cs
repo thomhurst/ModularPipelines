@@ -19,7 +19,9 @@ public static class ContextExtensions
     /// </remarks>
     public static void LogOnPipelineEnd(this IPipelineHookContext pipelineContext, string value)
     {
-        var afterPipelineLogger = pipelineContext.Get<IAfterPipelineLogger>()!;
+        var afterPipelineLogger = pipelineContext.Get<IAfterPipelineLogger>()
+            ?? throw new InvalidOperationException(
+                $"Service {nameof(IAfterPipelineLogger)} is not registered. Ensure the pipeline is properly configured.");
         afterPipelineLogger.LogOnPipelineEnd(value);
     }
 }
