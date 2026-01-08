@@ -49,15 +49,11 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                 var historicalResult = await TryGetHistoricalResultAsync(module, resultType, pipelineContext).ConfigureAwait(false);
                 if (historicalResult != null)
                 {
-                    // Update the status to UsedHistory since we're using a cached result
-                    if (historicalResult is ModuleResult moduleResult)
-                    {
-                        moduleResult.ModuleStatus = Status.UsedHistory;
-                    }
-
+                    // Update the status to UsedHistory using the factory method
+                    var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
                     _logger.LogDebug("Using historical result for ignored module {ModuleName}",
                         MarkupFormatter.FormatModuleName(moduleType.Name));
-                    _resultRegistry.RegisterResult(moduleType, historicalResult);
+                    _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
                     continue;
                 }
             }

@@ -21,8 +21,8 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
         var storageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
 
         var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
-            storageAccount.Value!.Id,
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value!.Data.PrincipalId!.Value)
+            storageAccount.ValueOrDefault!.Id,
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
         );
 
         return roleAssignmentResource.Value;

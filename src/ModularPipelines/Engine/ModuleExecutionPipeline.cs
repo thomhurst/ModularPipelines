@@ -120,7 +120,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.RecordEndTime();
             executionContext.Status = Status.Successful;
 
-            moduleResult = new ModuleResult<T>(result, executionContext);
+            moduleResult = ModuleResult<T>.CreateSuccess(result, executionContext);
 
             module.CompletionSource.TrySetResult(moduleResult!);
 
@@ -141,7 +141,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             await _directHookInvoker.InvokeFailedAsync(module, moduleContext, exception, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
             // Create the failed result for OnAfterExecuteAsync to receive
-            moduleResult = new ModuleResult<T>(exception, executionContext);
+            moduleResult = ModuleResult<T>.CreateFailure(exception, executionContext);
 
             module.CompletionSource.TrySetResult(moduleResult!);
 
@@ -218,9 +218,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         executionContext.Status = Status.Skipped;
         executionContext.SkipResult = skipDecision;
 
-        module.CompletionSource.TrySetResult(new ModuleResult<T>(new ModuleSkippedException(module.GetType().Name), executionContext)!);
-
-        // Check if we should use historical data
+        // Check if we should use historical data BEFORE setting completion source
         // For skipped modules with a history repository configured, check for cached results
         if (_resultRepository.IsEnabled)
         {
@@ -228,15 +226,19 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             if (historicalResult != null)
             {
                 executionContext.Status = Status.UsedHistory;
-                historicalResult.ModuleStatus = Status.UsedHistory;
-                executionContext.SetTypedResult(historicalResult);
+
+                // Create a new result with UsedHistory status using record's 'with' expression
+                var usedHistoryResult = historicalResult with { ModuleStatus = Status.UsedHistory };
+                executionContext.SetTypedResult(usedHistoryResult);
+                module.CompletionSource.TrySetResult(usedHistoryResult);
                 logger.LogDebug("Using historical result for skipped module");
-                return historicalResult;
+                return usedHistoryResult;
             }
         }
 
-        var skippedResult = new SkippedModuleResult<T>(executionContext, skipDecision);
+        var skippedResult = ModuleResult<T>.CreateSkipped(skipDecision, executionContext);
         executionContext.SetTypedResult(skippedResult);
+        module.CompletionSource.TrySetResult(skippedResult);
 
         logger.LogInformation("Module {ModuleName} skipped: {Reason}",
             executionContext.ModuleType.Name,
@@ -366,7 +368,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             executionContext.Status = Status.PipelineTerminated;
             logger.LogInformation("Pipeline has been canceled");
 
-            var cancelledResult = new ModuleResult<T>(exception, executionContext);
+            var cancelledResult = ModuleResult<T>.CreateFailure(exception, executionContext);
             executionContext.SetTypedResult(cancelledResult);
             return cancelledResult;
         }
@@ -383,7 +385,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 logger.LogDebug("Ignoring failures in this module and continuing...");
                 executionContext.Status = Status.IgnoredFailure;
 
-                var ignoredResult = new ModuleResult<T>(exception, executionContext);
+                var ignoredResult = ModuleResult<T>.CreateFailure(exception, executionContext);
                 executionContext.SetTypedResult(ignoredResult);
 
                 await SaveToHistory(module, ignoredResult, moduleContext).ConfigureAwait(false);
@@ -392,10 +394,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Create a failed result before cancelling and throwing
-        // Use TimedOutModuleResult for timeout exceptions to expose detailed timeout information
-        ModuleResult<T> failedResult = exception is ModuleTimeoutException timeoutEx
-            ? new TimedOutModuleResult<T>(executionContext, timeoutEx)
-            : new ModuleResult<T>(exception, executionContext);
+        ModuleResult<T> failedResult = ModuleResult<T>.CreateFailure(exception, executionContext);
         executionContext.SetTypedResult(failedResult);
 
         // Cancel the pipeline and propagate

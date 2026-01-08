@@ -16,7 +16,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         var dependencies = new List<File>();
 
-        foreach (var file in projects.Value!)
+        foreach (var file in projects.ValueOrDefault!)
         {
             var projectRootElement = ProjectRootElement.Open(file)!;
 
@@ -27,7 +27,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
             foreach (var reference in projectReferences)
             {
                 var name = Path.GetFileName(reference);
-                var project = projects.Value!.FirstOrDefault(x => x.Name == name);
+                var project = projects.ValueOrDefault!.FirstOrDefault(x => x.Name == name);
 
                 if (project != null)
                 {
@@ -36,7 +36,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
             }
         }
 
-        var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.Value!.Except(dependencies).Distinct().ToList());
+        var projectDependencies = new ProjectDependencies(Dependencies: dependencies.Distinct().ToList(), Others: projects.ValueOrDefault!.Except(dependencies).Distinct().ToList());
 
         LogProjects(context, projectDependencies);
 

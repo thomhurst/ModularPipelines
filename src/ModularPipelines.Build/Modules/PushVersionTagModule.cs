@@ -18,7 +18,7 @@ public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
     {
         var versionInformation = ((IModuleContext) context).GetModule<NugetVersionGeneratorModule, string>();
 
-        return Task.FromResult(exception.Message.Contains($"tag 'v{versionInformation.Value!}' already exists"));
+        return Task.FromResult(exception.Message.Contains($"tag 'v{versionInformation.ValueOrDefault!}' already exists"));
     }
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
@@ -27,7 +27,7 @@ public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
 
         await context.Git().Commands.Tag(new GitTagOptions
         {
-            Arguments = [$"v{versionInformation.Value!}"],
+            Arguments = [$"v{versionInformation.ValueOrDefault!}"],
         }, token: cancellationToken);
 
         return await context.Git().Commands.Push(new GitPushOptions

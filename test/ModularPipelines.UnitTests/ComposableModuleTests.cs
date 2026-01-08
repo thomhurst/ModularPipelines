@@ -129,8 +129,8 @@ public class ComposableModuleTests
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(AlwaysSkippedModule))!;
-        await Assert.That(moduleResult.SkipDecision.ShouldSkip).IsTrue();
-        await Assert.That(moduleResult.SkipDecision.Reason).IsEqualTo("Skipped via composition");
+        await Assert.That(moduleResult.SkipDecisionOrDefault!.ShouldSkip).IsTrue();
+        await Assert.That(moduleResult.SkipDecisionOrDefault.Reason).IsEqualTo("Skipped via composition");
     }
 
     [Test]
@@ -144,7 +144,7 @@ public class ComposableModuleTests
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
         var moduleResult = resultRegistry.GetResult(typeof(NeverSkippedModule))!;
-        await Assert.That(moduleResult.SkipDecision.ShouldSkip).IsFalse();
+        await Assert.That(moduleResult.SkipDecisionOrDefault?.ShouldSkip ?? false).IsFalse();
     }
 
     [Test]

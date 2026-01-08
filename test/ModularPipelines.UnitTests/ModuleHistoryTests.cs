@@ -80,7 +80,7 @@ public class ModuleHistoryTests
         {
             // Create a result using the module execution context
             var executionContext = new ModuleExecutionContext(module, module.GetType());
-            return Task.FromResult<ModuleResult<T>?>(new ModuleResult<T>(default(T?), executionContext));
+            return Task.FromResult<ModuleResult<T>?>(ModuleResult<T>.CreateSuccess(default!, executionContext));
         }
     }
 

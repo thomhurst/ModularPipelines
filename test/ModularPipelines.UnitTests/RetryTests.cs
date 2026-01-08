@@ -127,7 +127,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-            await Assert.That(result.Exception).IsNull();
+            await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
 
@@ -151,7 +151,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
-            await Assert.That(result.Exception).IsNull();
+            await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
 
@@ -171,7 +171,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedExecutionCountAfterRetries);
-            await Assert.That(result.Exception).IsNull();
+            await Assert.That(result.ExceptionOrDefault).IsNull();
         }
     }
 
@@ -195,7 +195,7 @@ public class RetryTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(module.ExecutionCount).IsEqualTo(ExpectedSingleExecutionCount);
-            await Assert.That(result.Exception).IsNotNull();
+            await Assert.That(result.ExceptionOrDefault).IsNotNull();
         }
     }
 

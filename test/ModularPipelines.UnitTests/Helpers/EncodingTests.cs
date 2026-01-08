@@ -65,7 +65,7 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<ToBase64Module>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.Value).IsEqualTo("Rm9vIGJhciE=");
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo("Rm9vIGJhciE=");
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<FromBase64Module>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.Value).IsEqualTo(TestInput);
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo(TestInput);
     }
 
     [Test]
@@ -85,7 +85,7 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<ToHexModule>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.Value).IsEqualTo("466f6f2062617221");
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo("466f6f2062617221");
     }
 
     [Test]
@@ -95,7 +95,7 @@ public class EncodingTests : TestBase
         var moduleResult = await await RunModule<FromHexModule>();
 
         await ModuleResultAssertions.AssertSuccessWithValue(moduleResult);
-        await Assert.That(moduleResult.Value).IsEqualTo(TestInput);
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo(TestInput);
     }
 
     #endregion

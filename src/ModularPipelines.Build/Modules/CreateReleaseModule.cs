@@ -57,9 +57,9 @@ public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
         }
 
         return await context.GitHub().Client.Repository.Release.Create(repositoryId,
-            new NewRelease($"v{versionInfoResult.Value}")
+            new NewRelease($"v{versionInfoResult.ValueOrDefault}")
             {
-                Name = versionInfoResult.Value,
+                Name = versionInfoResult.ValueOrDefault,
                 GenerateReleaseNotes = true,
             });
     }

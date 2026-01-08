@@ -299,8 +299,8 @@ public class DirectModuleHooksTests : TestBase
 
         // The result passed to OnAfterExecuteAsync should contain the exception
         await Assert.That(module.ReceivedAfterResult).IsNotNull();
-        await Assert.That(module.ReceivedAfterResult!.Exception).IsNotNull();
-        await Assert.That(module.ReceivedAfterResult.Exception).IsTypeOf<InvalidOperationException>();
+        await Assert.That(module.ReceivedAfterResult!.ExceptionOrDefault).IsNotNull();
+        await Assert.That(module.ReceivedAfterResult.ExceptionOrDefault).IsTypeOf<InvalidOperationException>();
     }
 
     [Test]
@@ -341,7 +341,7 @@ public class DirectModuleHooksTests : TestBase
         // Module should still succeed despite after hook throwing
         await Assert.That(moduleResult).IsNotNull();
         await Assert.That(moduleResult!.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-        await Assert.That(moduleResult.Value).IsEqualTo("Success");
+        await Assert.That(moduleResult.ValueOrDefault).IsEqualTo("Success");
     }
 
     [Test]

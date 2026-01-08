@@ -83,8 +83,8 @@ public class JsonSerializationTests : TestBase
         // Verify the module result values
         using (Assert.Multiple())
         {
-            await Assert.That(module1Result.Value!["Foo"].ToString()).IsEqualTo("Bar");
-            await Assert.That(module1Result.Value!["Hello"].ToString()).IsEqualTo("world!");
+            await Assert.That(module1Result.ValueOrDefault!["Foo"].ToString()).IsEqualTo("Bar");
+            await Assert.That(module1Result.ValueOrDefault!["Hello"].ToString()).IsEqualTo("world!");
             await Assert.That(module1Result.ModuleName).IsEqualTo(typeof(Module1).Name);
         }
     }

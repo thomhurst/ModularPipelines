@@ -63,6 +63,6 @@ public class DockerTests : TestBase
             .GetFolder("MyApp")
             .GetFile("Dockerfile").Path;
 
-        await Assert.That(result.Value!.CommandInput).IsEqualTo($"docker image build --build-arg=Arg1=Value1 --build-arg=Arg2=Value2 --build-arg=Arg3=Value3 --tag=mytaggedimage --target=build-env {dockerfilePath}");
+        await Assert.That(result.ValueOrDefault!.CommandInput).IsEqualTo($"docker image build --build-arg=Arg1=Value1 --build-arg=Arg2=Value2 --build-arg=Arg3=Value3 --tag=mytaggedimage --target=build-env {dockerfilePath}");
     }
 }

@@ -85,7 +85,7 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
     public async Task InvokeEndReceiversAsync(
         IEnumerable<IModuleEndEventReceiver> receivers,
         IModuleEventContext context,
-        ModuleResult result)
+        IModuleResult result)
     {
         foreach (var receiver in receivers)
         {

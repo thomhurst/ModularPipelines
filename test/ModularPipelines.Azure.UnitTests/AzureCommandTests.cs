@@ -35,7 +35,7 @@ public class AzureCommandTests : TestBase
     {
         var result = await await RunModule<AzureCommandModule>();
 
-        await Assert.That(result.Value!.CommandInput)
+        await Assert.That(result.ValueOrDefault!.CommandInput)
             .IsEqualTo("az account list --all");
     }
 
@@ -43,7 +43,7 @@ public class AzureCommandTests : TestBase
     public async Task Azure_Command_With_Sub_Command_Group_Is_Expected_Command()
     {
         var result = await await RunModule<AzureCommandModule2>();
-        await Assert.That(result.Value!.CommandInput)
+        await Assert.That(result.ValueOrDefault!.CommandInput)
             .IsEqualTo("az account management-group list");
     }
 }

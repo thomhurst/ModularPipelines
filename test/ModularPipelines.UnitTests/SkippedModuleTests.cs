@@ -33,7 +33,7 @@ public class SkippedModuleTests : TestBase
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Skipped);
-            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
         }
     }
 }

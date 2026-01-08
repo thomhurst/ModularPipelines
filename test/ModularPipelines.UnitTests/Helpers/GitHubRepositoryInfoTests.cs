@@ -22,7 +22,7 @@ public class GitHubRepositoryInfoTests : TestBase
     {
         var moduleResult = await await RunModule<GitRepoModule>();
 
-        var gitHubRepositoryInfo = moduleResult.Value!;
+        var gitHubRepositoryInfo = moduleResult.ValueOrDefault!;
 
         using (Assert.Multiple())
         {

@@ -20,5 +20,5 @@ public interface IModuleEndEventReceiver
     /// <param name="context">The event context providing module information and control flow.</param>
     /// <param name="result">The result of the module execution.</param>
     /// <returns>A task representing the async operation.</returns>
-    Task OnModuleEndAsync(IModuleEventContext context, ModuleResult result);
+    Task OnModuleEndAsync(IModuleEventContext context, IModuleResult result);
 }

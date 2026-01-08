@@ -22,8 +22,8 @@ public static class ModuleResultAssertions
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
-            await Assert.That(moduleResult.Value).IsNotNull();
+            await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
+            await Assert.That(moduleResult.ValueOrDefault).IsNotNull();
         }
     }
 
@@ -41,7 +41,7 @@ public static class ModuleResultAssertions
         using (Assert.Multiple())
         {
             await Assert.That(moduleResult.ModuleResultType).IsEqualTo(ModuleResultType.Success);
-            await Assert.That(moduleResult.Exception).IsNull();
+            await Assert.That(moduleResult.ExceptionOrDefault).IsNull();
         }
     }
 
@@ -55,8 +55,8 @@ public static class ModuleResultAssertions
     {
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput.Trim()).IsEqualTo(expectedOutput);
+            await Assert.That(moduleResult.ValueOrDefault!.StandardError).IsNull().Or.IsEmpty();
+            await Assert.That(moduleResult.ValueOrDefault.StandardOutput.Trim()).IsEqualTo(expectedOutput);
         }
     }
 }

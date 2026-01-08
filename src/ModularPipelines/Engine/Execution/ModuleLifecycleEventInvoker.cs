@@ -96,7 +96,7 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
             _metadataRegistry,
             context.CancellationToken);
 
-        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, (ModuleResult)result).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, result).ConfigureAwait(false);
     }
 
     /// <inheritdoc />

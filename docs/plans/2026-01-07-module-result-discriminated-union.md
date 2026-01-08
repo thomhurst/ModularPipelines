@@ -76,8 +76,8 @@ switch (result)
     case ModuleResult<string>.Failure { Exception: var ex }:
         Console.WriteLine($"Failed: {ex.Message}");
         break;
-    case ModuleResult<string>.Skipped { Decision.Reason: var reason }:
-        Console.WriteLine($"Skipped: {reason}");
+    case ModuleResult<string>.Skipped { Decision: var skip }:
+        Console.WriteLine($"Skipped: {skip.Reason}");
         break;
 }
 ```
@@ -172,10 +172,12 @@ internal static Skipped CreateSkipped(SkipDecision decision, ModuleExecutionCont
 
 ### Removed
 - `ModuleResult<T>.Value` property (the throwing one)
-- `ModuleFailedException` class
-- `ModuleSkippedException` class
 - `SkippedModuleResult<T>` subclass
 - `TimedOutModuleResult<T>` subclass
+
+### Deprecated (not removed)
+- `ModuleFailedException` class (marked with [Obsolete])
+- `ModuleSkippedException` class (marked with [Obsolete])
 
 ### Preserved
 - `ModuleResultType` property (now computed)

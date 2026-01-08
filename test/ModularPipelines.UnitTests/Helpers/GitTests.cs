@@ -37,8 +37,8 @@ public class GitTests : TestBase
 
         using (Assert.Multiple())
         {
-            await Assert.That(moduleResult.Value!.StandardError).IsNull().Or.IsEmpty();
-            await Assert.That(moduleResult.Value.StandardOutput).Matches(@"git version \d+.*");
+            await Assert.That(moduleResult.ValueOrDefault!.StandardError).IsNull().Or.IsEmpty();
+            await Assert.That(moduleResult.ValueOrDefault.StandardOutput).Matches(@"git version \d+.*");
         }
     }
 
