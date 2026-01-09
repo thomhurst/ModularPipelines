@@ -447,32 +447,43 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             }
         }
 
+        if (moduleName is null)
+        {
+            throw new JsonException("ModuleName is required but was not found in the JSON.");
+        }
+
         return discriminator switch
         {
-            "Success" => new ModuleResult<T>.Success(value!)
-            {
-                ModuleName = moduleName!,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
-            "Failure" => new ModuleResult<T>.Failure(exception!)
-            {
-                ModuleName = moduleName!,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
-            "Skipped" => new ModuleResult<T>.Skipped(skipDecision!)
-            {
-                ModuleName = moduleName!,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
+            "Success" => value is not null
+                ? new ModuleResult<T>.Success(value)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Success result requires a Value property in the JSON."),
+            "Failure" => exception is not null
+                ? new ModuleResult<T>.Failure(exception)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Failure result requires an Exception property in the JSON."),
+            "Skipped" => skipDecision is not null
+                ? new ModuleResult<T>.Skipped(skipDecision)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown discriminator: {discriminator}")
         };
     }
