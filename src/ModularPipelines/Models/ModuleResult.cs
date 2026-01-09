@@ -454,14 +454,16 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         return discriminator switch
         {
-            "Success" => new ModuleResult<T>.Success(value!)
-            {
-                ModuleName = moduleName,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
+            "Success" => value is not null
+                ? new ModuleResult<T>.Success(value)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Success result requires a Value property in the JSON."),
             "Failure" => exception is not null
                 ? new ModuleResult<T>.Failure(exception)
                 {
