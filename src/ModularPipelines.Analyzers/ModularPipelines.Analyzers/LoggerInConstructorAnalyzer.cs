@@ -53,7 +53,6 @@ public class LoggerInConstructorAnalyzer : DiagnosticAnalyzer
             if (TryGetProhibitedLoggerType(context, parameter, out var parameterSymbol))
             {
                 ReportDiagnostic(context, parameter.GetLocation(), parameterSymbol!);
-                return;
             }
         }
     }
