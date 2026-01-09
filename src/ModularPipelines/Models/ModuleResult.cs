@@ -447,27 +447,32 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
             }
         }
 
+        if (moduleName is null)
+        {
+            throw new JsonException("ModuleName is required but was not found in the JSON.");
+        }
+
         return discriminator switch
         {
             "Success" => new ModuleResult<T>.Success(value!)
             {
-                ModuleName = moduleName!,
+                ModuleName = moduleName,
                 ModuleDuration = moduleDuration,
                 ModuleStart = moduleStart,
                 ModuleEnd = moduleEnd,
                 ModuleStatus = moduleStatus
             },
-            "Failure" => new ModuleResult<T>.Failure(exception!)
+            "Failure" => new ModuleResult<T>.Failure(exception ?? new Exception("Deserialized failure with no exception details"))
             {
-                ModuleName = moduleName!,
+                ModuleName = moduleName,
                 ModuleDuration = moduleDuration,
                 ModuleStart = moduleStart,
                 ModuleEnd = moduleEnd,
                 ModuleStatus = moduleStatus
             },
-            "Skipped" => new ModuleResult<T>.Skipped(skipDecision!)
+            "Skipped" => new ModuleResult<T>.Skipped(skipDecision ?? SkipDecision.Skip("Deserialized skip with no decision details"))
             {
-                ModuleName = moduleName!,
+                ModuleName = moduleName,
                 ModuleDuration = moduleDuration,
                 ModuleStart = moduleStart,
                 ModuleEnd = moduleEnd,

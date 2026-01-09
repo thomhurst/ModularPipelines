@@ -20,7 +20,7 @@ internal class LinuxInstaller : ILinuxInstaller
     {
         var linuxInstallationResult = await _command.ExecuteCommandLineTool(options).ConfigureAwait(false);
 
-        await _aptGet.Install(new AptGetInstallOptions(null!)
+        await _aptGet.Install(new AptGetInstallOptions
         {
             FixBroken = true,
         }).ConfigureAwait(false);

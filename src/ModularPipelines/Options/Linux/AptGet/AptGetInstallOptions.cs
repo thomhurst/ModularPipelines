@@ -6,6 +6,20 @@ namespace ModularPipelines.Options.Linux.AptGet;
 [ExcludeFromCodeCoverage]
 public record AptGetInstallOptions : AptGetOptions
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AptGetInstallOptions"/> class
+    /// without specifying a package. Use this when running commands like
+    /// <c>apt-get install --fix-broken</c> that don't require a package name.
+    /// </summary>
+    public AptGetInstallOptions()
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AptGetInstallOptions"/> class
+    /// with the specified package to install.
+    /// </summary>
+    /// <param name="package">The name of the package to install.</param>
     public AptGetInstallOptions(string package)
     {
         Package = package;
@@ -15,5 +29,5 @@ public record AptGetInstallOptions : AptGetOptions
     public virtual string CommandName { get; } = "install";
 
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
-    public virtual string Package { get; }
+    public virtual string? Package { get; }
 }
