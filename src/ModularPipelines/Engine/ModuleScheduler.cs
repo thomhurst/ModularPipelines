@@ -516,6 +516,12 @@ internal class ModuleScheduler : IModuleScheduler
 
     private List<ModuleState> FindReadyModules()
     {
+        // Use copy-on-read pattern: collect data inside lock, process outside
+        // This prevents LockRecursionException if metrics collector or constraint
+        // evaluator callbacks try to access scheduler state
+        List<ModuleState> modulesToQueue;
+        List<(Type ModuleType, DateTimeOffset ReadyTime, ModulePriority Priority, ExecutionType ExecutionType, DateTimeOffset QueuedTime)> metricsData;
+
         _stateLock.EnterWriteLock();
         try
         {
@@ -525,11 +531,26 @@ internal class ModuleScheduler : IModuleScheduler
                 .OrderByDescending(m => (int)m.Priority)
                 .ToArray();
 
-            var modulesToQueue = new List<ModuleState>();
+            // Take immutable snapshot of already-active modules (queued or executing)
+            // This captures the state at the start of this scheduling cycle
+            var existingActiveModules = _moduleStates.Values
+                .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
+                .ToList();
+
+            // Track modules queued during this scheduling cycle separately
+            // This prevents mutation of the original snapshot and makes intent explicit
+            var newlyQueuedInThisCycle = new List<ModuleState>();
+
+            modulesToQueue = new List<ModuleState>();
+            metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionType, DateTimeOffset)>();
 
             foreach (var moduleState in potentiallyReadyModules)
             {
-                if (!CanExecuteRespectingConstraints(moduleState))
+                // Combine existing active modules with newly-queued ones for constraint checking
+                // This ensures modules queued earlier in this cycle are visible to later constraint checks
+                var allActiveModules = existingActiveModules.Concat(newlyQueuedInThisCycle).ToList();
+
+                if (!_constraintEvaluator.CanQueue(moduleState, allActiveModules))
                 {
                     continue;
                 }
@@ -538,23 +559,32 @@ internal class ModuleScheduler : IModuleScheduler
                 var now = _timeProvider.GetUtcNow();
                 moduleState.ReadyTime ??= now;
 
-                // Record metrics
-                _metricsCollector.RecordModuleReady(moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionType);
-                _metricsCollector.RecordModuleQueued(moduleState.ModuleType, now);
+                // Collect metrics data for recording outside lock
+                metricsData.Add((moduleState.ModuleType, moduleState.ReadyTime.Value, moduleState.Priority, moduleState.ExecutionType, now));
 
                 moduleState.State = ModuleExecutionState.Queued;
                 moduleState.QueuedTime = now;
                 _queuedModules.Add(moduleState);
 
+                // Track in separate collection (not mutating the original snapshot)
+                newlyQueuedInThisCycle.Add(moduleState);
+
                 modulesToQueue.Add(moduleState);
             }
-
-            return modulesToQueue;
         }
         finally
         {
             _stateLock.ExitWriteLock();
         }
+
+        // Record metrics outside lock to prevent lock recursion
+        foreach (var (moduleType, readyTime, priority, executionType, queuedTime) in metricsData)
+        {
+            _metricsCollector.RecordModuleReady(moduleType, readyTime, priority, executionType);
+            _metricsCollector.RecordModuleQueued(moduleType, queuedTime);
+        }
+
+        return modulesToQueue;
     }
 
     private async Task QueueModulesForExecutionAsync(List<ModuleState> modulesToQueue, CancellationToken cancellationToken)
@@ -578,18 +608,4 @@ internal class ModuleScheduler : IModuleScheduler
             string.Join(", ", modulesToQueue.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
     }
 
-    /// <summary>
-    /// Checks if a module can execute respecting its constraints.
-    /// MUST be called while holding _stateLock.
-    /// </summary>
-    private bool CanExecuteRespectingConstraints(ModuleState moduleState)
-    {
-        // Check against modules with Queued or Executing state (source of truth)
-        // Using State enum instead of tracking collections prevents race conditions
-        var activeModules = _moduleStates.Values
-            .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing);
-
-        // Delegate constraint checking to the evaluator
-        return _constraintEvaluator.CanQueue(moduleState, activeModules);
-    }
 }
