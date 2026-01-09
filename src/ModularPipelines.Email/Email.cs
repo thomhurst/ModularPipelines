@@ -32,15 +32,15 @@ internal class Email : IEmail
         options.ClientConfigurator?.Invoke(smtp);
 
         await smtp.ConnectAsync(options.SmtpServerHost, options.Port, options.SecureSocketOptions,
-            cancellationToken: cancellationToken);
+            cancellationToken: cancellationToken).ConfigureAwait(false);
 
         if (options.Credentials != null)
         {
-            await smtp.AuthenticateAsync(options.Credentials, cancellationToken);
+            await smtp.AuthenticateAsync(options.Credentials, cancellationToken).ConfigureAwait(false);
         }
 
-        var response = await smtp.SendAsync(email, cancellationToken);
-        await smtp.DisconnectAsync(true, cancellationToken);
+        var response = await smtp.SendAsync(email, cancellationToken).ConfigureAwait(false);
+        await smtp.DisconnectAsync(true, cancellationToken).ConfigureAwait(false);
 
         return response;
     }

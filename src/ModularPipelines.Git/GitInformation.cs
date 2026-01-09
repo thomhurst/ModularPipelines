@@ -40,43 +40,43 @@ internal class GitInformation : IGitInformation, IInitializer
         var command = scope.ServiceProvider.GetRequiredService<ICommand>();
         var gitCommandRunner = scope.ServiceProvider.GetRequiredService<IGitCommandRunner>();
 
-        await VerifyGitAvailable(command);
+        await VerifyGitAvailable(command).ConfigureAwait(false);
 
         var tasks = new List<Task>();
 
         Async(async () =>
         {
-            var root = await GetOutput(command, logger, new GitRevParseOptions { ShowToplevel = true });
+            var root = await GetOutput(command, logger, new GitRevParseOptions { ShowToplevel = true }).ConfigureAwait(false);
             Root = root != null ? new Folder(root) : throw new InvalidOperationException("Not a git repository");
         });
 
-        Async(async () => BranchName = await GetOutput(command, logger, new GitBranchOptions { ShowCurrent = true }) ?? "");
+        Async(async () => BranchName = await GetOutput(command, logger, new GitBranchOptions { ShowCurrent = true }).ConfigureAwait(false) ?? "");
 
-        Async(async () => DefaultBranchName = await GetDefaultBranchName(command, logger) ?? "");
+        Async(async () => DefaultBranchName = await GetDefaultBranchName(command, logger).ConfigureAwait(false) ?? "");
 
-        Async(async () => LastCommitSha = await GetOutput(command, logger, new GitRevParseOptions { Arguments = ["HEAD"] }) ?? "");
+        Async(async () => LastCommitSha = await GetOutput(command, logger, new GitRevParseOptions { Arguments = ["HEAD"] }).ConfigureAwait(false) ?? "");
 
-        Async(async () => LastCommitShortSha = await GetOutput(command, logger, new GitRevParseOptions { Short = true, Arguments = ["HEAD"] }) ?? "");
+        Async(async () => LastCommitShortSha = await GetOutput(command, logger, new GitRevParseOptions { Short = true, Arguments = ["HEAD"] }).ConfigureAwait(false) ?? "");
 
-        Async(async () => Tag = await GetOutput(command, logger, new GitDescribeOptions { Tags = true }) ?? "");
+        Async(async () => Tag = await GetOutput(command, logger, new GitDescribeOptions { Tags = true }).ConfigureAwait(false) ?? "");
 
         Async(async () =>
         {
-            var countStr = await GetOutput(command, logger, new GitRevListOptions { Count = true, Arguments = ["HEAD"] });
+            var countStr = await GetOutput(command, logger, new GitRevListOptions { Count = true, Arguments = ["HEAD"] }).ConfigureAwait(false);
             CommitsOnBranch = int.TryParse(countStr, out var count) ? count : 0;
         });
 
         Async(async () =>
         {
-            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, Arguments = ["-1"] });
+            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, Arguments = ["-1"] }).ConfigureAwait(false);
             LastCommitDateTime = long.TryParse(timestampStr, out var timestamp)
                 ? DateTimeOffset.FromUnixTimeSeconds(timestamp)
                 : DateTimeOffset.MinValue;
         });
 
-        Async(async () => PreviousCommit = await GetPreviousCommit(gitCommandRunner));
+        Async(async () => PreviousCommit = await GetPreviousCommit(gitCommandRunner).ConfigureAwait(false));
 
-        await Task.WhenAll(tasks);
+        await Task.WhenAll(tasks).ConfigureAwait(false);
         return;
 
         void Async(Func<Task> task) => tasks.Add(task());
@@ -94,7 +94,7 @@ internal class GitInformation : IGitInformation, IInitializer
                 new CommandExecutionOptions
                 {
                     LogSettings = CommandLoggingOptions.Silent,
-                });
+                }).ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -106,7 +106,7 @@ internal class GitInformation : IGitInformation, IInitializer
     {
         try
         {
-            var output = await GetOutput(command, logger, new GitRemoteOptions { Arguments = ["show", "origin"] });
+            var output = await GetOutput(command, logger, new GitRemoteOptions { Arguments = ["show", "origin"] }).ConfigureAwait(false);
             if (output == null)
             {
                 return null;
@@ -129,7 +129,7 @@ internal class GitInformation : IGitInformation, IInitializer
             }, new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,
-            });
+            }).ConfigureAwait(false);
 
             return output?.Replace("origin/", string.Empty);
         }
@@ -144,7 +144,7 @@ internal class GitInformation : IGitInformation, IInitializer
             {
                 LogSettings = logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
             };
-            var result = await command.ExecuteCommandLineTool(gitOptions, options);
+            var result = await command.ExecuteCommandLineTool(gitOptions, options).ConfigureAwait(false);
             return result.StandardOutput.Trim();
         }
         catch (Exception exception)
@@ -157,7 +157,7 @@ internal class GitInformation : IGitInformation, IInitializer
     private async Task<GitCommit?> GetPreviousCommit(IGitCommandRunner gitCommandRunner)
     {
         var output = await gitCommandRunner.RunCommandsOrNull(null, "log", "--skip=0", "-1",
-            $"--format={GitConstants.CommitLogFormat}");
+            $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
 
         return string.IsNullOrWhiteSpace(output) ? null : _gitCommitMapper.Map(output);
     }
@@ -175,7 +175,7 @@ internal class GitInformation : IGitInformation, IInitializer
         var index = 0;
         while (!cancellationToken.IsCancellationRequested)
         {
-            var output = await gitCommandRunner.RunCommandsOrNull(null, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}");
+            var output = await gitCommandRunner.RunCommandsOrNull(null, "log", branch, $"--skip={index}", "-1", $"--format={GitConstants.CommitLogFormat}").ConfigureAwait(false);
 
             if (string.IsNullOrWhiteSpace(output))
             {

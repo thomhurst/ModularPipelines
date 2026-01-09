@@ -30,7 +30,7 @@ internal class GitVersioning : IGitVersioning
 
     public async Task<GitVersionInformation> GetGitVersioningInformation()
     {
-        await _semaphoreSlim.WaitAsync();
+        await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
 
         try
         {
@@ -49,9 +49,9 @@ internal class GitVersioning : IGitVersioning
                     "GitVersion.Tool",
                     "--version", "6.*"
                 ],
-            });
+            }).ConfigureAwait(false);
 
-            await TryWriteConfigurationFile();
+            await TryWriteConfigurationFile().ConfigureAwait(false);
 
             var gitVersionOutput = await _command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions(Path.Combine(_temporaryFolder, "dotnet-gitversion"))
@@ -64,7 +64,7 @@ internal class GitVersioning : IGitVersioning
                 new CommandExecutionOptions
                 {
                     WorkingDirectory = _gitInformation.Root.Path,
-                });
+                }).ConfigureAwait(false);
 
             return _prefetchedGitVersionInformation ??=
                 JsonSerializer.Deserialize<GitVersionInformation>(gitVersionOutput.StandardOutput)!;
@@ -89,7 +89,7 @@ internal class GitVersioning : IGitVersioning
                     strategies:
                       - Mainline
                     """
-                );
+                ).ConfigureAwait(false);
             }
         }
         catch (Exception e)
