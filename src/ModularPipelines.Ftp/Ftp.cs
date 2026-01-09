@@ -14,7 +14,7 @@ internal class Ftp : IAsyncDisposable, IFtp
 
         options.ClientConfigurator?.Invoke(client);
 
-        await client.AutoConnect();
+        await client.AutoConnect().ConfigureAwait(false);
 
         _clients.Add(client);
 
@@ -25,7 +25,7 @@ internal class Ftp : IAsyncDisposable, IFtp
     {
         foreach (var asyncFtpClient in _clients)
         {
-            await Disposer.DisposeObjectAsync(asyncFtpClient);
+            await Disposer.DisposeObjectAsync(asyncFtpClient).ConfigureAwait(false);
         }
     }
 }

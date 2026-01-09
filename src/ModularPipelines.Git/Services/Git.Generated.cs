@@ -33,7 +33,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitAmOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitAmOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -42,7 +42,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitArchimportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitArchimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -51,7 +51,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitAttributesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitAttributesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -60,7 +60,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitBranchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -69,7 +69,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCheckoutIndexOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCheckoutIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -78,7 +78,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCliOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCliOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -87,7 +87,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCommitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -96,7 +96,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCommitTreeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCommitTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -105,7 +105,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsexportcommitOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCvsexportcommitOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -114,7 +114,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsimportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCvsimportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -123,7 +123,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitCvsserverOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitCvsserverOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -132,7 +132,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffFilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitDiffFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -141,7 +141,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffIndexOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitDiffIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -150,7 +150,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitDiffOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -159,7 +159,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitDiffTreeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitDiffTreeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -168,7 +168,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFastImportOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFastImportOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -177,7 +177,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFetchPackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFetchPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -186,7 +186,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFilterBranchOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFilterBranchOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -195,7 +195,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatBundleOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatBundleOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -204,7 +204,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatChunkOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatChunkOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -213,7 +213,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatCommitGraphOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatCommitGraphOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -222,7 +222,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatIndexOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatIndexOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -231,7 +231,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatPackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -240,7 +240,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitFormatSignatureOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitFormatSignatureOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -249,7 +249,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitGcOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitGcOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -258,7 +258,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitHooksOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitHooksOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -267,7 +267,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitIgnoreOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitIgnoreOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -276,7 +276,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitLsFilesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitLsFilesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -285,7 +285,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitMailmapOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitMailmapOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -294,7 +294,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitMergeOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitMergeOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -303,7 +303,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitModulesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitModulesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -312,7 +312,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitP4Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitP4Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -321,7 +321,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCapabilitiesOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCapabilitiesOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -330,7 +330,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCommonOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolCommonOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -339,7 +339,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolHttpOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolHttpOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -348,7 +348,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolPackOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolPackOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -357,7 +357,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolV2Options(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitProtocolV2Options(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -366,7 +366,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRebaseOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitRebaseOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -375,7 +375,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRepositoryLayoutOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitRepositoryLayoutOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -384,7 +384,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitRevisionsOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitRevisionsOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -393,7 +393,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitScalarOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitScalarOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -402,7 +402,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitShI18nOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitShI18nOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -411,7 +411,7 @@ internal class Git : IGit
         CommandExecutionOptions? executionOptions = null,
         CancellationToken cancellationToken = default)
     {
-        return await _command.ExecuteCommandLineTool(options ?? new GitStatusOptions(), executionOptions, cancellationToken);
+        return await _command.ExecuteCommandLineTool(options ?? new GitStatusOptions(), executionOptions, cancellationToken).ConfigureAwait(false);
     }
 
     #endregion

@@ -29,7 +29,7 @@ public class GitCommandRunner : IGitCommandRunner
             LogSettings = CommandLoggingOptions.Silent,
         };
 
-        var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions, executionOptions);
+        var commandResult = await _context.Command.ExecuteCommandLineTool(commandLineToolOptions, executionOptions).ConfigureAwait(false);
 
         return commandResult.StandardOutput.Trim();
     }
@@ -39,7 +39,7 @@ public class GitCommandRunner : IGitCommandRunner
     {
         try
         {
-            return await RunCommands(commandEnvironmentOptions, commands);
+            return await RunCommands(commandEnvironmentOptions, commands).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
