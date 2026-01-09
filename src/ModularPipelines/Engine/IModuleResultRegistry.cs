@@ -1,7 +1,76 @@
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
+
+/// <summary>
+/// Indicates the result of a module result lookup operation.
+/// </summary>
+internal enum ModuleResultLookupStatus
+{
+    /// <summary>
+    /// The result was found and is of the expected type.
+    /// </summary>
+    Found,
+
+    /// <summary>
+    /// No result has been registered for the module yet.
+    /// </summary>
+    NotFound,
+
+    /// <summary>
+    /// A result exists but is not of the expected type.
+    /// </summary>
+    TypeMismatch,
+}
+
+/// <summary>
+/// Represents the result of a module result lookup operation,
+/// distinguishing between "not found", "wrong type", and "found with value".
+/// </summary>
+/// <typeparam name="T">The expected result type.</typeparam>
+internal readonly struct ModuleResultLookup<T>
+{
+    /// <summary>
+    /// Gets the status of the lookup operation.
+    /// </summary>
+    public ModuleResultLookupStatus Status { get; }
+
+    /// <summary>
+    /// Gets the result value if <see cref="Status"/> is <see cref="ModuleResultLookupStatus.Found"/>.
+    /// </summary>
+    public ModuleResult<T>? Value { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the lookup was successful.
+    /// </summary>
+    public bool IsFound => Status == ModuleResultLookupStatus.Found;
+
+    private ModuleResultLookup(ModuleResultLookupStatus status, ModuleResult<T>? value)
+    {
+        Status = status;
+        Value = value;
+    }
+
+    /// <summary>
+    /// Creates a successful lookup result.
+    /// </summary>
+    public static ModuleResultLookup<T> Found(ModuleResult<T> value) =>
+        new(ModuleResultLookupStatus.Found, value);
+
+    /// <summary>
+    /// Creates a not-found lookup result.
+    /// </summary>
+    public static ModuleResultLookup<T> NotFound() =>
+        new(ModuleResultLookupStatus.NotFound, default);
+
+    /// <summary>
+    /// Creates a type-mismatch lookup result.
+    /// </summary>
+    public static ModuleResultLookup<T> TypeMismatch() =>
+        new(ModuleResultLookupStatus.TypeMismatch, default);
+}
 
 /// <summary>
 /// Registry for storing and retrieving module execution results.
@@ -30,6 +99,14 @@ internal interface IModuleResultRegistry
     /// <param name="moduleType">The module type.</param>
     /// <returns>The module result, or null if not yet available.</returns>
     ModuleResult<T>? GetResult<T>(Type moduleType);
+
+    /// <summary>
+    /// Attempts to get a module result with detailed status information.
+    /// </summary>
+    /// <typeparam name="T">The expected result type.</typeparam>
+    /// <param name="moduleType">The module type.</param>
+    /// <returns>A lookup result that distinguishes between "not found", "type mismatch", and "found".</returns>
+    ModuleResultLookup<T> TryGetResult<T>(Type moduleType);
 
     /// <summary>
     /// Gets a module result if available (non-generic version).
@@ -98,30 +175,74 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     /// <inheritdoc />
     /// <remarks>
-    /// This method is thread-safe. The result is stored before signaling completion,
-    /// and TrySetResult provides release semantics ensuring visibility to awaiters.
+    /// <para>
+    /// This method is thread-safe. Uses explicit memory barriers to ensure result visibility
+    /// before signaling completion.
+    /// </para>
+    /// <para>
+    /// The sequence is:
+    /// 1. Store result in dictionary
+    /// 2. Memory barrier ensures the write is visible to other threads
+    /// 3. Signal completion via TCS
+    /// </para>
     /// </remarks>
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
     {
-        // Store result first, then signal completion
-        // TrySetResult provides release semantics, ensuring _results write is visible to awaiters
-        _results[moduleType] = result;
+        // Get or create TCS first - this ensures it exists before we store the result
+        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
+        // happens-before ordering when awaiters check _results after TCS completion
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+
+        // Store result
+        _results[moduleType] = result;
+
+        // Explicit memory barrier to ensure the result write is visible
+        // to all threads before we signal completion
+        Thread.MemoryBarrier();
+
+        // Now signal completion - awaiters are guaranteed to see the result
         tcs.TrySetResult(result);
     }
 
     /// <inheritdoc />
     /// <remarks>
     /// This method is thread-safe. Uses lock-free reads from ConcurrentDictionary.
+    /// Returns null if not found or type mismatch. Use <see cref="TryGetResult{T}"/>
+    /// for detailed status information.
     /// </remarks>
     public ModuleResult<T>? GetResult<T>(Type moduleType)
     {
-        if (_results.TryGetValue(moduleType, out var result) && result is ModuleResult<T> typedResult)
+        var lookup = TryGetResult<T>(moduleType);
+        return lookup.IsFound ? lookup.Value : null;
+    }
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// <para>
+    /// This method is thread-safe. Uses lock-free reads from ConcurrentDictionary.
+    /// </para>
+    /// <para>
+    /// Returns a <see cref="ModuleResultLookup{T}"/> that distinguishes between:
+    /// <list type="bullet">
+    /// <item><see cref="ModuleResultLookupStatus.Found"/> - Result exists and matches type</item>
+    /// <item><see cref="ModuleResultLookupStatus.NotFound"/> - No result registered for module</item>
+    /// <item><see cref="ModuleResultLookupStatus.TypeMismatch"/> - Result exists but wrong type</item>
+    /// </list>
+    /// </para>
+    /// </remarks>
+    public ModuleResultLookup<T> TryGetResult<T>(Type moduleType)
+    {
+        if (!_results.TryGetValue(moduleType, out var result))
         {
-            return typedResult;
+            return ModuleResultLookup<T>.NotFound();
         }
 
-        return null;
+        if (result is ModuleResult<T> typedResult)
+        {
+            return ModuleResultLookup<T>.Found(typedResult);
+        }
+
+        return ModuleResultLookup<T>.TypeMismatch();
     }
 
     /// <inheritdoc />
@@ -162,15 +283,32 @@ internal class ModuleResultRegistry : IModuleResultRegistry
 
     /// <inheritdoc />
     /// <remarks>
-    /// This method is thread-safe. The result is stored before signaling completion,
-    /// and TrySetResult provides release semantics ensuring visibility to awaiters.
+    /// <para>
+    /// This method is thread-safe. Uses explicit memory barriers to ensure result visibility
+    /// before signaling completion.
+    /// </para>
+    /// <para>
+    /// The sequence is:
+    /// 1. Store result in dictionary
+    /// 2. Memory barrier ensures the write is visible to other threads
+    /// 3. Signal completion via TCS
+    /// </para>
     /// </remarks>
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
-        // Store result first, then signal completion
-        // TrySetResult provides release semantics, ensuring _results write is visible to awaiters
-        _results[moduleType] = result;
+        // Get or create TCS first - this ensures it exists before we store the result
+        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
+        // happens-before ordering when awaiters check _results after TCS completion
         var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+
+        // Store result
+        _results[moduleType] = result;
+
+        // Explicit memory barrier to ensure the result write is visible
+        // to all threads before we signal completion
+        Thread.MemoryBarrier();
+
+        // Now signal completion - awaiters are guaranteed to see the result
         tcs.TrySetResult(result);
     }
 }
