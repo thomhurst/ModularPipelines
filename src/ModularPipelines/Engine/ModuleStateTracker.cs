@@ -73,41 +73,75 @@ internal class ModuleStateTracker : IModuleStateTracker
     /// <inheritdoc />
     public bool MarkModuleStarted(Type moduleType)
     {
+        // Use copy-on-read pattern: collect data inside lock, process outside
+        // This prevents LockRecursionException if constraint evaluator or metrics
+        // collector callbacks try to access scheduler state
+        ModuleState? state;
+        List<ModuleState> executingSnapshot;
+        bool canStart;
+        bool needsReschedule = false;
+        DateTimeOffset? executionStartTime = null;
+        int executingCount = 0;
+
         _stateLock.EnterWriteLock();
         try
         {
-            if (_moduleStates.TryGetValue(moduleType, out var state))
+            if (!_moduleStates.TryGetValue(moduleType, out state))
             {
-                // Delegate constraint checking to the evaluator
-                if (!_constraintEvaluator.CanStartExecution(state, _executingModules))
-                {
-                    // Reset to Pending so scheduler will retry when constraints allow
-                    _queuedModules.Remove(state);
-                    state.State = ModuleExecutionState.Pending;
-                    state.QueuedTime = null;
-
-                    // Notify the scheduler to reschedule
-                    _schedulerNotification.Release();
-                    return false;
-                }
-
-                _queuedModules.Remove(state);
-                state.State = ModuleExecutionState.Executing;
-                _executingModules.Add(state);
-                state.ExecutionStartTime = _timeProvider.GetUtcNow();
-
-                // Record metrics
-                _metricsCollector.RecordModuleStarted(moduleType, state.ExecutionStartTime.Value);
-                _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.ExecutionStartTime.Value);
-
-                return true;
+                return false;
             }
 
-            return false;
+            // Take snapshot of executing modules for constraint checking outside the main logic
+            executingSnapshot = _executingModules.ToList();
         }
         finally
         {
             _stateLock.ExitWriteLock();
+        }
+
+        // Check constraints outside lock to prevent lock recursion from constraint evaluator
+        canStart = _constraintEvaluator.CanStartExecution(state, executingSnapshot);
+
+        _stateLock.EnterWriteLock();
+        try
+        {
+            if (!canStart)
+            {
+                // Reset to Pending so scheduler will retry when constraints allow
+                _queuedModules.Remove(state);
+                state.State = ModuleExecutionState.Pending;
+                state.QueuedTime = null;
+                needsReschedule = true;
+                return false;
+            }
+
+            _queuedModules.Remove(state);
+            state.State = ModuleExecutionState.Executing;
+            _executingModules.Add(state);
+            state.ExecutionStartTime = _timeProvider.GetUtcNow();
+
+            // Capture data for metrics recording outside lock
+            executionStartTime = state.ExecutionStartTime;
+            executingCount = _executingModules.Count;
+
+            return true;
+        }
+        finally
+        {
+            _stateLock.ExitWriteLock();
+
+            // Notify scheduler outside lock if needed
+            if (needsReschedule)
+            {
+                _schedulerNotification.Release();
+            }
+
+            // Record metrics outside lock to prevent lock recursion
+            if (executionStartTime.HasValue)
+            {
+                _metricsCollector.RecordModuleStarted(moduleType, executionStartTime.Value);
+                _metricsCollector.RecordConcurrencySnapshot(executingCount, executionStartTime.Value);
+            }
         }
     }
 
@@ -119,10 +153,16 @@ internal class ModuleStateTracker : IModuleStateTracker
             return;
         }
 
-        // Capture values for logging outside lock
+        // Use copy-on-read pattern: collect data inside lock, process outside
+        // This prevents LockRecursionException if metrics collector callbacks
+        // try to access scheduler state
         int queuedCount;
         int executingCount;
         bool shouldNotify;
+        DateTimeOffset completionTime;
+        bool wasSkipped;
+        Enums.Status status;
+        List<(ModuleState Dependent, bool IsReady)> dependentUpdates;
 
         _stateLock.EnterWriteLock();
         try
@@ -131,11 +171,10 @@ internal class ModuleStateTracker : IModuleStateTracker
             state.State = ModuleExecutionState.Completed;
             state.CompletionTime = _timeProvider.GetUtcNow();
 
-            // Record metrics
-            var wasSkipped = state.SkipResult != null && state.SkipResult != Models.SkipDecision.DoNotSkip;
-            var status = wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed);
-            _metricsCollector.RecordModuleCompleted(moduleType, state.CompletionTime.Value, success, wasSkipped, status);
-            _metricsCollector.RecordConcurrencySnapshot(_executingModules.Count, state.CompletionTime.Value);
+            // Capture data for metrics recording outside lock
+            completionTime = state.CompletionTime.Value;
+            wasSkipped = state.SkipResult != null && state.SkipResult != Models.SkipDecision.DoNotSkip;
+            status = wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed);
 
             // Capture counts for logging outside lock
             queuedCount = _queuedModules.Count;
@@ -154,7 +193,8 @@ internal class ModuleStateTracker : IModuleStateTracker
                 state.CompletionSource.TrySetCanceled();
             }
 
-            NotifyDependentModules(state, moduleType);
+            // Process dependent modules and capture updates for logging outside lock
+            dependentUpdates = ProcessDependentModules(state, moduleType);
 
             shouldNotify = !_isSchedulerCompleted();
         }
@@ -162,6 +202,10 @@ internal class ModuleStateTracker : IModuleStateTracker
         {
             _stateLock.ExitWriteLock();
         }
+
+        // Record metrics outside lock to prevent lock recursion
+        _metricsCollector.RecordModuleCompleted(moduleType, completionTime, success, wasSkipped, status);
+        _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
         // Logging outside lock
         _logger.LogDebug(
@@ -181,6 +225,9 @@ internal class ModuleStateTracker : IModuleStateTracker
                 moduleName,
                 executionTime.TotalMilliseconds);
         }
+
+        // Log dependent module updates outside lock
+        LogDependentModuleUpdates(state, dependentUpdates);
 
         if (shouldNotify)
         {
@@ -244,12 +291,38 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <summary>
-    /// Notifies dependent modules that a dependency has completed.
+    /// Processes dependent modules and captures state for logging outside lock.
     /// MUST be called while holding _stateLock.
     /// </summary>
-    private void NotifyDependentModules(ModuleState state, Type moduleType)
+    /// <returns>List of dependent modules with their ready state for logging outside lock.</returns>
+    private List<(ModuleState Dependent, bool IsReady)> ProcessDependentModules(ModuleState state, Type moduleType)
     {
-        if (!state.DependentModules.Any())
+        var updates = new List<(ModuleState, bool)>();
+
+        foreach (var dependent in state.DependentModules)
+        {
+            dependent.UnresolvedDependencies.Remove(moduleType);
+
+            if (dependent.IsReadyToExecute)
+            {
+                dependent.ReadyTime = _timeProvider.GetUtcNow();
+                updates.Add((dependent, true));
+            }
+            else
+            {
+                updates.Add((dependent, false));
+            }
+        }
+
+        return updates;
+    }
+
+    /// <summary>
+    /// Logs dependent module updates. Called outside the lock.
+    /// </summary>
+    private void LogDependentModuleUpdates(ModuleState state, List<(ModuleState Dependent, bool IsReady)> updates)
+    {
+        if (updates.Count == 0)
         {
             return;
         }
@@ -259,16 +332,13 @@ internal class ModuleStateTracker : IModuleStateTracker
         _logger.LogDebug(
             "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
             moduleName,
-            state.DependentModules.Count,
-            string.Join(", ", state.DependentModules.Select(d => MarkupFormatter.FormatModuleName(d.ModuleType.Name))));
+            updates.Count,
+            string.Join(", ", updates.Select(u => MarkupFormatter.FormatModuleName(u.Dependent.ModuleType.Name))));
 
-        foreach (var dependent in state.DependentModules)
+        foreach (var (dependent, isReady) in updates)
         {
-            dependent.UnresolvedDependencies.Remove(moduleType);
-
-            if (dependent.IsReadyToExecute)
+            if (isReady)
             {
-                dependent.ReadyTime = _timeProvider.GetUtcNow();
                 _logger.LogDebug(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
                     MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));
