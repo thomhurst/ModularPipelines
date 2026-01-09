@@ -76,36 +76,32 @@ internal class ModuleStateTracker : IModuleStateTracker
         // Use copy-on-read pattern: collect data inside lock, process outside
         // This prevents LockRecursionException if constraint evaluator or metrics
         // collector callbacks try to access scheduler state
-        ModuleState? state;
-        List<ModuleState> executingSnapshot;
-        bool canStart;
+        //
+        // IMPORTANT: Constraint checking uses a SNAPSHOT of executing modules,
+        // so we can safely call CanStartExecution inside the lock without risk
+        // of lock recursion (the snapshot is a plain List, not protected by lock).
+        // Releasing the lock between constraint check and state mutation would
+        // create a race condition where another thread could start a conflicting module.
         bool needsReschedule = false;
         DateTimeOffset? executionStartTime = null;
         int executingCount = 0;
+        bool result = false;
 
         _stateLock.EnterWriteLock();
         try
         {
-            if (!_moduleStates.TryGetValue(moduleType, out state))
+            if (!_moduleStates.TryGetValue(moduleType, out var state))
             {
                 return false;
             }
 
-            // Take snapshot of executing modules for constraint checking outside the main logic
-            executingSnapshot = _executingModules.ToList();
-        }
-        finally
-        {
-            _stateLock.ExitWriteLock();
-        }
+            // Take snapshot of executing modules for constraint checking
+            // The constraint evaluator operates on this snapshot, not the live collection
+            var executingSnapshot = _executingModules.ToList();
 
-        // Check constraints outside lock to prevent lock recursion from constraint evaluator
-        canStart = _constraintEvaluator.CanStartExecution(state, executingSnapshot);
-
-        _stateLock.EnterWriteLock();
-        try
-        {
-            if (!canStart)
+            // Check constraints - this is safe because CanStartExecution works on the snapshot
+            // and should NOT access scheduler state directly
+            if (!_constraintEvaluator.CanStartExecution(state, executingSnapshot))
             {
                 // Reset to Pending so scheduler will retry when constraints allow
                 _queuedModules.Remove(state);
@@ -123,26 +119,27 @@ internal class ModuleStateTracker : IModuleStateTracker
             // Capture data for metrics recording outside lock
             executionStartTime = state.ExecutionStartTime;
             executingCount = _executingModules.Count;
-
-            return true;
+            result = true;
         }
         finally
         {
             _stateLock.ExitWriteLock();
-
-            // Notify scheduler outside lock if needed
-            if (needsReschedule)
-            {
-                _schedulerNotification.Release();
-            }
-
-            // Record metrics outside lock to prevent lock recursion
-            if (executionStartTime.HasValue)
-            {
-                _metricsCollector.RecordModuleStarted(moduleType, executionStartTime.Value);
-                _metricsCollector.RecordConcurrencySnapshot(executingCount, executionStartTime.Value);
-            }
         }
+
+        // Notify scheduler outside lock if needed
+        if (needsReschedule)
+        {
+            _schedulerNotification.Release();
+        }
+
+        // Record metrics outside lock to prevent lock recursion
+        if (executionStartTime.HasValue)
+        {
+            _metricsCollector.RecordModuleStarted(moduleType, executionStartTime.Value);
+            _metricsCollector.RecordConcurrencySnapshot(executingCount, executionStartTime.Value);
+        }
+
+        return result;
     }
 
     /// <inheritdoc />

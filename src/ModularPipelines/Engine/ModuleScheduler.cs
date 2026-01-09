@@ -531,19 +531,26 @@ internal class ModuleScheduler : IModuleScheduler
                 .OrderByDescending(m => (int)m.Priority)
                 .ToArray();
 
-            // Take snapshot of active modules for constraint checking outside lock iteration
-            var activeModulesSnapshot = _moduleStates.Values
+            // Take immutable snapshot of already-active modules (queued or executing)
+            // This captures the state at the start of this scheduling cycle
+            var existingActiveModules = _moduleStates.Values
                 .Where(m => m.State == ModuleExecutionState.Queued || m.State == ModuleExecutionState.Executing)
                 .ToList();
+
+            // Track modules queued during this scheduling cycle separately
+            // This prevents mutation of the original snapshot and makes intent explicit
+            var newlyQueuedInThisCycle = new List<ModuleState>();
 
             modulesToQueue = new List<ModuleState>();
             metricsData = new List<(Type, DateTimeOffset, ModulePriority, ExecutionType, DateTimeOffset)>();
 
             foreach (var moduleState in potentiallyReadyModules)
             {
-                // Use snapshot for constraint checking to avoid calling external code
-                // that might try to re-acquire the lock
-                if (!_constraintEvaluator.CanQueue(moduleState, activeModulesSnapshot))
+                // Combine existing active modules with newly-queued ones for constraint checking
+                // This ensures modules queued earlier in this cycle are visible to later constraint checks
+                var allActiveModules = existingActiveModules.Concat(newlyQueuedInThisCycle).ToList();
+
+                if (!_constraintEvaluator.CanQueue(moduleState, allActiveModules))
                 {
                     continue;
                 }
@@ -559,8 +566,8 @@ internal class ModuleScheduler : IModuleScheduler
                 moduleState.QueuedTime = now;
                 _queuedModules.Add(moduleState);
 
-                // Add to snapshot so subsequent modules see this one as active
-                activeModulesSnapshot.Add(moduleState);
+                // Track in separate collection (not mutating the original snapshot)
+                newlyQueuedInThisCycle.Add(moduleState);
 
                 modulesToQueue.Add(moduleState);
             }
