@@ -303,14 +303,43 @@ internal class ProgressPrinter : IProgressPrinter,
         table.AddColumn("Start");
         table.AddColumn("End");
 
+        // Create a lookup for module timelines by module name
+        var timelineLookup = pipelineSummary.ModuleTimelines?
+            .ToDictionary(t => t.ModuleName, t => t)
+            ?? new Dictionary<string, ModuleTimeline>();
+
         foreach (var module in pipelineSummary.Modules)
         {
+            var moduleName = module.GetType().Name;
+            var hasTimeline = timelineLookup.TryGetValue(moduleName, out var timeline);
+
+            var duration = hasTimeline && timeline!.ExecutionDuration.HasValue
+                ? timeline.ExecutionDuration.Value.ToDisplayString()
+                : "-";
+
+            var status = hasTimeline
+                ? timeline!.Status.ToDisplayString()
+                : "-";
+
+            var isSameDay = hasTimeline
+                && timeline!.StartTime.HasValue
+                && timeline.EndTime.HasValue
+                && timeline.StartTime.Value.Date == timeline.EndTime.Value.Date;
+
+            var start = hasTimeline && timeline!.StartTime.HasValue
+                ? GetTime(timeline.StartTime.Value, isSameDay)
+                : "-";
+
+            var end = hasTimeline && timeline!.EndTime.HasValue
+                ? GetTime(timeline.EndTime.Value, isSameDay)
+                : "-";
+
             table.AddRow(
-                $"[cyan]{module.GetType().Name}[/]",
-                "-",
-                "-",
-                "-",
-                "-");
+                $"[cyan]{moduleName}[/]",
+                duration,
+                status,
+                start,
+                end);
 
             table.AddEmptyRow();
         }
