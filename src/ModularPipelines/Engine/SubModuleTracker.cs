@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 
 namespace ModularPipelines.Engine;
 
@@ -74,10 +75,10 @@ public class SubModuleTracker
 
             return result;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             RecordCompletion(Status.Failed);
-            _completionSource.TrySetException(new Exception($"SubModule '{Name}' failed"));
+            _completionSource.TrySetException(new SubModuleFailedException(Name, ParentModuleType, ex));
             throw;
         }
     }
