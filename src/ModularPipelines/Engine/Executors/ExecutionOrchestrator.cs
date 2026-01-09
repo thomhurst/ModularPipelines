@@ -17,6 +17,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly IPipelineSummaryFactory _pipelineSummaryFactory;
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IThreadPoolConfigurator _threadPoolConfigurator;
+    private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly ILogger<ExecutionOrchestrator> _logger;
 
     private readonly object _lock = new();
@@ -32,6 +33,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         IPipelineSummaryFactory pipelineSummaryFactory,
         EngineCancellationToken engineCancellationToken,
         IThreadPoolConfigurator threadPoolConfigurator,
+        IExceptionRethrowService exceptionRethrowService,
         ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
@@ -42,6 +44,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _pipelineSummaryFactory = pipelineSummaryFactory;
         _engineCancellationToken = engineCancellationToken;
         _threadPoolConfigurator = threadPoolConfigurator;
+        _exceptionRethrowService = exceptionRethrowService;
         _logger = logger;
     }
 
@@ -54,10 +57,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         catch (Exception exception) when (exception is PipelineCancelledException or TaskCanceledException or OperationCanceledException)
         {
             // Check if we have an original exception stored with preserved stack trace
-            if (_engineCancellationToken.OriginalExceptionDispatchInfo != null)
-            {
-                _engineCancellationToken.OriginalExceptionDispatchInfo.Throw();
-            }
+            _exceptionRethrowService.ThrowOriginalExceptionIfPresent();
 
             // Otherwise throw the cancellation exception
             throw;
