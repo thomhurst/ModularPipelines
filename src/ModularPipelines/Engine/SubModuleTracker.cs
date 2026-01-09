@@ -10,13 +10,15 @@ namespace ModularPipelines.Engine;
 /// <remarks>
 /// SubModuleTracker provides progress tracking for nested operations without the
 /// full complexity of a module. It tracks status, timing, and completion.
+/// This class is internal because it is only used within the engine infrastructure
+/// and is not intended for direct use by external consumers.
 /// </remarks>
-public class SubModuleTracker
+internal class SubModuleTracker
 {
     private readonly Stopwatch _stopwatch = new();
     private readonly TaskCompletionSource _completionSource = new();
 
-    internal SubModuleTracker(string name, Type parentModuleType)
+    public SubModuleTracker(string name, Type parentModuleType)
     {
         Name = name;
         ParentModuleType = parentModuleType;
@@ -60,7 +62,7 @@ public class SubModuleTracker
     /// <summary>
     /// Executes an action and tracks its progress.
     /// </summary>
-    internal async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
+    public async Task<T> ExecuteAsync<T>(Func<Task<T>> action)
     {
         StartTime = DateTimeOffset.UtcNow;
         Status = Status.Processing;
@@ -86,7 +88,7 @@ public class SubModuleTracker
     /// <summary>
     /// Executes an action and tracks its progress.
     /// </summary>
-    internal async Task ExecuteAsync(Func<Task> action)
+    public async Task ExecuteAsync(Func<Task> action)
     {
         await ExecuteAsync(async () =>
         {
