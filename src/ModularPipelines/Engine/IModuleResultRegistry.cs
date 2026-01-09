@@ -188,7 +188,12 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     /// </remarks>
     public void RegisterResult<T>(Type moduleType, ModuleResult<T> result)
     {
-        // Store result first
+        // Get or create TCS first - this ensures it exists before we store the result
+        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
+        // happens-before ordering when awaiters check _results after TCS completion
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+
+        // Store result
         _results[moduleType] = result;
 
         // Explicit memory barrier to ensure the result write is visible
@@ -196,7 +201,6 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         Thread.MemoryBarrier();
 
         // Now signal completion - awaiters are guaranteed to see the result
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         tcs.TrySetResult(result);
     }
 
@@ -292,7 +296,12 @@ internal class ModuleResultRegistry : IModuleResultRegistry
     /// </remarks>
     public void RegisterResult(Type moduleType, IModuleResult result)
     {
-        // Store result first
+        // Get or create TCS first - this ensures it exists before we store the result
+        // Critical: TCS must be retrieved BEFORE storing the result to ensure proper
+        // happens-before ordering when awaiters check _results after TCS completion
+        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
+
+        // Store result
         _results[moduleType] = result;
 
         // Explicit memory barrier to ensure the result write is visible
@@ -300,7 +309,6 @@ internal class ModuleResultRegistry : IModuleResultRegistry
         Thread.MemoryBarrier();
 
         // Now signal completion - awaiters are guaranteed to see the result
-        var tcs = _completionSources.GetOrAdd(moduleType, _ => new TaskCompletionSource<object?>());
         tcs.TrySetResult(result);
     }
 }
