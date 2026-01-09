@@ -10,8 +10,8 @@ internal class PipelineExecutor : IPipelineExecutor
 {
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IModuleExecutor _moduleExecutor;
-    private readonly EngineCancellationToken _engineCancellationToken;
     private readonly ILogger<PipelineExecutor> _logger;
+    private readonly IExceptionRethrowService _exceptionRethrowService;
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly IMetricsCollector _metricsCollector;
@@ -20,8 +20,8 @@ internal class PipelineExecutor : IPipelineExecutor
     public PipelineExecutor(
         IPipelineSetupExecutor pipelineSetupExecutor,
         IModuleExecutor moduleExecutor,
-        EngineCancellationToken engineCancellationToken,
         ILogger<PipelineExecutor> logger,
+        IExceptionRethrowService exceptionRethrowService,
         ISecondaryExceptionContainer secondaryExceptionContainer,
         IModuleResultRegistry resultRegistry,
         IMetricsCollector metricsCollector,
@@ -29,8 +29,8 @@ internal class PipelineExecutor : IPipelineExecutor
     {
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _moduleExecutor = moduleExecutor;
-        _engineCancellationToken = engineCancellationToken;
         _logger = logger;
+        _exceptionRethrowService = exceptionRethrowService;
         _secondaryExceptionContainer = secondaryExceptionContainer;
         _resultRegistry = resultRegistry;
         _metricsCollector = metricsCollector;
@@ -59,10 +59,7 @@ internal class PipelineExecutor : IPipelineExecutor
         }
 
         // Check for original exception first with preserved stack trace
-        if (_engineCancellationToken.OriginalExceptionDispatchInfo != null)
-        {
-            _engineCancellationToken.OriginalExceptionDispatchInfo.Throw();
-        }
+        _exceptionRethrowService.ThrowOriginalExceptionIfPresent();
 
         _secondaryExceptionContainer.ThrowExceptions();
 

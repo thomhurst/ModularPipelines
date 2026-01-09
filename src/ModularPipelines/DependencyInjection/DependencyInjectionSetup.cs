@@ -134,6 +134,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IExceptionBuffer, ExceptionBuffer>()
             .AddSingleton<IPrimaryExceptionContainer, PrimaryExceptionContainer>()
             .AddSingleton<ISecondaryExceptionContainer, SecondaryExceptionContainer>()
+            .AddSingleton<IExceptionRethrowService, ExceptionRethrowService>()
             .AddSingleton<ProgressPrinter>()
             .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
             .AddSingleton<ILogoPrinter, LogoPrinter>()
