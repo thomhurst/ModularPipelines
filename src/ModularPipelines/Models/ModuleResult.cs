@@ -462,22 +462,26 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 ModuleEnd = moduleEnd,
                 ModuleStatus = moduleStatus
             },
-            "Failure" => new ModuleResult<T>.Failure(exception ?? new Exception("Deserialized failure with no exception details"))
-            {
-                ModuleName = moduleName,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
-            "Skipped" => new ModuleResult<T>.Skipped(skipDecision ?? SkipDecision.Skip("Deserialized skip with no decision details"))
-            {
-                ModuleName = moduleName,
-                ModuleDuration = moduleDuration,
-                ModuleStart = moduleStart,
-                ModuleEnd = moduleEnd,
-                ModuleStatus = moduleStatus
-            },
+            "Failure" => exception is not null
+                ? new ModuleResult<T>.Failure(exception)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Failure result requires an Exception property in the JSON."),
+            "Skipped" => skipDecision is not null
+                ? new ModuleResult<T>.Skipped(skipDecision)
+                {
+                    ModuleName = moduleName,
+                    ModuleDuration = moduleDuration,
+                    ModuleStart = moduleStart,
+                    ModuleEnd = moduleEnd,
+                    ModuleStatus = moduleStatus
+                }
+                : throw new JsonException("Skipped result requires a Decision property in the JSON."),
             _ => throw new JsonException($"Unknown discriminator: {discriminator}")
         };
     }
