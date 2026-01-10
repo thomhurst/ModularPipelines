@@ -60,7 +60,7 @@ public static class Disposer
         {
             // Expected - operations may be cancelled during shutdown
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Suppress all other exceptions during shutdown - process is exiting anyway
             // and there's no meaningful way to handle or report them at this point

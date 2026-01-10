@@ -116,7 +116,7 @@ internal class GitInformation : IGitInformation, IInitializer
                 .FirstOrDefault(x => x.StartsWith("HEAD branch:"))
                 ?.Split("HEAD branch: ")[1];
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Fallback: If 'git remote show origin' fails (e.g., no remote configured, network issues,
             // or shallow clone), try parsing origin/HEAD reference instead. This provides a best-effort
@@ -147,7 +147,7 @@ internal class GitInformation : IGitInformation, IInitializer
             var result = await command.ExecuteCommandLineTool(gitOptions, options).ConfigureAwait(false);
             return result.StandardOutput.Trim();
         }
-        catch (Exception exception)
+        catch (Exception exception) when (exception is not (OutOfMemoryException or StackOverflowException))
         {
             logger.LogDebug(exception, "Error running Git command");
             return null;

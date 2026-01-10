@@ -261,6 +261,8 @@ internal class ModuleScheduler : IModuleScheduler
             }
             catch (Exception ex)
             {
+                // Catch ALL exceptions including fatal ones - we need to complete the channel
+                // and log before re-throwing. The immediate throw ensures exceptions propagate.
                 _logger.LogError(ex, "Module scheduler encountered an error");
                 _readyChannel.Writer.Complete(ex);
                 throw;

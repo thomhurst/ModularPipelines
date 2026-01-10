@@ -75,7 +75,7 @@ public class OptionTypeDetectorPipeline
                     bestResult = result;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
                 _logger.LogWarning(ex,
                     "Detector {Detector} failed for option {Option}",

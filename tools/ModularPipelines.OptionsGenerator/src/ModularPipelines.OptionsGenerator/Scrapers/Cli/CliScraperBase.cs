@@ -283,7 +283,7 @@ public abstract partial class CliScraperBase : ICliScraper
                     await commandChannel.Writer.WriteAsync(command, cancellationToken);
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
                 var cmdPath = string.Join(" ", path);
                 Logger.LogWarning(ex, "Failed to parse command: {Command}", cmdPath);

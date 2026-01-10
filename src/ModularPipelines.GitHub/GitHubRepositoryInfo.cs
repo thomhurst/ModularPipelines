@@ -96,7 +96,7 @@ internal record GitHubRepositoryInfo : IGitHubRepositoryInfo, IInitializer
 
             IsInitialized = true;
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             Console.WriteLine(e);
         }

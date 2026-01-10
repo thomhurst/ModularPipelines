@@ -74,7 +74,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             {
                 Logger.LogDebug("No dedicated page for dotnet {Cmd}", cmd);
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
                 Logger.LogWarning(ex, "Failed to scrape {Url}", url);
                 errors.Add(new ScrapingError
@@ -109,7 +109,7 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                 {
                     Logger.LogDebug("No dedicated page for dotnet {Parent} {Sub}", parent, sub);
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
                 {
                     Logger.LogWarning(ex, "Failed to scrape {Url}", url);
                     errors.Add(new ScrapingError

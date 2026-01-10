@@ -38,7 +38,7 @@ internal class DirectHookInvoker : IDirectHookInvoker
         {
             return await module.InvokeOnAfterExecuteAsync(context, result, cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Log but don't propagate - preserve the original result
             _logger.LogError(ex, "OnAfterExecuteAsync hook failed for module {ModuleName}", module.GetType().Name);
@@ -57,7 +57,7 @@ internal class DirectHookInvoker : IDirectHookInvoker
         {
             await module.InvokeOnSkippedAsync(context, skipDecision, cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Log but don't propagate - skip proceeds
             _logger.LogError(ex, "OnSkippedAsync hook failed for module {ModuleName}", module.GetType().Name);
@@ -75,7 +75,7 @@ internal class DirectHookInvoker : IDirectHookInvoker
         {
             await module.InvokeOnFailedAsync(context, exception, cancellationToken).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Log but don't propagate - don't prevent OnAfterExecuteAsync from running
             _logger.LogError(ex, "OnFailedAsync hook failed for module {ModuleName}", module.GetType().Name);

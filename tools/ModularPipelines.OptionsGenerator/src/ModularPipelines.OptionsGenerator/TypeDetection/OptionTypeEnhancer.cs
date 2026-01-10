@@ -156,7 +156,7 @@ public class OptionTypeEnhancer
                 }
             }
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(ex,
                 "Failed to enhance type for {Command} {Option}",

@@ -113,7 +113,7 @@ internal class GitVersioning : IGitVersioning
                 ).ConfigureAwait(false);
             }
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _moduleLoggerProvider.GetLogger().LogWarning(e, "Error defining GitVersion.yml configuration");
         }
