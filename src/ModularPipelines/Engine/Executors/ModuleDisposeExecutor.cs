@@ -45,7 +45,7 @@ internal class ModuleDisposeExecutor : IModuleDisposeExecutor
             {
                 await _moduleDisposer.DisposeAsync((IModule) module).ConfigureAwait(false);
             }
-            catch (Exception e)
+            catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
             {
                 _logger.LogError(e, "Error disposing module {ModuleType}", module.GetType().Name);
                 exceptions.Add(e);

@@ -75,7 +75,7 @@ public class SubModuleTracker
 
             return result;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             RecordCompletion(Status.Failed);
             _completionSource.TrySetException(new SubModuleFailedException(Name, ParentModuleType, ex));

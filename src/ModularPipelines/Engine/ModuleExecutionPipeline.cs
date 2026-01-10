@@ -326,7 +326,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         {
             await _resultRepository.SaveResultAsync(module, result, moduleContext).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             moduleContext.Logger.LogError(e, "Error saving module result to repository");
         }

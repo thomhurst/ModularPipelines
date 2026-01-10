@@ -46,7 +46,7 @@ internal static class HttpResponseExtensions
         {
             // Reading was cancelled - continue with null content
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Other unexpected errors reading content - continue with null content
             // The primary error information is in the status code and reason phrase

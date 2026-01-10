@@ -80,7 +80,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 ExitCode = -1
             };
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogError(ex, "Failed to execute command: {Command} {Arguments}", command, arguments);
             return new CliCommandResult
@@ -125,7 +125,7 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
                 process.Kill(entireProcessTree: true);
             }
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Log but don't throw - we don't want to mask the original timeout exception
             _logger.LogWarning(ex, "Failed to kill process: {Command} {Arguments}", command, arguments);

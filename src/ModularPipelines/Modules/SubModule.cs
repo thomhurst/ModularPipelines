@@ -30,7 +30,7 @@ internal class SubModule<T> : SubModuleBase
 
             return result;
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             Duration = stopwatch.Elapsed;
             EndTime = DateTimeOffset.UtcNow;

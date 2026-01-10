@@ -41,7 +41,7 @@ public class GitCommandRunner : IGitCommandRunner
         {
             return await RunCommands(commandEnvironmentOptions, commands).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogDebug(ex, "Git command failed: {Commands}", string.Join(" ", commands.Where(c => c != null)));
             return null;

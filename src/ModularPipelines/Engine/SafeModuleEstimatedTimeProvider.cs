@@ -26,7 +26,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         {
             return await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(e, "Error retrieving module estimated time for {Module}", moduleType.Name);
             return TimeSpan.FromMinutes(2);
@@ -39,7 +39,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         {
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, duration).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(e, "Error saving module execution time for {Module}", moduleType.Name);
         }
@@ -52,7 +52,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
             // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return await _moduleEstimatedTimeProvider.GetSubModuleEstimatedTimesAsync(moduleType).ConfigureAwait(false) ?? new List<SubModuleEstimation>();
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(e, "Error retrieving submodule estimated time for {Module}", moduleType.Name);
             return new List<SubModuleEstimation>();
@@ -65,7 +65,7 @@ internal class SafeModuleEstimatedTimeProvider : ISafeModuleEstimatedTimeProvide
         {
             await _moduleEstimatedTimeProvider.SaveSubModuleTimeAsync(moduleType, subModuleEstimation).ConfigureAwait(false);
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(e, "Error saving submodule execution time for {Module}", moduleType.Name);
         }

@@ -50,7 +50,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
             // The code hasn't been formatted nicely!
             return await RunDotNetFormat(context, whitespaceOnly: false, verifyNoChanges: true, cancellationToken);
         }
-        catch (Exception)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             // Something dodgy went wrong - It should've been formatted but it still isn't?
             if (context.Git().Information.PreviousCommit?.Message?.Subject == DotnetFormatGitMessage)

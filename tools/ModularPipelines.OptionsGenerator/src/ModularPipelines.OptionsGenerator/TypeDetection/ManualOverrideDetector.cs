@@ -106,7 +106,7 @@ public class ManualOverrideDetector : IOptionTypeDetector
 
             return JsonSerializer.Deserialize<ToolOverrides>(json, options);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(ex, "Failed to load override file: {Path}", filePath);
             return null;

@@ -69,7 +69,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
                 await _printProgressTask.ConfigureAwait(false);
             }
         }
-        catch (Exception e)
+        catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(e, "Error while waiting for progress to update");
         }

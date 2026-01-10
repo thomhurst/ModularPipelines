@@ -87,7 +87,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
             var getResultDelegate = ResultRepositoryDelegateFactory.GetResultDelegateFor(resultType);
             return await getResultDelegate(_resultRepository, module, pipelineContext).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
         {
             _logger.LogWarning(ex, "Failed to get historical result for module {ModuleName}", module.GetType().Name);
             return null;
