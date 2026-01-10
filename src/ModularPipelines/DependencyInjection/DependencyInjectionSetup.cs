@@ -100,6 +100,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IHttp, Http.Http>()
             .AddScoped<ModularPipelines.Context.ICommand, Command>()
             .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
+            .AddScoped<CommandLineExecutor>()
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
