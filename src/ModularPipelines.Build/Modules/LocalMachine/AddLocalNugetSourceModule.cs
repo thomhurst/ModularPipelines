@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -14,6 +16,13 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<CreateLocalNugetFolderModule>]
 public class AddLocalNugetSourceModule : Module<CommandResult>, IIgnoreFailures
 {
+    private readonly IOptions<LocalNuGetSettings> _localNuGetSettings;
+
+    public AddLocalNugetSourceModule(IOptions<LocalNuGetSettings> localNuGetSettings)
+    {
+        _localNuGetSettings = localNuGetSettings;
+    }
+
     public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
     {
         return Task.FromResult(exception is CommandException commandException &&
@@ -26,7 +35,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>, IIgnoreFailures
 
         return await context.DotNet().Nuget.Add.Source(new DotNetNugetAddSourceOptions
         {
-            Name = "ModularPipelinesLocalNuGet",
+            Name = _localNuGetSettings.Value.SourceName,
             Packagesourcepath = localNugetPathResult.ValueOrDefault.AssertExists(),
         }, cancellationToken: cancellationToken);
     }

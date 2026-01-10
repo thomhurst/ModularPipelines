@@ -1,5 +1,7 @@
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -16,6 +18,13 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
 public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandResult[]>
 {
+    private readonly IOptions<PipelineSettings> _pipelineSettings;
+
+    public RunUnitTestsModule(IOptions<PipelineSettings> pipelineSettings)
+    {
+        _pipelineSettings = pipelineSettings;
+    }
+
     public AsyncRetryPolicy<CommandResult[]?> GetRetryPolicy(IPipelineContext context)
     {
         return Policy<CommandResult[]?>.Handle<Exception>().RetryAsync(0);
@@ -31,7 +40,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandRes
             {
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
-                Framework = BuildConstants.TestFramework,
+                Framework = _pipelineSettings.Value.TestFramework,
                 Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
                 Configuration = "Release",
                 Properties =
