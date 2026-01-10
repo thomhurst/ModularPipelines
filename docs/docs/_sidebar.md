@@ -37,6 +37,9 @@
 - Additional Packages
   - [GitHub](/mp-packages/github "GitHub Package")
 
+- Architecture
+  - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
+
 - Examples
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
   - [NuGet Publishing](/examples/dotnet-test-build-publish "NuGet Publishing")
