@@ -42,7 +42,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
         return await NugetUploadHelper.UploadPackagesAsync(
             context,
             packagePaths.ValueOrDefault!,
-            source: "https://api.nuget.org/v3/index.json",
+            source: _nugetSettings.Value.FeedUrl,
             apiKey: _nugetSettings.Value.ApiKey,
             cancellationToken);
     }

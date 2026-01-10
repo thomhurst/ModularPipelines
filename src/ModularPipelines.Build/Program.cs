@@ -22,7 +22,9 @@ await PipelineHostBuilder.Create()
     })
     .ConfigureServices((context, collection) =>
     {
+        collection.Configure<PipelineSettings>(context.Configuration.GetSection("Pipeline"));
         collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
+        collection.Configure<LocalNuGetSettings>(context.Configuration.GetSection("LocalNuGet"));
         collection.Configure<GitHubSettings>(context.Configuration.GetSection("GitHub"));
         collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
         collection.Configure<CodacySettings>(context.Configuration.GetSection("Codacy"));
@@ -49,6 +51,7 @@ await PipelineHostBuilder.Create()
         collection.AddSingleton<IGitHubClient>(sp =>
         {
             var githubSettings = sp.GetRequiredService<IOptions<GitHubSettings>>();
+            var pipelineSettings = sp.GetRequiredService<IOptions<PipelineSettings>>();
 
             var githubToken = githubSettings.Value.StandardToken;
 
@@ -57,7 +60,7 @@ await PipelineHostBuilder.Create()
                 githubToken = "token";
             }
 
-            return new GitHubClient(new ProductHeaderValue("ModularPipelinesBuild"),
+            return new GitHubClient(new ProductHeaderValue(pipelineSettings.Value.GitHubProductHeader),
                 new InMemoryCredentialStore(new Credentials(githubToken)));
         });
 
@@ -84,6 +87,10 @@ await PipelineHostBuilder.Create()
         }
         // else: CI Development mode (PR builds) - don't register local NuGet or production upload modules
     })
-    .ConfigurePipelineOptions((context, options) => options.DefaultRetryCount = 3)
+    .ConfigurePipelineOptions((context, options) =>
+    {
+        var pipelineSettings = context.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
+        options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
+    })
     .SetLogLevel(LogLevel.Debug) // Temporarily hardcoded for debugging
     .ExecutePipelineAsync();
