@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using ModularPipelines.Configuration;
 using ModularPipelines.Models;
 using ModularPipelines.Modules.Behaviors;
 
@@ -19,4 +20,9 @@ public interface IModule
     /// Gets whether this module should always run, even when the pipeline fails.
     /// </summary>
     ModuleRunType ModuleRunType => this is IAlwaysRun ? ModuleRunType.AlwaysRun : ModuleRunType.OnSuccessfulDependencies;
+
+    /// <summary>
+    /// Gets the configuration for this module's execution behaviors.
+    /// </summary>
+    ModuleConfiguration Configuration { get; }
 }

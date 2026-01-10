@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 
@@ -52,6 +53,37 @@ public abstract class Module<T> : IModule
 
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
+
+    /// <summary>
+    /// Override to configure module behaviors (skip, timeout, retry, etc.).
+    /// </summary>
+    /// <returns>The module configuration.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method is called once when the <see cref="IModule.Configuration"/> property is first accessed.
+    /// The result is cached for subsequent accesses.
+    /// </para>
+    /// <para>
+    /// Use <see cref="ModuleConfiguration.Create"/> to build a custom configuration,
+    /// or return <see cref="ModuleConfiguration.Default"/> for default behavior.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    ///     .WithTimeout(TimeSpan.FromMinutes(5))
+    ///     .WithRetryCount(3)
+    ///     .WithAlwaysRun()
+    ///     .Build();
+    /// </code>
+    /// </example>
+    protected virtual ModuleConfiguration Configure() => ModuleConfiguration.Default;
+
+    // Cached configuration - evaluated once on first access
+    private ModuleConfiguration? _configuration;
+
+    /// <inheritdoc />
+    ModuleConfiguration IModule.Configuration => _configuration ??= Configure();
 
     /// <summary>
     /// Declares dependencies programmatically at runtime.
