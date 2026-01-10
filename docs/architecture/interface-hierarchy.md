@@ -117,7 +117,7 @@ public class MyHooks : IPipelineGlobalHooks
 
     public Task OnEndAsync(IPipelineHookContext context, PipelineSummary summary)
     {
-        context.Logger.LogInformation($"Pipeline finished: {summary.TotalModules} modules");
+        context.Logger.LogInformation("Pipeline finished: {TotalModules} modules", summary.TotalModules);
         return Task.CompletedTask;
     }
 }
@@ -132,13 +132,13 @@ public class MyModuleHooks : IPipelineModuleHooks
 {
     public Task OnBeforeModuleStartAsync(IPipelineHookContext context, IModule module)
     {
-        context.Logger.LogInformation($"Module {module.GetType().Name} starting...");
+        context.Logger.LogInformation("Module {ModuleName} starting...", module.GetType().Name);
         return Task.CompletedTask;
     }
 
     public Task OnAfterModuleEndAsync(IPipelineHookContext context, IModule module)
     {
-        context.Logger.LogInformation($"Module {module.GetType().Name} finished");
+        context.Logger.LogInformation("Module {ModuleName} finished", module.GetType().Name);
         return Task.CompletedTask;
     }
 }
