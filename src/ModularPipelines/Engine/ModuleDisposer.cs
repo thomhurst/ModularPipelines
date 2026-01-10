@@ -4,7 +4,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleDisposer : IModuleDisposer
+internal class ModuleDisposer
 {
     private readonly IModuleLoggerContainer _loggerContainer;
 
