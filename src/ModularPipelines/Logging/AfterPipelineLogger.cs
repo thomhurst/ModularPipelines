@@ -5,8 +5,19 @@ namespace ModularPipelines.Logging;
 
 /// <summary>
 /// Buffers log messages to be written after pipeline completion.
-/// Thread-safe implementation using lock synchronization.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. All public methods can be called
+/// concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a simple lock for mutual exclusion. This is
+/// appropriate because write operations are infrequent (typically once per module)
+/// and the protected operations are fast (list/StringBuilder operations).
+/// </para>
+/// </remarks>
+/// <threadsafety static="true" instance="true"/>
 internal class AfterPipelineLogger : IAfterPipelineLogger
 {
     private readonly ILogger<AfterPipelineLogger> _logger;

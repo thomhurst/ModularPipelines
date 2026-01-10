@@ -5,6 +5,24 @@ using ModularPipelines.Interfaces;
 
 namespace ModularPipelines.Engine;
 
+/// <summary>
+/// Provides scoped pipeline contexts for module execution.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. The <see cref="GetModuleContext"/>
+/// method can be called concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a lock (<c>_disposeLock</c>) to coordinate between
+/// context creation and disposal. The lock ensures that:
+/// - No new scopes are created after disposal begins
+/// - All scopes created before disposal are captured for cleanup
+/// ConcurrentBag is used because we only need add (during creation) and enumerate (during disposal),
+/// and it provides efficient lock-free adds while allowing enumeration via snapshot.
+/// </para>
+/// </remarks>
+/// <threadsafety static="true" instance="true"/>
 internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer, IAsyncDisposable
 {
     private readonly IServiceProvider _serviceProvider;

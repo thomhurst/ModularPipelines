@@ -13,6 +13,23 @@ using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
+/// <summary>
+/// Displays real-time progress of module execution using Spectre.Console.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. Notification handlers can be called
+/// concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a lock (<c>_progressLock</c>) to protect
+/// Spectre.Console ProgressContext operations which are not thread-safe.
+/// ConcurrentDictionary is used for progress task lookups to allow lock-free reads
+/// from background tasks that tick progress independently. The lock is only held
+/// during ProgressContext mutations (AddTask, StopTask, Increment).
+/// </para>
+/// </remarks>
+/// <threadsafety static="true" instance="true"/>
 [ExcludeFromCodeCoverage]
 internal class ProgressPrinter : IProgressPrinter,
     INotificationHandler<ModuleStartedNotification>,

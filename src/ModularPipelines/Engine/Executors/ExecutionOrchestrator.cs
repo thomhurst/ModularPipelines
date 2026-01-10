@@ -7,6 +7,21 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine.Executors;
 
+/// <summary>
+/// Orchestrates the execution of the entire pipeline lifecycle.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> The <see cref="ExecuteAsync"/> method can only be called once per instance.
+/// Subsequent calls will throw <see cref="InvalidOperationException"/>.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a simple lock to ensure single execution.
+/// This is a defensive pattern to catch programming errors where a pipeline is
+/// accidentally executed multiple times. The lock protects the check-then-set
+/// pattern for the <c>_hasRun</c> flag.
+/// </para>
+/// </remarks>
 internal class ExecutionOrchestrator : IExecutionOrchestrator
 {
     private readonly IPipelineInitializer _pipelineInitializer;
