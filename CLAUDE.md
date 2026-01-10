@@ -71,6 +71,13 @@ dotnet format --verify-no-changes --severity info
    - Fluent API for building complex commands
    - Automatic secret obfuscation in logs
 
+5. **Code Generation**:
+   - Tool options classes (e.g., `GitAddOptions`, `DotNetBuildOptions`, `DockerRunOptions`) are **auto-generated**
+   - Generator located at: `tools/ModularPipelines.OptionsGenerator/`
+   - **Do not modify generated options classes directly** - changes will be overwritten
+   - To modify options behavior, update the generator or add manual extension files
+   - Generated files have `[ExcludeFromCodeCoverage]` attribute
+
 ### Project Structure
 
 - `src/ModularPipelines/` - Core framework
