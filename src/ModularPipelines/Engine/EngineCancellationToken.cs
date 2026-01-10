@@ -5,14 +5,26 @@ namespace ModularPipelines.Engine;
 
 /// <summary>
 /// Manages pipeline cancellation state and token.
+/// Uses composition instead of inheritance from CancellationTokenSource.
 /// Exception storage is delegated to <see cref="IPrimaryExceptionContainer"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal class EngineCancellationToken : CancellationTokenSource
+internal class EngineCancellationToken : IDisposable
 {
+    private readonly CancellationTokenSource _cts = new();
     private readonly IPrimaryExceptionContainer _primaryExceptionContainer;
 
     public string? Reason { get; private set; }
+
+    /// <summary>
+    /// Gets the cancellation token from the underlying CancellationTokenSource.
+    /// </summary>
+    public CancellationToken Token => _cts.Token;
+
+    /// <summary>
+    /// Gets whether cancellation has been requested on the underlying token source.
+    /// </summary>
+    public bool IsCancellationRequested => _cts.IsCancellationRequested;
 
     /// <summary>
     /// Gets the original exception that caused the pipeline to fail.
@@ -63,10 +75,36 @@ internal class EngineCancellationToken : CancellationTokenSource
         Cancel();
     }
 
-    protected override void Dispose(bool disposing)
+    /// <summary>
+    /// Communicates a request for cancellation.
+    /// </summary>
+    public void Cancel()
     {
+        if (!_disposed)
+        {
+            _cts.Cancel();
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            _cts.Dispose();
+        }
+
         _disposed = true;
-        base.Dispose(disposing);
     }
 
     private void TryCancel()
