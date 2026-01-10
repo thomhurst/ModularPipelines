@@ -71,6 +71,27 @@ public class Module1 : Module<int>
 }}
 ";
 
+    private const string BadModuleWithMutableCustomClass = $@"
+{TestSourceConstants.StandardModuleHeader}
+
+public class MyCache
+{{
+    public Dictionary<string, object> Items {{ get; }} = new();
+}}
+
+public class Module1 : Module<int>
+{{
+    private MyCache {{|#0:_cache|}} = new();
+
+    protected override async Task<int?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {{
+        await Task.Delay(1, cancellationToken);
+        _cache.Items[""key""] = ""value"";
+        return _cache.Items.Count;
+    }}
+}}
+";
+
     private const string GoodModuleWithReadonlyField = $@"
 {TestSourceConstants.StandardModuleHeader}
 
@@ -198,6 +219,14 @@ public class NotAModule
         var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
 
         await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCounter, expected);
+    }
+
+    [TestMethod]
+    public async Task AnalyzerIsTriggered_When_MutableCustomClass()
+    {
+        var expected = VerifyCS.Diagnostic(StatefulModuleAnalyzer.DiagnosticId).WithLocation(0);
+
+        await VerifyCS.VerifyAnalyzerAsync(BadModuleWithMutableCustomClass, expected);
     }
 
     [TestMethod]

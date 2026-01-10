@@ -258,7 +258,7 @@ namespace ModularPipelines.Analyzers {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Field '{0}' in module '{1}' is a {2}. Modules are Singletons and should be stateless to avoid state leakage between executions..
+        ///   Looks up a localized string similar to Field '{0}' in module '{1}' should be readonly to avoid state leakage between executions.
         /// </summary>
         internal static string StatefulModuleAnalyzerMessageFormat {
             get {

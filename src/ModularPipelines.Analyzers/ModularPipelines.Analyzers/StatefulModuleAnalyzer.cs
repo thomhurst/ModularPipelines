@@ -32,25 +32,6 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
         category: "Design",
         severity: DiagnosticSeverity.Warning);
 
-    /// <summary>
-    /// Known mutable collection type names that should always trigger warnings.
-    /// </summary>
-    private static readonly ImmutableArray<string> MutableCollectionTypes = ImmutableArray.Create(
-        "System.Collections.Generic.List`1",
-        "System.Collections.Generic.Dictionary`2",
-        "System.Collections.Generic.HashSet`1",
-        "System.Collections.Generic.Queue`1",
-        "System.Collections.Generic.Stack`1",
-        "System.Collections.Generic.LinkedList`1",
-        "System.Collections.Generic.SortedList`2",
-        "System.Collections.Generic.SortedDictionary`2",
-        "System.Collections.Generic.SortedSet`1",
-        "System.Collections.ArrayList",
-        "System.Collections.Hashtable",
-        "System.Collections.Queue",
-        "System.Collections.Stack",
-        "System.Text.StringBuilder");
-
     /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
@@ -132,19 +113,12 @@ public class StatefulModuleAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // Check if it's a known mutable collection type
-        var fieldTypeName = fieldSymbol.Type.OriginalDefinition.ToDisplayString();
-        var isMutableCollection = MutableCollectionTypes.Any(t =>
-            fieldSymbol.Type.OriginalDefinition.ToDisplayString().StartsWith(t.Split('`')[0], StringComparison.Ordinal) ||
-            fieldSymbol.Type.OriginalDefinition.MetadataName == t.Split('.').Last());
-
         // Report diagnostic for non-readonly instance fields
         var diagnostic = Diagnostic.Create(
             Rule,
             location,
             fieldSymbol.Name,
-            classSymbol.Name,
-            isMutableCollection ? "mutable collection" : "non-readonly field");
+            classSymbol.Name);
 
         context.ReportDiagnostic(diagnostic);
     }
