@@ -13,6 +13,18 @@ internal static class DependencyGraphValidator
     /// <summary>
     /// Validates that the given module types do not form any circular dependencies.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// <b>Limitation:</b> This method only validates attribute-based dependencies declared via
+    /// <see cref="DependsOnAttribute"/> and <see cref="DependsOnAllModulesInheritingFromAttribute"/>.
+    /// Dependencies declared programmatically via <c>Module.DeclareDependencies()</c> at runtime
+    /// cannot be detected at registration time and are NOT validated by this method.
+    /// </para>
+    /// <para>
+    /// Circular dependencies involving only programmatic declarations will still fail at runtime
+    /// during module execution.
+    /// </para>
+    /// </remarks>
     /// <param name="moduleTypes">The collection of module types to validate.</param>
     /// <exception cref="CircularDependencyException">Thrown when a circular dependency is detected.</exception>
     public static void ValidateNoCycles(IEnumerable<Type> moduleTypes)
