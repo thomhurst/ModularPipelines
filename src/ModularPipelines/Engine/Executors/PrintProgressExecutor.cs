@@ -14,7 +14,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IConsolePrinter _consolePrinter;
-    private readonly IModuleRetriever _moduleRetriever;
+    private readonly ModuleRetriever _moduleRetriever;
     private readonly ILogger<PrintProgressExecutor> _logger;
 
     private Task? _printProgressTask;
@@ -22,7 +22,7 @@ internal class PrintProgressExecutor : IPrintProgressExecutor
 
     public PrintProgressExecutor(EngineCancellationToken engineCancellationToken,
         IConsolePrinter consolePrinter,
-        IModuleRetriever moduleRetriever,
+        ModuleRetriever moduleRetriever,
         ILogger<PrintProgressExecutor> logger)
     {
         _engineCancellationToken = engineCancellationToken;

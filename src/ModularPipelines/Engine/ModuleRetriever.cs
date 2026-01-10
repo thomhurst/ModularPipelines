@@ -8,23 +8,20 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
 
-internal class ModuleRetriever : IModuleRetriever
+internal class ModuleRetriever
 {
     private readonly IModuleConditionHandler _moduleConditionHandler;
-    private readonly IModuleInitializer _moduleInitializer;
     private readonly ISafeModuleEstimatedTimeProvider _estimatedTimeProvider;
     private readonly List<IModule> _modules;
     private Task<OrganizedModules>? _cached;
 
     public ModuleRetriever(
         IModuleConditionHandler moduleConditionHandler,
-        IModuleInitializer moduleInitializer,
         IEnumerable<IModule> modules,
         ISafeModuleEstimatedTimeProvider estimatedTimeProvider
     )
     {
         _moduleConditionHandler = moduleConditionHandler;
-        _moduleInitializer = moduleInitializer;
         _estimatedTimeProvider = estimatedTimeProvider;
         _modules = modules.ToList();
     }
@@ -40,11 +37,6 @@ internal class ModuleRetriever : IModuleRetriever
         if (_modules.Count == 0)
         {
             throw new PipelineException("No modules have been registered");
-        }
-
-        foreach (var module in _modules)
-        {
-            _moduleInitializer.Initialize(module);
         }
 
         var modulesToIgnore = new List<IgnoredModule>();

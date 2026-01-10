@@ -26,7 +26,7 @@ internal class ModuleRunner : IModuleRunner
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IMediator _mediator;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
-    private readonly IModuleDisposer _moduleDisposer;
+    private readonly ModuleDisposer _moduleDisposer;
     private readonly IModuleResultRegistry _resultRegistry;
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly ILogger<ModuleRunner> _logger;
@@ -42,7 +42,7 @@ internal class ModuleRunner : IModuleRunner
         IPipelineSetupExecutor pipelineSetupExecutor,
         IMediator mediator,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
-        IModuleDisposer moduleDisposer,
+        ModuleDisposer moduleDisposer,
         IModuleResultRegistry resultRegistry,
         IOptions<PipelineOptions> pipelineOptions,
         ILogger<ModuleRunner> logger,
