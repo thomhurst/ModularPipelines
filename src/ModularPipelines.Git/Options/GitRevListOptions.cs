@@ -321,4 +321,11 @@ public record GitRevListOptions : GitOptions
 
     [CliFlag("--count")]
     public virtual bool? Count { get; set; }
+
+    /// <summary>
+    /// The commit(s) to start listing from (e.g., "HEAD", "main", a commit SHA).
+    /// This is the starting point for the revision walk.
+    /// </summary>
+    [CliArgument(0)]
+    public virtual string? Ref { get; set; }
 }

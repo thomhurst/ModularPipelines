@@ -27,7 +27,7 @@ public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
 
         await context.Git().Commands.Tag(new GitTagOptions
         {
-            Arguments = [$"v{versionInformation.ValueOrDefault!}"],
+            TagName = $"v{versionInformation.ValueOrDefault!}",
         }, token: cancellationToken);
 
         return await context.Git().Commands.Push(new GitPushOptions

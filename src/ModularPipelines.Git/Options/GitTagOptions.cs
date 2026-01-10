@@ -81,4 +81,18 @@ public record GitTagOptions : GitOptions
 
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public virtual string? Format { get; set; }
+
+    /// <summary>
+    /// The name of the tag to create, delete, or list.
+    /// For creation, this is required. For listing with patterns, this acts as a pattern filter.
+    /// </summary>
+    [CliArgument(0)]
+    public virtual string? TagName { get; set; }
+
+    /// <summary>
+    /// The object that the new tag will refer to (usually a commit).
+    /// If not specified, HEAD is used.
+    /// </summary>
+    [CliArgument(1)]
+    public virtual string? Object { get; set; }
 }
