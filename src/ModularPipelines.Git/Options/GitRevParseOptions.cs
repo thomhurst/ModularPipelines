@@ -150,4 +150,11 @@ public record GitRevParseOptions : GitOptions
 
     [CliFlag("--before")]
     public virtual bool? Before { get; set; }
+
+    /// <summary>
+    /// The committish to resolve (e.g., "HEAD", "main", "abc123", "HEAD~1").
+    /// This is a positional argument that git rev-parse will resolve to a commit SHA.
+    /// </summary>
+    [CliArgument(0)]
+    public virtual string? Committish { get; set; }
 }

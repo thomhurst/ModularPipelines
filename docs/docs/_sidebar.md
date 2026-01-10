@@ -40,6 +40,9 @@
 - Architecture
   - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
 
+- Migration
+  - [Migrating to v2 CommandLineToolOptions](/how-to/migrating-to-v2-options "Migrating to v2 CommandLineToolOptions")
+
 - Examples
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
   - [NuGet Publishing](/examples/dotnet-test-build-publish "NuGet Publishing")

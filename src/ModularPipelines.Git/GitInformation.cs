@@ -54,21 +54,21 @@ internal class GitInformation : IGitInformation, IInitializer
 
         Async(async () => DefaultBranchName = await GetDefaultBranchName(command, logger).ConfigureAwait(false) ?? "");
 
-        Async(async () => LastCommitSha = await GetOutput(command, logger, new GitRevParseOptions { Arguments = ["HEAD"] }).ConfigureAwait(false) ?? "");
+        Async(async () => LastCommitSha = await GetOutput(command, logger, new GitRevParseOptions { Committish = "HEAD" }).ConfigureAwait(false) ?? "");
 
-        Async(async () => LastCommitShortSha = await GetOutput(command, logger, new GitRevParseOptions { Short = true, Arguments = ["HEAD"] }).ConfigureAwait(false) ?? "");
+        Async(async () => LastCommitShortSha = await GetOutput(command, logger, new GitRevParseOptions { Short = true, Committish = "HEAD" }).ConfigureAwait(false) ?? "");
 
         Async(async () => Tag = await GetOutput(command, logger, new GitDescribeOptions { Tags = true }).ConfigureAwait(false) ?? "");
 
         Async(async () =>
         {
-            var countStr = await GetOutput(command, logger, new GitRevListOptions { Count = true, Arguments = ["HEAD"] }).ConfigureAwait(false);
+            var countStr = await GetOutput(command, logger, new GitRevListOptions { Count = true, Ref = "HEAD" }).ConfigureAwait(false);
             CommitsOnBranch = int.TryParse(countStr, out var count) ? count : 0;
         });
 
         Async(async () =>
         {
-            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, Arguments = ["-1"] }).ConfigureAwait(false);
+            var timestampStr = await GetOutput(command, logger, new GitLogOptions { Format = GitConstants.AuthorTimestampFormat, MaxCount = "1" }).ConfigureAwait(false);
             LastCommitDateTime = long.TryParse(timestampStr, out var timestamp)
                 ? DateTimeOffset.FromUnixTimeSeconds(timestamp)
                 : DateTimeOffset.MinValue;
@@ -106,7 +106,7 @@ internal class GitInformation : IGitInformation, IInitializer
     {
         try
         {
-            var output = await GetOutput(command, logger, new GitRemoteOptions { Arguments = ["show", "origin"] }).ConfigureAwait(false);
+            var output = await GetOutput(command, logger, new GitRemoteShowOptions { Remote = "origin" }).ConfigureAwait(false);
             if (output == null)
             {
                 return null;
@@ -124,7 +124,7 @@ internal class GitInformation : IGitInformation, IInitializer
             logger.LogDebug(ex, "Failed to get default branch from 'git remote show origin', falling back to origin/HEAD");
             var output = await GetOutput(command, logger, new GitRevParseOptions
             {
-                Arguments = ["origin/HEAD"],
+                Committish = "origin/HEAD",
                 AbbrevRef = true,
             }, new CommandExecutionOptions
             {

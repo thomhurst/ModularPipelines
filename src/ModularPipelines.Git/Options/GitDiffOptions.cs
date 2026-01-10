@@ -60,4 +60,27 @@ public record GitDiffOptions : GitOptions
     [CliFlag("--quiet")]
     public bool? Quiet { get; set; }
 
+    /// <summary>
+    /// The base reference to compare from (e.g., "origin/main", "HEAD~1", commit SHA).
+    /// When specified alone, compares this ref against the working directory.
+    /// When used with CompareRef, compares BaseRef...CompareRef.
+    /// </summary>
+    /// <remarks>
+    /// Note: This is a manually added positional argument for demonstration purposes.
+    /// In production, this should be defined in the generator configuration.
+    /// </remarks>
+    [CliArgument(0)]
+    public string? BaseRef { get; set; }
+
+    /// <summary>
+    /// The reference to compare to (e.g., "HEAD", branch name, commit SHA).
+    /// Optional second ref for comparing two specific commits/branches.
+    /// </summary>
+    /// <remarks>
+    /// Note: This is a manually added positional argument for demonstration purposes.
+    /// In production, this should be defined in the generator configuration.
+    /// </remarks>
+    [CliArgument(1)]
+    public string? CompareRef { get; set; }
+
 }

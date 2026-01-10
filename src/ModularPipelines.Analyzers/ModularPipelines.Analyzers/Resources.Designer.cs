@@ -274,5 +274,32 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("StatefulModuleAnalyzerTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Arguments property is deprecated.
+        /// </summary>
+        internal static string ArgumentsPropertyDeprecatedAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("ArgumentsPropertyDeprecatedAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The 'Arguments' property on '{0}' is deprecated. Use typed positional argument properties instead.
+        /// </summary>
+        internal static string ArgumentsPropertyDeprecatedAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("ArgumentsPropertyDeprecatedAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The Arguments property bypasses type safety. In ModularPipelines v2, use typed positional argument properties marked with [CliArgument] instead.
+        /// </summary>
+        internal static string ArgumentsPropertyDeprecatedAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("ArgumentsPropertyDeprecatedAnalyzerDescription", resourceCulture);
+            }
+        }
     }
 }

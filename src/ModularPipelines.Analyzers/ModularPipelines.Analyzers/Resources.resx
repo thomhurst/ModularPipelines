@@ -189,4 +189,13 @@
   <data name="StatefulModuleAnalyzerDescription" xml:space="preserve">
     <value>Modules are registered as Singletons in the dependency injection container and can be executed multiple times (retries, sub-modules, parallel pipelines). Instance fields can leak state between executions. Use readonly fields for injected dependencies, or store execution state in IModuleContext.</value>
   </data>
+  <data name="ArgumentsPropertyDeprecatedAnalyzerTitle" xml:space="preserve">
+    <value>Arguments property is deprecated</value>
+  </data>
+  <data name="ArgumentsPropertyDeprecatedAnalyzerMessageFormat" xml:space="preserve">
+    <value>The 'Arguments' property on '{0}' is deprecated. Use typed positional argument properties instead</value>
+  </data>
+  <data name="ArgumentsPropertyDeprecatedAnalyzerDescription" xml:space="preserve">
+    <value>The Arguments property bypasses type safety. In ModularPipelines v2, use typed positional argument properties marked with [CliArgument] instead. For example, use 'Committish = "HEAD"' on GitRevParseOptions instead of 'Arguments = ["HEAD"]'. If no typed property exists, request one be added or use GenericCommandLineToolOptions.</value>
+  </data>
 </root>

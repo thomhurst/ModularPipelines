@@ -99,6 +99,17 @@ internal static class DependencyInjectionSetup
             .AddScoped(typeof(ModuleLogger<>))
             .AddScoped<IHttp, Http.Http>()
             .AddScoped<ModularPipelines.Context.ICommand, Command>()
+            .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
+            .AddScoped<CommandLineExecutor>()
+            .AddScoped<ICommandLineExecutor>(sp =>
+            {
+                var inner = sp.GetRequiredService<CommandLineExecutor>();
+                return new LoggingCommandLineExecutor(
+                    inner,
+                    sp.GetRequiredService<IModuleLoggerProvider>(),
+                    sp.GetRequiredService<IOptions<PipelineOptions>>(),
+                    sp.GetRequiredService<ISecretObfuscator>());
+            })
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
@@ -264,7 +275,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IJson, Json>()
             .AddSingleton<IXml, Xml>()
             .AddSingleton<IYaml, Yaml>()
-            .AddSingleton<IHasher, Hasher>();
+            .AddSingleton<IHasher, Hasher>()
+            .AddSingleton<IToolResolver, ToolResolver>();
     }
 
     /// <summary>

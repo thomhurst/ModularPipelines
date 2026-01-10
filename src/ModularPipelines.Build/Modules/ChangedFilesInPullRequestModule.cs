@@ -17,7 +17,7 @@ public class ChangedFilesInPullRequestModule : Module<IReadOnlyList<File>>
         var result = await context.Git().Commands.Diff(new GitDiffOptions
         {
             NameOnly = true,
-            Arguments = ["origin/main"],
+            BaseRef = "origin/main",
         }, token: cancellationToken);
 
         return result.StandardOutput.Split(Environment.NewLine,
