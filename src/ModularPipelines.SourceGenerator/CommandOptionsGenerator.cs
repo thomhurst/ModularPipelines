@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -96,10 +97,10 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         // Get the tool name from the type hierarchy
         var toolName = GetToolName(typeSymbol);
 
-        // Get subcommand parts (stub for now - Task 2.3)
+        // Get subcommand parts (stub - will be implemented in property extraction phase)
         var subCommandParts = GetSubCommandParts(typeSymbol);
 
-        // Get CLI properties (stub for now - Task 2.3)
+        // Get CLI properties (stub - will be implemented in property extraction phase)
         var properties = GetCliProperties(typeSymbol);
 
         return new OptionsClassInfo(
@@ -168,33 +169,67 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
 
     /// <summary>
     /// Gets the subcommand parts from [CliSubCommand] attributes.
-    /// Stub implementation - will be completed in Task 2.3.
+    /// Stub implementation - will be completed in property extraction phase.
     /// </summary>
     private static IReadOnlyList<string> GetSubCommandParts(INamedTypeSymbol type)
     {
         // Stub implementation - returns empty list
-        // Full implementation in Task 2.3
+        // Full implementation will walk the type hierarchy to collect [CliSubCommand] attributes
         return Array.Empty<string>();
     }
 
     /// <summary>
     /// Gets the CLI properties from the type.
-    /// Stub implementation - will be completed in Task 2.3.
+    /// Stub implementation - will be completed in property extraction phase.
     /// </summary>
     private static IReadOnlyList<CliPropertyInfo> GetCliProperties(INamedTypeSymbol type)
     {
         // Stub implementation - returns empty list
-        // Full implementation in Task 2.3
+        // Full implementation will scan properties for [CliOption], [CliFlag], [CliArgument] attributes
+        // and report MP0004 for properties without CLI attributes
         return Array.Empty<CliPropertyInfo>();
     }
 
     /// <summary>
     /// Generates the source code for the options class.
-    /// Stub implementation - will be completed in Task 2.4.
+    /// Validates the class and reports diagnostics.
     /// </summary>
     private static void GenerateCode(SourceProductionContext context, OptionsClassInfo info)
     {
-        // Stub implementation - no code generation yet
-        // Full implementation in Task 2.4
+        // Validate partial keyword
+        if (!info.IsPartial)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                Diagnostics.MissingPartialKeyword,
+                info.Location,
+                info.ClassName));
+            return; // Can't generate without partial
+        }
+
+        // Warn about missing [CliTool]
+        if (info.ToolName is null)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                Diagnostics.MissingCliToolAttribute,
+                info.Location,
+                info.ClassName));
+        }
+
+        // Check for duplicate argument positions
+        var argumentPositions = info.Properties
+            .Where(p => p.Kind == CliPropertyKind.Argument && p.ArgumentPosition.HasValue)
+            .GroupBy(p => p.ArgumentPosition!.Value)
+            .Where(g => g.Count() > 1);
+
+        foreach (var group in argumentPositions)
+        {
+            var propNames = string.Join(", ", group.Select(p => p.Name));
+            context.ReportDiagnostic(Diagnostic.Create(
+                Diagnostics.DuplicateArgumentPosition,
+                info.Location,
+                propNames, group.Key));
+        }
+
+        // Generate Build() method (Task 2.4)
     }
 }
