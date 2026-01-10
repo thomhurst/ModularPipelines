@@ -259,8 +259,10 @@ internal class ModuleScheduler : IModuleScheduler
                 CompleteScheduler();
                 _logger.LogDebug("Module scheduler completed");
             }
-            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+            catch (Exception ex)
             {
+                // Catch ALL exceptions including fatal ones - we need to complete the channel
+                // and log before re-throwing. The immediate throw ensures exceptions propagate.
                 _logger.LogError(ex, "Module scheduler encountered an error");
                 _readyChannel.Writer.Complete(ex);
                 throw;
