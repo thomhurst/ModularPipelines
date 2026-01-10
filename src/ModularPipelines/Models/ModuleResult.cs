@@ -878,7 +878,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
         {
             ModuleResult<T>.Success => "Success",
             ModuleResult<T>.FailureWrapper => "Failure",
-            ModuleResult<T>.SkippedWrapper => "Failure",
+            ModuleResult<T>.SkippedWrapper => "Skipped",
             ModuleResult.Failure => "Failure",
             ModuleResult.Skipped => "Skipped",
             _ => throw new JsonException("Unknown ModuleResult type")
