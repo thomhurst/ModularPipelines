@@ -9,15 +9,15 @@ namespace ModularPipelines.Engine.Executors;
 [StackTraceHidden]
 internal class ModuleDisposeExecutor : IModuleDisposeExecutor
 {
-    private readonly IModuleDisposer _moduleDisposer;
+    private readonly ModuleDisposer _moduleDisposer;
     private readonly IOptions<PipelineOptions> _options;
-    private readonly IModuleRetriever _moduleRetriever;
+    private readonly ModuleRetriever _moduleRetriever;
     private readonly ILogger<ModuleDisposeExecutor> _logger;
 
     public ModuleDisposeExecutor(
-        IModuleDisposer moduleDisposer,
+        ModuleDisposer moduleDisposer,
         IOptions<PipelineOptions> options,
-        IModuleRetriever moduleRetriever,
+        ModuleRetriever moduleRetriever,
         ILogger<ModuleDisposeExecutor> logger)
     {
         _moduleDisposer = moduleDisposer;
