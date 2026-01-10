@@ -103,6 +103,13 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
         // Get CLI properties (stub - will be implemented in property extraction phase)
         var properties = GetCliProperties(typeSymbol);
 
+        // Only process classes that have [CliTool] attribute OR CLI property attributes.
+        // Legacy classes without these should be silently ignored.
+        if (toolName is null && properties.Count == 0)
+        {
+            return null;
+        }
+
         return new OptionsClassInfo(
             Namespace: namespaceName,
             ClassName: typeSymbol.Name,
@@ -230,6 +237,8 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 propNames, group.Key));
         }
 
-        // Generate Build() method (Task 2.4)
+        // Generate Build() method
+        var source = BuildMethodGenerator.Generate(info);
+        context.AddSource($"{info.ClassName}.g.cs", source);
     }
 }
