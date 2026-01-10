@@ -25,6 +25,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly IModuleDependencyRegistry _dependencyRegistry;
     private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
+    private readonly ISchedulerStatusReporter _statusReporter;
     private readonly ConcurrentDictionary<Type, ModuleState> _moduleStates;
     private readonly HashSet<ModuleState> _queuedModules;
     private readonly HashSet<ModuleState> _executingModules;
@@ -36,11 +37,8 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly ReaderWriterLockSlim _stateLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
     private readonly IModuleStateTracker _stateTracker;
 
-    private static readonly TimeSpan StatusLogInterval = TimeSpan.FromSeconds(15);
-
     private bool _schedulerCompleted;
     private bool _isDisposed;
-    private DateTimeOffset _lastStatusLogTime;
 
     public ModuleScheduler(
         ILogger logger,
@@ -48,7 +46,8 @@ internal class ModuleScheduler : IModuleScheduler
         IOptions<SchedulerOptions> options,
         IModuleDependencyRegistry dependencyRegistry,
         IMetricsCollector metricsCollector,
-        IModuleConstraintEvaluator constraintEvaluator)
+        IModuleConstraintEvaluator constraintEvaluator,
+        ISchedulerStatusReporter statusReporter)
     {
         _logger = logger;
         _timeProvider = timeProvider;
@@ -56,6 +55,7 @@ internal class ModuleScheduler : IModuleScheduler
         _dependencyRegistry = dependencyRegistry;
         _metricsCollector = metricsCollector;
         _constraintEvaluator = constraintEvaluator;
+        _statusReporter = statusReporter;
         _moduleStates = new ConcurrentDictionary<Type, ModuleState>();
         _queuedModules = new HashSet<ModuleState>();
         _executingModules = new HashSet<ModuleState>();
@@ -284,7 +284,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             if (queuedCount == 0)
             {
-                LogSchedulerWaitingState();
+                _statusReporter.LogStatusIfIntervalElapsed(_stateQueries, _stateLock);
             }
 
             await WaitForNextSchedulingOpportunity(cancellationToken).ConfigureAwait(false);
@@ -331,58 +331,6 @@ internal class ModuleScheduler : IModuleScheduler
         }
 
         return shouldExit;
-    }
-
-    private void LogSchedulerWaitingState()
-    {
-        var now = _timeProvider.GetUtcNow();
-        if (now - _lastStatusLogTime < StatusLogInterval)
-        {
-            return;
-        }
-
-        _lastStatusLogTime = now;
-
-        // Consolidate all state queries under a single read lock to reduce contention
-        // Previously this called LogPendingModules() and LogExecutingModules() separately,
-        // each acquiring its own read lock
-        ModuleStateStatistics stats;
-        ModuleState[] pending;
-        ModuleState[] executing;
-
-        _stateLock.EnterReadLock();
-        try
-        {
-            stats = _stateQueries.GetStatistics();
-            pending = _stateQueries.GetPendingModules().ToArray();
-            executing = _stateQueries.GetExecutingModules().ToArray();
-        }
-        finally
-        {
-            _stateLock.ExitReadLock();
-        }
-
-        // All logging outside lock to avoid holding lock during I/O
-        _logger.LogDebug(
-            "Scheduler waiting: Total={Total}, Queued={Queued}, Executing={Executing}, Completed={Completed}, Pending={Pending}",
-            stats.Total, stats.Queued, stats.Executing, stats.Completed, stats.Pending);
-
-        if (pending.Length > 0)
-        {
-            _logger.LogDebug("Pending modules: {Modules}",
-                string.Join(", ", pending.Select(FormatModuleWithDependencyCount)));
-        }
-
-        if (executing.Length > 0)
-        {
-            _logger.LogDebug("Executing modules: {Modules}",
-                string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
-        }
-    }
-
-    private string FormatModuleWithDependencyCount(ModuleState m)
-    {
-        return $"{MarkupFormatter.FormatModuleName(m.ModuleType.Name)} (deps: {m.UnresolvedDependencies.Count})";
     }
 
     private async Task WaitForNextSchedulingOpportunity(CancellationToken cancellationToken)
