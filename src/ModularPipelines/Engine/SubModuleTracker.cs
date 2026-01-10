@@ -75,8 +75,10 @@ public class SubModuleTracker
 
             return result;
         }
-        catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
+        catch (Exception ex)
         {
+            // Catch ALL exceptions including fatal ones - we need to record completion
+            // and set the exception before re-throwing. The immediate throw ensures propagation.
             RecordCompletion(Status.Failed);
             _completionSource.TrySetException(new SubModuleFailedException(Name, ParentModuleType, ex));
             throw;
