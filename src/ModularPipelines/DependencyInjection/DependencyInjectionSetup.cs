@@ -101,6 +101,15 @@ internal static class DependencyInjectionSetup
             .AddScoped<ModularPipelines.Context.ICommand, Command>()
             .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
             .AddScoped<CommandLineExecutor>()
+            .AddScoped<ICommandLineExecutor>(sp =>
+            {
+                var inner = sp.GetRequiredService<CommandLineExecutor>();
+                return new LoggingCommandLineExecutor(
+                    inner,
+                    sp.GetRequiredService<IModuleLoggerProvider>(),
+                    sp.GetRequiredService<IOptions<PipelineOptions>>(),
+                    sp.GetRequiredService<ISecretObfuscator>());
+            })
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
