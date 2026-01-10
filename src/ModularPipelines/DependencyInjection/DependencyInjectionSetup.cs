@@ -99,6 +99,7 @@ internal static class DependencyInjectionSetup
             .AddScoped(typeof(ModuleLogger<>))
             .AddScoped<IHttp, Http.Http>()
             .AddScoped<ModularPipelines.Context.ICommand, Command>()
+            .AddScoped<ICommandLineBuilder, CommandLineBuilder>()
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()
             .AddScoped<IDownloader, Downloader>()
