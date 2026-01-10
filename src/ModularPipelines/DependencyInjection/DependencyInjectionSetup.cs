@@ -200,6 +200,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IParallelLimitProvider, ParallelLimitProvider>()
             .AddSingleton<ICommandModelProvider, CommandModelProvider>()
             .AddSingleton<ICommandArgumentBuilder, CommandArgumentBuilder>()
+            .AddSingleton<IPlaceholderHandler, PlaceholderHandler>()
+            .AddSingleton<ICommandPartsProvider, CommandPartsProvider>()
             .AddSingleton<IMetricsCollector, MetricsCollector>()
 
             // Module execution components (SRP extraction from ModuleExecutor)
