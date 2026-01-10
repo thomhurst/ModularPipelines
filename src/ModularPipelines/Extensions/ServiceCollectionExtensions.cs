@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
 using ModularPipelines.Requirements;
@@ -108,12 +109,28 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <param name="assembly">The assembly to add modules from.</param>
     /// <returns>The pipeline's same service collection.</returns>
+    /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
     public static IServiceCollection AddModulesFromAssembly(this IServiceCollection services, Assembly assembly)
     {
         var modules = assembly.GetTypes()
             .Where(type => type.IsAssignableTo(typeof(IModule)))
             .Where(type => type.IsClass)
-            .Where(type => !type.IsAbstract);
+            .Where(type => !type.IsAbstract)
+            .ToList();
+
+        // Get already registered module types from the service collection
+        var existingModuleTypes = services
+            .Where(sd => sd.ServiceType == typeof(IModule))
+            .Select(sd => sd.ImplementationType ?? sd.ImplementationInstance?.GetType())
+            .Where(t => t != null)
+            .Cast<Type>()
+            .ToList();
+
+        // Combine existing modules with new modules for cycle detection
+        var allModuleTypes = existingModuleTypes.Concat(modules).Distinct().ToList();
+
+        // Validate for circular dependencies before registration
+        DependencyGraphValidator.ValidateNoCycles(allModuleTypes);
 
         foreach (var module in modules)
         {
