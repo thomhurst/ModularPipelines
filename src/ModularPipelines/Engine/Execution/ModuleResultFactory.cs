@@ -17,7 +17,7 @@ internal static class ModuleResultFactory
     }
 
     /// <summary>
-    /// Creates a failure ModuleResult for the specified exception.
+    /// Creates a failure ModuleResult for the specified exception (generic version).
     /// </summary>
     public static ModuleResult<T> CreateFailure<T>(Exception exception, ModuleExecutionContext ctx)
     {
@@ -25,11 +25,35 @@ internal static class ModuleResultFactory
     }
 
     /// <summary>
-    /// Creates a skipped ModuleResult for the specified skip decision.
+    /// Creates a failure ModuleResult for the specified exception (non-generic version).
+    /// </summary>
+    /// <remarks>
+    /// This returns the non-generic <see cref="ModuleResult.Failure"/> type, which can be
+    /// implicitly converted to <see cref="ModuleResult{T}"/> for any T.
+    /// </remarks>
+    public static ModuleResult.Failure CreateFailure(Exception exception, ModuleExecutionContext ctx)
+    {
+        return ModuleResult.CreateFailure(exception, ctx);
+    }
+
+    /// <summary>
+    /// Creates a skipped ModuleResult for the specified skip decision (generic version).
     /// </summary>
     public static ModuleResult<T> CreateSkipped<T>(SkipDecision decision, ModuleExecutionContext ctx)
     {
         return ModuleResult<T>.CreateSkipped(decision, ctx);
+    }
+
+    /// <summary>
+    /// Creates a skipped ModuleResult for the specified skip decision (non-generic version).
+    /// </summary>
+    /// <remarks>
+    /// This returns the non-generic <see cref="ModuleResult.Skipped"/> type, which can be
+    /// implicitly converted to <see cref="ModuleResult{T}"/> for any T.
+    /// </remarks>
+    public static ModuleResult.Skipped CreateSkipped(SkipDecision decision, ModuleExecutionContext ctx)
+    {
+        return ModuleResult.CreateSkipped(decision, ctx);
     }
 
     /// <summary>
@@ -71,6 +95,17 @@ internal static class ModuleResultFactory
     /// </summary>
     public static IModuleResult WithStatus(IModuleResult result, Status status)
     {
+        // Handle non-generic Failure/Skipped types directly
+        if (result is ModuleResult.Failure failure)
+        {
+            return failure with { ModuleStatus = status };
+        }
+
+        if (result is ModuleResult.Skipped skipped)
+        {
+            return skipped with { ModuleStatus = status };
+        }
+
         var resultType = result.GetType();
 
         // Get the generic type argument from ModuleResult<T>

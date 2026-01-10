@@ -129,7 +129,7 @@ public record PipelineSummary
             }
 
             // Fallback: create a cancellation result for modules that haven't completed
-            return ModuleResult<object>.CreateFailure(new TaskCanceledException(), new ModuleExecutionContext(x, x.GetType()));
+            return ModuleResult.CreateFailure(new TaskCanceledException(), new ModuleExecutionContext(x, x.GetType()));
         }).ProcessInParallel();
     }
 
