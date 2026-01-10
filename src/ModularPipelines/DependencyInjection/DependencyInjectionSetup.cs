@@ -264,7 +264,8 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IJson, Json>()
             .AddSingleton<IXml, Xml>()
             .AddSingleton<IYaml, Yaml>()
-            .AddSingleton<IHasher, Hasher>();
+            .AddSingleton<IHasher, Hasher>()
+            .AddSingleton<IToolResolver, ToolResolver>();
     }
 
     /// <summary>
