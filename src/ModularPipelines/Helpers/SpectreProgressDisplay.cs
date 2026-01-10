@@ -254,7 +254,7 @@ internal class SpectreProgressDisplay : IProgressDisplay
             {
                 // Expected when progress task is stopped or context is in invalid state
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is not (OutOfMemoryException or StackOverflowException))
             {
                 // Suppress other exceptions to prevent unobserved task exceptions
                 // Progress updates are non-critical UI feedback
