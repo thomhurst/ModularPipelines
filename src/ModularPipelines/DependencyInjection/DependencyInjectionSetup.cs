@@ -135,6 +135,11 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPrimaryExceptionContainer, PrimaryExceptionContainer>()
             .AddSingleton<ISecondaryExceptionContainer, SecondaryExceptionContainer>()
             .AddSingleton<IExceptionRethrowService, ExceptionRethrowService>()
+
+            // Progress display components (SRP extraction from ProgressPrinter)
+            .AddSingleton<IProgressCalculator, ProgressCalculator>()
+            .AddSingleton<IProgressDisplay, SpectreProgressDisplay>()
+            .AddSingleton<IResultsPrinter, SpectreResultsPrinter>()
             .AddSingleton<ProgressPrinter>()
             .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
             .AddSingleton<ILogoPrinter, LogoPrinter>()
