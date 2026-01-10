@@ -1,5 +1,3 @@
-using System.Collections.Concurrent;
-
 namespace ModularPipelines.Engine.Dependencies;
 
 /// <summary>
@@ -11,14 +9,16 @@ namespace ModularPipelines.Engine.Dependencies;
 /// concurrently from multiple threads without external synchronization.
 /// </para>
 /// <para>
-/// Dependencies are stored in a <see cref="ConcurrentDictionary{TKey,TValue}"/> with
-/// internal locking to protect <see cref="HashSet{T}"/> modifications.
+/// <b>Synchronization Strategy:</b> Uses a single lock to protect all dictionary and
+/// HashSet modifications. A regular Dictionary is used instead of ConcurrentDictionary
+/// because all operations are already serialized by the lock, making concurrent
+/// collection overhead unnecessary.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
 internal class ModuleDependencyRegistry : IModuleDependencyRegistry
 {
-    private readonly ConcurrentDictionary<Type, HashSet<Type>> _dynamicDependencies = new();
+    private readonly Dictionary<Type, HashSet<Type>> _dynamicDependencies = new();
     private readonly object _lock = new();
 
     /// <summary>
@@ -33,7 +33,12 @@ internal class ModuleDependencyRegistry : IModuleDependencyRegistry
     {
         lock (_lock)
         {
-            var deps = _dynamicDependencies.GetOrAdd(module, _ => new HashSet<Type>());
+            if (!_dynamicDependencies.TryGetValue(module, out var deps))
+            {
+                deps = new HashSet<Type>();
+                _dynamicDependencies[module] = deps;
+            }
+
             deps.Add(dependency);
         }
     }

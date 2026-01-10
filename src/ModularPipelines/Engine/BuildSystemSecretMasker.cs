@@ -5,11 +5,22 @@ namespace ModularPipelines.Engine;
 /// Supports GitHub Actions, Azure Pipelines, TeamCity, and other CI/CD systems.
 /// </summary>
 /// <remarks>
+/// <para>
 /// Different build systems have different mechanisms for masking secrets:
 /// - GitHub Actions: ::add-mask::
 /// - Azure Pipelines: ##vso[task.setvariable variable=X;issecret=true]
 /// - TeamCity: ##teamcity[setParameter name='system.password.X' value='...']
 /// - GitLab, Jenkins, etc.: Handled via configuration, no runtime command.
+/// </para>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. All public methods can be called
+/// concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a simple lock for mutual exclusion. A HashSet
+/// is used to track already-masked secrets with O(1) deduplication. The lock is held
+/// during the iteration to ensure atomicity of the entire masking operation.
+/// </para>
 /// </remarks>
 /// <example>
 /// <code>
@@ -23,6 +34,7 @@ namespace ModularPipelines.Engine;
 /// // Azure: "##vso[task.setvariable variable=secret_abc;issecret=true]password123"
 /// </code>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 internal class BuildSystemSecretMasker : IBuildSystemSecretMasker
 {
     private readonly IBuildSystemFormatterProvider _formatterProvider;

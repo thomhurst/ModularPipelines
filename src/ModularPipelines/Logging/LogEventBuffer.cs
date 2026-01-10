@@ -5,6 +5,17 @@ namespace ModularPipelines.Logging;
 /// Used by ModuleLogger to collect log events during module execution and flush them
 /// upon disposal for organized, grouped output.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. All public methods can be called
+/// concurrently from multiple threads without external synchronization.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> Uses a simple lock for mutual exclusion since
+/// operations are quick (list add/swap) and contention is expected to be low.
+/// The lock ensures atomic add and get-and-clear operations.
+/// </para>
+/// </remarks>
 /// <example>
 /// <code>
 /// // Typically used by ModuleLogger internally
@@ -26,6 +37,7 @@ namespace ModularPipelines.Logging;
 /// }
 /// </code>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 internal class LogEventBuffer : ILogEventBuffer
 {
     private List<StringOrLogEvent> _events = new();

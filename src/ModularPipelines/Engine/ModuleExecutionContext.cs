@@ -10,11 +10,20 @@ namespace ModularPipelines.Engine;
 /// Tracks the execution state of a module, separate from the module definition itself.
 /// </summary>
 /// <remarks>
+/// <para>
 /// This class implements the separation of concerns between:
 /// - What a module IS (the <see cref="Module{T}"/> implementation)
 /// - How a module is EXECUTED (this context class)
-///
+/// </para>
+/// <para>
 /// The module itself remains a clean, stateless definition of work to do.
+/// </para>
+/// <para>
+/// <b>Synchronization Strategy:</b> The <see cref="TryStart"/> method uses a simple lock
+/// to ensure exactly-once execution semantics. This prevents race conditions when
+/// multiple threads might attempt to start the same module. Other properties are
+/// set by the module executor in a single-writer pattern and read by the framework.
+/// </para>
 /// </remarks>
 internal class ModuleExecutionContext : IModuleExecutionContext
 {
