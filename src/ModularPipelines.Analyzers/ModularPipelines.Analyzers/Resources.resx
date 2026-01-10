@@ -180,4 +180,13 @@
   <data name="AwaitThisAnalyzerDescription" xml:space="preserve">
     <value>Using 'await this' inside a module would cause a deadlock because the module would be waiting for itself to complete.</value>
   </data>
+  <data name="StatefulModuleAnalyzerTitle" xml:space="preserve">
+    <value>Stateful module detected</value>
+  </data>
+  <data name="StatefulModuleAnalyzerMessageFormat" xml:space="preserve">
+    <value>Field '{0}' in module '{1}' is a {2}. Modules are Singletons and should be stateless to avoid state leakage between executions.</value>
+  </data>
+  <data name="StatefulModuleAnalyzerDescription" xml:space="preserve">
+    <value>Modules are registered as Singletons in the dependency injection container and can be executed multiple times (retries, sub-modules, parallel pipelines). Instance fields can leak state between executions. Use readonly fields for injected dependencies, or store execution state in IModuleContext.</value>
+  </data>
 </root>

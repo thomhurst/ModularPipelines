@@ -247,5 +247,32 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("AwaitThisAnalyzerTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Modules are registered as Singletons in the dependency injection container and can be executed multiple times (retries, sub-modules, parallel pipelines). Instance fields can leak state between executions. Use readonly fields for injected dependencies, or store execution state in IModuleContext..
+        /// </summary>
+        internal static string StatefulModuleAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("StatefulModuleAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Field '{0}' in module '{1}' is a {2}. Modules are Singletons and should be stateless to avoid state leakage between executions..
+        /// </summary>
+        internal static string StatefulModuleAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("StatefulModuleAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Stateful module detected.
+        /// </summary>
+        internal static string StatefulModuleAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("StatefulModuleAnalyzerTitle", resourceCulture);
+            }
+        }
     }
 }
