@@ -7,23 +7,30 @@ namespace ModularPipelines.Context;
 
 internal class Zip : IZip
 {
+    private readonly IFileSystemProvider _fileSystemProvider;
+
+    public Zip(IFileSystemProvider fileSystemProvider)
+    {
+        _fileSystemProvider = fileSystemProvider;
+    }
+
     public File ZipFolder(Folder folder, string outputPath, CompressionLevel compressionLevel)
     {
-        Directory.CreateDirectory(outputPath.GetDirectory()!);
+        _fileSystemProvider.CreateDirectory(outputPath.GetDirectory()!);
 
         if (outputPath.GetPathType() == PathType.Directory)
         {
-            outputPath = Path.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
+            outputPath = _fileSystemProvider.Combine(outputPath, Guid.NewGuid().ToString("N") + ".zip");
         }
 
         ZipFile.CreateFromDirectory(folder.Path, outputPath, compressionLevel, false);
 
-        if (!System.IO.File.Exists(outputPath))
+        if (!_fileSystemProvider.FileExists(outputPath))
         {
             throw new InvalidOperationException($"Failed to create zip file at '{outputPath}'.");
         }
 
-        return new File(outputPath);
+        return new File(outputPath, _fileSystemProvider);
     }
 
     public Folder UnZipToFolder(string zipPath, string outputFolderPath, bool overwriteFiles)
@@ -31,13 +38,13 @@ internal class Zip : IZip
         ArgumentException.ThrowIfNullOrWhiteSpace(zipPath);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputFolderPath);
 
-        if (!System.IO.File.Exists(zipPath))
+        if (!_fileSystemProvider.FileExists(zipPath))
         {
             throw new FileNotFoundException($"Zip file not found: '{zipPath}'", zipPath);
         }
 
         var destinationDir = Path.GetFullPath(outputFolderPath);
-        Directory.CreateDirectory(destinationDir);
+        _fileSystemProvider.CreateDirectory(destinationDir);
 
         try
         {
@@ -56,7 +63,7 @@ internal class Zip : IZip
                 // Handle directory entries
                 if (string.IsNullOrEmpty(entry.Name))
                 {
-                    Directory.CreateDirectory(destinationPath);
+                    _fileSystemProvider.CreateDirectory(destinationPath);
                     continue;
                 }
 
@@ -64,7 +71,7 @@ internal class Zip : IZip
                 var parentDir = Path.GetDirectoryName(destinationPath);
                 if (!string.IsNullOrEmpty(parentDir))
                 {
-                    Directory.CreateDirectory(parentDir);
+                    _fileSystemProvider.CreateDirectory(parentDir);
                 }
 
                 // Extract file
@@ -84,6 +91,6 @@ internal class Zip : IZip
             throw new IOException($"Failed to extract zip file '{zipPath}': An I/O error occurred while extracting the archive.", ex);
         }
 
-        return new Folder(outputFolderPath);
+        return new Folder(outputFolderPath, _fileSystemProvider);
     }
 }

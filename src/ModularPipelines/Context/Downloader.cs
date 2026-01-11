@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
 using ModularPipelines.Logging;
@@ -11,11 +12,13 @@ internal class Downloader : IDownloader
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttp _http;
+    private readonly IFileSystemProvider _fileSystemProvider;
 
-    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttp http)
+    public Downloader(IModuleLoggerProvider moduleLoggerProvider, IHttp http, IFileSystemProvider fileSystemProvider)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         _http = http;
+        _fileSystemProvider = fileSystemProvider;
     }
 
     public async Task<string?> DownloadStringAsync(DownloadOptions options,
@@ -35,12 +38,12 @@ internal class Downloader : IDownloader
         {
             var filePathToSave = GetSaveLocation(options);
 
-            if (!options.Overwrite && System.IO.File.Exists(filePathToSave))
+            if (!options.Overwrite && _fileSystemProvider.FileExists(filePathToSave))
             {
                 throw new IOException($"{filePathToSave} already exists and overwrite is false");
             }
 
-            var newFile = System.IO.File.Create(filePathToSave);
+            var newFile = _fileSystemProvider.Create(filePathToSave);
             await using (newFile.ConfigureAwait(false))
             {
                 await stream.CopyToAsync(newFile, cancellationToken).ConfigureAwait(false);
@@ -48,7 +51,7 @@ internal class Downloader : IDownloader
 
             _moduleLoggerProvider.GetLogger().LogInformation("File {Uri} downloaded to {SaveLocation}", options.DownloadUri, filePathToSave);
 
-            return filePathToSave!;
+            return new File(filePathToSave, _fileSystemProvider);
         }
     }
 
@@ -92,27 +95,27 @@ internal class Downloader : IDownloader
     {
         if (string.IsNullOrWhiteSpace(options.SavePath))
         {
-            return Path.Combine(Path.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+            return _fileSystemProvider.Combine(_fileSystemProvider.GetTempPath(), Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
         }
 
         // Check if the path explicitly ends with a directory separator
         // This is a reliable indicator that the user intends this to be a directory
         if (PathHelpers.EndsWithDirectorySeparator(options.SavePath))
         {
-            Directory.CreateDirectory(options.SavePath);
-            return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+            _fileSystemProvider.CreateDirectory(options.SavePath);
+            return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
         }
 
         // Use extension heuristic as a fallback
         // Note: This can be unreliable for directory names containing dots (e.g., "my.folder")
         if (Path.HasExtension(options.SavePath))
         {
-            Directory.CreateDirectory(new FileInfo(options.SavePath).Directory!.FullName);
+            _fileSystemProvider.CreateDirectory(new FileInfo(options.SavePath).Directory!.FullName);
             return options.SavePath;
         }
 
-        Directory.CreateDirectory(options.SavePath);
-        return Path.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
+        _fileSystemProvider.CreateDirectory(options.SavePath);
+        return _fileSystemProvider.Combine(options.SavePath, Guid.NewGuid() + GetExtension(options.DownloadUri.AbsoluteUri));
     }
 
     private static string GetExtension(string downloadUri)
