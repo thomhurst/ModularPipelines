@@ -42,7 +42,7 @@ namespace ModularPipelines.Options;
 /// <para>
 /// <strong>Module Behaviors:</strong>
 /// Module-level configuration uses <see cref="Configuration.ModuleConfiguration"/>. A module with
-/// <see cref="Configuration.ModuleConfiguration.RetryCount"/> configured will use its custom retry count instead of
+/// <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/> configured will use its custom retry policy instead of
 /// <see cref="DefaultRetryCount"/>. Modules without configuration fall back to global settings.
 /// </para>
 /// </remarks>
@@ -96,10 +96,10 @@ public record PipelineOptions
     /// <remarks>
     /// <para>
     /// <strong>Configuration Precedence:</strong>
-    /// This is a global default that applies when a module does not have <see cref="Configuration.ModuleConfiguration.RetryCount"/> configured.
+    /// This is a global default that applies when a module does not have a custom retry policy configured via <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>.
     /// </para>
     /// <list type="bullet">
-    /// <item>If a module has <see cref="Configuration.ModuleConfiguration.RetryCount"/> configured, that takes precedence</item>
+    /// <item>If a module has a retry policy configured via <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>, that takes precedence</item>
     /// <item>Otherwise, this global <see cref="DefaultRetryCount"/> is used</item>
     /// <item>If this value is 0 (default), no retries are attempted</item>
     /// </list>

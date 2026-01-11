@@ -304,7 +304,8 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         var defaultRetryCount = moduleContext.PipelineOptions.Value.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
-            return Policy.Handle<Exception>().RetryAsync(defaultRetryCount);
+            return Policy.Handle<Exception>()
+                .WaitAndRetryAsync(defaultRetryCount, i => TimeSpan.FromMilliseconds(i * i * 100));
         }
 
         return null;

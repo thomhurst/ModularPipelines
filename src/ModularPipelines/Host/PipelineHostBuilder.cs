@@ -85,8 +85,8 @@ public class PipelineHostBuilder
     /// </list>
     /// <para>
     /// Example: If <see cref="PipelineOptions.DefaultRetryCount"/> is set to 3, all modules will retry
-    /// up to 3 times on failure. However, a module with <see cref="Configuration.ModuleConfiguration.RetryCount"/>
-    /// configured will use its custom retry count instead.
+    /// up to 3 times on failure. However, a module with <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>
+    /// configured will use its custom retry policy instead.
     /// </para>
     /// </remarks>
     /// <example>
