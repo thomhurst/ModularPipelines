@@ -5,6 +5,13 @@ namespace ModularPipelines.Context;
 
 internal class FileSystemContext : IFileSystemContext
 {
+    private readonly IFileSystemProvider _provider;
+
+    public FileSystemContext(IFileSystemProvider provider)
+    {
+        _provider = provider;
+    }
+
     public void DeleteFile(File file) => file.Delete();
 
     public void DeleteFolder(Folder folder) => folder.Delete();
@@ -29,7 +36,7 @@ internal class FileSystemContext : IFileSystemContext
 
     public void SetFolderAttributes(Folder folder, FileAttributes attributes) => folder.Attributes = attributes;
 
-    public File GetFile(string filePath) => new(filePath);
+    public File GetFile(string filePath) => new(filePath, _provider);
 
     public IEnumerable<File> GetFiles(Folder rootFolder, Func<File, bool> predicate)
     {
@@ -41,20 +48,22 @@ internal class FileSystemContext : IFileSystemContext
         return rootFolder.GetFolders(predicate);
     }
 
-    public Folder GetFolder(string path) => new DirectoryInfo(path);
+    public Folder GetFolder(string path) => new(path, _provider);
 
     public Folder GetFolder(Environment.SpecialFolder specialFolder)
     {
-        return new Folder(new DirectoryInfo(Environment.GetFolderPath(specialFolder)));
+        return new Folder(Environment.GetFolderPath(specialFolder), _provider);
     }
 
     public Folder CreateTemporaryFolder()
     {
-        return Folder.CreateTemporaryFolder();
+        var path = _provider.Combine(_provider.GetTempPath(), _provider.GetRandomFileName().Replace(".", string.Empty));
+        _provider.CreateDirectory(path);
+        return new Folder(path, _provider);
     }
 
     public string GetNewTemporaryFilePath()
     {
-        return File.GetNewTemporaryFilePath();
+        return _provider.Combine(_provider.GetTempPath(), _provider.GetRandomFileName());
     }
 }

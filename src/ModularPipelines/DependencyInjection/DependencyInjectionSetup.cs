@@ -1,11 +1,13 @@
 using Initialization.Microsoft.Extensions.DependencyInjection.Extensions;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
+using ModularPipelines.FileSystem;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Executors;
@@ -182,6 +184,7 @@ internal static class DependencyInjectionSetup
     /// </summary>
     private static void RegisterModuleExecutionServices(IServiceCollection services)
     {
+        services.TryAddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
         services
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
             .AddSingleton<IFileSystemContext, FileSystemContext>()

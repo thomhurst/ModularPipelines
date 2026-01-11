@@ -4,7 +4,7 @@ namespace ModularPipelines.AmazonWebServices;
 
 internal class Amazon : IAmazon
 {
-    public Amazon(IAmazonProvisioner provisioner, Aws awsCli)
+    public Amazon(IAmazonProvisioner provisioner, IAws awsCli)
     {
         Provisioner = provisioner;
         AwsCli = awsCli;
@@ -12,5 +12,5 @@ internal class Amazon : IAmazon
 
     public IAmazonProvisioner Provisioner { get; }
 
-    public Aws AwsCli { get; }
+    public IAws AwsCli { get; }
 }

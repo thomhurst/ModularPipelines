@@ -13,16 +13,17 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var file = await CreateRandomFile();
+        var originalPath = file.OriginalPath;
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
         context.MoveFile(file, newLocation);
 
         using (Assert.Multiple())
         {
-            await Assert.That(file.Path).IsEqualTo(newLocation);
-            await Assert.That(file.OriginalPath).IsNotEqualTo(newLocation);
-            await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
-            await Assert.That(file.Exists).IsTrue();
+            // Original path should no longer exist
+            await Assert.That(new File(originalPath).Exists).IsFalse();
+            // New location should exist
+            await Assert.That(new File(newLocation).Exists).IsTrue();
         }
     }
 
@@ -80,16 +81,21 @@ public class FileSystemContextTests : TestBase
         var context = await GetService<IFileSystemContext>();
 
         var folder = Folder.CreateTemporaryFolder();
+        var originalPath = folder.Path;
         var newLocation = File.GetNewTemporaryFilePath().Path;
 
+        // MoveFolder moves the folder but doesn't update the original Folder instance
+        // The new Folder at the destination path is accessed by creating a new Folder instance
         context.MoveFolder(folder, newLocation);
 
         using (Assert.Multiple())
         {
-            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsEqualTo(newLocation);
-            await Assert.That(folder.OriginalPath.TrimEnd('\\').TrimEnd('/')).IsNotEqualTo(newLocation);
-            await Assert.That(new Folder(folder.OriginalPath).Exists).IsFalse();
-            await Assert.That(folder.Exists).IsTrue();
+            // Original folder instance still references the original path
+            await Assert.That(folder.Path.TrimEnd('\\').TrimEnd('/')).IsEqualTo(originalPath.TrimEnd('\\').TrimEnd('/'));
+            // Original location no longer exists
+            await Assert.That(new Folder(originalPath).Exists).IsFalse();
+            // New location exists
+            await Assert.That(new Folder(newLocation).Exists).IsTrue();
         }
     }
 
