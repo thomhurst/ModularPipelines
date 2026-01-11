@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Enums;
@@ -8,7 +9,6 @@ using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.Options;
 using Polly;
 
@@ -31,17 +31,17 @@ internal interface IModuleExecutionPipeline
 }
 
 /// <summary>
-/// Orchestrates module execution by applying behaviors based on implemented interfaces.
+/// Orchestrates module execution by applying behaviors based on module configuration.
 /// </summary>
 /// <remarks>
-/// This pipeline checks which behavior interfaces a module implements and applies them:
+/// This pipeline reads the module's <see cref="ModuleConfiguration"/> and applies:
 /// <list type="bullet">
-/// <item><see cref="IHookable"/> - Before/after hooks</item>
-/// <item><see cref="ISkippable"/> - Skip conditions</item>
-/// <item><see cref="ITimeoutable"/> - Execution timeout</item>
-/// <item><see cref="IRetryable{T}"/> - Retry policy</item>
-/// <item><see cref="IIgnoreFailures"/> - Failure handling</item>
-/// <item><see cref="IAlwaysRun"/> - Run even on pipeline failure</item>
+/// <item>Before/after execution hooks</item>
+/// <item>Skip conditions</item>
+/// <item>Execution timeout</item>
+/// <item>Retry policy</item>
+/// <item>Failure handling</item>
+/// <item>AlwaysRun behavior (run even on pipeline failure)</item>
 /// </list>
 /// </remarks>
 internal class ModuleExecutionPipeline : IModuleExecutionPipeline
@@ -73,15 +73,18 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
 
+        // Get configuration once at the start
+        var config = ((IModule)module).Configuration;
+
         try
         {
             // Setup cancellation based on AlwaysRun behavior
-            SetupCancellation(module, executionContext, engineCancellationToken);
+            SetupCancellation(config, executionContext, engineCancellationToken);
 
             // Check for skip condition
-            if (module is ISkippable skippable)
+            if (config.SkipCondition != null)
             {
-                var skipDecision = await skippable.ShouldSkip(moduleContext).ConfigureAwait(false);
+                var skipDecision = await config.SkipCondition(moduleContext).ConfigureAwait(false);
                 if (skipDecision.ShouldSkip)
                 {
                     // Call direct skip hook first
@@ -97,10 +100,10 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             // Execute direct before hook first (virtual override)
             await _directHookInvoker.InvokeBeforeExecuteAsync(module, moduleContext, executionContext.ModuleCancellationTokenSource.Token).ConfigureAwait(false);
 
-            // Execute IHookable before hook second
-            if (module is IHookable hookable)
+            // Execute configuration before hook second
+            if (config.OnBeforeExecute != null)
             {
-                await hookable.OnBeforeExecute(moduleContext).ConfigureAwait(false);
+                await config.OnBeforeExecute(moduleContext).ConfigureAwait(false);
             }
 
             // Track that before hooks have executed (for OnAfterExecuteAsync in finally)
@@ -114,7 +117,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             logger.LogDebug("Module {ModuleName} execution started at {StartTime}", moduleName, executionContext.StartTime);
 
             // Execute with timeout and retry
-            var result = await ExecuteWithPolicies(module, executionContext, moduleContext).ConfigureAwait(false);
+            var result = await ExecuteWithPolicies(module, config, executionContext, moduleContext).ConfigureAwait(false);
 
             // Record successful completion
             executionContext.RecordEndTime();
@@ -145,7 +148,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
             module.CompletionSource.TrySetResult(moduleResult!);
 
-            return await HandleException(module, executionContext, moduleContext, exception, logger).ConfigureAwait(false);
+            return await HandleException(module, config, executionContext, moduleContext, exception, logger).ConfigureAwait(false);
         }
         finally
         {
@@ -168,12 +171,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
                 }
             }
 
-            // Execute IHookable after hook
-            if (module is IHookable hookable)
+            // Execute configuration after hook
+            if (config.OnAfterExecute != null)
             {
                 try
                 {
-                    await hookable.OnAfterExecute(moduleContext).ConfigureAwait(false);
+                    await config.OnAfterExecute(moduleContext).ConfigureAwait(false);
                 }
                 catch (Exception hookException)
                 {
@@ -186,13 +189,12 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
     }
 
     private void SetupCancellation(
-        IModule module,
+        ModuleConfiguration config,
         ModuleExecutionContext executionContext,
         CancellationToken engineCancellationToken)
     {
         // AlwaysRun modules don't get cancelled when the engine cancels
-        // Check both the interface (composition) and the property (inheritance) for backwards compatibility
-        var isAlwaysRun = module is IAlwaysRun || module.ModuleRunType == ModuleRunType.AlwaysRun;
+        var isAlwaysRun = config.AlwaysRun;
         if (!isAlwaysRun)
         {
             // Create a linked token source that cancels when:
@@ -249,14 +251,15 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
     private async Task<T?> ExecuteWithPolicies<T>(
         Module<T> module,
+        ModuleConfiguration config,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext)
     {
-        var timeout = GetTimeout(module);
+        var timeout = GetTimeout(config);
         var cancellationToken = executionContext.ModuleCancellationTokenSource.Token;
 
         // Get retry policy if applicable
-        var retryPolicy = GetRetryPolicy(module, moduleContext);
+        var retryPolicy = GetRetryPolicy<T>(config, moduleContext);
 
         // Create the execution function that optionally includes retry
         Func<CancellationToken, Task<T?>> executeFunc = retryPolicy != null
@@ -283,30 +286,25 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         return timeoutResult.Value;
     }
 
-    private TimeSpan GetTimeout(IModule module)
+    private static TimeSpan GetTimeout(ModuleConfiguration config)
     {
-        if (module is ITimeoutable timeoutable)
-        {
-            return timeoutable.Timeout;
-        }
-
-        return TimeSpan.FromMinutes(DefaultTimeoutMinutes);
+        return config.Timeout ?? TimeSpan.FromMinutes(DefaultTimeoutMinutes);
     }
 
-    private static Polly.Retry.AsyncRetryPolicy<T?>? GetRetryPolicy<T>(
-        Module<T> module,
+    private static IAsyncPolicy? GetRetryPolicy<T>(
+        ModuleConfiguration config,
         IModuleContext moduleContext)
     {
-        if (module is IRetryable<T> retryable)
+        if (config.RetryPolicyFactory != null)
         {
-            return retryable.GetRetryPolicy(moduleContext);
+            return config.RetryPolicyFactory(moduleContext);
         }
 
         // Check if default retry count is configured
         var defaultRetryCount = moduleContext.PipelineOptions.Value.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
-            return DefaultRetryPolicyProvider.GetDefaultRetryPolicy<T?>(moduleContext);
+            return Policy.Handle<Exception>().RetryAsync(defaultRetryCount);
         }
 
         return null;
@@ -334,6 +332,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
 
     private async Task<ModuleResult<T>> HandleException<T>(
         Module<T> module,
+        ModuleConfiguration config,
         ModuleExecutionContext<T> executionContext,
         IModuleContext moduleContext,
         Exception exception,
@@ -358,7 +357,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
             }
         }
 
-        else if (IsTimeout(module, executionContext, exception))
+        else if (IsTimeout(config, executionContext, exception))
         {
             executionContext.Status = Status.TimedOut;
         }
@@ -378,9 +377,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Check if we should ignore failures
-        if (module is IIgnoreFailures ignoreFailures)
+        if (config.IgnoreFailuresCondition != null)
         {
-            if (await ignoreFailures.ShouldIgnoreFailures(moduleContext, exception).ConfigureAwait(false))
+            if (await config.IgnoreFailuresCondition(moduleContext, exception).ConfigureAwait(false))
             {
                 logger.LogDebug("Ignoring failures in this module and continuing...");
                 executionContext.Status = Status.IgnoredFailure;
@@ -404,9 +403,9 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         throw exception;
     }
 
-    private bool IsTimeout(IModule module, ModuleExecutionContext executionContext, Exception exception)
+    private static bool IsTimeout(ModuleConfiguration config, ModuleExecutionContext executionContext, Exception exception)
     {
-        var timeout = GetTimeout(module);
+        var timeout = GetTimeout(config);
         if (timeout == TimeSpan.Zero)
         {
             return false;
