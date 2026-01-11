@@ -75,6 +75,12 @@ public async Task MyModule_WritesOutputFile()
 
 - **Provider Registration**: The mock provider must be registered before the pipeline runs. Using `services.AddSingleton<IFileSystemProvider>()` overrides the default `SystemFileSystemProvider`.
 
+- **Mock ALL methods your code uses**: The mock provider only intercepts methods you explicitly set up. If your module calls `ReadAllTextAsync`, `FileExists`, and `Combine`, you must mock all three. Unmocked methods may throw or return default values depending on your mocking framework.
+
+- **Implicit operators bypass mocking**: Implicit conversions like `File file = "/path/to/file"` create instances using the default `SystemFileSystemProvider`, not your mock. For full testability, always use `context.FileSystem.GetFile()`.
+
+- **Static methods are not mockable**: Methods like `File.GetNewTemporaryFilePath()` and `Folder.CreateTemporaryFolder()` use the real file system. Design your modules to receive paths via constructor or use `context.FileSystem.CreateTemporaryFolder()` instead.
+
 - **Mocking Path Operations**: If your code uses path operations, mock them too:
   ```csharp
   mockProvider.Setup(p => p.Combine(It.IsAny<string[]>()))

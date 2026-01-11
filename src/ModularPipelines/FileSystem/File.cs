@@ -69,13 +69,13 @@ public class File : IEquatable<File>
     }
 
     /// <summary>
-    /// Opens a <see cref="FileStream"/> on the current file with the specified access mode.
+    /// Opens a <see cref="Stream"/> on the current file with the specified access mode.
     /// </summary>
     /// <param name="fileAccess">The access mode for the file stream. Defaults to <see cref="FileAccess.ReadWrite"/>.</param>
-    /// <returns>A <see cref="FileStream"/> for the file.</returns>
+    /// <returns>A <see cref="Stream"/> for the file.</returns>
     /// <remarks>
     /// <para>
-    /// <strong>Important:</strong> The caller is responsible for disposing the returned <see cref="FileStream"/>.
+    /// <strong>Important:</strong> The caller is responsible for disposing the returned <see cref="Stream"/>.
     /// Failure to dispose the stream will result in resource leaks and may prevent other operations on the file.
     /// </para>
     /// <para>
@@ -93,9 +93,9 @@ public class File : IEquatable<File>
     /// </code>
     /// </example>
     /// </remarks>
-    public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
+    public Stream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
-        return (FileStream)_provider.Open(Path, FileMode.OpenOrCreate, fileAccess);
+        return _provider.Open(Path, FileMode.OpenOrCreate, fileAccess);
     }
 
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
