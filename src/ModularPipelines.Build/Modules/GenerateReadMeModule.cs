@@ -1,18 +1,22 @@
 using System.Text;
 using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<FindProjectsModule>]
-public class GenerateReadMeModule : Module<IDictionary<string, object>>, IAlwaysRun
+public class GenerateReadMeModule : Module<IDictionary<string, object>>
 {
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithAlwaysRun()
+        .Build();
+
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;

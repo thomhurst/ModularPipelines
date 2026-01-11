@@ -2,12 +2,12 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Helpers;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
@@ -17,7 +17,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
-public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
+public class UploadPackagesToNugetModule : Module<CommandResult[]>
 {
     private readonly IOptions<NuGetSettings> _nugetSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -28,10 +28,9 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>, ISkippable
         _publishSettings = publishSettings;
     }
 
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        return Task.FromResult<SkipDecision>(!_publishSettings.Value.ShouldPublish);
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(() => !_publishSettings.Value.ShouldPublish)
+        .Build();
 
     public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

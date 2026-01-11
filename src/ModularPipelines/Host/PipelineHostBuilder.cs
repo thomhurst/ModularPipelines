@@ -79,14 +79,14 @@ public class PipelineHostBuilder
     /// </para>
     /// <list type="number">
     /// <item>Per-Call Configuration - Options passed to individual method calls (e.g., <see cref="CommandExecutionOptions.LogSettings"/>)</item>
-    /// <item>Module Configuration - Behavior interfaces on modules (e.g., <see cref="Modules.Behaviors.IRetryable{T}"/>, <see cref="Modules.Behaviors.ITimeoutable"/>)</item>
+    /// <item>Module Configuration - Settings from <see cref="Configuration.ModuleConfiguration"/> (e.g., Timeout, RetryCount)</item>
     /// <item>Global Configuration - Settings in <see cref="PipelineOptions"/> configured here</item>
     /// <item>System Defaults - Built-in framework defaults (e.g., 30-minute module timeout)</item>
     /// </list>
     /// <para>
     /// Example: If <see cref="PipelineOptions.DefaultRetryCount"/> is set to 3, all modules will retry
-    /// up to 3 times on failure. However, a module implementing <see cref="Modules.Behaviors.IRetryable{T}"/>
-    /// will use its custom retry policy instead.
+    /// up to 3 times on failure. However, a module with <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>
+    /// configured will use its custom retry policy instead.
     /// </para>
     /// </remarks>
     /// <example>

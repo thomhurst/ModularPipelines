@@ -24,8 +24,8 @@ namespace ModularPipelines.Options;
 /// </item>
 /// <item>
 /// <term>Module Configuration</term>
-/// <description>Settings defined on individual modules via behavior interfaces
-/// (<see cref="Modules.Behaviors.IRetryable{T}"/>, <see cref="Modules.Behaviors.ITimeoutable"/>, etc.)</description>
+/// <description>Settings defined on individual modules via <see cref="Configuration.ModuleConfiguration"/>
+/// (e.g., Timeout, RetryCount, AlwaysRun)</description>
 /// </item>
 /// <item>
 /// <term>Per-Call Configuration (highest priority)</term>
@@ -41,9 +41,9 @@ namespace ModularPipelines.Options;
 /// </para>
 /// <para>
 /// <strong>Module Behaviors:</strong>
-/// Module-level configuration uses the behavior interface pattern. A module implementing
-/// <see cref="Modules.Behaviors.IRetryable{T}"/> will use its custom retry policy instead of
-/// <see cref="DefaultRetryCount"/>. Modules without behavior interfaces fall back to global settings.
+/// Module-level configuration uses <see cref="Configuration.ModuleConfiguration"/>. A module with
+/// <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/> configured will use its custom retry policy instead of
+/// <see cref="DefaultRetryCount"/>. Modules without configuration fall back to global settings.
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
@@ -96,10 +96,10 @@ public record PipelineOptions
     /// <remarks>
     /// <para>
     /// <strong>Configuration Precedence:</strong>
-    /// This is a global default that applies when a module does not implement <see cref="Modules.Behaviors.IRetryable{T}"/>.
+    /// This is a global default that applies when a module does not have a custom retry policy configured via <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>.
     /// </para>
     /// <list type="bullet">
-    /// <item>If a module implements <see cref="Modules.Behaviors.IRetryable{T}"/>, its custom retry policy takes precedence</item>
+    /// <item>If a module has a retry policy configured via <see cref="Configuration.ModuleConfigurationBuilder.WithRetryCount"/>, that takes precedence</item>
     /// <item>Otherwise, this global <see cref="DefaultRetryCount"/> is used</item>
     /// <item>If this value is 0 (default), no retries are attempted</item>
     /// </list>

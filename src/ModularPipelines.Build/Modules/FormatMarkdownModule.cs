@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Git.Extensions;
@@ -10,7 +11,6 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.Node.Extensions;
 using ModularPipelines.Node.Models;
 
@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [RunOnLinuxOnly]
 [DependsOn<GenerateReadMeModule>]
-public class FormatMarkdownModule : Module<CommandResult>, ISkippable, IAlwaysRun
+public class FormatMarkdownModule : Module<CommandResult>
 {
     private readonly IOptions<GitHubSettings> _gitHubSettings;
 
@@ -29,20 +29,23 @@ public class FormatMarkdownModule : Module<CommandResult>, ISkippable, IAlwaysRu
         _gitHubSettings = gitHubSettings;
     }
 
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        if (context.GitHub().EnvironmentVariables.EventName != "pull_request")
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(ctx =>
         {
-            return SkipDecision.Skip("Not a pull request").AsTask();
-        }
+            if (ctx.GitHub().EnvironmentVariables.EventName != "pull_request")
+            {
+                return SkipDecision.Skip("Not a pull request");
+            }
 
-        if (string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken))
-        {
-            return SkipDecision.Skip("No authentication token for git").AsTask();
-        }
+            if (string.IsNullOrEmpty(_gitHubSettings.Value.StandardToken))
+            {
+                return SkipDecision.Skip("No authentication token for git");
+            }
 
-        return SkipDecision.DoNotSkip.AsTask();
-    }
+            return SkipDecision.DoNotSkip;
+        })
+        .WithAlwaysRun()
+        .Build();
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

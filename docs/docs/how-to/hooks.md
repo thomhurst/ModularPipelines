@@ -84,30 +84,42 @@ If `OnBeforeExecuteAsync` throws an exception:
 - `OnAfterExecuteAsync` will NOT be called (before hooks didn't complete)
 - `IHookable.OnAfterExecute` WILL still be called (in finally block)
 
-### IHookable Interface
+### ModuleConfiguration Hooks
 
-For backward compatibility, you can implement `IHookable` to add hooks:
+You can also configure simple before/after hooks using `ModuleConfiguration`:
 
 ```csharp
-public class MyModule : Module<string>, IHookable
+public class MyModule : Module<string>
 {
-    public Task OnBeforeExecute(IPipelineContext context)
-    {
-        context.Logger.LogInformation("MyModule started!");
-        return Task.CompletedTask;
-    }
-
-    public Task OnAfterExecute(IPipelineContext context)
-    {
-        context.Logger.LogInformation("MyModule ended!");
-        return Task.CompletedTask;
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithBeforeExecute(ctx =>
+        {
+            ctx.Logger.LogInformation("MyModule starting!");
+            return Task.CompletedTask;
+        })
+        .WithAfterExecute(ctx =>
+        {
+            ctx.Logger.LogInformation("MyModule ended!");
+            return Task.CompletedTask;
+        })
+        .Build();
 
     public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return "Done";
     }
 }
+```
+
+This approach is useful when you want to combine hooks with other configuration like timeouts or retry policies:
+
+```csharp
+protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    .WithBeforeExecute(ctx => LogStartAsync(ctx))
+    .WithAfterExecute(ctx => LogEndAsync(ctx))
+    .WithTimeout(TimeSpan.FromMinutes(5))
+    .WithRetryCount(3)
+    .Build();
 ```
 
 ### Hooks class

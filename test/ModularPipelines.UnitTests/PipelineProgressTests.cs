@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Spectre.Console;
 
@@ -57,22 +57,30 @@ public class PipelineProgressTests
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module4 : SimpleTestModule<bool>, ISkippable
+    private class Module4 : Module<bool>
     {
-        protected override bool Result => true;
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Testing"))
+            .Build();
 
-        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return SkipDecision.Skip("Testing").AsTask();
+            await Task.Yield();
+            return true;
         }
     }
 
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module5 : ThrowingTestModule<bool>, IIgnoreFailures
+    private class Module5 : Module<bool>
     {
-        public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
+
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return true.AsTask();
+            await Task.Yield();
+            throw new Exception();
         }
     }
 

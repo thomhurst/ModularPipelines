@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 
@@ -10,15 +11,14 @@ namespace ModularPipelines.Modules;
 /// <typeparam name="T">The type of result returned by the module.</typeparam>
 /// <remarks>
 /// <para>
-/// Modules can optionally implement behavior interfaces to customize execution:
+/// Modules can customize execution behavior by overriding <see cref="Configure"/>:
 /// </para>
 /// <list type="bullet">
-/// <item><see cref="Behaviors.ISkippable"/> - Define skip conditions</item>
-/// <item><see cref="Behaviors.ITimeoutable"/> - Set execution timeout</item>
-/// <item><see cref="Behaviors.IRetryable{T}"/> - Configure retry policy</item>
-/// <item><see cref="Behaviors.IIgnoreFailures"/> - Handle failures gracefully</item>
-/// <item><see cref="Behaviors.IHookable"/> - Add before/after execution hooks</item>
-/// <item><see cref="Behaviors.IAlwaysRun"/> - Run even when pipeline fails</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithSkipWhen(System.Func{bool})"/> - Define skip conditions</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithTimeout"/> - Set execution timeout</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithRetryCount"/> - Configure retry policy</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithIgnoreFailures()"/> - Handle failures gracefully</item>
+/// <item><see cref="ModuleConfigurationBuilder.WithAlwaysRun"/> - Run even when pipeline fails</item>
 /// </list>
 /// <para>
 /// Dependencies can be declared in two ways:
@@ -52,6 +52,37 @@ public abstract class Module<T> : IModule
 
     /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
+
+    /// <summary>
+    /// Override to configure module behaviors (skip, timeout, retry, etc.).
+    /// </summary>
+    /// <returns>The module configuration.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method is called once when the <see cref="IModule.Configuration"/> property is first accessed.
+    /// The result is cached for subsequent accesses.
+    /// </para>
+    /// <para>
+    /// Use <see cref="ModuleConfiguration.Create"/> to build a custom configuration,
+    /// or return <see cref="ModuleConfiguration.Default"/> for default behavior.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    ///     .WithTimeout(TimeSpan.FromMinutes(5))
+    ///     .WithRetryCount(3)
+    ///     .WithAlwaysRun()
+    ///     .Build();
+    /// </code>
+    /// </example>
+    protected virtual ModuleConfiguration Configure() => ModuleConfiguration.Default;
+
+    // Cached configuration - evaluated once on first access
+    private ModuleConfiguration? _configuration;
+
+    /// <inheritdoc />
+    ModuleConfiguration IModule.Configuration => _configuration ??= Configure();
 
     /// <summary>
     /// Declares dependencies programmatically at runtime.
@@ -116,8 +147,8 @@ public abstract class Module<T> : IModule
     /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
     /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
     /// Similarly, <see cref="OnAfterExecuteAsync"/> will NOT be called because the before hooks
-    /// did not complete successfully. Only <see cref="Behaviors.IHookable.OnAfterExecute"/>
-    /// (if implemented) will still run in the finally block.
+    /// did not complete successfully. Only registered <see cref="IPipelineModuleHooks"/>
+    /// will still run in the finally block.
     /// </para>
     /// </remarks>
     protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

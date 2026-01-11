@@ -5,30 +5,84 @@ sidebar_position: 6
 
 # Retry Policies
 
-When creating modules, you can set a retry policy per module by overriding the `RetryPolicy` property. The retry policy uses a Polly policy, so if you've used Polly before you should be familiar with how to use it.
-If not, Polly have their own documentation that should help you with this.
+When creating modules, you can set a retry policy per module using the `Configure()` method. The retry policy uses Polly, so if you've used Polly before you should be familiar with how to use it.
 
-## Default
-Retry policies are off by default, unless you set a default retry count on the `PipelineOptions` when you're using the `PipelineHostBuilder`. If you set a retry count, for example, 3, then all modules that fail will attempt to retry 3 times. This can be useful for when transient failures occur. You can of course combine this with overriding specific modules for more control.
+## Using ModuleConfiguration
 
-## Example
+### Simple Retry Count
+
+The easiest way to add retries is with `WithRetryCount()`:
 
 ```csharp
-public class MyModule : Module
+public class MyModule : Module<CommandResult>
 {
-    protected override AsyncRetryPolicy<IDictionary<string, object>?> RetryPolicy { get; }
-        = Policy<IDictionary<string, object>?>
-            .Handle<HttpRequestException>()
-            .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i));
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryCount(3)  // Retry up to 3 times with exponential backoff
+        .Build();
 
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something that might fail transiently
+    }
+}
+```
+
+### Custom Polly Policy
+
+For more control, you can provide a custom Polly policy:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryPolicy(
+            Policy.Handle<HttpRequestException>()
+                .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
 }
 ```
 
-## Default Example
+### Context-Aware Retry Policy
+
+If you need access to the pipeline context when building your policy:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryPolicy(ctx =>
+        {
+            var retryCount = ctx.Environment.IsCI ? 5 : 2;
+            return Policy.Handle<Exception>()
+                .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(i));
+        })
+        .Build();
+}
+```
+
+## Combining with Other Behaviors
+
+Retry policies can be combined with other module behaviors:
+
+```csharp
+public class ResilientModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryCount(3)
+        .WithTimeout(TimeSpan.FromMinutes(10))
+        .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
+        .Build();
+}
+```
+
+## Default Retry Policy
+
+Retry policies are off by default. You can set a default retry count on the `PipelineOptions` when using the `PipelineHostBuilder`:
 
 ```csharp
 await PipelineHostBuilder.Create()
@@ -40,5 +94,6 @@ await PipelineHostBuilder.Create()
         options.DefaultRetryCount = 3;
     })
     .ExecutePipelineAsync();
-
 ```
+
+This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.

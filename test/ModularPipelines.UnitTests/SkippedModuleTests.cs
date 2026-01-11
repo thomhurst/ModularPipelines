@@ -1,20 +1,26 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules.Behaviors;
+using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
 public class SkippedModuleTests : TestBase
 {
-    private class SkippedModule : ThrowingTestModule<CommandResult>, ISkippable
+    private class SkippedModule : Module<CommandResult>
     {
-        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Testing purposes"))
+            .Build();
+
+        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return Task.FromResult(SkipDecision.Skip("Testing purposes"));
+            await Task.Yield();
+            throw new Exception("Should not reach here");
         }
     }
 

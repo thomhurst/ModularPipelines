@@ -1,14 +1,18 @@
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-public class FindProjectsModule : Module<IReadOnlyList<File>>, IAlwaysRun
+public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithAlwaysRun()
+        .Build();
+
     public override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return Task.FromResult<IReadOnlyList<File>?>(

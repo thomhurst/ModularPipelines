@@ -26,4 +26,28 @@ public class FindAFileModule : Module<FileInfo>
 }
 ```
 
-You can also override things such as Timeouts, OnBefore and OnAfter methods, on a module by module basis.
+You can also configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+
+```csharp
+public class MyModule : Module<FileInfo>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .WithRetryCount(3)
+        .WithSkipWhen(() => !File.Exists("important.json"))
+        .Build();
+
+    protected override async Task<FileInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Module logic here
+    }
+}
+```
+
+See the individual documentation pages for more details on each behavior:
+- [Skipping Modules](skipping)
+- [Retry Policies](retry-policy)
+- [Timeouts](timeouts)
+- [Ignoring Failures](ignoring-failures)
+- [Always Run](always-run)
+- [Hooks](hooks)
