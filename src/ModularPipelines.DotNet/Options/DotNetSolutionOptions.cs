@@ -19,7 +19,7 @@ namespace ModularPipelines.DotNet.Options;
 public record DotNetSolutionOptions : DotNetOptions
 {
     /// <summary>
-    /// The solution file to operate on. If not specified, the command will search the current directory for one. [default: C:\git\ModularPipelines\tools\ModularPipelines.OptionsGenerator\src\ModularPipelines.OptionsGenerator\]
+    /// The solution file to operate on. If not specified, the command will search the current directory for one. [default: /home/runner/work/ModularPipelines/ModularPipelines/tools/ModularPipelines.OptionsGenerator/src/ModularPipelines.OptionsGenerator/]
     /// </summary>
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? SlnFile { get; set; }
