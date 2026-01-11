@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.Options;
 using ModularPipelines.TestHelpers;
 
@@ -75,12 +75,11 @@ public class LifecycleEventIntegrationTests : TestBase
 
     [LogStart]
     [LogSkipped]
-    public class SkippingModule : Module<string>, ISkippable
+    public class SkippingModule : Module<string>
     {
-        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-        {
-            return Task.FromResult(SkipDecision.Skip("Test skip reason"));
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Test skip reason"))
+            .Build();
 
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

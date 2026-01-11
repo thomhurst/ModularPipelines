@@ -1,18 +1,20 @@
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests;
 
 public class ModuleTimeoutTests : TestBase
 {
-    private class Module_UsingCancellationToken : Module<string>, ITimeoutable
+    private class Module_UsingCancellationToken : Module<string>
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public TimeSpan Timeout => TimeSpan.FromSeconds(1);
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromSeconds(1))
+            .Build();
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -21,11 +23,13 @@ public class ModuleTimeoutTests : TestBase
         }
     }
 
-    private class Module_NotUsingCancellationToken : Module<string>, ITimeoutable
+    private class Module_NotUsingCancellationToken : Module<string>
     {
         private static readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public TimeSpan Timeout => TimeSpan.FromSeconds(1);
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromSeconds(1))
+            .Build();
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using EnumerableAsyncProcessor.Extensions;
 using ModularPipelines.Exceptions;
 using ModularPipelines.TestHelpers;
@@ -163,16 +163,15 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SucceedingSubModulesDoNotRetryModule : Module<string[]>, IRetryable<string[]>
+    private class SucceedingSubModulesDoNotRetryModule : Module<string[]>
     {
         public int _oneCount;
         public int _twoCount;
         public int _threeCount;
 
-        public AsyncRetryPolicy<string[]?> GetRetryPolicy(IPipelineContext context)
-        {
-            return Policy<string[]?>.Handle<Exception>().RetryAsync(3);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
+            .Build();
 
         public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -201,16 +200,15 @@ public class SubModuleTests : TestBase
         }
     }
 
-    private class SucceedingSubModulesDoNotRetryModule_WithReturnType : Module<string[]>, IRetryable<string[]>
+    private class SucceedingSubModulesDoNotRetryModule_WithReturnType : Module<string[]>
     {
         public int _oneCount;
         public int _twoCount;
         public int _threeCount;
 
-        public AsyncRetryPolicy<string[]?> GetRetryPolicy(IPipelineContext context)
-        {
-            return Policy<string[]?>.Handle<Exception>().RetryAsync(3);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
+            .Build();
 
         public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

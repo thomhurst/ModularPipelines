@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Hooks;
@@ -69,15 +69,14 @@ public class DirectModuleHooksTests : TestBase
     /// <summary>
     /// Module that is skipped and tracks OnSkippedAsync.
     /// </summary>
-    private class SkippableHookTrackingModule : Module<string>, ISkippable
+    private class SkippableHookTrackingModule : Module<string>
     {
         public List<string> HooksCalled { get; } = [];
         public SkipDecision? ReceivedSkipDecision { get; private set; }
 
-        public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-        {
-            return Task.FromResult(SkipDecision.Skip("Test skip reason"));
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Test skip reason"))
+            .Build();
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -100,11 +99,15 @@ public class DirectModuleHooksTests : TestBase
     /// <summary>
     /// Module that fails and tracks OnFailedAsync.
     /// </summary>
-    private class FailingHookTrackingModule : Module<string>, IIgnoreFailures
+    private class FailingHookTrackingModule : Module<string>
     {
         public List<string> HooksCalled { get; } = [];
         public Exception? ReceivedFailureException { get; private set; }
         public ModuleResult<string>? ReceivedAfterResult { get; private set; }
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -133,19 +136,18 @@ public class DirectModuleHooksTests : TestBase
             ReceivedAfterResult = result;
             return Task.FromResult<ModuleResult<string>?>(null);
         }
-
-        public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-        {
-            return Task.FromResult(true);
-        }
     }
 
     /// <summary>
     /// Module that throws in OnBeforeExecuteAsync.
     /// </summary>
-    private class BeforeHookFailingModule : Module<string>, IIgnoreFailures
+    private class BeforeHookFailingModule : Module<string>
     {
         public List<string> HooksCalled { get; } = [];
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithIgnoreFailures()
+            .Build();
 
         protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -159,19 +161,27 @@ public class DirectModuleHooksTests : TestBase
             HooksCalled.Add("ExecuteAsync");
             return "Should not reach here";
         }
-
-        public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-        {
-            return Task.FromResult(true);
-        }
     }
 
     /// <summary>
-    /// Module that implements IHookable to verify ordering with direct hooks.
+    /// Module that uses ModuleConfiguration hooks to verify ordering with direct hooks.
     /// </summary>
-    private class HookableAndDirectHookModule : Module<string>, IHookable
+    private class HookableAndDirectHookModule : Module<string>
     {
         public List<string> HooksCalled { get; } = [];
+
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithBeforeExecute(_ =>
+            {
+                HooksCalled.Add("Config:OnBeforeExecute");
+                return Task.CompletedTask;
+            })
+            .WithAfterExecute(_ =>
+            {
+                HooksCalled.Add("Config:OnAfterExecute");
+                return Task.CompletedTask;
+            })
+            .Build();
 
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -193,18 +203,6 @@ public class DirectModuleHooksTests : TestBase
         {
             HooksCalled.Add("Direct:OnAfterExecuteAsync");
             return Task.FromResult<ModuleResult<string>?>(null);
-        }
-
-        public Task OnBeforeExecute(IPipelineContext context)
-        {
-            HooksCalled.Add("IHookable:OnBeforeExecute");
-            return Task.CompletedTask;
-        }
-
-        public Task OnAfterExecute(IPipelineContext context)
-        {
-            HooksCalled.Add("IHookable:OnAfterExecute");
-            return Task.CompletedTask;
         }
     }
 
@@ -304,17 +302,17 @@ public class DirectModuleHooksTests : TestBase
     }
 
     [Test]
-    public async Task DirectHooks_CalledBeforeIHookable()
+    public async Task DirectHooks_CalledBeforeConfigHooks()
     {
         var module = await RunModule<HookableAndDirectHookModule>();
 
         // Direct hooks should be called first
         await Assert.That(module.HooksCalled).Contains("Direct:OnBeforeExecuteAsync");
-        await Assert.That(module.HooksCalled).Contains("IHookable:OnBeforeExecute");
+        await Assert.That(module.HooksCalled).Contains("Config:OnBeforeExecute");
 
         var directBeforeIndex = module.HooksCalled.IndexOf("Direct:OnBeforeExecuteAsync");
-        var hookableBeforeIndex = module.HooksCalled.IndexOf("IHookable:OnBeforeExecute");
-        await Assert.That(directBeforeIndex).IsLessThan(hookableBeforeIndex);
+        var configBeforeIndex = module.HooksCalled.IndexOf("Config:OnBeforeExecute");
+        await Assert.That(directBeforeIndex).IsLessThan(configBeforeIndex);
     }
 
     [Test]

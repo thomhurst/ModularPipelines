@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -35,11 +35,13 @@ public class EngineCancellationTokenTests : TestBase
         }
     }
 
-    private class LongRunningModuleWithoutCancellation : Module<bool>, ITimeoutable
+    private class LongRunningModuleWithoutCancellation : Module<bool>
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public TimeSpan Timeout => TimeSpan.FromSeconds(10);
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromSeconds(10))
+            .Build();
 
         public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

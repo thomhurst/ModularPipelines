@@ -1,9 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
+using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
-using ModularPipelines.Modules.Behaviors;
+using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
 
@@ -16,18 +18,45 @@ public class AlwaysRunTests : TestBase
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule1>]
-    public class MyModule2 : ThrowingTestModule<bool>, IAlwaysRun
+    public class MyModule2 : Module<bool>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            throw new Exception();
+        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule2>]
-    public class MyModule3 : ThrowingTestModule<bool>, IAlwaysRun
+    public class MyModule3 : Module<bool>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            throw new Exception();
+        }
     }
 
     [ModularPipelines.Attributes.DependsOn<MyModule3>]
-    public class MyModule4 : ThrowingTestModule<bool>, IAlwaysRun
+    public class MyModule4 : Module<bool>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
+        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            await Task.Yield();
+            throw new Exception();
+        }
     }
 
     [Test]

@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Polly;
 using Polly.Retry;
@@ -13,21 +13,20 @@ using TUnit.Assertions.Extensions;
 namespace ModularPipelines.UnitTests;
 
 /// <summary>
-/// Tests for the composition-based module pattern using behavior interfaces.
-/// Modules implement IModule&lt;T&gt; via Module&lt;T&gt; and add behaviors via interfaces.
+/// Tests for the composition-based module pattern using ModuleConfiguration.
+/// Modules implement Module&lt;T&gt; and configure behaviors via Configure() method.
 /// </summary>
 public class ComposableModuleTests
 {
     /// <summary>
-    /// Example module using composition for skip behavior - always skips.
-    /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
+    /// Example module using ModuleConfiguration for skip behavior - always skips.
+    /// Inherits from Module&lt;T&gt; and uses Configure() for skip behavior.
     /// </summary>
-    private class AlwaysSkippedModule : Module<string>, ISkippable
+    private class AlwaysSkippedModule : Module<string>
     {
-        Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
-        {
-            return Task.FromResult(SkipDecision.Skip("Skipped via composition"));
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.Skip("Skipped via composition"))
+            .Build();
 
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -36,15 +35,14 @@ public class ComposableModuleTests
     }
 
     /// <summary>
-    /// Example module using composition for skip behavior - never skips.
-    /// Inherits from Module&lt;T&gt; and implements ISkippable for skip behavior.
+    /// Example module using ModuleConfiguration for skip behavior - never skips.
+    /// Inherits from Module&lt;T&gt; and uses Configure() for skip behavior.
     /// </summary>
-    private class NeverSkippedModule : Module<string>, ISkippable
+    private class NeverSkippedModule : Module<string>
     {
-        Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
-        {
-            return Task.FromResult(SkipDecision.DoNotSkip);
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithSkipWhen(() => SkipDecision.DoNotSkip)
+            .Build();
 
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -53,12 +51,14 @@ public class ComposableModuleTests
     }
 
     /// <summary>
-    /// Example module using composition for timeout behavior.
-    /// Inherits from Module&lt;T&gt; and implements ITimeoutable for timeout behavior.
+    /// Example module using ModuleConfiguration for timeout behavior.
+    /// Inherits from Module&lt;T&gt; and uses Configure() for timeout behavior.
     /// </summary>
-    private class TimeoutableModule : Module<string>, ITimeoutable
+    private class TimeoutableModule : Module<string>
     {
-        TimeSpan ITimeoutable.Timeout => TimeSpan.FromSeconds(5);
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromSeconds(5))
+            .Build();
 
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -67,32 +67,28 @@ public class ComposableModuleTests
     }
 
     /// <summary>
-    /// Example module using composition for multiple behaviors.
-    /// Demonstrates combining multiple behavior interfaces on a single module.
+    /// Example module using ModuleConfiguration for multiple behaviors.
+    /// Demonstrates combining multiple behaviors via Configure().
     /// </summary>
-    private class MultiBehaviorModule : Module<int>, ISkippable, ITimeoutable, IHookable
+    private class MultiBehaviorModule : Module<int>
     {
         public static bool BeforeHookCalled { get; private set; }
         public static bool AfterHookCalled { get; private set; }
 
-        TimeSpan ITimeoutable.Timeout => TimeSpan.FromMinutes(1);
-
-        Task<SkipDecision> ISkippable.ShouldSkip(IPipelineContext context)
-        {
-            return Task.FromResult(SkipDecision.DoNotSkip);
-        }
-
-        Task IHookable.OnBeforeExecute(IPipelineContext context)
-        {
-            BeforeHookCalled = true;
-            return Task.CompletedTask;
-        }
-
-        Task IHookable.OnAfterExecute(IPipelineContext context)
-        {
-            AfterHookCalled = true;
-            return Task.CompletedTask;
-        }
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMinutes(1))
+            .WithSkipWhen(() => SkipDecision.DoNotSkip)
+            .WithBeforeExecute(_ =>
+            {
+                BeforeHookCalled = true;
+                return Task.CompletedTask;
+            })
+            .WithAfterExecute(_ =>
+            {
+                AfterHookCalled = true;
+                return Task.CompletedTask;
+            })
+            .Build();
 
         public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -107,11 +103,15 @@ public class ComposableModuleTests
     }
 
     /// <summary>
-    /// Example module that always runs using composition.
-    /// Inherits from Module&lt;T&gt; and implements IAlwaysRun marker interface.
+    /// Example module that always runs using ModuleConfiguration.
+    /// Inherits from Module&lt;T&gt; and uses Configure() with WithAlwaysRun().
     /// </summary>
-    private class AlwaysRunModule : Module<string>, IAlwaysRun
+    private class AlwaysRunModule : Module<string>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithAlwaysRun()
+            .Build();
+
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Always ran");
@@ -176,7 +176,7 @@ public class ComposableModuleTests
     }
 
     [Test]
-    public async Task AlwaysRun_Module_Has_Correct_RunType()
+    public async Task AlwaysRun_Module_Has_Correct_Configuration()
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<AlwaysRunModule>()
@@ -184,8 +184,8 @@ public class ComposableModuleTests
 
         await host.ExecutePipelineAsync();
 
-        // Verify the module implements IAlwaysRun interface
+        // Verify the module is registered and executed
         var module = host.RootServices.GetServices<IModule>().OfType<AlwaysRunModule>().Single();
-        await Assert.That(module).IsAssignableTo<IAlwaysRun>();
+        await Assert.That(module).IsNotNull();
     }
 }

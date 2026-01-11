@@ -1,11 +1,11 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 using Polly;
 using Polly.Retry;
@@ -70,16 +70,15 @@ public class RetryTests : TestBase
         }
     }
 
-    private class FailedModuleWithCustomRetryPolicy : Module<string>, IRetryable<string>
+    private class FailedModuleWithCustomRetryPolicy : Module<string>
     {
         internal int ExecutionCount;
 
-        public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
-        {
-            return Policy<string?>
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithRetryPolicy(Policy
                 .Handle<Exception>()
-                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero);
-        }
+                .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero))
+            .Build();
 
         public override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -95,9 +94,11 @@ public class RetryTests : TestBase
         }
     }
 
-    private class FailedModuleWithTimeout : Module<bool>, ITimeoutable
+    private class FailedModuleWithTimeout : Module<bool>
     {
-        public TimeSpan Timeout => TimeSpan.FromMilliseconds(ModuleTimeoutMs);
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
+            .Build();
 
         public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {

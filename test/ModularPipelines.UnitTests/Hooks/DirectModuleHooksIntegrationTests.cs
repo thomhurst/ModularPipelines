@@ -1,10 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Hooks;
@@ -91,10 +91,23 @@ public class DirectModuleHooksIntegrationTests : TestBase
     private class DependentLoggingModule : LoggingModule;
 
     /// <summary>
-    /// Module with all three hook systems for ordering verification.
+    /// Module with multiple hook systems for ordering verification.
     /// </summary>
-    private class MultiHookSystemModule : Module<string>, IHookable
+    private class MultiHookSystemModule : Module<string>
     {
+        protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+            .WithBeforeExecute(_ =>
+            {
+                AddLogEntry("MultiHook:Config:OnBeforeExecute");
+                return Task.CompletedTask;
+            })
+            .WithAfterExecute(_ =>
+            {
+                AddLogEntry("MultiHook:Config:OnAfterExecute");
+                return Task.CompletedTask;
+            })
+            .Build();
+
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
@@ -116,19 +129,6 @@ public class DirectModuleHooksIntegrationTests : TestBase
         {
             AddLogEntry("MultiHook:Direct:OnAfterExecuteAsync");
             return Task.FromResult<ModuleResult<string>?>(null);
-        }
-
-        // IHookable hooks (should run second)
-        public Task OnBeforeExecute(IPipelineContext context)
-        {
-            AddLogEntry("MultiHook:IHookable:OnBeforeExecute");
-            return Task.CompletedTask;
-        }
-
-        public Task OnAfterExecute(IPipelineContext context)
-        {
-            AddLogEntry("MultiHook:IHookable:OnAfterExecute");
-            return Task.CompletedTask;
         }
     }
 
@@ -201,7 +201,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
     }
 
     [Test]
-    public async Task HookOrdering_DirectHooksRunBeforeIHookable()
+    public async Task HookOrdering_DirectHooksRunBeforeConfigHooks()
     {
         var host = await TestPipelineHostBuilder.Create()
             .AddModule<MultiHookSystemModule>()
@@ -212,14 +212,14 @@ public class DirectModuleHooksIntegrationTests : TestBase
         var log = GetLogSnapshot();
 
         var directBeforeIndex = log.IndexOf("MultiHook:Direct:OnBeforeExecuteAsync");
-        var hookableBeforeIndex = log.IndexOf("MultiHook:IHookable:OnBeforeExecute");
+        var configBeforeIndex = log.IndexOf("MultiHook:Config:OnBeforeExecute");
         var executeIndex = log.IndexOf("MultiHook:ExecuteAsync");
 
-        // Direct hook should come before IHookable hook
-        await Assert.That(directBeforeIndex).IsLessThan(hookableBeforeIndex);
+        // Direct hook should come before Config hook
+        await Assert.That(directBeforeIndex).IsLessThan(configBeforeIndex);
 
         // Both hooks should come before execute
-        await Assert.That(hookableBeforeIndex).IsLessThan(executeIndex);
+        await Assert.That(configBeforeIndex).IsLessThan(executeIndex);
     }
 
     [Test]
