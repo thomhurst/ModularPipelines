@@ -5,5 +5,5 @@ namespace ModularPipelines.AmazonWebServices;
 public interface IAmazon
 {
     IAmazonProvisioner Provisioner { get; }
-    Aws AwsCli { get; }
+    IAws AwsCli { get; }
 }
