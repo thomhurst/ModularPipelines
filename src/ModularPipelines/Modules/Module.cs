@@ -11,15 +11,14 @@ namespace ModularPipelines.Modules;
 /// <typeparam name="T">The type of result returned by the module.</typeparam>
 /// <remarks>
 /// <para>
-/// Modules can optionally implement behavior interfaces to customize execution:
+/// Modules can customize execution behavior by overriding <see cref="Configure"/>:
 /// </para>
 /// <list type="bullet">
-/// <item><see cref="Behaviors.ISkippable"/> - Define skip conditions</item>
-/// <item><see cref="Behaviors.ITimeoutable"/> - Set execution timeout</item>
-/// <item><see cref="Behaviors.IRetryable{T}"/> - Configure retry policy</item>
-/// <item><see cref="Behaviors.IIgnoreFailures"/> - Handle failures gracefully</item>
-/// <item><see cref="Behaviors.IHookable"/> - Add before/after execution hooks</item>
-/// <item><see cref="Behaviors.IAlwaysRun"/> - Run even when pipeline fails</item>
+/// <item><see cref="ModuleConfiguration.SkipCondition"/> - Define skip conditions</item>
+/// <item><see cref="ModuleConfiguration.Timeout"/> - Set execution timeout</item>
+/// <item><see cref="ModuleConfiguration.RetryCount"/> - Configure retry count</item>
+/// <item><see cref="ModuleConfiguration.IgnoreFailures"/> - Handle failures gracefully</item>
+/// <item><see cref="ModuleConfiguration.AlwaysRun"/> - Run even when pipeline fails</item>
 /// </list>
 /// <para>
 /// Dependencies can be declared in two ways:
@@ -148,8 +147,8 @@ public abstract class Module<T> : IModule
     /// <strong>Edge case:</strong> If <see cref="OnBeforeExecuteAsync"/> throws an exception,
     /// <see cref="OnFailedAsync"/> will NOT be called because the module execution never started.
     /// Similarly, <see cref="OnAfterExecuteAsync"/> will NOT be called because the before hooks
-    /// did not complete successfully. Only <see cref="Behaviors.IHookable.OnAfterExecute"/>
-    /// (if implemented) will still run in the finally block.
+    /// did not complete successfully. Only registered <see cref="IPipelineModuleHooks"/>
+    /// will still run in the finally block.
     /// </para>
     /// </remarks>
     protected virtual Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

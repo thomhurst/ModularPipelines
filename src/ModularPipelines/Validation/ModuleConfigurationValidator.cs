@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Validation;
 
@@ -50,17 +49,14 @@ internal class ModuleConfigurationValidator : IModuleConfigurationValidator
     {
         var moduleType = module.GetType();
 
-        // Validate timeout configuration if module implements ITimeoutable
-        if (module is ITimeoutable timeoutable)
+        // Validate timeout configuration from module configuration
+        var timeout = module.Configuration.Timeout;
+        if (timeout.HasValue && timeout.Value <= TimeSpan.Zero)
         {
-            var timeout = timeoutable.Timeout;
-            if (timeout <= TimeSpan.Zero)
-            {
-                result.AddError(new ValidationError(
-                    ValidationErrorCategory.ModuleConfiguration,
-                    $"Module '{moduleType.Name}' implements ITimeoutable with an invalid timeout value: {timeout}. Timeout must be positive.",
-                    moduleType));
-            }
+            result.AddError(new ValidationError(
+                ValidationErrorCategory.ModuleConfiguration,
+                $"Module '{moduleType.Name}' has an invalid timeout value: {timeout.Value}. Timeout must be positive.",
+                moduleType));
         }
 
         // Validate that result type is valid (not void or Task without generic type)
