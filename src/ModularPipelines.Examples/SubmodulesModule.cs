@@ -1,17 +1,16 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Examples;
 
-public class SubmodulesModule : Module<IDictionary<string, object>?>, ISkippable
+public class SubmodulesModule : Module<IDictionary<string, object>?>
 {
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        return Task.FromResult(SkipDecision.DoNotSkip);
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(() => SkipDecision.DoNotSkip)
+        .Build();
 
     /// <inheritdoc/>
     public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -9,12 +10,11 @@ using ModularPipelines.Extensions;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules.LocalMachine;
 
 [DependsOn<CreateLocalNugetFolderModule>]
-public class AddLocalNugetSourceModule : Module<CommandResult>, IIgnoreFailures
+public class AddLocalNugetSourceModule : Module<CommandResult>
 {
     private readonly IOptions<LocalNuGetSettings> _localNuGetSettings;
 
@@ -23,11 +23,11 @@ public class AddLocalNugetSourceModule : Module<CommandResult>, IIgnoreFailures
         _localNuGetSettings = localNuGetSettings;
     }
 
-    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-    {
-        return Task.FromResult(exception is CommandException commandException &&
-                               commandException.StandardOutput.Contains("The name specified has already been added to the list of available package sources"));
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithIgnoreFailuresWhen((_, ex) =>
+            ex is CommandException commandException &&
+            commandException.StandardOutput.Contains("The name specified has already been added to the list of available package sources"))
+        .Build();
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

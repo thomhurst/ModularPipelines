@@ -2,21 +2,20 @@ using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using ModularPipelines.Options;
 using Polly;
-using Polly.Retry;
 
 namespace ModularPipelines.Build.Modules;
 
 [DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
-public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandResult[]>
+public class RunUnitTestsModule : Module<CommandResult[]>
 {
     private readonly IOptions<PipelineSettings> _pipelineSettings;
 
@@ -25,10 +24,9 @@ public class RunUnitTestsModule : Module<CommandResult[]>, IRetryable<CommandRes
         _pipelineSettings = pipelineSettings;
     }
 
-    public AsyncRetryPolicy<CommandResult[]?> GetRetryPolicy(IPipelineContext context)
-    {
-        return Policy<CommandResult[]?>.Handle<Exception>().RetryAsync(0);
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(0))
+        .Build();
 
     public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

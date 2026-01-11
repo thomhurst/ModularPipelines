@@ -1,25 +1,26 @@
 ﻿using ModularPipelines.Attributes;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
-public class PushVersionTagModule : Module<CommandResult>, IIgnoreFailures
+public class PushVersionTagModule : Module<CommandResult>
 {
-    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-    {
-        var versionInformation = ((IModuleContext) context).GetModule<NugetVersionGeneratorModule, string>();
-
-        return Task.FromResult(exception.Message.Contains($"tag 'v{versionInformation.ValueOrDefault!}' already exists"));
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithIgnoreFailuresWhen((ctx, ex) =>
+        {
+            var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule, string>();
+            return ex.Message.Contains($"tag 'v{versionInformation.ValueOrDefault!}' already exists");
+        })
+        .Build();
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

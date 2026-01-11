@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
 using ModularPipelines.DotNet.Options;
@@ -11,7 +12,6 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [SkipIfNoStandardGitHubToken]
 [SkipOnMainBranch]
 [RunOnLinuxOnly]
-public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlwaysRun
+public class CodeFormattedNicelyModule : Module<CommandResult>
 {
     private const string DotnetFormatGitMessage = "DotNet Format";
     private const string TemporarilyDisabledSkipReason = "Temporarily disabled";
@@ -31,10 +31,10 @@ public class CodeFormattedNicelyModule : Module<CommandResult>, ISkippable, IAlw
         _githubSettings = githubSettings;
     }
 
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        return SkipDecision.Skip(TemporarilyDisabledSkipReason).AsTask();
-    }
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(() => SkipDecision.Skip(TemporarilyDisabledSkipReason))
+        .WithAlwaysRun()
+        .Build();
 
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {

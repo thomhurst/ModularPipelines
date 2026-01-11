@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
@@ -8,7 +9,6 @@ using ModularPipelines.GitHub.Attributes;
 using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Modules.Behaviors;
 using Octokit;
 
 namespace ModularPipelines.Build.Modules;
@@ -19,7 +19,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
 [DependsOn<DependabotCommitsModule>]
-public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
+public class CreateReleaseModule : Module<Release>
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
     private readonly IOptions<PublishSettings> _publishSettings;
@@ -31,20 +31,18 @@ public class CreateReleaseModule : Module<Release>, ISkippable, IIgnoreFailures
         _publishSettings = publishSettings;
     }
 
-    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
-    {
-        return Task.FromResult(exception is ApiValidationException);
-    }
-
-    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
-    {
-        if (!_publishSettings.Value.ShouldPublish)
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(() =>
         {
-            return Task.FromResult<SkipDecision>("The 'ShouldPublish' flag is false");
-        }
+            if (!_publishSettings.Value.ShouldPublish)
+            {
+                return SkipDecision.Skip("The 'ShouldPublish' flag is false");
+            }
 
-        return Task.FromResult<SkipDecision>(string.IsNullOrEmpty(_githubSettings.Value.AdminToken));
-    }
+            return string.IsNullOrEmpty(_githubSettings.Value.AdminToken);
+        })
+        .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
+        .Build();
 
     public override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
