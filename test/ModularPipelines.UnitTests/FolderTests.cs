@@ -113,8 +113,9 @@ public class FolderTests : TestBase
     public async Task MoveTo()
     {
         var folder = CreateRandomFolder();
+        var originalPath = folder.OriginalPath;
 
-        var folder2 = new Folder(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+        var destinationPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
 
         foreach (var fileName in Enumerable.Range(0, 10)
                      .Select(x => Guid.NewGuid().ToString("N") + ".txt"))
@@ -126,17 +127,17 @@ public class FolderTests : TestBase
         {
             await Assert.That(folder.Exists).IsTrue();
             await Assert.That(folder.ListFiles().ToList()).HasCount().EqualTo(10);
-            await Assert.That(folder2.Exists).IsFalse();
+            await Assert.That(new Folder(destinationPath).Exists).IsFalse();
         }
 
-        folder.MoveTo(folder2);
+        // MoveTo returns a new Folder instance at the destination path
+        var movedFolder = folder.MoveTo(destinationPath);
 
         using (Assert.Multiple())
         {
-            await Assert.That(new Folder(folder.OriginalPath).Exists).IsFalse();
-            await Assert.That(folder.Exists).IsTrue();
-            await Assert.That(folder2.Exists).IsTrue();
-            await Assert.That(folder2.ListFiles().ToList()).HasCount().EqualTo(10);
+            await Assert.That(new Folder(originalPath).Exists).IsFalse();
+            await Assert.That(movedFolder.Exists).IsTrue();
+            await Assert.That(movedFolder.ListFiles().ToList()).HasCount().EqualTo(10);
         }
     }
 

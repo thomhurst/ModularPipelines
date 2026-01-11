@@ -15,6 +15,8 @@ public class File : IEquatable<File>
     [JsonIgnore]
     private readonly FileInfo _fileInfo;
 
+    private readonly IFileSystemProvider _provider;
+
     private FileInfo FileInfo
     {
         get
@@ -24,18 +26,23 @@ public class File : IEquatable<File>
         }
     }
 
-    public File(string path) : this(new FileInfo(path), path)
+    public File(string path) : this(new FileInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal File(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName)
+    internal File(FileInfo fileInfo) : this(fileInfo, fileInfo.FullName, SystemFileSystemProvider.Instance)
     {
     }
 
-    private File(FileInfo fileInfo, string originalPath)
+    internal File(string path, IFileSystemProvider provider) : this(new FileInfo(path), path, provider)
+    {
+    }
+
+    private File(FileInfo fileInfo, string originalPath, IFileSystemProvider provider)
     {
         _fileInfo = fileInfo;
         OriginalPath = originalPath;
+        _provider = provider;
     }
 
     /// <inheritdoc cref="System.IO.File.ReadAllTextAsync(string,System.Text.Encoding,System.Threading.CancellationToken)"/>>
@@ -43,7 +50,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.ReadAllTextAsync(Path, cancellationToken);
+        return _provider.ReadAllTextAsync(Path, cancellationToken);
     }
 
     /// <inheritdoc cref="System.IO.File.ReadLinesAsync(string,System.Threading.CancellationToken)"/>
@@ -51,14 +58,14 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.ReadLinesAsync(Path, cancellationToken);
+        return _provider.ReadLinesAsync(Path, cancellationToken);
     }
 
     public Task<byte[]> ReadBytesAsync(CancellationToken cancellationToken = default)
     {
         LogFileOperation("Reading File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.ReadAllBytesAsync(Path, cancellationToken);
+        return _provider.ReadAllBytesAsync(Path, cancellationToken);
     }
 
     /// <summary>
@@ -88,35 +95,35 @@ public class File : IEquatable<File>
     /// </remarks>
     public FileStream GetStream(FileAccess fileAccess = FileAccess.ReadWrite)
     {
-        return System.IO.File.Open(Path, FileMode.OpenOrCreate, fileAccess);
+        return (FileStream)_provider.Open(Path, FileMode.OpenOrCreate, fileAccess);
     }
 
     public Task WriteAsync(string contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.WriteAllTextAsync(Path, contents, cancellationToken);
+        return _provider.WriteAllTextAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(byte[] contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.WriteAllBytesAsync(Path, contents, cancellationToken);
+        return _provider.WriteAllBytesAsync(Path, contents, cancellationToken);
     }
 
     public Task WriteAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.WriteAllLinesAsync(Path, contents, cancellationToken);
+        return _provider.WriteAllLinesAsync(Path, contents, cancellationToken);
     }
 
     public async Task WriteAsync(ReadOnlyMemory<byte> contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        var fileStream = System.IO.File.Create(Path);
+        var fileStream = _provider.Create(Path);
         await using (fileStream.ConfigureAwait(false))
         {
             await fileStream.WriteAsync(contents, cancellationToken).ConfigureAwait(false);
@@ -127,7 +134,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Writing to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        var fileStream = System.IO.File.Create(Path);
+        var fileStream = _provider.Create(Path);
         await using (fileStream.ConfigureAwait(false))
         {
             if (contents.CanSeek)
@@ -143,14 +150,14 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Appending to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.AppendAllTextAsync(Path, contents, cancellationToken);
+        return _provider.AppendAllTextAsync(Path, contents, cancellationToken);
     }
 
     public Task AppendAsync(IEnumerable<string> contents, CancellationToken cancellationToken = default)
     {
         LogFileOperation("Appending to File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return System.IO.File.AppendAllLinesAsync(Path, contents, cancellationToken);
+        return _provider.AppendAllLinesAsync(Path, contents, cancellationToken);
     }
 
     /// <inheritdoc cref="FileSystemInfo.Exists"/>>
@@ -183,7 +190,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Creating File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        var fileStream = System.IO.File.Create(Path);
+        var fileStream = _provider.Create(Path);
         fileStream.Dispose();
         return this;
     }
@@ -196,7 +203,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Creating File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        var fileStream = System.IO.File.Create(Path);
+        var fileStream = _provider.Create(Path);
         await fileStream.DisposeAsync().ConfigureAwait(false);
         return this;
     }
@@ -227,7 +234,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Deleting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        FileInfo.Delete();
+        _provider.DeleteFile(Path);
     }
 
     /// <summary>
@@ -242,7 +249,7 @@ public class File : IEquatable<File>
     {
         LogFileOperation("Deleting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return Task.Run(() => FileInfo.Delete(), cancellationToken);
+        return Task.Run(() => _provider.DeleteFile(Path), cancellationToken);
     }
 
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
@@ -250,8 +257,8 @@ public class File : IEquatable<File>
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        FileInfo.MoveTo(path);
-        return this;
+        _provider.MoveFile(Path, path);
+        return new File(path, _provider);
     }
 
     /// <inheritdoc cref="FileInfo.MoveTo(string)"/>>
@@ -260,7 +267,7 @@ public class File : IEquatable<File>
         LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         folder.Create();
-        return MoveTo(System.IO.Path.Combine(folder.Path, Name));
+        return MoveTo(_provider.Combine(folder.Path, Name));
     }
 
     /// <summary>
@@ -271,15 +278,15 @@ public class File : IEquatable<File>
     /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>This file instance for method chaining.</returns>
+    /// <returns>A new File instance at the destination path.</returns>
     public Task<File> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         return Task.Run(() =>
         {
-            FileInfo.MoveTo(path);
-            return this;
+            _provider.MoveFile(Path, path);
+            return new File(path, _provider);
         }, cancellationToken);
     }
 
@@ -291,13 +298,13 @@ public class File : IEquatable<File>
     /// </remarks>
     /// <param name="folder">The destination folder.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>This file instance for method chaining.</returns>
+    /// <returns>A new File instance at the destination path.</returns>
     public async Task<File> MoveToAsync(Folder folder, CancellationToken cancellationToken = default)
     {
         LogFileOperationWithDestination("Moving File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         await folder.CreateAsync().ConfigureAwait(false);
-        return await MoveToAsync(System.IO.Path.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
+        return await MoveToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="FileInfo.CopyTo(string)"/>>
@@ -305,7 +312,8 @@ public class File : IEquatable<File>
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        return FileInfo.CopyTo(path);
+        _provider.CopyFile(Path, path, true);
+        return new File(path, _provider);
     }
 
     public File CopyTo(Folder folder)
@@ -313,7 +321,7 @@ public class File : IEquatable<File>
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         folder.Create();
-        return CopyTo(System.IO.Path.Combine(folder.Path, Name));
+        return CopyTo(_provider.Combine(folder.Path, Name));
     }
 
     /// <summary>
@@ -326,17 +334,17 @@ public class File : IEquatable<File>
     {
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        var sourceStream = System.IO.File.OpenRead(Path);
+        var sourceStream = _provider.OpenRead(Path);
         await using (sourceStream.ConfigureAwait(false))
         {
-            var destStream = System.IO.File.Create(path);
+            var destStream = _provider.Create(path);
             await using (destStream.ConfigureAwait(false))
             {
                 await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        return new File(path);
+        return new File(path, _provider);
     }
 
     /// <summary>
@@ -350,12 +358,13 @@ public class File : IEquatable<File>
         LogFileOperationWithDestination("Copying File: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, folder);
 
         await folder.CreateAsync().ConfigureAwait(false);
-        return await CopyToAsync(System.IO.Path.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
+        return await CopyToAsync(_provider.Combine(folder.Path, Name), cancellationToken).ConfigureAwait(false);
     }
 
     public static File GetNewTemporaryFilePath()
     {
-        var path = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName());
+        var provider = SystemFileSystemProvider.Instance;
+        var path = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName());
 
         LogFileOperation("Temporary File Path: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", path);
 

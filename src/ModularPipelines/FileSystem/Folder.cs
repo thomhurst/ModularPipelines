@@ -19,6 +19,8 @@ public class Folder : IEquatable<Folder>
     [JsonIgnore]
     private readonly DirectoryInfo _directoryInfo;
 
+    private readonly IFileSystemProvider _provider;
+
     private DirectoryInfo DirectoryInfo
     {
         get
@@ -28,18 +30,23 @@ public class Folder : IEquatable<Folder>
         }
     }
 
-    public Folder(string path) : this(new DirectoryInfo(path), path)
+    public Folder(string path) : this(new DirectoryInfo(path), path, SystemFileSystemProvider.Instance)
     {
     }
 
-    internal Folder(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName)
+    internal Folder(DirectoryInfo directoryInfo) : this(directoryInfo, directoryInfo.FullName, SystemFileSystemProvider.Instance)
     {
     }
 
-    private Folder(DirectoryInfo directoryInfo, string originalPath)
+    internal Folder(string path, IFileSystemProvider provider) : this(new DirectoryInfo(path), path, provider)
+    {
+    }
+
+    private Folder(DirectoryInfo directoryInfo, string originalPath, IFileSystemProvider provider)
     {
         _directoryInfo = directoryInfo;
         OriginalPath = originalPath;
+        _provider = provider;
     }
 
     public bool Exists => DirectoryInfo.Exists;
@@ -92,7 +99,7 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperation("Creating Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        Directory.CreateDirectory(Path);
+        _provider.CreateDirectory(Path);
         return this;
     }
 
@@ -110,7 +117,7 @@ public class Folder : IEquatable<Folder>
 
         return Task.Run(() =>
         {
-            Directory.CreateDirectory(Path);
+            _provider.CreateDirectory(Path);
             return this;
         }, cancellationToken);
     }
@@ -119,7 +126,7 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperation("Deleting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        DirectoryInfo.Delete(true);
+        _provider.DeleteDirectory(Path, recursive: true);
     }
 
     /// <summary>
@@ -133,7 +140,7 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperation("Deleting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", this);
 
-        return Task.Run(() => DirectoryInfo.Delete(true), cancellationToken);
+        return Task.Run(() => _provider.DeleteDirectory(Path, recursive: true), cancellationToken);
     }
 
     /// <summary>
@@ -247,15 +254,17 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
 
-        Directory.CreateDirectory(targetPath);
+        _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
-        foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        foreach (var dirPath in _provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
             var sourceDir = new DirectoryInfo(dirPath);
-            var relativePath = System.IO.Path.GetRelativePath(this, dirPath);
-            var newPath = System.IO.Path.Combine(targetPath, relativePath);
-            var targetDir = Directory.CreateDirectory(newPath);
+            var relativePath = _provider.GetRelativePath(this, dirPath);
+            var newPath = _provider.Combine(targetPath, relativePath);
+            _provider.CreateDirectory(newPath);
+
+            var targetDir = new DirectoryInfo(newPath);
 
             // Preserve directory attributes
             targetDir.Attributes = sourceDir.Attributes;
@@ -269,12 +278,12 @@ public class Folder : IEquatable<Folder>
         }
 
         // Copy all files
-        foreach (var filePath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        foreach (var filePath in _provider.EnumerateFiles(this, "*", SearchOption.AllDirectories))
         {
             var sourceFile = new FileInfo(filePath);
-            var relativePath = System.IO.Path.GetRelativePath(this, filePath);
-            var newPath = System.IO.Path.Combine(targetPath, relativePath);
-            System.IO.File.Copy(filePath, newPath, true);
+            var relativePath = _provider.GetRelativePath(this, filePath);
+            var newPath = _provider.Combine(targetPath, relativePath);
+            _provider.CopyFile(filePath, newPath, overwrite: true);
 
             var targetFile = new FileInfo(newPath);
 
@@ -300,7 +309,7 @@ public class Folder : IEquatable<Folder>
             targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
 
-        return new Folder(targetPath);
+        return new Folder(targetPath, _provider);
     }
 
     /// <summary>
@@ -328,18 +337,19 @@ public class Folder : IEquatable<Folder>
     {
         LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, targetPath);
 
-        Directory.CreateDirectory(targetPath);
+        _provider.CreateDirectory(targetPath);
 
         // Copy all subdirectories first
-        foreach (var dirPath in Directory.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
+        foreach (var dirPath in _provider.EnumerateDirectories(this, "*", SearchOption.AllDirectories))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var sourceDir = new DirectoryInfo(dirPath);
-            var relativePath = System.IO.Path.GetRelativePath(this, dirPath);
-            var newPath = System.IO.Path.Combine(targetPath, relativePath);
-            var targetDir = Directory.CreateDirectory(newPath);
+            var relativePath = _provider.GetRelativePath(this, dirPath);
+            var newPath = _provider.Combine(targetPath, relativePath);
+            _provider.CreateDirectory(newPath);
 
+            var targetDir = new DirectoryInfo(newPath);
             targetDir.Attributes = sourceDir.Attributes;
 
             if (preserveTimestamps)
@@ -351,18 +361,18 @@ public class Folder : IEquatable<Folder>
         }
 
         // Copy all files using async stream copying
-        foreach (var filePath in Directory.EnumerateFiles(this, "*", SearchOption.AllDirectories))
+        foreach (var filePath in _provider.EnumerateFiles(this, "*", SearchOption.AllDirectories))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             var sourceFile = new FileInfo(filePath);
-            var relativePath = System.IO.Path.GetRelativePath(this, filePath);
-            var newPath = System.IO.Path.Combine(targetPath, relativePath);
+            var relativePath = _provider.GetRelativePath(this, filePath);
+            var newPath = _provider.Combine(targetPath, relativePath);
 
-            var sourceStream = System.IO.File.OpenRead(filePath);
+            var sourceStream = _provider.OpenRead(filePath);
             await using (sourceStream.ConfigureAwait(false))
             {
-                var destStream = System.IO.File.Create(newPath);
+                var destStream = _provider.Create(newPath);
                 await using (destStream.ConfigureAwait(false))
                 {
                     await sourceStream.CopyToAsync(destStream, cancellationToken).ConfigureAwait(false);
@@ -391,15 +401,15 @@ public class Folder : IEquatable<Folder>
             targetRootDir.LastAccessTimeUtc = DirectoryInfo.LastAccessTimeUtc;
         }
 
-        return new Folder(targetPath);
+        return new Folder(targetPath, _provider);
     }
 
     public Folder MoveTo(string path)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
-        DirectoryInfo.MoveTo(path);
-        return this;
+        _provider.MoveDirectory(Path, path);
+        return new Folder(path, _provider);
     }
 
     /// <summary>
@@ -410,25 +420,25 @@ public class Folder : IEquatable<Folder>
     /// </remarks>
     /// <param name="path">The destination path.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>This folder instance for method chaining.</returns>
+    /// <returns>A new Folder instance at the destination path.</returns>
     public Task<Folder> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
         LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} [Module: {ModuleName}, Activity: {ActivityId}]", this, path);
 
         return Task.Run(() =>
         {
-            DirectoryInfo.MoveTo(path);
-            return this;
+            _provider.MoveDirectory(Path, path);
+            return new Folder(path, _provider);
         }, cancellationToken);
     }
 
     public Folder GetFolder(string name)
     {
-        var directoryInfo = new DirectoryInfo(System.IO.Path.Combine(Path, name));
+        var combinedPath = _provider.Combine(Path, name);
 
-        LogFolderOperation("Getting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", directoryInfo.FullName);
+        LogFolderOperation("Getting Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", combinedPath);
 
-        return directoryInfo;
+        return new Folder(combinedPath, _provider);
     }
 
     public Folder CreateFolder(string name)
@@ -442,11 +452,11 @@ public class Folder : IEquatable<Folder>
 
     public File GetFile(string name)
     {
-        var fileInfo = new FileInfo(System.IO.Path.Combine(Path, name));
+        var combinedPath = _provider.Combine(Path, name);
 
-        LogFolderOperation("Getting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", fileInfo.FullName);
+        LogFolderOperation("Getting File: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", combinedPath);
 
-        return fileInfo;
+        return new File(combinedPath, _provider);
     }
 
     public File CreateFile(string name)
@@ -514,8 +524,9 @@ public class Folder : IEquatable<Folder>
 
     public static Folder CreateTemporaryFolder()
     {
-        var tempDirectory = System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName().Replace(".", string.Empty));
-        Directory.CreateDirectory(tempDirectory);
+        var provider = SystemFileSystemProvider.Instance;
+        var tempDirectory = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName().Replace(".", string.Empty));
+        provider.CreateDirectory(tempDirectory);
 
         LogFolderOperation("Creating Temporary Folder: {Path} [Module: {ModuleName}, Activity: {ActivityId}]", tempDirectory);
 

@@ -23,23 +23,26 @@ public class FileTests : TestBase
     public async Task MoveTo()
     {
         var file = await CreateRandomFile();
+        var originalPath = file.OriginalPath;
 
-        var file2 = new File(Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N")));
+        var destinationPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
 
         using (Assert.Multiple())
         {
             await Assert.That(file.Exists).IsTrue();
-            await Assert.That(file2.Exists).IsFalse();
+            await Assert.That(new File(destinationPath).Exists).IsFalse();
         }
 
-        file.MoveTo(file2);
+        var movedFile = file.MoveTo(destinationPath);
 
         using (Assert.Multiple())
         {
-            await Assert.That(new File(file.OriginalPath).Exists).IsFalse();
+            // Original path should no longer exist
+            await Assert.That(new File(originalPath).Exists).IsFalse();
 
-            await Assert.That(file.Exists).IsTrue();
-            await Assert.That(file2.Exists).IsTrue();
+            // MoveTo returns a new File pointing to the destination
+            await Assert.That(movedFile.Exists).IsTrue();
+            await Assert.That(movedFile.Path).IsEqualTo(destinationPath);
         }
     }
 
