@@ -6,7 +6,7 @@ namespace ModularPipelines.UnitTests;
 
 public class PipelineWriterTests : TestBase
 {
-    public static readonly FileSystem.File RandomFilePath = FileSystem.File.GetNewTemporaryFilePath();
+    public static readonly ModularPipelines.FileSystem.File RandomFilePath = ModularPipelines.FileSystem.File.GetNewTemporaryFilePath();
     public class GitHubYamlWriter : GitHubPipelineFileWriter
     {
         public override async Task<GitHubPipelineFileWriterOptions> GetGitHubPipelineFileWriterOptions(
