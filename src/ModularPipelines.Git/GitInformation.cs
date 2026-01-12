@@ -14,6 +14,7 @@ internal class GitInformation : IGitInformation, IInitializer
 {
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IGitCommitMapper _gitCommitMapper;
+    private Folder? _root;
 
     public GitInformation(
         IServiceScopeFactory serviceScopeFactory,
@@ -23,7 +24,11 @@ internal class GitInformation : IGitInformation, IInitializer
         _gitCommitMapper = gitCommitMapper;
     }
 
-    public Folder Root { get; private set; } = null!;
+    public Folder Root
+    {
+        get => _root ?? throw new InvalidOperationException("GitInformation has not been initialized. Ensure InitializeAsync has completed.");
+        private set => _root = value;
+    }
     public string BranchName { get; private set; } = "";
     public string DefaultBranchName { get; private set; } = "";
     public string LastCommitSha { get; private set; } = "";

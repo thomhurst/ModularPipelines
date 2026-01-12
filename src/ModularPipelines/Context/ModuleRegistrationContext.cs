@@ -55,7 +55,7 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
         Configuration = configuration;
         Environment = environment;
         _registeredModuleTypes = registeredModuleTypes;
-        Services = null!;
+        Services = null;
         _dependencyRegistry = dependencyRegistry;
         _metadataRegistry = metadataRegistry;
     }
@@ -70,7 +70,7 @@ internal class ModuleRegistrationContext : IModuleRegistrationContext
 
     public IReadOnlyList<Type> RegisteredModuleTypes => _registeredModuleTypes;
 
-    public IServiceCollection Services { get; }
+    public IServiceCollection? Services { get; }
 
     public bool IsModuleRegistered<TModule>() where TModule : IModule
         => IsModuleRegistered(typeof(TModule));
