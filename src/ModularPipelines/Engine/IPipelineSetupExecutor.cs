@@ -4,11 +4,17 @@ namespace ModularPipelines.Engine;
 
 internal interface IPipelineSetupExecutor
 {
-    Task OnStartAsync();
+    Task OnPipelineStartAsync();
 
-    Task OnEndAsync(PipelineSummary pipelineSummary);
+    Task OnPipelineEndAsync(PipelineSummary pipelineSummary);
 
-    Task OnBeforeModuleStartAsync(ModuleState moduleState);
+    Task OnModuleReadyAsync(ModuleState moduleState);
 
-    Task OnAfterModuleEndAsync(ModuleState moduleState);
+    Task OnModuleStartAsync(ModuleState moduleState);
+
+    Task OnModuleEndAsync(ModuleState moduleState);
+
+    Task OnModuleFailureAsync(ModuleState moduleState);
+
+    Task OnModuleSkippedAsync(ModuleState moduleState);
 }
