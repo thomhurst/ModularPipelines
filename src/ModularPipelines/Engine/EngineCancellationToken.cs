@@ -50,7 +50,7 @@ internal class EngineCancellationToken : IDisposable
     {
         _primaryExceptionContainer = primaryExceptionContainer;
 
-        Console.CancelKeyPress += (_, args) =>
+        System.Console.CancelKeyPress += (_, args) =>
         {
             args.Cancel = true;
             TryCancel();

@@ -128,8 +128,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
-            .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>()
-            .AddScoped<ILogEventBuffer, LogEventBuffer>();
+            .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();
     }
 
     /// <summary>
@@ -149,16 +148,17 @@ internal static class DependencyInjectionSetup
             .AddSingleton<ISecondaryExceptionContainer, SecondaryExceptionContainer>()
             .AddSingleton<IExceptionRethrowService, ExceptionRethrowService>()
 
-            // Progress display components (SRP extraction from ProgressPrinter)
+            // Console coordinator - single point of control for all console output
+            .AddSingleton<Console.ConsoleCoordinator>()
+            .AddSingleton<Console.IConsoleCoordinator>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
+            .AddSingleton<IProgressDisplay>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
+
+            // Progress display components
             .AddSingleton<IProgressCalculator, ProgressCalculator>()
-            .AddSingleton<IProgressDisplay, SpectreProgressDisplay>()
             .AddSingleton<IResultsPrinter, SpectreResultsPrinter>()
             .AddSingleton<ProgressPrinter>()
             .AddSingleton<IProgressPrinter>(sp => sp.GetRequiredService<ProgressPrinter>())
             .AddSingleton<ILogoPrinter, LogoPrinter>()
-            .AddSingleton<IModuleLoggerContainer, ModuleLoggerContainer>()
-            .AddSingleton<IOutputFlushLock, OutputFlushLock>()
-            .AddSingleton<IModuleOutputWriterFactory, ModuleOutputWriterFactory>()
             .AddSingleton<IConsoleWriter, ConsoleWriter>()
             .AddSingleton<IFormattedLogValuesObfuscator, FormattedLogValuesObfuscator>();
     }
@@ -194,7 +194,6 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IPipelineInitializer, PipelineInitializer>()
             .AddSingleton<IExecutionOrchestrator, ExecutionOrchestrator>()
             .AddSingleton<IPrintProgressExecutor, PrintProgressExecutor>()
-            .AddSingleton<IPrintModuleOutputExecutor, PrintModuleOutputExecutor>()
             .AddSingleton<IModuleDisposeExecutor, ModuleDisposeExecutor>()
             .AddSingleton<IPipelineExecutor, PipelineExecutor>()
             .AddSingleton<IPipelineOutputCoordinator, PipelineOutputCoordinator>()

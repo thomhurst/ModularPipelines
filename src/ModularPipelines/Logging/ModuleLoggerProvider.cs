@@ -9,14 +9,12 @@ namespace ModularPipelines.Logging;
 /// <remarks>
 /// This provider coordinates between:
 /// - StackTraceModuleDetector: Analyzes call stack to find module type
-/// - ModuleLoggerContainer: Caches existing loggers
 /// - Service provider: Creates new logger instances
 /// The provider maintains thread-safe singleton behavior per module type.
 /// </remarks>
 internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IModuleLoggerContainer _moduleLoggerContainer;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
     private readonly object _lock = new();
 
@@ -24,11 +22,9 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
 
     public ModuleLoggerProvider(
         IServiceProvider serviceProvider,
-        IModuleLoggerContainer moduleLoggerContainer,
         IStackTraceModuleDetector stackTraceDetector)
     {
         _serviceProvider = serviceProvider;
-        _moduleLoggerContainer = moduleLoggerContainer;
         _stackTraceDetector = stackTraceDetector;
     }
 
@@ -39,9 +35,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
     public IModuleLogger GetLogger(Type type)
     {
         var loggerType = typeof(ModuleLogger<>).MakeGenericType(type);
-
-        return _moduleLoggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
+        return (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
     }
 
     public IModuleLogger GetLogger()
@@ -63,7 +57,7 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
             var moduleType = ModuleLogger.CurrentModuleType.Value;
             if (moduleType != null)
             {
-                return _moduleLogger = CreateLogger(moduleType);
+                return _moduleLogger = GetLogger(moduleType);
             }
 
             // Fallback: use stack trace inspection (for edge cases where AsyncLocal context is lost)
@@ -74,20 +68,12 @@ internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
                 throw new InvalidOperationException("Could not detect module type from call stack.");
             }
 
-            return _moduleLogger = CreateLogger(detectedType);
+            return _moduleLogger = GetLogger(detectedType);
         }
     }
 
     public void Dispose()
     {
         _moduleLogger?.Dispose();
-    }
-
-    private IModuleLogger CreateLogger(Type module)
-    {
-        var loggerType = typeof(ModuleLogger<>).MakeGenericType(module);
-
-        return _moduleLoggerContainer.GetLogger(loggerType)
-            ?? (IModuleLogger)_serviceProvider.GetRequiredService(loggerType);
     }
 }

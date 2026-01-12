@@ -22,7 +22,6 @@ internal class ModuleRunner : IModuleRunner
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IModuleExecutionPipeline _executionPipeline;
-    private readonly IModuleLoggerContainer _loggerContainer;
     private readonly IPipelineSetupExecutor _pipelineSetupExecutor;
     private readonly IMediator _mediator;
     private readonly ISafeModuleEstimatedTimeProvider _moduleEstimatedTimeProvider;
@@ -38,7 +37,6 @@ internal class ModuleRunner : IModuleRunner
     public ModuleRunner(
         IServiceProvider serviceProvider,
         IModuleExecutionPipeline executionPipeline,
-        IModuleLoggerContainer loggerContainer,
         IPipelineSetupExecutor pipelineSetupExecutor,
         IMediator mediator,
         ISafeModuleEstimatedTimeProvider moduleEstimatedTimeProvider,
@@ -53,7 +51,6 @@ internal class ModuleRunner : IModuleRunner
     {
         _serviceProvider = serviceProvider;
         _executionPipeline = executionPipeline;
-        _loggerContainer = loggerContainer;
         _pipelineSetupExecutor = pipelineSetupExecutor;
         _mediator = mediator;
         _moduleEstimatedTimeProvider = moduleEstimatedTimeProvider;
@@ -146,7 +143,8 @@ internal class ModuleRunner : IModuleRunner
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
-        var logger = _loggerContainer.GetOrCreateLogger(moduleType, scopedServiceProvider);
+        var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleType);
+        var logger = (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
         var moduleContext = new ModuleContext(pipelineContext, module, executionContext, logger);
 
         // Start Activity for distributed tracing (Phase 1: alongside AsyncLocal for compatibility)

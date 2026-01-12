@@ -30,13 +30,13 @@ internal class SpectreResultsPrinter : IResultsPrinter
 
         var table = CreateModulesTable(pipelineSummary);
 
-        Console.WriteLine();
+        System.Console.WriteLine();
         AnsiConsole.Write(table.Expand());
 
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
 
-        Console.WriteLine();
+        System.Console.WriteLine();
     }
 
     private static Table CreateModulesTable(PipelineSummary pipelineSummary)
@@ -125,7 +125,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             return;
         }
 
-        Console.WriteLine();
+        System.Console.WriteLine();
         AnsiConsole.MarkupLine("[bold underline]Execution Metrics[/]");
 
         var metricsTable = new Table

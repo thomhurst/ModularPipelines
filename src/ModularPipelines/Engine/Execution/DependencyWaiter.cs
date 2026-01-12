@@ -14,14 +14,10 @@ namespace ModularPipelines.Engine.Execution;
 internal class DependencyWaiter : IDependencyWaiter
 {
     private readonly ISecondaryExceptionContainer _secondaryExceptionContainer;
-    private readonly IModuleLoggerContainer _loggerContainer;
 
-    public DependencyWaiter(
-        ISecondaryExceptionContainer secondaryExceptionContainer,
-        IModuleLoggerContainer loggerContainer)
+    public DependencyWaiter(ISecondaryExceptionContainer secondaryExceptionContainer)
     {
         _secondaryExceptionContainer = secondaryExceptionContainer;
-        _loggerContainer = loggerContainer;
     }
 
     /// <inheritdoc />
@@ -42,7 +38,8 @@ internal class DependencyWaiter : IDependencyWaiter
                 }
                 catch (Exception e) when (moduleState.Module.ModuleRunType == ModuleRunType.AlwaysRun)
                 {
-                    var depLogger = _loggerContainer.GetOrCreateLogger(moduleState.ModuleType, scopedServiceProvider);
+                    var loggerType = typeof(ModuleLogger<>).MakeGenericType(moduleState.ModuleType);
+                    var depLogger = (IModuleLogger)scopedServiceProvider.GetRequiredService(loggerType);
                     _secondaryExceptionContainer.RegisterException(new AlwaysRunPostponedException(
                         $"{dependencyType.Name} threw an exception when {moduleState.ModuleType.Name} was waiting for it as a dependency",
                         e));

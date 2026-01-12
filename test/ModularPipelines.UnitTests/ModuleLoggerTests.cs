@@ -53,25 +53,35 @@ public class ModuleLoggerTests
     [Test]
     public async Task Can_Write_To_Console_Successfully()
     {
-        var consoleStringBuilder = new StringBuilder();
         var file = File.GetNewTemporaryFilePath();
 
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
-            {
-                collection.AddLogging(builder => { builder.AddFile(file); });
-                collection.AddSingleton<IConsoleWriter>(new StringBuilderConsoleWriter(consoleStringBuilder));
-            })
-            .AddModule<Module1>()
-            .BuildHostAsync();
+        // Capture stdout since the new architecture writes buffered output to Console.Out
+        var originalOut = System.Console.Out;
+        var stringWriter = new StringWriter();
+        System.Console.SetOut(stringWriter);
 
-        await host.ExecutePipelineAsync();
+        try
+        {
+            var host = await TestPipelineHostBuilder.Create()
+                .ConfigureServices((_, collection) =>
+                {
+                    collection.AddLogging(builder => { builder.AddFile(file); });
+                })
+                .AddModule<Module1>()
+                .BuildHostAsync();
 
-        await host.DisposeAsync();
+            await host.ExecutePipelineAsync();
 
-        var stringOutput = consoleStringBuilder.ToString();
-        await Assert.That(stringOutput).Contains(RandomString);
-        await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
+            await host.DisposeAsync();
+
+            var stringOutput = stringWriter.ToString();
+            await Assert.That(stringOutput).Contains(RandomString);
+            await Assert.That(await file.ReadAsync()).DoesNotContain(RandomString);
+        }
+        finally
+        {
+            System.Console.SetOut(originalOut);
+        }
     }
 
     [Test]

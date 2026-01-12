@@ -16,7 +16,7 @@ internal class ConsoleWriter : IConsoleWriter
         {
             // Fall back to plain console output if markup parsing fails
             // (e.g., unbalanced or invalid markup characters)
-            Console.WriteLine(value);
+            System.Console.WriteLine(value);
         }
     }
 }

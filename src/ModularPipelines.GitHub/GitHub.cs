@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
+using ModularPipelines.Console;
+using ModularPipelines.Engine;
 using ModularPipelines.GitHub.Options;
-using ModularPipelines.Logging;
 using Octokit;
 using Octokit.Internal;
 
@@ -11,7 +12,8 @@ internal class GitHub : IGitHub
     private readonly GitHubOptions _options;
     private readonly IHttpMessageHandlerFactory _httpMessageHandlerFactory;
     private readonly Lazy<IGitHubClient> _client;
-    private readonly ModuleOutputWriter _outputWriter;
+    private readonly IModuleOutputBuffer _buffer;
+    private readonly IBuildSystemFormatter _formatter;
 
     public IGitHubClient Client => _client.Value;
 
@@ -24,31 +26,26 @@ internal class GitHub : IGitHub
       IGitHubEnvironmentVariables environmentVariables,
       IGitHubRepositoryInfo gitHubRepositoryInfo,
       IHttpMessageHandlerFactory httpMessageHandlerFactory,
-      IModuleOutputWriterFactory outputWriterFactory,
-      IModuleLoggerProvider moduleLoggerProvider)
+      IConsoleCoordinator consoleCoordinator,
+      IBuildSystemFormatterProvider formatterProvider)
     {
         _options = options.Value;
         _httpMessageHandlerFactory = httpMessageHandlerFactory;
         EnvironmentVariables = environmentVariables;
-
         _client = new Lazy<IGitHubClient>(InitializeClient);
         RepositoryInfo = gitHubRepositoryInfo;
-        _outputWriter = outputWriterFactory.Create("GitHub", moduleLoggerProvider.GetLogger());
+        _buffer = consoleCoordinator.GetUnattributedBuffer();
+        _formatter = formatterProvider.GetFormatter();
     }
 
     public void WriteLine(string message)
     {
-        _outputWriter.WriteLine(message);
-    }
-
-    public void WriteLineDirect(string message)
-    {
-        _outputWriter.WriteLineDirect(message);
+        _buffer.WriteLine(message);
     }
 
     public IDisposable BeginSection(string name)
     {
-        return _outputWriter.BeginSection(name);
+        return new OutputSection(this, name, _formatter);
     }
 
     // PRIVATE METHODS
@@ -73,5 +70,34 @@ internal class GitHub : IGitHub
         };
 
         return client;
+    }
+
+    private sealed class OutputSection : IDisposable
+    {
+        private readonly GitHub _github;
+        private readonly string _name;
+        private readonly IBuildSystemFormatter _formatter;
+
+        public OutputSection(GitHub github, string name, IBuildSystemFormatter formatter)
+        {
+            _github = github;
+            _name = name;
+            _formatter = formatter;
+
+            var startCommand = formatter.GetStartBlockCommand(name);
+            if (startCommand != null)
+            {
+                _github._buffer.WriteLine(startCommand);
+            }
+        }
+
+        public void Dispose()
+        {
+            var endCommand = _formatter.GetEndBlockCommand(_name);
+            if (endCommand != null)
+            {
+                _github._buffer.WriteLine(endCommand);
+            }
+        }
     }
 }
