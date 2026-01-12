@@ -188,7 +188,8 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Before module hooks
+        // Before module hooks - module is ready (dependencies satisfied)
+        await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
         await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
@@ -232,6 +233,7 @@ internal class ModuleRunner : IModuleRunner
                 // Invoke OnModuleSkipped lifecycle event
                 await _lifecycleEventInvoker.InvokeSkippedEventAsync(lifecycleContext, Enums.Status.Skipped, executionContext.SkipResult!).ConfigureAwait(false);
 
+                await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
                 await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult)).ConfigureAwait(false);
                 return;
             }
@@ -258,6 +260,8 @@ internal class ModuleRunner : IModuleRunner
 
             // Invoke OnModuleFailed lifecycle event
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
+
+            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
 
             throw;
         }
