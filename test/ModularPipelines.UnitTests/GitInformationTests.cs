@@ -9,7 +9,7 @@ public class GitInformationTests : TestBase
     [Test]
     public async Task Can_Send_Request_With_String_To_Request_Implicit_Conversion()
     {
-        var context = await GetService<IModuleContext>();
+        var context = await GetService<IPipelineHookContext>();
 
         var gitInformation = context.Git().Information;
 
