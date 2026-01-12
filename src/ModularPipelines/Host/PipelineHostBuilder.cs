@@ -426,6 +426,7 @@ public class PipelineHostBuilder
 
     private void LoadModularPipelineAssembliesIfNotLoadedYet()
     {
+        var coreVersion = typeof(PipelineHostBuilder).Assembly.GetName().Version;
         var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
         var unloadedModularPipelineAssemblies = GetDlls()
@@ -436,7 +437,8 @@ public class PipelineHostBuilder
 
         foreach (var modularPipelineAssembly in unloadedModularPipelineAssemblies)
         {
-            Assembly.Load(new AssemblyName(modularPipelineAssembly));
+            var assembly = Assembly.Load(new AssemblyName(modularPipelineAssembly));
+            PluginVersionValidator.Validate(assembly, coreVersion);
         }
 
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
