@@ -36,6 +36,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
         // Usings
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         sb.AppendLine("using ModularPipelines.Attributes;");
         sb.AppendLine("using ModularPipelines.Options;");
@@ -66,6 +67,7 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine($"/// Base options class for {tool.ToolName} CLI commands.");
         sb.AppendLine("/// Contains global flags that apply to all commands.");
         sb.AppendLine("/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
         sb.AppendLine($"[CliTool(\"{tool.ToolName}\")]");
 

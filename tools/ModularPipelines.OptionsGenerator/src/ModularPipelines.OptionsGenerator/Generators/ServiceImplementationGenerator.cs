@@ -34,6 +34,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
         // File header
         GeneratorUtils.GenerateFileHeader(sb);
 
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
@@ -55,6 +56,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// Generated implementation for {tool.ToolName} CLI commands.");
         sb.AppendLine("/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"internal partial class {className} : {interfaceName}");
         sb.AppendLine("{");
 

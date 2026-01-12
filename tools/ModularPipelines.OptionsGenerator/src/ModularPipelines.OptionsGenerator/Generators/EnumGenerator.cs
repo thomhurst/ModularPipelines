@@ -35,6 +35,7 @@ public class EnumGenerator : ICodeGenerator
         // File header
         GeneratorUtils.GenerateFileHeader(sb);
 
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.ComponentModel;");
         sb.AppendLine();
 
@@ -50,6 +51,7 @@ public class EnumGenerator : ICodeGenerator
             sb.AppendLine("/// </summary>");
         }
 
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"public enum {enumDef.EnumName}");
         sb.AppendLine("{");
 
