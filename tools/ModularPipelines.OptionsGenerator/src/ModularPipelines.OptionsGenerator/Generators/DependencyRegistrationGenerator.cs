@@ -35,6 +35,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         GeneratorUtils.GenerateFileHeader(sb);
 
         // Usings
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Runtime.CompilerServices;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection;");
         sb.AppendLine("using Microsoft.Extensions.DependencyInjection.Extensions;");
@@ -55,6 +56,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// Generated extensions for registering {tool.ToolName} services.");
         sb.AppendLine("/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"public static class {className}");
         sb.AppendLine("{");
 

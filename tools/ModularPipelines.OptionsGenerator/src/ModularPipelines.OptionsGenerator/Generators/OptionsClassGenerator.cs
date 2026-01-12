@@ -36,6 +36,7 @@ public class OptionsClassGenerator : ICodeGenerator
         GenerateFileHeader(sb, command.DocumentationUrl);
 
         // Usings
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using System.Diagnostics.CodeAnalysis;");
         sb.AppendLine("using ModularPipelines.Attributes;");
 
@@ -68,6 +69,7 @@ public class OptionsClassGenerator : ICodeGenerator
         GeneratorUtils.GenerateXmlDocumentation(sb, command.Description, "");
 
         // Class attributes
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine("[ExcludeFromCodeCoverage]");
 
         // CliSubCommand attribute - contains only the subcommand parts (tool name comes from base class)
