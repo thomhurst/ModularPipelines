@@ -1,26 +1,44 @@
 using ModularPipelines.Context;
-using ModularPipelines.Modules;
 
 namespace ModularPipelines.Interfaces;
 
 /// <summary>
-/// Used to hook into before and after individual modules have run.
+/// Hooks for module-level lifecycle events.
 /// </summary>
 public interface IPipelineModuleHooks
 {
     /// <summary>
-    /// A hook to run before a module has started.
+    /// Called when a module's dependencies are satisfied and it's ready to execute.
     /// </summary>
-    /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
-    /// <param name="module">The module that is due to start.</param>
+    /// <param name="context">The module hook context.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnBeforeModuleStartAsync(IPipelineHookContext pipelineContext, IModule module);
+    Task OnModuleReadyAsync(IModuleHookContext context) => Task.CompletedTask;
 
     /// <summary>
-    /// A hook to run after a module has finished.
+    /// Called when a module starts executing.
     /// </summary>
-    /// <param name="pipelineContext">A pipeline context object provided by the pipeline.</param>
-    /// <param name="module">The module that has finished.</param>
+    /// <param name="context">The module hook context.</param>
     /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-    Task OnAfterModuleEndAsync(IPipelineHookContext pipelineContext, IModule module);
+    Task OnModuleStartAsync(IModuleHookContext context) => Task.CompletedTask;
+
+    /// <summary>
+    /// Called when a module completes (success or failure).
+    /// </summary>
+    /// <param name="context">The module hook context.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task OnModuleEndAsync(IModuleHookContext context) => Task.CompletedTask;
+
+    /// <summary>
+    /// Called when a module fails with an exception.
+    /// </summary>
+    /// <param name="context">The module hook context.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task OnModuleFailureAsync(IModuleHookContext context) => Task.CompletedTask;
+
+    /// <summary>
+    /// Called when a module is skipped.
+    /// </summary>
+    /// <param name="context">The module hook context.</param>
+    /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+    Task OnModuleSkippedAsync(IModuleHookContext context) => Task.CompletedTask;
 }
