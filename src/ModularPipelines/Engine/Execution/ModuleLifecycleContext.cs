@@ -13,7 +13,7 @@ internal class ModuleLifecycleContext
         Type moduleType,
         IReadOnlyList<Attribute> moduleAttributes,
         DateTimeOffset startTime,
-        IModuleContext pipelineContext,
+        IPipelineHookContext pipelineContext,
         IServiceProvider scopedServiceProvider,
         CancellationToken cancellationToken)
     {
@@ -49,7 +49,7 @@ internal class ModuleLifecycleContext
     /// <summary>
     /// Gets the pipeline context.
     /// </summary>
-    public IModuleContext PipelineContext { get; }
+    public IPipelineHookContext PipelineContext { get; }
 
     /// <summary>
     /// Gets the scoped service provider for this module execution.

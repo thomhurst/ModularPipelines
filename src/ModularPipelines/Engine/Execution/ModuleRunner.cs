@@ -142,7 +142,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        var pipelineContext = scopedServiceProvider.GetRequiredService<IModuleContext>();
+        var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineHookContext>();
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
@@ -180,7 +180,7 @@ internal class ModuleRunner : IModuleRunner
     private async Task ExecuteModuleLifecycle(
         ModuleState moduleState,
         IServiceProvider scopedServiceProvider,
-        IModuleContext pipelineContext,
+        IPipelineHookContext pipelineContext,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         CancellationToken cancellationToken)

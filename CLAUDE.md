@@ -49,12 +49,12 @@ dotnet format --verify-no-changes --severity info
 
 1. **Module System** (`src/ModularPipelines/Modules/`):
    - Base class: `Module<T>` where T is the return type
-   - Modules execute via `ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)`
+   - Modules execute via `ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)`
    - Dependencies declared with `[DependsOn<TModule>]` attributes
    - Skip conditions via `ShouldSkip()` method
    - Retry policies configurable per module
 
-2. **Pipeline Context** (`IPipelineContext`):
+2. **Module Context** (`IModuleContext`):
    - Central interface providing access to all tools and services
    - Includes: file system operations, command execution, logging, Git info
    - Extensions for each tool integration (e.g., `context.DotNet()`, `context.Git()`)
