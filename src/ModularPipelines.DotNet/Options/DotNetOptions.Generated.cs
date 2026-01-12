@@ -16,6 +16,7 @@ namespace ModularPipelines.DotNet.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record DotNetOptions() : CommandLineToolOptions("dotnet")
+[CliTool("dotnet")]
+public abstract record DotNetOptions : CommandLineToolOptions
 {
 }

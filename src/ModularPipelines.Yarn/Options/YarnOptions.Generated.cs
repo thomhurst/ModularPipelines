@@ -16,6 +16,7 @@ namespace ModularPipelines.Yarn.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record YarnOptions() : CommandLineToolOptions("yarn")
+[CliTool("yarn")]
+public abstract record YarnOptions : CommandLineToolOptions
 {
 }

@@ -4,11 +4,9 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
+[CliTool("apt-get")]
 public record AptGetOptions : CommandLineToolOptions
 {
-    public AptGetOptions() : base("apt-get")
-    {
-    }
 
     [CliFlag("--download-only")]
     public virtual bool? DownloadOnly { get; set; }

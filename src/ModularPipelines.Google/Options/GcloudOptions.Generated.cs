@@ -16,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record GcloudOptions() : CommandLineToolOptions("gcloud")
+[CliTool("gcloud")]
+public abstract record GcloudOptions : CommandLineToolOptions
 {
 }

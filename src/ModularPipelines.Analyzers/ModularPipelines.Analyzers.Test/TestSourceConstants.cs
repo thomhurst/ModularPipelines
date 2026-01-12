@@ -101,7 +101,7 @@ using ModularPipelines.Attributes;";
     /// <summary>
     /// A simple async ExecuteAsync method body with Task.Delay.
     /// </summary>
-    public const string SimpleAsyncExecuteBody = @"protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    public const string SimpleAsyncExecuteBody = @"protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(1, cancellationToken);
         return new List<string>();

@@ -16,6 +16,7 @@ namespace ModularPipelines.Terraform.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record TerraformOptions() : CommandLineToolOptions("terraform")
+[CliTool("terraform")]
+public abstract record TerraformOptions : CommandLineToolOptions
 {
 }

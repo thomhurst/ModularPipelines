@@ -17,18 +17,20 @@ namespace ModularPipelines.Context;
 /// </summary>
 internal class ModuleContext : IModuleContext, IInternalPipelineContext
 {
-    private readonly IPipelineContext _pipelineContext;
+    private readonly IPipelineHookContext _pipelineContext;
+    private readonly IInternalPipelineContext _internalContext;
     private readonly IModule _currentModule;
     private readonly ModuleExecutionContext _executionContext;
     private readonly IModuleLogger _logger;
 
     public ModuleContext(
-        IPipelineContext pipelineContext,
+        IPipelineHookContext pipelineContext,
         IModule currentModule,
         ModuleExecutionContext executionContext,
         IModuleLogger logger)
     {
         _pipelineContext = pipelineContext;
+        _internalContext = (IInternalPipelineContext)pipelineContext;
         _currentModule = currentModule;
         _executionContext = executionContext;
         _logger = logger;
@@ -93,31 +95,6 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
     #endregion
 
-    #region IPipelineContext delegation
-
-    TModule? IPipelineContext.GetModule<TModule>()
-        where TModule : class
-    {
-        var moduleType = typeof(TModule);
-
-        // Check for self-reference
-        if (moduleType == _currentModule.GetType())
-        {
-            throw new ModuleReferencingSelfException(
-                $"Module '{moduleType.Name}' cannot reference itself. " +
-                "A module cannot depend on its own result.");
-        }
-
-        return _pipelineContext.GetModule<TModule>();
-    }
-
-    IModule? IPipelineContext.GetModule(Type type)
-    {
-        return _pipelineContext.GetModule(type);
-    }
-
-    #endregion
-
     #region IPipelineHookContext delegation
 
     public IServiceProvider ServiceProvider => _pipelineContext.ServiceProvider;
@@ -165,10 +142,10 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public IInstaller Installer => _pipelineContext.Installer;
 
     IDependencyCollisionDetector IInternalPipelineContext.DependencyCollisionDetector =>
-        ((IInternalPipelineContext)_pipelineContext).DependencyCollisionDetector;
+        _internalContext.DependencyCollisionDetector;
 
     IModuleResultRepository IInternalPipelineContext.ModuleResultRepository =>
-        ((IInternalPipelineContext)_pipelineContext).ModuleResultRepository;
+        _internalContext.ModuleResultRepository;
 
     void IInternalPipelineContext.InitializeLogger(Type getType)
     {
@@ -176,7 +153,28 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     }
 
     EngineCancellationToken IInternalPipelineContext.EngineCancellationToken =>
-        ((IInternalPipelineContext)_pipelineContext).EngineCancellationToken;
+        _internalContext.EngineCancellationToken;
+
+    TModule? IInternalPipelineContext.GetModule<TModule>()
+        where TModule : class
+    {
+        var moduleType = typeof(TModule);
+
+        // Check for self-reference
+        if (moduleType == _currentModule.GetType())
+        {
+            throw new ModuleReferencingSelfException(
+                $"Module '{moduleType.Name}' cannot reference itself. " +
+                "A module cannot depend on its own result.");
+        }
+
+        return _internalContext.GetModule<TModule>();
+    }
+
+    IModule? IInternalPipelineContext.GetModule(Type type)
+    {
+        return _internalContext.GetModule(type);
+    }
 
     #endregion
 }

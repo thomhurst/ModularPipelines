@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 
 namespace ModularPipelines.Options;
 
@@ -6,4 +7,5 @@ namespace ModularPipelines.Options;
 /// Options for executing Bash commands using the bash executable.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public record BashOptions() : CommandLineToolOptions("bash");
+[CliTool("bash")]
+public record BashOptions : CommandLineToolOptions;

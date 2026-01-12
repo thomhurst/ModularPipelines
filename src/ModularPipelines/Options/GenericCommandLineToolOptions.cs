@@ -3,5 +3,14 @@ namespace ModularPipelines.Options;
 /// <summary>
 /// Generic command-line tool options for running arbitrary command-line tools.
 /// </summary>
-/// <param name="Tool">The name or path of the command-line tool to execute.</param>
-public record GenericCommandLineToolOptions(string Tool) : CommandLineToolOptions(Tool);
+public record GenericCommandLineToolOptions : CommandLineToolOptions
+{
+    /// <summary>
+    /// Creates options for the specified command-line tool.
+    /// </summary>
+    /// <param name="tool">The name or path of the command-line tool to execute.</param>
+    public GenericCommandLineToolOptions(string tool)
+    {
+        Tool = tool;
+    }
+}

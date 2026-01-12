@@ -89,7 +89,7 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
         var moduleName = MarkupFormatter.FormatModuleName(moduleType.Name);
 
-        // Create a scope to resolve scoped services like IPipelineContext and ModuleLogger<T>
+        // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
         await using (scope.ConfigureAwait(false))
         {
@@ -142,7 +142,7 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineContext>();
+        var pipelineContext = scopedServiceProvider.GetRequiredService<IPipelineHookContext>();
 
         // Create module-specific context
         var executionContext = CreateExecutionContext(module, moduleType);
@@ -180,7 +180,7 @@ internal class ModuleRunner : IModuleRunner
     private async Task ExecuteModuleLifecycle(
         ModuleState moduleState,
         IServiceProvider scopedServiceProvider,
-        IPipelineContext pipelineContext,
+        IPipelineHookContext pipelineContext,
         ModuleExecutionContext executionContext,
         IModuleContext moduleContext,
         CancellationToken cancellationToken)

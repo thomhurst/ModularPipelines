@@ -15,26 +15,29 @@ namespace ModularPipelines.Context;
 /// Orchestrates command-line tool execution by coordinating argument building,
 /// placeholder replacement, and command execution.
 /// </summary>
-public sealed class Command : ICommand
+internal sealed class Command : ICommand
 {
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandModelProvider _commandModelProvider;
     private readonly ICommandArgumentBuilder _commandArgumentBuilder;
     private readonly IPlaceholderHandler _placeholderHandler;
     private readonly ICommandPartsProvider _commandPartsProvider;
+    private readonly IToolResolver _toolResolver;
 
     public Command(
         ICommandLogger commandLogger,
         ICommandModelProvider commandModelProvider,
         ICommandArgumentBuilder commandArgumentBuilder,
         IPlaceholderHandler placeholderHandler,
-        ICommandPartsProvider commandPartsProvider)
+        ICommandPartsProvider commandPartsProvider,
+        IToolResolver toolResolver)
     {
         _commandLogger = commandLogger;
         _commandModelProvider = commandModelProvider;
         _commandArgumentBuilder = commandArgumentBuilder;
         _placeholderHandler = placeholderHandler;
         _commandPartsProvider = commandPartsProvider;
+        _toolResolver = toolResolver;
     }
 
     public async Task<CommandResult> ExecuteCommandLineTool(
@@ -58,7 +61,9 @@ public sealed class Command : ICommand
         var parsedArgs = precedingArgs.Concat(propertyArgs).ToList();
 
         // Add any manual arguments passed via options.Arguments
-        var manualArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), options.Tool)
+        var resolvedTool = _toolResolver.ResolveTool(options)
+            ?? throw new InvalidOperationException($"No tool specified for {options.GetType().Name}. Add [CliTool] attribute to the options class.");
+        var manualArgs = (string.Equals(options.Arguments?.ElementAtOrDefault(0), resolvedTool)
             ? options.Arguments?.Skip(1).ToList() : options.Arguments?.ToList()) ?? new List<string>();
         parsedArgs.AddRange(manualArgs);
 
@@ -72,11 +77,11 @@ public sealed class Command : ICommand
         if (execOpts.Sudo)
         {
             tool = "sudo";
-            parsedArgs.Insert(0, options.Tool);
+            parsedArgs.Insert(0, resolvedTool);
         }
         else
         {
-            tool = options.Tool;
+            tool = resolvedTool;
         }
 
         var command = Cli.Wrap(tool).WithArguments(parsedArgs);

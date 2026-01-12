@@ -3,10 +3,10 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Exceptions;
 
 /// <summary>
-/// An exception that occurs when a module execution fails.
+/// An internal exception that occurs when a module execution fails.
+/// Used by the pipeline engine for error propagation.
 /// </summary>
-[Obsolete("Use pattern matching on ModuleResult<T>.Failure instead. The .Value property has been removed; use ValueOrDefault or Match() for safe access.")]
-public class ModuleFailedException : PipelineException
+internal class ModuleFailedException : PipelineException
 {
     /// <summary>
     /// Gets the module that failed to execute (may be null for composition-based modules).

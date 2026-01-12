@@ -17,7 +17,7 @@ namespace ModularPipelines.Context;
 /// This class is registered as Scoped in the DI container, meaning each module execution
 /// gets its own instance. This ensures proper isolation between concurrent module executions.
 /// </remarks>
-internal class PipelineContext : IPipelineContext, IInternalPipelineContext
+internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
 

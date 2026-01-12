@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-public record NpxOptions() : CommandLineToolOptions("npx");
+[CliTool("npx")]
+public record NpxOptions : CommandLineToolOptions;

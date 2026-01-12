@@ -5,7 +5,8 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Cmd.Models;
 
 [ExcludeFromCodeCoverage]
-public record CmdScriptOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)] string Script) : CommandLineToolOptions("cmd")
+[CliTool("cmd")]
+public record CmdScriptOptions([property: CliArgument(Placement = ArgumentPlacement.AfterOptions)] string Script) : CommandLineToolOptions
 {
     [CliFlag("/q")]
     public virtual bool DisableEcho { get; init; }

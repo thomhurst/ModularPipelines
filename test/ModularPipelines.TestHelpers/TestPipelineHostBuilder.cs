@@ -26,7 +26,7 @@ public static class TestPipelineHostBuilder
                 collection.AddSingleton(new ArmClient(new DefaultAzureCredential()));
                 collection.Configure<PipelineOptions>(opt =>
                 {
-                    opt.DefaultCommandLogging = testHostSettings.CommandLogging;
+                    opt.DefaultLoggingOptions = testHostSettings.CommandLogging;
                     opt.ShowProgressInConsole = testHostSettings.ShowProgressInConsole;
                     opt.PrintResults = false;
                     opt.PrintLogo = false;

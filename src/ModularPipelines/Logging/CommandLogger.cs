@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Options;
 
@@ -60,43 +59,14 @@ internal class CommandLogger : ICommandLogger
 
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandExecutionOptions? execOpts)
     {
-        // Priority: execOpts property > pipeline default > legacy enum
+        // Priority: execOpts property > pipeline default > system default
         if (execOpts?.LogSettings is not null)
         {
             return execOpts.LogSettings;
         }
 
-        if (_pipelineOptions.Value.DefaultLoggingOptions is not null)
-        {
-            return _pipelineOptions.Value.DefaultLoggingOptions;
-        }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        // Fall back to legacy CommandLogging enum conversion
-        var legacyLogging = _pipelineOptions.Value.DefaultCommandLogging;
-        return ConvertFromLegacy(legacyLogging);
-#pragma warning restore CS0618
+        return _pipelineOptions.Value.DefaultLoggingOptions ?? CommandLoggingOptions.Default;
     }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-    private static CommandLoggingOptions ConvertFromLegacy(CommandLogging legacy)
-    {
-        if (legacy == CommandLogging.None)
-        {
-            return CommandLoggingOptions.Silent;
-        }
-
-        return new CommandLoggingOptions
-        {
-            Verbosity = CommandLogVerbosity.Normal,
-            ShowCommandArguments = legacy.HasFlag(CommandLogging.Input),
-            ShowStandardOutput = legacy.HasFlag(CommandLogging.Output),
-            ShowStandardError = legacy.HasFlag(CommandLogging.Error),
-            ShowExitCode = legacy.HasFlag(CommandLogging.ExitCode),
-            ShowExecutionTime = legacy.HasFlag(CommandLogging.Duration),
-        };
-    }
-#pragma warning restore CS0618
 
     private void LogDryRunCommand(CommandLoggingOptions options, string workingDirectory, string? input)
     {

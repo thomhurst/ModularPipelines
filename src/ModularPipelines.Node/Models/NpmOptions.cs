@@ -1,7 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Node.Models;
 
 [ExcludeFromCodeCoverage]
-public record NpmOptions() : CommandLineToolOptions("npm");
+[CliTool("npm")]
+public record NpmOptions : CommandLineToolOptions;

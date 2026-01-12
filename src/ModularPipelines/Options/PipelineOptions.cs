@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using ModularPipelines.Enums;
 using Spectre.Console;
 
 namespace ModularPipelines.Options;
@@ -116,16 +115,10 @@ public record PipelineOptions
     /// <list type="number">
     /// <item><see cref="CommandExecutionOptions.LogSettings"/> - Per-call override (highest priority)</item>
     /// <item>This <see cref="DefaultLoggingOptions"/> - Global default</item>
-    /// <item><see cref="DefaultCommandLogging"/> - Legacy enum-based fallback (lowest priority)</item>
+    /// <item>System defaults (lowest priority)</item>
     /// </list>
     /// </remarks>
     public CommandLoggingOptions? DefaultLoggingOptions { get; set; }
-
-    /// <summary>
-    /// Gets or sets the default command logging level for all commands.
-    /// </summary>
-    [Obsolete("Use DefaultLoggingOptions instead. This property will be removed in a future version.")]
-    public CommandLogging DefaultCommandLogging { get; set; } = CommandLogging.Default;
 
     /// <summary>
     /// Gets or sets the default HTTP logging options for all HTTP requests.

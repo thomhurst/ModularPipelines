@@ -88,7 +88,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.SkipCondition).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         await Assert.That(decision.ShouldSkip).IsTrue();
@@ -101,7 +101,7 @@ public class ModuleConfigurationTests
             .WithSkipWhen(() => false)
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         await Assert.That(decision.ShouldSkip).IsFalse();
@@ -120,7 +120,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.SkipCondition).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         await Assert.That(decision.ShouldSkip).IsTrue();
@@ -135,7 +135,7 @@ public class ModuleConfigurationTests
             .WithSkipWhen(() => expectedDecision)
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         using (Assert.Multiple())
@@ -158,7 +158,7 @@ public class ModuleConfigurationTests
             })
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         using (Assert.Multiple())
@@ -175,7 +175,7 @@ public class ModuleConfigurationTests
             .WithSkipWhen(ctx => ctx != null)
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         await Assert.That(decision.ShouldSkip).IsTrue();
@@ -192,7 +192,7 @@ public class ModuleConfigurationTests
             })
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         await Assert.That(decision.ShouldSkip).IsTrue();
@@ -205,7 +205,7 @@ public class ModuleConfigurationTests
             .WithSkipWhen(ctx => ctx != null ? SkipDecision.Skip("Has context") : SkipDecision.DoNotSkip)
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         using (Assert.Multiple())
@@ -226,7 +226,7 @@ public class ModuleConfigurationTests
             })
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var decision = await config.SkipCondition!(context);
 
         using (Assert.Multiple())
@@ -267,7 +267,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.RetryPolicyFactory).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var result = config.RetryPolicyFactory!(context);
 
         await Assert.That(result).IsEqualTo(policy);
@@ -284,7 +284,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.RetryPolicyFactory).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var result = config.RetryPolicyFactory!(context);
 
         await Assert.That(result).IsEqualTo(policy);
@@ -313,7 +313,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         var result = await config.IgnoreFailuresCondition!(context, new Exception("test"));
 
         await Assert.That(result).IsTrue();
@@ -328,7 +328,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.IgnoreFailuresCondition).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
 
         var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"));
         await Assert.That(shouldIgnore).IsTrue();
@@ -348,7 +348,7 @@ public class ModuleConfigurationTests
             })
             .Build();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
 
         var shouldIgnore = await config.IgnoreFailuresCondition!(context, new Exception("ignore"));
         await Assert.That(shouldIgnore).IsTrue();
@@ -390,7 +390,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.OnBeforeExecute).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         await config.OnBeforeExecute!(context);
 
         await Assert.That(executed).IsTrue();
@@ -415,7 +415,7 @@ public class ModuleConfigurationTests
 
         await Assert.That(config.OnAfterExecute).IsNotNull();
 
-        var context = Mock.Of<IPipelineContext>();
+        var context = Mock.Of<IModuleContext>();
         await config.OnAfterExecute!(context);
 
         await Assert.That(executed).IsTrue();

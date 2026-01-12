@@ -6,9 +6,9 @@ namespace ModularPipelines.Cmd;
 
 internal class Cmd : ICmd
 {
-    private readonly IPipelineContext _context;
+    private readonly IPipelineHookContext _context;
 
-    public Cmd(IPipelineContext context)
+    public Cmd(IPipelineHookContext context)
     {
         _context = context;
     }

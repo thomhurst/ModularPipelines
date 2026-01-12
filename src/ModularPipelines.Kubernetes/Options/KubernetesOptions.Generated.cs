@@ -16,6 +16,7 @@ namespace ModularPipelines.Kubernetes.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record KubernetesOptions() : CommandLineToolOptions("kubectl")
+[CliTool("kubectl")]
+public abstract record KubernetesOptions : CommandLineToolOptions
 {
 }

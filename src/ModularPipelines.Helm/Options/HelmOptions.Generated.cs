@@ -16,6 +16,7 @@ namespace ModularPipelines.Helm.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record HelmOptions() : CommandLineToolOptions("helm")
+[CliTool("helm")]
+public abstract record HelmOptions : CommandLineToolOptions
 {
 }

@@ -31,7 +31,7 @@ public static partial class CSharpAnalyzerVerifier<TAnalyzer>
             ReferenceAssemblies = Net.Net80,
             TestState =
             {
-                AdditionalReferences = { typeof(IPipelineContext).Assembly.Location },
+                AdditionalReferences = { typeof(IModuleContext).Assembly.Location },
             },
         };
 

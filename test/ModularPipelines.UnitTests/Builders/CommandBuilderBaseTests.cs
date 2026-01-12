@@ -12,8 +12,9 @@ public class CommandBuilderBaseTests : TestBase
 {
     #region Test Options and Builder
 
+    [CliTool("testtool")]
     [CliCommand("testtool", "command")]
-    private record TestToolOptions() : CommandLineToolOptions("testtool")
+    private record TestToolOptions : CommandLineToolOptions
     {
         [CliOption("--config")]
         public string? Configuration { get; init; }

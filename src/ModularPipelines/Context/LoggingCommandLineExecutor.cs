@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
-using ModularPipelines.Enums;
 using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
@@ -76,43 +75,14 @@ internal sealed class LoggingCommandLineExecutor : ICommandLineExecutor
 
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandExecutionOptions? options)
     {
-        // Priority: options.LogSettings > pipeline default
+        // Priority: options.LogSettings > pipeline default > system default
         if (options?.LogSettings is not null)
         {
             return options.LogSettings;
         }
 
-        if (_pipelineOptions.Value.DefaultLoggingOptions is not null)
-        {
-            return _pipelineOptions.Value.DefaultLoggingOptions;
-        }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        // Fall back to legacy CommandLogging enum conversion
-        var legacyLogging = _pipelineOptions.Value.DefaultCommandLogging;
-        return ConvertFromLegacy(legacyLogging);
-#pragma warning restore CS0618
+        return _pipelineOptions.Value.DefaultLoggingOptions ?? CommandLoggingOptions.Default;
     }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-    private static CommandLoggingOptions ConvertFromLegacy(CommandLogging legacy)
-    {
-        if (legacy == CommandLogging.None)
-        {
-            return CommandLoggingOptions.Silent;
-        }
-
-        return new CommandLoggingOptions
-        {
-            Verbosity = CommandLogVerbosity.Normal,
-            ShowCommandArguments = legacy.HasFlag(CommandLogging.Input),
-            ShowStandardOutput = legacy.HasFlag(CommandLogging.Output),
-            ShowStandardError = legacy.HasFlag(CommandLogging.Error),
-            ShowExitCode = legacy.HasFlag(CommandLogging.ExitCode),
-            ShowExecutionTime = legacy.HasFlag(CommandLogging.Duration),
-        };
-    }
-#pragma warning restore CS0618
 
     private string GetInputToLog(CommandLine commandLine, CommandExecutionOptions? options)
     {

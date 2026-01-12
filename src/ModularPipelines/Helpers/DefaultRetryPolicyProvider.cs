@@ -6,7 +6,7 @@ namespace ModularPipelines.Helpers;
 
 internal static class DefaultRetryPolicyProvider
 {
-    public static AsyncRetryPolicy<T> GetDefaultRetryPolicy<T>(IPipelineContext context)
+    public static AsyncRetryPolicy<T> GetDefaultRetryPolicy<T>(IPipelineHookContext context)
     {
         var retryCount = context.PipelineOptions.Value.DefaultRetryCount;
 

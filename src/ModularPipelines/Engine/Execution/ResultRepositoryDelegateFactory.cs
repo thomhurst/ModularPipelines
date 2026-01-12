@@ -18,7 +18,7 @@ internal static class ResultRepositoryDelegateFactory
     internal delegate Task<IModuleResult?> GetResultDelegate(
         IModuleResultRepository repository,
         IModule module,
-        IPipelineContext context);
+        IPipelineHookContext context);
 
     private static readonly ConcurrentDictionary<Type, GetResultDelegate> GetResultCache = new();
 
@@ -50,7 +50,7 @@ internal static class ResultRepositoryDelegateFactory
     {
         var repositoryParam = Expression.Parameter(typeof(IModuleResultRepository), "repository");
         var moduleParam = Expression.Parameter(typeof(IModule), "module");
-        var contextParam = Expression.Parameter(typeof(IPipelineContext), "context");
+        var contextParam = Expression.Parameter(typeof(IPipelineHookContext), "context");
 
         // Get types
         var moduleType = typeof(Module<>).MakeGenericType(resultType);
@@ -80,7 +80,7 @@ internal static class ResultRepositoryDelegateFactory
     private static async Task<IModuleResult?> GetResultAndCastAsync<T>(
         IModuleResultRepository repository,
         Module<T> module,
-        IPipelineContext context)
+        IPipelineHookContext context)
     {
         var result = await repository.GetResultAsync(module, context).ConfigureAwait(false);
         return result;

@@ -16,6 +16,7 @@ namespace ModularPipelines.Docker.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record DockerOptions() : CommandLineToolOptions("docker")
+[CliTool("docker")]
+public abstract record DockerOptions : CommandLineToolOptions
 {
 }
