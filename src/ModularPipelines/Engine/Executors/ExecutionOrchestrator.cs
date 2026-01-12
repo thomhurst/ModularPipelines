@@ -130,7 +130,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
 
         _outputCoordinator.PrintResults(pipelineSummary);
 
-        await Console.Out.FlushAsync().ConfigureAwait(false);
+        await System.Console.Out.FlushAsync().ConfigureAwait(false);
 
         // Flush any buffered exceptions after the results table has been printed
         _outputCoordinator.FlushExceptions();

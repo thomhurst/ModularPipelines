@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 
@@ -61,27 +62,24 @@ internal abstract class ModuleLogger : IModuleLogger, IConsoleWriter
 
 internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, ILogger<T>
 {
-    private static readonly string CategoryName = typeof(T).FullName ?? typeof(T).Name;
-
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
-    private readonly ModuleOutputWriter _outputWriter;
+    private readonly IModuleOutputBuffer _buffer;
 
     private bool _isDisposed;
 
     // ReSharper disable once ContextualLoggerProblem
-    public ModuleLogger(ILogger<T> defaultLogger,
-        IModuleLoggerContainer moduleLoggerContainer,
+    public ModuleLogger(
+        ILogger<T> defaultLogger,
         ISecretObfuscator secretObfuscator,
         IFormattedLogValuesObfuscator formattedLogValuesObfuscator,
-        IModuleOutputWriterFactory outputWriterFactory)
+        IConsoleCoordinator consoleCoordinator)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
-        _outputWriter = outputWriterFactory.Create(typeof(T).Name, defaultLogger);
-        moduleLoggerContainer.AddLogger(this);
+        _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
 
         Disposer.RegisterOnShutdown(this);
     }
@@ -114,9 +112,15 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
 
             var mappedFormatter = MapFormatter(formatter);
 
-            var logEvent = (logLevel, eventId, (object)state!, exception, mappedFormatter, CategoryName);
+            // Write to buffer for ordered module output during pipeline execution
+            _buffer.AddLogEvent(logLevel, eventId, state!, exception, mappedFormatter);
 
-            _outputWriter.AddLogEvent(logEvent);
+            // Create an obfuscating wrapper for the typed formatter
+            var obfuscatingFormatter = CreateObfuscatingFormatter(formatter);
+
+            // Also write directly to the default logger for immediate output
+            // This ensures logs are captured by file loggers and other providers
+            _defaultLogger.Log(logLevel, eventId, state, exception, obfuscatingFormatter);
 
             LastLogWritten = DateTime.UtcNow;
         }
@@ -135,10 +139,10 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
 
             if (_exception != null)
             {
-                _outputWriter.SetException(_exception);
+                _buffer.SetException(_exception);
             }
 
-            _outputWriter.Dispose();
+            _buffer.MarkCompleted();
 
             GC.SuppressFinalize(this);
         }
@@ -146,7 +150,8 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
 
     public override void LogToConsole(string value)
     {
-        _outputWriter.WriteLine(value);
+        var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
+        _buffer.WriteLine(obfuscated);
     }
 
     private Func<object, Exception?, string> MapFormatter<TState>(Func<TState, Exception?, string>? formatter)
@@ -159,6 +164,20 @@ internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, IL
         return (o, exception) =>
         {
             var formattedString = formatter.Invoke((TState) o, exception);
+            return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
+        };
+    }
+
+    private Func<TState, Exception?, string> CreateObfuscatingFormatter<TState>(Func<TState, Exception?, string>? formatter)
+    {
+        if (formatter is null)
+        {
+            return (_, _) => string.Empty;
+        }
+
+        return (state, exception) =>
+        {
+            var formattedString = formatter.Invoke(state, exception);
             return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
         };
     }

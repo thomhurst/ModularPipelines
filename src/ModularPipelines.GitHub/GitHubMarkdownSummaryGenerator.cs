@@ -50,7 +50,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 
         if (newSize > MaxFileSizeInBytes)
         {
-            Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
+            System.Console.WriteLine("Appending to the GitHub Step Summary would exceed the 1MB file size limit.");
             return;
         }
 
