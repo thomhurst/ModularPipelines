@@ -86,38 +86,60 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 throw new InvalidOperationException("ConsoleCoordinator is already installed.");
             }
 
-            // Save original streams
-            _originalConsoleOut = System.Console.Out;
-            _originalConsoleError = System.Console.Error;
-            _originalAnsiConsole = AnsiConsole.Console;
+            // Save original streams before any modifications
+            var originalOut = System.Console.Out;
+            var originalError = System.Console.Error;
+            var originalAnsi = AnsiConsole.Console;
 
-            // Configure Spectre.Console to use the REAL console directly
-            // This bypasses our interception for progress rendering
-            AnsiConsole.Console = AnsiConsole.Create(new AnsiConsoleSettings
+            try
             {
-                Out = new AnsiConsoleOutput(_originalConsoleOut)
-            });
+                _originalConsoleOut = originalOut;
+                _originalConsoleError = originalError;
+                _originalAnsiConsole = originalAnsi;
 
-            // Create logger for structured output during flush
-            _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
+                // Configure Spectre.Console to use the REAL console directly
+                // This bypasses our interception for progress rendering
+                AnsiConsole.Console = AnsiConsole.Create(new AnsiConsoleSettings
+                {
+                    Out = new AnsiConsoleOutput(_originalConsoleOut)
+                });
 
-            // Install our intercepting writers
-            _coordinatedOut = new CoordinatedTextWriter(
-                this,
-                _originalConsoleOut,
-                () => _isProgressActive,
-                _secretObfuscator);
+                // Create logger for structured output during flush
+                _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
 
-            _coordinatedError = new CoordinatedTextWriter(
-                this,
-                _originalConsoleError,
-                () => _isProgressActive,
-                _secretObfuscator);
+                // Install our intercepting writers
+                _coordinatedOut = new CoordinatedTextWriter(
+                    this,
+                    _originalConsoleOut,
+                    () => _isProgressActive,
+                    _secretObfuscator);
 
-            System.Console.SetOut(_coordinatedOut);
-            System.Console.SetError(_coordinatedError);
+                _coordinatedError = new CoordinatedTextWriter(
+                    this,
+                    _originalConsoleError,
+                    () => _isProgressActive,
+                    _secretObfuscator);
 
-            _isInstalled = true;
+                System.Console.SetOut(_coordinatedOut);
+                System.Console.SetError(_coordinatedError);
+
+                _isInstalled = true;
+            }
+            catch
+            {
+                // Restore original streams on failure
+                System.Console.SetOut(originalOut);
+                System.Console.SetError(originalError);
+                AnsiConsole.Console = originalAnsi;
+
+                _originalConsoleOut = null;
+                _originalConsoleError = null;
+                _originalAnsiConsole = null;
+                _coordinatedOut = null;
+                _coordinatedError = null;
+
+                throw;
+            }
         }
     }
 
@@ -246,6 +268,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             var moduleLogger = _loggerFactory.CreateLogger(buffer.ModuleType);
             buffer.FlushTo(_originalConsoleOut, formatter, moduleLogger);
         }
+
+        // Clear buffers after flush to release memory
+        // This prevents accumulation in long-running pipelines
+        _moduleBuffers.Clear();
     }
 
     /// <inheritdoc />
