@@ -5,6 +5,8 @@ namespace ModularPipelines.Exceptions;
 /// </summary>
 public class CommandException : PipelineException
 {
+    private readonly Lazy<string> _formattedMessage;
+
     /// <summary>
     /// Initialises a new instance of the <see cref="CommandException"/> class.
     /// Initializes a new instance of the <see cref="CommandException"/> class.
@@ -15,13 +17,32 @@ public class CommandException : PipelineException
     /// <param name="standardOutput">The standard output from the command.</param>
     /// <param name="standardError">The standard error from the command.</param>
     /// <param name="innerException">The inner exception that caused this command failure.</param>
-    public CommandException(string input, int exitCode, TimeSpan executionTime, string standardOutput, string standardError, Exception? innerException = null) : base(GenerateMessage(input, exitCode, executionTime, standardOutput, standardError), innerException)
+    public CommandException(string input, int exitCode, TimeSpan executionTime, string standardOutput, string standardError, Exception? innerException = null)
+        : base($"Command failed with exit code {exitCode}", innerException)
     {
+        Input = input;
         ExitCode = exitCode;
         ExecutionTime = executionTime;
         StandardOutput = standardOutput;
         StandardError = standardError;
+
+        _formattedMessage = new Lazy<string>(() => $"""
+
+               Input: {Input}
+
+               Error: {GetOutput(StandardOutput, StandardError)}
+
+               Exit Code: {ExitCode}
+               """);
     }
+
+    /// <inheritdoc />
+    public override string Message => _formattedMessage.Value;
+
+    /// <summary>
+    /// Gets the command input that was executed.
+    /// </summary>
+    public string Input { get; }
 
     /// <summary>
     /// Gets the exit code returned by the failed command.
@@ -42,19 +63,6 @@ public class CommandException : PipelineException
     /// Gets the standard error from the failed command.
     /// </summary>
     public string StandardError { get; }
-
-    private static string GenerateMessage(string input, int exitCode, TimeSpan executionTime,
-        string standardOutput, string standardError)
-    {
-        return $"""
-               
-               Input: {input}
-               
-               Error: {GetOutput(standardOutput, standardError)}
-               
-               Exit Code: {exitCode}
-               """;
-    }
 
     private static string GetOutput(string standardOutput, string standardError)
     {

@@ -8,6 +8,8 @@ namespace ModularPipelines.Exceptions;
 /// </summary>
 public class HttpResponseException : PipelineException
 {
+    private readonly Lazy<string> _formattedMessage;
+
     /// <summary>
     /// Gets the HTTP status code of the failed response.
     /// </summary>
@@ -36,12 +38,13 @@ public class HttpResponseException : PipelineException
     /// <param name="responseContent">The content of the response.</param>
     /// <param name="requestUri">The request URI.</param>
     public HttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri))
+        : base($"HTTP request failed with status code {(int)statusCode} ({statusCode})")
     {
         StatusCode = statusCode;
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;
+        _formattedMessage = new Lazy<string>(FormatMessage);
     }
 
     /// <summary>
@@ -53,35 +56,39 @@ public class HttpResponseException : PipelineException
     /// <param name="requestUri">The request URI.</param>
     /// <param name="innerException">The inner exception.</param>
     public HttpResponseException(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri, Exception? innerException)
-        : base(FormatMessage(statusCode, reasonPhrase, responseContent, requestUri), innerException)
+        : base($"HTTP request failed with status code {(int)statusCode} ({statusCode})", innerException)
     {
         StatusCode = statusCode;
         ReasonPhrase = reasonPhrase;
         ResponseContent = responseContent;
         RequestUri = requestUri;
+        _formattedMessage = new Lazy<string>(FormatMessage);
     }
 
-    private static string FormatMessage(HttpStatusCode statusCode, string? reasonPhrase, string? responseContent, Uri? requestUri)
+    /// <inheritdoc />
+    public override string Message => _formattedMessage.Value;
+
+    private string FormatMessage()
     {
-        var message = $"HTTP request failed with status code {(int)statusCode} ({statusCode})";
+        var message = $"HTTP request failed with status code {(int)StatusCode} ({StatusCode})";
 
-        if (!string.IsNullOrWhiteSpace(reasonPhrase))
+        if (!string.IsNullOrWhiteSpace(ReasonPhrase))
         {
-            message += $": {reasonPhrase}";
+            message += $": {ReasonPhrase}";
         }
 
-        if (requestUri is not null)
+        if (RequestUri is not null)
         {
-            message += $"\nRequest URI: {requestUri}";
+            message += $"\nRequest URI: {RequestUri}";
         }
 
-        if (!string.IsNullOrWhiteSpace(responseContent))
+        if (!string.IsNullOrWhiteSpace(ResponseContent))
         {
             // Truncate very long responses to avoid excessive exception messages
             const int maxContentLength = 2000;
-            var truncatedContent = responseContent.Length > maxContentLength
-                ? responseContent[..maxContentLength] + "... (truncated)"
-                : responseContent;
+            var truncatedContent = ResponseContent.Length > maxContentLength
+                ? ResponseContent[..maxContentLength] + "... (truncated)"
+                : ResponseContent;
             message += $"\nResponse content: {truncatedContent}";
         }
 
