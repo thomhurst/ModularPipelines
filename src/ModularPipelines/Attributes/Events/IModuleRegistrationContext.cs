@@ -93,8 +93,9 @@ public interface IModuleRegistrationContext
 
     /// <summary>
     /// Gets the service collection for registering additional services.
+    /// This is null when the context is used post-container-build (e.g., for hook execution).
     /// </summary>
-    IServiceCollection Services { get; }
+    IServiceCollection? Services { get; }
 
     /// <summary>
     /// Sets metadata that can be retrieved during module execution.

@@ -2,7 +2,7 @@ namespace ModularPipelines.GitHub.PipelineWriters;
 
 public record WorkflowDispatchInputObject
 {
-    public string Description { get; init; } = null!;
+    public required string Description { get; init; }
 
     public string Type { get; init; } = "string";
 
