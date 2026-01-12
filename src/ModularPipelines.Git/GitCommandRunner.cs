@@ -8,10 +8,10 @@ namespace ModularPipelines.Git;
 /// <inheritdoc />
 public class GitCommandRunner : IGitCommandRunner
 {
-    private readonly IModuleContext _context;
+    private readonly IPipelineHookContext _context;
     private readonly ILogger<GitCommandRunner> _logger;
 
-    public GitCommandRunner(IModuleContext context, ILogger<GitCommandRunner> logger)
+    public GitCommandRunner(IPipelineHookContext context, ILogger<GitCommandRunner> logger)
     {
         _context = context;
         _logger = logger;
