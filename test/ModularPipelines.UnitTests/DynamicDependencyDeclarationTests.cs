@@ -470,7 +470,7 @@ public class DynamicDependencyDeclarationTests : TestBase
         var declaration = new DependencyDeclaration();
 
         await Assert.That(() => declaration.DependsOn(typeof(string)))
-            .ThrowsException()
+            .Throws<InvalidModuleTypeException>()
             .And.HasMessageContaining("is not a Module");
     }
 

@@ -1,4 +1,5 @@
 using ModularPipelines.Enums;
+using ModularPipelines.Exceptions;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
@@ -103,9 +104,7 @@ internal sealed class DependencyDeclaration : IDependencyDeclaration
 
         if (!moduleType.IsAssignableTo(typeof(IModule)))
         {
-            throw new ArgumentException(
-                $"{moduleType.FullName} is not a Module (does not implement IModule)",
-                nameof(moduleType));
+            throw new InvalidModuleTypeException(moduleType);
         }
     }
 }

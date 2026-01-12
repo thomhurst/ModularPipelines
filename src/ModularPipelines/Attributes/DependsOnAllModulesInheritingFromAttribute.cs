@@ -1,3 +1,4 @@
+using ModularPipelines.Exceptions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Attributes;
@@ -9,7 +10,7 @@ public class DependsOnAllModulesInheritingFromAttribute : Attribute
     {
         if (!type.IsAssignableTo(typeof(IModule)))
         {
-            throw new Exception($"{type.FullName} is not a Module class");
+            throw new InvalidModuleTypeException(type);
         }
 
         Type = type;
