@@ -189,7 +189,7 @@ internal class ModuleRunner : IModuleRunner
         var moduleType = moduleState.ModuleType;
 
         // Before module hooks
-        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(moduleState).ConfigureAwait(false);
+        await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration)).ConfigureAwait(false);
@@ -237,7 +237,7 @@ internal class ModuleRunner : IModuleRunner
             }
 
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnAfterModuleEndAsync(moduleState).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
 
             // Invoke OnModuleEnd lifecycle event
             await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);

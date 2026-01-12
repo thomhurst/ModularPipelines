@@ -56,7 +56,7 @@ internal class PipelineInitializer : IPipelineInitializer
 
         _dependencyDetector.Check();
 
-        await _pipelineSetupExecutor.OnStartAsync().ConfigureAwait(false);
+        await _pipelineSetupExecutor.OnPipelineStartAsync().ConfigureAwait(false);
 
         await _requirementsChecker.CheckRequirementsAsync().ConfigureAwait(false);
 
