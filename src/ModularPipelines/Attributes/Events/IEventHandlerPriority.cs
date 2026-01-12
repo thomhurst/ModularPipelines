@@ -16,18 +16,16 @@ namespace ModularPipelines.Attributes.Events;
 /// </remarks>
 /// <example>
 /// <code>
-/// [EventHandlerPriority(100)]
-/// public class LoggingEventHandler : Attribute, IModuleStartEventReceiver, IEventHandlerPriority
+/// public class LoggingEventHandler : Attribute, IModuleStartHandler, IEventHandlerPriority
 /// {
 ///     public int Priority => 100;
-///     public Task OnModuleStartAsync(IModuleEventContext context) => /* log */;
+///     public Task OnModuleStartAsync(IModuleHookContext context) => /* log */;
 /// }
 ///
-/// [EventHandlerPriority(200)]
-/// public class MetricsEventHandler : Attribute, IModuleStartEventReceiver, IEventHandlerPriority
+/// public class MetricsEventHandler : Attribute, IModuleStartHandler, IEventHandlerPriority
 /// {
 ///     public int Priority => 200;
-///     public Task OnModuleStartAsync(IModuleEventContext context) => /* record metrics */;
+///     public Task OnModuleStartAsync(IModuleHookContext context) => /* record metrics */;
 /// }
 /// // LoggingEventHandler (100) runs before MetricsEventHandler (200)
 /// </code>

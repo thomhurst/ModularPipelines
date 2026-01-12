@@ -14,38 +14,38 @@ public class LifecycleEventIntegrationTests : TestBase
 {
     private static readonly List<string> EventLog = new();
 
-    public class LogStartAttribute : Attribute, IModuleStartEventReceiver
+    public class LogStartAttribute : Attribute, IModuleStartHandler
     {
-        public Task OnModuleStartAsync(IModuleEventContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
             EventLog.Add($"Start:{context.ModuleName}");
             return Task.CompletedTask;
         }
     }
 
-    public class LogEndAttribute : Attribute, IModuleEndEventReceiver
+    public class LogEndAttribute : Attribute, IModuleEndHandler
     {
-        public Task OnModuleEndAsync(IModuleEventContext context, IModuleResult result)
+        public Task OnModuleEndAsync(IModuleHookContext context, IModuleResult result)
         {
             EventLog.Add($"End:{context.ModuleName}");
             return Task.CompletedTask;
         }
     }
 
-    public class LogFailedAttribute : Attribute, IModuleFailureEventReceiver
+    public class LogFailedAttribute : Attribute, IModuleFailureHandler
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleFailureAsync(IModuleEventContext context, Exception exception)
+        public Task OnModuleFailureAsync(IModuleHookContext context, Exception exception)
         {
             EventLog.Add($"Failed:{context.ModuleName}:{exception.Message}");
             return Task.CompletedTask;
         }
     }
 
-    public class LogSkippedAttribute : Attribute, IModuleSkippedEventReceiver
+    public class LogSkippedAttribute : Attribute, IModuleSkippedHandler
     {
-        public Task OnModuleSkippedAsync(IModuleEventContext context, SkipDecision reason)
+        public Task OnModuleSkippedAsync(IModuleHookContext context, SkipDecision reason)
         {
             EventLog.Add($"Skipped:{context.ModuleName}:{reason.Reason}");
             return Task.CompletedTask;

@@ -1,11 +1,12 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>
-/// Invokes attribute event receivers with configurable error handling.
+/// Invokes attribute event handlers with configurable error handling.
 /// </summary>
 internal class AttributeEventInvoker : IAttributeEventInvoker
 {
@@ -34,21 +35,21 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
-    public async Task InvokeReadyReceiversAsync(
-        IEnumerable<IModuleReadyEventReceiver> receivers,
-        IModuleReadyContext context)
+    public async Task InvokeReadyHandlersAsync(
+        IEnumerable<IModuleReadyHandler> handlers,
+        IModuleHookContext context)
     {
-        foreach (var receiver in receivers)
+        foreach (var handler in handlers)
         {
             try
             {
-                await receiver.OnModuleReadyAsync(context).ConfigureAwait(false);
+                await handler.OnModuleReadyAsync(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                if (receiver.ContinueOnError)
+                if (handler.ContinueOnError)
                 {
-                    _logger.LogWarning(ex, "Ready receiver {Type} failed, continuing", receiver.GetType().Name);
+                    _logger.LogWarning(ex, "Ready handler {Type} failed, continuing", handler.GetType().Name);
                 }
                 else
                 {
@@ -58,21 +59,21 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
-    public async Task InvokeStartReceiversAsync(
-        IEnumerable<IModuleStartEventReceiver> receivers,
-        IModuleEventContext context)
+    public async Task InvokeStartHandlersAsync(
+        IEnumerable<IModuleStartHandler> handlers,
+        IModuleHookContext context)
     {
-        foreach (var receiver in receivers)
+        foreach (var handler in handlers)
         {
             try
             {
-                await receiver.OnModuleStartAsync(context).ConfigureAwait(false);
+                await handler.OnModuleStartAsync(context).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                if (receiver.ContinueOnError)
+                if (handler.ContinueOnError)
                 {
-                    _logger.LogWarning(ex, "Start receiver {Type} failed, continuing", receiver.GetType().Name);
+                    _logger.LogWarning(ex, "Start handler {Type} failed, continuing", handler.GetType().Name);
                 }
                 else
                 {
@@ -82,22 +83,22 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
-    public async Task InvokeEndReceiversAsync(
-        IEnumerable<IModuleEndEventReceiver> receivers,
-        IModuleEventContext context,
+    public async Task InvokeEndHandlersAsync(
+        IEnumerable<IModuleEndHandler> handlers,
+        IModuleHookContext context,
         IModuleResult result)
     {
-        foreach (var receiver in receivers)
+        foreach (var handler in handlers)
         {
             try
             {
-                await receiver.OnModuleEndAsync(context, result).ConfigureAwait(false);
+                await handler.OnModuleEndAsync(context, result).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                if (receiver.ContinueOnError)
+                if (handler.ContinueOnError)
                 {
-                    _logger.LogWarning(ex, "End receiver {Type} failed, continuing", receiver.GetType().Name);
+                    _logger.LogWarning(ex, "End handler {Type} failed, continuing", handler.GetType().Name);
                 }
                 else
                 {
@@ -107,22 +108,22 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
-    public async Task InvokeFailureReceiversAsync(
-        IEnumerable<IModuleFailureEventReceiver> receivers,
-        IModuleEventContext context,
+    public async Task InvokeFailureHandlersAsync(
+        IEnumerable<IModuleFailureHandler> handlers,
+        IModuleHookContext context,
         Exception exception)
     {
-        foreach (var receiver in receivers)
+        foreach (var handler in handlers)
         {
             try
             {
-                await receiver.OnModuleFailureAsync(context, exception).ConfigureAwait(false);
+                await handler.OnModuleFailureAsync(context, exception).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                if (receiver.ContinueOnError)
+                if (handler.ContinueOnError)
                 {
-                    _logger.LogWarning(ex, "Failure receiver {Type} failed, continuing", receiver.GetType().Name);
+                    _logger.LogWarning(ex, "Failure handler {Type} failed, continuing", handler.GetType().Name);
                 }
                 else
                 {
@@ -132,22 +133,22 @@ internal class AttributeEventInvoker : IAttributeEventInvoker
         }
     }
 
-    public async Task InvokeSkippedReceiversAsync(
-        IEnumerable<IModuleSkippedEventReceiver> receivers,
-        IModuleEventContext context,
+    public async Task InvokeSkippedHandlersAsync(
+        IEnumerable<IModuleSkippedHandler> handlers,
+        IModuleHookContext context,
         SkipDecision reason)
     {
-        foreach (var receiver in receivers)
+        foreach (var handler in handlers)
         {
             try
             {
-                await receiver.OnModuleSkippedAsync(context, reason).ConfigureAwait(false);
+                await handler.OnModuleSkippedAsync(context, reason).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                if (receiver.ContinueOnError)
+                if (handler.ContinueOnError)
                 {
-                    _logger.LogWarning(ex, "Skipped receiver {Type} failed, continuing", receiver.GetType().Name);
+                    _logger.LogWarning(ex, "Skipped handler {Type} failed, continuing", handler.GetType().Name);
                 }
                 else
                 {

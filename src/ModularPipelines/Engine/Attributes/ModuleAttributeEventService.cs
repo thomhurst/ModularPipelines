@@ -5,47 +5,47 @@ using ModularPipelines.Attributes.Events;
 namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>
-/// Discovers and caches attribute event receivers on modules.
-/// Receivers are returned sorted by priority (lower values first).
-/// Receivers that implement <see cref="IEventHandlerPriority"/> are sorted by their <see cref="IEventHandlerPriority.Priority"/> value.
-/// Receivers without priority default to 0.
+/// Discovers and caches attribute event handlers on modules.
+/// Handlers are returned sorted by priority (lower values first).
+/// Handlers that implement <see cref="IEventHandlerPriority"/> are sorted by their <see cref="IEventHandlerPriority.Priority"/> value.
+/// Handlers without priority default to 0.
 /// </summary>
 internal class ModuleAttributeEventService : IModuleAttributeEventService
 {
-    private readonly ConcurrentDictionary<Type, AttributeReceiverCache> _cache = new();
+    private readonly ConcurrentDictionary<Type, AttributeHandlerCache> _cache = new();
 
     public IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType)
         => GetCache(moduleType).RegistrationReceivers;
 
-    public IReadOnlyList<IModuleReadyEventReceiver> GetReadyReceivers(Type moduleType)
-        => GetCache(moduleType).ReadyReceivers;
+    public IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType)
+        => GetCache(moduleType).ReadyHandlers;
 
-    public IReadOnlyList<IModuleStartEventReceiver> GetStartReceivers(Type moduleType)
-        => GetCache(moduleType).StartReceivers;
+    public IReadOnlyList<IModuleStartHandler> GetStartHandlers(Type moduleType)
+        => GetCache(moduleType).StartHandlers;
 
-    public IReadOnlyList<IModuleEndEventReceiver> GetEndReceivers(Type moduleType)
-        => GetCache(moduleType).EndReceivers;
+    public IReadOnlyList<IModuleEndHandler> GetEndHandlers(Type moduleType)
+        => GetCache(moduleType).EndHandlers;
 
-    public IReadOnlyList<IModuleFailureEventReceiver> GetFailureReceivers(Type moduleType)
-        => GetCache(moduleType).FailureReceivers;
+    public IReadOnlyList<IModuleFailureHandler> GetFailureHandlers(Type moduleType)
+        => GetCache(moduleType).FailureHandlers;
 
-    public IReadOnlyList<IModuleSkippedEventReceiver> GetSkippedReceivers(Type moduleType)
-        => GetCache(moduleType).SkippedReceivers;
+    public IReadOnlyList<IModuleSkippedHandler> GetSkippedHandlers(Type moduleType)
+        => GetCache(moduleType).SkippedHandlers;
 
-    private AttributeReceiverCache GetCache(Type moduleType)
-        => _cache.GetOrAdd(moduleType, DiscoverReceivers);
+    private AttributeHandlerCache GetCache(Type moduleType)
+        => _cache.GetOrAdd(moduleType, DiscoverHandlers);
 
-    private static AttributeReceiverCache DiscoverReceivers(Type moduleType)
+    private static AttributeHandlerCache DiscoverHandlers(Type moduleType)
     {
         // Get attributes in declaration order
         var attributes = moduleType.GetCustomAttributes(inherit: true);
 
         var registrationReceivers = new List<IModuleRegistrationEventReceiver>();
-        var readyReceivers = new List<IModuleReadyEventReceiver>();
-        var startReceivers = new List<IModuleStartEventReceiver>();
-        var endReceivers = new List<IModuleEndEventReceiver>();
-        var failureReceivers = new List<IModuleFailureEventReceiver>();
-        var skippedReceivers = new List<IModuleSkippedEventReceiver>();
+        var readyHandlers = new List<IModuleReadyHandler>();
+        var startHandlers = new List<IModuleStartHandler>();
+        var endHandlers = new List<IModuleEndHandler>();
+        var failureHandlers = new List<IModuleFailureHandler>();
+        var skippedHandlers = new List<IModuleSkippedHandler>();
 
         foreach (var attribute in attributes)
         {
@@ -54,64 +54,64 @@ internal class ModuleAttributeEventService : IModuleAttributeEventService
                 registrationReceivers.Add(registration);
             }
 
-            if (attribute is IModuleReadyEventReceiver ready)
+            if (attribute is IModuleReadyHandler ready)
             {
-                readyReceivers.Add(ready);
+                readyHandlers.Add(ready);
             }
 
-            if (attribute is IModuleStartEventReceiver start)
+            if (attribute is IModuleStartHandler start)
             {
-                startReceivers.Add(start);
+                startHandlers.Add(start);
             }
 
-            if (attribute is IModuleEndEventReceiver end)
+            if (attribute is IModuleEndHandler end)
             {
-                endReceivers.Add(end);
+                endHandlers.Add(end);
             }
 
-            if (attribute is IModuleFailureEventReceiver failure)
+            if (attribute is IModuleFailureHandler failure)
             {
-                failureReceivers.Add(failure);
+                failureHandlers.Add(failure);
             }
 
-            if (attribute is IModuleSkippedEventReceiver skipped)
+            if (attribute is IModuleSkippedHandler skipped)
             {
-                skippedReceivers.Add(skipped);
+                skippedHandlers.Add(skipped);
             }
         }
 
-        // Sort all receivers by priority (lower values first)
-        // Receivers without IEventHandlerPriority default to 0
-        return new AttributeReceiverCache(
+        // Sort all handlers by priority (lower values first)
+        // Handlers without IEventHandlerPriority default to 0
+        return new AttributeHandlerCache(
             SortByPriority(registrationReceivers),
-            SortByPriority(readyReceivers),
-            SortByPriority(startReceivers),
-            SortByPriority(endReceivers),
-            SortByPriority(failureReceivers),
-            SortByPriority(skippedReceivers));
+            SortByPriority(readyHandlers),
+            SortByPriority(startHandlers),
+            SortByPriority(endHandlers),
+            SortByPriority(failureHandlers),
+            SortByPriority(skippedHandlers));
     }
 
-    private static IReadOnlyList<T> SortByPriority<T>(List<T> receivers)
+    private static IReadOnlyList<T> SortByPriority<T>(List<T> handlers)
     {
-        if (receivers.Count <= 1)
+        if (handlers.Count <= 1)
         {
-            return receivers;
+            return handlers;
         }
 
-        // Use stable sort to preserve declaration order for receivers with same priority
-        return receivers
+        // Use stable sort to preserve declaration order for handlers with same priority
+        return handlers
             .OrderBy(r => GetPriority(r))
             .ToList();
     }
 
-    private static int GetPriority<T>(T receiver)
-        => receiver is IEventHandlerPriority prioritized ? prioritized.Priority : 0;
+    private static int GetPriority<T>(T handler)
+        => handler is IEventHandlerPriority prioritized ? prioritized.Priority : 0;
 
-    private sealed record AttributeReceiverCache(
+    private sealed record AttributeHandlerCache(
         IReadOnlyList<IModuleRegistrationEventReceiver> RegistrationReceivers,
-        IReadOnlyList<IModuleReadyEventReceiver> ReadyReceivers,
-        IReadOnlyList<IModuleStartEventReceiver> StartReceivers,
-        IReadOnlyList<IModuleEndEventReceiver> EndReceivers,
-        IReadOnlyList<IModuleFailureEventReceiver> FailureReceivers,
-        IReadOnlyList<IModuleSkippedEventReceiver> SkippedReceivers);
+        IReadOnlyList<IModuleReadyHandler> ReadyHandlers,
+        IReadOnlyList<IModuleStartHandler> StartHandlers,
+        IReadOnlyList<IModuleEndHandler> EndHandlers,
+        IReadOnlyList<IModuleFailureHandler> FailureHandlers,
+        IReadOnlyList<IModuleSkippedHandler> SkippedHandlers);
 }

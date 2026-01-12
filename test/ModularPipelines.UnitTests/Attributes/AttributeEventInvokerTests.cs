@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes.Events;
+using ModularPipelines.Context;
 using ModularPipelines.Engine.Attributes;
 using Moq;
 
@@ -7,78 +8,78 @@ namespace ModularPipelines.UnitTests.Attributes;
 
 public class AttributeEventInvokerTests
 {
-    private class SuccessfulReceiver : IModuleStartEventReceiver
+    private class SuccessfulHandler : IModuleStartHandler
     {
         public bool WasCalled { get; private set; }
 
         public bool ContinueOnError => false;
 
-        public Task OnModuleStartAsync(IModuleEventContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
             WasCalled = true;
             return Task.CompletedTask;
         }
     }
 
-    private class FailingReceiver : IModuleStartEventReceiver
+    private class FailingHandler : IModuleStartHandler
     {
         public bool ContinueOnError => false;
 
-        public Task OnModuleStartAsync(IModuleEventContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
             throw new InvalidOperationException("Test exception");
         }
     }
 
-    private class FailingReceiverWithContinue : IModuleStartEventReceiver
+    private class FailingHandlerWithContinue : IModuleStartHandler
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleStartAsync(IModuleEventContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
             throw new InvalidOperationException("Test exception");
         }
     }
 
     [Test]
-    public async Task InvokeAsync_CallsAllReceivers()
+    public async Task InvokeAsync_CallsAllHandlers()
     {
-        var receiver1 = new SuccessfulReceiver();
-        var receiver2 = new SuccessfulReceiver();
-        var receivers = new List<IModuleStartEventReceiver> { receiver1, receiver2 };
+        var handler1 = new SuccessfulHandler();
+        var handler2 = new SuccessfulHandler();
+        var handlers = new List<IModuleStartHandler> { handler1, handler2 };
         var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
-        var context = Mock.Of<IModuleEventContext>();
+        var context = Mock.Of<IModuleHookContext>();
 
-        await invoker.InvokeStartReceiversAsync(receivers, context);
+        await invoker.InvokeStartHandlersAsync(handlers, context);
 
-        await Assert.That(receiver1.WasCalled).IsTrue();
-        await Assert.That(receiver2.WasCalled).IsTrue();
+        await Assert.That(handler1.WasCalled).IsTrue();
+        await Assert.That(handler2.WasCalled).IsTrue();
     }
 
     [Test]
-    public async Task InvokeAsync_ReceiverThrows_ContinueOnErrorFalse_Propagates()
+    public async Task InvokeAsync_HandlerThrows_ContinueOnErrorFalse_Propagates()
     {
-        var receiver = new FailingReceiver();
-        var receivers = new List<IModuleStartEventReceiver> { receiver };
+        var handler = new FailingHandler();
+        var handlers = new List<IModuleStartHandler> { handler };
         var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
-        var context = Mock.Of<IModuleEventContext>();
+        var context = Mock.Of<IModuleHookContext>();
 
-        await Assert.That(async () => await invoker.InvokeStartReceiversAsync(receivers, context))
+        await Assert.That(async () => await invoker.InvokeStartHandlersAsync(handlers, context))
             .ThrowsException()
             .WithMessage("Test exception");
     }
 
     [Test]
-    public async Task InvokeAsync_ReceiverThrows_ContinueOnErrorTrue_Continues()
+    public async Task InvokeAsync_HandlerThrows_ContinueOnErrorTrue_Continues()
     {
-        var failingReceiver = new FailingReceiverWithContinue();
-        var successReceiver = new SuccessfulReceiver();
-        var receivers = new List<IModuleStartEventReceiver> { failingReceiver, successReceiver };
+        var failingHandler = new FailingHandlerWithContinue();
+        var successHandler = new SuccessfulHandler();
+        var handlers = new List<IModuleStartHandler> { failingHandler, successHandler };
         var invoker = new AttributeEventInvoker(Mock.Of<ILogger<AttributeEventInvoker>>());
-        var context = Mock.Of<IModuleEventContext>();
+        var context = Mock.Of<IModuleHookContext>();
 
-        await invoker.InvokeStartReceiversAsync(receivers, context);
+        await invoker.InvokeStartHandlersAsync(handlers, context);
 
-        await Assert.That(successReceiver.WasCalled).IsTrue();
+        await Assert.That(successHandler.WasCalled).IsTrue();
     }
 }

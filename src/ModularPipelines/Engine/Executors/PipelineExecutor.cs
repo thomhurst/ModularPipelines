@@ -55,7 +55,7 @@ internal class PipelineExecutor : IPipelineExecutor
 
             pipelineSummary = new PipelineSummary(organizedModules.AllModules, stopWatch.Elapsed, start, end, _resultRegistry, _metricsCollector, _parallelLimitProvider.GetMaxDegreeOfParallelism());
 
-            await _pipelineSetupExecutor.OnEndAsync(pipelineSummary).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnPipelineEndAsync(pipelineSummary).ConfigureAwait(false);
         }
 
         // Check for original exception first with preserved stack trace

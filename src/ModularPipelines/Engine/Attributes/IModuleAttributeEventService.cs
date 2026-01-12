@@ -3,19 +3,19 @@ using ModularPipelines.Attributes.Events;
 namespace ModularPipelines.Engine.Attributes;
 
 /// <summary>
-/// Service for discovering and caching attribute event receivers on modules.
+/// Service for discovering and caching attribute event handlers on modules.
 /// </summary>
 internal interface IModuleAttributeEventService
 {
     IReadOnlyList<IModuleRegistrationEventReceiver> GetRegistrationReceivers(Type moduleType);
 
-    IReadOnlyList<IModuleReadyEventReceiver> GetReadyReceivers(Type moduleType);
+    IReadOnlyList<IModuleReadyHandler> GetReadyHandlers(Type moduleType);
 
-    IReadOnlyList<IModuleStartEventReceiver> GetStartReceivers(Type moduleType);
+    IReadOnlyList<IModuleStartHandler> GetStartHandlers(Type moduleType);
 
-    IReadOnlyList<IModuleEndEventReceiver> GetEndReceivers(Type moduleType);
+    IReadOnlyList<IModuleEndHandler> GetEndHandlers(Type moduleType);
 
-    IReadOnlyList<IModuleFailureEventReceiver> GetFailureReceivers(Type moduleType);
+    IReadOnlyList<IModuleFailureHandler> GetFailureHandlers(Type moduleType);
 
-    IReadOnlyList<IModuleSkippedEventReceiver> GetSkippedReceivers(Type moduleType);
+    IReadOnlyList<IModuleSkippedHandler> GetSkippedHandlers(Type moduleType);
 }

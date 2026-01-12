@@ -12,44 +12,44 @@ public class ModuleReadyEventTests : TestBase
 {
     private static readonly List<string> EventLog = new();
 
-    public class LogReadyAttribute : Attribute, IModuleReadyEventReceiver
+    public class LogReadyAttribute : Attribute, IModuleReadyHandler
     {
-        public Task OnModuleReadyAsync(IModuleReadyContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context)
         {
             EventLog.Add($"Ready:{context.ModuleName}");
             return Task.CompletedTask;
         }
     }
 
-    public class LogReadyWithTimingAttribute : Attribute, IModuleReadyEventReceiver
+    public class LogReadyWithTimingAttribute : Attribute, IModuleReadyHandler
     {
-        public Task OnModuleReadyAsync(IModuleReadyContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context)
         {
-            EventLog.Add($"Ready:{context.ModuleName}:WaitTime:{context.TimeWaitingForDependencies.TotalMilliseconds >= 0}");
+            EventLog.Add($"Ready:{context.ModuleName}:ElapsedTime:{context.ElapsedTime.TotalMilliseconds >= 0}");
             return Task.CompletedTask;
         }
     }
 
-    public class LogReadyAndStartAttribute : Attribute, IModuleReadyEventReceiver, IModuleStartEventReceiver
+    public class LogReadyAndStartAttribute : Attribute, IModuleReadyHandler, IModuleStartHandler
     {
-        public Task OnModuleReadyAsync(IModuleReadyContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context)
         {
             EventLog.Add($"Ready:{context.ModuleName}");
             return Task.CompletedTask;
         }
 
-        public Task OnModuleStartAsync(IModuleEventContext context)
+        public Task OnModuleStartAsync(IModuleHookContext context)
         {
             EventLog.Add($"Start:{context.ModuleName}");
             return Task.CompletedTask;
         }
     }
 
-    public class ThrowingReadyAttribute : Attribute, IModuleReadyEventReceiver
+    public class ThrowingReadyAttribute : Attribute, IModuleReadyHandler
     {
         public bool ContinueOnError => true;
 
-        public Task OnModuleReadyAsync(IModuleReadyContext context)
+        public Task OnModuleReadyAsync(IModuleHookContext context)
         {
             throw new InvalidOperationException("Ready event failed");
         }
@@ -135,7 +135,7 @@ public class ModuleReadyEventTests : TestBase
             .ExecutePipelineAsync();
 
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
-        await Assert.That(EventLog.Any(e => e.Contains("Ready:ModuleWithTimingCheck:WaitTime:True"))).IsTrue();
+        await Assert.That(EventLog.Any(e => e.Contains("Ready:ModuleWithTimingCheck:ElapsedTime:True"))).IsTrue();
     }
 
     [Test]

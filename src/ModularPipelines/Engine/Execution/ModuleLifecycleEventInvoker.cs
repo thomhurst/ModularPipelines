@@ -12,136 +12,117 @@ internal class ModuleLifecycleEventInvoker : IModuleLifecycleEventInvoker
 {
     private readonly IModuleAttributeEventService _attributeEventService;
     private readonly IAttributeEventInvoker _attributeEventInvoker;
-    private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleMetadataRegistry _metadataRegistry;
 
     public ModuleLifecycleEventInvoker(
         IModuleAttributeEventService attributeEventService,
         IAttributeEventInvoker attributeEventInvoker,
-        IMetricsCollector metricsCollector,
         IModuleMetadataRegistry metadataRegistry)
     {
         _attributeEventService = attributeEventService;
         _attributeEventInvoker = attributeEventInvoker;
-        _metricsCollector = metricsCollector;
         _metadataRegistry = metadataRegistry;
     }
 
     /// <inheritdoc />
     public async Task InvokeReadyEventAsync(ModuleLifecycleContext context)
     {
-        var receivers = _attributeEventService.GetReadyReceivers(context.ModuleType);
-        if (receivers.Count == 0)
+        var handlers = _attributeEventService.GetReadyHandlers(context.ModuleType);
+        if (handlers.Count == 0)
         {
             return;
         }
 
         var readyTime = context.ReadyTime ?? context.StartTime;
-        var pipelineStartTime = _metricsCollector.GetPipelineStartTime() ?? readyTime;
 
-        var eventContext = new ModuleReadyContext(
+        var hookContext = new ModuleHookContext(
             context.Module,
-            context.ModuleType,
             context.ModuleAttributes,
             readyTime,
-            pipelineStartTime,
+            result: null,
             context.PipelineContext,
-            context.ScopedServiceProvider,
-            _metadataRegistry,
-            context.CancellationToken);
+            _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeReadyReceiversAsync(receivers, eventContext).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeReadyHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task InvokeStartEventAsync(ModuleLifecycleContext context)
     {
-        var receivers = _attributeEventService.GetStartReceivers(context.ModuleType);
-        if (receivers.Count == 0)
+        var handlers = _attributeEventService.GetStartHandlers(context.ModuleType);
+        if (handlers.Count == 0)
         {
             return;
         }
 
-        var eventContext = new ModuleEventContext(
+        var hookContext = new ModuleHookContext(
             context.Module,
-            context.ModuleType,
             context.ModuleAttributes,
             context.StartTime,
-            Enums.Status.Processing,
+            result: null,
             context.PipelineContext,
-            context.ScopedServiceProvider,
-            _metadataRegistry,
-            context.CancellationToken);
+            _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeStartReceiversAsync(receivers, eventContext).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeStartHandlersAsync(handlers, hookContext).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task InvokeEndEventAsync(ModuleLifecycleContext context, Enums.Status status, IModuleResult result)
     {
-        var receivers = _attributeEventService.GetEndReceivers(context.ModuleType);
-        if (receivers.Count == 0)
+        var handlers = _attributeEventService.GetEndHandlers(context.ModuleType);
+        if (handlers.Count == 0)
         {
             return;
         }
 
-        var eventContext = new ModuleEventContext(
+        var hookContext = new ModuleHookContext(
             context.Module,
-            context.ModuleType,
             context.ModuleAttributes,
             context.StartTime,
-            status,
+            result,
             context.PipelineContext,
-            context.ScopedServiceProvider,
-            _metadataRegistry,
-            context.CancellationToken);
+            _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeEndReceiversAsync(receivers, eventContext, result).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeEndHandlersAsync(handlers, hookContext, result).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task InvokeFailedEventAsync(ModuleLifecycleContext context, Exception exception)
     {
-        var receivers = _attributeEventService.GetFailureReceivers(context.ModuleType);
-        if (receivers.Count == 0)
+        var handlers = _attributeEventService.GetFailureHandlers(context.ModuleType);
+        if (handlers.Count == 0)
         {
             return;
         }
 
-        var eventContext = new ModuleEventContext(
+        var hookContext = new ModuleHookContext(
             context.Module,
-            context.ModuleType,
             context.ModuleAttributes,
             context.StartTime,
-            Enums.Status.Failed,
+            result: null,
             context.PipelineContext,
-            context.ScopedServiceProvider,
-            _metadataRegistry,
-            context.CancellationToken);
+            _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeFailureReceiversAsync(receivers, eventContext, exception).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeFailureHandlersAsync(handlers, hookContext, exception).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
     public async Task InvokeSkippedEventAsync(ModuleLifecycleContext context, Enums.Status status, SkipDecision skipReason)
     {
-        var receivers = _attributeEventService.GetSkippedReceivers(context.ModuleType);
-        if (receivers.Count == 0)
+        var handlers = _attributeEventService.GetSkippedHandlers(context.ModuleType);
+        if (handlers.Count == 0)
         {
             return;
         }
 
-        var eventContext = new ModuleEventContext(
+        var hookContext = new ModuleHookContext(
             context.Module,
-            context.ModuleType,
             context.ModuleAttributes,
             context.StartTime,
-            status,
+            result: null,
             context.PipelineContext,
-            context.ScopedServiceProvider,
-            _metadataRegistry,
-            context.CancellationToken);
+            _metadataRegistry);
 
-        await _attributeEventInvoker.InvokeSkippedReceiversAsync(receivers, eventContext, skipReason).ConfigureAwait(false);
+        await _attributeEventInvoker.InvokeSkippedHandlersAsync(handlers, hookContext, skipReason).ConfigureAwait(false);
     }
 }

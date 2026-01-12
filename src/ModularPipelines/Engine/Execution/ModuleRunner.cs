@@ -188,8 +188,9 @@ internal class ModuleRunner : IModuleRunner
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
 
-        // Before module hooks
-        await _pipelineSetupExecutor.OnBeforeModuleStartAsync(moduleState).ConfigureAwait(false);
+        // Before module hooks - module is ready (dependencies satisfied)
+        await _pipelineSetupExecutor.OnModuleReadyAsync(moduleState).ConfigureAwait(false);
+        await _pipelineSetupExecutor.OnModuleStartAsync(moduleState).ConfigureAwait(false);
 
         var estimatedDuration = await _moduleEstimatedTimeProvider.GetModuleEstimatedTimeAsync(moduleType).ConfigureAwait(false);
         await _mediator.Publish(new ModuleStartedNotification(moduleState, estimatedDuration)).ConfigureAwait(false);
@@ -232,12 +233,13 @@ internal class ModuleRunner : IModuleRunner
                 // Invoke OnModuleSkipped lifecycle event
                 await _lifecycleEventInvoker.InvokeSkippedEventAsync(lifecycleContext, Enums.Status.Skipped, executionContext.SkipResult!).ConfigureAwait(false);
 
+                await _pipelineSetupExecutor.OnModuleSkippedAsync(moduleState).ConfigureAwait(false);
                 await _mediator.Publish(new ModuleSkippedNotification(moduleState, executionContext.SkipResult)).ConfigureAwait(false);
                 return;
             }
 
             await _moduleEstimatedTimeProvider.SaveModuleTimeAsync(moduleType, executionContext.Duration).ConfigureAwait(false);
-            await _pipelineSetupExecutor.OnAfterModuleEndAsync(moduleState).ConfigureAwait(false);
+            await _pipelineSetupExecutor.OnModuleEndAsync(moduleState).ConfigureAwait(false);
 
             // Invoke OnModuleEnd lifecycle event
             await _lifecycleEventInvoker.InvokeEndEventAsync(lifecycleContext, executionContext.Status, result).ConfigureAwait(false);
@@ -258,6 +260,8 @@ internal class ModuleRunner : IModuleRunner
 
             // Invoke OnModuleFailed lifecycle event
             await _lifecycleEventInvoker.InvokeFailedEventAsync(lifecycleContext, ex).ConfigureAwait(false);
+
+            await _pipelineSetupExecutor.OnModuleFailureAsync(moduleState).ConfigureAwait(false);
 
             throw;
         }
