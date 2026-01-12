@@ -15,7 +15,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -33,7 +33,7 @@ public class Module1 : Module<List<string>>
 
 public class Module1 : Module<List<string>>
 {{
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();
@@ -51,7 +51,7 @@ public class Module1 : Module<List<string>>
     {{
     }}
 
-    protected override async Task<List<string>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<List<string>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return new List<string>();

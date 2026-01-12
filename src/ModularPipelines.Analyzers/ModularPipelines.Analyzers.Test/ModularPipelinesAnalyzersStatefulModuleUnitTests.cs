@@ -14,7 +14,7 @@ public class Module1 : Module<string>
 {{
     private string {{|#0:_state|}};
 
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _state = ""updated"";
@@ -30,7 +30,7 @@ public class Module1 : Module<int>
 {{
     private List<string> {{|#0:_items|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _items.Add(""item"");
@@ -46,7 +46,7 @@ public class Module1 : Module<int>
 {{
     private Dictionary<string, int> {{|#0:_cache|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _cache[""key""] = 42;
@@ -62,7 +62,7 @@ public class Module1 : Module<int>
 {{
     private int {{|#0:_counter|}};
 
-    protected override async Task<int?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _counter++;
@@ -83,7 +83,7 @@ public class Module1 : Module<int>
 {{
     private MyCache {{|#0:_cache|}} = new();
 
-    protected override async Task<int?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<int?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         _cache.Items[""key""] = ""value"";
@@ -99,7 +99,7 @@ public class Module1 : Module<string>
 {{
     private readonly string _config = ""default"";
 
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return _config;
@@ -121,7 +121,7 @@ public class Module1 : Module<string>
         _myService = myService;
     }}
 
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";
@@ -136,7 +136,7 @@ public class Module1 : Module<string>
 {{
     private static readonly object Lock = new();
 
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";
@@ -151,7 +151,7 @@ public class Module1 : Module<string>
 {{
     private const string DefaultValue = ""default"";
 
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return DefaultValue;
@@ -164,7 +164,7 @@ public class Module1 : Module<string>
 
 public class Module1 : Module<string>
 {{
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         await Task.Delay(1, cancellationToken);
         return ""done"";

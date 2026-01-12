@@ -12,7 +12,7 @@ public class ModularPipelinesAnalyzersAwaitThisUnitTests
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This should trigger the analyzer
         {{|#0:await this|}};
@@ -26,12 +26,12 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return await ExecuteCommand(context);
     }}
 
-    private async Task<CommandResult?> ExecuteCommand(IPipelineContext context)
+    private async Task<CommandResult?> ExecuteCommand(IModuleContext context)
     {{
         // This should also trigger the analyzer
         {{|#0:await this|}};
@@ -45,7 +45,7 @@ public class Module1 : Module<CommandResult>
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         // This is fine - awaiting something else
         var otherModule = GetModule<Module2>();
@@ -56,7 +56,7 @@ public class Module1 : Module<CommandResult>
 
 public class Module2 : Module<string>
 {{
-    protected override Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return Task.FromResult<string?>(""Test"");
     }}
@@ -91,12 +91,12 @@ public class NotAModule
 
 public class Module1 : Module<CommandResult>
 {{
-    protected override Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {{
         return Task.FromResult<CommandResult?>(null);
     }}
 
-    protected override async Task OnAfterExecute(IPipelineContext context)
+    protected override async Task OnAfterExecute(IModuleContext context)
     {{
         // This should NOT trigger the analyzer - await this is allowed in OnAfterExecute
         var result = await this;
