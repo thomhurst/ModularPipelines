@@ -12,7 +12,7 @@ public class ValidationInterfaceTests
     [Test]
     public async Task IPipelineValidationService_ShouldBeInternal()
     {
-        var assembly = typeof(IPipelineContext).Assembly;
+        var assembly = typeof(IModuleContext).Assembly;
         var iface = assembly.GetType("ModularPipelines.Validation.IPipelineValidationService");
 
         await Assert.That(iface).IsNotNull()

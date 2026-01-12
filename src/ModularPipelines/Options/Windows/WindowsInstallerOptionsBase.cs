@@ -11,7 +11,7 @@ namespace ModularPipelines.Options.Windows;
 /// This base class provides these common flags that are shared between MSI and EXE installers.
 /// </remarks>
 [ExcludeFromCodeCoverage]
-public abstract record WindowsInstallerOptionsBase(string Tool) : CommandLineToolOptions(Tool)
+public abstract record WindowsInstallerOptionsBase : CommandLineToolOptions
 {
     /// <summary>
     /// Gets or sets a value indicating whether to disable the user interface during installation.

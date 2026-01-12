@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Enums;
+﻿using ModularPipelines.Options;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ModularPipelines.TestHelpers;
@@ -30,9 +30,9 @@ public record TestHostSettings
 
     /// <summary>
     /// Specifies which command execution events should be logged.
-    /// Defaults to logging command input and errors.
+    /// Defaults to Normal verbosity.
     /// </summary>
-    public CommandLogging CommandLogging { get; init; } = CommandLogging.Input | CommandLogging.Error;
+    public CommandLoggingOptions CommandLogging { get; init; } = CommandLoggingOptions.Default;
 
     /// <summary>
     /// The minimum log level for test output.

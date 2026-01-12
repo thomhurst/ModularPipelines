@@ -8,9 +8,9 @@ namespace ModularPipelines.Node;
 [ExcludeFromCodeCoverage]
 internal class Nvm : INvm
 {
-    private readonly IPipelineContext _context;
+    private readonly IModuleContext _context;
 
-    public Nvm(IPipelineContext context)
+    public Nvm(IModuleContext context)
     {
         _context = context;
     }

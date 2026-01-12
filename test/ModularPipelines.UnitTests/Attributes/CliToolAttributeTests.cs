@@ -40,29 +40,11 @@ public class CliToolAttributeTests
         await Assert.That(attribute!.Tool).IsEqualTo("git");
     }
 
-    [Test]
-    public async Task CommandLineToolOptions_CanBeCreatedWithoutConstructorTool()
-    {
-        var options = new TestOptionsWithoutConstructorTool();
-
-        await Assert.That(options.Tool).IsNull();
-    }
-
-    [Test]
-    public async Task CommandLineToolOptions_ConstructorToolStillWorks_ForBackwardCompatibility()
-    {
-        var options = new TestLegacyOptions();
-
-        await Assert.That(options.Tool).IsEqualTo("legacy-tool");
-    }
-
     [CliTool("git")]
-    private abstract record TestGitOptions() : CommandLineToolOptions("git");
+    private abstract record TestGitOptions : CommandLineToolOptions;
 
-    private record TestGitCommitOptions() : TestGitOptions;
+    private record TestGitCommitOptions : TestGitOptions;
 
     [CliTool("test")]
-    private record TestOptionsWithoutConstructorTool : CommandLineToolOptions;
-
-    private record TestLegacyOptions() : CommandLineToolOptions("legacy-tool");
+    private record TestOptionsWithAttribute : CommandLineToolOptions;
 }

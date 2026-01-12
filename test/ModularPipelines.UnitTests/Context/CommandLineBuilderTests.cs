@@ -137,8 +137,9 @@ public class CommandLineBuilderTests : TestBase
         await Assert.That(result.Arguments).Contains("status");
     }
 
+    [CliTool("mytool")]
     [CliCommand("mytool", "sub", "command")]
-    private record TestAttributeOptions() : CommandLineToolOptions("mytool")
+    private record TestAttributeOptions : CommandLineToolOptions
     {
         [CliFlag("--force")]
         public bool? Force { get; set; }
@@ -147,8 +148,9 @@ public class CommandLineBuilderTests : TestBase
         public string? Output { get; set; }
     }
 
+    [CliTool("processor")]
     [CliCommand("processor")]
-    private record TestPositionalOptions() : CommandLineToolOptions("processor")
+    private record TestPositionalOptions : CommandLineToolOptions
     {
         [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
         public string? FilePath { get; set; }

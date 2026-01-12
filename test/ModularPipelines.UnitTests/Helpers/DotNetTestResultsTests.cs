@@ -121,9 +121,9 @@ public class DotNetTestResultsTests : TestBase
         await host.ExecutePipelineAsync();
 
         // Get the Trx helper from a module context
-        // IPipelineContext is a scoped service, so we need to create a scope
+        // IModuleContext is a scoped service, so we need to create a scope
         await using var scope = host.RootServices.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IModuleContext>();
         var parsedResults = await context.Trx().ParseTrxFile(DotNetTestWithoutFailureModule.TrxFile);
 
         await Assert.That(parsedResults.UnitTestResults).HasCount().EqualTo(4);

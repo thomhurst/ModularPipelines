@@ -87,13 +87,13 @@ internal static class DependencyInjectionSetup
     }
 
     /// <summary>
-    /// Registers scoped services injected into IPipelineContext:
+    /// Registers scoped services injected into IModuleContext:
     /// HTTP, command execution, installers, shell environments, and context-specific services.
     /// </summary>
     private static void RegisterPipelineContextServices(IServiceCollection services)
     {
         services
-            .AddScoped<IPipelineContext, PipelineContext>()
+            .AddScoped<IPipelineHookContext, PipelineContext>()
             .AddScoped<ISerializationContext, SerializationContext>()
             .AddScoped<IEncodingContext, EncodingContext>()
             .AddScoped<IShellContext, ShellContext>()

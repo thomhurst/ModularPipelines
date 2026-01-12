@@ -55,9 +55,9 @@ public class DockerTests : TestBase
         var resultRegistry = host.RootServices.GetRequiredService<Engine.IModuleResultRegistry>();
         var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
 
-        // IPipelineContext is a scoped service, so we need to create a scope
+        // IModuleContext is a scoped service, so we need to create a scope
         await using var scope = host.RootServices.CreateAsyncScope();
-        var context = scope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        var context = scope.ServiceProvider.GetRequiredService<IModuleContext>();
         var dockerfilePath = context.Git().RootDirectory
             .GetFolder("src")
             .GetFolder("MyApp")

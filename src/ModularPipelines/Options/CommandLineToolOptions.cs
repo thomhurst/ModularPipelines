@@ -2,13 +2,16 @@ namespace ModularPipelines.Options;
 
 /// <summary>
 /// Options for setting the command line tool and any arguments it needs.
+/// Tool name can be specified via [CliTool] attribute on the options class (preferred)
+/// or via the Tool property for runtime-configured tools.
 /// </summary>
 public abstract record CommandLineToolOptions
 {
     /// <summary>
-    /// Gets the CLI tool name. May be null if specified via [CliTool] attribute instead.
+    /// Gets the CLI tool name for runtime-configured tools.
+    /// Prefer using [CliTool] attribute on the options class instead.
     /// </summary>
-    public string? Tool { get; }
+    public string? Tool { get; init; }
 
     /// <summary>
     /// Gets the command parts (subcommands) for the tool.
@@ -24,21 +27,4 @@ public abstract record CommandLineToolOptions
     /// Gets used for command line tools that support -- syntax.
     /// </summary>
     public IEnumerable<string>? RunSettings { get; init; }
-
-    /// <summary>
-    /// Creates options with tool name specified via [CliTool] attribute.
-    /// </summary>
-    protected CommandLineToolOptions()
-    {
-        Tool = null;
-    }
-
-    /// <summary>
-    /// Creates options with explicit tool name (legacy, for backward compatibility).
-    /// </summary>
-    /// <param name="tool">The name or path of the command-line tool to execute.</param>
-    protected CommandLineToolOptions(string tool)
-    {
-        Tool = tool;
-    }
 }

@@ -16,6 +16,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record ChocoOptions() : CommandLineToolOptions("choco")
+[CliTool("choco")]
+public abstract record ChocoOptions : CommandLineToolOptions
 {
 }

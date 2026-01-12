@@ -35,7 +35,7 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
         _serviceProvider = serviceProvider;
     }
 
-    public IPipelineContext GetModuleContext()
+    public IPipelineHookContext GetModuleContext()
     {
         AsyncServiceScope serviceScope;
 
@@ -50,7 +50,7 @@ internal class ModuleContextProvider : IPipelineContextProvider, IScopeDisposer,
             _scopes.Add(serviceScope);
         }
 
-        return serviceScope.ServiceProvider.GetRequiredService<IPipelineContext>();
+        return serviceScope.ServiceProvider.GetRequiredService<IPipelineHookContext>();
     }
 
     public IEnumerable<IServiceScope> GetScopes()

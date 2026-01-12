@@ -16,6 +16,7 @@ namespace ModularPipelines.AmazonWebServices.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record AwsOptions() : CommandLineToolOptions("aws")
+[CliTool("aws")]
+public abstract record AwsOptions : CommandLineToolOptions
 {
 }

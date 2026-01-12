@@ -16,6 +16,7 @@ namespace ModularPipelines.WinGet.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record WingetOptions() : CommandLineToolOptions("winget")
+[CliTool("winget")]
+public abstract record WingetOptions : CommandLineToolOptions
 {
 }

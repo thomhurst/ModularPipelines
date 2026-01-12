@@ -79,7 +79,7 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
     private async Task<IModuleResult?> TryGetHistoricalResultAsync(
         IModule module,
         Type resultType,
-        IPipelineContext pipelineContext)
+        IPipelineHookContext pipelineContext)
     {
         try
         {

@@ -47,12 +47,10 @@ public sealed class ModuleConfiguration
     /// Gets the condition that determines whether the module should be skipped.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IPipelineContext"/> and returns a <see cref="Task{SkipDecision}"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task{SkipDecision}"/>,
     /// or null if no skip condition is configured.
     /// </value>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public Func<IPipelineContext, Task<SkipDecision>>? SkipCondition { get; init; }
-#pragma warning restore CS0618
+    public Func<IModuleContext, Task<SkipDecision>>? SkipCondition { get; init; }
 
     /// <summary>
     /// Gets the timeout duration for module execution.
@@ -67,24 +65,20 @@ public sealed class ModuleConfiguration
     /// Gets the factory function that creates a retry policy for module execution.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IPipelineContext"/> and returns an <see cref="IAsyncPolicy"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and returns an <see cref="IAsyncPolicy"/>,
     /// or null if no retry policy is configured.
     /// </value>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public Func<IPipelineContext, IAsyncPolicy>? RetryPolicyFactory { get; init; }
-#pragma warning restore CS0618
+    public Func<IModuleContext, IAsyncPolicy>? RetryPolicyFactory { get; init; }
 
     /// <summary>
     /// Gets the condition that determines whether a failure should be ignored.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IPipelineContext"/> and an <see cref="Exception"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and an <see cref="Exception"/>,
     /// returning a <see cref="Task{Boolean}"/> indicating whether to ignore the failure,
     /// or null if failures should not be ignored.
     /// </value>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public Func<IPipelineContext, Exception, Task<bool>>? IgnoreFailuresCondition { get; init; }
-#pragma warning restore CS0618
+    public Func<IModuleContext, Exception, Task<bool>>? IgnoreFailuresCondition { get; init; }
 
     /// <summary>
     /// Gets a value indicating whether this module should always run,
@@ -99,21 +93,17 @@ public sealed class ModuleConfiguration
     /// Gets the hook to execute before the module's main execution.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IPipelineContext"/> and returns a <see cref="Task"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task"/>,
     /// or null if no before-execution hook is configured.
     /// </value>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public Func<IPipelineContext, Task>? OnBeforeExecute { get; init; }
-#pragma warning restore CS0618
+    public Func<IModuleContext, Task>? OnBeforeExecute { get; init; }
 
     /// <summary>
     /// Gets the hook to execute after the module's main execution.
     /// </summary>
     /// <value>
-    /// A function that takes an <see cref="IPipelineContext"/> and returns a <see cref="Task"/>,
+    /// A function that takes an <see cref="IModuleContext"/> and returns a <see cref="Task"/>,
     /// or null if no after-execution hook is configured.
     /// </value>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public Func<IPipelineContext, Task>? OnAfterExecute { get; init; }
-#pragma warning restore CS0618
+    public Func<IModuleContext, Task>? OnAfterExecute { get; init; }
 }

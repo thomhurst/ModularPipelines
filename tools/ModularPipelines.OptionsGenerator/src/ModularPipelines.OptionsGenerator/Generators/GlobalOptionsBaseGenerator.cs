@@ -67,10 +67,11 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
         sb.AppendLine("/// Contains global flags that apply to all commands.");
         sb.AppendLine("/// </summary>");
         sb.AppendLine("[ExcludeFromCodeCoverage]");
+        sb.AppendLine($"[CliTool(\"{tool.ToolName}\")]");
 
-        // Class declaration using primary constructor with tool name
+        // Class declaration
         var className = $"{tool.NamespacePrefix}Options";
-        sb.AppendLine($"public abstract record {className}() : CommandLineToolOptions(\"{tool.ToolName}\")");
+        sb.AppendLine($"public abstract record {className} : CommandLineToolOptions");
         sb.AppendLine("{");
 
         // Properties for global options

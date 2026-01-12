@@ -47,33 +47,31 @@ public class ToolResolverTests
     }
 
     [Test]
-    public async Task ResolveTool_FromInstance_FallsBackToConstructorTool()
+    public async Task ResolveTool_FromInstance_ReturnsToolFromAttribute()
     {
         var resolver = new ToolResolver();
-        var options = new LegacyToolOptions();
+        var options = new DirectToolOptions();
 
         var tool = resolver.ResolveTool(options);
 
-        await Assert.That(tool).IsEqualTo("legacy");
+        await Assert.That(tool).IsEqualTo("mytool");
     }
 
     // Test fixtures
     [CliTool("mytool")]
-    private record DirectToolOptions() : CommandLineToolOptions("mytool");
+    private record DirectToolOptions : CommandLineToolOptions;
 
     [CliTool("git")]
-    private abstract record GitOptionsBase() : CommandLineToolOptions("git");
+    private abstract record GitOptionsBase : CommandLineToolOptions;
 
-    private record InheritedToolOptions() : GitOptionsBase;
+    private record InheritedToolOptions : GitOptionsBase;
 
     [CliTool("docker")]
-    private abstract record DockerOptionsBase() : CommandLineToolOptions("docker");
+    private abstract record DockerOptionsBase : CommandLineToolOptions;
 
-    private abstract record DockerContainerOptions() : DockerOptionsBase;
+    private abstract record DockerContainerOptions : DockerOptionsBase;
 
-    private record DeeplyInheritedOptions() : DockerContainerOptions;
+    private record DeeplyInheritedOptions : DockerContainerOptions;
 
-    private record NoToolOptions() : CommandLineToolOptions("notool");
-
-    private record LegacyToolOptions() : CommandLineToolOptions("legacy");
+    private record NoToolOptions : CommandLineToolOptions;
 }

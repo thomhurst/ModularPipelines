@@ -1,5 +1,6 @@
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using ModularPipelines.Modules;
 
 namespace ModularPipelines.Context;
 
@@ -9,7 +10,7 @@ namespace ModularPipelines.Context;
 /// <remarks>
 /// This interface separates internal implementation details from the public API surface.
 /// These members are used by the pipeline engine for dependency detection, result storage,
-/// logger initialization, and cancellation handling.
+/// logger initialization, cancellation handling, and module retrieval.
 /// </remarks>
 internal interface IInternalPipelineContext
 {
@@ -33,4 +34,19 @@ internal interface IInternalPipelineContext
     /// Gets the cancellation token used for cancelling the pipeline on failures.
     /// </summary>
     EngineCancellationToken EngineCancellationToken { get; }
+
+    /// <summary>
+    /// Gets a module by type.
+    /// </summary>
+    /// <typeparam name="TModule">The type of module to retrieve.</typeparam>
+    /// <returns>The module instance, or null if not found.</returns>
+    TModule? GetModule<TModule>()
+        where TModule : class, IModule;
+
+    /// <summary>
+    /// Gets a module by type.
+    /// </summary>
+    /// <param name="type">The type of module to retrieve.</param>
+    /// <returns>The module instance, or null if not found.</returns>
+    IModule? GetModule(Type type);
 }

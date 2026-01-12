@@ -16,6 +16,7 @@ namespace ModularPipelines.Azure.Options;
 /// Contains global flags that apply to all commands.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public abstract record AzOptions() : CommandLineToolOptions("az")
+[CliTool("az")]
+public abstract record AzOptions : CommandLineToolOptions
 {
 }

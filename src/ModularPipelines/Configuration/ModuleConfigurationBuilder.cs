@@ -32,15 +32,13 @@ namespace ModularPipelines.Configuration;
 /// </example>
 public sealed class ModuleConfigurationBuilder
 {
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    private Func<IPipelineContext, Task<SkipDecision>>? _skipCondition;
+    private Func<IModuleContext, Task<SkipDecision>>? _skipCondition;
     private TimeSpan? _timeout;
-    private Func<IPipelineContext, IAsyncPolicy>? _retryPolicyFactory;
-    private Func<IPipelineContext, Exception, Task<bool>>? _ignoreFailuresCondition;
+    private Func<IModuleContext, IAsyncPolicy>? _retryPolicyFactory;
+    private Func<IModuleContext, Exception, Task<bool>>? _ignoreFailuresCondition;
     private bool _alwaysRun;
-    private Func<IPipelineContext, Task>? _onBeforeExecute;
-    private Func<IPipelineContext, Task>? _onAfterExecute;
-#pragma warning restore CS0618
+    private Func<IModuleContext, Task>? _onBeforeExecute;
+    private Func<IModuleContext, Task>? _onAfterExecute;
 
     #region WithSkipWhen Overloads
 
@@ -97,13 +95,11 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a skip condition based on a synchronous boolean function that receives the pipeline context.
+    /// Sets a skip condition based on a synchronous boolean function that receives the module context.
     /// </summary>
-    /// <param name="condition">A function that takes the pipeline context and returns true if the module should be skipped.</param>
+    /// <param name="condition">A function that takes the module context and returns true if the module should be skipped.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IPipelineContext, bool> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, bool> condition)
     {
         _skipCondition = ctx =>
         {
@@ -114,13 +110,11 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a skip condition based on an asynchronous boolean function that receives the pipeline context.
+    /// Sets a skip condition based on an asynchronous boolean function that receives the module context.
     /// </summary>
-    /// <param name="condition">An async function that takes the pipeline context and returns true if the module should be skipped.</param>
+    /// <param name="condition">An async function that takes the module context and returns true if the module should be skipped.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IPipelineContext, Task<bool>> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, Task<bool>> condition)
     {
         _skipCondition = async ctx =>
         {
@@ -131,26 +125,22 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a skip condition based on a synchronous function that receives the pipeline context and returns a <see cref="SkipDecision"/>.
+    /// Sets a skip condition based on a synchronous function that receives the module context and returns a <see cref="SkipDecision"/>.
     /// </summary>
-    /// <param name="condition">A function that takes the pipeline context and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">A function that takes the module context and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IPipelineContext, SkipDecision> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, SkipDecision> condition)
     {
         _skipCondition = ctx => Task.FromResult(condition(ctx));
         return this;
     }
 
     /// <summary>
-    /// Sets a skip condition based on an asynchronous function that receives the pipeline context and returns a <see cref="SkipDecision"/>.
+    /// Sets a skip condition based on an asynchronous function that receives the module context and returns a <see cref="SkipDecision"/>.
     /// </summary>
-    /// <param name="condition">An async function that takes the pipeline context and returns a <see cref="SkipDecision"/>.</param>
+    /// <param name="condition">An async function that takes the module context and returns a <see cref="SkipDecision"/>.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithSkipWhen(Func<IPipelineContext, Task<SkipDecision>> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithSkipWhen(Func<IModuleContext, Task<SkipDecision>> condition)
     {
         _skipCondition = condition;
         return this;
@@ -187,13 +177,11 @@ public sealed class ModuleConfigurationBuilder
     }
 
     /// <summary>
-    /// Sets a retry policy factory that creates the policy based on the pipeline context.
+    /// Sets a retry policy factory that creates the policy based on the module context.
     /// </summary>
-    /// <param name="factory">A factory function that creates a Polly async policy using the pipeline context.</param>
+    /// <param name="factory">A factory function that creates a Polly async policy using the module context.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithRetryPolicy(Func<IPipelineContext, IAsyncPolicy> factory)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithRetryPolicy(Func<IModuleContext, IAsyncPolicy> factory)
     {
         _retryPolicyFactory = factory;
         return this;
@@ -232,11 +220,9 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Configures the module to ignore failures based on a synchronous condition.
     /// </summary>
-    /// <param name="condition">A function that takes the pipeline context and exception, returning true if the failure should be ignored.</param>
+    /// <param name="condition">A function that takes the module context and exception, returning true if the failure should be ignored.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IPipelineContext, Exception, bool> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, bool> condition)
     {
         _ignoreFailuresCondition = (ctx, ex) => Task.FromResult(condition(ctx, ex));
         return this;
@@ -245,11 +231,9 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Configures the module to ignore failures based on an asynchronous condition.
     /// </summary>
-    /// <param name="condition">An async function that takes the pipeline context and exception, returning true if the failure should be ignored.</param>
+    /// <param name="condition">An async function that takes the module context and exception, returning true if the failure should be ignored.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IPipelineContext, Exception, Task<bool>> condition)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithIgnoreFailuresWhen(Func<IModuleContext, Exception, Task<bool>> condition)
     {
         _ignoreFailuresCondition = condition;
         return this;
@@ -276,11 +260,9 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Sets a hook to execute before the module's main execution.
     /// </summary>
-    /// <param name="hook">An async function that receives the pipeline context.</param>
+    /// <param name="hook">An async function that receives the module context.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithBeforeExecute(Func<IPipelineContext, Task> hook)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithBeforeExecute(Func<IModuleContext, Task> hook)
     {
         _onBeforeExecute = hook;
         return this;
@@ -289,11 +271,9 @@ public sealed class ModuleConfigurationBuilder
     /// <summary>
     /// Sets a hook to execute after the module's main execution.
     /// </summary>
-    /// <param name="hook">An async function that receives the pipeline context.</param>
+    /// <param name="hook">An async function that receives the module context.</param>
     /// <returns>This builder instance for method chaining.</returns>
-#pragma warning disable CS0618 // IPipelineContext is obsolete but we still need to support it
-    public ModuleConfigurationBuilder WithAfterExecute(Func<IPipelineContext, Task> hook)
-#pragma warning restore CS0618
+    public ModuleConfigurationBuilder WithAfterExecute(Func<IModuleContext, Task> hook)
     {
         _onAfterExecute = hook;
         return this;

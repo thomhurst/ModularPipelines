@@ -8,11 +8,11 @@ namespace ModularPipelines.UnitTests.Context;
 public class ContextHierarchyTests
 {
     [Test]
-    public async Task IModuleContext_ShouldInheritFromIPipelineContext()
+    public async Task IModuleContext_ShouldInheritFromIPipelineHookContext()
     {
-        // IModuleContext should still inherit from IPipelineContext for backwards compatibility
+        // IModuleContext should inherit from IPipelineHookContext
         await Assert.That(typeof(IModuleContext).GetInterfaces())
-            .Contains(typeof(IPipelineContext));
+            .Contains(typeof(IPipelineHookContext));
     }
 
     [Test]
@@ -53,20 +53,6 @@ public class ContextHierarchyTests
         var getModuleIfRegisteredMethod = moduleContextType.GetMethod("GetModuleIfRegistered");
         await Assert.That(getModuleIfRegisteredMethod).IsNotNull()
             .Because("IModuleContext should have GetModuleIfRegistered method");
-    }
-
-    [Test]
-    public async Task IPipelineContext_ShouldBeMarkedObsolete()
-    {
-        var obsoleteAttribute = typeof(IPipelineContext)
-            .GetCustomAttributes(typeof(ObsoleteAttribute), false)
-            .FirstOrDefault() as ObsoleteAttribute;
-
-        await Assert.That(obsoleteAttribute).IsNotNull()
-            .Because("IPipelineContext should be marked with [Obsolete]");
-
-        await Assert.That(obsoleteAttribute!.Message).Contains("IModuleContext")
-            .Because("Obsolete message should mention IModuleContext as the replacement");
     }
 
     [Test]

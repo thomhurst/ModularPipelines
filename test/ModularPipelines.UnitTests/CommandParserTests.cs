@@ -194,8 +194,9 @@ public class CommandParserTests : TestBase
         return await command.ExecuteCommandLineTool(options, executionOptions);
     }
 
+    [CliTool("mysupersecrettool")]
     [CliCommand("mysupersecrettool", "do", "this", "then", "that")]
-    private record MySuperSecretToolOptions() : CommandLineToolOptions("mysupersecrettool")
+    private record MySuperSecretToolOptions : CommandLineToolOptions
     {
         [CliOption("--build-arg")]
         public IEnumerable<KeyValue>? BuildArgs { get; set; }
@@ -222,8 +223,9 @@ public class CommandParserTests : TestBase
         public string? Positional2 { get; set; }
     }
 
+    [CliTool("dotnet")]
     [CliCommand("dotnet", "add")]
-    private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions("dotnet")
+    private record PlaceholderToolOptions(string Package, string Project) : CommandLineToolOptions
     {
         [CliArgument(0, Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
         public string Project { get; set; } = Project;
@@ -238,8 +240,9 @@ public class CommandParserTests : TestBase
         public string? Source { get; set; }
     }
 
+    [CliTool("dotnet")]
     [CliCommand("dotnet", "add")]
-    private record PlaceholderToolOptions3() : CommandLineToolOptions("dotnet")
+    private record PlaceholderToolOptions3 : CommandLineToolOptions
     {
         [CliArgument(Placement = ArgumentPlacement.ImmediatelyAfterCommand)]
         public string? Project { get; set; }

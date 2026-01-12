@@ -14,7 +14,7 @@ internal interface IToolResolver
 
     /// <summary>
     /// Resolves the tool name from an options instance.
-    /// Falls back to the constructor-provided Tool property if no attribute found.
+    /// First checks [CliTool] attribute, then falls back to Tool property.
     /// </summary>
     string? ResolveTool(CommandLineToolOptions options);
 }

@@ -7,4 +7,5 @@ namespace ModularPipelines.Options.Windows;
 /// Options for running MSI installer packages via msiexec.exe.
 /// </summary>
 [ExcludeFromCodeCoverage]
-public record MsiInstallerOptions([property: CliOption("/package")] string MsiPath) : WindowsInstallerOptionsBase("msiexec.exe");
+[CliTool("msiexec.exe")]
+public record MsiInstallerOptions([property: CliOption("/package")] string MsiPath) : WindowsInstallerOptionsBase;

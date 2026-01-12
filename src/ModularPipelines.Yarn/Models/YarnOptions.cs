@@ -1,5 +1,7 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Yarn.Models;
 
-public record YarnOptions() : CommandLineToolOptions("yarn");
+[CliTool("yarn")]
+public record YarnOptions : CommandLineToolOptions;

@@ -10,13 +10,13 @@ namespace ModularPipelines.Build;
 
 public static class GitHelpers
 {
-    public static async Task SetUserCommitInformation(IPipelineContext context, CancellationToken cancellationToken)
+    public static async Task SetUserCommitInformation(IModuleContext context, CancellationToken cancellationToken)
     {
         await SetName(context, cancellationToken);
         await SetEmail(context, cancellationToken);
     }
 
-    public static async Task SetName(IPipelineContext context, CancellationToken cancellationToken)
+    public static async Task SetName(IModuleContext context, CancellationToken cancellationToken)
     {
         var settings = GetGitHubSettings(context);
 
@@ -30,7 +30,7 @@ public static class GitHelpers
         }, token: cancellationToken);
     }
 
-    public static async Task SetEmail(IPipelineContext context, CancellationToken cancellationToken)
+    public static async Task SetEmail(IModuleContext context, CancellationToken cancellationToken)
     {
         var settings = GetGitHubSettings(context);
 
@@ -44,7 +44,7 @@ public static class GitHelpers
         }, token: cancellationToken);
     }
 
-    public static async Task CheckoutBranch(IPipelineContext context, string branchName, CancellationToken cancellationToken)
+    public static async Task CheckoutBranch(IModuleContext context, string branchName, CancellationToken cancellationToken)
     {
         var settings = GetGitHubSettings(context);
         var token = settings.StandardToken;
@@ -64,7 +64,7 @@ public static class GitHelpers
             .Checkout(new GitCheckoutOptions(branchName), token: cancellationToken);
     }
 
-    public static async Task CommitAndPush(IPipelineContext context, string? branchToPushTo, string message, string token,
+    public static async Task CommitAndPush(IModuleContext context, string? branchToPushTo, string message, string token,
         CancellationToken cancellationToken)
     {
         var settings = GetGitHubSettings(context);
@@ -96,7 +96,7 @@ public static class GitHelpers
         }, token: cancellationToken);
     }
 
-    public static async Task<bool> HasUncommittedChanges(IPipelineContext context)
+    public static async Task<bool> HasUncommittedChanges(IModuleContext context)
     {
         var result = await context.Git().Commands.Diff(
             new GitDiffOptions
@@ -111,7 +111,7 @@ public static class GitHelpers
         return result.ExitCode != 0;
     }
 
-    private static GitHubSettings GetGitHubSettings(IPipelineContext context)
+    private static GitHubSettings GetGitHubSettings(IModuleContext context)
     {
         var options = context.Get<IOptions<GitHubSettings>>();
         return options?.Value ?? new GitHubSettings();

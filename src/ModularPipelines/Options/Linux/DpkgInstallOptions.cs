@@ -4,9 +4,10 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux;
 
 [ExcludeFromCodeCoverage]
+[CliTool("dpkg")]
 public record DpkgInstallOptions : CommandLineToolOptions
 {
-    public DpkgInstallOptions(string path) : base("dpkg")
+    public DpkgInstallOptions(string path)
     {
         Path = path;
     }

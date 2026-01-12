@@ -11,7 +11,7 @@ public class InterfaceVisibilityTests
     [Test]
     public async Task EngineInterfaces_ShouldBeInternal()
     {
-        var assembly = typeof(IPipelineContext).Assembly;
+        var assembly = typeof(IModuleContext).Assembly;
 
         var engineInterfaces = assembly.GetTypes()
             .Where(t => t.IsInterface)
@@ -29,12 +29,11 @@ public class InterfaceVisibilityTests
     [Test]
     public async Task UserFacingContextInterfaces_ShouldBePublic()
     {
-        var assembly = typeof(IPipelineContext).Assembly;
+        var assembly = typeof(IModuleContext).Assembly;
 
         var expectedPublicInterfaces = new[]
         {
             "IPipelineHookContext",
-            "IPipelineContext",
             "IModuleContext",
             "IPipelineServices",
             "IPipelineLogging",
@@ -58,7 +57,7 @@ public class InterfaceVisibilityTests
     [Test]
     public async Task ExtensionPointInterfaces_ShouldBePublic()
     {
-        var assembly = typeof(IPipelineContext).Assembly;
+        var assembly = typeof(IModuleContext).Assembly;
 
         var extensionPointInterfaces = new[]
         {
@@ -82,7 +81,7 @@ public class InterfaceVisibilityTests
     [Test]
     public async Task IPipelineServiceContainerWrapper_ShouldBeInternal()
     {
-        var assembly = typeof(IPipelineContext).Assembly;
+        var assembly = typeof(IModuleContext).Assembly;
 
         var iface = assembly.GetType("ModularPipelines.DependencyInjection.IPipelineServiceContainerWrapper");
 
