@@ -1,15 +1,16 @@
+using ModularPipelines.Context;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Attributes.Events;
 
 /// <summary>
-/// Implement this interface on an attribute to receive module skipped events.
+/// Implement this interface on an attribute to handle module skipped events.
 /// Invoked when a module is skipped.
 /// </summary>
-public interface IModuleSkippedEventReceiver
+public interface IModuleSkippedHandler
 {
     /// <summary>
-    /// Gets a value indicating whether gets whether to continue execution if this receiver throws an exception.
+    /// Gets a value indicating whether to continue execution if this handler throws an exception.
     /// Default is false (propagate exceptions).
     /// </summary>
     bool ContinueOnError => false;
@@ -17,8 +18,8 @@ public interface IModuleSkippedEventReceiver
     /// <summary>
     /// Called when the module has been skipped.
     /// </summary>
-    /// <param name="context">The event context providing module information and control flow.</param>
+    /// <param name="context">The hook context providing module information and control flow.</param>
     /// <param name="reason">The reason the module was skipped.</param>
     /// <returns>A task representing the async operation.</returns>
-    Task OnModuleSkippedAsync(IModuleEventContext context, SkipDecision reason);
+    Task OnModuleSkippedAsync(IModuleHookContext context, SkipDecision reason);
 }
