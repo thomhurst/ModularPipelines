@@ -13,5 +13,4 @@ namespace ModularPipelines.Logging;
 /// </remarks>
 public interface IModuleLogger : ILogger, IDisposable
 {
-    internal void SetException(Exception exception);
 }

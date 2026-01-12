@@ -14,7 +14,7 @@ namespace ModularPipelines.Logging;
 /// This allows File/Folder helpers and other utilities to access the logger without explicit parameter passing.
 /// AsyncLocal is thread-safe and flows with async/await contexts, making it ideal for async module execution.
 /// </remarks>
-internal abstract class ModuleLogger : IModuleLogger, IConsoleWriter
+internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter
 {
     /// <summary>
     /// Ambient context storage for the current module's logger.
@@ -60,7 +60,7 @@ internal abstract class ModuleLogger : IModuleLogger, IConsoleWriter
     }
 }
 
-internal class ModuleLogger<T> : ModuleLogger, IModuleLogger, IConsoleWriter, ILogger<T>
+internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWriter, ILogger<T>
 {
     private readonly ILogger<T> _defaultLogger;
     private readonly ISecretObfuscator _secretObfuscator;

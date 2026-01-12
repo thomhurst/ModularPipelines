@@ -26,10 +26,6 @@ public class ModuleLoggerScopeTests
         public void Dispose()
         {
         }
-
-        void IModuleLogger.SetException(Exception exception)
-        {
-        }
     }
 
     // Dummy types to use as module type identifiers for testing
