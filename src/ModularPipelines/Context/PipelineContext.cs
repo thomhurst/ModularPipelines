@@ -19,7 +19,7 @@ namespace ModularPipelines.Context;
 /// </remarks>
 internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
 {
-    private readonly IModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
 
     /// <summary>
     /// Cached logger instance for this context.
@@ -108,7 +108,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IModuleResultRepository moduleResultRepository,
         IHttp http,
         IDownloader downloader,
-        IModuleLoggerProvider moduleLoggerProvider,
+        IInternalModuleLoggerProvider moduleLoggerProvider,
         IZip zip,
         EngineCancellationToken engineCancellationToken,
         IInstaller installer,

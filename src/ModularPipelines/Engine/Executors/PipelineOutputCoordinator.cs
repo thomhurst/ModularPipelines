@@ -23,14 +23,14 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 {
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IConsolePrinter _consolePrinter;
-    private readonly IAfterPipelineLogger _afterPipelineLogger;
+    private readonly IInternalAfterPipelineLogger _afterPipelineLogger;
     private readonly IExceptionBuffer _exceptionBuffer;
     private readonly IConsoleCoordinator _consoleCoordinator;
 
     public PipelineOutputCoordinator(
         IPrintProgressExecutor printProgressExecutor,
         IConsolePrinter consolePrinter,
-        IAfterPipelineLogger afterPipelineLogger,
+        IInternalAfterPipelineLogger afterPipelineLogger,
         IExceptionBuffer exceptionBuffer,
         IConsoleCoordinator consoleCoordinator)
     {

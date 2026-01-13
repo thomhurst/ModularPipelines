@@ -1,12 +1,39 @@
 namespace ModularPipelines.Exceptions;
 
 /// <summary>
-/// An exception that occurs when a command execution fails.
+/// Thrown when a CLI command executed by the framework fails with a non-zero exit code.
 /// </summary>
+/// <remarks>
+/// <para>
+/// This exception is thrown by command execution methods when the underlying process
+/// returns a non-zero exit code. The exception contains the full command output
+/// for debugging purposes.
+/// </para>
+/// <para><b>Properties available:</b></para>
+/// <list type="bullet">
+/// <item><see cref="ExitCode"/> - The non-zero exit code returned by the command</item>
+/// <item><see cref="ExecutionTime"/> - How long the command ran before failing</item>
+/// <item><see cref="StandardOutput"/> - The standard output stream content</item>
+/// <item><see cref="StandardError"/> - The standard error stream content</item>
+/// </list>
+/// <para><b>Handling example:</b></para>
+/// <code>
+/// try
+/// {
+///     await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mycommand"));
+/// }
+/// catch (CommandException ex)
+/// {
+///     Console.WriteLine($"Command failed with exit code: {ex.ExitCode}");
+///     Console.WriteLine($"Error output: {ex.StandardError}");
+///     Console.WriteLine($"Execution time: {ex.ExecutionTime}");
+/// }
+/// </code>
+/// </remarks>
+/// <seealso cref="PipelineException"/>
 public class CommandException : PipelineException
 {
     /// <summary>
-    /// Initialises a new instance of the <see cref="CommandException"/> class.
     /// Initializes a new instance of the <see cref="CommandException"/> class.
     /// </summary>
     /// <param name="input">The command input that was executed.</param>

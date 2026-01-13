@@ -3,9 +3,47 @@ using System.Net;
 namespace ModularPipelines.Exceptions;
 
 /// <summary>
-/// Exception thrown when an HTTP request returns a non-success status code.
-/// Provides detailed information about the failed response including status code, reason phrase, and response content.
+/// Thrown when an HTTP request returns a non-success status code.
 /// </summary>
+/// <remarks>
+/// <para>
+/// This exception is thrown by HTTP client operations when the server returns a non-success
+/// status code (4xx or 5xx). It provides detailed information about the failed response
+/// for debugging and error handling purposes.
+/// </para>
+/// <para><b>When this is thrown:</b></para>
+/// <list type="bullet">
+/// <item>When an HTTP request returns a 4xx client error status code</item>
+/// <item>When an HTTP request returns a 5xx server error status code</item>
+/// <item>When using HTTP-based APIs that validate response status</item>
+/// </list>
+/// <para><b>Properties available:</b></para>
+/// <list type="bullet">
+/// <item><see cref="StatusCode"/> - The HTTP status code (e.g., 404, 500)</item>
+/// <item><see cref="ReasonPhrase"/> - The reason phrase from the response</item>
+/// <item><see cref="ResponseContent"/> - The body content of the failed response (may be truncated)</item>
+/// <item><see cref="RequestUri"/> - The URI that was requested</item>
+/// </list>
+/// <para><b>Handling example:</b></para>
+/// <code>
+/// try
+/// {
+///     var response = await httpClient.GetAsync(url);
+/// }
+/// catch (HttpResponseException ex)
+/// {
+///     Console.WriteLine($"HTTP {(int)ex.StatusCode} {ex.StatusCode}");
+///     Console.WriteLine($"URI: {ex.RequestUri}");
+///     Console.WriteLine($"Response: {ex.ResponseContent}");
+///
+///     if (ex.StatusCode == HttpStatusCode.NotFound)
+///     {
+///         // Handle 404 specifically
+///     }
+/// }
+/// </code>
+/// </remarks>
+/// <seealso cref="PipelineException"/>
 public class HttpResponseException : PipelineException
 {
     /// <summary>

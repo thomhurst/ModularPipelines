@@ -12,7 +12,7 @@ namespace ModularPipelines.Logging;
 /// - Service provider: Creates new logger instances
 /// The provider maintains thread-safe singleton behavior per module type.
 /// </remarks>
-internal class ModuleLoggerProvider : IModuleLoggerProvider, IDisposable
+internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IStackTraceModuleDetector _stackTraceDetector;

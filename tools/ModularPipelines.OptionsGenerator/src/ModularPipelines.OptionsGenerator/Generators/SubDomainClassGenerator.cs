@@ -123,6 +123,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         // File header
         GeneratorUtils.GenerateFileHeader(sb);
 
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using ModularPipelines.Context;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
@@ -137,6 +138,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine($"/// <summary>");
         sb.AppendLine($"/// {tool.ToolName} {node.Segment.ToLowerInvariant()} commands.");
         sb.AppendLine($"/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"public class {node.ClassName}");
         sb.AppendLine("{");
 

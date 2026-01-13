@@ -170,7 +170,7 @@ internal class MetricsCollector : IMetricsCollector
 
     private class ModuleMetricsData
     {
-        public Type ModuleType { get; set; } = null!;
+        public required Type ModuleType { get; init; }
         public ModulePriority Priority { get; set; }
         public ExecutionType ExecutionType { get; set; }
         public DateTimeOffset? ReadyTime { get; set; }

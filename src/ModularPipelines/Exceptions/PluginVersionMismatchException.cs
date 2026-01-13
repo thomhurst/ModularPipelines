@@ -3,25 +3,61 @@ namespace ModularPipelines.Exceptions;
 /// <summary>
 /// Thrown when a plugin declares compatibility with a different major version of ModularPipelines.
 /// </summary>
+/// <remarks>
+/// <para>
+/// This exception is thrown when a plugin (tool integration or extension) is loaded that
+/// requires a different major version of the ModularPipelines core library than what is
+/// currently installed. Major version mismatches can indicate breaking API changes.
+/// </para>
+/// <para><b>When this is thrown:</b></para>
+/// <list type="bullet">
+/// <item>During plugin loading when version compatibility is checked</item>
+/// <item>When a plugin assembly declares a different major version requirement</item>
+/// </list>
+/// <para><b>Properties available:</b></para>
+/// <list type="bullet">
+/// <item><see cref="PluginName"/> - The name of the incompatible plugin assembly</item>
+/// <item><see cref="RequiredMajorVersion"/> - The major version the plugin requires</item>
+/// <item><see cref="ActualCoreVersion"/> - The actual version of ModularPipelines installed</item>
+/// </list>
+/// <para><b>Handling example:</b></para>
+/// <code>
+/// try
+/// {
+///     await pipelineHost.ExecuteAsync();
+/// }
+/// catch (PluginVersionMismatchException ex)
+/// {
+///     Console.WriteLine($"Plugin '{ex.PluginName}' requires ModularPipelines {ex.RequiredMajorVersion}.x");
+///     Console.WriteLine($"Installed version: {ex.ActualCoreVersion}");
+/// }
+/// </code>
+/// <para><b>Resolution:</b></para>
+/// <list type="bullet">
+/// <item>Update the plugin to a version compatible with your ModularPipelines version</item>
+/// <item>Or update ModularPipelines to the version required by the plugin</item>
+/// </list>
+/// </remarks>
+/// <seealso cref="PipelineException"/>
 public class PluginVersionMismatchException : PipelineException
 {
     /// <summary>
-    /// The name of the incompatible plugin assembly.
+    /// Gets the name of the incompatible plugin assembly.
     /// </summary>
     public string PluginName { get; }
 
     /// <summary>
-    /// The major version the plugin requires.
+    /// Gets the major version the plugin requires.
     /// </summary>
     public int RequiredMajorVersion { get; }
 
     /// <summary>
-    /// The actual version of ModularPipelines installed.
+    /// Gets the actual version of ModularPipelines installed.
     /// </summary>
     public Version? ActualCoreVersion { get; }
 
     /// <summary>
-    /// Creates a new plugin version mismatch exception.
+    /// Initializes a new instance of the <see cref="PluginVersionMismatchException"/> class.
     /// </summary>
     /// <param name="pluginName">The name of the incompatible plugin assembly.</param>
     /// <param name="requiredMajorVersion">The major version the plugin requires.</param>

@@ -429,7 +429,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleLogger logger)
     {
         logger.LogDebug("Module failed. Cancelling the pipeline");
-        logger.SetException(exception);
+        ((IInternalModuleLogger)logger).SetException(exception);
 
         var moduleFailedException = new ModuleFailedException(executionContext.ModuleType, exception);
 

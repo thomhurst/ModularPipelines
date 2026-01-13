@@ -5,16 +5,38 @@
   <PropertyGroup>
     <Description>Write your pipelines in C#!</Description>
   </PropertyGroup>
+  <!--
+    InternalsVisibleTo Declarations
+    ================================
+    These declarations expose internal types to specific assemblies for legitimate purposes:
+
+    Build System Integrations:
+    - ModularPipelines.GitHub: Needs internal build system formatting/secret masking interfaces
+    - ModularPipelines.Azure.Pipelines: Needs internal build system formatting/secret masking interfaces
+    - ModularPipelines.TeamCity: Needs internal build system formatting/secret masking interfaces
+
+    Test Assemblies:
+    - ModularPipelines.UnitTests: Core framework tests requiring internal access
+    - ModularPipelines.TestHelpers: Shared test utilities requiring internal access
+    - ModularPipelines.Azure.UnitTests: Azure integration tests
+    - ModularPipelines.AmazonWebServices.UnitTests: AWS integration tests
+
+    Mocking Framework Support:
+    - DynamicProxyGenAssembly2: Required by Moq/Castle.Core for creating proxies of internal types
+  -->
   <ItemGroup>
-      <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-          <_Parameter1>ModularPipelines.GitHub</_Parameter1>
-      </AssemblyAttribute>
+    <!-- Build system integrations - access internal formatting/masking interfaces -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.GitHub</_Parameter1>
+    </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.Azure.Pipelines</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.TeamCity</_Parameter1>
     </AssemblyAttribute>
+
+    <!-- Test assemblies - verify internal behavior -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.UnitTests</_Parameter1>
     </AssemblyAttribute>
@@ -27,6 +49,8 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.AmazonWebServices.UnitTests</_Parameter1>
     </AssemblyAttribute>
+
+    <!-- Mocking framework support - required for Castle.Core/Moq -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
     </AssemblyAttribute>

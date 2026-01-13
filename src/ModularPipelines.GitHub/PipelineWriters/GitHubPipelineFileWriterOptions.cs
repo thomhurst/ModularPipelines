@@ -4,13 +4,13 @@ namespace ModularPipelines.GitHub.PipelineWriters;
 
 public record GitHubPipelineFileWriterOptions
 {
-    public string Name { get; init; } = null!;
+    public required string Name { get; init; }
 
-    public TriggerCondition TriggerCondition { get; init; } = null!;
+    public required TriggerCondition TriggerCondition { get; init; }
 
-    public File OutputPath { get; init; } = null!;
+    public required File OutputPath { get; init; }
 
-    public File PipelineProjectPath { get; init; } = null!;
+    public required File PipelineProjectPath { get; init; }
 
     public string? DotNetRunFramework { get; init; }
 

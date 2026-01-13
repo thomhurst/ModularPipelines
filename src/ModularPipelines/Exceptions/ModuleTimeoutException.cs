@@ -3,16 +3,52 @@ using ModularPipelines.Helpers;
 namespace ModularPipelines.Exceptions;
 
 /// <summary>
-/// Exception thrown when a module exceeds its configured timeout duration.
+/// Thrown when a module exceeds its configured timeout duration.
 /// </summary>
 /// <remarks>
-/// This exception contains diagnostic information about the timeout, including:
+/// <para>
+/// This exception is thrown when a module's execution time exceeds the configured timeout.
+/// The timeout can be configured per-module using the <c>Timeout</c> property or module options.
+/// </para>
+/// <para><b>When this is thrown:</b></para>
 /// <list type="bullet">
-/// <item>The configured timeout duration</item>
-/// <item>The actual elapsed time before timeout was enforced</item>
-/// <item>Whether the module properly respected the cancellation token</item>
+/// <item>When a module's <c>ExecuteAsync</c> takes longer than the configured timeout</item>
+/// <item>When the module does not respond to cancellation token within the grace period</item>
+/// </list>
+/// <para><b>Properties available:</b></para>
+/// <list type="bullet">
+/// <item><see cref="ModuleType"/> - The type of the module that timed out</item>
+/// <item><see cref="ConfiguredTimeout"/> - The timeout duration that was configured</item>
+/// <item><see cref="ElapsedTime"/> - The actual time elapsed before timeout was enforced</item>
+/// <item><see cref="WasCancellationTokenRespected"/> - Whether the module observed the cancellation token</item>
+/// </list>
+/// <para><b>Handling example:</b></para>
+/// <code>
+/// try
+/// {
+///     await pipelineHost.ExecuteAsync();
+/// }
+/// catch (ModuleTimeoutException ex)
+/// {
+///     Console.WriteLine($"Module {ex.ModuleType.Name} timed out");
+///     Console.WriteLine($"Configured timeout: {ex.ConfiguredTimeout}");
+///     Console.WriteLine($"Actual elapsed: {ex.ElapsedTime}");
+///
+///     if (!ex.WasCancellationTokenRespected)
+///     {
+///         Console.WriteLine("Warning: Module did not respond to cancellation token");
+///     }
+/// }
+/// </code>
+/// <para><b>Resolution:</b></para>
+/// <list type="bullet">
+/// <item>Increase the module timeout if the operation legitimately takes longer</item>
+/// <item>Ensure the module properly observes the <c>CancellationToken</c> parameter</item>
+/// <item>Optimize the module's execution to complete within the timeout</item>
 /// </list>
 /// </remarks>
+/// <seealso cref="PipelineException"/>
+/// <seealso cref="PipelineCancelledException"/>
 public class ModuleTimeoutException : PipelineException
 {
     /// <summary>

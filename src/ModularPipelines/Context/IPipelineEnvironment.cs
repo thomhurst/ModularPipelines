@@ -7,8 +7,17 @@ namespace ModularPipelines.Context;
 /// Provides access to environment and build system detection.
 /// </summary>
 /// <remarks>
+/// <para>
 /// This interface groups environment context and build system detection helpers
 /// for better Interface Segregation.
+/// </para>
+/// <para><b>Thread Safety:</b></para>
+/// <para>
+/// All members of this interface are thread-safe for concurrent access.
+/// Both <see cref="Environment"/> and <see cref="BuildSystemDetector"/> provide
+/// read-only access to environment information that does not change during pipeline execution,
+/// making them inherently safe for concurrent use from multiple threads.
+/// </para>
 /// </remarks>
 public interface IPipelineEnvironment
 {

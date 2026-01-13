@@ -12,6 +12,21 @@ namespace ModularPipelines.OptionsGenerator.Generators;
 public static partial class GeneratorUtils
 {
     /// <summary>
+    /// The name of this generator tool, used in [GeneratedCode] attributes.
+    /// </summary>
+    public const string GeneratorName = "ModularPipelines.OptionsGenerator";
+
+    /// <summary>
+    /// The version of this generator tool, used in [GeneratedCode] attributes.
+    /// </summary>
+    public const string GeneratorVersion = "1.0.0";
+
+    /// <summary>
+    /// The full [GeneratedCode] attribute string for use in generated types.
+    /// </summary>
+    public static string GeneratedCodeAttribute => $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
+
+    /// <summary>
     /// Escapes text for use in XML documentation comments.
     /// </summary>
     public static string EscapeXmlComment(string? text)

@@ -33,6 +33,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         // File header
         GeneratorUtils.GenerateFileHeader(sb);
 
+        sb.AppendLine("using System.CodeDom.Compiler;");
         sb.AppendLine("using ModularPipelines.Models;");
         sb.AppendLine("using ModularPipelines.Options;");
         sb.AppendLine($"using {tool.TargetNamespace}.Options;");
@@ -46,6 +47,7 @@ public class ServiceInterfaceGenerator : ICodeGenerator
         sb.AppendLine($"/// <summary>");
         sb.AppendLine($"/// Generated interface for {tool.ToolName} CLI commands.");
         sb.AppendLine($"/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
         sb.AppendLine($"public partial interface I{tool.NamespacePrefix}");
         sb.AppendLine("{");
 
