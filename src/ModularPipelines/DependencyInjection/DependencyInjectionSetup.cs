@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Linux;
+using ModularPipelines.Context.MacOS;
+using ModularPipelines.Context.Windows;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Engine.Attributes;
@@ -122,6 +124,9 @@ internal static class DependencyInjectionSetup
             .AddScoped<IMacInstaller, MacInstaller>()
             .AddScoped<ILinuxInstaller, LinuxInstaller>()
             .AddScoped<IAptGet, AptGet>()
+            .AddScoped<IBrew, Brew>()
+            .AddScoped<IChocolatey, Chocolatey>()
+            .AddScoped<IWinget, Winget>()
             .AddScoped<IZip, Zip>()
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
