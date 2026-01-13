@@ -1,9 +1,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Reflection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Dependencies;
 
@@ -16,6 +18,22 @@ internal class ModuleMetadataRegistry : IModuleMetadataRegistry
     private readonly ConcurrentDictionary<Type, HashSet<string>> _registrationTags = new();
     private readonly ConcurrentDictionary<Type, string> _registrationCategories = new();
     private readonly ConcurrentDictionary<Type, ModuleMetadata> _finalizedMetadata = new();
+
+    public ModuleMetadataRegistry(IOptions<ModuleRegistrationOptions> registrationOptions)
+    {
+        // Import tags and categories from registration-time configuration
+        var options = registrationOptions.Value;
+
+        foreach (var kvp in options.Tags)
+        {
+            _registrationTags[kvp.Key] = new HashSet<string>(kvp.Value, StringComparer.OrdinalIgnoreCase);
+        }
+
+        foreach (var kvp in options.Categories)
+        {
+            _registrationCategories[kvp.Key] = kvp.Value;
+        }
+    }
 
     public void SetMetadata(Type moduleType, string key, object value)
     {

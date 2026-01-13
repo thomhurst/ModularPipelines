@@ -44,8 +44,8 @@ public class UnusedModuleDetectorTests
                 typeof(Module5)
             ]);
 
-        var serviceCollection = new ServiceCollection()
-            .AddModule<Module1>()
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddModule<Module1>()
             .AddModule<Module3>()
             .AddModule<Module4>();
 

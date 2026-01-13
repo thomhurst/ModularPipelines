@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.UnitTests.Attributes;
 
@@ -12,10 +14,13 @@ public class ModuleMetadataRegistryTests
             => Task.FromResult<string?>("A");
     }
 
+    private static ModuleMetadataRegistry CreateRegistry()
+        => new(Microsoft.Extensions.Options.Options.Create(new ModuleRegistrationOptions()));
+
     [Test]
     public async Task SetMetadata_GetMetadata_ReturnsValue()
     {
-        var registry = new ModuleMetadataRegistry();
+        var registry = CreateRegistry();
 
         registry.SetMetadata(typeof(ModuleA), "key", "value");
 
@@ -26,7 +31,7 @@ public class ModuleMetadataRegistryTests
     [Test]
     public async Task GetMetadata_NotSet_ReturnsNull()
     {
-        var registry = new ModuleMetadataRegistry();
+        var registry = CreateRegistry();
 
         var result = registry.GetMetadata<string>(typeof(ModuleA), "key");
         await Assert.That(result).IsNull();
@@ -35,7 +40,7 @@ public class ModuleMetadataRegistryTests
     [Test]
     public async Task SetMetadata_OverwritesExisting()
     {
-        var registry = new ModuleMetadataRegistry();
+        var registry = CreateRegistry();
 
         registry.SetMetadata(typeof(ModuleA), "key", "value1");
         registry.SetMetadata(typeof(ModuleA), "key", "value2");
