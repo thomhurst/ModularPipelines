@@ -78,14 +78,14 @@ public class ZipTests : TestBase
                 .GetFolder("Data")
                 .GetFolder("Zip");
 
-            var fileToWrite = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
+            var fileToWrite = context.Files.GetFile(Path.Combine(context.Environment.WorkingDirectory, "LoremData.zip"));
 
             // Track for cleanup
             TrackArtifact(fileToWrite.Path);
 
             fileToWrite.Delete();
 
-            context.Zip.ZipFolder(directory, fileToWrite.Path);
+            context.Files.Zip.ZipFolder(directory, fileToWrite.Path);
 
             return null;
         }
@@ -121,14 +121,14 @@ public class ZipTests : TestBase
         {
             await Task.Yield();
 
-            var zipLocation = context.Environment.WorkingDirectory.GetFile("LoremData.zip");
+            var zipLocation = context.Files.GetFile(Path.Combine(context.Environment.WorkingDirectory, "LoremData.zip"));
 
-            var unzippedLocation = context.Environment.WorkingDirectory.GetFolder("LoremDataUnzipped");
+            var unzippedLocation = context.Files.GetFolder(Path.Combine(context.Environment.WorkingDirectory, "LoremDataUnzipped"));
 
             // Track for cleanup
             TrackArtifact(unzippedLocation.Path);
 
-            context.Zip.UnZipToFolder(zipLocation.Path, unzippedLocation.Path);
+            context.Files.Zip.UnZipToFolder(zipLocation.Path, unzippedLocation.Path);
 
             return null;
         }

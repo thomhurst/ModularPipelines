@@ -15,7 +15,7 @@ public class BashTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Shell.Bash.Command(new("echo \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 
@@ -24,7 +24,7 @@ public class BashTests : TestBase
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var file = context.Git().RootDirectory.FindFile(x => x.Name == "BashTest.sh");
-            return await context.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
+            return await context.Shell.Bash.FromFile(new BashFileOptions(file!), cancellationToken: cancellationToken);
         }
     }
 
