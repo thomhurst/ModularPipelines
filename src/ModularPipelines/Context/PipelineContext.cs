@@ -89,9 +89,13 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     /// <inheritdoc />
     public IDataContext Data { get; }
 
+    /// <summary>
+    /// Backing field for the domain Environment property.
+    /// </summary>
+    private IEnvironmentDomainContext? _environmentDomain;
+
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
-    IEnvironmentDomainContext IPipelineContext.Environment => throw new NotImplementedException("EnvironmentDomainContext implementation pending (Task 3.4)");
+    IEnvironmentDomainContext IPipelineContext.Environment => _environmentDomain!;
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
@@ -149,7 +153,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IChecksum checksum,
         ModularPipelines.Context.Domains.IShellContext shell,
         IFilesContext files,
-        IDataContext data)
+        IDataContext data,
+        IEnvironmentDomainContext environmentDomain)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -188,6 +193,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         Shell = shell;
         Files = files;
         Data = data;
+        _environmentDomain = environmentDomain;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }

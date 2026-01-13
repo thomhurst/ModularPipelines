@@ -1,8 +1,9 @@
 using System.Collections;
+using ModularPipelines.Context.Domains.Environment;
 
 namespace ModularPipelines.Context;
 
-internal class EnvironmentVariables : IEnvironmentVariables
+internal class EnvironmentVariables : IEnvironmentVariables, IEnvironmentVariablesContext
 {
     private const string PathVariableName = "PATH";
 

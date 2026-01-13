@@ -10,6 +10,7 @@ using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.Context.Domains.Shell;
+using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -151,6 +152,10 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IHexContext>(sp => (IHexContext)sp.GetRequiredService<IHex>())
             .AddSingleton<IDataContext, DataContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
+            // Register Environment domain context interfaces
+            .AddSingleton<IEnvironmentVariablesContext>(sp => (IEnvironmentVariablesContext)sp.GetRequiredService<IEnvironmentVariables>())
+            .AddSingleton<IBuildSystemContext, BuildSystemContext>()
+            .AddScoped<IEnvironmentDomainContext, EnvironmentDomainContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();

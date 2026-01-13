@@ -139,8 +139,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IDataContext Data => _pipelineContext.Data;
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
-    IEnvironmentDomainContext IPipelineContext.Environment => throw new NotImplementedException("EnvironmentDomainContext implementation pending (Task 3.4)");
+    IEnvironmentDomainContext IPipelineContext.Environment => ((IPipelineContext)_pipelineContext).Environment;
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
