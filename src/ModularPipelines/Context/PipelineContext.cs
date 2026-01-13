@@ -83,6 +83,33 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     /// <inheritdoc />
     public ModularPipelines.Context.Domains.IShellContext Shell { get; }
 
+    /// <inheritdoc />
+    public IFilesContext Files { get; }
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.3.</remarks>
+    public IDataContext Data => throw new NotImplementedException("DataContext implementation pending (Task 3.3)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
+    IEnvironmentDomainContext IPipelineContext.Environment => throw new NotImplementedException("EnvironmentDomainContext implementation pending (Task 3.4)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
+    public IInstallersContext Installers => throw new NotImplementedException("InstallersContext implementation pending (Task 3.5)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.6.</remarks>
+    public INetworkContext Network => throw new NotImplementedException("NetworkContext implementation pending (Task 3.6)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.7.</remarks>
+    public ISecurityContext Security => throw new NotImplementedException("SecurityContext implementation pending (Task 3.7)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.8.</remarks>
+    public IServicesContext Services => throw new NotImplementedException("ServicesContext implementation pending (Task 3.8)");
+
     public void InitializeLogger(Type getType)
     {
         _logger = _moduleLoggerProvider.GetLogger(getType);
@@ -121,7 +148,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IEncodingContext encodingContext,
         IShellContext shellContext,
         IChecksum checksum,
-        ModularPipelines.Context.Domains.IShellContext shell)
+        ModularPipelines.Context.Domains.IShellContext shell,
+        IFilesContext files)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -158,6 +186,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
 
         // Domain context (v2.0)
         Shell = shell;
+        Files = files;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }

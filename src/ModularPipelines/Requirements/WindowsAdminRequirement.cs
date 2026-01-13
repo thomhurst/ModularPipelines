@@ -12,7 +12,7 @@ public class WindowsAdminRequirement : IPipelineRequirement
     /// <inheritdoc/>
     public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
-        if (context.Environment.OperatingSystem == OperatingSystemIdentifier.Windows)
+        if (((IPipelineEnvironment)context).Environment.OperatingSystem == OperatingSystemIdentifier.Windows)
         {
 #pragma warning disable CA1416
             return RequirementDecision.Of(

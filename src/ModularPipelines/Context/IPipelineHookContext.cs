@@ -20,6 +20,14 @@ namespace ModularPipelines.Context;
 /// See <see cref="IPipelineContext"/> for specific thread-safety details.
 /// </para>
 /// </remarks>
-public interface IPipelineHookContext : IPipelineContext
+public interface IPipelineHookContext :
+    IPipelineContext,
+    // Legacy interfaces for backward compatibility during migration
+    IPipelineServices,
+    IPipelineLogging,
+    IPipelineTools,
+    IPipelineEncoding,
+    IPipelineFileSystem,
+    IPipelineEnvironment
 {
 }

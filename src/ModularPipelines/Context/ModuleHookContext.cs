@@ -101,7 +101,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IOptions<PipelineOptions> PipelineOptions => _pipelineContext.PipelineOptions;
 
     // IPipelineLogging
-    public IModuleLogger Logger => _pipelineContext.Logger;
+    public IModuleLogger Logger => ((IPipelineLogging)_pipelineContext).Logger;
 
     // IPipelineTools
     public ICommand Command => _pipelineContext.Command;
@@ -132,6 +132,33 @@ internal class ModuleHookContext : IModuleHookContext
     /// <inheritdoc />
     public ModularPipelines.Context.Domains.IShellContext Shell => _pipelineContext.Shell;
 
+    /// <inheritdoc />
+    public IFilesContext Files => _pipelineContext.Files;
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.3.</remarks>
+    public IDataContext Data => throw new NotImplementedException("DataContext implementation pending (Task 3.3)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
+    IEnvironmentDomainContext IPipelineContext.Environment => throw new NotImplementedException("EnvironmentDomainContext implementation pending (Task 3.4)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
+    public IInstallersContext Installers => throw new NotImplementedException("InstallersContext implementation pending (Task 3.5)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.6.</remarks>
+    public INetworkContext Network => throw new NotImplementedException("NetworkContext implementation pending (Task 3.6)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.7.</remarks>
+    public ISecurityContext Security => throw new NotImplementedException("SecurityContext implementation pending (Task 3.7)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.8.</remarks>
+    public IServicesContext Services => throw new NotImplementedException("ServicesContext implementation pending (Task 3.8)");
+
     // IPipelineFileSystem
     public IFileSystemContext FileSystem => _pipelineContext.FileSystem;
 
@@ -140,7 +167,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IChecksum Checksum => _pipelineContext.Checksum;
 
     // IPipelineEnvironment
-    public IEnvironmentContext Environment => _pipelineContext.Environment;
+    public IEnvironmentContext Environment => ((IPipelineEnvironment)_pipelineContext).Environment;
 
     public IBuildSystemDetector BuildSystemDetector => _pipelineContext.BuildSystemDetector;
 

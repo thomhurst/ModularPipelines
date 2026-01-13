@@ -68,7 +68,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken)
     {
-        var logger = moduleContext.Logger;
+        var logger = ((IPipelineLogging)moduleContext).Logger;
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
@@ -327,7 +327,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            moduleContext.Logger.LogError(e, "Error saving module result to repository");
+            ((IPipelineLogging)moduleContext).Logger.LogError(e, "Error saving module result to repository");
         }
     }
 

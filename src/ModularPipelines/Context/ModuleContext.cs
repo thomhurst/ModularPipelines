@@ -108,7 +108,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
     public IModuleLogger Logger => _logger;
 
-    public IEnvironmentContext Environment => _pipelineContext.Environment;
+    public IEnvironmentContext Environment => ((IPipelineEnvironment)_pipelineContext).Environment;
 
     public IBuildSystemDetector BuildSystemDetector => _pipelineContext.BuildSystemDetector;
 
@@ -138,6 +138,33 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
     /// <inheritdoc />
     public ModularPipelines.Context.Domains.IShellContext Shell => _pipelineContext.Shell;
+
+    /// <inheritdoc />
+    public IFilesContext Files => _pipelineContext.Files;
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.3.</remarks>
+    public IDataContext Data => throw new NotImplementedException("DataContext implementation pending (Task 3.3)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
+    IEnvironmentDomainContext IPipelineContext.Environment => throw new NotImplementedException("EnvironmentDomainContext implementation pending (Task 3.4)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
+    public IInstallersContext Installers => throw new NotImplementedException("InstallersContext implementation pending (Task 3.5)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.6.</remarks>
+    public INetworkContext Network => throw new NotImplementedException("NetworkContext implementation pending (Task 3.6)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.7.</remarks>
+    public ISecurityContext Security => throw new NotImplementedException("SecurityContext implementation pending (Task 3.7)");
+
+    /// <inheritdoc />
+    /// <remarks>Stub implementation - will be fully implemented in Task 3.8.</remarks>
+    public IServicesContext Services => throw new NotImplementedException("ServicesContext implementation pending (Task 3.8)");
 
     public IHttp Http => _pipelineContext.Http;
 

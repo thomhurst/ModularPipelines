@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -100,7 +102,7 @@ internal static class DependencyInjectionSetup
             .AddScoped<IPipelineHookContext, PipelineContext>()
             .AddScoped<ISerializationContext, SerializationContext>()
             .AddScoped<IEncodingContext, EncodingContext>()
-            .AddScoped<IShellContext, ShellContext>()
+            .AddScoped<ModularPipelines.Context.IShellContext, ModularPipelines.Context.ShellContext>()
             .AddScoped<ModuleLoggerProvider>()
             .AddScoped<IModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
             .AddScoped<IInternalModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
@@ -132,10 +134,14 @@ internal static class DependencyInjectionSetup
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
             // Register domain context interfaces (forwarding to existing implementations)
-            .AddScoped<Domains.Shell.ICommandContext>(sp => (Domains.Shell.ICommandContext)sp.GetRequiredService<ModularPipelines.Context.ICommand>())
-            .AddScoped<Domains.Shell.IBashContext>(sp => (Domains.Shell.IBashContext)sp.GetRequiredService<IBash>())
-            .AddScoped<Domains.Shell.IPowerShellContext>(sp => (Domains.Shell.IPowerShellContext)sp.GetRequiredService<IPowershell>())
-            .AddScoped<Domains.IShellContext, Domains.Implementations.ShellContext>()
+            .AddScoped<ICommandContext>(sp => (ICommandContext)sp.GetRequiredService<ModularPipelines.Context.ICommand>())
+            .AddScoped<IBashContext>(sp => (IBashContext)sp.GetRequiredService<IBash>())
+            .AddScoped<IPowerShellContext>(sp => (IPowerShellContext)sp.GetRequiredService<IPowershell>())
+            .AddScoped<ModularPipelines.Context.Domains.IShellContext, ModularPipelines.Context.Domains.Implementations.ShellContext>()
+            // Register Files domain context interfaces
+            .AddScoped<IZipContext>(sp => (IZipContext)sp.GetRequiredService<IZip>())
+            .AddScoped<IChecksumContext>(sp => (IChecksumContext)sp.GetRequiredService<IChecksum>())
+            .AddScoped<IFilesContext, FilesContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
