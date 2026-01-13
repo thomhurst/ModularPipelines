@@ -1,0 +1,220 @@
+using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using ModularPipelines.Context;
+using ModularPipelines.Options;
+using ModularPipelines.TestHelpers;
+using NReco.Logging.File;
+using Vertical.SpectreLogger.Options;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
+
+namespace ModularPipelines.UnitTests.Commands;
+
+public class CommandLoggerTests : TestBase
+{
+    [Test]
+    [MatrixDataSource]
+    public async Task Logs_As_Expected_With_Options(
+        [Matrix(true, false)] bool logInput,
+        [Matrix(true, false)] bool logOutput,
+        [Matrix(true, false)] bool logError,
+        [Matrix(true, false)] bool logExitCode,
+        [Matrix(true, false)] bool logDuration)
+    {
+        var file = await RunPowershellCommand("""
+                                        echo Hello world!
+                                        throw "Error!"
+                                        """, logInput, logOutput, logError, logExitCode, logDuration);
+
+        var logFile = await File.ReadAllTextAsync(file);
+
+        if (!logInput && !logOutput && !logError && !logDuration && !logExitCode)
+        {
+            await Assert.That(logFile).DoesNotContain("INFO	[ModularPipelines.Logging.CommandLogger]");
+            return;
+        }
+
+        await Assert.That(logFile).Contains("INFO	[ModularPipelines.Logging.CommandLogger]");
+
+        if (logInput)
+        {
+            await Assert.That(logFile).Contains("Command:");
+            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> pwsh -Command \"echo Hello world!");
+        }
+        else
+        {
+            await Assert.That(logFile).Contains("Command:");
+            await Assert.That(logFile).Contains($"{Environment.CurrentDirectory}> ********");
+        }
+
+        if (logOutput)
+        {
+            await Assert.That(logFile).Contains("Output:");
+        }
+        else
+        {
+            await Assert.That(logFile).DoesNotContain("Output:");
+        }
+
+        if (logError)
+        {
+            await Assert.That(logFile).Contains("✗ Error:");
+        }
+        else
+        {
+            await Assert.That(logFile).DoesNotContain("✗ Error:");
+        }
+
+        if (logDuration)
+        {
+            await Assert.That(logFile).Contains("Duration:");
+        }
+        else
+        {
+            await Assert.That(logFile).DoesNotContain("Duration:");
+        }
+
+        if (logExitCode)
+        {
+            await Assert.That(logFile).Contains("Exit Code:");
+        }
+        else
+        {
+            await Assert.That(logFile).DoesNotContain("Exit Code:");
+        }
+    }
+
+    private async Task<string> RunPowershellCommand(string command, bool logInput, bool logOutput, bool logError,
+        bool logExitCode, bool logDuration)
+    {
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => { builder.AddFile(file); });
+        });
+
+        // Determine verbosity level based on what's being logged
+        var verbosity = (!logInput && !logOutput && !logError && !logExitCode && !logDuration)
+            ? CommandLogVerbosity.Silent
+            : CommandLogVerbosity.Normal;
+
+        var loggingOptions = new CommandLoggingOptions
+        {
+            Verbosity = verbosity,
+            ShowCommandArguments = logInput,
+            ShowStandardOutput = logOutput,
+            ShowStandardError = logError,
+            ShowExitCode = logExitCode,
+            ShowExecutionTime = logDuration,
+        };
+
+        await result.T.ExecuteCommandLineTool(
+            new PowershellScriptOptions(command),
+            new CommandExecutionOptions
+            {
+                LogSettings = loggingOptions,
+                ThrowOnNonZeroExitCode = false,
+            });
+
+        await result.Host.DisposeAsync();
+
+        return file;
+    }
+
+    [Test]
+    public async Task Silent_Verbosity_Logs_Nothing()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Silent });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).DoesNotContain("[ModularPipelines.Logging.CommandLogger]");
+    }
+
+    [Test]
+    public async Task Minimal_Verbosity_Logs_Only_Input()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Minimal });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).DoesNotContain("Output:");
+        await Assert.That(logFile).DoesNotContain("Exit Code:");
+        await Assert.That(logFile).DoesNotContain("Duration:");
+    }
+
+    [Test]
+    public async Task Normal_Verbosity_Logs_Input_And_Output()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).DoesNotContain("Exit Code:");
+        await Assert.That(logFile).DoesNotContain("Duration:");
+    }
+
+    [Test]
+    public async Task Detailed_Verbosity_Logs_Input_Output_ExitCode_Duration()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Detailed });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).Contains("Exit Code:");
+        await Assert.That(logFile).Contains("Duration:");
+    }
+
+    [Test]
+    public async Task Diagnostic_Verbosity_Logs_Everything_Including_Timestamps()
+    {
+        var file = await RunPowershellCommandWithLoggingOptions(
+            "echo Hello",
+            new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Diagnostic });
+
+        var logFile = await File.ReadAllTextAsync(file);
+        await Assert.That(logFile).Contains("Command:");
+        await Assert.That(logFile).Contains("Output:");
+        await Assert.That(logFile).Contains("Exit Code:");
+        await Assert.That(logFile).Contains("Duration:");
+        await Assert.That(logFile).Contains("Working Directory:");
+        // Check for timestamp pattern [HH:mm:ss.fff]
+        await Assert.That(Regex.IsMatch(logFile, @"\[\d{2}:\d{2}:\d{2}\.\d{3}\]")).IsTrue();
+    }
+
+    private async Task<string> RunPowershellCommandWithLoggingOptions(string command, CommandLoggingOptions loggingOptions)
+    {
+        var file = Path.Combine(TestContext.WorkingDirectory, Guid.NewGuid().ToString("N") + ".txt");
+
+        var result = await GetService<ICommand>((_, collection) =>
+        {
+            collection.Configure<SpectreLoggerOptions>(options => options.MinimumLogLevel = LogLevel.Information);
+            collection.Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information);
+            collection.AddLogging(builder => { builder.AddFile(file); });
+        });
+
+        await result.T.ExecuteCommandLineTool(
+            new PowershellScriptOptions(command),
+            new CommandExecutionOptions
+            {
+                LogSettings = loggingOptions,
+                ThrowOnNonZeroExitCode = false,
+            });
+
+        await result.Host.DisposeAsync();
+
+        return file;
+    }
+}

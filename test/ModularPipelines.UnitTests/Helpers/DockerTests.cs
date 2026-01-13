@@ -52,7 +52,7 @@ public class DockerTests : TestBase
 
         await host.ExecutePipelineAsync();
 
-        var resultRegistry = host.RootServices.GetRequiredService<Engine.IModuleResultRegistry>();
+        var resultRegistry = host.RootServices.GetRequiredService<ModularPipelines.Engine.IModuleResultRegistry>();
         var result = resultRegistry.GetResult<CommandResult>(typeof(DockerBuildModule))!;
 
         // IPipelineHookContext is a scoped service, so we need to create a scope
