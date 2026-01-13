@@ -4,7 +4,6 @@
 // </auto-generated>
 
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -49,8 +48,8 @@ public static class KubernetesExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The kubectl service.</returns>
-    public static IKubernetes Kubernetes(this IPipelineHookContext context)
+    public static IKubernetes Kubernetes(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IKubernetes>();
+        return context.Services.Get<IKubernetes>();
     }
 }

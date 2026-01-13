@@ -24,5 +24,5 @@ public static class FtpExtensions
         return services;
     }
 
-    public static IFtp Ftp(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IFtp>();
+    public static IFtp Ftp(this IPipelineContext context) => context.Services.Get<IFtp>();
 }
