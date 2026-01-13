@@ -1,4 +1,4 @@
-﻿using ModularPipelines.Context;
+using ModularPipelines.Context;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.Extensions;
@@ -11,13 +11,13 @@ public static class ContextExtensions
     /// <summary>
     /// Logs a message that will be displayed after the pipeline execution completes.
     /// </summary>
-    /// <param name="pipelineContext">The pipeline hook context.</param>
+    /// <param name="pipelineContext">The pipeline context.</param>
     /// <param name="value">The message to log at the end of pipeline execution.</param>
     /// <remarks>
     /// This is useful for logging summary information or final status messages
     /// that should appear after all modules have completed.
     /// </remarks>
-    public static void LogOnPipelineEnd(this IPipelineHookContext pipelineContext, string value)
+    public static void LogOnPipelineEnd(this IPipelineContext pipelineContext, string value)
     {
         var afterPipelineLogger = pipelineContext.Services.Get<IAfterPipelineLogger>()
             ?? throw new InvalidOperationException(
