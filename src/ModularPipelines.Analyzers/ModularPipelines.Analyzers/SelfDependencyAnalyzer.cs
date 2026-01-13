@@ -38,82 +38,75 @@ public class SelfDependencyAnalyzer : DiagnosticAnalyzer
 
     private void AnalyzeAttribute(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not AttributeSyntax attributeSyntax)
+        if (!TryGetDependsOnInfo(context, out var attributeSyntax, out var attributeType, out var dependencyType))
         {
             return;
         }
 
-        var attributeSymbol = context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol;
-
-        if (attributeSymbol is not IMethodSymbol methodSymbol)
-        {
-            return;
-        }
-
-        var namedTypeSymbol = methodSymbol.ContainingType;
-
-        if (!IsDependsOnAttributeType(namedTypeSymbol, context.Compilation))
-        {
-            return;
-        }
-
-        // Get the type argument from the attribute
-        ITypeSymbol? dependencyType = null;
-
-        // Check for generic attribute: [DependsOn<SomeType>]
-        if (namedTypeSymbol.IsGenericType && namedTypeSymbol.TypeArguments.Length > 0)
-        {
-            dependencyType = namedTypeSymbol.TypeArguments[0];
-        }
-
-        // Check for non-generic attribute: [DependsOn(typeof(SomeType))]
-        else if (attributeSyntax.ArgumentList?.Arguments.FirstOrDefault()?.Expression is TypeOfExpressionSyntax typeOfExpression)
-        {
-            var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type);
-            dependencyType = typeInfo.Type;
-        }
-
-        if (dependencyType is null)
-        {
-            return;
-        }
-
-        // Get the containing type (the module class that has this attribute)
         var containingType = context.GetClassThatNodeIsIn();
         if (containingType is null)
         {
             return;
         }
 
-        // Check if the dependency type is the same as the containing type (self-dependency)
-        if (SymbolEqualityComparer.Default.Equals(dependencyType, containingType))
+        if (IsSelfDependency(dependencyType, containingType))
         {
-            context.ReportDiagnostic(Diagnostic.Create(
-                Rule,
-                attributeSyntax.GetLocation(),
-                containingType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            ReportSelfDependency(context, attributeSyntax, containingType);
         }
     }
 
-    private static bool IsDependsOnAttributeType(INamedTypeSymbol typeSymbol, Compilation compilation)
+    private static bool TryGetDependsOnInfo(
+        SyntaxNodeAnalysisContext context,
+        out AttributeSyntax attributeSyntax,
+        out INamedTypeSymbol attributeType,
+        out ITypeSymbol dependencyType)
     {
-        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
-        if (dependsOnAttributeType is null)
+        attributeSyntax = null!;
+        attributeType = null!;
+        dependencyType = null!;
+
+        if (context.Node is not AttributeSyntax attrSyntax)
         {
             return false;
         }
 
-        var typeToCompare = typeSymbol.IsGenericType
-            ? typeSymbol.OriginalDefinition
-            : typeSymbol;
+        attributeSyntax = attrSyntax;
 
-        if (SymbolEqualityComparer.Default.Equals(typeToCompare, dependsOnAttributeType))
+        if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol methodSymbol)
         {
-            return true;
+            return false;
         }
 
-        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute`1");
-        return genericDependsOnAttributeType is not null &&
-               SymbolEqualityComparer.Default.Equals(typeToCompare, genericDependsOnAttributeType);
+        attributeType = methodSymbol.ContainingType;
+
+        if (!attributeType.IsDependsOnAttribute(context.Compilation))
+        {
+            return false;
+        }
+
+        var depType = attributeType.GetDependsOnTypeArgument(attributeSyntax, context.SemanticModel);
+        if (depType is null)
+        {
+            return false;
+        }
+
+        dependencyType = depType;
+        return true;
+    }
+
+    private static bool IsSelfDependency(ITypeSymbol dependencyType, INamedTypeSymbol containingType)
+    {
+        return SymbolEqualityComparer.Default.Equals(dependencyType, containingType);
+    }
+
+    private static void ReportSelfDependency(
+        SyntaxNodeAnalysisContext context,
+        AttributeSyntax attributeSyntax,
+        INamedTypeSymbol containingType)
+    {
+        context.ReportDiagnostic(Diagnostic.Create(
+            Rule,
+            attributeSyntax.GetLocation(),
+            containingType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
     }
 }

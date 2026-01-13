@@ -38,99 +38,70 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
 
     private void AnalyzeAttribute(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not AttributeSyntax attributeSyntax)
+        if (!TryGetDependsOnInfo(context, out var attributeSyntax, out var attributeType, out var dependencyType))
         {
             return;
         }
 
-        var attributeSymbol = context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol;
-
-        if (attributeSymbol is not IMethodSymbol methodSymbol)
+        if (!IsValidModuleType(dependencyType, context.Compilation))
         {
-            return;
-        }
-
-        var namedTypeSymbol = methodSymbol.ContainingType;
-
-        if (!IsDependsOnAttributeType(namedTypeSymbol, context.Compilation))
-        {
-            return;
-        }
-
-        // Get the type argument from the attribute
-        ITypeSymbol? dependencyType = null;
-
-        // Check for generic attribute: [DependsOn<SomeType>]
-        if (namedTypeSymbol.IsGenericType && namedTypeSymbol.TypeArguments.Length > 0)
-        {
-            dependencyType = namedTypeSymbol.TypeArguments[0];
-        }
-
-        // Check for non-generic attribute: [DependsOn(typeof(SomeType))]
-        else if (attributeSyntax.ArgumentList?.Arguments.FirstOrDefault()?.Expression is TypeOfExpressionSyntax typeOfExpression)
-        {
-            var typeInfo = context.SemanticModel.GetTypeInfo(typeOfExpression.Type);
-            dependencyType = typeInfo.Type;
-        }
-
-        if (dependencyType is null)
-        {
-            return;
-        }
-
-        // Check if the type implements IModule
-        var iModuleType = context.Compilation.GetTypeByMetadataName("ModularPipelines.Interfaces.IModule");
-        if (iModuleType is null)
-        {
-            return;
-        }
-
-        if (!ImplementsInterface(dependencyType, iModuleType))
-        {
-            context.ReportDiagnostic(Diagnostic.Create(
-                Rule,
-                attributeSyntax.GetLocation(),
-                dependencyType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
+            ReportInvalidDependsOnType(context, attributeSyntax, dependencyType);
         }
     }
 
-    private static bool ImplementsInterface(ITypeSymbol type, INamedTypeSymbol interfaceType)
+    private static bool TryGetDependsOnInfo(
+        SyntaxNodeAnalysisContext context,
+        out AttributeSyntax attributeSyntax,
+        out INamedTypeSymbol attributeType,
+        out ITypeSymbol dependencyType)
     {
-        if (SymbolEqualityComparer.Default.Equals(type, interfaceType))
-        {
-            return true;
-        }
+        attributeSyntax = null!;
+        attributeType = null!;
+        dependencyType = null!;
 
-        foreach (var iface in type.AllInterfaces)
-        {
-            if (SymbolEqualityComparer.Default.Equals(iface, interfaceType))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static bool IsDependsOnAttributeType(INamedTypeSymbol typeSymbol, Compilation compilation)
-    {
-        var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
-        if (dependsOnAttributeType is null)
+        if (context.Node is not AttributeSyntax attrSyntax)
         {
             return false;
         }
 
-        var typeToCompare = typeSymbol.IsGenericType
-            ? typeSymbol.OriginalDefinition
-            : typeSymbol;
+        attributeSyntax = attrSyntax;
 
-        if (SymbolEqualityComparer.Default.Equals(typeToCompare, dependsOnAttributeType))
+        if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol methodSymbol)
         {
-            return true;
+            return false;
         }
 
-        var genericDependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute`1");
-        return genericDependsOnAttributeType is not null &&
-               SymbolEqualityComparer.Default.Equals(typeToCompare, genericDependsOnAttributeType);
+        attributeType = methodSymbol.ContainingType;
+
+        if (!attributeType.IsDependsOnAttribute(context.Compilation))
+        {
+            return false;
+        }
+
+        var depType = attributeType.GetDependsOnTypeArgument(attributeSyntax, context.SemanticModel);
+        if (depType is null)
+        {
+            return false;
+        }
+
+        dependencyType = depType;
+        return true;
+    }
+
+    private static bool IsValidModuleType(ITypeSymbol dependencyType, Compilation compilation)
+    {
+        var iModuleType = compilation.GetTypeByMetadataName("ModularPipelines.Interfaces.IModule");
+        return iModuleType is not null && dependencyType.ImplementsInterface(iModuleType);
+    }
+
+    private static void ReportInvalidDependsOnType(
+        SyntaxNodeAnalysisContext context,
+        AttributeSyntax attributeSyntax,
+        ITypeSymbol dependencyType)
+    {
+        context.ReportDiagnostic(Diagnostic.Create(
+            Rule,
+            attributeSyntax.GetLocation(),
+            dependencyType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat)));
     }
 }
