@@ -1,35 +1,34 @@
 namespace ModularPipelines.Attributes;
 
 /// <summary>
-/// Assigns a category to a module for grouping and filtering purposes.
+/// Declares the category of a module. Categories identify what a module is.
+/// Only one category can be applied per module.
 /// </summary>
 /// <remarks>
-/// <para>
-/// Categories are used to organize modules and can be filtered at runtime using
-/// <see cref="Options.PipelineOptions.RunOnlyCategories"/> or <see cref="Options.PipelineOptions.IgnoreCategories"/>.
-/// </para>
-/// <para>
-/// <strong>Note:</strong> Categories are currently used for module filtering only.
-/// There is no category-level configuration API; configuration follows the standard precedence:
-/// Global (PipelineOptions) -> Module (behavior interfaces) -> Per-Call.
-/// </para>
+/// Categories are used with <see cref="DependsOnModulesInCategoryAttribute"/> to create
+/// dependencies based on module identity like "infrastructure", "build", "test", etc.
 /// </remarks>
 /// <example>
 /// <code>
-/// [ModuleCategory("Build")]
-/// public class BuildModule : Module&lt;string&gt;
-/// {
-///     // This module belongs to the "Build" category
-/// }
+/// [ModuleCategory("infrastructure")]
+/// public class DatabaseMigrationModule : Module&lt;string&gt; { }
 /// </code>
 /// </example>
-[AttributeUsage(AttributeTargets.Class)]
-public class ModuleCategoryAttribute : Attribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+public sealed class ModuleCategoryAttribute : Attribute
 {
+    /// <summary>
+    /// Gets the category value.
+    /// </summary>
     public string Category { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ModuleCategoryAttribute"/> class.
+    /// </summary>
+    /// <param name="category">The category to apply to the module.</param>
     public ModuleCategoryAttribute(string category)
     {
-        Category = category ?? throw new ArgumentNullException(nameof(category));
+        ArgumentException.ThrowIfNullOrWhiteSpace(category);
+        Category = category;
     }
 }

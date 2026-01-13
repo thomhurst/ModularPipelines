@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using ModularPipelines.Attributes;
+using ModularPipelines.Context;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
@@ -39,6 +40,24 @@ internal static class ModuleDependencyResolver
         Type moduleType,
         IEnumerable<Type> availableModuleTypes)
     {
+        return GetDependencies(moduleType, availableModuleTypes, dependencyContext: null);
+    }
+
+    /// <summary>
+    /// Gets all dependencies declared on a module type via DependsOn attributes,
+    /// including DependsOnAllModulesInheritingFromAttribute and predicate-based DependsOnBaseAttribute derivatives.
+    /// </summary>
+    /// <param name="moduleType">The module type to get dependencies for.</param>
+    /// <param name="availableModuleTypes">All available module types in the pipeline.</param>
+    /// <param name="dependencyContext">Context providing access to module metadata (tags, categories, attributes).
+    /// Required for predicate-based dependencies. If null, predicate-based dependencies are skipped.</param>
+    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(
+        Type moduleType,
+        IEnumerable<Type> availableModuleTypes,
+        IDependencyContext? dependencyContext)
+    {
+        var availableModuleTypesList = availableModuleTypes as IReadOnlyList<Type> ?? availableModuleTypes.ToList();
+
         // Handle regular DependsOn attributes
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
@@ -48,7 +67,7 @@ internal static class ModuleDependencyResolver
         // Handle DependsOnAllModulesInheritingFrom attributes
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAllModulesInheritingFromAttribute>())
         {
-            foreach (var candidateType in availableModuleTypes)
+            foreach (var candidateType in availableModuleTypesList)
             {
                 // Skip self
                 if (candidateType == moduleType)
@@ -60,6 +79,55 @@ internal static class ModuleDependencyResolver
                 if (candidateType.IsOrInheritsFrom(attribute.Type))
                 {
                     yield return (candidateType, false);
+                }
+            }
+        }
+
+        // Handle predicate-based dependencies (DependsOnBaseAttribute derivatives)
+        if (dependencyContext != null)
+        {
+            foreach (var dep in GetPredicateDependencies(moduleType, availableModuleTypesList, dependencyContext))
+            {
+                yield return dep;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets dependencies resolved via predicate-based attributes (DependsOnBaseAttribute derivatives).
+    /// </summary>
+    /// <param name="moduleType">The module type to get predicate dependencies for.</param>
+    /// <param name="availableModuleTypes">All available module types to evaluate against predicates.</param>
+    /// <param name="dependencyContext">Context providing access to module metadata.</param>
+    /// <returns>Enumerable of dependency tuples (DependencyType, IgnoreIfNotRegistered).</returns>
+    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetPredicateDependencies(
+        Type moduleType,
+        IReadOnlyList<Type> availableModuleTypes,
+        IDependencyContext dependencyContext)
+    {
+        var predicateAttributes = moduleType
+            .GetCustomAttributesIncludingBaseInterfaces<DependsOnBaseAttribute>()
+            .ToList();
+
+        if (predicateAttributes.Count == 0)
+        {
+            yield break;
+        }
+
+        foreach (var candidateType in availableModuleTypes)
+        {
+            // Skip self
+            if (candidateType == moduleType)
+            {
+                continue;
+            }
+
+            foreach (var attr in predicateAttributes)
+            {
+                if (attr.ShouldDependOn(candidateType, dependencyContext))
+                {
+                    yield return (candidateType, false);
+                    break; // Only add once even if multiple attributes match
                 }
             }
         }

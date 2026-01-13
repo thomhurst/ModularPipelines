@@ -18,12 +18,12 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddModule<TModule>(this IServiceCollection services)
+    /// <returns>A builder for configuring the module registration.</returns>
+    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
         services.AddSingleton<IModule, TModule>();
-        return services;
+        return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
     /// <summary>
@@ -32,12 +32,12 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <param name="tModule">The module to add.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
-    /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, TModule tModule)
+    /// <returns>A builder for configuring the module registration.</returns>
+    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
         services.AddSingleton<IModule>(tModule);
-        return services;
+        return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
     /// <summary>
@@ -46,12 +46,12 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The pipeline's service collection.</param>
     /// <typeparam name="TModule">The type of Module to add.</typeparam>
     /// /// <param name="tModuleFactory">A factory method for creating the module.</param>
-    /// <returns>The pipeline's same service collection.</returns>
-    public static IServiceCollection AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
+    /// <returns>A builder for configuring the module registration.</returns>
+    public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
         services.AddSingleton<IModule>(tModuleFactory);
-        return services;
+        return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
     /// <summary>

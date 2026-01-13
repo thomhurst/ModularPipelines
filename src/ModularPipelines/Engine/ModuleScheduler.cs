@@ -23,6 +23,7 @@ internal class ModuleScheduler : IModuleScheduler
     private readonly TimeProvider _timeProvider;
     private readonly SchedulerOptions _options;
     private readonly IModuleDependencyRegistry _dependencyRegistry;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
     private readonly IMetricsCollector _metricsCollector;
     private readonly IModuleConstraintEvaluator _constraintEvaluator;
     private readonly ISchedulerStatusReporter _statusReporter;
@@ -45,6 +46,7 @@ internal class ModuleScheduler : IModuleScheduler
         TimeProvider timeProvider,
         IOptions<SchedulerOptions> options,
         IModuleDependencyRegistry dependencyRegistry,
+        IModuleMetadataRegistry metadataRegistry,
         IMetricsCollector metricsCollector,
         IModuleConstraintEvaluator constraintEvaluator,
         ISchedulerStatusReporter statusReporter)
@@ -53,6 +55,7 @@ internal class ModuleScheduler : IModuleScheduler
         _timeProvider = timeProvider;
         _options = options.Value;
         _dependencyRegistry = dependencyRegistry;
+        _metadataRegistry = metadataRegistry;
         _metricsCollector = metricsCollector;
         _constraintEvaluator = constraintEvaluator;
         _statusReporter = statusReporter;
@@ -108,6 +111,14 @@ internal class ModuleScheduler : IModuleScheduler
         // Get all available module types for DependsOnAllModulesInheritingFrom resolution
         var availableModuleTypes = _moduleStates.Keys.ToArray();
 
+        // Finalize metadata for all modules before dependency resolution.
+        // This ensures tags, categories, and custom attributes are merged from
+        // all sources (attributes, instance overrides, registration-time configuration).
+        foreach (var state in _moduleStates.Values)
+        {
+            _metadataRegistry.FinalizeMetadata(state.ModuleType, state.Module);
+        }
+
         foreach (var state in _moduleStates.Values)
         {
             var moduleType = state.ModuleType;
@@ -154,9 +165,13 @@ internal class ModuleScheduler : IModuleScheduler
                     state.ExecutionType);
             }
 
-            // Use the overload that includes dynamic dependencies from registration events
-            // and programmatic dependencies from DeclareDependencies method
-            var dependencies = ModuleDependencyResolver.GetAllDependencies(state.Module, availableModuleTypes, _dependencyRegistry);
+            // Use the overload that includes:
+            // - Static dependencies from DependsOn attributes
+            // - DependsOnAllModulesInheritingFrom dependencies
+            // - Predicate-based dependencies (DependsOnModulesWithTag, DependsOnModulesInCategory, DependsOnModulesWithAttribute)
+            // - Programmatic dependencies from DeclareDependencies method
+            // - Dynamic dependencies from registration events
+            var dependencies = GetAllDependenciesIncludingPredicate(state.Module, availableModuleTypes);
 
             foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
             {
@@ -179,6 +194,34 @@ internal class ModuleScheduler : IModuleScheduler
             "Initialized {Count} modules for scheduling with total of {DependencyCount} dependencies",
             _moduleStates.Count,
             _moduleStates.Values.Sum(x => x.UnresolvedDependencies.Count));
+    }
+
+    /// <summary>
+    /// Gets all dependencies for a module including predicate-based dependencies.
+    /// </summary>
+    private IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependenciesIncludingPredicate(
+        IModule module,
+        IReadOnlyList<Type> availableModuleTypes)
+    {
+        var moduleType = module.GetType();
+
+        // Static dependencies from attributes (including DependsOnAllModulesInheritingFrom and predicate-based)
+        foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleType, availableModuleTypes, _metadataRegistry))
+        {
+            yield return dep;
+        }
+
+        // Programmatic dependencies from DeclareDependencies method
+        foreach (var dep in ModuleDependencyResolver.GetProgrammaticDependencies(module))
+        {
+            yield return dep;
+        }
+
+        // Dynamic dependencies from registration
+        foreach (var dynamicDep in _dependencyRegistry.GetDynamicDependencies(moduleType))
+        {
+            yield return (dynamicDep, false);
+        }
     }
 
     /// <summary>

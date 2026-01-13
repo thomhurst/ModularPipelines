@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Models;
@@ -46,7 +47,7 @@ namespace ModularPipelines.Modules;
 /// }
 /// </code>
 /// </example>
-public abstract class Module<T> : IModule
+public abstract class Module<T> : IModule, ITaggedModule
 {
     internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
 
@@ -83,6 +84,24 @@ public abstract class Module<T> : IModule
 
     /// <inheritdoc />
     ModuleConfiguration IModule.Configuration => _configuration ??= Configure();
+
+    /// <summary>
+    /// Gets the tags for this module. Override to declare tags programmatically.
+    /// </summary>
+    /// <remarks>
+    /// Tags can also be declared via <see cref="ModuleTagAttribute"/>.
+    /// Both sources are merged together.
+    /// </remarks>
+    public virtual IReadOnlySet<string> Tags => new HashSet<string>();
+
+    /// <summary>
+    /// Gets the category for this module. Override to declare category programmatically.
+    /// </summary>
+    /// <remarks>
+    /// Category can also be declared via <see cref="ModuleCategoryAttribute"/>.
+    /// Override value takes precedence over attribute.
+    /// </remarks>
+    public virtual string? Category => null;
 
     /// <summary>
     /// Declares dependencies programmatically at runtime.

@@ -57,6 +57,7 @@ internal static class DependencyInjectionSetup
             .Configure<SchedulerOptions>(_ => { })
             .Configure<ConcurrencyOptions>(_ => { })
             .Configure<HttpResilienceOptions>(_ => { })
+            .Configure<ModuleRegistrationOptions>(_ => { })
             .AddSingleton<IValidateOptions<ConcurrencyOptions>, ConcurrencyOptionsValidator>()
             .AddSingleton<IValidateOptions<HttpResilienceOptions>, HttpResilienceOptionsValidator>()
             .AddLogging(builder =>
@@ -266,6 +267,9 @@ internal static class DependencyInjectionSetup
         services
             .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
             .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
+
+            // IDependencyContext is implemented by IModuleMetadataRegistry - expose it for dependency resolution
+            .AddSingleton<IDependencyContext>(sp => sp.GetRequiredService<IModuleMetadataRegistry>())
             .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
             .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
             .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>();
