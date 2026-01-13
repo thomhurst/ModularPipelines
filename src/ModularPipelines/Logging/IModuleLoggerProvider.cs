@@ -10,6 +10,4 @@ public interface IModuleLoggerProvider
     /// </summary>
     /// <returns>A module logger instance.</returns>
     IModuleLogger GetLogger();
-
-    internal IModuleLogger GetLogger(Type type);
 }
