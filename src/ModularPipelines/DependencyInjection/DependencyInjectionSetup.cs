@@ -12,6 +12,7 @@ using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Installers;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -163,6 +164,10 @@ internal static class DependencyInjectionSetup
             .AddScoped<IMacInstallerContext>(sp => (IMacInstallerContext)sp.GetRequiredService<IMacInstaller>())
             .AddScoped<IPredefinedInstallersContext>(sp => (IPredefinedInstallersContext)sp.GetRequiredService<IPredefinedInstallers>())
             .AddScoped<IInstallersContext, InstallersContext>()
+            // Register Network domain context interfaces
+            .AddScoped<IHttpContext>(sp => (IHttpContext)sp.GetRequiredService<IHttp>())
+            .AddScoped<IDownloaderContext>(sp => (IDownloaderContext)sp.GetRequiredService<IDownloader>())
+            .AddScoped<INetworkContext, NetworkContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();

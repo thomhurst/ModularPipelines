@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
@@ -8,7 +9,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Downloader : IDownloader
+internal class Downloader : IDownloader, IDownloaderContext
 {
     private readonly IModuleLoggerProvider _moduleLoggerProvider;
     private readonly IHttp _http;

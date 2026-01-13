@@ -1,12 +1,13 @@
 using System.Diagnostics;
 using System.Net;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context.Domains.Network;
 using ModularPipelines.Logging;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Http;
 
-internal class Http : IHttp
+internal class Http : IHttp, IHttpContext
 {
     public HttpClient HttpClient { get; }
 

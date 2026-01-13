@@ -152,8 +152,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public IInstallersContext Installers => _pipelineContext.Installers;
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.6.</remarks>
-    public INetworkContext Network => throw new NotImplementedException("NetworkContext implementation pending (Task 3.6)");
+    public INetworkContext Network => _pipelineContext.Network;
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.7.</remarks>
