@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Modules;
@@ -51,7 +52,7 @@ public abstract class Module<T> : IModule
     internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
 
     /// <inheritdoc />
-    Type IModule.ResultType => typeof(T);
+    Type IModule.ResultType => ModuleTypeCache.GetResultType(GetType());
 
     /// <summary>
     /// Override to configure module behaviors (skip, timeout, retry, etc.).
