@@ -128,8 +128,8 @@ public static class AzExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The az service.</returns>
-    public static IAz Az(this IPipelineHookContext context)
+    public static IAz Az(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IAz>();
+        return context.Services.Get<IAz>();
     }
 }

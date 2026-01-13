@@ -41,8 +41,8 @@ public static class AwsExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The aws service.</returns>
-    public static IAws Aws(this IPipelineHookContext context)
+    public static IAws Aws(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IAws>();
+        return context.Services.Get<IAws>();
     }
 }

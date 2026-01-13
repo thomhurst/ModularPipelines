@@ -88,22 +88,12 @@ public static class AzureExtensions
     }
 
     /// <summary>
-    /// Gets the Azure services from the module context.
+    /// Gets the Azure services from the pipeline context.
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>The Azure services.</returns>
-    public static IAzure Azure(this IModuleContext context)
+    public static IAzure Azure(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IAzure>();
-    }
-
-    /// <summary>
-    /// Gets the Azure services from the pipeline hook context.
-    /// </summary>
-    /// <param name="context">The pipeline hook context.</param>
-    /// <returns>The Azure services.</returns>
-    public static IAzure Azure(this IPipelineHookContext context)
-    {
-        return context.ServiceProvider.GetRequiredService<IAzure>();
+        return context.Services.Get<IAzure>();
     }
 }
