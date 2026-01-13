@@ -208,12 +208,21 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
 
     /// <summary>
     /// Strips the "Module" suffix from a class name to create a cleaner method name.
-    /// Example: "BuildModule" -> "Build" (generates GetBuildModuleResult)
-    /// Example: "DeployToProduction" -> "DeployToProduction" (generates GetDeployToProductionModuleResult)
     /// </summary>
+    /// <remarks>
+    /// Examples:
+    /// - "BuildModule" → "Build" (generates GetBuildModuleResult)
+    /// - "DeployToProduction" → "DeployToProduction" (generates GetDeployToProductionModuleResult)
+    /// - "Module" → "Module" (edge case: keeps name to avoid empty string)
+    ///
+    /// The length check (className.Length > suffix.Length) ensures that a class named
+    /// exactly "Module" won't be stripped to an empty string.
+    /// </remarks>
     private static string StripModuleSuffix(string className)
     {
         const string suffix = "Module";
+
+        // Only strip if there's actual content before "Module" (prevents "Module" → "")
         if (className.Length > suffix.Length && className.EndsWith(suffix))
         {
             return className.Substring(0, className.Length - suffix.Length);
