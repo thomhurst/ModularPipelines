@@ -173,6 +173,8 @@ internal static class DependencyInjectionSetup
             .AddScoped<ICertificatesContext>(sp => (ICertificatesContext)sp.GetRequiredService<ICertificates>())
             .AddSingleton<IHasherContext>(sp => (IHasherContext)sp.GetRequiredService<IHasher>())
             .AddScoped<ISecurityContext, SecurityContext>()
+            // Register Services domain context
+            .AddScoped<IServicesContext, ServicesContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();

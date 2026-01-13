@@ -151,8 +151,7 @@ internal class ModuleHookContext : IModuleHookContext
     public ISecurityContext Security => _pipelineContext.Security;
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.8.</remarks>
-    public IServicesContext Services => throw new NotImplementedException("ServicesContext implementation pending (Task 3.8)");
+    public IServicesContext Services => _pipelineContext.Services;
 
     // IPipelineFileSystem
     public IFileSystemContext FileSystem => _pipelineContext.FileSystem;

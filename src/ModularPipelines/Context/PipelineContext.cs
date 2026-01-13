@@ -107,8 +107,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     public ISecurityContext Security { get; }
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.8.</remarks>
-    public IServicesContext Services => throw new NotImplementedException("ServicesContext implementation pending (Task 3.8)");
+    public IServicesContext Services { get; }
 
     public void InitializeLogger(Type getType)
     {
@@ -154,7 +153,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IEnvironmentDomainContext environmentDomain,
         IInstallersContext installers,
         INetworkContext network,
-        ISecurityContext security)
+        ISecurityContext security,
+        IServicesContext services)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -197,6 +197,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         Installers = installers;
         Network = network;
         Security = security;
+        Services = services;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }
