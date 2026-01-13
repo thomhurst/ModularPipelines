@@ -1,5 +1,9 @@
 using ModularPipelines.Context.Domains.Installers;
 
+#pragma warning disable SA1135 // Using directives should be qualified
+using ModularPipelines.Context;
+#pragma warning restore SA1135 // Using directives should be qualified
+
 namespace ModularPipelines.Context.Domains;
 
 /// <summary>
@@ -7,6 +11,11 @@ namespace ModularPipelines.Context.Domains;
 /// </summary>
 public interface IInstallersContext
 {
+    /// <summary>
+    /// File-based installers (local files and web downloads).
+    /// </summary>
+    IFileInstaller File { get; }
+
     /// <summary>
     /// Windows installers (MSI, EXE, Chocolatey).
     /// </summary>

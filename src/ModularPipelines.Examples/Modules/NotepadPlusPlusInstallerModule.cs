@@ -10,7 +10,7 @@ public class NotepadPlusPlusInstallerModule : Module<CommandResult>
     /// <inheritdoc/>
     public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        return await context.Installer.FileInstaller
+        return await context.Installers.File
             .InstallFromWebAsync(new WebInstallerOptions(new Uri(
                 "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.5.3/npp.8.5.3.Installer.x64.exe")), cancellationToken);
     }
