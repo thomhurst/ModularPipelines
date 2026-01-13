@@ -301,5 +301,59 @@ namespace ModularPipelines.Analyzers {
                 return ResourceManager.GetString("ArgumentsPropertyDeprecatedAnalyzerDescription", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid DependsOn type.
+        /// </summary>
+        internal static string InvalidDependsOnTypeAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("InvalidDependsOnTypeAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Type '{0}' does not implement IModule and cannot be used with DependsOn attribute.
+        /// </summary>
+        internal static string InvalidDependsOnTypeAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("InvalidDependsOnTypeAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The DependsOn attribute requires a type that implements IModule. The specified type does not implement this interface..
+        /// </summary>
+        internal static string InvalidDependsOnTypeAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("InvalidDependsOnTypeAnalyzerDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Module depends on itself.
+        /// </summary>
+        internal static string SelfDependencyAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("SelfDependencyAnalyzerTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Module '{0}' cannot depend on itself.
+        /// </summary>
+        internal static string SelfDependencyAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("SelfDependencyAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to A module cannot have a DependsOn attribute that references itself. This would create a circular dependency that prevents the module from ever executing..
+        /// </summary>
+        internal static string SelfDependencyAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("SelfDependencyAnalyzerDescription", resourceCulture);
+            }
+        }
     }
 }

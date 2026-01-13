@@ -198,4 +198,22 @@
   <data name="ArgumentsPropertyDeprecatedAnalyzerDescription" xml:space="preserve">
     <value>The Arguments property bypasses type safety. In ModularPipelines v2, use typed positional argument properties marked with [CliArgument] instead. For example, use 'Committish = "HEAD"' on GitRevParseOptions instead of 'Arguments = ["HEAD"]'. If no typed property exists, request one be added or use GenericCommandLineToolOptions.</value>
   </data>
+  <data name="InvalidDependsOnTypeAnalyzerTitle" xml:space="preserve">
+    <value>Invalid DependsOn type</value>
+  </data>
+  <data name="InvalidDependsOnTypeAnalyzerMessageFormat" xml:space="preserve">
+    <value>Type '{0}' does not implement IModule and cannot be used with DependsOn attribute</value>
+  </data>
+  <data name="InvalidDependsOnTypeAnalyzerDescription" xml:space="preserve">
+    <value>The DependsOn attribute requires a type that implements IModule. The specified type does not implement this interface.</value>
+  </data>
+  <data name="SelfDependencyAnalyzerTitle" xml:space="preserve">
+    <value>Module depends on itself</value>
+  </data>
+  <data name="SelfDependencyAnalyzerMessageFormat" xml:space="preserve">
+    <value>Module '{0}' cannot depend on itself</value>
+  </data>
+  <data name="SelfDependencyAnalyzerDescription" xml:space="preserve">
+    <value>A module cannot have a DependsOn attribute that references itself. This would create a circular dependency that prevents the module from ever executing.</value>
+  </data>
 </root>

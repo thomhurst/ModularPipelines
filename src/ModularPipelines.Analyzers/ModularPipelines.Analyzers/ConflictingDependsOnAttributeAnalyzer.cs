@@ -12,7 +12,7 @@ namespace ModularPipelines.Analyzers;
 [ExcludeFromCodeCoverage]
 public class ConflictingDependsOnAttributeAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "ConflictingDependsOnAttribute";
+    public const string DiagnosticId = "MPDEP002";
 
     public static DiagnosticDescriptor Rule { get; } = DiagnosticDescriptorFactory.Create(
         DiagnosticId,
