@@ -77,6 +77,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, TerraformCliScraper>();
     builder.Services.AddSingleton<ICliScraper, WinGetCliScraper>();
     builder.Services.AddSingleton<ICliScraper, ChocolateyCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, BrewCliScraper>();
     builder.Services.AddSingleton<ICliScraper, YarnCliScraper>();
     builder.Services.AddSingleton<ICliScraper, AwsCliScraper>();
     builder.Services.AddSingleton<ICliScraper, AzCliScraper>();
