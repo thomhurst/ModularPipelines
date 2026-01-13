@@ -5,7 +5,7 @@ namespace ModularPipelines.Options.Linux;
 
 [ExcludeFromCodeCoverage]
 [CliTool("dpkg")]
-public record DpkgInstallOptions : CommandLineToolOptions
+public partial record DpkgInstallOptions : CommandLineToolOptions
 {
     public DpkgInstallOptions(string path)
     {

@@ -8,4 +8,4 @@ namespace ModularPipelines.Options.Windows;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [CliTool("msiexec.exe")]
-public record MsiInstallerOptions([property: CliOption("/package")] string MsiPath) : WindowsInstallerOptionsBase;
+public partial record MsiInstallerOptions([property: CliOption("/package")] string MsiPath) : WindowsInstallerOptionsBase;

@@ -8,4 +8,4 @@ namespace ModularPipelines.Options;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [CliTool("bash")]
-public record BashOptions : CommandLineToolOptions;
+public partial record BashOptions : CommandLineToolOptions;

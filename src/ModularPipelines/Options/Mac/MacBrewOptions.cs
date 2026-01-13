@@ -5,4 +5,4 @@ namespace ModularPipelines.Options.Mac;
 
 [ExcludeFromCodeCoverage]
 [CliTool("brew")]
-public record MacBrewOptions([property: CliOption("--cask")] string PackageName) : CommandLineToolOptions;
+public partial record MacBrewOptions([property: CliOption("--cask")] string PackageName) : CommandLineToolOptions;

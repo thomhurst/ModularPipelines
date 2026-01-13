@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public record AptGetAutocleanOptions : AptGetOptions
+public partial record AptGetAutocleanOptions : AptGetOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public virtual string CommandName { get; } = "autoclean";
