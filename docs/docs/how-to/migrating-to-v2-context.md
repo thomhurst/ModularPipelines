@@ -78,6 +78,7 @@ context.PowerShell → context.Shell.PowerShell
 
 // File operations
 context.FileSystem → context.Files
+context.FileSystem.GetFolder(SpecialFolder) → context.Files.GetFolder(SpecialFolder)
 context.Zip → context.Files.Zip
 
 // Data operations
@@ -102,7 +103,19 @@ context.Downloader → context.Network.Downloader
 context.Http → context.Network.Http
 ```
 
-### 2. Update Type References
+### 2. Special Folder Access
+
+The `GetFolder(Environment.SpecialFolder)` overload is available on the `Files` domain:
+
+```csharp
+// Before (v1)
+var appData = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData);
+
+// After (v2)
+var appData = context.Files.GetFolder(Environment.SpecialFolder.ApplicationData);
+```
+
+### 3. Update Type References
 
 If you referenced the removed facade interfaces directly, update to the new types:
 

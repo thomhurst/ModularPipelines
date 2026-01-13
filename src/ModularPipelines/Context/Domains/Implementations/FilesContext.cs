@@ -36,6 +36,9 @@ internal class FilesContext : IFilesContext
     public Folder GetFolder(string path) => _fileSystemContext.GetFolder(path);
 
     /// <inheritdoc />
+    public Folder GetFolder(System.Environment.SpecialFolder specialFolder) => _fileSystemContext.GetFolder(specialFolder);
+
+    /// <inheritdoc />
     public IEnumerable<File> Glob(string pattern)
     {
         // Use the current directory as the root for globbing

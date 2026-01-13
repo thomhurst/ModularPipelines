@@ -20,6 +20,11 @@ public interface IFilesContext
     Folder GetFolder(string path);
 
     /// <summary>
+    /// Get a Folder object for the specified special folder.
+    /// </summary>
+    Folder GetFolder(System.Environment.SpecialFolder specialFolder);
+
+    /// <summary>
     /// Search for files matching a glob pattern. Returns rich File objects.
     /// </summary>
     IEnumerable<File> Glob(string pattern);
