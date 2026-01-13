@@ -267,6 +267,9 @@ internal static class DependencyInjectionSetup
         services
             .AddSingleton<IModuleDependencyRegistry, ModuleDependencyRegistry>()
             .AddSingleton<IModuleMetadataRegistry, ModuleMetadataRegistry>()
+
+            // IDependencyContext is implemented by IModuleMetadataRegistry - expose it for dependency resolution
+            .AddSingleton<IDependencyContext>(sp => sp.GetRequiredService<IModuleMetadataRegistry>())
             .AddSingleton<IModuleAttributeEventService, ModuleAttributeEventService>()
             .AddSingleton<IAttributeEventInvoker, AttributeEventInvoker>()
             .AddSingleton<IRegistrationEventExecutor, RegistrationEventExecutor>();
