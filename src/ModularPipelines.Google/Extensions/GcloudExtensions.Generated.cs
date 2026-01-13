@@ -4,7 +4,6 @@
 // </auto-generated>
 
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -162,8 +161,8 @@ public static class GcloudExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The gcloud service.</returns>
-    public static IGcloud Gcloud(this IPipelineHookContext context)
+    public static IGcloud Gcloud(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IGcloud>();
+        return context.Services.Get<IGcloud>();
     }
 }

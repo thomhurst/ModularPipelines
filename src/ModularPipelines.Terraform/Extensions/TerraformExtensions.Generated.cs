@@ -4,7 +4,6 @@
 // </auto-generated>
 
 using System.Runtime.CompilerServices;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
@@ -45,8 +44,8 @@ public static class TerraformExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The terraform service.</returns>
-    public static ITerraform Terraform(this IPipelineHookContext context)
+    public static ITerraform Terraform(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<ITerraform>();
+        return context.Services.Get<ITerraform>();
     }
 }
