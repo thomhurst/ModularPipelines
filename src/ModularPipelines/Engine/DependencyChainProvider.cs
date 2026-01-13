@@ -1,4 +1,5 @@
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Models;
 
 namespace ModularPipelines.Engine;
@@ -6,12 +7,16 @@ namespace ModularPipelines.Engine;
 internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 {
     private readonly ModuleRetriever _moduleRetriever;
+    private readonly IModuleMetadataRegistry _metadataRegistry;
 
     public IReadOnlyList<ModuleDependencyModel> ModuleDependencyModels { get; private set; } = [];
 
-    public DependencyChainProvider(ModuleRetriever moduleRetriever)
+    public DependencyChainProvider(
+        ModuleRetriever moduleRetriever,
+        IModuleMetadataRegistry metadataRegistry)
     {
         _moduleRetriever = moduleRetriever;
+        _metadataRegistry = metadataRegistry;
     }
 
     public int Order => int.MaxValue;
@@ -19,6 +24,15 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
     public async Task InitializeAsync()
     {
         var modules = await _moduleRetriever.GetOrganizedModules().ConfigureAwait(false);
+
+        // Finalize metadata for all modules before dependency resolution.
+        // This ensures tags, categories, and custom attributes are merged from
+        // all sources (attributes, instance overrides, registration-time configuration).
+        foreach (var module in modules.AllModules)
+        {
+            _metadataRegistry.FinalizeMetadata(module.GetType(), module);
+        }
+
         ModuleDependencyModels = Detect(modules.AllModules.Select(x => new ModuleDependencyModel(x)).ToArray());
     }
 
@@ -41,9 +55,14 @@ internal class DependencyChainProvider : IDependencyChainProvider, IInitializer
 
     private IEnumerable<ModuleDependencyModel> GetModuleDependencies(ModuleDependencyModel moduleDependencyModel, ModuleDependencyModel[] allModules)
     {
-        // Get all available module types for DependsOnAllModulesInheritingFrom resolution
+        // Get all available module types for DependsOnAllModulesInheritingFrom and predicate-based resolution
         var availableModuleTypes = allModules.Select(m => m.Module.GetType()).ToArray();
-        var dependencies = ModuleDependencyResolver.GetDependencies(moduleDependencyModel.Module.GetType(), availableModuleTypes);
+
+        // Pass the metadata registry as IDependencyContext for predicate-based dependencies
+        var dependencies = ModuleDependencyResolver.GetDependencies(
+            moduleDependencyModel.Module.GetType(),
+            availableModuleTypes,
+            _metadataRegistry);
 
         foreach (var (dependencyType, _) in dependencies)
         {
