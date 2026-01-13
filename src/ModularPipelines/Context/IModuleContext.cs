@@ -52,7 +52,7 @@ namespace ModularPipelines.Context;
 /// }
 /// </code>
 /// </remarks>
-public interface IModuleContext : IPipelineHookContext
+public interface IModuleContext : IPipelineContext
 {
     /// <summary>
     /// Gets a module's result by specifying both the module type and its return type.

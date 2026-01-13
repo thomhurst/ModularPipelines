@@ -6,7 +6,17 @@ namespace ModularPipelines.Context;
 /// <summary>
 /// Extended context for module-level hooks, providing module information and control flow.
 /// </summary>
-public interface IModuleHookContext : IPipelineHookContext
+/// <remarks>
+/// <para>
+/// This interface extends <see cref="IPipelineContext"/> with module-specific information
+/// for use in module hooks (Ready, Start, End, Success, Failure, Skipped).
+/// </para>
+/// <para>
+/// Module hooks can inspect module state, request retries, skip dependent modules,
+/// or fail the entire pipeline based on module outcomes.
+/// </para>
+/// </remarks>
+public interface IModuleHookContext : IPipelineContext
 {
     /// <summary>
     /// Gets the module instance.
