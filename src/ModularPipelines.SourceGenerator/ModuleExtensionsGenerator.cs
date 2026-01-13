@@ -10,8 +10,8 @@ namespace ModularPipelines.SourceGenerator;
 /// <summary>
 /// Source generator that creates type-safe GetModule extension methods for Module classes.
 /// For each class that inherits from Module&lt;T&gt;, generates:
-/// - GetXxx(this IModuleContext context) extension method (strips "Module" suffix)
-/// - GetXxxIfRegistered(this IModuleContext context) extension method
+/// - GetXxxModuleResult(this IModuleContext context) extension method (strips "Module" suffix)
+/// - GetXxxModuleResultIfRegistered(this IModuleContext context) extension method
 /// </summary>
 [Generator]
 public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
@@ -171,24 +171,24 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             var module = moduleGroup.First();
             var methodName = StripModuleSuffix(module.ClassName);
 
-            // GetXxx method - returns non-nullable (e.g., GetBuild for BuildModule)
+            // GetXxxModuleResult method - returns non-nullable (e.g., GetBuildModuleResult for BuildModule)
             sb.AppendLine($"    /// <summary>");
             sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/>.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module result.</returns>");
             sb.AppendLine($"    /// <exception cref=\"ModularPipelines.Exceptions.ModuleNotRegisteredException\">Thrown when the module is not registered.</exception>");
-            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}> Get{methodName}(this IModuleContext context)");
+            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}> Get{methodName}ModuleResult(this IModuleContext context)");
             sb.AppendLine($"        => context.GetModule<{module.ClassName}, {module.ResultTypeFullName}>();");
             sb.AppendLine();
 
-            // GetXxxModuleIfRegistered method - returns nullable
+            // GetXxxModuleResultIfRegistered method - returns nullable
             sb.AppendLine($"    /// <summary>");
             sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> if it is registered, otherwise null.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
             sb.AppendLine($"    /// <returns>The module result, or null if not registered.</returns>");
-            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}>? Get{methodName}IfRegistered(this IModuleContext context)");
+            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}>? Get{methodName}ModuleResultIfRegistered(this IModuleContext context)");
             sb.AppendLine($"        => context.GetModuleIfRegistered<{module.ClassName}, {module.ResultTypeFullName}>();");
             sb.AppendLine();
         }
@@ -208,7 +208,8 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
 
     /// <summary>
     /// Strips the "Module" suffix from a class name to create a cleaner method name.
-    /// Example: "BuildModule" -> "Build", "DeployToProduction" -> "DeployToProduction"
+    /// Example: "BuildModule" -> "Build" (generates GetBuildModuleResult)
+    /// Example: "DeployToProduction" -> "DeployToProduction" (generates GetDeployToProductionModuleResult)
     /// </summary>
     private static string StripModuleSuffix(string className)
     {
