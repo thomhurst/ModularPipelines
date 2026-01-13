@@ -1,7 +1,6 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Context;
-using DependsOn = ModularPipelines.Attributes.DependsOnAttribute;
 using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -29,17 +28,18 @@ public class ScaleTests : TestBase
 
     /// <summary>
     /// Thread-safe tracker for recording module execution order and timing.
+    /// Each test creates a fresh instance for test isolation.
     /// </summary>
-    public static class ExecutionTracker
+    public class ExecutionTracker
     {
-        private static ConcurrentDictionary<string, ExecutionRecord> _executionRecords = new();
-        private static int _completionCounter;
+        private readonly ConcurrentDictionary<string, ExecutionRecord> _executionRecords = new();
+        private int _completionCounter;
 
         /// <summary>
         /// Records the start of module execution.
         /// </summary>
         /// <param name="moduleName">The name/type of the module.</param>
-        public static void RecordStart(string moduleName)
+        public void RecordStart(string moduleName)
         {
             _executionRecords[moduleName] = new ExecutionRecord(moduleName, 0, DateTimeOffset.UtcNow, DateTimeOffset.MinValue);
         }
@@ -48,7 +48,7 @@ public class ScaleTests : TestBase
         /// Marks a module as completed and records completion order.
         /// </summary>
         /// <param name="moduleName">The module name.</param>
-        public static void MarkCompleted(string moduleName)
+        public void MarkCompleted(string moduleName)
         {
             var completionOrder = Interlocked.Increment(ref _completionCounter);
             if (_executionRecords.TryGetValue(moduleName, out var record))
@@ -62,7 +62,7 @@ public class ScaleTests : TestBase
         /// </summary>
         /// <param name="moduleName">The module name.</param>
         /// <returns>True if the module has completed.</returns>
-        public static bool IsCompleted(string moduleName)
+        public bool IsCompleted(string moduleName)
         {
             return _executionRecords.TryGetValue(moduleName, out var record) && record.CompletionOrder > 0;
         }
@@ -70,7 +70,7 @@ public class ScaleTests : TestBase
         /// <summary>
         /// Gets all execution records ordered by completion order.
         /// </summary>
-        public static IReadOnlyList<ExecutionRecord> GetRecords()
+        public IReadOnlyList<ExecutionRecord> GetRecords()
         {
             return _executionRecords.Values.OrderBy(r => r.CompletionOrder).ToList();
         }
@@ -78,7 +78,7 @@ public class ScaleTests : TestBase
         /// <summary>
         /// Gets a specific execution record by module name.
         /// </summary>
-        public static ExecutionRecord? GetRecord(string moduleName)
+        public ExecutionRecord? GetRecord(string moduleName)
         {
             return _executionRecords.TryGetValue(moduleName, out var record) ? record : null;
         }
@@ -86,16 +86,17 @@ public class ScaleTests : TestBase
         /// <summary>
         /// Gets the count of completed modules.
         /// </summary>
-        public static int CompletedCount => _executionRecords.Values.Count(r => r.CompletionOrder > 0);
+        public int CompletedCount => _executionRecords.Values.Count(r => r.CompletionOrder > 0);
 
         /// <summary>
-        /// Resets the tracker state by creating new collections.
+        /// Gets the total count of recorded modules (started or completed).
         /// </summary>
-        public static void Reset()
-        {
-            _executionRecords = new ConcurrentDictionary<string, ExecutionRecord>();
-            Interlocked.Exchange(ref _completionCounter, 0);
-        }
+        public int TotalRecordedCount => _executionRecords.Count;
+
+        /// <summary>
+        /// Gets whether the tracker is in a clean state (no records).
+        /// </summary>
+        public bool IsClean => _executionRecords.IsEmpty && _completionCounter == 0;
     }
 
     /// <summary>
@@ -136,14 +137,14 @@ public class ScaleTests : TestBase
     /// A generic module that can be instantiated with different type markers to create unique types.
     /// </summary>
     /// <typeparam name="T">A marker type that makes this module unique.</typeparam>
-    public class ScaleModule<T> : Module<string>
+    public class ScaleModule<T>(ExecutionTracker tracker) : Module<string>
     {
         public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use full generic type name to uniquely identify each module
             var typeName = GetType().ToString();
-            ExecutionTracker.RecordStart(typeName);
-            ExecutionTracker.MarkCompleted(typeName);
+            tracker.RecordStart(typeName);
+            tracker.MarkCompleted(typeName);
             return Task.FromResult<string?>(typeName);
         }
     }
@@ -166,10 +167,12 @@ public class ScaleTests : TestBase
     public async Task Pipeline_With100IndependentModules_CompletesSuccessfully()
     {
         // Arrange
-        ExecutionTracker.Reset();
+        var tracker = new ExecutionTracker();
+        await Assert.That(tracker.IsClean).IsTrue();
         const int expectedModuleCount = 100;
 
         var builder = TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) => services.AddSingleton(tracker))
             // Add 100 independent modules (each with a unique type)
             .AddModule<ScaleModule<M1>>().AddModule<ScaleModule<M2>>().AddModule<ScaleModule<M3>>()
             .AddModule<ScaleModule<M4>>().AddModule<ScaleModule<M5>>().AddModule<ScaleModule<M6>>()
@@ -211,7 +214,7 @@ public class ScaleTests : TestBase
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That(ExecutionTracker.CompletedCount).IsEqualTo(expectedModuleCount);
+        await Assert.That(tracker.CompletedCount).IsEqualTo(expectedModuleCount);
     }
 
     #endregion
@@ -231,57 +234,57 @@ public class ScaleTests : TestBase
     public struct C46 { } public struct C47 { } public struct C48 { } public struct C49 { } public struct C50 { }
 
     // Chain modules - each depends on the previous one
-    public class ChainModule1 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain1"); ExecutionTracker.MarkCompleted("Chain1"); return Task.FromResult(1); } }
+    public class ChainModule1(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain1"); tracker.MarkCompleted("Chain1"); return Task.FromResult(1); } }
 
-    [DependsOn<ChainModule1>] public class ChainModule2 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain2"); ExecutionTracker.MarkCompleted("Chain2"); return Task.FromResult(2); } }
-    [DependsOn<ChainModule2>] public class ChainModule3 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain3"); ExecutionTracker.MarkCompleted("Chain3"); return Task.FromResult(3); } }
-    [DependsOn<ChainModule3>] public class ChainModule4 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain4"); ExecutionTracker.MarkCompleted("Chain4"); return Task.FromResult(4); } }
-    [DependsOn<ChainModule4>] public class ChainModule5 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain5"); ExecutionTracker.MarkCompleted("Chain5"); return Task.FromResult(5); } }
-    [DependsOn<ChainModule5>] public class ChainModule6 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain6"); ExecutionTracker.MarkCompleted("Chain6"); return Task.FromResult(6); } }
-    [DependsOn<ChainModule6>] public class ChainModule7 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain7"); ExecutionTracker.MarkCompleted("Chain7"); return Task.FromResult(7); } }
-    [DependsOn<ChainModule7>] public class ChainModule8 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain8"); ExecutionTracker.MarkCompleted("Chain8"); return Task.FromResult(8); } }
-    [DependsOn<ChainModule8>] public class ChainModule9 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain9"); ExecutionTracker.MarkCompleted("Chain9"); return Task.FromResult(9); } }
-    [DependsOn<ChainModule9>] public class ChainModule10 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain10"); ExecutionTracker.MarkCompleted("Chain10"); return Task.FromResult(10); } }
-    [DependsOn<ChainModule10>] public class ChainModule11 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain11"); ExecutionTracker.MarkCompleted("Chain11"); return Task.FromResult(11); } }
-    [DependsOn<ChainModule11>] public class ChainModule12 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain12"); ExecutionTracker.MarkCompleted("Chain12"); return Task.FromResult(12); } }
-    [DependsOn<ChainModule12>] public class ChainModule13 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain13"); ExecutionTracker.MarkCompleted("Chain13"); return Task.FromResult(13); } }
-    [DependsOn<ChainModule13>] public class ChainModule14 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain14"); ExecutionTracker.MarkCompleted("Chain14"); return Task.FromResult(14); } }
-    [DependsOn<ChainModule14>] public class ChainModule15 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain15"); ExecutionTracker.MarkCompleted("Chain15"); return Task.FromResult(15); } }
-    [DependsOn<ChainModule15>] public class ChainModule16 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain16"); ExecutionTracker.MarkCompleted("Chain16"); return Task.FromResult(16); } }
-    [DependsOn<ChainModule16>] public class ChainModule17 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain17"); ExecutionTracker.MarkCompleted("Chain17"); return Task.FromResult(17); } }
-    [DependsOn<ChainModule17>] public class ChainModule18 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain18"); ExecutionTracker.MarkCompleted("Chain18"); return Task.FromResult(18); } }
-    [DependsOn<ChainModule18>] public class ChainModule19 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain19"); ExecutionTracker.MarkCompleted("Chain19"); return Task.FromResult(19); } }
-    [DependsOn<ChainModule19>] public class ChainModule20 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain20"); ExecutionTracker.MarkCompleted("Chain20"); return Task.FromResult(20); } }
-    [DependsOn<ChainModule20>] public class ChainModule21 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain21"); ExecutionTracker.MarkCompleted("Chain21"); return Task.FromResult(21); } }
-    [DependsOn<ChainModule21>] public class ChainModule22 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain22"); ExecutionTracker.MarkCompleted("Chain22"); return Task.FromResult(22); } }
-    [DependsOn<ChainModule22>] public class ChainModule23 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain23"); ExecutionTracker.MarkCompleted("Chain23"); return Task.FromResult(23); } }
-    [DependsOn<ChainModule23>] public class ChainModule24 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain24"); ExecutionTracker.MarkCompleted("Chain24"); return Task.FromResult(24); } }
-    [DependsOn<ChainModule24>] public class ChainModule25 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain25"); ExecutionTracker.MarkCompleted("Chain25"); return Task.FromResult(25); } }
-    [DependsOn<ChainModule25>] public class ChainModule26 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain26"); ExecutionTracker.MarkCompleted("Chain26"); return Task.FromResult(26); } }
-    [DependsOn<ChainModule26>] public class ChainModule27 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain27"); ExecutionTracker.MarkCompleted("Chain27"); return Task.FromResult(27); } }
-    [DependsOn<ChainModule27>] public class ChainModule28 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain28"); ExecutionTracker.MarkCompleted("Chain28"); return Task.FromResult(28); } }
-    [DependsOn<ChainModule28>] public class ChainModule29 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain29"); ExecutionTracker.MarkCompleted("Chain29"); return Task.FromResult(29); } }
-    [DependsOn<ChainModule29>] public class ChainModule30 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain30"); ExecutionTracker.MarkCompleted("Chain30"); return Task.FromResult(30); } }
-    [DependsOn<ChainModule30>] public class ChainModule31 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain31"); ExecutionTracker.MarkCompleted("Chain31"); return Task.FromResult(31); } }
-    [DependsOn<ChainModule31>] public class ChainModule32 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain32"); ExecutionTracker.MarkCompleted("Chain32"); return Task.FromResult(32); } }
-    [DependsOn<ChainModule32>] public class ChainModule33 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain33"); ExecutionTracker.MarkCompleted("Chain33"); return Task.FromResult(33); } }
-    [DependsOn<ChainModule33>] public class ChainModule34 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain34"); ExecutionTracker.MarkCompleted("Chain34"); return Task.FromResult(34); } }
-    [DependsOn<ChainModule34>] public class ChainModule35 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain35"); ExecutionTracker.MarkCompleted("Chain35"); return Task.FromResult(35); } }
-    [DependsOn<ChainModule35>] public class ChainModule36 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain36"); ExecutionTracker.MarkCompleted("Chain36"); return Task.FromResult(36); } }
-    [DependsOn<ChainModule36>] public class ChainModule37 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain37"); ExecutionTracker.MarkCompleted("Chain37"); return Task.FromResult(37); } }
-    [DependsOn<ChainModule37>] public class ChainModule38 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain38"); ExecutionTracker.MarkCompleted("Chain38"); return Task.FromResult(38); } }
-    [DependsOn<ChainModule38>] public class ChainModule39 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain39"); ExecutionTracker.MarkCompleted("Chain39"); return Task.FromResult(39); } }
-    [DependsOn<ChainModule39>] public class ChainModule40 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain40"); ExecutionTracker.MarkCompleted("Chain40"); return Task.FromResult(40); } }
-    [DependsOn<ChainModule40>] public class ChainModule41 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain41"); ExecutionTracker.MarkCompleted("Chain41"); return Task.FromResult(41); } }
-    [DependsOn<ChainModule41>] public class ChainModule42 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain42"); ExecutionTracker.MarkCompleted("Chain42"); return Task.FromResult(42); } }
-    [DependsOn<ChainModule42>] public class ChainModule43 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain43"); ExecutionTracker.MarkCompleted("Chain43"); return Task.FromResult(43); } }
-    [DependsOn<ChainModule43>] public class ChainModule44 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain44"); ExecutionTracker.MarkCompleted("Chain44"); return Task.FromResult(44); } }
-    [DependsOn<ChainModule44>] public class ChainModule45 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain45"); ExecutionTracker.MarkCompleted("Chain45"); return Task.FromResult(45); } }
-    [DependsOn<ChainModule45>] public class ChainModule46 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain46"); ExecutionTracker.MarkCompleted("Chain46"); return Task.FromResult(46); } }
-    [DependsOn<ChainModule46>] public class ChainModule47 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain47"); ExecutionTracker.MarkCompleted("Chain47"); return Task.FromResult(47); } }
-    [DependsOn<ChainModule47>] public class ChainModule48 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain48"); ExecutionTracker.MarkCompleted("Chain48"); return Task.FromResult(48); } }
-    [DependsOn<ChainModule48>] public class ChainModule49 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain49"); ExecutionTracker.MarkCompleted("Chain49"); return Task.FromResult(49); } }
-    [DependsOn<ChainModule49>] public class ChainModule50 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("Chain50"); ExecutionTracker.MarkCompleted("Chain50"); return Task.FromResult(50); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule1>] public class ChainModule2(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain2"); tracker.MarkCompleted("Chain2"); return Task.FromResult(2); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule2>] public class ChainModule3(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain3"); tracker.MarkCompleted("Chain3"); return Task.FromResult(3); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule3>] public class ChainModule4(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain4"); tracker.MarkCompleted("Chain4"); return Task.FromResult(4); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule4>] public class ChainModule5(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain5"); tracker.MarkCompleted("Chain5"); return Task.FromResult(5); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule5>] public class ChainModule6(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain6"); tracker.MarkCompleted("Chain6"); return Task.FromResult(6); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule6>] public class ChainModule7(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain7"); tracker.MarkCompleted("Chain7"); return Task.FromResult(7); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule7>] public class ChainModule8(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain8"); tracker.MarkCompleted("Chain8"); return Task.FromResult(8); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule8>] public class ChainModule9(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain9"); tracker.MarkCompleted("Chain9"); return Task.FromResult(9); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule9>] public class ChainModule10(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain10"); tracker.MarkCompleted("Chain10"); return Task.FromResult(10); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule10>] public class ChainModule11(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain11"); tracker.MarkCompleted("Chain11"); return Task.FromResult(11); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule11>] public class ChainModule12(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain12"); tracker.MarkCompleted("Chain12"); return Task.FromResult(12); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule12>] public class ChainModule13(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain13"); tracker.MarkCompleted("Chain13"); return Task.FromResult(13); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule13>] public class ChainModule14(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain14"); tracker.MarkCompleted("Chain14"); return Task.FromResult(14); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule14>] public class ChainModule15(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain15"); tracker.MarkCompleted("Chain15"); return Task.FromResult(15); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule15>] public class ChainModule16(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain16"); tracker.MarkCompleted("Chain16"); return Task.FromResult(16); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule16>] public class ChainModule17(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain17"); tracker.MarkCompleted("Chain17"); return Task.FromResult(17); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule17>] public class ChainModule18(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain18"); tracker.MarkCompleted("Chain18"); return Task.FromResult(18); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule18>] public class ChainModule19(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain19"); tracker.MarkCompleted("Chain19"); return Task.FromResult(19); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule19>] public class ChainModule20(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain20"); tracker.MarkCompleted("Chain20"); return Task.FromResult(20); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule20>] public class ChainModule21(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain21"); tracker.MarkCompleted("Chain21"); return Task.FromResult(21); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule21>] public class ChainModule22(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain22"); tracker.MarkCompleted("Chain22"); return Task.FromResult(22); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule22>] public class ChainModule23(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain23"); tracker.MarkCompleted("Chain23"); return Task.FromResult(23); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule23>] public class ChainModule24(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain24"); tracker.MarkCompleted("Chain24"); return Task.FromResult(24); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule24>] public class ChainModule25(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain25"); tracker.MarkCompleted("Chain25"); return Task.FromResult(25); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule25>] public class ChainModule26(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain26"); tracker.MarkCompleted("Chain26"); return Task.FromResult(26); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule26>] public class ChainModule27(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain27"); tracker.MarkCompleted("Chain27"); return Task.FromResult(27); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule27>] public class ChainModule28(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain28"); tracker.MarkCompleted("Chain28"); return Task.FromResult(28); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule28>] public class ChainModule29(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain29"); tracker.MarkCompleted("Chain29"); return Task.FromResult(29); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule29>] public class ChainModule30(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain30"); tracker.MarkCompleted("Chain30"); return Task.FromResult(30); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule30>] public class ChainModule31(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain31"); tracker.MarkCompleted("Chain31"); return Task.FromResult(31); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule31>] public class ChainModule32(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain32"); tracker.MarkCompleted("Chain32"); return Task.FromResult(32); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule32>] public class ChainModule33(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain33"); tracker.MarkCompleted("Chain33"); return Task.FromResult(33); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule33>] public class ChainModule34(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain34"); tracker.MarkCompleted("Chain34"); return Task.FromResult(34); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule34>] public class ChainModule35(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain35"); tracker.MarkCompleted("Chain35"); return Task.FromResult(35); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule35>] public class ChainModule36(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain36"); tracker.MarkCompleted("Chain36"); return Task.FromResult(36); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule36>] public class ChainModule37(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain37"); tracker.MarkCompleted("Chain37"); return Task.FromResult(37); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule37>] public class ChainModule38(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain38"); tracker.MarkCompleted("Chain38"); return Task.FromResult(38); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule38>] public class ChainModule39(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain39"); tracker.MarkCompleted("Chain39"); return Task.FromResult(39); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule39>] public class ChainModule40(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain40"); tracker.MarkCompleted("Chain40"); return Task.FromResult(40); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule40>] public class ChainModule41(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain41"); tracker.MarkCompleted("Chain41"); return Task.FromResult(41); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule41>] public class ChainModule42(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain42"); tracker.MarkCompleted("Chain42"); return Task.FromResult(42); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule42>] public class ChainModule43(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain43"); tracker.MarkCompleted("Chain43"); return Task.FromResult(43); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule43>] public class ChainModule44(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain44"); tracker.MarkCompleted("Chain44"); return Task.FromResult(44); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule44>] public class ChainModule45(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain45"); tracker.MarkCompleted("Chain45"); return Task.FromResult(45); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule45>] public class ChainModule46(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain46"); tracker.MarkCompleted("Chain46"); return Task.FromResult(46); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule46>] public class ChainModule47(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain47"); tracker.MarkCompleted("Chain47"); return Task.FromResult(47); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule47>] public class ChainModule48(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain48"); tracker.MarkCompleted("Chain48"); return Task.FromResult(48); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule48>] public class ChainModule49(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain49"); tracker.MarkCompleted("Chain49"); return Task.FromResult(49); } }
+    [ModularPipelines.Attributes.DependsOn<ChainModule49>] public class ChainModule50(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("Chain50"); tracker.MarkCompleted("Chain50"); return Task.FromResult(50); } }
 
     /// <summary>
     /// Verifies that a pipeline with a 50-module deep dependency chain
@@ -297,10 +300,12 @@ public class ScaleTests : TestBase
     public async Task Pipeline_With50ModuleDeepChain_CompletesInOrder()
     {
         // Arrange
-        ExecutionTracker.Reset();
+        var tracker = new ExecutionTracker();
+        await Assert.That(tracker.IsClean).IsTrue();
         const int chainDepth = 50;
 
         var builder = TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) => services.AddSingleton(tracker))
             .AddModule<ChainModule1>().AddModule<ChainModule2>().AddModule<ChainModule3>()
             .AddModule<ChainModule4>().AddModule<ChainModule5>().AddModule<ChainModule6>()
             .AddModule<ChainModule7>().AddModule<ChainModule8>().AddModule<ChainModule9>()
@@ -324,17 +329,34 @@ public class ScaleTests : TestBase
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That(ExecutionTracker.CompletedCount).IsEqualTo(chainDepth);
+        await Assert.That(tracker.CompletedCount).IsEqualTo(chainDepth);
 
         // Verify all chain modules executed
         for (var i = 1; i <= chainDepth; i++)
         {
-            var record = ExecutionTracker.GetRecord($"Chain{i}");
+            var record = tracker.GetRecord($"Chain{i}");
             await Assert.That(record).IsNotNull();
         }
 
-        // Note: Execution order is implicitly verified by the pipeline engine
-        // If dependencies weren't respected, the pipeline would fail or produce incorrect results
+        // Verify dependency ordering: each module must complete before its dependent
+        // Chain1 -> Chain2 -> Chain3 -> ... -> Chain50
+        // Get all records sorted by completion order for diagnostics
+        var orderedRecords = Enumerable.Range(1, chainDepth)
+            .Select(i => tracker.GetRecord($"Chain{i}"))
+            .Where(r => r != null)
+            .OrderBy(r => r!.CompletionOrder)
+            .ToList();
+
+        // Verify the completion order matches the dependency order
+        for (var i = 0; i < orderedRecords.Count; i++)
+        {
+            var expectedModuleName = $"Chain{i + 1}";
+            var actualRecord = orderedRecords[i];
+
+            await Assert.That(actualRecord!.ModuleName)
+                .IsEqualTo(expectedModuleName)
+                .Because($"Module at completion order {i + 1} should be {expectedModuleName} but was {actualRecord.ModuleName}");
+        }
     }
 
     #endregion
@@ -342,67 +364,67 @@ public class ScaleTests : TestBase
     #region Test 3: Wide Fan-Out (1 Root + 50 Dependents)
 
     // Root module for fan-out
-    public class FanOutRootModule : Module<bool>
+    public class FanOutRootModule(ExecutionTracker tracker) : Module<bool>
     {
         public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            ExecutionTracker.RecordStart("FanOutRoot");
-            ExecutionTracker.MarkCompleted("FanOutRoot");
+            tracker.RecordStart("FanOutRoot");
+            tracker.MarkCompleted("FanOutRoot");
             return Task.FromResult(true);
         }
     }
 
     // Fan-out dependent modules - all depend on the root
-    [DependsOn<FanOutRootModule>] public class FanOutDep1 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep1"); ExecutionTracker.MarkCompleted("FanOutDep1"); return Task.FromResult(1); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep2 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep2"); ExecutionTracker.MarkCompleted("FanOutDep2"); return Task.FromResult(2); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep3 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep3"); ExecutionTracker.MarkCompleted("FanOutDep3"); return Task.FromResult(3); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep4 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep4"); ExecutionTracker.MarkCompleted("FanOutDep4"); return Task.FromResult(4); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep5 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep5"); ExecutionTracker.MarkCompleted("FanOutDep5"); return Task.FromResult(5); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep6 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep6"); ExecutionTracker.MarkCompleted("FanOutDep6"); return Task.FromResult(6); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep7 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep7"); ExecutionTracker.MarkCompleted("FanOutDep7"); return Task.FromResult(7); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep8 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep8"); ExecutionTracker.MarkCompleted("FanOutDep8"); return Task.FromResult(8); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep9 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep9"); ExecutionTracker.MarkCompleted("FanOutDep9"); return Task.FromResult(9); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep10 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep10"); ExecutionTracker.MarkCompleted("FanOutDep10"); return Task.FromResult(10); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep11 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep11"); ExecutionTracker.MarkCompleted("FanOutDep11"); return Task.FromResult(11); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep12 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep12"); ExecutionTracker.MarkCompleted("FanOutDep12"); return Task.FromResult(12); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep13 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep13"); ExecutionTracker.MarkCompleted("FanOutDep13"); return Task.FromResult(13); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep14 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep14"); ExecutionTracker.MarkCompleted("FanOutDep14"); return Task.FromResult(14); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep15 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep15"); ExecutionTracker.MarkCompleted("FanOutDep15"); return Task.FromResult(15); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep16 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep16"); ExecutionTracker.MarkCompleted("FanOutDep16"); return Task.FromResult(16); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep17 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep17"); ExecutionTracker.MarkCompleted("FanOutDep17"); return Task.FromResult(17); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep18 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep18"); ExecutionTracker.MarkCompleted("FanOutDep18"); return Task.FromResult(18); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep19 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep19"); ExecutionTracker.MarkCompleted("FanOutDep19"); return Task.FromResult(19); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep20 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep20"); ExecutionTracker.MarkCompleted("FanOutDep20"); return Task.FromResult(20); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep21 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep21"); ExecutionTracker.MarkCompleted("FanOutDep21"); return Task.FromResult(21); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep22 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep22"); ExecutionTracker.MarkCompleted("FanOutDep22"); return Task.FromResult(22); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep23 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep23"); ExecutionTracker.MarkCompleted("FanOutDep23"); return Task.FromResult(23); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep24 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep24"); ExecutionTracker.MarkCompleted("FanOutDep24"); return Task.FromResult(24); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep25 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep25"); ExecutionTracker.MarkCompleted("FanOutDep25"); return Task.FromResult(25); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep26 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep26"); ExecutionTracker.MarkCompleted("FanOutDep26"); return Task.FromResult(26); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep27 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep27"); ExecutionTracker.MarkCompleted("FanOutDep27"); return Task.FromResult(27); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep28 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep28"); ExecutionTracker.MarkCompleted("FanOutDep28"); return Task.FromResult(28); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep29 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep29"); ExecutionTracker.MarkCompleted("FanOutDep29"); return Task.FromResult(29); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep30 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep30"); ExecutionTracker.MarkCompleted("FanOutDep30"); return Task.FromResult(30); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep31 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep31"); ExecutionTracker.MarkCompleted("FanOutDep31"); return Task.FromResult(31); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep32 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep32"); ExecutionTracker.MarkCompleted("FanOutDep32"); return Task.FromResult(32); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep33 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep33"); ExecutionTracker.MarkCompleted("FanOutDep33"); return Task.FromResult(33); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep34 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep34"); ExecutionTracker.MarkCompleted("FanOutDep34"); return Task.FromResult(34); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep35 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep35"); ExecutionTracker.MarkCompleted("FanOutDep35"); return Task.FromResult(35); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep36 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep36"); ExecutionTracker.MarkCompleted("FanOutDep36"); return Task.FromResult(36); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep37 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep37"); ExecutionTracker.MarkCompleted("FanOutDep37"); return Task.FromResult(37); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep38 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep38"); ExecutionTracker.MarkCompleted("FanOutDep38"); return Task.FromResult(38); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep39 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep39"); ExecutionTracker.MarkCompleted("FanOutDep39"); return Task.FromResult(39); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep40 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep40"); ExecutionTracker.MarkCompleted("FanOutDep40"); return Task.FromResult(40); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep41 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep41"); ExecutionTracker.MarkCompleted("FanOutDep41"); return Task.FromResult(41); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep42 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep42"); ExecutionTracker.MarkCompleted("FanOutDep42"); return Task.FromResult(42); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep43 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep43"); ExecutionTracker.MarkCompleted("FanOutDep43"); return Task.FromResult(43); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep44 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep44"); ExecutionTracker.MarkCompleted("FanOutDep44"); return Task.FromResult(44); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep45 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep45"); ExecutionTracker.MarkCompleted("FanOutDep45"); return Task.FromResult(45); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep46 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep46"); ExecutionTracker.MarkCompleted("FanOutDep46"); return Task.FromResult(46); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep47 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep47"); ExecutionTracker.MarkCompleted("FanOutDep47"); return Task.FromResult(47); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep48 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep48"); ExecutionTracker.MarkCompleted("FanOutDep48"); return Task.FromResult(48); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep49 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep49"); ExecutionTracker.MarkCompleted("FanOutDep49"); return Task.FromResult(49); } }
-    [DependsOn<FanOutRootModule>] public class FanOutDep50 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanOutDep50"); ExecutionTracker.MarkCompleted("FanOutDep50"); return Task.FromResult(50); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep1(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep1"); tracker.MarkCompleted("FanOutDep1"); return Task.FromResult(1); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep2(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep2"); tracker.MarkCompleted("FanOutDep2"); return Task.FromResult(2); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep3(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep3"); tracker.MarkCompleted("FanOutDep3"); return Task.FromResult(3); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep4(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep4"); tracker.MarkCompleted("FanOutDep4"); return Task.FromResult(4); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep5(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep5"); tracker.MarkCompleted("FanOutDep5"); return Task.FromResult(5); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep6(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep6"); tracker.MarkCompleted("FanOutDep6"); return Task.FromResult(6); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep7(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep7"); tracker.MarkCompleted("FanOutDep7"); return Task.FromResult(7); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep8(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep8"); tracker.MarkCompleted("FanOutDep8"); return Task.FromResult(8); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep9(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep9"); tracker.MarkCompleted("FanOutDep9"); return Task.FromResult(9); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep10(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep10"); tracker.MarkCompleted("FanOutDep10"); return Task.FromResult(10); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep11(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep11"); tracker.MarkCompleted("FanOutDep11"); return Task.FromResult(11); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep12(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep12"); tracker.MarkCompleted("FanOutDep12"); return Task.FromResult(12); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep13(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep13"); tracker.MarkCompleted("FanOutDep13"); return Task.FromResult(13); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep14(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep14"); tracker.MarkCompleted("FanOutDep14"); return Task.FromResult(14); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep15(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep15"); tracker.MarkCompleted("FanOutDep15"); return Task.FromResult(15); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep16(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep16"); tracker.MarkCompleted("FanOutDep16"); return Task.FromResult(16); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep17(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep17"); tracker.MarkCompleted("FanOutDep17"); return Task.FromResult(17); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep18(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep18"); tracker.MarkCompleted("FanOutDep18"); return Task.FromResult(18); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep19(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep19"); tracker.MarkCompleted("FanOutDep19"); return Task.FromResult(19); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep20(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep20"); tracker.MarkCompleted("FanOutDep20"); return Task.FromResult(20); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep21(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep21"); tracker.MarkCompleted("FanOutDep21"); return Task.FromResult(21); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep22(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep22"); tracker.MarkCompleted("FanOutDep22"); return Task.FromResult(22); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep23(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep23"); tracker.MarkCompleted("FanOutDep23"); return Task.FromResult(23); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep24(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep24"); tracker.MarkCompleted("FanOutDep24"); return Task.FromResult(24); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep25(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep25"); tracker.MarkCompleted("FanOutDep25"); return Task.FromResult(25); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep26(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep26"); tracker.MarkCompleted("FanOutDep26"); return Task.FromResult(26); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep27(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep27"); tracker.MarkCompleted("FanOutDep27"); return Task.FromResult(27); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep28(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep28"); tracker.MarkCompleted("FanOutDep28"); return Task.FromResult(28); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep29(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep29"); tracker.MarkCompleted("FanOutDep29"); return Task.FromResult(29); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep30(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep30"); tracker.MarkCompleted("FanOutDep30"); return Task.FromResult(30); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep31(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep31"); tracker.MarkCompleted("FanOutDep31"); return Task.FromResult(31); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep32(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep32"); tracker.MarkCompleted("FanOutDep32"); return Task.FromResult(32); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep33(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep33"); tracker.MarkCompleted("FanOutDep33"); return Task.FromResult(33); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep34(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep34"); tracker.MarkCompleted("FanOutDep34"); return Task.FromResult(34); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep35(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep35"); tracker.MarkCompleted("FanOutDep35"); return Task.FromResult(35); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep36(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep36"); tracker.MarkCompleted("FanOutDep36"); return Task.FromResult(36); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep37(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep37"); tracker.MarkCompleted("FanOutDep37"); return Task.FromResult(37); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep38(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep38"); tracker.MarkCompleted("FanOutDep38"); return Task.FromResult(38); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep39(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep39"); tracker.MarkCompleted("FanOutDep39"); return Task.FromResult(39); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep40(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep40"); tracker.MarkCompleted("FanOutDep40"); return Task.FromResult(40); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep41(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep41"); tracker.MarkCompleted("FanOutDep41"); return Task.FromResult(41); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep42(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep42"); tracker.MarkCompleted("FanOutDep42"); return Task.FromResult(42); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep43(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep43"); tracker.MarkCompleted("FanOutDep43"); return Task.FromResult(43); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep44(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep44"); tracker.MarkCompleted("FanOutDep44"); return Task.FromResult(44); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep45(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep45"); tracker.MarkCompleted("FanOutDep45"); return Task.FromResult(45); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep46(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep46"); tracker.MarkCompleted("FanOutDep46"); return Task.FromResult(46); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep47(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep47"); tracker.MarkCompleted("FanOutDep47"); return Task.FromResult(47); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep48(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep48"); tracker.MarkCompleted("FanOutDep48"); return Task.FromResult(48); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep49(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep49"); tracker.MarkCompleted("FanOutDep49"); return Task.FromResult(49); } }
+    [ModularPipelines.Attributes.DependsOn<FanOutRootModule>] public class FanOutDep50(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanOutDep50"); tracker.MarkCompleted("FanOutDep50"); return Task.FromResult(50); } }
 
     /// <summary>
     /// Verifies that a fan-out pattern (1 root with 50 dependents) executes correctly.
@@ -417,10 +439,12 @@ public class ScaleTests : TestBase
     public async Task Pipeline_With1ModuleAnd50Dependents_CompletesSuccessfully()
     {
         // Arrange
-        ExecutionTracker.Reset();
+        var tracker = new ExecutionTracker();
+        await Assert.That(tracker.IsClean).IsTrue();
         const int totalModules = 51; // 1 root + 50 dependents
 
         var builder = TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) => services.AddSingleton(tracker))
             .AddModule<FanOutRootModule>()
             .AddModule<FanOutDep1>().AddModule<FanOutDep2>().AddModule<FanOutDep3>()
             .AddModule<FanOutDep4>().AddModule<FanOutDep5>().AddModule<FanOutDep6>()
@@ -445,15 +469,15 @@ public class ScaleTests : TestBase
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That(ExecutionTracker.CompletedCount).IsEqualTo(totalModules);
+        await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed
-        var rootRecord = ExecutionTracker.GetRecord("FanOutRoot");
+        var rootRecord = tracker.GetRecord("FanOutRoot");
         await Assert.That(rootRecord).IsNotNull();
 
         for (var i = 1; i <= 50; i++)
         {
-            var dependent = ExecutionTracker.GetRecord($"FanOutDep{i}");
+            var dependent = tracker.GetRecord($"FanOutDep{i}");
             await Assert.That(dependent).IsNotNull();
         }
 
@@ -466,74 +490,74 @@ public class ScaleTests : TestBase
     #region Test 4: Wide Fan-In (50 Independent + 1 Final)
 
     // Independent modules for fan-in
-    public class FanInInd1 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd1"); ExecutionTracker.MarkCompleted("FanInInd1"); return Task.FromResult(1); } }
-    public class FanInInd2 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd2"); ExecutionTracker.MarkCompleted("FanInInd2"); return Task.FromResult(2); } }
-    public class FanInInd3 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd3"); ExecutionTracker.MarkCompleted("FanInInd3"); return Task.FromResult(3); } }
-    public class FanInInd4 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd4"); ExecutionTracker.MarkCompleted("FanInInd4"); return Task.FromResult(4); } }
-    public class FanInInd5 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd5"); ExecutionTracker.MarkCompleted("FanInInd5"); return Task.FromResult(5); } }
-    public class FanInInd6 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd6"); ExecutionTracker.MarkCompleted("FanInInd6"); return Task.FromResult(6); } }
-    public class FanInInd7 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd7"); ExecutionTracker.MarkCompleted("FanInInd7"); return Task.FromResult(7); } }
-    public class FanInInd8 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd8"); ExecutionTracker.MarkCompleted("FanInInd8"); return Task.FromResult(8); } }
-    public class FanInInd9 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd9"); ExecutionTracker.MarkCompleted("FanInInd9"); return Task.FromResult(9); } }
-    public class FanInInd10 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd10"); ExecutionTracker.MarkCompleted("FanInInd10"); return Task.FromResult(10); } }
-    public class FanInInd11 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd11"); ExecutionTracker.MarkCompleted("FanInInd11"); return Task.FromResult(11); } }
-    public class FanInInd12 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd12"); ExecutionTracker.MarkCompleted("FanInInd12"); return Task.FromResult(12); } }
-    public class FanInInd13 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd13"); ExecutionTracker.MarkCompleted("FanInInd13"); return Task.FromResult(13); } }
-    public class FanInInd14 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd14"); ExecutionTracker.MarkCompleted("FanInInd14"); return Task.FromResult(14); } }
-    public class FanInInd15 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd15"); ExecutionTracker.MarkCompleted("FanInInd15"); return Task.FromResult(15); } }
-    public class FanInInd16 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd16"); ExecutionTracker.MarkCompleted("FanInInd16"); return Task.FromResult(16); } }
-    public class FanInInd17 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd17"); ExecutionTracker.MarkCompleted("FanInInd17"); return Task.FromResult(17); } }
-    public class FanInInd18 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd18"); ExecutionTracker.MarkCompleted("FanInInd18"); return Task.FromResult(18); } }
-    public class FanInInd19 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd19"); ExecutionTracker.MarkCompleted("FanInInd19"); return Task.FromResult(19); } }
-    public class FanInInd20 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd20"); ExecutionTracker.MarkCompleted("FanInInd20"); return Task.FromResult(20); } }
-    public class FanInInd21 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd21"); ExecutionTracker.MarkCompleted("FanInInd21"); return Task.FromResult(21); } }
-    public class FanInInd22 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd22"); ExecutionTracker.MarkCompleted("FanInInd22"); return Task.FromResult(22); } }
-    public class FanInInd23 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd23"); ExecutionTracker.MarkCompleted("FanInInd23"); return Task.FromResult(23); } }
-    public class FanInInd24 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd24"); ExecutionTracker.MarkCompleted("FanInInd24"); return Task.FromResult(24); } }
-    public class FanInInd25 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd25"); ExecutionTracker.MarkCompleted("FanInInd25"); return Task.FromResult(25); } }
-    public class FanInInd26 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd26"); ExecutionTracker.MarkCompleted("FanInInd26"); return Task.FromResult(26); } }
-    public class FanInInd27 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd27"); ExecutionTracker.MarkCompleted("FanInInd27"); return Task.FromResult(27); } }
-    public class FanInInd28 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd28"); ExecutionTracker.MarkCompleted("FanInInd28"); return Task.FromResult(28); } }
-    public class FanInInd29 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd29"); ExecutionTracker.MarkCompleted("FanInInd29"); return Task.FromResult(29); } }
-    public class FanInInd30 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd30"); ExecutionTracker.MarkCompleted("FanInInd30"); return Task.FromResult(30); } }
-    public class FanInInd31 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd31"); ExecutionTracker.MarkCompleted("FanInInd31"); return Task.FromResult(31); } }
-    public class FanInInd32 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd32"); ExecutionTracker.MarkCompleted("FanInInd32"); return Task.FromResult(32); } }
-    public class FanInInd33 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd33"); ExecutionTracker.MarkCompleted("FanInInd33"); return Task.FromResult(33); } }
-    public class FanInInd34 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd34"); ExecutionTracker.MarkCompleted("FanInInd34"); return Task.FromResult(34); } }
-    public class FanInInd35 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd35"); ExecutionTracker.MarkCompleted("FanInInd35"); return Task.FromResult(35); } }
-    public class FanInInd36 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd36"); ExecutionTracker.MarkCompleted("FanInInd36"); return Task.FromResult(36); } }
-    public class FanInInd37 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd37"); ExecutionTracker.MarkCompleted("FanInInd37"); return Task.FromResult(37); } }
-    public class FanInInd38 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd38"); ExecutionTracker.MarkCompleted("FanInInd38"); return Task.FromResult(38); } }
-    public class FanInInd39 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd39"); ExecutionTracker.MarkCompleted("FanInInd39"); return Task.FromResult(39); } }
-    public class FanInInd40 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd40"); ExecutionTracker.MarkCompleted("FanInInd40"); return Task.FromResult(40); } }
-    public class FanInInd41 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd41"); ExecutionTracker.MarkCompleted("FanInInd41"); return Task.FromResult(41); } }
-    public class FanInInd42 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd42"); ExecutionTracker.MarkCompleted("FanInInd42"); return Task.FromResult(42); } }
-    public class FanInInd43 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd43"); ExecutionTracker.MarkCompleted("FanInInd43"); return Task.FromResult(43); } }
-    public class FanInInd44 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd44"); ExecutionTracker.MarkCompleted("FanInInd44"); return Task.FromResult(44); } }
-    public class FanInInd45 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd45"); ExecutionTracker.MarkCompleted("FanInInd45"); return Task.FromResult(45); } }
-    public class FanInInd46 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd46"); ExecutionTracker.MarkCompleted("FanInInd46"); return Task.FromResult(46); } }
-    public class FanInInd47 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd47"); ExecutionTracker.MarkCompleted("FanInInd47"); return Task.FromResult(47); } }
-    public class FanInInd48 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd48"); ExecutionTracker.MarkCompleted("FanInInd48"); return Task.FromResult(48); } }
-    public class FanInInd49 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd49"); ExecutionTracker.MarkCompleted("FanInInd49"); return Task.FromResult(49); } }
-    public class FanInInd50 : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { ExecutionTracker.RecordStart("FanInInd50"); ExecutionTracker.MarkCompleted("FanInInd50"); return Task.FromResult(50); } }
+    public class FanInInd1(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd1"); tracker.MarkCompleted("FanInInd1"); return Task.FromResult(1); } }
+    public class FanInInd2(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd2"); tracker.MarkCompleted("FanInInd2"); return Task.FromResult(2); } }
+    public class FanInInd3(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd3"); tracker.MarkCompleted("FanInInd3"); return Task.FromResult(3); } }
+    public class FanInInd4(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd4"); tracker.MarkCompleted("FanInInd4"); return Task.FromResult(4); } }
+    public class FanInInd5(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd5"); tracker.MarkCompleted("FanInInd5"); return Task.FromResult(5); } }
+    public class FanInInd6(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd6"); tracker.MarkCompleted("FanInInd6"); return Task.FromResult(6); } }
+    public class FanInInd7(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd7"); tracker.MarkCompleted("FanInInd7"); return Task.FromResult(7); } }
+    public class FanInInd8(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd8"); tracker.MarkCompleted("FanInInd8"); return Task.FromResult(8); } }
+    public class FanInInd9(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd9"); tracker.MarkCompleted("FanInInd9"); return Task.FromResult(9); } }
+    public class FanInInd10(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd10"); tracker.MarkCompleted("FanInInd10"); return Task.FromResult(10); } }
+    public class FanInInd11(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd11"); tracker.MarkCompleted("FanInInd11"); return Task.FromResult(11); } }
+    public class FanInInd12(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd12"); tracker.MarkCompleted("FanInInd12"); return Task.FromResult(12); } }
+    public class FanInInd13(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd13"); tracker.MarkCompleted("FanInInd13"); return Task.FromResult(13); } }
+    public class FanInInd14(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd14"); tracker.MarkCompleted("FanInInd14"); return Task.FromResult(14); } }
+    public class FanInInd15(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd15"); tracker.MarkCompleted("FanInInd15"); return Task.FromResult(15); } }
+    public class FanInInd16(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd16"); tracker.MarkCompleted("FanInInd16"); return Task.FromResult(16); } }
+    public class FanInInd17(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd17"); tracker.MarkCompleted("FanInInd17"); return Task.FromResult(17); } }
+    public class FanInInd18(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd18"); tracker.MarkCompleted("FanInInd18"); return Task.FromResult(18); } }
+    public class FanInInd19(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd19"); tracker.MarkCompleted("FanInInd19"); return Task.FromResult(19); } }
+    public class FanInInd20(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd20"); tracker.MarkCompleted("FanInInd20"); return Task.FromResult(20); } }
+    public class FanInInd21(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd21"); tracker.MarkCompleted("FanInInd21"); return Task.FromResult(21); } }
+    public class FanInInd22(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd22"); tracker.MarkCompleted("FanInInd22"); return Task.FromResult(22); } }
+    public class FanInInd23(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd23"); tracker.MarkCompleted("FanInInd23"); return Task.FromResult(23); } }
+    public class FanInInd24(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd24"); tracker.MarkCompleted("FanInInd24"); return Task.FromResult(24); } }
+    public class FanInInd25(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd25"); tracker.MarkCompleted("FanInInd25"); return Task.FromResult(25); } }
+    public class FanInInd26(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd26"); tracker.MarkCompleted("FanInInd26"); return Task.FromResult(26); } }
+    public class FanInInd27(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd27"); tracker.MarkCompleted("FanInInd27"); return Task.FromResult(27); } }
+    public class FanInInd28(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd28"); tracker.MarkCompleted("FanInInd28"); return Task.FromResult(28); } }
+    public class FanInInd29(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd29"); tracker.MarkCompleted("FanInInd29"); return Task.FromResult(29); } }
+    public class FanInInd30(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd30"); tracker.MarkCompleted("FanInInd30"); return Task.FromResult(30); } }
+    public class FanInInd31(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd31"); tracker.MarkCompleted("FanInInd31"); return Task.FromResult(31); } }
+    public class FanInInd32(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd32"); tracker.MarkCompleted("FanInInd32"); return Task.FromResult(32); } }
+    public class FanInInd33(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd33"); tracker.MarkCompleted("FanInInd33"); return Task.FromResult(33); } }
+    public class FanInInd34(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd34"); tracker.MarkCompleted("FanInInd34"); return Task.FromResult(34); } }
+    public class FanInInd35(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd35"); tracker.MarkCompleted("FanInInd35"); return Task.FromResult(35); } }
+    public class FanInInd36(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd36"); tracker.MarkCompleted("FanInInd36"); return Task.FromResult(36); } }
+    public class FanInInd37(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd37"); tracker.MarkCompleted("FanInInd37"); return Task.FromResult(37); } }
+    public class FanInInd38(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd38"); tracker.MarkCompleted("FanInInd38"); return Task.FromResult(38); } }
+    public class FanInInd39(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd39"); tracker.MarkCompleted("FanInInd39"); return Task.FromResult(39); } }
+    public class FanInInd40(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd40"); tracker.MarkCompleted("FanInInd40"); return Task.FromResult(40); } }
+    public class FanInInd41(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd41"); tracker.MarkCompleted("FanInInd41"); return Task.FromResult(41); } }
+    public class FanInInd42(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd42"); tracker.MarkCompleted("FanInInd42"); return Task.FromResult(42); } }
+    public class FanInInd43(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd43"); tracker.MarkCompleted("FanInInd43"); return Task.FromResult(43); } }
+    public class FanInInd44(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd44"); tracker.MarkCompleted("FanInInd44"); return Task.FromResult(44); } }
+    public class FanInInd45(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd45"); tracker.MarkCompleted("FanInInd45"); return Task.FromResult(45); } }
+    public class FanInInd46(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd46"); tracker.MarkCompleted("FanInInd46"); return Task.FromResult(46); } }
+    public class FanInInd47(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd47"); tracker.MarkCompleted("FanInInd47"); return Task.FromResult(47); } }
+    public class FanInInd48(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd48"); tracker.MarkCompleted("FanInInd48"); return Task.FromResult(48); } }
+    public class FanInInd49(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd49"); tracker.MarkCompleted("FanInInd49"); return Task.FromResult(49); } }
+    public class FanInInd50(ExecutionTracker tracker) : Module<int> { public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken) { tracker.RecordStart("FanInInd50"); tracker.MarkCompleted("FanInInd50"); return Task.FromResult(50); } }
 
     // Final module that depends on all independent modules
-    [DependsOn<FanInInd1>][DependsOn<FanInInd2>][DependsOn<FanInInd3>][DependsOn<FanInInd4>][DependsOn<FanInInd5>]
-    [DependsOn<FanInInd6>][DependsOn<FanInInd7>][DependsOn<FanInInd8>][DependsOn<FanInInd9>][DependsOn<FanInInd10>]
-    [DependsOn<FanInInd11>][DependsOn<FanInInd12>][DependsOn<FanInInd13>][DependsOn<FanInInd14>][DependsOn<FanInInd15>]
-    [DependsOn<FanInInd16>][DependsOn<FanInInd17>][DependsOn<FanInInd18>][DependsOn<FanInInd19>][DependsOn<FanInInd20>]
-    [DependsOn<FanInInd21>][DependsOn<FanInInd22>][DependsOn<FanInInd23>][DependsOn<FanInInd24>][DependsOn<FanInInd25>]
-    [DependsOn<FanInInd26>][DependsOn<FanInInd27>][DependsOn<FanInInd28>][DependsOn<FanInInd29>][DependsOn<FanInInd30>]
-    [DependsOn<FanInInd31>][DependsOn<FanInInd32>][DependsOn<FanInInd33>][DependsOn<FanInInd34>][DependsOn<FanInInd35>]
-    [DependsOn<FanInInd36>][DependsOn<FanInInd37>][DependsOn<FanInInd38>][DependsOn<FanInInd39>][DependsOn<FanInInd40>]
-    [DependsOn<FanInInd41>][DependsOn<FanInInd42>][DependsOn<FanInInd43>][DependsOn<FanInInd44>][DependsOn<FanInInd45>]
-    [DependsOn<FanInInd46>][DependsOn<FanInInd47>][DependsOn<FanInInd48>][DependsOn<FanInInd49>][DependsOn<FanInInd50>]
-    public class FanInFinalModule : Module<bool>
+    [ModularPipelines.Attributes.DependsOn<FanInInd1>][ModularPipelines.Attributes.DependsOn<FanInInd2>][ModularPipelines.Attributes.DependsOn<FanInInd3>][ModularPipelines.Attributes.DependsOn<FanInInd4>][ModularPipelines.Attributes.DependsOn<FanInInd5>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd6>][ModularPipelines.Attributes.DependsOn<FanInInd7>][ModularPipelines.Attributes.DependsOn<FanInInd8>][ModularPipelines.Attributes.DependsOn<FanInInd9>][ModularPipelines.Attributes.DependsOn<FanInInd10>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd11>][ModularPipelines.Attributes.DependsOn<FanInInd12>][ModularPipelines.Attributes.DependsOn<FanInInd13>][ModularPipelines.Attributes.DependsOn<FanInInd14>][ModularPipelines.Attributes.DependsOn<FanInInd15>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd16>][ModularPipelines.Attributes.DependsOn<FanInInd17>][ModularPipelines.Attributes.DependsOn<FanInInd18>][ModularPipelines.Attributes.DependsOn<FanInInd19>][ModularPipelines.Attributes.DependsOn<FanInInd20>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd21>][ModularPipelines.Attributes.DependsOn<FanInInd22>][ModularPipelines.Attributes.DependsOn<FanInInd23>][ModularPipelines.Attributes.DependsOn<FanInInd24>][ModularPipelines.Attributes.DependsOn<FanInInd25>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd26>][ModularPipelines.Attributes.DependsOn<FanInInd27>][ModularPipelines.Attributes.DependsOn<FanInInd28>][ModularPipelines.Attributes.DependsOn<FanInInd29>][ModularPipelines.Attributes.DependsOn<FanInInd30>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd31>][ModularPipelines.Attributes.DependsOn<FanInInd32>][ModularPipelines.Attributes.DependsOn<FanInInd33>][ModularPipelines.Attributes.DependsOn<FanInInd34>][ModularPipelines.Attributes.DependsOn<FanInInd35>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd36>][ModularPipelines.Attributes.DependsOn<FanInInd37>][ModularPipelines.Attributes.DependsOn<FanInInd38>][ModularPipelines.Attributes.DependsOn<FanInInd39>][ModularPipelines.Attributes.DependsOn<FanInInd40>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd41>][ModularPipelines.Attributes.DependsOn<FanInInd42>][ModularPipelines.Attributes.DependsOn<FanInInd43>][ModularPipelines.Attributes.DependsOn<FanInInd44>][ModularPipelines.Attributes.DependsOn<FanInInd45>]
+    [ModularPipelines.Attributes.DependsOn<FanInInd46>][ModularPipelines.Attributes.DependsOn<FanInInd47>][ModularPipelines.Attributes.DependsOn<FanInInd48>][ModularPipelines.Attributes.DependsOn<FanInInd49>][ModularPipelines.Attributes.DependsOn<FanInInd50>]
+    public class FanInFinalModule(ExecutionTracker tracker) : Module<bool>
     {
         public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            ExecutionTracker.RecordStart("FanInFinal");
-            ExecutionTracker.MarkCompleted("FanInFinal");
+            tracker.RecordStart("FanInFinal");
+            tracker.MarkCompleted("FanInFinal");
             return Task.FromResult(true);
         }
     }
@@ -551,10 +575,12 @@ public class ScaleTests : TestBase
     public async Task Pipeline_With50ModulesAndOneFinalModule_CompletesSuccessfully()
     {
         // Arrange
-        ExecutionTracker.Reset();
+        var tracker = new ExecutionTracker();
+        await Assert.That(tracker.IsClean).IsTrue();
         const int totalModules = 51; // 50 independent + 1 final
 
         var builder = TestPipelineHostBuilder.Create()
+            .ConfigureServices((_, services) => services.AddSingleton(tracker))
             .AddModule<FanInInd1>().AddModule<FanInInd2>().AddModule<FanInInd3>()
             .AddModule<FanInInd4>().AddModule<FanInInd5>().AddModule<FanInInd6>()
             .AddModule<FanInInd7>().AddModule<FanInInd8>().AddModule<FanInInd9>()
@@ -579,15 +605,15 @@ public class ScaleTests : TestBase
 
         // Assert
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
-        await Assert.That(ExecutionTracker.CompletedCount).IsEqualTo(totalModules);
+        await Assert.That(tracker.CompletedCount).IsEqualTo(totalModules);
 
         // Verify all modules executed
-        var finalRecord = ExecutionTracker.GetRecord("FanInFinal");
+        var finalRecord = tracker.GetRecord("FanInFinal");
         await Assert.That(finalRecord).IsNotNull();
 
         for (var i = 1; i <= 50; i++)
         {
-            var independent = ExecutionTracker.GetRecord($"FanInInd{i}");
+            var independent = tracker.GetRecord($"FanInInd{i}");
             await Assert.That(independent).IsNotNull();
         }
 
