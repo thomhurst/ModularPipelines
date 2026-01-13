@@ -7,8 +7,50 @@ namespace ModularPipelines.Context;
 /// Context provided to modules during execution, extending pipeline context with module-specific capabilities.
 /// </summary>
 /// <remarks>
+/// <para>
 /// This is the primary interface for module developers. It provides access to all pipeline capabilities
 /// including DI, configuration, file system, commands, serialization, and module results.
+/// </para>
+/// <para><b>Thread Safety:</b></para>
+/// <para>
+/// <see cref="IModuleContext"/> instances are thread-safe for concurrent access.
+/// Multiple threads within a module may safely access context services simultaneously.
+/// This is essential since modules often perform parallel operations internally.
+/// </para>
+/// <list type="table">
+/// <listheader><term>Component</term><description>Thread Safety</description></listheader>
+/// <item><term>Logger</term><description>Thread-safe for all logging operations</description></item>
+/// <item><term>FileSystem reads</term><description>Thread-safe for concurrent read operations</description></item>
+/// <item><term>FileSystem writes</term><description>Safe, but coordinate access when multiple threads write to the same file</description></item>
+/// <item><term>Environment</term><description>Thread-safe (provides read-only access to environment information)</description></item>
+/// <item><term>Command execution</term><description>Thread-safe; multiple commands can execute concurrently</description></item>
+/// <item><term>Service resolution</term><description>Thread-safe via the underlying DI container</description></item>
+/// <item><term>Configuration</term><description>Thread-safe for read access</description></item>
+/// </list>
+/// <para>
+/// <b>Note on Module Results:</b> Results obtained via <see cref="GetModule{TModule,TResult}"/> have thread safety
+/// determined by the result type itself. The framework ensures safe delivery of the result, but if multiple
+/// threads access a mutable result object, thread safety is the consumer's responsibility.
+/// Use immutable result types (e.g., records) for inherently safe concurrent access.
+/// </para>
+/// <para>
+/// <b>Example - Safe Concurrent Access:</b>
+/// </para>
+/// <code>
+/// protected override async Task&lt;MyResult&gt; ExecuteAsync(IModuleContext context, CancellationToken token)
+/// {
+///     // Safe: Multiple parallel tasks accessing the same context
+///     var tasks = files.Select(async file =&gt;
+///     {
+///         context.Logger.LogInformation("Processing {File}", file);  // Thread-safe
+///         var content = await context.FileSystem.ReadTextAsync(file); // Thread-safe
+///         return ProcessFile(content);
+///     });
+///
+///     var results = await Task.WhenAll(tasks);
+///     return new MyResult(results);
+/// }
+/// </code>
 /// </remarks>
 public interface IModuleContext : IPipelineHookContext
 {

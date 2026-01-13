@@ -21,6 +21,17 @@ namespace ModularPipelines.Logging;
 /// logger.LogInformation("Processing {ItemCount} items", items.Count);
 /// logger.LogError(ex, "Failed to process item {ItemId}", itemId);
 /// </code>
+/// <para><b>Thread Safety:</b></para>
+/// <para>
+/// <see cref="IModuleLogger"/> implementations are thread-safe. All inherited <see cref="ILogger"/>
+/// methods (Log, IsEnabled, BeginScope) can be called concurrently from multiple threads without
+/// external synchronization. This is essential for modules that perform parallel operations.
+/// </para>
+/// <para>
+/// <b>Note:</b> The <see cref="IDisposable.Dispose"/> method should only be called once, typically
+/// by the framework when the module completes. Calling Dispose concurrently or multiple times
+/// may result in undefined behavior.
+/// </para>
 /// </remarks>
 /// <seealso cref="IConsoleWriter"/>
 public interface IModuleLogger : ILogger, IDisposable

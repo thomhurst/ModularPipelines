@@ -6,7 +6,16 @@ namespace ModularPipelines.Context;
 /// Provides access to logging functionality.
 /// </summary>
 /// <remarks>
+/// <para>
 /// This interface groups logging-related members for better Interface Segregation.
+/// </para>
+/// <para><b>Thread Safety:</b></para>
+/// <para>
+/// The <see cref="Logger"/> property returns a thread-safe logger instance.
+/// Multiple threads may concurrently call logging methods without synchronization.
+/// Log messages are internally queued and processed in order, ensuring no message loss
+/// or corruption during concurrent access.
+/// </para>
 /// </remarks>
 public interface IPipelineLogging
 {
