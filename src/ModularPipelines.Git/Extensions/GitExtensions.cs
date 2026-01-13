@@ -46,7 +46,7 @@ public static class GitExtensions
     /// Gets the Git service from the pipeline context.
     /// This provides access to Git commands and repository information.
     /// </summary>
-    /// <param name="context">The pipeline hook context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="IGit"/> service for executing Git commands and accessing repository information.</returns>
-    public static IGit Git(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<IGit>();
+    public static IGit Git(this IPipelineContext context) => context.Services.Get<IGit>();
 }
