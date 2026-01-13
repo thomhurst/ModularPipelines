@@ -29,7 +29,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
         var table = await GenerateTableSummary(pipelineSummary);
         var exception = await GetException(pipelineSummary);
 
-        var stepSummaryVariable = pipelineContext.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
+        var stepSummaryVariable = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_STEP_SUMMARY");
 
         if (string.IsNullOrEmpty(stepSummaryVariable))
         {
@@ -42,7 +42,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     private async Task WriteFile(IPipelineHookContext pipelineContext, string stepSummaryVariable, string mermaid,
         string table, string exception)
     {
-        var fileInfo = pipelineContext.FileSystem.GetFile(stepSummaryVariable);
+        var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
         var contents = $"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}";
         long newContentSize = Encoding.UTF8.GetByteCount(contents);
@@ -54,7 +54,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
             return;
         }
 
-        await pipelineContext.FileSystem.GetFile(stepSummaryVariable).AppendAsync(contents);
+        await pipelineContext.Files.GetFile(stepSummaryVariable).AppendAsync(contents);
     }
 
     private async Task<string> GetException(PipelineSummary pipelineSummary)

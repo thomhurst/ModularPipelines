@@ -20,14 +20,14 @@ public class ResultsRepositoryTests : TestBase
     {
         public bool IsEnabled => true;
 
-        public async Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public async Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             var file = Folder.CreateFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();
             await JsonSerializer.SerializeAsync(fileStream, moduleResult);
         }
 
-        public async Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
+        public async Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext)
         {
             var file = Folder.GetFile(module.GetType().FullName!);
             await using var fileStream = file.GetStream();

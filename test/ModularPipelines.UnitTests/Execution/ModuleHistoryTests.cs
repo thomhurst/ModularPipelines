@@ -55,12 +55,12 @@ public class ModuleHistoryTests
     {
         public bool IsEnabled => true;
 
-        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext)
         {
             return Task.FromResult<ModuleResult<T>?>(null);
         }
@@ -70,12 +70,12 @@ public class ModuleHistoryTests
     {
         public bool IsEnabled => true;
 
-        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+        public Task SaveResultAsync<T>(Module<T> module, ModuleResult<T> moduleResult, IPipelineContext pipelineContext)
         {
             return Task.CompletedTask;
         }
 
-        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineHookContext pipelineContext)
+        public Task<ModuleResult<T>?> GetResultAsync<T>(Module<T> module, IPipelineContext pipelineContext)
         {
             // Create a result using the module execution context
             var executionContext = new ModuleExecutionContext(module, module.GetType());

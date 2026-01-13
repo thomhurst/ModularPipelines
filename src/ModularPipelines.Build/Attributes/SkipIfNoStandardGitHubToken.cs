@@ -9,7 +9,7 @@ public class SkipIfNoStandardGitHubToken : MandatoryRunConditionAttribute
 {
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
-        var options = pipelineContext.Get<IOptions<GitHubSettings>>();
+        var options = pipelineContext.Services.Get<IOptions<GitHubSettings>>();
 
         return Task.FromResult(!string.IsNullOrEmpty(options?.Value.StandardToken));
     }

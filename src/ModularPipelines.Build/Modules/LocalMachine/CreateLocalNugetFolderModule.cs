@@ -19,7 +19,7 @@ public class CreateLocalNugetFolderModule : Module<Folder>
     public override Task<Folder?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var settings = _localNuGetSettings.Value;
-        var localNugetRepositoryFolder = context.FileSystem.GetFolder(Environment.SpecialFolder.ApplicationData)
+        var localNugetRepositoryFolder = context.Files.GetFolder(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData))
             .GetFolder(settings.AppDataFolderName)
             .GetFolder(settings.LocalNugetFolderName)
             .Create();

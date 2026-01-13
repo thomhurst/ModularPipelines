@@ -10,7 +10,7 @@ public abstract class GitHubPipelineFileWriter : IBuildSystemPipelineFileWriter
     {
         var options = await GetGitHubPipelineFileWriterOptions(pipelineHookContext);
 
-        var yaml = pipelineHookContext.Yaml.ToYaml(new
+        var yaml = pipelineHookContext.Data.Yaml.ToYaml(new
         {
             Name = options.Name,
             On = options.TriggerCondition,
