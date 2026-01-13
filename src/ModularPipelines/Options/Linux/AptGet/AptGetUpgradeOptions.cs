@@ -4,7 +4,7 @@ using ModularPipelines.Attributes;
 namespace ModularPipelines.Options.Linux.AptGet;
 
 [ExcludeFromCodeCoverage]
-public record AptGetUpgradeOptions : AptGetOptions
+public partial record AptGetUpgradeOptions : AptGetOptions
 {
     [CliArgument(Placement = ArgumentPlacement.AfterOptions)]
     public virtual string CommandName { get; } = "upgrade";

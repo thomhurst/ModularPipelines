@@ -1,0 +1,233 @@
+using System.Collections.Immutable;
+using System.Linq;
+using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace ModularPipelines.SourceGenerator;
+
+/// <summary>
+/// Source generator that creates type-safe GetModule extension methods for Module classes.
+/// For each class that inherits from Module&lt;T&gt;, generates:
+/// - GetXxxModuleResult(this IModuleContext context) extension method (strips "Module" suffix)
+/// - GetXxxModuleResultIfRegistered(this IModuleContext context) extension method
+/// </summary>
+[Generator]
+public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
+{
+    /// <summary>
+    /// The fully qualified name of the Module&lt;T&gt; base class.
+    /// </summary>
+    internal const string ModuleBaseFullName = "ModularPipelines.Modules.Module`1";
+
+    private const string GeneratorName = "ModularPipelines.SourceGenerator";
+    private const string GeneratorVersion = "1.0.0";
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        // Create syntax provider that finds class declarations with base types
+        var moduleClasses = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (node, _) => IsCandidate(node),
+                transform: static (ctx, _) => GetModuleClassInfo(ctx))
+            .Where(static info => info is not null)
+            .Select(static (info, _) => info!);
+
+        // Collect all modules and generate a single extensions file
+        var collectedModules = moduleClasses.Collect();
+        context.RegisterSourceOutput(collectedModules, static (ctx, modules) => GenerateExtensions(ctx, modules));
+    }
+
+    /// <summary>
+    /// Checks if a syntax node is a potential candidate for module discovery.
+    /// Returns true for class declarations with base types.
+    /// </summary>
+    private static bool IsCandidate(SyntaxNode node)
+    {
+        return node is ClassDeclarationSyntax classDeclaration &&
+               classDeclaration.BaseList != null &&
+               classDeclaration.BaseList.Types.Count > 0;
+    }
+
+    /// <summary>
+    /// Extracts ModuleClassInfo from a type declaration if it inherits from Module&lt;T&gt;.
+    /// </summary>
+    private static ModuleClassInfo? GetModuleClassInfo(GeneratorSyntaxContext context)
+    {
+        var classDeclaration = (ClassDeclarationSyntax)context.Node;
+        var semanticModel = context.SemanticModel;
+
+        // Get the declared symbol for this type
+        if (semanticModel.GetDeclaredSymbol(classDeclaration) is not INamedTypeSymbol typeSymbol)
+        {
+            return null;
+        }
+
+        // Skip abstract classes - they can't be instantiated as modules
+        if (typeSymbol.IsAbstract)
+        {
+            return null;
+        }
+
+        // Check if this type inherits from Module<T> and get the result type
+        var resultType = GetModuleResultType(typeSymbol, semanticModel.Compilation);
+        if (resultType is null)
+        {
+            return null;
+        }
+
+        // Extract namespace
+        var namespaceName = typeSymbol.ContainingNamespace.IsGlobalNamespace
+            ? string.Empty
+            : typeSymbol.ContainingNamespace.ToDisplayString();
+
+        // Get type names for code generation
+        var resultTypeName = resultType.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+        var resultTypeFullName = resultType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+
+        return new ModuleClassInfo(
+            Namespace: namespaceName,
+            ClassName: typeSymbol.Name,
+            ResultTypeName: resultTypeName,
+            ResultTypeFullName: resultTypeFullName,
+            Location: classDeclaration.Identifier.GetLocation()
+        );
+    }
+
+    /// <summary>
+    /// Gets the result type T from Module&lt;T&gt; if the type inherits from it.
+    /// </summary>
+    private static ITypeSymbol? GetModuleResultType(INamedTypeSymbol type, Compilation compilation)
+    {
+        var moduleBaseType = compilation.GetTypeByMetadataName(ModuleBaseFullName);
+        if (moduleBaseType is null)
+        {
+            return null;
+        }
+
+        var current = type.BaseType;
+        while (current is not null)
+        {
+            if (current.IsGenericType &&
+                SymbolEqualityComparer.Default.Equals(current.OriginalDefinition, moduleBaseType))
+            {
+                return current.TypeArguments[0];
+            }
+
+            current = current.BaseType;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Generates the extension methods file containing all module accessors.
+    /// </summary>
+    private static void GenerateExtensions(SourceProductionContext context, ImmutableArray<ModuleClassInfo> modules)
+    {
+        if (modules.IsEmpty)
+        {
+            return;
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("// <auto-generated/>");
+        sb.AppendLine("#nullable enable");
+        sb.AppendLine();
+        sb.AppendLine("using System.CodeDom.Compiler;");
+        sb.AppendLine("using ModularPipelines.Context;");
+        sb.AppendLine("using ModularPipelines.Models;");
+        sb.AppendLine("using ModularPipelines.Modules;");
+        sb.AppendLine();
+
+        // Add using statements for module namespaces
+        var distinctNamespaces = modules
+            .Select(m => m.Namespace)
+            .Where(ns => !string.IsNullOrEmpty(ns))
+            .Distinct()
+            .OrderBy(ns => ns);
+
+        foreach (var ns in distinctNamespaces)
+        {
+            sb.AppendLine($"using {ns};");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("namespace ModularPipelines.Generated;");
+        sb.AppendLine();
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine("/// Type-safe extension methods for retrieving module results.");
+        sb.AppendLine("/// </summary>");
+        sb.AppendLine($"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]");
+        sb.AppendLine("public static class ModuleContextExtensions");
+        sb.AppendLine("{");
+
+        // Group modules by class name to handle potential duplicates
+        var modulesByName = modules.GroupBy(m => m.ClassName).ToList();
+
+        foreach (var moduleGroup in modulesByName)
+        {
+            var module = moduleGroup.First();
+            var methodName = StripModuleSuffix(module.ClassName);
+
+            // GetXxxModuleResult method - returns non-nullable (e.g., GetBuildModuleResult for BuildModule)
+            sb.AppendLine($"    /// <summary>");
+            sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/>.");
+            sb.AppendLine($"    /// </summary>");
+            sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
+            sb.AppendLine($"    /// <returns>The module result.</returns>");
+            sb.AppendLine($"    /// <exception cref=\"ModularPipelines.Exceptions.ModuleNotRegisteredException\">Thrown when the module is not registered.</exception>");
+            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}> Get{methodName}ModuleResult(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModule<{module.ClassName}, {module.ResultTypeFullName}>();");
+            sb.AppendLine();
+
+            // GetXxxModuleResultIfRegistered method - returns nullable
+            sb.AppendLine($"    /// <summary>");
+            sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> if it is registered, otherwise null.");
+            sb.AppendLine($"    /// </summary>");
+            sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
+            sb.AppendLine($"    /// <returns>The module result, or null if not registered.</returns>");
+            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}>? Get{methodName}ModuleResultIfRegistered(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModuleIfRegistered<{module.ClassName}, {module.ResultTypeFullName}>();");
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("}");
+
+        context.AddSource("ModuleContextExtensions.g.cs", sb.ToString());
+    }
+
+    /// <summary>
+    /// Escapes a string for use in XML documentation comments.
+    /// </summary>
+    private static string EscapeXmlComment(string text)
+    {
+        return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+    }
+
+    /// <summary>
+    /// Strips the "Module" suffix from a class name to create a cleaner method name.
+    /// </summary>
+    /// <remarks>
+    /// Examples:
+    /// - "BuildModule" → "Build" (generates GetBuildModuleResult)
+    /// - "DeployToProduction" → "DeployToProduction" (generates GetDeployToProductionModuleResult)
+    /// - "Module" → "Module" (edge case: keeps name to avoid empty string)
+    ///
+    /// The length check (className.Length > suffix.Length) ensures that a class named
+    /// exactly "Module" won't be stripped to an empty string.
+    /// </remarks>
+    private static string StripModuleSuffix(string className)
+    {
+        const string suffix = "Module";
+
+        // Only strip if there's actual content before "Module" (prevents "Module" → "")
+        if (className.Length > suffix.Length && className.EndsWith(suffix))
+        {
+            return className.Substring(0, className.Length - suffix.Length);
+        }
+
+        return className;
+    }
+}

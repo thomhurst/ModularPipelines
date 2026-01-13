@@ -8,7 +8,7 @@ namespace ModularPipelines.SourceGenerator;
 
 /// <summary>
 /// Source generator that validates CommandLineToolOptions classes
-/// and generates optimized Build() methods.
+/// and generates optimized BuildCommandLine() methods.
 /// </summary>
 [Generator]
 public sealed class CommandOptionsGenerator : IIncrementalGenerator
@@ -237,7 +237,7 @@ public sealed class CommandOptionsGenerator : IIncrementalGenerator
                 propNames, group.Key));
         }
 
-        // Generate Build() method
+        // Generate BuildCommandLine() method
         var source = BuildMethodGenerator.Generate(info);
         context.AddSource($"{info.ClassName}.g.cs", source);
     }

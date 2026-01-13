@@ -4,8 +4,18 @@ using System.Text;
 namespace ModularPipelines.SourceGenerator;
 
 /// <summary>
-/// Generates the Build() method for options classes.
+/// Generates the BuildCommandLine() method for options classes.
 /// </summary>
+/// <remarks>
+/// The method is named BuildCommandLine() instead of Build() to avoid conflicts with
+/// options classes that have properties named "Build" (e.g., AptGetOptions has a Build
+/// property for the --build flag). In C#, a property and parameterless method cannot
+/// share the same name.
+///
+/// This method is internal infrastructure called by ICommandLineBuilder - users don't
+/// call it directly on options instances. They pass options to command methods like
+/// context.Git().Checkout(options).
+/// </remarks>
 internal static class BuildMethodGenerator
 {
     /// <summary>
@@ -19,7 +29,7 @@ internal static class BuildMethodGenerator
     private const string GeneratorVersion = "1.0.0";
 
     /// <summary>
-    /// Generates the source code for the Build() method.
+    /// Generates the source code for the BuildCommandLine() method.
     /// </summary>
     /// <param name="info">The options class information.</param>
     /// <returns>The generated source code.</returns>
@@ -46,7 +56,7 @@ internal static class BuildMethodGenerator
         sb.AppendLine("    /// <summary>");
         sb.AppendLine("    /// Builds the command line arguments from this options instance.");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    public ModularPipelines.Models.CommandLine Build()");
+        sb.AppendLine("    public ModularPipelines.Models.CommandLine BuildCommandLine()");
         sb.AppendLine("    {");
         sb.AppendLine("        var args = new System.Collections.Generic.List<string>();");
 
