@@ -4,6 +4,7 @@
 // </auto-generated>
 
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Context;
 using ModularPipelines.Engine;
