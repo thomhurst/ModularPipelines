@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
 using ModularPipelines.Http;
@@ -79,6 +80,9 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
 
     public IBase64 Base64 { get; }
 
+    /// <inheritdoc />
+    public ModularPipelines.Context.Domains.IShellContext Shell { get; }
+
     public void InitializeLogger(Type getType)
     {
         _logger = _moduleLoggerProvider.GetLogger(getType);
@@ -116,7 +120,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         ISerializationContext serializationContext,
         IEncodingContext encodingContext,
         IShellContext shellContext,
-        IChecksum checksum)
+        IChecksum checksum,
+        ModularPipelines.Context.Domains.IShellContext shell)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -150,6 +155,9 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         Powershell = shellContext.Powershell;
         Bash = shellContext.Bash;
         Command = shellContext.Command;
+
+        // Domain context (v2.0)
+        Shell = shell;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }

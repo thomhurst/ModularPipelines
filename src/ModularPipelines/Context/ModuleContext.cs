@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
@@ -134,6 +135,9 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public IBase64 Base64 => _pipelineContext.Base64;
 
     public IHasher Hasher => _pipelineContext.Hasher;
+
+    /// <inheritdoc />
+    public ModularPipelines.Context.Domains.IShellContext Shell => _pipelineContext.Shell;
 
     public IHttp Http => _pipelineContext.Http;
 

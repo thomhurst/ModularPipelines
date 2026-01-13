@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Context;
+using ModularPipelines.Context.Domains;
+using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -129,6 +131,11 @@ internal static class DependencyInjectionSetup
             .AddScoped<IZip, Zip>()
             .AddScoped<IPowershell, Powershell>()
             .AddScoped<IBash, Bash>()
+            // Register domain context interfaces (forwarding to existing implementations)
+            .AddScoped<Domains.Shell.ICommandContext>(sp => (Domains.Shell.ICommandContext)sp.GetRequiredService<ModularPipelines.Context.ICommand>())
+            .AddScoped<Domains.Shell.IBashContext>(sp => (Domains.Shell.IBashContext)sp.GetRequiredService<IBash>())
+            .AddScoped<Domains.Shell.IPowerShellContext>(sp => (Domains.Shell.IPowerShellContext)sp.GetRequiredService<IPowershell>())
+            .AddScoped<Domains.IShellContext, Domains.Implementations.ShellContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()

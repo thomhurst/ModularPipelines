@@ -32,7 +32,7 @@ public interface IPipelineContext
     /// <summary>
     /// Command execution capabilities.
     /// </summary>
-    IShellContext Shell { get; }
+    Domains.IShellContext Shell { get; }
 
     /// <summary>
     /// File system operations.
