@@ -18,7 +18,7 @@ namespace ModularPipelines.Logging;
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class AfterPipelineLogger : IAfterPipelineLogger
+internal class AfterPipelineLogger : IInternalAfterPipelineLogger
 {
     private readonly ILogger<AfterPipelineLogger> _logger;
     private readonly StringBuilder _stringBuilder = new();
