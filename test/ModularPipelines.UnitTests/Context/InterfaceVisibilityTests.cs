@@ -31,21 +31,27 @@ public class InterfaceVisibilityTests
     {
         var assembly = typeof(IModuleContext).Assembly;
 
+        // v2.0 role-based context interfaces
         var expectedPublicInterfaces = new[]
         {
-            "IPipelineHookContext",
-            "IModuleContext",
-            "IPipelineServices",
-            "IPipelineLogging",
-            "IPipelineTools",
-            "IPipelineEncoding",
-            "IPipelineFileSystem",
-            "IPipelineEnvironment"
+            // Core context interfaces
+            ("ModularPipelines.Context", "IPipelineContext"),
+            ("ModularPipelines.Context", "IPipelineHookContext"),
+            ("ModularPipelines.Context", "IModuleContext"),
+            // Domain context interfaces
+            ("ModularPipelines.Context.Domains", "IShellContext"),
+            ("ModularPipelines.Context.Domains", "IFilesContext"),
+            ("ModularPipelines.Context.Domains", "IDataContext"),
+            ("ModularPipelines.Context.Domains", "IEnvironmentDomainContext"),
+            ("ModularPipelines.Context.Domains", "IInstallersContext"),
+            ("ModularPipelines.Context.Domains", "INetworkContext"),
+            ("ModularPipelines.Context.Domains", "ISecurityContext"),
+            ("ModularPipelines.Context.Domains", "IServicesContext"),
         };
 
-        foreach (var interfaceName in expectedPublicInterfaces)
+        foreach (var (ns, interfaceName) in expectedPublicInterfaces)
         {
-            var iface = assembly.GetType($"ModularPipelines.Context.{interfaceName}");
+            var iface = assembly.GetType($"{ns}.{interfaceName}");
 
             await Assert.That(iface).IsNotNull()
                 .Because($"{interfaceName} should exist");

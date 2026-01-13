@@ -104,7 +104,9 @@ internal static class DependencyInjectionSetup
     private static void RegisterPipelineContextServices(IServiceCollection services)
     {
         services
-            .AddScoped<IPipelineHookContext, PipelineContext>()
+            .AddScoped<PipelineContext>()
+            .AddScoped<IPipelineContext>(sp => sp.GetRequiredService<PipelineContext>())
+            .AddScoped<IPipelineHookContext>(sp => sp.GetRequiredService<PipelineContext>())
             .AddScoped<ModuleLoggerProvider>()
             .AddScoped<IModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
             .AddScoped<IInternalModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
