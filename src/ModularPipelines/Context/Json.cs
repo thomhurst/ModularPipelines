@@ -1,8 +1,9 @@
 using System.Text.Json;
+using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Json : IJson
+internal class Json : IJson, IJsonContext
 {
     public string ToJson<T>(T input)
     {

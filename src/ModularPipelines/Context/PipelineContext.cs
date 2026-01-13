@@ -87,8 +87,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     public IFilesContext Files { get; }
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.3.</remarks>
-    public IDataContext Data => throw new NotImplementedException("DataContext implementation pending (Task 3.3)");
+    public IDataContext Data { get; }
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>
@@ -149,7 +148,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IShellContext shellContext,
         IChecksum checksum,
         ModularPipelines.Context.Domains.IShellContext shell,
-        IFilesContext files)
+        IFilesContext files,
+        IDataContext data)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -187,6 +187,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         // Domain context (v2.0)
         Shell = shell;
         Files = files;
+        Data = data;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }

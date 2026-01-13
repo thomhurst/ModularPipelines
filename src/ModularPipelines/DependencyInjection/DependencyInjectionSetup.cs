@@ -8,6 +8,7 @@ using ModularPipelines.Context;
 using ModularPipelines.Context.Domains;
 using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.Context.Domains.Implementations;
+using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
@@ -142,6 +143,13 @@ internal static class DependencyInjectionSetup
             .AddScoped<IZipContext>(sp => (IZipContext)sp.GetRequiredService<IZip>())
             .AddScoped<IChecksumContext>(sp => (IChecksumContext)sp.GetRequiredService<IChecksum>())
             .AddScoped<IFilesContext, FilesContext>()
+            // Register Data domain context interfaces
+            .AddSingleton<IJsonContext>(sp => (IJsonContext)sp.GetRequiredService<IJson>())
+            .AddSingleton<IXmlContext>(sp => (IXmlContext)sp.GetRequiredService<IXml>())
+            .AddSingleton<IYamlContext>(sp => (IYamlContext)sp.GetRequiredService<IYaml>())
+            .AddSingleton<IBase64Context>(sp => (IBase64Context)sp.GetRequiredService<IBase64>())
+            .AddSingleton<IHexContext>(sp => (IHexContext)sp.GetRequiredService<IHex>())
+            .AddSingleton<IDataContext, DataContext>()
             .AddScoped<IEnvironmentContext, EnvironmentContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()

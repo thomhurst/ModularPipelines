@@ -143,8 +143,7 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
     public IFilesContext Files => _pipelineContext.Files;
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.3.</remarks>
-    public IDataContext Data => throw new NotImplementedException("DataContext implementation pending (Task 3.3)");
+    public IDataContext Data => _pipelineContext.Data;
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.4.</remarks>

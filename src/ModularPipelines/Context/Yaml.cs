@@ -1,8 +1,9 @@
+using ModularPipelines.Context.Domains.Data;
 using YamlDotNet.Serialization;
 
 namespace ModularPipelines.Context;
 
-internal class Yaml : IYaml
+internal class Yaml : IYaml, IYamlContext
 {
     public string ToYaml<T>(T input, INamingConvention namingConvention)
     {

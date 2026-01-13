@@ -1,9 +1,10 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Xml : IXml
+internal class Xml : IXml, IXmlContext
 {
     public string ToXml<T>(T input, SaveOptions options = SaveOptions.None)
     {
