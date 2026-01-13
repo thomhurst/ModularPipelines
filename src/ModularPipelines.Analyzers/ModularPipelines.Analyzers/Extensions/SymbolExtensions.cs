@@ -136,6 +136,50 @@ internal static class SymbolExtensions
         }
     }
 
+    /// <summary>
+    /// Tries to get the dependency type from a DependsOn attribute (generic or non-generic form).
+    /// </summary>
+    internal static ITypeSymbol? GetDependsOnTypeArgument(
+        this INamedTypeSymbol attributeType,
+        AttributeSyntax attributeSyntax,
+        SemanticModel semanticModel)
+    {
+        // Check for generic attribute: [DependsOn<SomeType>]
+        if (attributeType.IsGenericType && attributeType.TypeArguments.Length > 0)
+        {
+            return attributeType.TypeArguments[0];
+        }
+
+        // Check for non-generic attribute: [DependsOn(typeof(SomeType))]
+        if (attributeSyntax.ArgumentList?.Arguments.FirstOrDefault()?.Expression is TypeOfExpressionSyntax typeOfExpression)
+        {
+            return semanticModel.GetTypeInfo(typeOfExpression.Type).Type;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Checks if a type implements the specified interface.
+    /// </summary>
+    internal static bool ImplementsInterface(this ITypeSymbol type, INamedTypeSymbol interfaceType)
+    {
+        if (SymbolEqualityComparer.Default.Equals(type, interfaceType))
+        {
+            return true;
+        }
+
+        foreach (var iface in type.AllInterfaces)
+        {
+            if (SymbolEqualityComparer.Default.Equals(iface, interfaceType))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     internal static bool IsDependsOnAttributeFor(this AttributeData attributeData, Compilation compilation, INamedTypeSymbol namedTypeSymbol)
     {
         var attributeClass = attributeData.AttributeClass;
@@ -180,7 +224,7 @@ internal static class SymbolExtensions
     /// Checks if the given type symbol is the DependsOnAttribute type (generic or non-generic).
     /// Uses proper symbol comparison instead of string comparison.
     /// </summary>
-    private static bool IsDependsOnAttribute(INamedTypeSymbol attributeClass, Compilation compilation)
+    internal static bool IsDependsOnAttribute(this INamedTypeSymbol attributeClass, Compilation compilation)
     {
         // Get the non-generic DependsOnAttribute type
         var dependsOnAttributeType = compilation.GetTypeByMetadataName("ModularPipelines.Attributes.DependsOnAttribute");
