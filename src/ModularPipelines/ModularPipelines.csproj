@@ -54,5 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj" Name="ModularPipelines.Analyzers" />
+    <ProjectReference Include="..\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
+  <!-- Include source generator in NuGet package for consumers -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddSourceGeneratorToPackage</TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="_AddSourceGeneratorToPackage">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.SourceGenerator\bin\$(Configuration)\netstandard2.0\ModularPipelines.SourceGenerator.dll" PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
 </Project>
