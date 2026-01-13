@@ -9,6 +9,11 @@ namespace ModularPipelines.Context.Domains.Implementations;
 internal class EnvironmentDomainContext : IEnvironmentDomainContext
 {
     /// <summary>
+    /// Cached operating system platform detected at class load time.
+    /// </summary>
+    private static readonly OSPlatform s_operatingSystem = DetectOperatingSystem();
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="EnvironmentDomainContext"/> class.
     /// </summary>
     /// <param name="variables">The environment variables context.</param>
@@ -23,33 +28,36 @@ internal class EnvironmentDomainContext : IEnvironmentDomainContext
     }
 
     /// <inheritdoc />
-    public OSPlatform OperatingSystem
+    public OSPlatform OperatingSystem => s_operatingSystem;
+
+    /// <summary>
+    /// Detects the operating system platform.
+    /// </summary>
+    /// <returns>The detected <see cref="OSPlatform"/>.</returns>
+    private static OSPlatform DetectOperatingSystem()
     {
-        get
+        if (System.OperatingSystem.IsWindows())
         {
-            if (System.OperatingSystem.IsWindows())
-            {
-                return OSPlatform.Windows;
-            }
+            return OSPlatform.Windows;
+        }
 
-            if (System.OperatingSystem.IsLinux())
-            {
-                return OSPlatform.Linux;
-            }
-
-            if (System.OperatingSystem.IsMacOS())
-            {
-                return OSPlatform.OSX;
-            }
-
-            if (System.OperatingSystem.IsFreeBSD())
-            {
-                return OSPlatform.FreeBSD;
-            }
-
-            // Default fallback
+        if (System.OperatingSystem.IsLinux())
+        {
             return OSPlatform.Linux;
         }
+
+        if (System.OperatingSystem.IsMacOS())
+        {
+            return OSPlatform.OSX;
+        }
+
+        if (System.OperatingSystem.IsFreeBSD())
+        {
+            return OSPlatform.FreeBSD;
+        }
+
+        // Default fallback
+        return OSPlatform.Linux;
     }
 
     /// <inheritdoc />
