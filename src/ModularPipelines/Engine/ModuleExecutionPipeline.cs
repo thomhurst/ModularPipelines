@@ -68,7 +68,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         IModuleContext moduleContext,
         CancellationToken engineCancellationToken)
     {
-        var logger = ((IPipelineLogging)moduleContext).Logger;
+        var logger = moduleContext.Logger;
         var moduleName = executionContext.ModuleType.Name;
         ModuleResult<T>? moduleResult = null;
         var beforeHooksExecuted = false;
@@ -301,7 +301,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Check if default retry count is configured
-        var defaultRetryCount = moduleContext.PipelineOptions.Value.DefaultRetryCount;
+        var defaultRetryCount = moduleContext.Services.Options.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
             return Policy.Handle<Exception>()
@@ -327,7 +327,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
         catch (Exception e) when (e is not (OutOfMemoryException or StackOverflowException))
         {
-            ((IPipelineLogging)moduleContext).Logger.LogError(e, "Error saving module result to repository");
+            moduleContext.Logger.LogError(e, "Error saving module result to repository");
         }
     }
 

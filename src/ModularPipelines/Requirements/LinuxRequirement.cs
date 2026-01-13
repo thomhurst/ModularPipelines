@@ -15,7 +15,7 @@ public class LinuxRequirement : IPipelineRequirement
     public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
         return RequirementDecision.Of(
-            passed: ((IPipelineEnvironment)context).Environment.OperatingSystem == OperatingSystemIdentifier.Linux,
+            passed: context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.Linux,
             reason: "Linux is required"
         ).AsTask();
     }

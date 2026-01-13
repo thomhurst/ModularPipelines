@@ -1,14 +1,8 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using ModularPipelines.Context.Domains;
-using ModularPipelines.Engine;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Helpers;
-using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
@@ -89,48 +83,13 @@ internal class ModuleHookContext : IModuleHookContext
 
     #endregion
 
-    #region IPipelineHookContext delegation
-
-    // IPipelineServices
-    public IServiceProvider ServiceProvider => _pipelineContext.ServiceProvider;
-
-    public T? Get<T>() => _pipelineContext.Get<T>();
-
-    public IConfiguration Configuration => _pipelineContext.Configuration;
-
-    public IOptions<PipelineOptions> PipelineOptions => _pipelineContext.PipelineOptions;
-
-    // IPipelineLogging
-    public IModuleLogger Logger => ((IPipelineLogging)_pipelineContext).Logger;
-
-    // IPipelineTools
-    public ICommand Command => _pipelineContext.Command;
-
-    public IPowershell Powershell => _pipelineContext.Powershell;
-
-    public IBash Bash => _pipelineContext.Bash;
-
-    public IHttp Http => _pipelineContext.Http;
-
-    public IDownloader Downloader => _pipelineContext.Downloader;
-
-    public IInstaller Installer => _pipelineContext.Installer;
-
-    // IPipelineEncoding
-    public IJson Json => _pipelineContext.Json;
-
-    public IXml Xml => _pipelineContext.Xml;
-
-    public IYaml Yaml => _pipelineContext.Yaml;
-
-    public IHex Hex => _pipelineContext.Hex;
-
-    public IBase64 Base64 => _pipelineContext.Base64;
-
-    public IHasher Hasher => _pipelineContext.Hasher;
+    #region IPipelineContext delegation (domain-based)
 
     /// <inheritdoc />
-    public ModularPipelines.Context.Domains.IShellContext Shell => _pipelineContext.Shell;
+    public IModuleLogger Logger => _pipelineContext.Logger;
+
+    /// <inheritdoc />
+    public Domains.IShellContext Shell => _pipelineContext.Shell;
 
     /// <inheritdoc />
     public IFilesContext Files => _pipelineContext.Files;
@@ -139,7 +98,7 @@ internal class ModuleHookContext : IModuleHookContext
     public IDataContext Data => _pipelineContext.Data;
 
     /// <inheritdoc />
-    IEnvironmentDomainContext IPipelineContext.Environment => ((IPipelineContext)_pipelineContext).Environment;
+    public IEnvironmentDomainContext Environment => _pipelineContext.Environment;
 
     /// <inheritdoc />
     public IInstallersContext Installers => _pipelineContext.Installers;
@@ -152,18 +111,6 @@ internal class ModuleHookContext : IModuleHookContext
 
     /// <inheritdoc />
     public IServicesContext Services => _pipelineContext.Services;
-
-    // IPipelineFileSystem
-    public IFileSystemContext FileSystem => _pipelineContext.FileSystem;
-
-    public IZip Zip => _pipelineContext.Zip;
-
-    public IChecksum Checksum => _pipelineContext.Checksum;
-
-    // IPipelineEnvironment
-    public IEnvironmentContext Environment => ((IPipelineEnvironment)_pipelineContext).Environment;
-
-    public IBuildSystemDetector BuildSystemDetector => _pipelineContext.BuildSystemDetector;
 
     #endregion
 }

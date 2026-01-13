@@ -12,7 +12,7 @@ public class MacOSRequirement : IPipelineRequirement
     public Task<RequirementDecision> MustAsync(IPipelineHookContext context)
     {
         return RequirementDecision.Of(
-            passed: ((IPipelineEnvironment)context).Environment.OperatingSystem == OperatingSystemIdentifier.MacOS,
+            passed: context.Environment.OperatingSystem == System.Runtime.InteropServices.OSPlatform.OSX,
             reason: "MacOS is required"
         ).AsTask();
     }

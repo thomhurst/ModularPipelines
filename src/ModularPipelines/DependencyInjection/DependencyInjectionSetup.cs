@@ -105,9 +105,6 @@ internal static class DependencyInjectionSetup
     {
         services
             .AddScoped<IPipelineHookContext, PipelineContext>()
-            .AddScoped<ISerializationContext, SerializationContext>()
-            .AddScoped<IEncodingContext, EncodingContext>()
-            .AddScoped<ModularPipelines.Context.IShellContext, ModularPipelines.Context.ShellContext>()
             .AddScoped<ModuleLoggerProvider>()
             .AddScoped<IModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())
             .AddScoped<IInternalModuleLoggerProvider>(sp => sp.GetRequiredService<ModuleLoggerProvider>())

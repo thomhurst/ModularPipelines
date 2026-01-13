@@ -1,3 +1,4 @@
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Enums;
 
 namespace ModularPipelines.Context;
@@ -15,7 +16,7 @@ public static class ContextExtensions
     /// Gets a required service from the DI container.
     /// </summary>
     /// <typeparam name="T">The type of service to retrieve.</typeparam>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>The service instance.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the service is not registered.</exception>
     /// <example>
@@ -23,9 +24,9 @@ public static class ContextExtensions
     /// var myService = context.GetService&lt;IMyService&gt;();
     /// </code>
     /// </example>
-    public static T GetService<T>(this IPipelineServices context) where T : notnull
+    public static T GetService<T>(this IPipelineContext context) where T : class
     {
-        return context.Get<T>() ?? throw new InvalidOperationException(
+        return context.Services.Get<T>() ?? throw new InvalidOperationException(
             $"Service '{typeof(T).FullName}' is not registered in the service provider. " +
             $"Ensure the service is registered during pipeline configuration.");
     }
@@ -34,7 +35,7 @@ public static class ContextExtensions
     /// Tries to get a service from the DI container.
     /// </summary>
     /// <typeparam name="T">The type of service to retrieve.</typeparam>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>The service instance, or null if not registered.</returns>
     /// <example>
     /// <code>
@@ -45,15 +46,15 @@ public static class ContextExtensions
     /// }
     /// </code>
     /// </example>
-    public static T? TryGetService<T>(this IPipelineServices context) where T : class
+    public static T? TryGetService<T>(this IPipelineContext context) where T : class
     {
-        return context.Get<T>();
+        return context.Services.Get<T>();
     }
 
     /// <summary>
     /// Gets a configuration value by key, returning null if not found.
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <param name="key">The configuration key.</param>
     /// <returns>The configuration value, or null if not found.</returns>
     /// <example>
@@ -61,15 +62,15 @@ public static class ContextExtensions
     /// var connectionString = context.GetConfigValue("ConnectionStrings:Default");
     /// </code>
     /// </example>
-    public static string? GetConfigValue(this IPipelineServices context, string key)
+    public static string? GetConfigValue(this IPipelineContext context, string key)
     {
-        return context.Configuration[key];
+        return context.Services.Configuration[key];
     }
 
     /// <summary>
     /// Gets a required configuration value by key.
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <param name="key">The configuration key.</param>
     /// <returns>The configuration value.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the configuration key is not found or has no value.</exception>
@@ -78,9 +79,9 @@ public static class ContextExtensions
     /// var apiKey = context.GetRequiredConfigValue("ApiKey");
     /// </code>
     /// </example>
-    public static string GetRequiredConfigValue(this IPipelineServices context, string key)
+    public static string GetRequiredConfigValue(this IPipelineContext context, string key)
     {
-        var value = context.Configuration[key];
+        var value = context.Services.Configuration[key];
         if (string.IsNullOrEmpty(value))
         {
             throw new InvalidOperationException(
@@ -94,7 +95,7 @@ public static class ContextExtensions
     /// <summary>
     /// Checks if the pipeline is running in the specified build system.
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <param name="buildSystem">The build system to check for.</param>
     /// <returns>True if running in the specified build system; otherwise, false.</returns>
     /// <example>
@@ -105,15 +106,22 @@ public static class ContextExtensions
     /// }
     /// </code>
     /// </example>
-    public static bool IsRunningIn(this IPipelineEnvironment context, BuildSystem buildSystem)
+    public static bool IsRunningIn(this IPipelineContext context, BuildSystem buildSystem)
     {
-        return context.BuildSystemDetector.GetCurrentBuildSystem() == buildSystem;
+        return buildSystem switch
+        {
+            BuildSystem.GitHubActions => context.Environment.BuildSystem.IsGitHubActions,
+            BuildSystem.AzurePipelines => context.Environment.BuildSystem.IsAzurePipelines,
+            BuildSystem.TeamCity => context.Environment.BuildSystem.IsTeamCity,
+            BuildSystem.Jenkins => context.Environment.BuildSystem.IsJenkins,
+            _ => false,
+        };
     }
 
     /// <summary>
     /// Checks if the pipeline is running locally (not in a CI/CD system).
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>True if running locally; otherwise, false.</returns>
     /// <example>
     /// <code>
@@ -123,15 +131,15 @@ public static class ContextExtensions
     /// }
     /// </code>
     /// </example>
-    public static bool IsRunningLocally(this IPipelineEnvironment context)
+    public static bool IsRunningLocally(this IPipelineContext context)
     {
-        return context.BuildSystemDetector.GetCurrentBuildSystem() == BuildSystem.Unknown;
+        return !context.Environment.BuildSystem.IsBuildServer;
     }
 
     /// <summary>
     /// Checks if the pipeline is running in any CI/CD system.
     /// </summary>
-    /// <param name="context">The module context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>True if running in a CI/CD system; otherwise, false.</returns>
     /// <example>
     /// <code>
@@ -141,8 +149,8 @@ public static class ContextExtensions
     /// }
     /// </code>
     /// </example>
-    public static bool IsRunningInCI(this IPipelineEnvironment context)
+    public static bool IsRunningInCI(this IPipelineContext context)
     {
-        return context.BuildSystemDetector.GetCurrentBuildSystem() != BuildSystem.Unknown;
+        return context.Environment.BuildSystem.IsBuildServer;
     }
 }

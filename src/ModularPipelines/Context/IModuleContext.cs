@@ -52,15 +52,7 @@ namespace ModularPipelines.Context;
 /// }
 /// </code>
 /// </remarks>
-public interface IModuleContext :
-    IPipelineContext,
-    // Legacy interfaces for backward compatibility during migration
-    IPipelineServices,
-    IPipelineLogging,
-    IPipelineTools,
-    IPipelineEncoding,
-    IPipelineFileSystem,
-    IPipelineEnvironment
+public interface IModuleContext : IPipelineContext
 {
     /// <summary>
     /// Gets a module's result by specifying both the module type and its return type.
