@@ -10,8 +10,8 @@ namespace ModularPipelines.SourceGenerator;
 /// <summary>
 /// Source generator that creates type-safe GetModule extension methods for Module classes.
 /// For each class that inherits from Module&lt;T&gt;, generates:
-/// - GetXxxModule(this IModuleContext context) extension method
-/// - GetXxxModuleIfRegistered(this IModuleContext context) extension method
+/// - GetXxx(this IModuleContext context) extension method (strips "Module" suffix)
+/// - GetXxxIfRegistered(this IModuleContext context) extension method
 /// </summary>
 [Generator]
 public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
@@ -169,9 +169,9 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
         foreach (var moduleGroup in modulesByName)
         {
             var module = moduleGroup.First();
-            var methodName = module.ClassName;
+            var methodName = StripModuleSuffix(module.ClassName);
 
-            // GetXxxModule method - returns non-nullable
+            // GetXxx method - returns non-nullable (e.g., GetBuild for BuildModule)
             sb.AppendLine($"    /// <summary>");
             sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/>.");
             sb.AppendLine($"    /// </summary>");
@@ -204,5 +204,20 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
     private static string EscapeXmlComment(string text)
     {
         return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+    }
+
+    /// <summary>
+    /// Strips the "Module" suffix from a class name to create a cleaner method name.
+    /// Example: "BuildModule" -> "Build", "DeployToProduction" -> "DeployToProduction"
+    /// </summary>
+    private static string StripModuleSuffix(string className)
+    {
+        const string suffix = "Module";
+        if (className.Length > suffix.Length && className.EndsWith(suffix))
+        {
+            return className.Substring(0, className.Length - suffix.Length);
+        }
+
+        return className;
     }
 }
