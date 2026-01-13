@@ -247,14 +247,14 @@ internal sealed class ModuleStateStore : IModuleStateStore
     {
         var now = _timeProvider.GetUtcNow();
 
-        return TryUpdate(moduleType, current =>
+        var newState = TryUpdate(moduleType, current =>
         {
             if (current.Phase is not ModuleExecutionPhase.Running running)
             {
                 return null; // Can only complete from Running
             }
 
-            var newState = current with
+            return current with
             {
                 Phase = new ModuleExecutionPhase.Completed
                 {
@@ -264,10 +264,15 @@ internal sealed class ModuleStateStore : IModuleStateStore
                     Result = result,
                 },
             };
-
-            current.CompletionSource.TrySetResult(current.Module);
-            return newState;
         });
+
+        // Signal completion source only after successful state transition
+        if (newState != null)
+        {
+            newState.CompletionSource.TrySetResult(newState.Module);
+        }
+
+        return newState;
     }
 
     /// <summary>
@@ -277,14 +282,14 @@ internal sealed class ModuleStateStore : IModuleStateStore
     {
         var now = _timeProvider.GetUtcNow();
 
-        return TryUpdate(moduleType, current =>
+        var newState = TryUpdate(moduleType, current =>
         {
             if (current.Phase is not ModuleExecutionPhase.Running running)
             {
                 return null; // Can only fail from Running
             }
 
-            var newState = current with
+            return current with
             {
                 Phase = new ModuleExecutionPhase.Failed
                 {
@@ -295,10 +300,15 @@ internal sealed class ModuleStateStore : IModuleStateStore
                     Result = result,
                 },
             };
-
-            current.CompletionSource.TrySetException(exception);
-            return newState;
         });
+
+        // Signal completion source only after successful state transition
+        if (newState != null)
+        {
+            newState.CompletionSource.TrySetException(exception);
+        }
+
+        return newState;
     }
 
     /// <summary>
@@ -308,7 +318,7 @@ internal sealed class ModuleStateStore : IModuleStateStore
     {
         var now = _timeProvider.GetUtcNow();
 
-        return TryUpdate(moduleType, current =>
+        var newState = TryUpdate(moduleType, current =>
         {
             if (current.IsTerminal)
             {
@@ -323,7 +333,7 @@ internal sealed class ModuleStateStore : IModuleStateStore
                 _ => ImmutableList<Type>.Empty,
             };
 
-            var newState = current with
+            return current with
             {
                 Phase = new ModuleExecutionPhase.Skipped
                 {
@@ -333,10 +343,15 @@ internal sealed class ModuleStateStore : IModuleStateStore
                     Result = result,
                 },
             };
-
-            current.CompletionSource.TrySetResult(current.Module);
-            return newState;
         });
+
+        // Signal completion source only after successful state transition
+        if (newState != null)
+        {
+            newState.CompletionSource.TrySetResult(newState.Module);
+        }
+
+        return newState;
     }
 
     /// <summary>
@@ -346,7 +361,7 @@ internal sealed class ModuleStateStore : IModuleStateStore
     {
         var now = _timeProvider.GetUtcNow();
 
-        return TryUpdate(moduleType, current =>
+        var newState = TryUpdate(moduleType, current =>
         {
             if (current.IsTerminal)
             {
@@ -361,7 +376,7 @@ internal sealed class ModuleStateStore : IModuleStateStore
                 _ => ImmutableList<Type>.Empty,
             };
 
-            var newState = current with
+            return current with
             {
                 Phase = new ModuleExecutionPhase.Cancelled
                 {
@@ -370,10 +385,15 @@ internal sealed class ModuleStateStore : IModuleStateStore
                     PreviousPhase = current.Phase,
                 },
             };
-
-            current.CompletionSource.TrySetCanceled();
-            return newState;
         });
+
+        // Signal completion source only after successful state transition
+        if (newState != null)
+        {
+            newState.CompletionSource.TrySetCanceled();
+        }
+
+        return newState;
     }
 
     /// <summary>
