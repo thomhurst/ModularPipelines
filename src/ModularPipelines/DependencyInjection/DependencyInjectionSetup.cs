@@ -13,6 +13,7 @@ using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Domains.Environment;
 using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Domains.Network;
+using ModularPipelines.Context.Domains.Security;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -168,6 +169,10 @@ internal static class DependencyInjectionSetup
             .AddScoped<IHttpContext>(sp => (IHttpContext)sp.GetRequiredService<IHttp>())
             .AddScoped<IDownloaderContext>(sp => (IDownloaderContext)sp.GetRequiredService<IDownloader>())
             .AddScoped<INetworkContext, NetworkContext>()
+            // Register Security domain context interfaces
+            .AddScoped<ICertificatesContext>(sp => (ICertificatesContext)sp.GetRequiredService<ICertificates>())
+            .AddSingleton<IHasherContext>(sp => (IHasherContext)sp.GetRequiredService<IHasher>())
+            .AddScoped<ISecurityContext, SecurityContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();
