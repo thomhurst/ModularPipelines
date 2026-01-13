@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
@@ -11,7 +12,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Context;
 
 [ExcludeFromCodeCoverage]
-public partial class PredefinedInstallers : IPredefinedInstallers
+public partial class PredefinedInstallers : IPredefinedInstallers, IPredefinedInstallersContext
 {
     /// <summary>
     /// Version constants for predefined installers.

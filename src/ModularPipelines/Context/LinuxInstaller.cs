@@ -1,3 +1,4 @@
+using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Models;
 using ModularPipelines.Options.Linux;
@@ -5,7 +6,7 @@ using ModularPipelines.Options.Linux.AptGet;
 
 namespace ModularPipelines.Context;
 
-internal class LinuxInstaller : ILinuxInstaller
+internal class LinuxInstaller : ILinuxInstaller, ILinuxInstallerContext
 {
     private readonly IAptGet _aptGet;
     private readonly ICommand _command;

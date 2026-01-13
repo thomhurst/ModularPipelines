@@ -11,6 +11,7 @@ using ModularPipelines.Context.Domains.Implementations;
 using ModularPipelines.Context.Domains.Data;
 using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Context.Domains.Environment;
+using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Context.Linux;
 using ModularPipelines.Engine;
 using ModularPipelines.FileSystem;
@@ -156,6 +157,12 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IEnvironmentVariablesContext>(sp => (IEnvironmentVariablesContext)sp.GetRequiredService<IEnvironmentVariables>())
             .AddSingleton<IBuildSystemContext, BuildSystemContext>()
             .AddScoped<IEnvironmentDomainContext, EnvironmentDomainContext>()
+            // Register Installers domain context interfaces
+            .AddScoped<IWindowsInstallerContext>(sp => (IWindowsInstallerContext)sp.GetRequiredService<IWindowsInstaller>())
+            .AddScoped<ILinuxInstallerContext>(sp => (ILinuxInstallerContext)sp.GetRequiredService<ILinuxInstaller>())
+            .AddScoped<IMacInstallerContext>(sp => (IMacInstallerContext)sp.GetRequiredService<IMacInstaller>())
+            .AddScoped<IPredefinedInstallersContext>(sp => (IPredefinedInstallersContext)sp.GetRequiredService<IPredefinedInstallers>())
+            .AddScoped<IInstallersContext, InstallersContext>()
             .AddScoped<ModularPipelines.Http.IHttpLogger, ModularPipelines.Http.HttpLogger>()
             .AddScoped<ModularPipelines.Http.IHttpRequestFormatter, ModularPipelines.Http.HttpRequestFormatter>()
             .AddScoped<ModularPipelines.Http.IHttpResponseFormatter, ModularPipelines.Http.HttpResponseFormatter>();

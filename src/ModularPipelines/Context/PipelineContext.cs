@@ -98,8 +98,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     IEnvironmentDomainContext IPipelineContext.Environment => _environmentDomain!;
 
     /// <inheritdoc />
-    /// <remarks>Stub implementation - will be fully implemented in Task 3.5.</remarks>
-    public IInstallersContext Installers => throw new NotImplementedException("InstallersContext implementation pending (Task 3.5)");
+    public IInstallersContext Installers { get; }
 
     /// <inheritdoc />
     /// <remarks>Stub implementation - will be fully implemented in Task 3.6.</remarks>
@@ -154,7 +153,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         ModularPipelines.Context.Domains.IShellContext shell,
         IFilesContext files,
         IDataContext data,
-        IEnvironmentDomainContext environmentDomain)
+        IEnvironmentDomainContext environmentDomain,
+        IInstallersContext installers)
     {
         _moduleLoggerProvider = moduleLoggerProvider;
         Http = http;
@@ -194,6 +194,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         Files = files;
         Data = data;
         _environmentDomain = environmentDomain;
+        Installers = installers;
     }
 
     public EngineCancellationToken EngineCancellationToken { get; }
