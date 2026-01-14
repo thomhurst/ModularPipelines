@@ -25,7 +25,7 @@ internal class CommandLogger : ICommandLogger
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
     public void Log(
-        CommandLineToolOptions options,
+        CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,
         string? inputToLog,
         int? exitCode,
@@ -57,7 +57,7 @@ internal class CommandLogger : ICommandLogger
         LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
     }
 
-    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandExecutionOptions? execOpts)
+    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions? options, CommandExecutionOptions? execOpts)
     {
         // Priority: execOpts property > pipeline default > system default
         if (execOpts?.LogSettings is not null)
