@@ -86,6 +86,26 @@ public static class ModuleRegistrationBuilderExtensions
     }
 
     /// <summary>
+    /// Adds a requirement instance to the pipeline.
+    /// </summary>
+    /// <param name="builder">The registration builder.</param>
+    /// <param name="requirement">The requirement instance to add.</param>
+    /// <returns>The pipeline's service collection.</returns>
+    /// <remarks>
+    /// This overload is useful with the <see cref="Require"/> factory class.
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// services.AddModule&lt;MyModule&gt;()
+    ///     .AddRequirement(Require.EnvironmentVariable("API_KEY"));
+    /// </code>
+    /// </example>
+    public static IServiceCollection AddRequirement(this IModuleRegistrationBuilder builder, IPipelineRequirement requirement)
+    {
+        return builder.Services.AddRequirement(requirement);
+    }
+
+    /// <summary>
     /// Adds a singleton service to the pipeline's service collection.
     /// </summary>
     /// <typeparam name="TService">The type of the service to add.</typeparam>
