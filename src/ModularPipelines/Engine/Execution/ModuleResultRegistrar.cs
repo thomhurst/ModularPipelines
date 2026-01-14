@@ -53,7 +53,7 @@ internal class ModuleResultRegistrar : IModuleResultRegistrar
 
             _logger.LogDebug(
                 "Registering PipelineTerminated result for cancelled module {ModuleName}",
-                MarkupFormatter.FormatModuleName(moduleType.Name));
+                moduleType.Name);
 
             RegisterTerminatedResult(module, moduleType, exception);
         }

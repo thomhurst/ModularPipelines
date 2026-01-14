@@ -32,7 +32,7 @@ internal class ParallelLimitHandler : IParallelLimitHandler
         {
             _logger.LogDebug(
                 "Module {ModuleName} acquiring parallel limit from {LimiterType}",
-                MarkupFormatter.FormatModuleName(moduleType.Name),
+                moduleType.Name,
                 parallelLimiterAttribute.Type.Name);
 
             // Use the attribute's GetLock method to avoid reflection on IParallelLimit
@@ -51,7 +51,7 @@ internal class ParallelLimitHandler : IParallelLimitHandler
         {
             _logger.LogDebug(
                 "Module {ModuleName} waiting for {ExecutionType} execution slot",
-                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                moduleState.ModuleType.Name,
                 moduleState.ExecutionType);
 
             return await executionTypeLock.WaitAsync().ConfigureAwait(false);

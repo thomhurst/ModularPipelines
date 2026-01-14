@@ -138,14 +138,12 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         // Check for original exception before logging cancellation reason
         if (_engineCancellationToken.OriginalException != null)
         {
-            _logger.LogInformation("{Header} {ExceptionType}",
-                MarkupFormatter.FormatColoredHeader("Pipeline Failed", "red"),
+            _logger.LogInformation("Pipeline Failed: {ExceptionType}",
                 _engineCancellationToken.OriginalException.GetType().Name);
         }
         else if (!string.IsNullOrEmpty(_engineCancellationToken.Reason))
         {
-            _logger.LogInformation("{Header} {Reason}",
-                MarkupFormatter.FormatColoredHeader("Cancellation", "yellow"),
+            _logger.LogInformation("Cancellation: {Reason}",
                 _engineCancellationToken.Reason);
         }
 

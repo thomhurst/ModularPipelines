@@ -76,12 +76,12 @@ internal class SchedulerStatusReporter : ISchedulerStatusReporter
         if (executing.Length > 0)
         {
             _logger.LogDebug("Executing modules: {Modules}",
-                string.Join(", ", executing.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
+                string.Join(", ", executing.Select(m => m.ModuleType.Name)));
         }
     }
 
     private static string FormatModuleWithDependencyCount(ModuleState m)
     {
-        return $"{MarkupFormatter.FormatModuleName(m.ModuleType.Name)} (deps: {m.UnresolvedDependencies.Count})";
+        return $"{m.ModuleType.Name} (deps: {m.UnresolvedDependencies.Count})";
     }
 }

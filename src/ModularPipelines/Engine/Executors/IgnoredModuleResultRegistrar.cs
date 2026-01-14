@@ -52,14 +52,14 @@ internal class IgnoredModuleResultRegistrar : IIgnoredModuleResultRegistrar
                     // Update the status to UsedHistory using the factory method
                     var usedHistoryResult = ModuleResultFactory.WithStatus(historicalResult, Status.UsedHistory);
                     _logger.LogDebug("Using historical result for ignored module {ModuleName}",
-                        MarkupFormatter.FormatModuleName(moduleType.Name));
+                        moduleType.Name);
                     _resultRegistry.RegisterResult(moduleType, usedHistoryResult);
                     continue;
                 }
             }
 
             _logger.LogDebug("Registering skipped result for ignored module {ModuleName}",
-                MarkupFormatter.FormatModuleName(moduleType.Name));
+                moduleType.Name);
 
             // Create execution context with Skipped status using compiled delegate factory
             var executionContext = ExecutionContextFactory.Create(module, moduleType);
