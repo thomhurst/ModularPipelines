@@ -6,6 +6,27 @@ using ModularPipelines.Models;
 
 namespace ModularPipelines.Requirements;
 
+/// <summary>
+/// A pipeline requirement that ensures the process is running with Windows Administrator privileges.
+/// </summary>
+/// <remarks>
+/// <para>
+/// Use this requirement when your pipeline needs elevated privileges on Windows,
+/// such as modifying system settings, installing software to protected directories,
+/// or managing Windows services.
+/// </para>
+/// <para>
+/// On non-Windows platforms, this requirement always passes.
+/// </para>
+/// <para><b>Example:</b></para>
+/// <code>
+/// await PipelineHostBuilder.Create()
+///     .AddRequirement&lt;WindowsAdminRequirement&gt;()
+///     .AddModule&lt;InstallServiceModule&gt;()
+///     .ExecutePipelineAsync();
+/// </code>
+/// </remarks>
+/// <seealso cref="WindowsRequirement"/>
 [ExcludeFromCodeCoverage]
 public class WindowsAdminRequirement : IPipelineRequirement
 {
