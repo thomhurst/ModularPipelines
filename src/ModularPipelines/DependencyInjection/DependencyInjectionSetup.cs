@@ -295,7 +295,10 @@ internal static class DependencyInjectionSetup
     private static void RegisterBuildSystemServices(IServiceCollection services)
     {
         services
-            .AddSingleton<ISecretProvider, SecretProvider>()
+            .Configure<SecretMaskingOptions>(_ => { })
+            .AddSingleton<SecretProvider>()
+            .AddSingleton<ISecretProvider>(sp => sp.GetRequiredService<SecretProvider>())
+            .AddSingleton<ISecretRegistry>(sp => sp.GetRequiredService<SecretProvider>())
             .AddSingleton<ISecretObfuscator, SecretObfuscator>()
             .AddSingleton<IBuildSystemSecretMasker, BuildSystemSecretMasker>()
             .AddSingleton<IBuildSystemDetector, BuildSystemDetector>()
