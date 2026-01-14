@@ -2,24 +2,99 @@ using System.Collections.Concurrent;
 using System.Linq.Expressions;
 using System.Reflection;
 using Initialization.Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine;
 
-internal class SecretProvider : ISecretProvider, IInitializer
+/// <summary>
+/// Provides secret discovery from IOptions objects and programmatic secret registration.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> This class is thread-safe. The <see cref="AddSecret"/> and
+/// <see cref="AddSecrets(IEnumerable{string})"/> methods can be called concurrently from multiple threads.
+/// </para>
+/// <para>
+/// <b>Secret Sources:</b>
+/// </para>
+/// <list type="bullet">
+/// <item>Properties marked with <see cref="SecretValueAttribute"/> on IOptions classes (discovered at initialization)</item>
+/// <item>Secrets registered programmatically via <see cref="ISecretRegistry"/> (can be added at any time)</item>
+/// </list>
+/// </remarks>
+/// <threadsafety static="true" instance="true"/>
+internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 {
     private static readonly ConcurrentDictionary<Type, PropertyInfo[]> SecretPropertiesCache = new();
     private static readonly ConcurrentDictionary<PropertyInfo, Func<object, object?>> PropertyGettersCache = new();
 
     private readonly IOptionsProvider _optionsProvider;
+    private readonly IBuildSystemSecretMasker _buildSystemSecretMasker;
+    private readonly IOptions<SecretMaskingOptions> _maskingOptions;
+    private readonly ConcurrentDictionary<string, byte> _secrets = new();
+    private readonly object _initLock = new();
 
-    private HashSet<string> _secrets = new();
+    private volatile bool _initialized;
 
-    public IEnumerable<string> Secrets => _secrets;
+    /// <summary>
+    /// Gets all registered secrets.
+    /// </summary>
+    /// <remarks>
+    /// <b>Thread Safety:</b> Enumeration returns a point-in-time snapshot of secrets.
+    /// Secrets added during enumeration will not be included in the current iteration.
+    /// Each enumeration creates a new snapshot.
+    /// </remarks>
+    public IEnumerable<string> Secrets => _secrets.Keys;
 
-    public SecretProvider(IOptionsProvider optionsProvider)
+    public SecretProvider(
+        IOptionsProvider optionsProvider,
+        IBuildSystemSecretMasker buildSystemSecretMasker,
+        IOptions<SecretMaskingOptions> maskingOptions)
     {
         _optionsProvider = optionsProvider;
+        _buildSystemSecretMasker = buildSystemSecretMasker;
+        _maskingOptions = maskingOptions;
+    }
+
+    /// <inheritdoc />
+    public void AddSecret(string? secret)
+    {
+        if (string.IsNullOrWhiteSpace(secret))
+        {
+            return;
+        }
+
+        var options = _maskingOptions.Value;
+
+        // Check minimum length requirement
+        if (secret.Length < options.MinimumSecretLength)
+        {
+            return;
+        }
+
+        // TryAdd returns false if already exists, providing thread-safe deduplication
+        if (_secrets.TryAdd(secret, 0))
+        {
+            // Register with build system for native masking (only for new secrets)
+            _buildSystemSecretMasker.MaskSecrets([secret]);
+        }
+    }
+
+    /// <inheritdoc />
+    public void AddSecrets(IEnumerable<string?> secrets)
+    {
+        foreach (var secret in secrets)
+        {
+            AddSecret(secret);
+        }
+    }
+
+    /// <inheritdoc />
+    public void AddSecrets(params string?[] secrets)
+    {
+        AddSecrets((IEnumerable<string?>)secrets);
     }
 
     public IEnumerable<string> GetSecretsInObject(object? value)
@@ -31,17 +106,55 @@ internal class SecretProvider : ISecretProvider, IInitializer
 
         var type = value.GetType();
         var secretProperties = SecretPropertiesCache.GetOrAdd(type, GetSecretProperties);
+        var options = _maskingOptions.Value;
 
         foreach (var property in secretProperties)
         {
             var getter = PropertyGettersCache.GetOrAdd(property, CreatePropertyGetter);
             var secret = getter(value)?.ToString();
 
-            if (!string.IsNullOrWhiteSpace(secret))
+            if (!string.IsNullOrWhiteSpace(secret) && secret.Length >= options.MinimumSecretLength)
             {
                 yield return secret;
             }
         }
+    }
+
+    public Task InitializeAsync()
+    {
+        // Use double-checked locking pattern for thread-safety
+        // The volatile read of _initialized before the lock provides a fast-path
+        // for subsequent calls after initialization is complete
+        if (_initialized)
+        {
+            return Task.CompletedTask;
+        }
+
+        lock (_initLock)
+        {
+            // Re-check inside lock to prevent race condition
+            if (_initialized)
+            {
+                return Task.CompletedTask;
+            }
+
+            var secretsFromOptions = GetSecrets(_optionsProvider.GetOptions()).ToList();
+
+            foreach (var secret in secretsFromOptions)
+            {
+                _secrets.TryAdd(secret, 0);
+            }
+
+            // Register all discovered secrets with build system in a single batch
+            if (secretsFromOptions.Count > 0)
+            {
+                _buildSystemSecretMasker.MaskSecrets(secretsFromOptions);
+            }
+
+            _initialized = true;
+        }
+
+        return Task.CompletedTask;
     }
 
     private static PropertyInfo[] GetSecretProperties(Type type)
@@ -62,24 +175,14 @@ internal class SecretProvider : ISecretProvider, IInitializer
         return lambda.Compile();
     }
 
-    public Task InitializeAsync()
-    {
-        _secrets = GetSecrets(_optionsProvider.GetOptions()).ToHashSet();
-        return Task.CompletedTask;
-    }
-
     private IEnumerable<string> GetSecrets(IEnumerable<object?> options)
     {
-        var secrets = new List<string>();
-
         foreach (var option in options)
         {
             foreach (var secret in GetSecretsInObject(option))
             {
-                secrets.Add(secret);
+                yield return secret;
             }
         }
-
-        return secrets;
     }
 }
