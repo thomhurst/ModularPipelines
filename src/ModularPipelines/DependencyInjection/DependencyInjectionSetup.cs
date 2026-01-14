@@ -120,9 +120,7 @@ internal static class DependencyInjectionSetup
                 var inner = sp.GetRequiredService<CommandLineExecutor>();
                 return new LoggingCommandLineExecutor(
                     inner,
-                    sp.GetRequiredService<IModuleLoggerProvider>(),
-                    sp.GetRequiredService<IOptions<PipelineOptions>>(),
-                    sp.GetRequiredService<ISecretObfuscator>());
+                    sp.GetRequiredService<ICommandLogger>());
             })
             .AddScoped<ICommandLogger, CommandLogger>()
             .AddScoped<ICertificates, Certificates>()

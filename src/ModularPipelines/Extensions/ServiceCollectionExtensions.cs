@@ -93,6 +93,26 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
+    /// Adds a requirement instance to the pipeline.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <param name="requirement">The requirement instance to add.</param>
+    /// <returns>The pipeline's same service collection.</returns>
+    /// <remarks>
+    /// This overload is useful with the <see cref="Require"/> factory class.
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// services.AddRequirement(Require.EnvironmentVariable("API_KEY"));
+    /// services.AddRequirement(Require.That(ctx => Environment.Is64BitProcess, "64-bit required"));
+    /// </code>
+    /// </example>
+    public static IServiceCollection AddRequirement(this IServiceCollection services, IPipelineRequirement requirement)
+    {
+        return services.AddSingleton(requirement);
+    }
+
+    /// <summary>
     /// Adds all modules from an assembly to the pipeline.
     /// </summary>
     /// <param name="services">The pipeline's service collection.</param>

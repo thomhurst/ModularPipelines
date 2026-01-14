@@ -26,6 +26,26 @@ public interface IBuildSystemContext
     bool IsJenkins { get; }
 
     /// <summary>
+    /// True if running on GitLab CI/CD.
+    /// </summary>
+    bool IsGitLab { get; }
+
+    /// <summary>
+    /// True if running on Bitbucket Pipelines.
+    /// </summary>
+    bool IsBitbucket { get; }
+
+    /// <summary>
+    /// True if running on Travis CI.
+    /// </summary>
+    bool IsTravisCI { get; }
+
+    /// <summary>
+    /// True if running on AppVeyor.
+    /// </summary>
+    bool IsAppVeyor { get; }
+
+    /// <summary>
     /// True if running on any CI/CD build server.
     /// </summary>
     bool IsBuildServer { get; }

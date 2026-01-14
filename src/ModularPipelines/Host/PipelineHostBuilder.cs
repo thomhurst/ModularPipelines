@@ -192,6 +192,33 @@ public class PipelineHostBuilder
     }
 
     /// <summary>
+    /// Adds a requirement instance to the pipeline.
+    /// </summary>
+    /// <param name="requirement">The requirement instance to add.</param>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <remarks>
+    /// This overload is useful with the <see cref="Require"/> factory class.
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .AddRequirement(Require.EnvironmentVariable("API_KEY"))
+    ///     .AddRequirement(Require.CIEnvironment())
+    ///     .AddModule&lt;DeployModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    public PipelineHostBuilder AddRequirement(IPipelineRequirement requirement)
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddRequirement(requirement);
+        });
+
+        return this;
+    }
+
+    /// <summary>
     /// Modules with the specified categories will be run, and any other categories ignored.
     /// </summary>
     /// <param name="categories">An array of any categories to be run.</param>

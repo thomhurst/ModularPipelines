@@ -22,14 +22,14 @@ internal class GitLabFormatter : IBuildSystemFormatter
     public string GetStartBlockCommand(string name)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var sectionId = SanitizeSectionId(name);
+        var sectionId = IdSanitizer.ToSectionId(name);
         return $"\x1b[0Ksection_start:{timestamp}:{sectionId}\r\x1b[0K{name}";
     }
 
     public string GetEndBlockCommand(string name)
     {
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var sectionId = SanitizeSectionId(name);
+        var sectionId = IdSanitizer.ToSectionId(name);
         return $"\x1b[0Ksection_end:{timestamp}:{sectionId}\r\x1b[0K";
     }
 
@@ -38,11 +38,5 @@ internal class GitLabFormatter : IBuildSystemFormatter
         // GitLab automatically masks variables marked as masked in CI/CD settings
         // There's no runtime command to mask arbitrary values
         return null;
-    }
-
-    private static string SanitizeSectionId(string name)
-    {
-        // Section IDs must be alphanumeric with underscores
-        return string.Concat(name.Where(c => char.IsLetterOrDigit(c) || c == '_')).ToLowerInvariant();
     }
 }

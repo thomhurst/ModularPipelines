@@ -25,7 +25,7 @@ internal class CommandLogger : ICommandLogger
     private ILogger Logger => _moduleLoggerProvider.GetLogger();
 
     public void Log(
-        CommandLineToolOptions options,
+        CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,
         string? inputToLog,
         int? exitCode,
@@ -57,7 +57,7 @@ internal class CommandLogger : ICommandLogger
         LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
     }
 
-    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions options, CommandExecutionOptions? execOpts)
+    private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions? options, CommandExecutionOptions? execOpts)
     {
         // Priority: execOpts property > pipeline default > system default
         if (execOpts?.LogSettings is not null)
@@ -147,7 +147,10 @@ internal class CommandLogger : ICommandLogger
         }
 
         var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(standardOutput, execOpts));
+        var outputToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardOutput)
+            : standardOutput;
+        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(outputToLog, execOpts));
     }
 
     private void LogError(CommandLoggingOptions options, CommandExecutionOptions? execOpts, int? exitCode, string standardError)
@@ -165,7 +168,10 @@ internal class CommandLogger : ICommandLogger
         }
 
         var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(standardError, execOpts));
+        var errorToLog = execOpts?.OutputLoggingManipulator is not null
+            ? execOpts.OutputLoggingManipulator(standardError)
+            : standardError;
+        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(errorToLog, execOpts));
     }
 
     private void LogWorkingDirectory(CommandLoggingOptions options, string workingDirectory)

@@ -20,13 +20,13 @@ internal class TravisCIFormatter : IBuildSystemFormatter
 {
     public string GetStartBlockCommand(string name)
     {
-        var foldId = SanitizeFoldId(name);
+        var foldId = IdSanitizer.ToSectionId(name);
         return $"travis_fold:start:{foldId}\r\x1b[33;1m{name}\x1b[0m";
     }
 
     public string GetEndBlockCommand(string name)
     {
-        var foldId = SanitizeFoldId(name);
+        var foldId = IdSanitizer.ToSectionId(name);
         return $"travis_fold:end:{foldId}";
     }
 
@@ -34,10 +34,5 @@ internal class TravisCIFormatter : IBuildSystemFormatter
     {
         // Travis CI automatically masks encrypted variables
         return null;
-    }
-
-    private static string SanitizeFoldId(string name)
-    {
-        return string.Concat(name.Where(c => char.IsLetterOrDigit(c) || c == '_')).ToLowerInvariant();
     }
 }
