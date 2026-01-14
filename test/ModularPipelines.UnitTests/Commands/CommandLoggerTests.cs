@@ -30,11 +30,11 @@ public class CommandLoggerTests : TestBase
 
         if (!logInput && !logOutput && !logError && !logDuration && !logExitCode)
         {
-            await Assert.That(logFile).DoesNotContain("INFO	[ModularPipelines.Logging.CommandLogger]");
+            await Assert.That(logFile).DoesNotContain("INFO	[ModularPipelines.Pipeline]");
             return;
         }
 
-        await Assert.That(logFile).Contains("INFO	[ModularPipelines.Logging.CommandLogger]");
+        await Assert.That(logFile).Contains("INFO	[ModularPipelines.Pipeline]");
 
         if (logInput)
         {
@@ -132,7 +132,7 @@ public class CommandLoggerTests : TestBase
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Silent });
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).DoesNotContain("[ModularPipelines.Logging.CommandLogger]");
+        await Assert.That(logFile).DoesNotContain("[ModularPipelines.Pipeline]");
     }
 
     [Test]

@@ -14,7 +14,9 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly IPipelineContextProvider _pipelineContextProvider;
 
-    public ModuleConditionHandler(IOptions<PipelineOptions> pipelineOptions, IPipelineContextProvider pipelineContextProvider)
+    public ModuleConditionHandler(
+        IOptions<PipelineOptions> pipelineOptions,
+        IPipelineContextProvider pipelineContextProvider)
     {
         _pipelineOptions = pipelineOptions;
         _pipelineContextProvider = pipelineContextProvider;

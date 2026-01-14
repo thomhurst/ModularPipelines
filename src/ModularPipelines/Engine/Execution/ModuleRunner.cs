@@ -84,7 +84,7 @@ internal class ModuleRunner : IModuleRunner
     {
         var module = moduleState.Module;
         var moduleType = moduleState.ModuleType;
-        var moduleName = MarkupFormatter.FormatModuleName(moduleType.Name);
+        var moduleName = moduleType.Name;
 
         // Create a scope to resolve scoped services like IModuleContext and ModuleLogger<T>
         var scope = _serviceProvider.CreateAsyncScope();
@@ -100,7 +100,7 @@ internal class ModuleRunner : IModuleRunner
                     return; // Module will be rescheduled by the scheduler
                 }
 
-                _logger.LogDebug("{Icon} Starting module {ModuleName}", MarkupFormatter.PlayIcon, moduleName);
+                _logger.LogDebug("Starting module {ModuleName}", moduleName);
 
                 if (!skipDependencyWait)
                 {

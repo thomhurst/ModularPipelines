@@ -204,15 +204,15 @@ internal class ModuleStateTracker : IModuleStateTracker
         _metricsCollector.RecordModuleCompleted(moduleType, completionTime, success, wasSkipped, status);
         _metricsCollector.RecordConcurrencySnapshot(executingCount, completionTime);
 
-        // Logging outside lock
+        // Logging outside lock - use plain text, not markup (markup causes double-escaping issues)
         _logger.LogDebug(
-            "Module {ModuleName} completed with lock keys: [{Keys}] (Active: Q={Queued}, E={Executing})",
-            MarkupFormatter.FormatModuleName(state.ModuleType.Name),
+            "Module {ModuleName} completed with lock keys: {Keys} (Active: Q={Queued}, E={Executing})",
+            state.ModuleType.Name,
             string.Join(", ", state.RequiredLockKeys),
             queuedCount,
             executingCount);
 
-        var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
+        var moduleName = state.ModuleType.Name;
 
         if (state.ExecutionStartTime.HasValue && state.CompletionTime.HasValue)
         {
@@ -268,7 +268,7 @@ internal class ModuleStateTracker : IModuleStateTracker
         {
             _logger.LogDebug(
                 "Cancelling pending module {ModuleName} (State={State})",
-                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                moduleState.ModuleType.Name,
                 originalState);
         }
     }
@@ -324,13 +324,11 @@ internal class ModuleStateTracker : IModuleStateTracker
             return;
         }
 
-        var moduleName = MarkupFormatter.FormatModuleName(state.ModuleType.Name);
-
         _logger.LogDebug(
             "Module {ModuleName} completion unblocks {Count} dependents: {Dependents}",
-            moduleName,
+            state.ModuleType.Name,
             updates.Count,
-            string.Join(", ", updates.Select(u => MarkupFormatter.FormatModuleName(u.Dependent.ModuleType.Name))));
+            string.Join(", ", updates.Select(u => u.Dependent.ModuleType.Name)));
 
         foreach (var (dependent, isReady) in updates)
         {
@@ -338,7 +336,7 @@ internal class ModuleStateTracker : IModuleStateTracker
             {
                 _logger.LogDebug(
                     "Dependent module {DependentName} now ready to execute (all dependencies met)",
-                    MarkupFormatter.FormatModuleName(dependent.ModuleType.Name));
+                    dependent.ModuleType.Name);
             }
         }
     }

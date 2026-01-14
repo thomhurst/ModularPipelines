@@ -81,8 +81,8 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
                 {
                     _logger.LogDebug(
                         "Module {ModuleName} BLOCKED - {OtherModule} has conflicting keys [{Keys}]",
-                        MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
-                        MarkupFormatter.FormatModuleName(other.ModuleType.Name),
+                        moduleState.ModuleType.Name,
+                        other.ModuleType.Name,
                         string.Join(", ", intersection));
                 }
 
@@ -104,7 +104,7 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
             {
                 _logger.LogDebug(
                     "Sequential module {ModuleName} blocked - {Count} modules already active",
-                    MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
+                    moduleState.ModuleType.Name,
                     otherActiveModules.Count);
             }
 
@@ -120,8 +120,8 @@ internal class ModuleConstraintEvaluator : IModuleConstraintEvaluator
                 {
                     _logger.LogDebug(
                         "Module {ModuleName} blocked by sequential module {SequentialModule}",
-                        MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name),
-                        MarkupFormatter.FormatModuleName(other.ModuleType.Name));
+                        moduleState.ModuleType.Name,
+                        other.ModuleType.Name);
                 }
 
                 return false;

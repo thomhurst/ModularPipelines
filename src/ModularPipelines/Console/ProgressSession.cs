@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
+using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -115,7 +116,7 @@ internal class ProgressSession : IProgressSession
     {
         foreach (var ignored in _modules.IgnoredModules)
         {
-            var name = ignored.Module.GetType().Name;
+            var name = SpectreMarkupEscaper.Escape(ignored.Module.GetType().Name);
             ctx.AddTask($"[yellow][[Ignored]] {name}[/]").StopTask();
         }
     }
@@ -130,7 +131,7 @@ internal class ProgressSession : IProgressSession
 
         lock (_progressLock)
         {
-            var name = state.ModuleType.Name;
+            var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
             var task = _progressContext.AddTask(name, autoStart: true);
             _moduleTasks[state.Module] = task;
 
@@ -156,7 +157,7 @@ internal class ProgressSession : IProgressSession
                 {
                     task.Increment(100 - task.Value);
 
-                    var name = state.ModuleType.Name;
+                    var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
                     task.Description = isSuccessful
                         ? $"[green]{name}[/]"
                         : $"[red][[Failed]] {name}[/]";
@@ -191,7 +192,7 @@ internal class ProgressSession : IProgressSession
 
         lock (_progressLock)
         {
-            var name = state.ModuleType.Name;
+            var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
 
             if (_moduleTasks.TryGetValue(state.Module, out var task))
             {
@@ -235,8 +236,9 @@ internal class ProgressSession : IProgressSession
                 return;
             }
 
+            var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
             var task = _progressContext.AddTaskAfter(
-                $"  - {subModule.Name}",
+                $"  - {subModuleName}",
                 new ProgressTaskSettings { AutoStart = true },
                 parentTask);
 
@@ -266,9 +268,10 @@ internal class ProgressSession : IProgressSession
                         task.Increment(100 - task.Value);
                     }
 
+                    var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
                     task.Description = isSuccessful
-                        ? $"[green]  - {subModule.Name}[/]"
-                        : $"[red][[Failed]]   - {subModule.Name}[/]";
+                        ? $"[green]  - {subModuleName}[/]"
+                        : $"[red][[Failed]]   - {subModuleName}[/]";
 
                     task.StopTask();
                 }

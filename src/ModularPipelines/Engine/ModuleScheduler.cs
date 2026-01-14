@@ -7,7 +7,6 @@ using ModularPipelines.Attributes;
 using ModularPipelines.Engine.Dependencies;
 using ModularPipelines.Engine.Scheduling;
 using ModularPipelines.Enums;
-using ModularPipelines.Helpers;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -133,14 +132,14 @@ internal class ModuleScheduler : IModuleScheduler
                     state.RequiresSequentialExecution = true;
                     _logger.LogDebug(
                         "Module {ModuleName} requires sequential execution (NotInParallel)",
-                        MarkupFormatter.FormatModuleName(moduleType.Name));
+                        moduleType.Name);
                 }
                 else
                 {
                     state.RequiredLockKeys = metadata.NotInParallelAttribute.ConstraintKeys;
                     _logger.LogDebug(
                         "Module {ModuleName} requires locks: {Keys}",
-                        MarkupFormatter.FormatModuleName(moduleType.Name),
+                        moduleType.Name,
                         string.Join(", ", state.RequiredLockKeys));
                 }
             }
@@ -151,7 +150,7 @@ internal class ModuleScheduler : IModuleScheduler
                 state.Priority = metadata.PriorityAttribute.Priority;
                 _logger.LogDebug(
                     "Module {ModuleName} has priority: {Priority}",
-                    MarkupFormatter.FormatModuleName(moduleType.Name),
+                    moduleType.Name,
                     state.Priority);
             }
 
@@ -161,7 +160,7 @@ internal class ModuleScheduler : IModuleScheduler
                 state.ExecutionType = metadata.ExecutionHintAttribute.ExecutionType;
                 _logger.LogDebug(
                     "Module {ModuleName} has execution type: {ExecutionType}",
-                    MarkupFormatter.FormatModuleName(moduleType.Name),
+                    moduleType.Name,
                     state.ExecutionType);
             }
 
@@ -184,8 +183,8 @@ internal class ModuleScheduler : IModuleScheduler
                 {
                     _logger.LogWarning(
                         "Module {ModuleName} depends on {DependencyName} which is not registered",
-                        MarkupFormatter.FormatModuleName(state.ModuleType.Name),
-                        MarkupFormatter.FormatModuleName(dependencyType.Name));
+                        state.ModuleType.Name,
+                        dependencyType.Name);
                 }
             }
         }
@@ -275,14 +274,14 @@ internal class ModuleScheduler : IModuleScheduler
             {
                 _logger.LogWarning(
                     "Dynamically added module {ModuleName} depends on {DependencyName} which is not registered",
-                    MarkupFormatter.FormatModuleName(moduleType.Name),
-                    MarkupFormatter.FormatModuleName(dependencyType.Name));
+                    moduleType.Name,
+                    dependencyType.Name);
             }
         }
 
         _logger.LogDebug(
             "Dynamically added module {ModuleName} with {DependencyCount} dependencies",
-            MarkupFormatter.FormatModuleName(moduleType.Name),
+            moduleType.Name,
             state.UnresolvedDependencies.Count);
 
         _schedulerNotification.Release();
@@ -589,7 +588,7 @@ internal class ModuleScheduler : IModuleScheduler
 
             _logger.LogDebug(
                 "Queued module {ModuleName} for execution",
-                MarkupFormatter.FormatModuleName(moduleState.ModuleType.Name));
+                moduleState.ModuleType.Name);
         }
     }
 
@@ -598,7 +597,7 @@ internal class ModuleScheduler : IModuleScheduler
         _logger.LogDebug(
             "Scheduler found {Count} ready modules: {Modules}",
             modulesToQueue.Count,
-            string.Join(", ", modulesToQueue.Select(m => MarkupFormatter.FormatModuleName(m.ModuleType.Name))));
+            string.Join(", ", modulesToQueue.Select(m => m.ModuleType.Name)));
     }
 
 }

@@ -170,6 +170,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         Dictionary<string, ModuleTimeline> timelineLookup)
     {
         var moduleName = module.GetType().Name;
+        var escapedModuleName = SpectreMarkupEscaper.Escape(moduleName);
         var hasTimeline = timelineLookup.TryGetValue(moduleName, out var timeline);
 
         var duration = hasTimeline && timeline!.ExecutionDuration.HasValue
@@ -193,10 +194,10 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ? $"[dim]{FormatTime(timeline.EndTime.Value, isSameDay)}[/]"
             : "[dim]-[/]";
 
-        // Color module name based on status
+        // Color module name based on status, using escaped name to prevent markup errors
         var moduleNameFormatted = hasTimeline
-            ? FormatModuleNameByStatus(moduleName, timeline!.Status)
-            : $"[cyan]{moduleName}[/]";
+            ? FormatModuleNameByStatus(escapedModuleName, timeline!.Status)
+            : $"[cyan]{escapedModuleName}[/]";
 
         table.AddRow(
             moduleNameFormatted,
