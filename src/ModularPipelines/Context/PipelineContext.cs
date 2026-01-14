@@ -51,6 +51,9 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
     /// <inheritdoc />
     public IServicesContext Services { get; }
 
+    /// <inheritdoc />
+    public ISummaryLogger Summary { get; }
+
     // Internal properties for IInternalPipelineContext
     public IDependencyCollisionDetector DependencyCollisionDetector { get; }
 
@@ -79,7 +82,8 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         IInstallersContext installers,
         INetworkContext network,
         ISecurityContext security,
-        IServicesContext services)
+        IServicesContext services,
+        ISummaryLogger summary)
     {
         _serviceProvider = serviceProvider;
         _moduleLoggerProvider = moduleLoggerProvider;
@@ -96,6 +100,7 @@ internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
         Network = network;
         Security = security;
         Services = services;
+        Summary = summary;
     }
 
     public TModule? GetModule<TModule>()

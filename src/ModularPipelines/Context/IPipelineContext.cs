@@ -20,6 +20,7 @@ namespace ModularPipelines.Context;
 /// <item><term>Network</term><description>HTTP and downloads</description></item>
 /// <item><term>Security</term><description>Certificates and hashing</description></item>
 /// <item><term>Services</term><description>DI and configuration</description></item>
+/// <item><term>Summary</term><description>Pipeline summary logging (displayed after completion)</description></item>
 /// </list>
 /// </remarks>
 public interface IPipelineContext
@@ -68,4 +69,28 @@ public interface IPipelineContext
     /// Dependency injection and configuration.
     /// </summary>
     IServicesContext Services { get; }
+
+    /// <summary>
+    /// Summary logger for messages displayed after pipeline completion.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Use <see cref="Summary"/> to log important information that should be prominently
+    /// displayed after all modules complete. This is ideal for:
+    /// </para>
+    /// <list type="bullet">
+    /// <item><description>Version numbers and build outputs</description></item>
+    /// <item><description>Important metrics and statistics</description></item>
+    /// <item><description>Deployment URLs and endpoints</description></item>
+    /// <item><description>Warnings that need visibility</description></item>
+    /// </list>
+    /// <para><b>Example usage:</b></para>
+    /// <code>
+    /// context.Summary.Info("Build completed");
+    /// context.Summary.KeyValue("Version", version);
+    /// context.Summary.Success("Artifacts", "Published to NuGet");
+    /// context.Summary.Warning("Some optional tests were skipped");
+    /// </code>
+    /// </remarks>
+    ISummaryLogger Summary { get; }
 }
