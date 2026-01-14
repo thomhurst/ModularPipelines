@@ -92,7 +92,7 @@ public class MockedFileSystemTests
     {
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var configFile = context.FileSystem.GetFile("/config/settings.json");
+            var configFile = context.Files.GetFile("/config/settings.json");
             return await configFile.ReadAsync(cancellationToken);
         }
     }
@@ -102,7 +102,7 @@ public class MockedFileSystemTests
     {
         public override async Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var outputFile = context.FileSystem.GetFile("/output/result.txt");
+            var outputFile = context.Files.GetFile("/output/result.txt");
             await outputFile.WriteAsync("Hello from module!", cancellationToken);
             return true;
         }
@@ -113,7 +113,7 @@ public class MockedFileSystemTests
     {
         public override Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var folder = context.FileSystem.GetFolder("/data/output");
+            var folder = context.Files.GetFolder("/data/output");
             folder.Create();
             return Task.FromResult<bool?>(true);
         }

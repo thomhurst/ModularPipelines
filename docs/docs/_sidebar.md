@@ -41,6 +41,7 @@
   - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
 
 - Migration
+  - [Migrating to v2 Context API](/how-to/migrating-to-v2-context "Migrating to v2 Context API")
   - [Migrating to v2 CommandLineToolOptions](/how-to/migrating-to-v2-options "Migrating to v2 CommandLineToolOptions")
 
 - Examples

@@ -8,7 +8,7 @@ public class SkipIfNoGitHubToken : MandatoryRunConditionAttribute
     /// <inheritdoc/>
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
-        var token = pipelineContext.Environment.EnvironmentVariables.GetEnvironmentVariable("GITHUB_TOKEN");
+        var token = pipelineContext.Environment.Variables.GetEnvironmentVariable("GITHUB_TOKEN");
 
         return Task.FromResult(!string.IsNullOrEmpty(token));
     }

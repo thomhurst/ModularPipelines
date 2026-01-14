@@ -15,7 +15,7 @@ public class CommandTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Command.ExecuteCommandLineTool(
+            return await context.Shell.Command.ExecuteCommandLineTool(
                 new GenericCommandLineToolOptions("pwsh")
                 {
                     Arguments = ["-Command", "echo 'Foo bar!'"],

@@ -1,9 +1,10 @@
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Powershell : IPowershell
+internal class Powershell : IPowershell, IPowerShellContext
 {
     private readonly ICommand _command;
 

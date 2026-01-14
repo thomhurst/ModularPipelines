@@ -1,8 +1,9 @@
 using System.Security.Cryptography.X509Certificates;
+using ModularPipelines.Context.Domains.Security;
 
 namespace ModularPipelines.Context;
 
-internal class Certificates : ICertificates
+internal class Certificates : ICertificates, ICertificatesContext
 {
     public X509Certificate2? GetCertificateBySubject(StoreLocation storeLocation, string subject)
     {

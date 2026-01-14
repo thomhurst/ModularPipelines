@@ -50,8 +50,8 @@ public static class DotNetExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The dotnet service.</returns>
-    public static IDotNet DotNet(this IPipelineHookContext context)
+    public static IDotNet DotNet(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IDotNet>();
+        return context.Services.Get<IDotNet>();
     }
 }

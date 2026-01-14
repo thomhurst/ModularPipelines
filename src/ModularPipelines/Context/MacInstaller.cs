@@ -1,9 +1,10 @@
+using ModularPipelines.Context.Domains.Installers;
 using ModularPipelines.Models;
 using ModularPipelines.Options.Mac;
 
 namespace ModularPipelines.Context;
 
-internal class MacInstaller : IMacInstaller
+internal class MacInstaller : IMacInstaller, IMacInstallerContext
 {
     private readonly ICommand _command;
 

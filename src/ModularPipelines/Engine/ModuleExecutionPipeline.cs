@@ -301,7 +301,7 @@ internal class ModuleExecutionPipeline : IModuleExecutionPipeline
         }
 
         // Check if default retry count is configured
-        var defaultRetryCount = moduleContext.PipelineOptions.Value.DefaultRetryCount;
+        var defaultRetryCount = moduleContext.Services.Options.DefaultRetryCount;
         if (defaultRetryCount > 0)
         {
             return Policy.Handle<Exception>()

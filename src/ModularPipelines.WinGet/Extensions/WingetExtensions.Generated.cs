@@ -41,8 +41,8 @@ public static class WingetExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The winget service.</returns>
-    public static IWinget Winget(this IPipelineHookContext context)
+    public static IWinget Winget(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IWinget>();
+        return context.Services.Get<IWinget>();
     }
 }

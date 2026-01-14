@@ -10,7 +10,7 @@ public class PrintEnvironmentVariablesModule : Module<IDictionary<string, object
 {
     public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.EnvironmentVariables.GetEnvironmentVariables(), DiagnosticSerializerOptions.Instance));
+        context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.Variables.GetEnvironmentVariables(), DiagnosticSerializerOptions.Instance));
 
         return Task.FromResult<IDictionary<string, object>?>(null);
     }

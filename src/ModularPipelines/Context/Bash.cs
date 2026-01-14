@@ -1,9 +1,10 @@
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
-internal class Bash : IBash
+internal class Bash : IBash, IBashContext
 {
     private readonly ICommand _command;
 

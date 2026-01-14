@@ -25,5 +25,5 @@ public static class TeamCityExtensions
         return services;
     }
 
-    public static ITeamCity TeamCity(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ITeamCity>();
+    public static ITeamCity TeamCity(this IPipelineContext context) => context.Services.Get<ITeamCity>();
 }

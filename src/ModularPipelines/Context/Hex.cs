@@ -1,8 +1,9 @@
 using System.Text;
+using ModularPipelines.Context.Domains.Data;
 
 namespace ModularPipelines.Context;
 
-internal class Hex : IHex
+internal class Hex : IHex, IHexContext
 {
     public string ToHex(string input, Encoding encoding)
     {

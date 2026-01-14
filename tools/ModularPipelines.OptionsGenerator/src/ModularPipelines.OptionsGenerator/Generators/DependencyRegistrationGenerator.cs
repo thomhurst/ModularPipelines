@@ -4,7 +4,7 @@ using ModularPipelines.OptionsGenerator.Models;
 namespace ModularPipelines.OptionsGenerator.Generators;
 
 /// <summary>
-/// Generates the DI registration extensions class.
+/// Generates the DI registration extensions class using C# 14 extension members.
 /// This follows the pattern of HelmExtensions, DockerExtensions, KubernetesExtensions in ModularPipelines.
 /// </summary>
 public class DependencyRegistrationGenerator : ICodeGenerator
@@ -52,7 +52,7 @@ public class DependencyRegistrationGenerator : ICodeGenerator
         var serviceName = tool.NamespacePrefix;
         var interfaceName = $"I{tool.NamespacePrefix}";
 
-        // Class documentation
+        // Class documentation for DI registration
         sb.AppendLine("/// <summary>");
         sb.AppendLine($"/// Generated extensions for registering {tool.ToolName} services.");
         sb.AppendLine("/// </summary>");
@@ -94,19 +94,21 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 
         sb.AppendLine("        return services;");
         sb.AppendLine("    }");
+
+        sb.AppendLine("}");
         sb.AppendLine();
 
-        // Context extension method
+        // C# 14 Extension member for context access (property syntax)
+        sb.AppendLine("/// <summary>");
+        sb.AppendLine($"/// C# 14 extension member providing property-style access to {tool.ToolName} service.");
+        sb.AppendLine("/// </summary>");
+        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
+        sb.AppendLine($"public implicit extension {className}ContextExtension for IPipelineContext");
+        sb.AppendLine("{");
         sb.AppendLine("    /// <summary>");
         sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context.");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
-        sb.AppendLine($"    /// <returns>The {tool.ToolName} service.</returns>");
-        sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineHookContext context)");
-        sb.AppendLine("    {");
-        sb.AppendLine($"        return context.ServiceProvider.GetRequiredService<{interfaceName}>();");
-        sb.AppendLine("    }");
-
+        sb.AppendLine($"    public {interfaceName} {serviceName} => this.Services.Get<{interfaceName}>();");
         sb.AppendLine("}");
 
         return sb.ToString();

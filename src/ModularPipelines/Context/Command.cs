@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using CliWrap;
 using CliWrap.Exceptions;
+using ModularPipelines.Context.Domains.Shell;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers.Internal;
 using ModularPipelines.Logging;
@@ -15,7 +16,7 @@ namespace ModularPipelines.Context;
 /// Orchestrates command-line tool execution by coordinating argument building,
 /// placeholder replacement, and command execution.
 /// </summary>
-internal sealed class Command : ICommand
+internal sealed class Command : ICommand, ICommandContext
 {
     private readonly ICommandLogger _commandLogger;
     private readonly ICommandModelProvider _commandModelProvider;

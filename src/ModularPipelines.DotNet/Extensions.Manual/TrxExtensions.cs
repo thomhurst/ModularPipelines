@@ -45,7 +45,7 @@ public static class TrxExtensions
     /// Gets the TRX (Test Results XML) parser service from the pipeline context.
     /// This provides access to parse and analyze .NET test result files.
     /// </summary>
-    /// <param name="context">The pipeline hook context.</param>
+    /// <param name="context">The pipeline context.</param>
     /// <returns>The <see cref="ITrx"/> service for parsing TRX test result files.</returns>
-    public static ITrx Trx(this IPipelineHookContext context) => context.ServiceProvider.GetRequiredService<ITrx>();
+    public static ITrx Trx(this IPipelineContext context) => context.Services.Get<ITrx>();
 }

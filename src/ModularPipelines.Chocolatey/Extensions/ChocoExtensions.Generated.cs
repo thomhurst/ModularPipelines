@@ -41,8 +41,8 @@ public static class ChocoExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The choco service.</returns>
-    public static IChoco Choco(this IPipelineHookContext context)
+    public static IChoco Choco(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IChoco>();
+        return context.Services.Get<IChoco>();
     }
 }

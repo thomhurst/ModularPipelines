@@ -1,12 +1,9 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
-using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
@@ -20,148 +17,95 @@ namespace ModularPipelines.Context;
 internal class PipelineContext : IPipelineHookContext, IInternalPipelineContext
 {
     private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     /// <summary>
     /// Cached logger instance for this context.
     /// </summary>
-    /// <remarks>
-    /// This caching is safe because PipelineContext is Scoped (one instance per module execution).
-    /// Each module gets a fresh PipelineContext, so the cached logger is inherently module-scoped.
-    /// </remarks>
     private IModuleLogger? _logger;
 
     /// <inheritdoc />
-    /// <remarks>
-    /// Logger is lazily initialized and cached for the lifetime of this context.
-    /// Since PipelineContext is Scoped, this provides a module-specific logger.
-    /// </remarks>
     public IModuleLogger Logger => _logger ??= _moduleLoggerProvider.GetLogger();
 
-    public IServiceProvider ServiceProvider { get; }
+    /// <inheritdoc />
+    public Domains.IShellContext Shell { get; }
 
-    public IConfiguration Configuration { get; }
+    /// <inheritdoc />
+    public IFilesContext Files { get; }
 
-    public IOptions<PipelineOptions> PipelineOptions { get; }
+    /// <inheritdoc />
+    public IDataContext Data { get; }
 
+    /// <inheritdoc />
+    public IEnvironmentDomainContext Environment { get; }
+
+    /// <inheritdoc />
+    public IInstallersContext Installers { get; }
+
+    /// <inheritdoc />
+    public INetworkContext Network { get; }
+
+    /// <inheritdoc />
+    public ISecurityContext Security { get; }
+
+    /// <inheritdoc />
+    public IServicesContext Services { get; }
+
+    // Internal properties for IInternalPipelineContext
     public IDependencyCollisionDetector DependencyCollisionDetector { get; }
-
-    public IEnvironmentContext Environment { get; }
-
-    public IHttp Http { get; }
-
-    public IDownloader Downloader { get; }
-
-    public IChecksum Checksum { get; }
-
-    public IHasher Hasher { get; }
-
-    public IJson Json { get; }
-
-    public IXml Xml { get; }
-
-    public IYaml Yaml { get; }
-
-    public IPowershell Powershell { get; }
-
-    public IBash Bash { get; }
-
-    public IBuildSystemDetector BuildSystemDetector { get; }
 
     public IModuleResultRepository ModuleResultRepository { get; }
 
-    public ICommand Command { get; }
-
-    public IInstaller Installer { get; }
-
-    public IZip Zip { get; }
-
-    public IHex Hex { get; }
-
-    public IBase64 Base64 { get; }
+    public EngineCancellationToken EngineCancellationToken { get; }
 
     public void InitializeLogger(Type getType)
     {
         _logger = _moduleLoggerProvider.GetLogger(getType);
     }
 
-    public T? Get<T>()
-    {
-        return ServiceProvider.GetService<T>();
-    }
-
-    public IFileSystemContext FileSystem { get; }
-
     /// <summary>
     /// Initializes a new instance of the <see cref="PipelineContext"/> class.
     /// </summary>
-    /// <remarks>
-    /// This constructor uses grouped context services (ISerializationContext, IEncodingContext, IShellContext)
-    /// to reduce parameter count from 22 to 15, improving maintainability while preserving the public API.
-    /// </remarks>
     public PipelineContext(
         IServiceProvider serviceProvider,
         IDependencyCollisionDetector dependencyCollisionDetector,
-        IEnvironmentContext environment,
-        IFileSystemContext fileSystem,
-        IConfiguration configuration,
-        IOptions<PipelineOptions> pipelineOptions,
         IModuleResultRepository moduleResultRepository,
-        IHttp http,
-        IDownloader downloader,
         IInternalModuleLoggerProvider moduleLoggerProvider,
-        IZip zip,
         EngineCancellationToken engineCancellationToken,
-        IInstaller installer,
-        IBuildSystemDetector buildSystemDetector,
-        ISerializationContext serializationContext,
-        IEncodingContext encodingContext,
-        IShellContext shellContext,
-        IChecksum checksum)
+        Domains.IShellContext shell,
+        IFilesContext files,
+        IDataContext data,
+        IEnvironmentDomainContext environment,
+        IInstallersContext installers,
+        INetworkContext network,
+        ISecurityContext security,
+        IServicesContext services)
     {
+        _serviceProvider = serviceProvider;
         _moduleLoggerProvider = moduleLoggerProvider;
-        Http = http;
-        Downloader = downloader;
-        Zip = zip;
-        EngineCancellationToken = engineCancellationToken;
-        Installer = installer;
-        BuildSystemDetector = buildSystemDetector;
-        ModuleResultRepository = moduleResultRepository;
-        Configuration = configuration;
-        PipelineOptions = pipelineOptions;
-        ServiceProvider = serviceProvider;
         DependencyCollisionDetector = dependencyCollisionDetector;
+        ModuleResultRepository = moduleResultRepository;
+        EngineCancellationToken = engineCancellationToken;
+
+        // Domain contexts (v2.0)
+        Shell = shell;
+        Files = files;
+        Data = data;
         Environment = environment;
-        FileSystem = fileSystem;
-
-        // Unpack serialization context
-        Json = serializationContext.Json;
-        Xml = serializationContext.Xml;
-        Yaml = serializationContext.Yaml;
-
-        // Unpack encoding context
-        Hex = encodingContext.Hex;
-        Base64 = encodingContext.Base64;
-        Hasher = encodingContext.Hasher;
-
-        // Checksum is part of file system operations (IPipelineFileSystem)
-        Checksum = checksum;
-
-        // Unpack shell context
-        Powershell = shellContext.Powershell;
-        Bash = shellContext.Bash;
-        Command = shellContext.Command;
+        Installers = installers;
+        Network = network;
+        Security = security;
+        Services = services;
     }
-
-    public EngineCancellationToken EngineCancellationToken { get; }
 
     public TModule? GetModule<TModule>()
         where TModule : class, IModule
     {
-        return ServiceProvider.GetServices<IModule>().OfType<TModule>().SingleOrDefault();
+        return _serviceProvider.GetServices<IModule>().OfType<TModule>().SingleOrDefault();
     }
 
     public IModule? GetModule(Type type)
     {
-        return ServiceProvider.GetServices<IModule>().SingleOrDefault(module => module.GetType() == type);
+        return _serviceProvider.GetServices<IModule>().SingleOrDefault(module => module.GetType() == type);
     }
 }

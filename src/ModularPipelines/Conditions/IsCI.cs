@@ -25,7 +25,7 @@ public sealed class IsCI : IRunCondition
     /// <inheritdoc />
     public Task<bool> EvaluateAsync(IPipelineHookContext context)
     {
-        var ciEnvVar = context.Environment.EnvironmentVariables.GetEnvironmentVariable("CI");
+        var ciEnvVar = context.Environment.Variables.GetEnvironmentVariable("CI");
         var isCI = !string.IsNullOrEmpty(ciEnvVar) &&
                    !string.Equals(ciEnvVar, "false", StringComparison.OrdinalIgnoreCase);
         return Task.FromResult(isCI);

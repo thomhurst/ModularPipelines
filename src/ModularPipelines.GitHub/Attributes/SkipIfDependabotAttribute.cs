@@ -8,7 +8,7 @@ public class SkipIfDependabotAttribute : MandatoryRunConditionAttribute
     /// <inheritdoc/>
     public override Task<bool> Condition(IPipelineHookContext pipelineContext)
     {
-        var isDependabot = pipelineContext.Get<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
+        var isDependabot = pipelineContext.Services.Get<IGitHubEnvironmentVariables>()?.Actor == "dependabot[bot]";
 
         return Task.FromResult(!isDependabot);
     }

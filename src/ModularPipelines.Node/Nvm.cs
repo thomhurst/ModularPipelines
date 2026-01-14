@@ -17,7 +17,7 @@ internal class Nvm : INvm
 
     public virtual Task<CommandResult> Use(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["use", version],
         }, null, cancellationToken);
@@ -25,7 +25,7 @@ internal class Nvm : INvm
 
     public virtual Task<CommandResult> Install(string version, CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["install", version],
         }, null, cancellationToken);
@@ -33,7 +33,7 @@ internal class Nvm : INvm
 
     public virtual Task<CommandResult> Version(CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["version"],
         }, null, cancellationToken);
@@ -41,7 +41,7 @@ internal class Nvm : INvm
 
     public virtual Task<CommandResult> Which(CancellationToken cancellationToken = default)
     {
-        return _context.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
+        return _context.Shell.Command.ExecuteCommandLineTool(new GenericCommandLineToolOptions("nvm")
         {
             Arguments = ["which"],
         }, null, cancellationToken);

@@ -1,8 +1,9 @@
 using System.Security.Cryptography;
+using ModularPipelines.Context.Domains.Files;
 
 namespace ModularPipelines.Context;
 
-internal class Checksum : IChecksum
+internal class Checksum : IChecksum, IChecksumContext
 {
     public string Md5(string filePath)
     {

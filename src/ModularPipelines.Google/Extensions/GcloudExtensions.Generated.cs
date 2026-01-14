@@ -162,8 +162,8 @@ public static class GcloudExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The gcloud service.</returns>
-    public static IGcloud Gcloud(this IPipelineHookContext context)
+    public static IGcloud Gcloud(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IGcloud>();
+        return context.Services.Get<IGcloud>();
     }
 }

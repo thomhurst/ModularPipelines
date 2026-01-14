@@ -12,7 +12,7 @@ public class PowershellTests : TestBase
     {
         public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            return await context.Powershell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
+            return await context.Shell.PowerShell.Script(new("Write-Host \"Foo bar!\""), cancellationToken: cancellationToken);
         }
     }
 

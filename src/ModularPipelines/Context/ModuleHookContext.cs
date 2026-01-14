@@ -1,13 +1,8 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using ModularPipelines.Engine;
+using ModularPipelines.Context.Domains;
 using ModularPipelines.Engine.Dependencies;
-using ModularPipelines.Helpers;
-using ModularPipelines.Http;
 using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
-using ModularPipelines.Options;
 
 namespace ModularPipelines.Context;
 
@@ -88,57 +83,34 @@ internal class ModuleHookContext : IModuleHookContext
 
     #endregion
 
-    #region IPipelineHookContext delegation
+    #region IPipelineContext delegation (domain-based)
 
-    // IPipelineServices
-    public IServiceProvider ServiceProvider => _pipelineContext.ServiceProvider;
-
-    public T? Get<T>() => _pipelineContext.Get<T>();
-
-    public IConfiguration Configuration => _pipelineContext.Configuration;
-
-    public IOptions<PipelineOptions> PipelineOptions => _pipelineContext.PipelineOptions;
-
-    // IPipelineLogging
+    /// <inheritdoc />
     public IModuleLogger Logger => _pipelineContext.Logger;
 
-    // IPipelineTools
-    public ICommand Command => _pipelineContext.Command;
+    /// <inheritdoc />
+    public Domains.IShellContext Shell => _pipelineContext.Shell;
 
-    public IPowershell Powershell => _pipelineContext.Powershell;
+    /// <inheritdoc />
+    public IFilesContext Files => _pipelineContext.Files;
 
-    public IBash Bash => _pipelineContext.Bash;
+    /// <inheritdoc />
+    public IDataContext Data => _pipelineContext.Data;
 
-    public IHttp Http => _pipelineContext.Http;
+    /// <inheritdoc />
+    public IEnvironmentDomainContext Environment => _pipelineContext.Environment;
 
-    public IDownloader Downloader => _pipelineContext.Downloader;
+    /// <inheritdoc />
+    public IInstallersContext Installers => _pipelineContext.Installers;
 
-    public IInstaller Installer => _pipelineContext.Installer;
+    /// <inheritdoc />
+    public INetworkContext Network => _pipelineContext.Network;
 
-    // IPipelineEncoding
-    public IJson Json => _pipelineContext.Json;
+    /// <inheritdoc />
+    public ISecurityContext Security => _pipelineContext.Security;
 
-    public IXml Xml => _pipelineContext.Xml;
-
-    public IYaml Yaml => _pipelineContext.Yaml;
-
-    public IHex Hex => _pipelineContext.Hex;
-
-    public IBase64 Base64 => _pipelineContext.Base64;
-
-    public IHasher Hasher => _pipelineContext.Hasher;
-
-    // IPipelineFileSystem
-    public IFileSystemContext FileSystem => _pipelineContext.FileSystem;
-
-    public IZip Zip => _pipelineContext.Zip;
-
-    public IChecksum Checksum => _pipelineContext.Checksum;
-
-    // IPipelineEnvironment
-    public IEnvironmentContext Environment => _pipelineContext.Environment;
-
-    public IBuildSystemDetector BuildSystemDetector => _pipelineContext.BuildSystemDetector;
+    /// <inheritdoc />
+    public IServicesContext Services => _pipelineContext.Services;
 
     #endregion
 }

@@ -23,7 +23,7 @@ public class EncodingTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Base64.ToBase64String(TestInput);
+            return context.Data.Base64.ToBase64String(TestInput);
         }
     }
 
@@ -32,7 +32,7 @@ public class EncodingTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Base64.FromBase64String("Rm9vIGJhciE=");
+            return context.Data.Base64.FromBase64String("Rm9vIGJhciE=");
         }
     }
 
@@ -41,7 +41,7 @@ public class EncodingTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Hex.ToHex(TestInput);
+            return context.Data.Hex.ToHex(TestInput);
         }
     }
 
@@ -50,7 +50,7 @@ public class EncodingTests : TestBase
         public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            return context.Hex.FromHex("466f6f2062617221");
+            return context.Data.Hex.FromHex("466f6f2062617221");
         }
     }
 

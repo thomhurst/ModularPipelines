@@ -48,8 +48,8 @@ public static class HelmExtensions
     /// </summary>
     /// <param name="context">The pipeline context.</param>
     /// <returns>The helm service.</returns>
-    public static IHelm Helm(this IPipelineHookContext context)
+    public static IHelm Helm(this IPipelineContext context)
     {
-        return context.ServiceProvider.GetRequiredService<IHelm>();
+        return context.Services.Get<IHelm>();
     }
 }

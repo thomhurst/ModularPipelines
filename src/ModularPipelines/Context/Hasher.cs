@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using ModularPipelines.Context.Domains.Security;
 
 namespace ModularPipelines.Context;
 
@@ -10,7 +11,7 @@ namespace ModularPipelines.Context;
 /// Uses the static HashData methods available in .NET 5+ which are thread-safe
 /// and don't require disposal, avoiding resource leaks.
 /// </remarks>
-internal class Hasher : IHasher
+internal class Hasher : IHasher, IHasherContext
 {
     private readonly IHex _hex;
     private readonly IBase64 _base64;

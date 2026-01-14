@@ -1,11 +1,12 @@
 using System.IO.Compression;
+using ModularPipelines.Context.Domains.Files;
 using ModularPipelines.FileSystem;
 using ModularPipelines.Helpers;
 using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Context;
 
-internal class Zip : IZip
+internal class Zip : IZip, IZipContext
 {
     private readonly IFileSystemProvider _fileSystemProvider;
 
