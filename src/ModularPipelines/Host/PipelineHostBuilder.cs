@@ -116,12 +116,205 @@ public class PipelineHostBuilder
     /// </summary>
     /// <typeparam name="TModule">The type of module.</typeparam>
     /// <returns>The same pipeline host builder.</returns>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .AddModule&lt;BuildModule&gt;()
+    ///     .AddModule&lt;TestModule&gt;()
+    ///     .AddModule&lt;DeployModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
     public PipelineHostBuilder AddModule<TModule>()
         where TModule : class, IModule
     {
         _internalHost.ConfigureServices((_, collection) =>
         {
             collection.AddModule<TModule>();
+        });
+
+        return this;
+    }
+
+    /// <summary>
+    /// Registers two modules to be added to the pipeline.
+    /// This is a convenience method to reduce boilerplate when registering multiple modules.
+    /// </summary>
+    /// <typeparam name="TModule1">The type of the first module.</typeparam>
+    /// <typeparam name="TModule2">The type of the second module.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .AddModules&lt;BuildModule, TestModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    public PipelineHostBuilder AddModules<TModule1, TModule2>()
+        where TModule1 : class, IModule
+        where TModule2 : class, IModule
+    {
+        return AddModule<TModule1>().AddModule<TModule2>();
+    }
+
+    /// <summary>
+    /// Registers three modules to be added to the pipeline.
+    /// This is a convenience method to reduce boilerplate when registering multiple modules.
+    /// </summary>
+    /// <typeparam name="TModule1">The type of the first module.</typeparam>
+    /// <typeparam name="TModule2">The type of the second module.</typeparam>
+    /// <typeparam name="TModule3">The type of the third module.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .AddModules&lt;BuildModule, TestModule, DeployModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    public PipelineHostBuilder AddModules<TModule1, TModule2, TModule3>()
+        where TModule1 : class, IModule
+        where TModule2 : class, IModule
+        where TModule3 : class, IModule
+    {
+        return AddModule<TModule1>().AddModule<TModule2>().AddModule<TModule3>();
+    }
+
+    /// <summary>
+    /// Registers four modules to be added to the pipeline.
+    /// This is a convenience method to reduce boilerplate when registering multiple modules.
+    /// </summary>
+    /// <typeparam name="TModule1">The type of the first module.</typeparam>
+    /// <typeparam name="TModule2">The type of the second module.</typeparam>
+    /// <typeparam name="TModule3">The type of the third module.</typeparam>
+    /// <typeparam name="TModule4">The type of the fourth module.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <example>
+    /// <code>
+    /// PipelineHostBuilder.Create()
+    ///     .AddModules&lt;BuildModule, TestModule, PackageModule, DeployModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    public PipelineHostBuilder AddModules<TModule1, TModule2, TModule3, TModule4>()
+        where TModule1 : class, IModule
+        where TModule2 : class, IModule
+        where TModule3 : class, IModule
+        where TModule4 : class, IModule
+    {
+        return AddModule<TModule1>().AddModule<TModule2>().AddModule<TModule3>().AddModule<TModule4>();
+    }
+
+    /// <summary>
+    /// Registers five modules to be added to the pipeline.
+    /// This is a convenience method to reduce boilerplate when registering multiple modules.
+    /// </summary>
+    /// <typeparam name="TModule1">The type of the first module.</typeparam>
+    /// <typeparam name="TModule2">The type of the second module.</typeparam>
+    /// <typeparam name="TModule3">The type of the third module.</typeparam>
+    /// <typeparam name="TModule4">The type of the fourth module.</typeparam>
+    /// <typeparam name="TModule5">The type of the fifth module.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    public PipelineHostBuilder AddModules<TModule1, TModule2, TModule3, TModule4, TModule5>()
+        where TModule1 : class, IModule
+        where TModule2 : class, IModule
+        where TModule3 : class, IModule
+        where TModule4 : class, IModule
+        where TModule5 : class, IModule
+    {
+        return AddModule<TModule1>().AddModule<TModule2>().AddModule<TModule3>().AddModule<TModule4>().AddModule<TModule5>();
+    }
+
+    /// <summary>
+    /// Registers six modules to be added to the pipeline.
+    /// This is a convenience method to reduce boilerplate when registering multiple modules.
+    /// </summary>
+    /// <typeparam name="TModule1">The type of the first module.</typeparam>
+    /// <typeparam name="TModule2">The type of the second module.</typeparam>
+    /// <typeparam name="TModule3">The type of the third module.</typeparam>
+    /// <typeparam name="TModule4">The type of the fourth module.</typeparam>
+    /// <typeparam name="TModule5">The type of the fifth module.</typeparam>
+    /// <typeparam name="TModule6">The type of the sixth module.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    public PipelineHostBuilder AddModules<TModule1, TModule2, TModule3, TModule4, TModule5, TModule6>()
+        where TModule1 : class, IModule
+        where TModule2 : class, IModule
+        where TModule3 : class, IModule
+        where TModule4 : class, IModule
+        where TModule5 : class, IModule
+        where TModule6 : class, IModule
+    {
+        return AddModule<TModule1>().AddModule<TModule2>().AddModule<TModule3>().AddModule<TModule4>().AddModule<TModule5>().AddModule<TModule6>();
+    }
+
+    /// <summary>
+    /// Registers all modules from the assembly containing the specified type.
+    /// This scans the assembly for all types that implement <see cref="IModule"/> and registers them.
+    /// </summary>
+    /// <typeparam name="T">Any type from the assembly to scan for modules.</typeparam>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method discovers and registers all concrete, non-abstract classes that implement <see cref="IModule"/>
+    /// from the assembly containing the specified type. This is useful for automatically registering all modules
+    /// without needing to explicitly list each one.
+    /// </para>
+    /// <para>
+    /// Circular dependencies are validated at registration time and will throw a
+    /// <see cref="Exceptions.CircularDependencyException"/> if detected.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// // Registers all modules from the assembly containing BuildModule
+    /// PipelineHostBuilder.Create()
+    ///     .AddModulesFromAssemblyContainingType&lt;BuildModule&gt;()
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
+    public PipelineHostBuilder AddModulesFromAssemblyContainingType<T>()
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddModulesFromAssemblyContainingType<T>();
+        });
+
+        return this;
+    }
+
+    /// <summary>
+    /// Registers all modules from the specified assembly.
+    /// This scans the assembly for all types that implement <see cref="IModule"/> and registers them.
+    /// </summary>
+    /// <param name="assembly">The assembly to scan for modules.</param>
+    /// <returns>The same pipeline host builder.</returns>
+    /// <remarks>
+    /// <para>
+    /// This method discovers and registers all concrete, non-abstract classes that implement <see cref="IModule"/>
+    /// from the specified assembly. This is useful for automatically registering all modules
+    /// without needing to explicitly list each one.
+    /// </para>
+    /// <para>
+    /// Circular dependencies are validated at registration time and will throw a
+    /// <see cref="Exceptions.CircularDependencyException"/> if detected.
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// // Registers all modules from a specific assembly
+    /// var modulesAssembly = typeof(BuildModule).Assembly;
+    /// PipelineHostBuilder.Create()
+    ///     .AddModulesFromAssembly(modulesAssembly)
+    ///     .ExecutePipelineAsync();
+    /// </code>
+    /// </example>
+    /// <exception cref="Exceptions.CircularDependencyException">Thrown when a circular dependency is detected among the modules.</exception>
+    public PipelineHostBuilder AddModulesFromAssembly(Assembly assembly)
+    {
+        _internalHost.ConfigureServices((_, collection) =>
+        {
+            collection.AddModulesFromAssembly(assembly);
         });
 
         return this;
