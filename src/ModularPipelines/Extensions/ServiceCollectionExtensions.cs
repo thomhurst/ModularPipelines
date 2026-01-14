@@ -216,6 +216,7 @@ public static class ServiceCollectionExtensions
             .Where(type => type.IsAssignableTo(typeof(IModule)))
             .Where(type => type.IsClass)
             .Where(type => !type.IsAbstract)
+            .Where(type => !type.IsGenericTypeDefinition) // Skip open generic types - DI cannot instantiate them
             .ToList();
 
         // Get already registered module types from the service collection
