@@ -36,8 +36,16 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
     private readonly ConcurrentDictionary<string, byte> _secrets = new();
     private readonly object _initLock = new();
 
-    private bool _initialized;
+    private volatile bool _initialized;
 
+    /// <summary>
+    /// Gets all registered secrets.
+    /// </summary>
+    /// <remarks>
+    /// <b>Thread Safety:</b> Enumeration returns a point-in-time snapshot of secrets.
+    /// Secrets added during enumeration will not be included in the current iteration.
+    /// Each enumeration creates a new snapshot.
+    /// </remarks>
     public IEnumerable<string> Secrets => _secrets.Keys;
 
     public SecretProvider(
@@ -114,17 +122,33 @@ internal class SecretProvider : ISecretProvider, ISecretRegistry, IInitializer
 
     public Task InitializeAsync()
     {
+        // Use double-checked locking pattern for thread-safety
+        // The volatile read of _initialized before the lock provides a fast-path
+        // for subsequent calls after initialization is complete
+        if (_initialized)
+        {
+            return Task.CompletedTask;
+        }
+
         lock (_initLock)
         {
+            // Re-check inside lock to prevent race condition
             if (_initialized)
             {
                 return Task.CompletedTask;
             }
 
-            var secretsFromOptions = GetSecrets(_optionsProvider.GetOptions());
+            var secretsFromOptions = GetSecrets(_optionsProvider.GetOptions()).ToList();
+
             foreach (var secret in secretsFromOptions)
             {
                 _secrets.TryAdd(secret, 0);
+            }
+
+            // Register all discovered secrets with build system in a single batch
+            if (secretsFromOptions.Count > 0)
+            {
+                _buildSystemSecretMasker.MaskSecrets(secretsFromOptions);
             }
 
             _initialized = true;

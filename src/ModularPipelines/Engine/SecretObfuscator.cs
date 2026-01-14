@@ -41,7 +41,10 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
 
     public Task InitializeAsync()
     {
-        _buildSystemSecretMasker.MaskSecrets(_secretProvider.Secrets);
+        // Build system masking is handled by SecretProvider:
+        // - Secrets from options are masked during SecretProvider.InitializeAsync()
+        // - Secrets added via AddSecret() are masked immediately when added
+        // This prevents duplicate masking calls to the build system
         return Task.CompletedTask;
     }
 
