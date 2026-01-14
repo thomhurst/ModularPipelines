@@ -5,12 +5,22 @@ namespace ModularPipelines.Logging;
 /// <summary>
 /// Provides functionality for logging command execution details.
 /// </summary>
+/// <remarks>
+/// <para>
+/// <b>Thread Safety:</b> Implementations must be thread-safe as logging may occur
+/// from multiple modules executing in parallel.
+/// </para>
+/// <para>
+/// <b>Secret Obfuscation:</b> All logged content is automatically obfuscated using
+/// <see cref="ModularPipelines.Engine.ISecretObfuscator"/> before being written to the logger.
+/// </para>
+/// </remarks>
 public interface ICommandLogger
 {
     /// <summary>
     /// Logs the details of a command execution.
     /// </summary>
-    /// <param name="options">The command line tool options used for execution.</param>
+    /// <param name="options">The command line tool options used for execution. Can be null for raw command line execution.</param>
     /// <param name="execOpts">The command execution options containing logging settings. Logging behavior is controlled via <see cref="CommandExecutionOptions.LogSettings"/>.</param>
     /// <param name="inputToLog">The input command to log.</param>
     /// <param name="exitCode">The exit code returned by the command.</param>
@@ -19,7 +29,7 @@ public interface ICommandLogger
     /// <param name="standardError">The standard error from the command.</param>
     /// <param name="commandWorkingDirPath">The working directory where the command was executed.</param>
     void Log(
-        CommandLineToolOptions options,
+        CommandLineToolOptions? options,
         CommandExecutionOptions? execOpts,
         string? inputToLog,
         int? exitCode,
