@@ -74,6 +74,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
         Dictionary<string, ModuleTimeline> timelineLookup)
     {
         var moduleName = module.GetType().Name;
+        var escapedModuleName = SpectreMarkupEscaper.Escape(moduleName);
         var hasTimeline = timelineLookup.TryGetValue(moduleName, out var timeline);
 
         var duration = hasTimeline && timeline!.ExecutionDuration.HasValue
@@ -98,7 +99,7 @@ internal class SpectreResultsPrinter : IResultsPrinter
             : "-";
 
         table.AddRow(
-            $"[cyan]{moduleName}[/]",
+            $"[cyan]{escapedModuleName}[/]",
             duration,
             status,
             start,

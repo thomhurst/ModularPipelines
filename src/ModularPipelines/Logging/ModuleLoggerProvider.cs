@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ModularPipelines.Logging;
 
@@ -16,16 +17,20 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IStackTraceModuleDetector _stackTraceDetector;
+    private readonly ILoggerFactory _loggerFactory;
     private readonly object _lock = new();
 
     private IModuleLogger? _moduleLogger;
+    private PipelineLevelLogger? _pipelineLevelLogger;
 
     public ModuleLoggerProvider(
         IServiceProvider serviceProvider,
-        IStackTraceModuleDetector stackTraceDetector)
+        IStackTraceModuleDetector stackTraceDetector,
+        ILoggerFactory loggerFactory)
     {
         _serviceProvider = serviceProvider;
         _stackTraceDetector = stackTraceDetector;
+        _loggerFactory = loggerFactory;
     }
 
     /// <summary>
@@ -65,7 +70,9 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
 
             if (detectedType == null)
             {
-                throw new InvalidOperationException("Could not detect module type from call stack.");
+                // No module context - return a pipeline-level logger that doesn't create a separate output section
+                // This handles logging during initialization (e.g., GitInformation), condition evaluation, etc.
+                return _pipelineLevelLogger ??= new PipelineLevelLogger(_loggerFactory.CreateLogger("ModularPipelines.Pipeline"));
             }
 
             return _moduleLogger = GetLogger(detectedType);

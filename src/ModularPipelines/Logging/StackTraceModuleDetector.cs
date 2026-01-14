@@ -107,7 +107,7 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             return moduleFromBase;
         }
 
-        // Strategy 3: Check if called from Logger property getter
+        // Strategy 3: Check if called from Logger property getter on a module
         var getLoggerFrame = stackFrames.FirstOrDefault(sf => sf.GetMethod()?.Name == "get_Logger");
 
         if (getLoggerFrame != null)
@@ -115,16 +115,13 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             var getLoggerFrameIndex = stackFrames.IndexOf(getLoggerFrame);
             var nextFrameIndex = getLoggerFrameIndex + 1;
 
-            if (nextFrameIndex >= stackFrames.Count)
-            {
-                // No frame after get_Logger, fall through to next strategy
-            }
-            else
+            if (nextFrameIndex < stackFrames.Count)
             {
                 var nextFrame = stackFrames[nextFrameIndex];
                 var type = nextFrame.GetMethod()?.ReflectedType;
 
-                if (type != null)
+                // Only return if this is actually a module type
+                if (type != null && IsModule(type))
                 {
                     if (cacheKey != null)
                     {
@@ -136,14 +133,14 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
             }
         }
 
-        // Strategy 4: Find calling class
-        var callingType = GetCallingClassType(stackFrames);
+        // No module found in call stack - return null
+        // Callers should handle this gracefully (e.g., use unattributed buffer)
         if (cacheKey != null)
         {
-            _typeCache.TryAdd(cacheKey, callingType);
+            _typeCache.TryAdd(cacheKey, null);
         }
 
-        return callingType;
+        return null;
     }
 
     private static string? GetCacheKey(List<StackFrame> stackFrames)
@@ -196,31 +193,6 @@ internal class StackTraceModuleDetector : IStackTraceModuleDetector
 
         return IsModuleCache.GetOrAdd(type, static t =>
             !t.IsAbstract && t.IsAssignableTo(typeof(IModule)));
-    }
-
-    private static Type GetCallingClassType(List<StackFrame> stackFrames)
-    {
-        // Try to find a calling class from the entry assembly first
-        var entryAssemblyFirstCallingClass = stackFrames
-            .Select(GetNonCompilerGeneratedType)
-            .OfType<Type>()
-            .Where(t => t != typeof(ModuleLoggerProvider))
-            .Where(t => t != typeof(StackTraceModuleDetector))
-            .Where(x => x.Assembly == EntryAssembly)
-            .FirstOrDefault(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
-
-        if (entryAssemblyFirstCallingClass != null)
-        {
-            return entryAssemblyFirstCallingClass;
-        }
-
-        // Fallback: any non-abstract, non-generic calling class
-        return stackFrames
-            .Select(GetNonCompilerGeneratedType)
-            .OfType<Type>()
-            .Where(t => t != typeof(ModuleLoggerProvider))
-            .Where(t => t != typeof(StackTraceModuleDetector))
-            .First(x => x is { IsAbstract: false, IsGenericTypeDefinition: false });
     }
 
     private static Type? GetNonCompilerGeneratedType(StackFrame stackFrame)

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Conditions;
 using ModularPipelines.Context;
+using ModularPipelines.Logging;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -13,11 +14,16 @@ internal class ModuleConditionHandler : IModuleConditionHandler
 {
     private readonly IOptions<PipelineOptions> _pipelineOptions;
     private readonly IPipelineContextProvider _pipelineContextProvider;
+    private readonly IInternalModuleLoggerProvider _moduleLoggerProvider;
 
-    public ModuleConditionHandler(IOptions<PipelineOptions> pipelineOptions, IPipelineContextProvider pipelineContextProvider)
+    public ModuleConditionHandler(
+        IOptions<PipelineOptions> pipelineOptions,
+        IPipelineContextProvider pipelineContextProvider,
+        IInternalModuleLoggerProvider moduleLoggerProvider)
     {
         _pipelineOptions = pipelineOptions;
         _pipelineContextProvider = pipelineContextProvider;
+        _moduleLoggerProvider = moduleLoggerProvider;
     }
 
     public async Task<(bool ShouldIgnore, SkipDecision? SkipDecision)> ShouldIgnore(IModule module, CancellationToken cancellationToken = default)
@@ -75,6 +81,11 @@ internal class ModuleConditionHandler : IModuleConditionHandler
     {
         // Get a context for condition evaluation
         var pipelineContext = _pipelineContextProvider.GetModuleContext();
+
+        // Set the module logger scope during condition evaluation
+        // This ensures any logging during condition checks is properly scoped to the module
+        var moduleLogger = _moduleLoggerProvider.GetLogger(moduleType);
+        await using var loggerScope = new ModuleLoggerScope(moduleLogger, moduleType);
 
         // First, evaluate new-style IConditionAttribute attributes
         var newStyleResult = await EvaluateNewStyleConditions(moduleType, pipelineContext, cancellationToken).ConfigureAwait(false);
