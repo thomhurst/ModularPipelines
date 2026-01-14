@@ -38,6 +38,12 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var table = CreateModulesTable(pipelineSummary);
         AnsiConsole.Write(table);
 
+        // Print failed module details if pipeline failed
+        if (pipelineSummary.Status == ModuleStatus.Failed)
+        {
+            PrintFailedModules(pipelineSummary);
+        }
+
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
 
@@ -295,4 +301,79 @@ internal class SpectreResultsPrinter : IResultsPrinter
             ? dateTimeOffset.ToTimeOnly().ToString("HH:mm:ss")
             : dateTimeOffset.ToString("MM/dd HH:mm:ss");
     }
+
+    private static void PrintFailedModules(PipelineSummary pipelineSummary)
+    {
+        var failedResults = pipelineSummary.GetFailedModuleResults();
+
+        if (failedResults.Count == 0)
+        {
+            return;
+        }
+
+        System.Console.WriteLine();
+        AnsiConsole.MarkupLine($"{MarkupFormatter.WarningIcon} [bold red]Failed Modules[/]");
+        System.Console.WriteLine();
+
+        foreach (var result in failedResults)
+        {
+            var exception = result.ExceptionOrDefault;
+            if (exception == null)
+            {
+                continue;
+            }
+
+            var escapedModuleName = SpectreMarkupEscaper.Escape(result.ModuleName);
+            AnsiConsole.MarkupLine($"  [red]\u2717[/] [bold]{escapedModuleName}[/]");
+
+            PrintException(exception, isInner: false);
+
+            // Print inner exceptions
+            var innerException = exception.InnerException;
+            while (innerException != null)
+            {
+                AnsiConsole.MarkupLine("    [dim]\u2500\u2500\u2500 Inner Exception \u2500\u2500\u2500[/]");
+                PrintException(innerException, isInner: true);
+                innerException = innerException.InnerException;
+            }
+
+            System.Console.WriteLine();
+        }
+    }
+
+    private static void PrintException(Exception exception, bool isInner)
+    {
+        var exceptionTypeName = exception.GetType().Name;
+        var escapedMessage = SpectreMarkupEscaper.Escape(exception.Message);
+
+        AnsiConsole.MarkupLine($"    [yellow]{exceptionTypeName}[/]: {escapedMessage}");
+
+        // Print first few stack frames if available
+        if (!string.IsNullOrEmpty(exception.StackTrace))
+        {
+            var stackLines = exception.StackTrace
+                .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+                .Take(MaxStackFrames)
+                .ToList();
+
+            foreach (var line in stackLines)
+            {
+                var trimmedLine = line.TrimStart();
+                var escapedLine = SpectreMarkupEscaper.Escape(trimmedLine);
+                AnsiConsole.MarkupLine($"      [dim]{escapedLine}[/]");
+            }
+
+            // Indicate if there are more frames
+            var totalFrames = exception.StackTrace
+                .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries)
+                .Length;
+
+            if (totalFrames > MaxStackFrames)
+            {
+                AnsiConsole.MarkupLine($"      [dim]... and {totalFrames - MaxStackFrames} more frames[/]");
+            }
+        }
+    }
+
+    private const int MaxStackFrames = 5;
 }
