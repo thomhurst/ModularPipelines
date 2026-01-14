@@ -82,5 +82,6 @@ internal class ModuleLoggerProvider : IInternalModuleLoggerProvider, IDisposable
     public void Dispose()
     {
         _moduleLogger?.Dispose();
+        _pipelineLevelLogger?.Dispose();
     }
 }

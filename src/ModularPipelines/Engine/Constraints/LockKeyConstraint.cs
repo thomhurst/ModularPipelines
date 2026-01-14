@@ -32,8 +32,8 @@ internal class LockKeyConstraint : IModuleConstraint
 
         logger.LogDebug(
             "Module {ModuleName} blocked by lock conflict with {ConflictingModule} on keys: {Keys}",
-            moduleState.Module.GetType(.Name),
-            conflictingModule.Module.GetType(.Name),
+            moduleState.Module.GetType().Name,
+            conflictingModule.Module.GetType().Name,
             conflictingKeys);
     }
 }

@@ -34,8 +34,8 @@ internal class SequentialExecutionConstraint : IModuleConstraint
         {
             logger.LogDebug(
                 "Module {ModuleName} blocked by sequential module {SequentialModule}",
-                moduleState.Module.GetType(.Name),
-                blockingModule.Module.GetType(.Name));
+                moduleState.Module.GetType().Name,
+                blockingModule.Module.GetType().Name);
             return;
         }
 
@@ -43,7 +43,7 @@ internal class SequentialExecutionConstraint : IModuleConstraint
         {
             logger.LogDebug(
                 "Sequential module {ModuleName} blocked - other modules still running/queued",
-                moduleState.Module.GetType(.Name));
+                moduleState.Module.GetType().Name);
         }
     }
 }
