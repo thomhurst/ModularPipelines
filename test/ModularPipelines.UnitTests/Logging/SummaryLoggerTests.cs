@@ -2,91 +2,15 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Context;
-using ModularPipelines.Extensions;
 using ModularPipelines.Logging;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 
 namespace ModularPipelines.UnitTests.Logging;
 
-public class AfterPipelineLoggerTests
+public class SummaryLoggerTests
 {
-    #region Legacy API Tests
-
-    private class LegacyAfterPipelineLoggingModule : Module<bool>
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            context.LogOnPipelineEnd("Blah!");
-            await Task.CompletedTask;
-            return true;
-        }
-#pragma warning restore CS0618
-    }
-
-    private class LegacyAfterPipelineLoggingWithExceptionModule : Module<bool>
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
-        {
-            context.LogOnPipelineEnd("Blah!");
-            await Task.CompletedTask;
-            throw new Exception();
-        }
-#pragma warning restore CS0618
-    }
-
-    [Test]
-    public async Task LegacyApi_LogsAfterPipeline()
-    {
-        var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
-            {
-                collection.AddSingleton(stringBuilder);
-                collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
-            })
-            .AddModule<LegacyAfterPipelineLoggingModule>()
-            .BuildHostAsync();
-
-        await host.ExecutePipelineAsync();
-
-        await host.DisposeAsync();
-
-        await Assert.That(stringBuilder.ToString().Trim()).EndsWith("Blah!");
-    }
-
-    [Test]
-    public async Task LegacyApi_LogsAfterPipelineWithException()
-    {
-        var stringBuilder = new StringBuilder();
-        var host = await TestPipelineHostBuilder.Create()
-            .ConfigureServices((_, collection) =>
-            {
-                collection.AddSingleton(stringBuilder);
-                collection.AddSingleton(typeof(ILogger<>), typeof(StringLogger<>));
-            })
-            .AddModule<LegacyAfterPipelineLoggingWithExceptionModule>()
-            .BuildHostAsync();
-
-        try
-        {
-            await host.ExecutePipelineAsync();
-        }
-        catch
-        {
-            // Ignored
-        }
-
-        await host.DisposeAsync();
-
-        await Assert.That(stringBuilder.ToString().Trim()).EndsWith("Blah!");
-    }
-
-    #endregion
-
-    #region New Summary API Tests
+    #region Summary API Tests
 
     private class SummaryInfoLoggingModule : Module<bool>
     {
@@ -163,7 +87,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummaryInfoLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         await Assert.That(stringBuilder.ToString()).Contains("Info message");
@@ -182,7 +106,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummarySuccessLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         await Assert.That(stringBuilder.ToString()).Contains("Success message");
@@ -201,7 +125,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummaryWarningLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         await Assert.That(stringBuilder.ToString()).Contains("Warning message");
@@ -220,7 +144,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummaryErrorLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         await Assert.That(stringBuilder.ToString()).Contains("Error message");
@@ -239,7 +163,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummaryKeyValueLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         await Assert.That(stringBuilder.ToString()).Contains("Version: 1.2.3");
@@ -258,7 +182,7 @@ public class AfterPipelineLoggerTests
             .AddModule<SummaryCategoryLoggingModule>()
             .BuildHostAsync();
 
-        await host.ExecutePipelineAsync();
+        await host.RunAsync();
         await host.DisposeAsync();
 
         var output = stringBuilder.ToString();
@@ -275,7 +199,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task GetEntries_ReturnsAllEntries()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Info("Message 1");
         logger.Success("Message 2");
@@ -289,7 +213,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task GetEntries_WithCategory_FiltersCorrectly()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Info("Build", "Build message");
         logger.Info("Deploy", "Deploy message");
@@ -305,7 +229,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task GetOutput_FormatsCorrectly()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Info("Info message");
         logger.Success("Success message");
@@ -323,7 +247,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task GetOutput_GroupsByCategory()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Info("Category1", "Message in Category1");
         logger.Info("Category2", "Message in Category2");
@@ -345,7 +269,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task Log_WithLevel_AddsCorrectEntry()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Log(SummaryLogLevel.Warning, "Test warning");
 
@@ -359,7 +283,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task Log_WithLevelAndCategory_AddsCorrectEntry()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
 
         logger.Log(SummaryLogLevel.Error, "TestCategory", "Test error");
 
@@ -378,7 +302,7 @@ public class AfterPipelineLoggerTests
     [Test]
     public async Task ConcurrentLogging_IsThreadSafe()
     {
-        var logger = new AfterPipelineLogger(new NullLogger<AfterPipelineLogger>());
+        var logger = new SummaryLogger(new NullLogger<SummaryLogger>());
         var tasks = new List<Task>();
         const int iterationsPerTask = 100;
         const int taskCount = 10;

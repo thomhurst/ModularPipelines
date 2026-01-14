@@ -11,11 +11,11 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
 {
     private const long MaxFileSizeInBytes = 1 * 1024 * 1024; // 1MB
 
-    private readonly IAfterPipelineLogger _afterPipelineLogger;
+    private readonly ISummaryLogger _summaryLogger;
 
-    public GitHubMarkdownSummaryGenerator(IAfterPipelineLogger afterPipelineLogger)
+    public GitHubMarkdownSummaryGenerator(ISummaryLogger summaryLogger)
     {
-        _afterPipelineLogger = afterPipelineLogger;
+        _summaryLogger = summaryLogger;
     }
 
     public Task OnStartAsync(IPipelineHookContext pipelineContext)
@@ -44,7 +44,7 @@ internal class GitHubMarkdownSummaryGenerator : IPipelineGlobalHooks
     {
         var fileInfo = pipelineContext.Files.GetFile(stepSummaryVariable);
         var currentFileSize = fileInfo.Exists ? fileInfo.Length : 0;
-        var contents = $"{mermaid}\n\n{table}\n\n{_afterPipelineLogger.GetOutput()}{exception}";
+        var contents = $"{mermaid}\n\n{table}\n\n{_summaryLogger.GetOutput()}{exception}";
         long newContentSize = Encoding.UTF8.GetByteCount(contents);
         var newSize = currentFileSize + newContentSize;
 

@@ -18,14 +18,14 @@ namespace ModularPipelines.Logging;
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
-internal class AfterPipelineLogger : IInternalAfterPipelineLogger
+internal class SummaryLogger : IInternalSummaryLogger
 {
-    private readonly ILogger<AfterPipelineLogger> _logger;
+    private readonly ILogger<SummaryLogger> _logger;
     private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
     private string? _cachedOutput;
 
-    public AfterPipelineLogger(ILogger<AfterPipelineLogger> logger)
+    public SummaryLogger(ILogger<SummaryLogger> logger)
     {
         _logger = logger;
     }
@@ -96,20 +96,7 @@ internal class AfterPipelineLogger : IInternalAfterPipelineLogger
         }
     }
 
-    /// <summary>
-    /// Adds a log message to be written after the pipeline completes.
-    /// </summary>
-#pragma warning disable CS0618 // Type or member is obsolete
-    public void LogOnPipelineEnd(string value)
-#pragma warning restore CS0618
-    {
-        // Treat legacy calls as information level with no category
-        AddEntry(SummaryLogLevel.Information, value, null);
-    }
-
-    /// <summary>
-    /// Gets all buffered log messages as a single string.
-    /// </summary>
+    /// <inheritdoc />
     public string GetOutput()
     {
         lock (_lock)
@@ -158,9 +145,7 @@ internal class AfterPipelineLogger : IInternalAfterPipelineLogger
         }
     }
 
-    /// <summary>
-    /// Writes all buffered log messages to the logger.
-    /// </summary>
+    /// <inheritdoc />
     public void WriteLogs()
     {
         List<SummaryLogEntry> entriesCopy;

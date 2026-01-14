@@ -38,7 +38,6 @@ namespace ModularPipelines.Logging;
 /// context.Summary.KeyValue("Commit", commitHash);
 /// </code>
 /// </remarks>
-/// <seealso cref="IAfterPipelineLogger"/>
 public interface ISummaryLogger
 {
     /// <summary>
@@ -139,4 +138,10 @@ public interface ISummaryLogger
     /// <param name="category">The category to filter by.</param>
     /// <returns>A read-only collection of log entries matching the category.</returns>
     IReadOnlyList<SummaryLogEntry> GetEntries(string category);
+
+    /// <summary>
+    /// Gets all buffered log messages as a single formatted string.
+    /// </summary>
+    /// <returns>A string containing all buffered messages, formatted with log levels and categories.</returns>
+    string GetOutput();
 }

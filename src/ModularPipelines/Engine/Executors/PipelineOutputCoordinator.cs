@@ -23,20 +23,20 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
 {
     private readonly IPrintProgressExecutor _printProgressExecutor;
     private readonly IConsolePrinter _consolePrinter;
-    private readonly IInternalAfterPipelineLogger _afterPipelineLogger;
+    private readonly IInternalSummaryLogger _summaryLogger;
     private readonly IExceptionBuffer _exceptionBuffer;
     private readonly IConsoleCoordinator _consoleCoordinator;
 
     public PipelineOutputCoordinator(
         IPrintProgressExecutor printProgressExecutor,
         IConsolePrinter consolePrinter,
-        IInternalAfterPipelineLogger afterPipelineLogger,
+        IInternalSummaryLogger summaryLogger,
         IExceptionBuffer exceptionBuffer,
         IConsoleCoordinator consoleCoordinator)
     {
         _printProgressExecutor = printProgressExecutor;
         _consolePrinter = consolePrinter;
-        _afterPipelineLogger = afterPipelineLogger;
+        _summaryLogger = summaryLogger;
         _exceptionBuffer = exceptionBuffer;
         _consoleCoordinator = consoleCoordinator;
     }
@@ -70,7 +70,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     /// <inheritdoc />
     public void WriteLogs()
     {
-        _afterPipelineLogger.WriteLogs();
+        _summaryLogger.WriteLogs();
     }
 
     private sealed class PipelineOutputScope : IPipelineOutputScope
