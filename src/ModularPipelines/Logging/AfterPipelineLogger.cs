@@ -21,26 +21,90 @@ namespace ModularPipelines.Logging;
 internal class AfterPipelineLogger : IInternalAfterPipelineLogger
 {
     private readonly ILogger<AfterPipelineLogger> _logger;
-    private readonly StringBuilder _stringBuilder = new();
-    private readonly List<string> _values = [];
+    private readonly List<SummaryLogEntry> _entries = [];
     private readonly object _lock = new();
-    private bool _isCacheValid;
+    private string? _cachedOutput;
 
     public AfterPipelineLogger(ILogger<AfterPipelineLogger> logger)
     {
         _logger = logger;
     }
 
-    /// <summary>
-    /// Adds a log message to be written after the pipeline completes.
-    /// </summary>
-    public void LogOnPipelineEnd(string value)
+    /// <inheritdoc />
+    public void Info(string message)
+        => AddEntry(SummaryLogLevel.Information, message, null);
+
+    /// <inheritdoc />
+    public void Info(string category, string message)
+        => AddEntry(SummaryLogLevel.Information, message, category);
+
+    /// <inheritdoc />
+    public void Success(string message)
+        => AddEntry(SummaryLogLevel.Success, message, null);
+
+    /// <inheritdoc />
+    public void Success(string category, string message)
+        => AddEntry(SummaryLogLevel.Success, message, category);
+
+    /// <inheritdoc />
+    public void Warning(string message)
+        => AddEntry(SummaryLogLevel.Warning, message, null);
+
+    /// <inheritdoc />
+    public void Warning(string category, string message)
+        => AddEntry(SummaryLogLevel.Warning, message, category);
+
+    /// <inheritdoc />
+    public void Error(string message)
+        => AddEntry(SummaryLogLevel.Error, message, null);
+
+    /// <inheritdoc />
+    public void Error(string category, string message)
+        => AddEntry(SummaryLogLevel.Error, message, category);
+
+    /// <inheritdoc />
+    public void KeyValue(string key, string value)
+        => AddEntry(SummaryLogLevel.Information, $"{key}: {value}", null);
+
+    /// <inheritdoc />
+    public void KeyValue(string category, string key, string value)
+        => AddEntry(SummaryLogLevel.Information, $"{key}: {value}", category);
+
+    /// <inheritdoc />
+    public void Log(SummaryLogLevel level, string message)
+        => AddEntry(level, message, null);
+
+    /// <inheritdoc />
+    public void Log(SummaryLogLevel level, string category, string message)
+        => AddEntry(level, message, category);
+
+    /// <inheritdoc />
+    public IReadOnlyList<SummaryLogEntry> GetEntries()
     {
         lock (_lock)
         {
-            _values.Add(value);
-            _isCacheValid = false;
+            return _entries.ToList();
         }
+    }
+
+    /// <inheritdoc />
+    public IReadOnlyList<SummaryLogEntry> GetEntries(string category)
+    {
+        lock (_lock)
+        {
+            return _entries.Where(e => e.Category == category).ToList();
+        }
+    }
+
+    /// <summary>
+    /// Adds a log message to be written after the pipeline completes.
+    /// </summary>
+#pragma warning disable CS0618 // Type or member is obsolete
+    public void LogOnPipelineEnd(string value)
+#pragma warning restore CS0618
+    {
+        // Treat legacy calls as information level with no category
+        AddEntry(SummaryLogLevel.Information, value, null);
     }
 
     /// <summary>
@@ -50,19 +114,47 @@ internal class AfterPipelineLogger : IInternalAfterPipelineLogger
     {
         lock (_lock)
         {
-            if (_isCacheValid)
+            if (_cachedOutput != null)
             {
-                return _stringBuilder.ToString();
+                return _cachedOutput;
             }
 
-            _stringBuilder.Clear();
-            foreach (var value in _values)
+            var sb = new StringBuilder();
+            string? currentCategory = null;
+
+            // Group entries by category for better organization
+            var groupedEntries = _entries
+                .GroupBy(e => e.Category ?? string.Empty)
+                .OrderBy(g => string.IsNullOrEmpty(g.Key) ? 1 : 0) // Categorized first
+                .ThenBy(g => g.Key);
+
+            foreach (var group in groupedEntries)
             {
-                _stringBuilder.AppendLine(value);
+                if (!string.IsNullOrEmpty(group.Key) && group.Key != currentCategory)
+                {
+                    if (currentCategory != null)
+                    {
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine($"[{group.Key}]");
+                    currentCategory = group.Key;
+                }
+
+                foreach (var entry in group)
+                {
+                    var prefix = entry.Level switch
+                    {
+                        SummaryLogLevel.Success => "[OK] ",
+                        SummaryLogLevel.Warning => "[WARN] ",
+                        SummaryLogLevel.Error => "[ERR] ",
+                        _ => string.Empty,
+                    };
+                    sb.AppendLine($"{prefix}{entry.Message}");
+                }
             }
 
-            _isCacheValid = true;
-            return _stringBuilder.ToString();
+            _cachedOutput = sb.ToString();
+            return _cachedOutput;
         }
     }
 
@@ -71,15 +163,36 @@ internal class AfterPipelineLogger : IInternalAfterPipelineLogger
     /// </summary>
     public void WriteLogs()
     {
-        List<string> valuesCopy;
+        List<SummaryLogEntry> entriesCopy;
         lock (_lock)
         {
-            valuesCopy = new List<string>(_values);
+            entriesCopy = new List<SummaryLogEntry>(_entries);
         }
 
-        foreach (var value in valuesCopy)
+        foreach (var entry in entriesCopy)
         {
-            _logger.LogInformation("{Value}", value);
+            var logLevel = entry.Level switch
+            {
+                SummaryLogLevel.Error => LogLevel.Error,
+                SummaryLogLevel.Warning => LogLevel.Warning,
+                SummaryLogLevel.Success => LogLevel.Information,
+                _ => LogLevel.Information,
+            };
+
+            var message = entry.Category != null
+                ? $"[{entry.Category}] {entry.Message}"
+                : entry.Message;
+
+            _logger.Log(logLevel, "{Value}", message);
+        }
+    }
+
+    private void AddEntry(SummaryLogLevel level, string message, string? category)
+    {
+        lock (_lock)
+        {
+            _entries.Add(SummaryLogEntry.Create(level, message, category));
+            _cachedOutput = null; // Invalidate cache
         }
     }
 }

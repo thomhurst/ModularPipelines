@@ -112,5 +112,8 @@ internal class ModuleHookContext : IModuleHookContext
     /// <inheritdoc />
     public IServicesContext Services => _pipelineContext.Services;
 
+    /// <inheritdoc />
+    public ISummaryLogger Summary => _pipelineContext.Summary;
+
     #endregion
 }

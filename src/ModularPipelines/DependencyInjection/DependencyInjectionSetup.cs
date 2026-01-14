@@ -190,6 +190,7 @@ internal static class DependencyInjectionSetup
             .AddSingleton<IConsolePrinter, ConsolePrinter>()
             .AddSingleton<AfterPipelineLogger>()
             .AddSingleton<IAfterPipelineLogger>(sp => sp.GetRequiredService<AfterPipelineLogger>())
+            .AddSingleton<ISummaryLogger>(sp => sp.GetRequiredService<AfterPipelineLogger>())
             .AddSingleton<IInternalAfterPipelineLogger>(sp => sp.GetRequiredService<AfterPipelineLogger>())
             .AddSingleton<IExceptionBuffer, ExceptionBuffer>()
             .AddSingleton<IPrimaryExceptionContainer, PrimaryExceptionContainer>()

@@ -14,14 +14,24 @@ public static class ContextExtensions
     /// <param name="pipelineContext">The pipeline context.</param>
     /// <param name="value">The message to log at the end of pipeline execution.</param>
     /// <remarks>
-    /// This is useful for logging summary information or final status messages
-    /// that should appear after all modules have completed.
+    /// <para>
+    /// This method is provided for backward compatibility. For new code, prefer using
+    /// <c>context.Summary.Info()</c>, <c>context.Summary.Success()</c>, or other typed methods.
+    /// </para>
+    /// <para><b>Example migration:</b></para>
+    /// <code>
+    /// // Old way (deprecated)
+    /// context.LogOnPipelineEnd($"Version: {version}");
+    ///
+    /// // New way (preferred)
+    /// context.Summary.KeyValue("Version", version);
+    /// // or
+    /// context.Summary.Info($"Version: {version}");
+    /// </code>
     /// </remarks>
+    [Obsolete("Use context.Summary.Info(), context.Summary.KeyValue(), or other ISummaryLogger methods instead. This method will be removed in a future version.")]
     public static void LogOnPipelineEnd(this IPipelineContext pipelineContext, string value)
     {
-        var afterPipelineLogger = pipelineContext.Services.Get<IAfterPipelineLogger>()
-            ?? throw new InvalidOperationException(
-                $"Service {nameof(IAfterPipelineLogger)} is not registered. Ensure the pipeline is properly configured.");
-        afterPipelineLogger.LogOnPipelineEnd(value);
+        pipelineContext.Summary.Info(value);
     }
 }
