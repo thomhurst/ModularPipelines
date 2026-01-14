@@ -17,7 +17,11 @@ namespace ModularPipelines.Engine;
 /// <b>Performance:</b> For optimal performance, secrets are sorted by length (longest first)
 /// to ensure longer secrets are masked before shorter ones that might be substrings.
 /// When case-insensitive matching is enabled, a single-pass algorithm using
-/// <see cref="StringComparison.OrdinalIgnoreCase"/> is used.
+/// <see cref="StringComparison.OrdinalIgnoreCase"/> is used. This approach uses .NET's
+/// highly optimized string search which performs well for typical log message sizes.
+/// For extremely large log outputs with many secrets, consider reducing the number of
+/// registered secrets or using case-sensitive matching which uses the more efficient
+/// <see cref="System.Text.StringBuilder.Replace(string, string)"/>.
 /// </para>
 /// </remarks>
 /// <threadsafety static="true" instance="true"/>
@@ -56,7 +60,8 @@ internal class SecretObfuscator : ISecretObfuscator, IInitializer
         }
 
         var options = _maskingOptions.Value;
-        var maskValue = options.MaskValue;
+        // Ensure mask value is never empty to avoid removing secrets without masking
+        var maskValue = string.IsNullOrWhiteSpace(options.MaskValue) ? "**********" : options.MaskValue;
         var caseInsensitive = options.CaseInsensitive;
 
         var secretsFromExtraObject = _secretProvider.GetSecretsInObject(optionsObject);

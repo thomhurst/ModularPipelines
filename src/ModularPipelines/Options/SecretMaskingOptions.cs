@@ -70,6 +70,10 @@ public record SecretMaskingOptions
     /// <summary>
     /// Gets or sets the string used to replace secret values in output.
     /// </summary>
+    /// <remarks>
+    /// If set to an empty or whitespace string, the default mask value ("**********") will be used
+    /// to prevent secrets from being removed without visible masking.
+    /// </remarks>
     /// <value>
     /// The mask string. Default is "**********".
     /// </value>
