@@ -133,6 +133,32 @@ public record PipelineSummary
         }).ProcessInParallel();
     }
 
+    /// <summary>
+    /// Gets the results of all failed modules.
+    /// Returns an empty list if no modules failed or if the result registry is not available.
+    /// </summary>
+    /// <returns>A list of failed module results with their exceptions.</returns>
+    public IReadOnlyList<IModuleResult> GetFailedModuleResults()
+    {
+        if (_resultRegistry == null)
+        {
+            return Array.Empty<IModuleResult>();
+        }
+
+        var failedResults = new List<IModuleResult>();
+
+        foreach (var module in Modules)
+        {
+            var result = _resultRegistry.GetResult(module.GetType());
+            if (result is { IsFailure: true })
+            {
+                failedResults.Add(result);
+            }
+        }
+
+        return failedResults;
+    }
+
     private Status GetStatus()
     {
         // Check if we have a result registry to get module statuses
