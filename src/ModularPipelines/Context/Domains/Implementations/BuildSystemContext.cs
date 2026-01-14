@@ -31,5 +31,17 @@ internal class BuildSystemContext : IBuildSystemContext
     public bool IsJenkins => _detector.IsRunningOnJenkins;
 
     /// <inheritdoc />
+    public bool IsGitLab => _detector.IsRunningOnGitLab;
+
+    /// <inheritdoc />
+    public bool IsBitbucket => _detector.IsRunningOnBitbucket;
+
+    /// <inheritdoc />
+    public bool IsTravisCI => _detector.IsRunningOnTravisCI;
+
+    /// <inheritdoc />
+    public bool IsAppVeyor => _detector.IsRunningOnAppVeyor;
+
+    /// <inheritdoc />
     public bool IsBuildServer => _detector.IsKnownBuildAgent;
 }
