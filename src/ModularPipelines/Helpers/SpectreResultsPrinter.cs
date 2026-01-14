@@ -4,6 +4,7 @@ using ModularPipelines.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Options;
 using Spectre.Console;
+using ModuleStatus = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.Helpers;
 
@@ -28,10 +29,14 @@ internal class SpectreResultsPrinter : IResultsPrinter
             return;
         }
 
-        var table = CreateModulesTable(pipelineSummary);
-
         System.Console.WriteLine();
-        AnsiConsole.Write(table.Expand());
+
+        // Print header with summary counts
+        PrintHeader(pipelineSummary);
+
+        // Create and print the main results table
+        var table = CreateModulesTable(pipelineSummary);
+        AnsiConsole.Write(table);
 
         // Print execution metrics if available
         PrintMetrics(pipelineSummary);
@@ -39,30 +44,121 @@ internal class SpectreResultsPrinter : IResultsPrinter
         System.Console.WriteLine();
     }
 
+    private static void PrintHeader(PipelineSummary pipelineSummary)
+    {
+        var metrics = pipelineSummary.Metrics;
+
+        // Build summary counts
+        var successCount = metrics?.SuccessfulModules ?? pipelineSummary.Modules.Count(m =>
+        {
+            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
+            return timeline?.WasSuccessful == true;
+        });
+
+        var failedCount = metrics?.FailedModules ?? pipelineSummary.Modules.Count(m =>
+        {
+            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
+            return timeline?.Status == ModuleStatus.Failed || timeline?.Status == ModuleStatus.TimedOut;
+        });
+
+        var skippedCount = metrics?.SkippedModules ?? pipelineSummary.Modules.Count(m =>
+        {
+            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
+            return timeline?.WasSkipped == true;
+        });
+
+        var totalCount = metrics?.TotalModules ?? pipelineSummary.Modules.Count;
+
+        // Build the summary line
+        var parts = new List<string>();
+
+        if (successCount > 0)
+        {
+            parts.Add($"[green]{successCount} passed[/]");
+        }
+
+        if (failedCount > 0)
+        {
+            parts.Add($"[red]{failedCount} failed[/]");
+        }
+
+        if (skippedCount > 0)
+        {
+            parts.Add($"[yellow]{skippedCount} skipped[/]");
+        }
+
+        var summaryLine = parts.Count > 0
+            ? string.Join("[dim] | [/]", parts)
+            : $"[dim]{totalCount} modules[/]";
+
+        // Create the header rule
+        var headerText = pipelineSummary.Status == ModuleStatus.Successful
+            ? "[bold green]Pipeline Completed Successfully[/]"
+            : pipelineSummary.Status == ModuleStatus.Failed
+                ? "[bold red]Pipeline Failed[/]"
+                : $"[bold]Pipeline {pipelineSummary.Status}[/]";
+
+        AnsiConsole.MarkupLine(headerText);
+        AnsiConsole.MarkupLine($"[dim]Duration:[/] [bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]  {summaryLine}");
+        System.Console.WriteLine();
+    }
+
     private static Table CreateModulesTable(PipelineSummary pipelineSummary)
     {
         var table = new Table
         {
+            Border = TableBorder.Rounded,
             Expand = true,
         };
 
-        table.AddColumn("Module");
-        table.AddColumn("Duration");
-        table.AddColumn("Status");
-        table.AddColumn("Start");
-        table.AddColumn("End");
+        // Add columns with alignment
+        table.AddColumn(new TableColumn("[bold]Module[/]").LeftAligned());
+        table.AddColumn(new TableColumn("[bold]Status[/]").Centered());
+        table.AddColumn(new TableColumn("[bold]Duration[/]").RightAligned());
+        table.AddColumn(new TableColumn("[bold]Start[/]").RightAligned());
+        table.AddColumn(new TableColumn("[bold]End[/]").RightAligned());
 
         // Create a lookup for module timelines by module name
         var timelineLookup = pipelineSummary.ModuleTimelines?
             .ToDictionary(t => t.ModuleName, t => t)
             ?? new Dictionary<string, ModuleTimeline>();
 
-        foreach (var module in pipelineSummary.Modules)
+        // Sort modules: Failed first, then Skipped, then by start time
+        var sortedModules = pipelineSummary.Modules
+            .OrderBy(m =>
+            {
+                var name = m.GetType().Name;
+                if (timelineLookup.TryGetValue(name, out var timeline))
+                {
+                    return timeline.Status switch
+                    {
+                        ModuleStatus.Failed => 0,
+                        ModuleStatus.TimedOut => 0,
+                        ModuleStatus.PipelineTerminated => 0,
+                        ModuleStatus.IgnoredFailure => 1,
+                        ModuleStatus.Skipped => 2,
+                        _ => 3
+                    };
+                }
+
+                return 3;
+            })
+            .ThenBy(m =>
+            {
+                var name = m.GetType().Name;
+                return timelineLookup.TryGetValue(name, out var timeline)
+                    ? timeline.StartTime ?? DateTimeOffset.MaxValue
+                    : DateTimeOffset.MaxValue;
+            })
+            .ToList();
+
+        foreach (var module in sortedModules)
         {
             AddModuleRow(table, module, timelineLookup);
-            table.AddEmptyRow();
         }
 
+        // Add separator and total row
+        table.AddEmptyRow();
         AddTotalRow(table, pipelineSummary);
 
         return table;
@@ -77,12 +173,12 @@ internal class SpectreResultsPrinter : IResultsPrinter
         var hasTimeline = timelineLookup.TryGetValue(moduleName, out var timeline);
 
         var duration = hasTimeline && timeline!.ExecutionDuration.HasValue
-            ? timeline.ExecutionDuration.Value.ToDisplayString()
-            : "-";
+            ? $"[dim]{timeline.ExecutionDuration.Value.ToDisplayString()}[/]"
+            : "[dim]-[/]";
 
         var status = hasTimeline
-            ? timeline!.Status.ToDisplayString()
-            : "-";
+            ? FormatStatusWithIcon(timeline!.Status)
+            : "[dim]-[/]";
 
         var isSameDay = hasTimeline
             && timeline!.StartTime.HasValue
@@ -90,31 +186,76 @@ internal class SpectreResultsPrinter : IResultsPrinter
             && timeline.StartTime.Value.Date == timeline.EndTime.Value.Date;
 
         var start = hasTimeline && timeline!.StartTime.HasValue
-            ? FormatTime(timeline.StartTime.Value, isSameDay)
-            : "-";
+            ? $"[dim]{FormatTime(timeline.StartTime.Value, isSameDay)}[/]"
+            : "[dim]-[/]";
 
         var end = hasTimeline && timeline!.EndTime.HasValue
-            ? FormatTime(timeline.EndTime.Value, isSameDay)
-            : "-";
+            ? $"[dim]{FormatTime(timeline.EndTime.Value, isSameDay)}[/]"
+            : "[dim]-[/]";
+
+        // Color module name based on status
+        var moduleNameFormatted = hasTimeline
+            ? FormatModuleNameByStatus(moduleName, timeline!.Status)
+            : $"[cyan]{moduleName}[/]";
 
         table.AddRow(
-            $"[cyan]{moduleName}[/]",
-            duration,
+            moduleNameFormatted,
             status,
+            duration,
             start,
             end);
+    }
+
+    private static string FormatModuleNameByStatus(string moduleName, ModuleStatus status)
+    {
+        return status switch
+        {
+            ModuleStatus.Failed => $"[red]{moduleName}[/]",
+            ModuleStatus.TimedOut => $"[red]{moduleName}[/]",
+            ModuleStatus.PipelineTerminated => $"[red]{moduleName}[/]",
+            ModuleStatus.IgnoredFailure => $"[yellow]{moduleName}[/]",
+            ModuleStatus.Skipped => $"[dim]{moduleName}[/]",
+            ModuleStatus.Successful => $"[green]{moduleName}[/]",
+            ModuleStatus.UsedHistory => $"[green3]{moduleName}[/]",
+            _ => $"[cyan]{moduleName}[/]"
+        };
+    }
+
+    private static string FormatStatusWithIcon(ModuleStatus status)
+    {
+        return status switch
+        {
+            ModuleStatus.Successful => "[green]Passed[/]",
+            ModuleStatus.Failed => "[red]Failed[/]",
+            ModuleStatus.TimedOut => "[red]Timeout[/]",
+            ModuleStatus.PipelineTerminated => "[red]Terminated[/]",
+            ModuleStatus.IgnoredFailure => "[yellow]Ignored[/]",
+            ModuleStatus.Skipped => "[yellow]Skipped[/]",
+            ModuleStatus.UsedHistory => "[green3]Cached[/]",
+            ModuleStatus.Retried => "[yellow]Retried[/]",
+            ModuleStatus.Processing => "[blue]Running[/]",
+            ModuleStatus.NotYetStarted => "[dim]Pending[/]",
+            ModuleStatus.Unknown => "[dim]Unknown[/]",
+            _ => "[dim]-[/]"
+        };
     }
 
     private static void AddTotalRow(Table table, PipelineSummary pipelineSummary)
     {
         var isSameDayTotal = pipelineSummary.Start.Date == pipelineSummary.End.Date;
 
+        var statusFormatted = pipelineSummary.Status == ModuleStatus.Successful
+            ? "[bold green]Passed[/]"
+            : pipelineSummary.Status == ModuleStatus.Failed
+                ? "[bold red]Failed[/]"
+                : $"[bold]{pipelineSummary.Status}[/]";
+
         table.AddRow(
-            "Total",
-            pipelineSummary.TotalDuration.ToDisplayString(),
-            pipelineSummary.Status.ToDisplayString(),
-            FormatTime(pipelineSummary.Start, isSameDayTotal),
-            FormatTime(pipelineSummary.End, isSameDayTotal));
+            "[bold]Total[/]",
+            statusFormatted,
+            $"[bold]{pipelineSummary.TotalDuration.ToDisplayString()}[/]",
+            $"[dim]{FormatTime(pipelineSummary.Start, isSameDayTotal)}[/]",
+            $"[dim]{FormatTime(pipelineSummary.End, isSameDayTotal)}[/]");
     }
 
     private static void PrintMetrics(PipelineSummary pipelineSummary)
@@ -126,36 +267,31 @@ internal class SpectreResultsPrinter : IResultsPrinter
         }
 
         System.Console.WriteLine();
-        AnsiConsole.MarkupLine("[bold underline]Execution Metrics[/]");
 
-        var metricsTable = new Table
+        // Create a compact metrics display
+        var metricsPanel = new Panel(
+            new Markup(
+                $"[dim]Parallelism:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
+                $"[dim]Peak:[/] [bold]{metrics.PeakConcurrency}[/]  " +
+                $"[dim]Efficiency:[/] [bold]{metrics.Efficiency * 100:F0}%[/]  " +
+                $"[dim]Saved:[/] [bold]{(metrics.TotalModuleExecutionTime - metrics.WallClockDuration).ToDisplayString()}[/]"))
         {
-            Border = TableBorder.Rounded,
-            ShowHeaders = false,
+            Border = BoxBorder.None,
+            Padding = new Padding(0, 0, 0, 0),
         };
 
-        metricsTable.AddColumn("Metric");
-        metricsTable.AddColumn("Value");
-
-        metricsTable.AddRow("[cyan]Parallelism Factor[/]", $"[bold]{metrics.ParallelismFactor:F2}x[/]");
-        metricsTable.AddRow("[cyan]Peak Concurrency[/]", $"[bold]{metrics.PeakConcurrency}[/] modules");
-        metricsTable.AddRow("[cyan]Avg Concurrency[/]", $"[bold]{metrics.AverageConcurrency:F2}[/] modules");
-        metricsTable.AddRow("[cyan]Efficiency[/]", $"[bold]{metrics.Efficiency * 100:F0}%[/]");
-        metricsTable.AddRow("[cyan]Sequential Time[/]", $"[dim]{metrics.TotalModuleExecutionTime.ToDisplayString()}[/]");
-        metricsTable.AddRow("[cyan]Wall-Clock Time[/]", $"[dim]{metrics.WallClockDuration.ToDisplayString()}[/]");
-
-        AnsiConsole.Write(metricsTable);
+        AnsiConsole.Write(metricsPanel);
     }
 
     private static string FormatTime(DateTimeOffset dateTimeOffset, bool isSameDay)
     {
         if (dateTimeOffset == DateTimeOffset.MinValue)
         {
-            return string.Empty;
+            return "-";
         }
 
         return isSameDay
-            ? dateTimeOffset.ToTimeOnly().ToString("h:mm:ss tt")
-            : dateTimeOffset.ToString("yyyy/MM/dd h:mm:ss tt");
+            ? dateTimeOffset.ToTimeOnly().ToString("HH:mm:ss")
+            : dateTimeOffset.ToString("MM/dd HH:mm:ss");
     }
 }
