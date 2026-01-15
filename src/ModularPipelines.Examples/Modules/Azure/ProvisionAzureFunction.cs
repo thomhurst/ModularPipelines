@@ -18,7 +18,7 @@ namespace ModularPipelines.Examples.Modules.Azure;
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
     /// <inheritdoc/>
-    public override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentity = context.GetModule<ProvisionUserAssignedIdentityModule, UserAssignedIdentityResource>();
 
