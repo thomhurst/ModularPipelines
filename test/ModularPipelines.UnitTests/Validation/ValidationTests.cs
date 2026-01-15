@@ -1,6 +1,6 @@
 using ModularPipelines.Context;
 using ModularPipelines.Exceptions;
-using ModularPipelines.Host;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
 using ModularPipelines.Attributes;
@@ -80,9 +80,8 @@ public class ValidationTests
     public async Task ValidateAsync_WithValidConfiguration_ReturnsNoErrors()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SimpleModule>()
-            .AddModule<AnotherModule>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>().AddModule<AnotherModule>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -97,7 +96,7 @@ public class ValidationTests
     public async Task ValidateAsync_WithNoModules_ReturnsError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create();
+        var builder = Pipeline.CreateBuilder();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -108,28 +107,28 @@ public class ValidationTests
     }
 
     [Test]
-    public async Task BuildAsync_WithValidConfiguration_ReturnsHost()
+    public async Task BuildAsync_WithValidConfiguration_ReturnsPipeline()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SimpleModule>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
 
         // Act
-        var host = await builder.BuildAsync();
+        var pipeline = await builder.BuildAsync();
 
         // Assert
-        await Assert.That(host).IsNotNull();
-        await Assert.That(host.Services).IsNotNull();
+        await Assert.That(pipeline).IsNotNull();
+        await Assert.That(pipeline.Services).IsNotNull();
 
         // Cleanup
-        await host.DisposeAsync();
+        await pipeline.DisposeAsync();
     }
 
     [Test]
     public async Task BuildAsync_WithNoModules_ThrowsValidationException()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create();
+        var builder = Pipeline.CreateBuilder();
 
         // Act & Assert
         await Assert.ThrowsAsync<PipelineValidationException>(async () =>
@@ -142,8 +141,8 @@ public class ValidationTests
     public async Task ValidateAsync_WithMissingDependency_ReturnsError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<ModuleWithMissingDep>(); // MissingModule is not registered
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleWithMissingDep>(); // MissingModule is not registered
 
         // Act
         var result = await builder.ValidateAsync();
@@ -157,8 +156,8 @@ public class ValidationTests
     public async Task ValidateAsync_WithOptionalMissingDependency_ReturnsNoError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<ModuleWithOptionalDep>(); // MissingModule is not registered but marked as optional
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleWithOptionalDep>(); // MissingModule is not registered but marked as optional
 
         // Act
         var result = await builder.ValidateAsync();
@@ -175,19 +174,19 @@ public class ValidationTests
     public async Task RunAsync_AfterBuildAsync_ExecutesPipeline()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SimpleModule>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
 
         // Act
-        var host = await builder.BuildAsync();
-        var summary = await host.RunAsync();
+        var pipeline = await builder.BuildAsync();
+        var summary = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(summary).IsNotNull();
         await Assert.That(summary.Modules).IsNotNull();
 
         // Cleanup
-        await host.DisposeAsync();
+        await pipeline.DisposeAsync();
     }
 
     [Test]
@@ -264,12 +263,9 @@ public class ValidationTests
     public async Task ValidateAsync_WithNegativeRetryCount_ReturnsError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) =>
-            {
-                options.DefaultRetryCount = -1;
-            });
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
+        builder.Options.DefaultRetryCount = -1;
 
         // Act
         var result = await builder.ValidateAsync();
@@ -285,13 +281,10 @@ public class ValidationTests
     public async Task ValidateAsync_WithConflictingCategories_ReturnsError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SimpleModule>()
-            .ConfigurePipelineOptions((_, options) =>
-            {
-                options.RunOnlyCategories = ["Category1"];
-                options.IgnoreCategories = ["Category1"];
-            });
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SimpleModule>();
+        builder.Options.RunOnlyCategories = ["Category1"];
+        builder.Options.IgnoreCategories = ["Category1"];
 
         // Act
         var result = await builder.ValidateAsync();
@@ -307,8 +300,8 @@ public class ValidationTests
     public async Task ValidateAsync_WithSelfReferencingModule_ReturnsError()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SelfReferencingModule>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SelfReferencingModule>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -325,10 +318,8 @@ public class ValidationTests
     public async Task ValidateAsync_WithCircularDependency_ReturnsError()
     {
         // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<ModuleA>()
-            .AddModule<ModuleB>()
-            .AddModule<ModuleC>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
 
         // Act
         var result = await builder.ValidateAsync();
@@ -344,8 +335,8 @@ public class ValidationTests
     public async Task BuildAsync_WithSelfReferencingModule_ThrowsValidationException()
     {
         // Arrange
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<SelfReferencingModule>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<SelfReferencingModule>();
 
         // Act & Assert
         await Assert.ThrowsAsync<PipelineValidationException>(async () =>
@@ -358,10 +349,8 @@ public class ValidationTests
     public async Task BuildAsync_WithCircularDependency_ThrowsValidationException()
     {
         // Arrange - ModuleA -> ModuleB -> ModuleC -> ModuleA (circular)
-        var builder = PipelineHostBuilder.Create()
-            .AddModule<ModuleA>()
-            .AddModule<ModuleB>()
-            .AddModule<ModuleC>();
+        var builder = Pipeline.CreateBuilder();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
 
         // Act & Assert
         await Assert.ThrowsAsync<PipelineValidationException>(async () =>

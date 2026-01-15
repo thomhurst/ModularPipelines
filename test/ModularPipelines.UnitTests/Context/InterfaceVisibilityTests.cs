@@ -67,7 +67,7 @@ public class InterfaceVisibilityTests
 
         var extensionPointInterfaces = new[]
         {
-            ("ModularPipelines.Host", "IPipelineHost"),
+            ("ModularPipelines", "IPipeline"),
             ("ModularPipelines.Interfaces", "IPipelineGlobalHooks"),
             ("ModularPipelines.Interfaces", "IPipelineModuleHooks"),
             ("ModularPipelines.Requirements", "IPipelineRequirement")

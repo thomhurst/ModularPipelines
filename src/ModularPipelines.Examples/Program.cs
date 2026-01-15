@@ -1,37 +1,33 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines;
 using ModularPipelines.Examples;
 using ModularPipelines.Examples.Modules;
 using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Options;
 
-await PipelineHostBuilder.Create()
-    .ConfigureAppConfiguration((context, builder) =>
-    {
-        builder.AddJsonFile("appsettings.json", optional: false)
-            .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true)
-            .AddUserSecrets<Program>()
-            .AddCommandLine(args)
-            .AddEnvironmentVariables();
-    })
-    .ConfigurePipelineOptions((_, options) =>
-    {
-        options.ExecutionMode = ExecutionMode.StopOnFirstException;
-        options.IgnoreCategories = new[] { "Ignore" };
-    })
-    .ConfigureServices((context, collection) =>
-    {
-        collection.Configure<MyOptions>(context.Configuration);
+var builder = Pipeline.CreateBuilder(args);
 
-        collection.AddModule<SuccessModule>()
-            .AddModule<LogSecretModule>()
-            .AddModule<DependentOnSuccessModule>()
-            .AddModule<DependentOn2>()
-            .AddModule<DependentOn3>()
-            .AddModule<DependentOn4>()
-            .AddModule<SubmodulesModule>()
-            .AddModule<GitVersionModule>()
-            .AddModule<GitLastCommitModule>();
-    })
-    .ExecutePipelineAsync();
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
+
+builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+builder.Options.IgnoreCategories = ["Ignore"];
+
+builder.Services.Configure<MyOptions>(builder.Configuration);
+
+builder.Services
+    .AddModule<SuccessModule>()
+    .AddModule<LogSecretModule>()
+    .AddModule<DependentOnSuccessModule>()
+    .AddModule<DependentOn2>()
+    .AddModule<DependentOn3>()
+    .AddModule<DependentOn4>()
+    .AddModule<SubmodulesModule>()
+    .AddModule<GitVersionModule>()
+    .AddModule<GitLastCommitModule>();
+
+await builder.Build().RunAsync();

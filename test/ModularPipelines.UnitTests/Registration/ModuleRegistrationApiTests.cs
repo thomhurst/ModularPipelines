@@ -2,7 +2,6 @@ using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers;
 using Status = ModularPipelines.Enums.Status;
@@ -54,9 +53,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_TwoModules_RegistersBothModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -69,9 +69,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_ThreeModules_RegistersAllModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB, ModuleC>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -82,9 +83,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_FourModules_RegistersAllModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB, ModuleC, ModuleD>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -95,9 +97,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_FiveModules_RegistersAllModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB, ModuleC, ModuleD, ModuleE>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -108,9 +111,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_SixModules_RegistersAllModules()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB, ModuleC, ModuleD, ModuleE, ModuleF>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>().AddModule<ModuleE>().AddModule<ModuleF>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -125,10 +129,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_CanChainWithAddModule()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB>()
-            .AddModule<ModuleC>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -139,10 +143,10 @@ public class ModuleRegistrationApiTests : TestBase
     public async Task AddModules_CanChainMultipleCalls()
     {
         // Arrange & Act
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModules<ModuleA, ModuleB>()
-            .AddModules<ModuleC, ModuleD>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<ModuleA>().AddModule<ModuleB>().AddModule<ModuleC>().AddModule<ModuleD>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);
@@ -199,11 +203,10 @@ public class ModuleRegistrationApiTests : TestBase
     {
         // Arrange & Act
         // Test that assembly scanning can be chained with explicit registration
-        var result = await TestPipelineHostBuilder.Create()
-            .AddModule<TrueModule>()
-            .AddModule<NullModule>()
-            .AddModule<ModuleA>()
-            .ExecutePipelineAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<TrueModule>().AddModule<NullModule>().AddModule<ModuleA>();
+        var pipeline = builder.Build();
+        var result = await pipeline.RunAsync();
 
         // Assert
         await Assert.That(result.Status).IsEqualTo(Status.Successful);

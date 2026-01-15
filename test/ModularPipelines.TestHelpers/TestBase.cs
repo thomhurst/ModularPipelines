@@ -1,11 +1,7 @@
 using EnumerableAsyncProcessor.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using ModularPipelines.Engine;
-using ModularPipelines.Engine.Executors;
 using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
-using ModularPipelines.Host;
 using ModularPipelines.Modules;
 using ModularPipelines.TestHelpers.Extensions;
 
@@ -13,11 +9,11 @@ namespace ModularPipelines.TestHelpers;
 
 /// <summary>
 /// Base class for tests that need to run pipeline modules.
-/// Provides helper methods to execute modules and automatically disposes hosts after each test.
+/// Provides helper methods to execute modules and automatically disposes pipelines after each test.
 /// </summary>
 public abstract class TestBase
 {
-    private readonly List<IPipelineHost> _hosts = [];
+    private readonly List<IPipeline> _pipelines = [];
 
     private class DummyModule : SimpleTestModule<IDictionary<string, object>?>
     {
@@ -42,7 +38,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<T>(
             testHostSettings,
-            builder => builder.AddModule<T>(),
+            builder => builder.Services.AddModule<T>(),
             modules => modules.OfType<T>().Single());
     }
 
@@ -70,7 +66,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2)>(
             testHostSettings,
-            builder => builder.AddModule<T>().AddModule<T2>(),
+            builder => builder.Services.AddModule<T>().AddModule<T2>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single()));
@@ -104,7 +100,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2, T3)>(
             testHostSettings,
-            builder => builder.AddModule<T>().AddModule<T2>().AddModule<T3>(),
+            builder => builder.Services.AddModule<T>().AddModule<T2>().AddModule<T3>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single(),
@@ -143,7 +139,7 @@ public abstract class TestBase
     {
         return ExecuteModulesAsync<(T, T2, T3, T4)>(
             testHostSettings,
-            builder => builder.AddModule<T>().AddModule<T2>().AddModule<T3>().AddModule<T4>(),
+            builder => builder.Services.AddModule<T>().AddModule<T2>().AddModule<T3>().AddModule<T4>(),
             modules => (
                 modules.OfType<T>().Single(),
                 modules.OfType<T2>().Single(),
@@ -153,7 +149,7 @@ public abstract class TestBase
 
     /// <summary>
     /// Core helper method that executes modules and extracts results.
-    /// Consolidates the common pattern of building a host, executing, and extracting modules.
+    /// Consolidates the common pattern of building a pipeline, executing, and extracting modules.
     /// </summary>
     /// <typeparam name="TResult">The return type (single module or tuple of modules).</typeparam>
     /// <param name="testHostSettings">Settings for configuring the test host.</param>
@@ -162,16 +158,17 @@ public abstract class TestBase
     /// <returns>The extracted module(s).</returns>
     private async Task<TResult> ExecuteModulesAsync<TResult>(
         TestHostSettings testHostSettings,
-        Func<PipelineHostBuilder, PipelineHostBuilder> configureModules,
+        Action<PipelineBuilder> configureModules,
         Func<IEnumerable<IModule>, TResult> extractResults)
     {
         var builder = TestPipelineHostBuilder.Create(testHostSettings);
-        var host = await configureModules(builder).BuildHostAsync();
+        configureModules(builder);
+        var pipeline = builder.Build();
 
-        _hosts.Add(host);
+        _pipelines.Add(pipeline);
 
         using var cts = CreateTimeoutCancellationTokenSource(testHostSettings.TestTimeout);
-        var pipelineResult = await host.ExecutePipelineAsync(cts.Token);
+        var pipelineResult = await pipeline.RunAsync(cts.Token);
 
         return extractResults(pipelineResult.Modules);
     }
@@ -179,24 +176,47 @@ public abstract class TestBase
     public async Task<T> GetService<T>()
         where T : notnull
     {
-        var valueTuple = await GetService<T>(null);
+        var valueTuple = await GetService<T>((Action<IServiceCollection>?)null);
         return valueTuple.T;
     }
 
-    public async Task<(T T, IPipelineHost Host)> GetService<T>(Action<HostBuilderContext, IServiceCollection>? configureServices)
+    public async Task<(T T, IPipeline Pipeline)> GetService<T>(Action<IServiceCollection>? configureServices)
         where T : notnull
     {
-        var host = await TestPipelineHostBuilder
-            .Create()
-            .AddModule<DummyModule>()
-            .ConfigureServices((context, collection) => configureServices?.Invoke(context, collection))
-            .BuildHostAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<DummyModule>();
+        configureServices?.Invoke(builder.Services);
+        var pipeline = builder.Build();
 
-        _hosts.Add(host);
+        _pipelines.Add(pipeline);
 
-        var serviceProvider = host.Services;
+        // Trigger initialization by running the pipeline
+        await pipeline.RunAsync();
 
-        return (serviceProvider.GetRequiredService<T>(), host);
+        return (pipeline.Services.GetRequiredService<T>(), pipeline);
+    }
+
+    /// <summary>
+    /// Gets a service from a freshly built pipeline with custom service configuration.
+    /// This overload accepts a 2-argument delegate for backward compatibility.
+    /// </summary>
+    /// <typeparam name="T">The service type to retrieve.</typeparam>
+    /// <param name="configureServices">Action to configure services, receiving the builder as context.</param>
+    /// <returns>A tuple containing the service and the pipeline (accessible via Host for backward compatibility).</returns>
+    public async Task<(T T, IPipeline Host)> GetService<T>(Action<PipelineBuilder, IServiceCollection> configureServices)
+        where T : notnull
+    {
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddModule<DummyModule>();
+        configureServices(builder, builder.Services);
+        var pipeline = builder.Build();
+
+        _pipelines.Add(pipeline);
+
+        // Trigger initialization by running the pipeline
+        await pipeline.RunAsync();
+
+        return (pipeline.Services.GetRequiredService<T>(), pipeline);
     }
 
     /// <summary>
@@ -211,12 +231,12 @@ public abstract class TestBase
     }
 
     [After(Test)]
-    public async Task DisposeCreatedHost()
+    public async Task DisposeCreatedPipelines()
     {
-        await _hosts.ToAsyncProcessorBuilder()
+        await _pipelines.ToAsyncProcessorBuilder()
             .ForEachAsync(Disposer.DisposeObjectAsync)
             .ProcessInParallel();
 
-        _hosts.Clear();
+        _pipelines.Clear();
     }
 }
