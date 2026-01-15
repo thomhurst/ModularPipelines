@@ -70,6 +70,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, HelmCliScraper>();
     builder.Services.AddSingleton<ICliScraper, DockerCliScraper>();
     builder.Services.AddSingleton<ICliScraper, KubectlCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, KustomizeCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GcloudCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GitCliScraper>();
 
@@ -82,6 +83,55 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, AwsCliScraper>();
     builder.Services.AddSingleton<ICliScraper, AzCliScraper>();
     builder.Services.AddSingleton<ICliScraper, DotNetCliScraper>();
+
+    // Register new CLI scrapers for additional tools
+    builder.Services.AddSingleton<ICliScraper, PnpmCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GhCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GoCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, TrivyCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, PipCliScraper>();
+
+    // Register Java build tools
+    builder.Services.AddSingleton<ICliScraper, MavenCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GradleCliScraper>();
+
+    // Register security and code quality tools
+    builder.Services.AddSingleton<ICliScraper, SonarScannerCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, SnykCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, HadolintCliScraper>();
+
+    // Register JSON/YAML processors
+    builder.Services.AddSingleton<ICliScraper, JqCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, YqCliScraper>();
+
+    // Register database migration tools
+    builder.Services.AddSingleton<ICliScraper, FlywayCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, LiquibaseCliScraper>();
+
+    // Register Rust ecosystem
+    builder.Services.AddSingleton<ICliScraper, CargoCliScraper>();
+
+    // Register Infrastructure as Code tools
+    builder.Services.AddSingleton<ICliScraper, PulumiCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, PackerCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, VaultCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, AnsibleCliScraper>();
+
+    // Register Container tools (Docker alternatives)
+    builder.Services.AddSingleton<ICliScraper, PodmanCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, BuildahCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, SkopeoCliScraper>();
+
+    // Register Kubernetes/GitOps tools
+    builder.Services.AddSingleton<ICliScraper, EksctlCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, ArgoCdCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, FluxCliScraper>();
+
+    // Register Code quality tools
+    builder.Services.AddSingleton<ICliScraper, ShellcheckCliScraper>();
+
+    // Register Testing tools
+    builder.Services.AddSingleton<ICliScraper, NewmanCliScraper>();
 
     // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();

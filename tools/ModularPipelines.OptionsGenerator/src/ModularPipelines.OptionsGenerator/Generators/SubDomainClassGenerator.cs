@@ -94,7 +94,7 @@ public class SubDomainClassGenerator : ICodeGenerator
             node.Depth == 0 ? parentCommand : null,
             collidingCommands.Values.ToHashSet());
 
-        var fileName = $"{node.ClassName}.cs";
+        var fileName = $"{node.ClassName}.Generated.cs";
         var relativePath = Path.Combine(tool.OutputDirectory, "Services", fileName);
 
         files.Add(new GeneratedFile

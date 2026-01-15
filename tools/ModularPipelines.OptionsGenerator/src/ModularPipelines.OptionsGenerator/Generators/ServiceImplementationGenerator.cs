@@ -15,7 +15,7 @@ public class ServiceImplementationGenerator : ICodeGenerator
 
         // Generate the main service implementation
         var mainContent = GenerateMainServiceClass(tool);
-        var mainFileName = $"{tool.NamespacePrefix}.cs";
+        var mainFileName = $"{tool.NamespacePrefix}.Generated.cs";
         var mainRelativePath = Path.Combine(tool.OutputDirectory, "Services", mainFileName);
 
         files.Add(new GeneratedFile
