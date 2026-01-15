@@ -133,6 +133,15 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     // Register Testing tools
     builder.Services.AddSingleton<ICliScraper, NewmanCliScraper>();
 
+    // Register Local Kubernetes tools
+    builder.Services.AddSingleton<ICliScraper, KindCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, MinikubeCliScraper>();
+
+    // Register Supply chain security tools
+    builder.Services.AddSingleton<ICliScraper, CosignCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, SyftCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GrypeCliScraper>();
+
     // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
