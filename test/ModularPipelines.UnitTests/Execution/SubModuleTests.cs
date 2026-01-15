@@ -20,7 +20,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async name =>
@@ -39,7 +39,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -59,7 +59,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(name =>
@@ -77,7 +77,7 @@ public class SubModuleTests : TestBase
         private int _subModuleRunCount;
         public int SubModuleRunCount => _subModuleRunCount;
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -94,7 +94,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithReturnTypeModule : Module<string[]>
     {
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .SelectAsync(async (string name) =>
@@ -111,7 +111,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithoutReturnTypeModule : Module<string[]>
     {
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(async name =>
@@ -127,7 +127,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithReturnTypeModuleSynchronous : Module<string[]>
     {
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await new[] { "1", "2", "3" }
                 .ToAsyncProcessorBuilder()
@@ -146,7 +146,7 @@ public class SubModuleTests : TestBase
 
     private class FailingSubModulesWithoutReturnTypeModuleSynchronous : Module<string[]>
     {
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await new[] { "1", "2", "3" }.ToAsyncProcessorBuilder()
                 .ForEachAsync(name =>
@@ -173,7 +173,7 @@ public class SubModuleTests : TestBase
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {
@@ -210,7 +210,7 @@ public class SubModuleTests : TestBase
             .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(3))
             .Build();
 
-        public override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             foreach (var name in new[] { "1", "2", "3" })
             {

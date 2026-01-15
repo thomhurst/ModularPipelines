@@ -14,7 +14,7 @@ public class DotNetTests : TestBase
 {
     private class DotNetVersionModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Use main solution explicitly - FindFile returns first match alphabetically
             // which could be ModularPipelines.Analyzers.sln causing flaky failures
@@ -27,7 +27,7 @@ public class DotNetTests : TestBase
 
     private class DotNetFormatModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.DotNet().Format(new DotNetFormatOptions
             {

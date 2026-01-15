@@ -28,7 +28,7 @@ public class ComposableModuleTests
             .WithSkipWhen(() => SkipDecision.Skip("Skipped via composition"))
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -44,7 +44,7 @@ public class ComposableModuleTests
             .WithSkipWhen(() => SkipDecision.DoNotSkip)
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed");
         }
@@ -60,7 +60,7 @@ public class ComposableModuleTests
             .WithTimeout(TimeSpan.FromSeconds(5))
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Executed with timeout");
         }
@@ -90,7 +90,7 @@ public class ComposableModuleTests
             })
             .Build();
 
-        public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(42);
         }
@@ -112,7 +112,7 @@ public class ComposableModuleTests
             .WithAlwaysRun()
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Always ran");
         }

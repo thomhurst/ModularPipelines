@@ -15,7 +15,7 @@ public class DockerTests : TestBase
 {
     private class DockerBuildModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var pretendPath = context.Git()
                 .RootDirectory

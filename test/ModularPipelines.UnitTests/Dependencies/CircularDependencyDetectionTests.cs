@@ -16,7 +16,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<DirectCycleModuleB>]
     private class DirectCycleModuleA : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -26,7 +26,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<DirectCycleModuleA>]
     private class DirectCycleModuleB : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -40,7 +40,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<TripleCycleModuleB>]
     private class TripleCycleModuleA : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -50,7 +50,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<TripleCycleModuleC>]
     private class TripleCycleModuleB : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -60,7 +60,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<TripleCycleModuleA>]
     private class TripleCycleModuleC : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -74,7 +74,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<LinearModuleB>]
     private class LinearModuleA : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -84,7 +84,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<LinearModuleC>]
     private class LinearModuleB : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -93,7 +93,7 @@ public class CircularDependencyDetectionTests
 
     private class LinearModuleC : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -106,7 +106,7 @@ public class CircularDependencyDetectionTests
 
     private class IndependentModuleA : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -115,7 +115,7 @@ public class CircularDependencyDetectionTests
 
     private class IndependentModuleB : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -128,7 +128,7 @@ public class CircularDependencyDetectionTests
 
     private class ComplexGraphRoot : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -139,7 +139,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<ComplexGraphCycleB>]
     private class ComplexGraphCycleA : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -149,7 +149,7 @@ public class CircularDependencyDetectionTests
     [ModularPipelines.Attributes.DependsOn<ComplexGraphCycleA>]
     private class ComplexGraphCycleB : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;

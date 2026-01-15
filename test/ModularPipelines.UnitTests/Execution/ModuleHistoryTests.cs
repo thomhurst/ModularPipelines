@@ -16,7 +16,7 @@ public class ModuleHistoryTests
     [ModuleCategory("1")]
     private class SkipFromCategory : Module<bool>
     {
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
@@ -33,7 +33,7 @@ public class ModuleHistoryTests
     [SkipRunCondition]
     private class SkipFromRunCondition : Module<bool>
     {
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }
@@ -45,7 +45,7 @@ public class ModuleHistoryTests
             .WithSkipWhen(() => SkipDecision.Skip("Testing"))
             .Build();
 
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult(true);
         }

@@ -28,7 +28,7 @@ public class EngineCancellationTokenTests : TestBase
     {
         private readonly TaskCompletionSource<bool> _taskCompletionSource = new();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task.WaitAsync(cancellationToken);
             return true;
@@ -43,7 +43,7 @@ public class EngineCancellationTokenTests : TestBase
             .WithTimeout(TimeSpan.FromSeconds(10))
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await _taskCompletionSource.Task;
             return true;

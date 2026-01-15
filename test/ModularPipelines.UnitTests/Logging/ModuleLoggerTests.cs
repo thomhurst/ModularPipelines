@@ -16,7 +16,7 @@ public class ModuleLoggerTests
     private static readonly string RandomString = Guid.NewGuid().ToString();
     private class Module1 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ((IConsoleWriter) context.Logger).LogToConsole(RandomString);
 
@@ -29,7 +29,7 @@ public class ModuleLoggerTests
 
     public class Module2 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation(new MySecrets().Value1!);
 
@@ -40,7 +40,7 @@ public class ModuleLoggerTests
 
     public class Module3 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("{Value}", new MySecrets().Value1!);
 

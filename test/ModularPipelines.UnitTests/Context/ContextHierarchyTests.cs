@@ -91,14 +91,14 @@ public class ContextHierarchyTests
     {
         var moduleContextType = typeof(IModuleContext);
 
-        // Check for module-specific members
-        var getModuleMethod = moduleContextType.GetMethod("GetModule");
-        await Assert.That(getModuleMethod).IsNotNull()
-            .Because("IModuleContext should have GetModule method");
+        // Check for module-specific members (use GetMethods to handle multiple overloads)
+        var getModuleMethods = moduleContextType.GetMethods().Where(m => m.Name == "GetModule").ToArray();
+        await Assert.That(getModuleMethods.Length).IsGreaterThanOrEqualTo(1)
+            .Because("IModuleContext should have GetModule method(s)");
 
-        var getModuleIfRegisteredMethod = moduleContextType.GetMethod("GetModuleIfRegistered");
-        await Assert.That(getModuleIfRegisteredMethod).IsNotNull()
-            .Because("IModuleContext should have GetModuleIfRegistered method");
+        var getModuleIfRegisteredMethods = moduleContextType.GetMethods().Where(m => m.Name == "GetModuleIfRegistered").ToArray();
+        await Assert.That(getModuleIfRegisteredMethods.Length).IsGreaterThanOrEqualTo(1)
+            .Because("IModuleContext should have GetModuleIfRegistered method(s)");
     }
 
     [Test]

@@ -13,7 +13,7 @@ public class SubmodulesModule : Module<IDictionary<string, object>?>
         .Build();
 
     /// <inheritdoc/>
-    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         foreach (var c in Guid.NewGuid().ToString().Take(3))
         {

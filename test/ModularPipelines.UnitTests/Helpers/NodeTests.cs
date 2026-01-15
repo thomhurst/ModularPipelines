@@ -11,7 +11,7 @@ public class NodeTests : TestBase
 {
     private class NodeVersionModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Node().Version(cancellationToken: cancellationToken);
         }

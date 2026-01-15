@@ -15,7 +15,7 @@ public class LogSecretModule : Module<IDictionary<string, object>?>
     }
 
     /// <inheritdoc/>
-    public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Value is {Value}", _options.Value.MySecret);
         return Task.FromResult<IDictionary<string, object>?>(null);

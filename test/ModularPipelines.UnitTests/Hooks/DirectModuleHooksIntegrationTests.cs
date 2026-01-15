@@ -58,7 +58,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
             _moduleId = GetType().Name;
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             AddLogEntry($"{_moduleId}:ExecuteAsync");
@@ -108,7 +108,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
             })
             .Build();
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             AddLogEntry("MultiHook:ExecuteAsync");
@@ -142,7 +142,7 @@ public class DirectModuleHooksIntegrationTests : TestBase
         public bool LoggerWasAvailableInBeforeHook { get; private set; }
         public bool LoggerWasAvailableInAfterHook { get; private set; }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Success";

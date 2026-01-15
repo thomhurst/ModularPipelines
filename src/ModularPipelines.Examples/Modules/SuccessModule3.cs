@@ -9,7 +9,7 @@ namespace ModularPipelines.Examples.Modules;
 public class SuccessModule3 : Module<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
-    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromSeconds(12), cancellationToken);
 

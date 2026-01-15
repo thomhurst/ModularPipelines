@@ -32,7 +32,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         .WithSkipWhen(() => !_publishSettings.Value.ShouldPublish)
         .Build();
 
-    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 

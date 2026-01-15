@@ -36,7 +36,7 @@ public class NotInParallelTests : TestBase
 
     public class ParallelDependency : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return GetType().Name;

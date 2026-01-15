@@ -83,7 +83,7 @@ public abstract class SyncModule<T> : Module<T>
     /// You should not override this method in <see cref="SyncModule{T}"/> - override
     /// <see cref="Execute"/> instead.
     /// </remarks>
-    public sealed override Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected internal sealed override Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var result = Execute(context, cancellationToken);
         return Task.FromResult(result);

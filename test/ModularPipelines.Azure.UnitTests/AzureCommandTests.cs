@@ -12,7 +12,7 @@ public class AzureCommandTests : TestBase
 {
     public class AzureCommandModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Azure().Az.Account.List(new AzAccountListOptions
             {
@@ -23,7 +23,7 @@ public class AzureCommandTests : TestBase
 
     public class AzureCommandModule2 : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await context.Azure().Az.Account.ManagementGroup.List(new AzAccountManagementGroupListOptions(),
                 new CommandExecutionOptions { InternalDryRun = true }, cancellationToken);

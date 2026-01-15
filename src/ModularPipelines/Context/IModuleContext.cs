@@ -149,6 +149,69 @@ public interface IModuleContext : IPipelineContext
         where TModule : Module<TResult>;
 
     /// <summary>
+    /// Gets a module instance that can be awaited to retrieve its result.
+    /// </summary>
+    /// <typeparam name="TModule">
+    /// The module type to retrieve. Must inherit from <see cref="Module{T}"/>.
+    /// </typeparam>
+    /// <returns>
+    /// The module instance, which can be awaited to get its <see cref="ModuleResult{T}"/>.
+    /// The result type is automatically inferred from the module's base class.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    /// <b>Simplified API:</b> This method requires only a single type parameter.
+    /// The result type is inferred from the module's class hierarchy when you await the result.
+    /// </para>
+    /// <para>
+    /// <b>Example usage:</b>
+    /// </para>
+    /// <code>
+    /// [DependsOn&lt;BuildModule&gt;]
+    /// public class DeployModule : Module&lt;DeployResult&gt;
+    /// {
+    ///     protected override async Task&lt;DeployResult&gt; ExecuteAsync(
+    ///         IModuleContext context, CancellationToken cancellationToken)
+    ///     {
+    ///         // Single type parameter - result type inferred from BuildModule : Module&lt;BuildOutput&gt;
+    ///         var buildResult = await context.GetModule&lt;BuildModule&gt;();
+    ///         // buildResult is ModuleResult&lt;BuildOutput?&gt;
+    ///
+    ///         if (buildResult.IsSuccess)
+    ///         {
+    ///             var artifactPath = buildResult.ValueOrDefault!.ArtifactPath;
+    ///             return await Deploy(artifactPath);
+    ///         }
+    ///
+    ///         return new DeployResult { Skipped = true };
+    ///     }
+    /// }
+    /// </code>
+    /// <para>
+    /// <b>How it works:</b> The module class hierarchy encodes the result type.
+    /// When <c>BuildModule : Module&lt;BuildOutput&gt;</c>, awaiting the module
+    /// returns <c>ModuleResult&lt;BuildOutput?&gt;</c> because <see cref="Module{T}"/>
+    /// implements <see cref="Module{T}.GetAwaiter"/>.
+    /// </para>
+    /// <para>
+    /// <b>Important:</b> Always declare dependencies using <see cref="Attributes.DependsOnAttribute{T}"/>
+    /// to ensure the dependent module has completed before calling <c>GetModule</c>.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="Exceptions.ModuleNotRegisteredException">
+    /// Thrown if the specified module was not registered with the pipeline.
+    /// Ensure the module is registered via <c>AddModule&lt;TModule&gt;()</c> in your pipeline configuration.
+    /// </exception>
+    /// <exception cref="Exceptions.ModuleReferencingSelfException">
+    /// Thrown if a module attempts to retrieve itself. A module cannot depend on its own result.
+    /// </exception>
+    /// <seealso cref="Module{T}"/>
+    /// <seealso cref="Attributes.DependsOnAttribute{T}"/>
+    /// <seealso cref="GetModuleIfRegistered{TModule}"/>
+    TModule GetModule<TModule>()
+        where TModule : class, IModule;
+
+    /// <summary>
     /// Gets a module's result if the module is registered, or <c>null</c> if not registered.
     /// </summary>
     /// <typeparam name="TModule">
@@ -226,6 +289,69 @@ public interface IModuleContext : IPipelineContext
     /// <seealso cref="Attributes.DependsOnAttribute{T}"/>
     ModuleResult<TResult>? GetModuleIfRegistered<TModule, TResult>()
         where TModule : Module<TResult>;
+
+    /// <summary>
+    /// Gets a module instance if the module is registered, or <c>null</c> if not registered.
+    /// The returned module can be awaited to retrieve its result.
+    /// </summary>
+    /// <typeparam name="TModule">
+    /// The module type to retrieve. Must inherit from <see cref="Module{T}"/>.
+    /// </typeparam>
+    /// <returns>
+    /// The module instance if registered, or <c>null</c> if the module was not registered.
+    /// The module can be awaited to get its <see cref="ModuleResult{T}"/>.
+    /// </returns>
+    /// <remarks>
+    /// <para>
+    /// <b>Simplified API:</b> This method requires only a single type parameter.
+    /// The result type is inferred from the module's class hierarchy when you await the result.
+    /// </para>
+    /// <para>
+    /// <b>When to use this method:</b>
+    /// </para>
+    /// <para>
+    /// Use <c>GetModuleIfRegistered</c> when you want to optionally consume a module's result
+    /// without requiring that module to be registered. This is useful for:
+    /// </para>
+    /// <list type="bullet">
+    /// <item><description>Optional integrations where a module may or may not be present</description></item>
+    /// <item><description>Plugin architectures where modules are conditionally registered</description></item>
+    /// <item><description>Feature flags that control which modules run</description></item>
+    /// </list>
+    /// <para>
+    /// <b>Example usage:</b>
+    /// </para>
+    /// <code>
+    /// [DependsOn&lt;BuildModule&gt;(IgnoreIfNotRegistered = true)]
+    /// public class DeployModule : Module&lt;DeployResult&gt;
+    /// {
+    ///     protected override async Task&lt;DeployResult&gt; ExecuteAsync(
+    ///         IModuleContext context, CancellationToken cancellationToken)
+    ///     {
+    ///         // Single type parameter - returns null if not registered
+    ///         var buildModule = context.GetModuleIfRegistered&lt;BuildModule&gt;();
+    ///
+    ///         if (buildModule is not null)
+    ///         {
+    ///             var buildResult = await buildModule;
+    ///             // Use build result...
+    ///         }
+    ///
+    ///         return await Deploy();
+    ///     }
+    /// }
+    /// </code>
+    /// <para>
+    /// <b>Important:</b> If you use this method with a module that may be registered, consider using
+    /// <see cref="Attributes.DependsOnAttribute.IgnoreIfNotRegistered"/> on your dependency attribute
+    /// to properly handle the optional dependency in the execution graph.
+    /// </para>
+    /// </remarks>
+    /// <seealso cref="GetModule{TModule}"/>
+    /// <seealso cref="Module{T}"/>
+    /// <seealso cref="Attributes.DependsOnAttribute{T}"/>
+    TModule? GetModuleIfRegistered<TModule>()
+        where TModule : class, IModule;
 
     /// <summary>
     /// Tracks a sub-operation within the current module for progress display.

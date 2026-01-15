@@ -149,7 +149,11 @@ public abstract class Module<T> : IModule, ITaggedModule
     /// <param name="context">The module context providing access to pipeline services.</param>
     /// <param name="cancellationToken">A token that will be cancelled if the pipeline fails or the module times out.</param>
     /// <returns>The result of the module execution, or null.</returns>
-    public abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+    /// <remarks>
+    /// This method is called by the pipeline engine. Do not call it directly.
+    /// To access another module's result, use <c>await context.GetModule&lt;TModule&gt;()</c>.
+    /// </remarks>
+    protected internal abstract Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
 
     /// <summary>
     /// Called before the module executes. Override to add setup logic.

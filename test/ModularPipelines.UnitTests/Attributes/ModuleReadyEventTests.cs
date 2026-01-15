@@ -58,7 +58,7 @@ public class ModuleReadyEventTests : TestBase
     [LogReady]
     public class SimpleModuleWithReadyEvent : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }
@@ -67,7 +67,7 @@ public class ModuleReadyEventTests : TestBase
     [LogReadyWithTiming]
     public class ModuleWithTimingCheck : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }
@@ -76,7 +76,7 @@ public class ModuleReadyEventTests : TestBase
     [LogReadyAndStart]
     public class ModuleWithReadyAndStart : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }
@@ -86,7 +86,7 @@ public class ModuleReadyEventTests : TestBase
     [ModularPipelines.Attributes.DependsOn<DependencyModule>]
     public class DependentModuleWithReadyEvent : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Dependent Done");
         }
@@ -94,7 +94,7 @@ public class ModuleReadyEventTests : TestBase
 
     public class DependencyModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Dependency Done";
@@ -104,7 +104,7 @@ public class ModuleReadyEventTests : TestBase
     [ThrowingReady]
     public class ModuleWithThrowingReadyEvent : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }

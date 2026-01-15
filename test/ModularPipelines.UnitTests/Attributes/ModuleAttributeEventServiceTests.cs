@@ -61,13 +61,13 @@ public class ModuleAttributeEventServiceTests
     [TestFailure]
     private class ModuleWithAttributes : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("test");
     }
 
     private class ModuleWithoutAttributes : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("test");
     }
 
@@ -77,7 +77,7 @@ public class ModuleAttributeEventServiceTests
     [HighPriorityStart]  // Priority 1 - should be first
     private class ModuleWithPrioritizedHandlers : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("test");
     }
 
@@ -87,7 +87,7 @@ public class ModuleAttributeEventServiceTests
     [HighPriorityStart]  // Priority 1 - should be second
     private class ModuleWithMixedPriorityHandlers : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("test");
     }
 

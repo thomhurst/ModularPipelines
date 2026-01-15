@@ -26,7 +26,7 @@ public class LoggingSecretTests
             _options = options;
         }
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("My Secret Value is: {SecretValue}", _options.Value.Secret1);
             await Task.CompletedTask;

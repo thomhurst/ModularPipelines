@@ -20,7 +20,7 @@ public abstract class ThrowingTestModule<T> : Module<T>
     protected virtual Exception ExceptionToThrow => new Exception();
 
     /// <inheritdoc />
-    public override async Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected internal override async Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
         throw ExceptionToThrow;

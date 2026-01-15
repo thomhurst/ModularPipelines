@@ -11,7 +11,7 @@ public class ConcurrencyOptionsTests : TestBase
 {
     public class SimpleModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }
@@ -19,7 +19,7 @@ public class ConcurrencyOptionsTests : TestBase
 
     public class SimpleModule2 : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Done");
         }

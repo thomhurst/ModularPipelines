@@ -69,7 +69,7 @@ public class MetadataCrossPhaseIntegrationTests : TestBase
     [ReadMetadataOnEnd("config")]
     public class MetadataModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Done";

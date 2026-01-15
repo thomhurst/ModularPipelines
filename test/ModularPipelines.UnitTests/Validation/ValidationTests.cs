@@ -14,13 +14,13 @@ public class ValidationTests
     // Test modules for various scenarios
     private class SimpleModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("success");
     }
 
     private class AnotherModule : Module<int>
     {
-        public override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
     }
 
@@ -28,7 +28,7 @@ public class ValidationTests
     [ModularPipelines.Attributes.DependsOn<SelfReferencingModule>]
     private class SelfReferencingModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("success");
     }
 
@@ -36,21 +36,21 @@ public class ValidationTests
     [ModularPipelines.Attributes.DependsOn<ModuleB>]
     private class ModuleA : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("A");
     }
 
     [ModularPipelines.Attributes.DependsOn<ModuleC>]
     private class ModuleB : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("B");
     }
 
     [ModularPipelines.Attributes.DependsOn<ModuleA>]
     private class ModuleC : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("C");
     }
 
@@ -58,13 +58,13 @@ public class ValidationTests
     [ModularPipelines.Attributes.DependsOn<MissingModule>]
     private class ModuleWithMissingDep : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("success");
     }
 
     private class MissingModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("missing");
     }
 
@@ -72,7 +72,7 @@ public class ValidationTests
     [ModularPipelines.Attributes.DependsOn<MissingModule>(IgnoreIfNotRegistered = true)]
     private class ModuleWithOptionalDep : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("success");
     }
 

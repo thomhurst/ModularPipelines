@@ -90,7 +90,7 @@ public class MockedFileSystemTests
     // Test module that reads a config file
     private class ConfigReaderModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var configFile = context.Files.GetFile("/config/settings.json");
             return await configFile.ReadAsync(cancellationToken);
@@ -100,7 +100,7 @@ public class MockedFileSystemTests
     // Test module that writes to a file
     private class FileWriterModule : Module<bool?>
     {
-        public override async Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var outputFile = context.Files.GetFile("/output/result.txt");
             await outputFile.WriteAsync("Hello from module!", cancellationToken);
@@ -111,7 +111,7 @@ public class MockedFileSystemTests
     // Test module that creates a folder
     private class FolderCreatorModule : Module<bool?>
     {
-        public override Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var folder = context.Files.GetFolder("/data/output");
             folder.Create();

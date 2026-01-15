@@ -39,7 +39,7 @@ public class SecretMaskingTests
             _settings = settings;
         }
 
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Logger.LogInformation("API Key: {ApiKey}", _settings.Value.ApiKey);
             context.Logger.LogInformation("Password: {Password}", _settings.Value.Password);
@@ -56,7 +56,7 @@ public class SecretMaskingTests
             _secretRegistry = secretRegistry;
         }
 
-        public override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Register a secret dynamically
             const string dynamicSecret = "dynamic-api-key-12345";

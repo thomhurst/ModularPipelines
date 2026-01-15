@@ -25,7 +25,7 @@ public abstract class NotInParallelTestModule : Module<string>
     /// </summary>
     protected virtual int DelayMs => 50;
 
-    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var moduleName = GetType().Name;
 

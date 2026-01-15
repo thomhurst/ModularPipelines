@@ -25,7 +25,7 @@ public class NestedCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -35,7 +35,7 @@ public class NestedCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule3>]
     private class DependencyConflictModule2 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -45,7 +45,7 @@ public class NestedCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule4>]
     private class DependencyConflictModule3 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -55,7 +55,7 @@ public class NestedCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule5>]
     private class DependencyConflictModule4 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;
@@ -65,7 +65,7 @@ public class NestedCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule5 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;

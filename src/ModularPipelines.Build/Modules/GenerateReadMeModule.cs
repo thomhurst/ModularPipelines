@@ -17,7 +17,7 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
         .WithAlwaysRun()
         .Build();
 
-    public override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitRootDirectory = context.Git().RootDirectory;
 

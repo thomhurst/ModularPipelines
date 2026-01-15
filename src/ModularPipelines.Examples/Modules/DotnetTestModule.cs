@@ -12,7 +12,7 @@ namespace ModularPipelines.Examples.Modules;
 public class DotnetTestModule : Module<CommandResult>
 {
     /// <inheritdoc/>
-    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.DotNet().Test(
             new DotNetTestOptions(),

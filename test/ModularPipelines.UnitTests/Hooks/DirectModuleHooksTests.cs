@@ -20,7 +20,7 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -48,7 +48,7 @@ public class DirectModuleHooksTests : TestBase
     /// </summary>
     private class ResultModifyingModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Original";
@@ -78,7 +78,7 @@ public class DirectModuleHooksTests : TestBase
             .WithSkipWhen(() => SkipDecision.Skip("Test skip reason"))
             .Build();
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -109,7 +109,7 @@ public class DirectModuleHooksTests : TestBase
             .WithIgnoreFailures()
             .Build();
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -155,7 +155,7 @@ public class DirectModuleHooksTests : TestBase
             throw new InvalidOperationException("Before hook failure");
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -183,7 +183,7 @@ public class DirectModuleHooksTests : TestBase
             })
             .Build();
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");
@@ -213,7 +213,7 @@ public class DirectModuleHooksTests : TestBase
     {
         public List<string> HooksCalled { get; } = [];
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             HooksCalled.Add("ExecuteAsync");

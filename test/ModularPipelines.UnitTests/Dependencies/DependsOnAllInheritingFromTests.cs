@@ -15,7 +15,7 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private abstract class BaseModule : Module<bool>
     {
-        public abstract override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
+        protected internal abstract override Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken);
     }
 
     // Generic base module for testing open generic type dependencies (Issue #1337)
@@ -23,7 +23,7 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private class GenericModule1 : GenericBaseModule<int>
     {
-        public override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return 42;
@@ -32,7 +32,7 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private class GenericModule2 : GenericBaseModule<string>
     {
-        public override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return "test";
@@ -43,7 +43,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     [DependsOnAllModulesInheritingFrom(typeof(GenericBaseModule<>))]
     private class DependsOnOpenGenericModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return true;
@@ -52,7 +52,7 @@ public class DependsOnAllInheritingFromTests : TestBase
 
     private class Module1 : BaseModule
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return true;
@@ -62,7 +62,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : BaseModule
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return true;
@@ -72,7 +72,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3 : BaseModule
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ModuleDelay, cancellationToken);
             return true;
@@ -82,7 +82,7 @@ public class DependsOnAllInheritingFromTests : TestBase
     [ModularPipelines.Attributes.DependsOnAllModulesInheritingFrom<BaseModule>]
     private class Module4 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return true;

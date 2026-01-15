@@ -20,7 +20,7 @@ public class EncodingTests : TestBase
 
     private class ToBase64Module : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Base64.ToBase64String(TestInput);
@@ -29,7 +29,7 @@ public class EncodingTests : TestBase
 
     private class FromBase64Module : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Base64.FromBase64String("Rm9vIGJhciE=");
@@ -38,7 +38,7 @@ public class EncodingTests : TestBase
 
     private class ToHexModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Hex.ToHex(TestInput);
@@ -47,7 +47,7 @@ public class EncodingTests : TestBase
 
     private class FromHexModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.Data.Hex.FromHex("466f6f2062617221");

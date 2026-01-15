@@ -8,7 +8,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class PrintEnvironmentVariablesModule : Module<IDictionary<string, object>>
 {
-    public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Environment Variables: {EnvVars}", JsonSerializer.Serialize(context.Environment.Variables.GetEnvironmentVariables(), DiagnosticSerializerOptions.Instance));
 

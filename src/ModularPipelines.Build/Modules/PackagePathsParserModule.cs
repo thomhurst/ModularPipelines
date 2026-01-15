@@ -13,7 +13,7 @@ public class PackagePathsParserModule : Module<List<File>>
     private const string PackageCreationSuccessPrefix = "Successfully created package '";
     private const string PackagePathSuffix = "'.";
 
-    public override Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<List<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packPackagesModuleResult = context.GetModule<PackProjectsModule, CommandResult[]>();
 

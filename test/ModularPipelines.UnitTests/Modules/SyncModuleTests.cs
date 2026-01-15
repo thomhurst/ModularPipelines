@@ -294,7 +294,7 @@ public class SyncModuleTests : TestBase
 
     public class AsyncDependencyModule : Module<int>
     {
-        public override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return 100;
@@ -334,7 +334,7 @@ public class SyncModuleTests : TestBase
     [ModularPipelines.Attributes.DependsOn<SyncModuleForAsyncToDepend>]
     public class AsyncDependsOnSync : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             var dependency = context.GetModule<SyncModuleForAsyncToDepend, int>();

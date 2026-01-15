@@ -10,7 +10,7 @@ public class MetricsCollectorTests : TestBase
 {
     public class QuickModule1 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";
@@ -19,7 +19,7 @@ public class MetricsCollectorTests : TestBase
 
     public class QuickModule2 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";
@@ -28,7 +28,7 @@ public class MetricsCollectorTests : TestBase
 
     public class QuickModule3 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "Done";

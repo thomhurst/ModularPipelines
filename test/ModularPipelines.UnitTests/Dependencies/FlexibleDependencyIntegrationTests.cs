@@ -380,7 +380,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleTag("database")]
     private class DatabaseModuleA : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(DatabaseModuleA));
@@ -391,7 +391,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleTag("database")]
     private class DatabaseModuleB : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(DatabaseModuleB));
@@ -402,7 +402,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleTag("other")]
     private class NonDatabaseModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(NonDatabaseModule));
@@ -413,7 +413,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithTag("database")]
     private class AfterDatabaseModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterDatabaseModule));
@@ -424,7 +424,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithTag("nonexistent")]
     private class ModuleDependingOnNonExistentTag : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleDependingOnNonExistentTag));
@@ -437,7 +437,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleTag("critical")]
     private class ModuleWithMultipleTags : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleWithMultipleTags));
@@ -448,7 +448,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithTag("slow")]
     private class AfterSlowModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterSlowModule));
@@ -463,7 +463,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleCategory("infrastructure")]
     private class InfrastructureModuleA : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(InfrastructureModuleA));
@@ -474,7 +474,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleCategory("infrastructure")]
     private class InfrastructureModuleB : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(InfrastructureModuleB));
@@ -485,7 +485,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleCategory("build")]
     private class BuildModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(BuildModule));
@@ -496,7 +496,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesInCategory("infrastructure")]
     private class AfterInfrastructureModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterInfrastructureModule));
@@ -507,7 +507,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesInCategory("nonexistent")]
     private class ModuleDependingOnNonExistentCategory : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleDependingOnNonExistentCategory));
@@ -522,7 +522,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [Critical]
     private class CriticalModuleA : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(CriticalModuleA));
@@ -533,7 +533,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [Critical]
     private class CriticalModuleB : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(CriticalModuleB));
@@ -543,7 +543,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
 
     private class NonCriticalModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(NonCriticalModule));
@@ -554,7 +554,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [Critical]
     private class BaseCriticalModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(BaseCriticalModule));
@@ -565,7 +565,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     // Inherits Critical attribute from base class
     private class DerivedCriticalModule : BaseCriticalModule
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(DerivedCriticalModule));
@@ -576,7 +576,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithAttribute<CriticalAttribute>]
     private class AfterCriticalModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterCriticalModule));
@@ -592,7 +592,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     {
         public override IReadOnlySet<string> Tags => new HashSet<string> { "database", "override-tag" };
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleWithOverrideTags));
@@ -604,7 +604,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     {
         public override string? Category => "infrastructure";
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleWithOverrideCategory));
@@ -618,7 +618,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
 
     private class PlainModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(PlainModule));
@@ -635,7 +635,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithAttribute<CriticalAttribute>]
     private class ModuleWithMultipleFlexibleDependencies : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(ModuleWithMultipleFlexibleDependencies));
@@ -648,7 +648,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [ModuleTag("phase1")]
     private class AfterDatabaseModuleWithPhase1Tag : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterDatabaseModuleWithPhase1Tag));
@@ -659,7 +659,7 @@ public class FlexibleDependencyIntegrationTests : TestBase
     [DependsOnModulesWithTag("phase1")]
     private class AfterPhase1Module : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
         {
             await Task.Yield();
             RecordExecution(nameof(AfterPhase1Module));

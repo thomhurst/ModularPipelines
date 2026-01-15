@@ -28,7 +28,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
         .WithRetryPolicy(Policy.Handle<Exception>().RetryAsync(0))
         .Build();
 
-    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)

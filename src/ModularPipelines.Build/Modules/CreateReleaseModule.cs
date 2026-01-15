@@ -44,7 +44,7 @@ public class CreateReleaseModule : Module<Release>
         .WithIgnoreFailuresWhen((_, ex) => ex is ApiValidationException)
         .Build();
 
-    public override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInfoResult = context.GetModule<NugetVersionGeneratorModule, string>();
 
