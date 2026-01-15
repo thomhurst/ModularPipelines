@@ -83,6 +83,13 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, AzCliScraper>();
     builder.Services.AddSingleton<ICliScraper, DotNetCliScraper>();
 
+    // Register new CLI scrapers for additional tools
+    builder.Services.AddSingleton<ICliScraper, PnpmCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GhCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, GoCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, TrivyCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, PipCliScraper>();
+
     // Register HTML scrapers (used as fallback or for non-Cobra CLIs)
     builder.Services.AddSingleton<ICliDocumentationScraper, HelmDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, KubectlDocumentationScraper>();
