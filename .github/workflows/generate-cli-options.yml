@@ -6,7 +6,7 @@ on:
     - cron: '0 2 * * 0'
   workflow_dispatch:
     inputs:
-      # Linux tools
+      # Linux tools - Kubernetes/Container ecosystem
       helm:
         description: 'Helm'
         required: false
@@ -17,18 +17,29 @@ on:
         required: false
         default: true
         type: boolean
+      kustomize:
+        description: 'Kustomize'
+        required: false
+        default: true
+        type: boolean
       docker:
         description: 'Docker'
         required: false
         default: true
         type: boolean
-      az:
-        description: 'Azure CLI'
+      trivy:
+        description: 'Trivy (Security Scanner)'
         required: false
         default: true
         type: boolean
-      dotnet:
-        description: '.NET CLI'
+      hadolint:
+        description: 'Hadolint (Dockerfile Linter)'
+        required: false
+        default: true
+        type: boolean
+      # Cloud CLIs
+      az:
+        description: 'Azure CLI'
         required: false
         default: true
         type: boolean
@@ -37,18 +48,85 @@ on:
         required: false
         default: true
         type: boolean
+      aws:
+        description: 'AWS CLI'
+        required: false
+        default: true
+        type: boolean
+      # Infrastructure/DevOps tools
       terraform:
         description: 'Terraform'
         required: false
         default: true
         type: boolean
+      flyway:
+        description: 'Flyway (DB Migrations)'
+        required: false
+        default: true
+        type: boolean
+      # Development tools
+      dotnet:
+        description: '.NET CLI'
+        required: false
+        default: true
+        type: boolean
+      go:
+        description: 'Go'
+        required: false
+        default: true
+        type: boolean
+      mvn:
+        description: 'Maven'
+        required: false
+        default: true
+        type: boolean
+      gradle:
+        description: 'Gradle'
+        required: false
+        default: true
+        type: boolean
+      # Node.js ecosystem
       yarn:
         description: 'Yarn'
         required: false
         default: true
         type: boolean
-      aws:
-        description: 'AWS CLI'
+      pnpm:
+        description: 'pnpm'
+        required: false
+        default: true
+        type: boolean
+      # GitHub CLI
+      gh:
+        description: 'GitHub CLI'
+        required: false
+        default: true
+        type: boolean
+      # Code quality/Security
+      sonar-scanner:
+        description: 'SonarScanner'
+        required: false
+        default: true
+        type: boolean
+      snyk:
+        description: 'Snyk'
+        required: false
+        default: true
+        type: boolean
+      # Data processing
+      jq:
+        description: 'jq (JSON processor)'
+        required: false
+        default: true
+        type: boolean
+      yq:
+        description: 'yq (YAML processor)'
+        required: false
+        default: true
+        type: boolean
+      # Python
+      pip:
+        description: 'pip (Python)'
         required: false
         default: true
         type: boolean
@@ -81,15 +159,38 @@ jobs:
       fail-fast: false
       matrix:
         tool:
+          # Kubernetes/Container ecosystem
           - helm
           - kubectl
+          - kustomize
           - docker
+          - trivy
+          - hadolint
+          # Cloud CLIs
           - az
-          - dotnet
           - gcloud
-          - terraform
-          - yarn
           - aws
+          # Infrastructure/DevOps
+          - terraform
+          - flyway
+          # Development tools
+          - dotnet
+          - go
+          - mvn
+          - gradle
+          # Node.js ecosystem
+          - yarn
+          - pnpm
+          # GitHub CLI
+          - gh
+          # Code quality/Security
+          - sonar-scanner
+          - snyk
+          # Data processing
+          - jq
+          - yq
+          # Python
+          - pip
 
     steps:
       - name: Check if tool should run
@@ -137,15 +238,38 @@ jobs:
         run: |
           # Map tool to package directory and namespace prefix
           declare -A TOOL_MAP=(
+            # Kubernetes/Container ecosystem
             ["helm"]="ModularPipelines.Helm:Helm"
             ["kubectl"]="ModularPipelines.Kubernetes:Kubernetes"
+            ["kustomize"]="ModularPipelines.Kubernetes:Kustomize"
             ["docker"]="ModularPipelines.Docker:Docker"
+            ["trivy"]="ModularPipelines.Trivy:Trivy"
+            ["hadolint"]="ModularPipelines.Hadolint:Hadolint"
+            # Cloud CLIs
             ["az"]="ModularPipelines.Azure:Az"
-            ["dotnet"]="ModularPipelines.DotNet:DotNet"
             ["gcloud"]="ModularPipelines.Google:Gcloud"
-            ["terraform"]="ModularPipelines.Terraform:Terraform"
-            ["yarn"]="ModularPipelines.Yarn:Yarn"
             ["aws"]="ModularPipelines.AmazonWebServices:Aws"
+            # Infrastructure/DevOps
+            ["terraform"]="ModularPipelines.Terraform:Terraform"
+            ["flyway"]="ModularPipelines.Flyway:Flyway"
+            # Development tools
+            ["dotnet"]="ModularPipelines.DotNet:DotNet"
+            ["go"]="ModularPipelines.Go:Go"
+            ["mvn"]="ModularPipelines.Java:Maven"
+            ["gradle"]="ModularPipelines.Java:Gradle"
+            # Node.js ecosystem
+            ["yarn"]="ModularPipelines.Yarn:Yarn"
+            ["pnpm"]="ModularPipelines.Node:Pnpm"
+            # GitHub CLI
+            ["gh"]="ModularPipelines.GitHub:Gh"
+            # Code quality/Security
+            ["sonar-scanner"]="ModularPipelines.SonarScanner:SonarScanner"
+            ["snyk"]="ModularPipelines.Snyk:Snyk"
+            # Data processing
+            ["jq"]="ModularPipelines.Jq:Jq"
+            ["yq"]="ModularPipelines.Yq:Yq"
+            # Python
+            ["pip"]="ModularPipelines.Python:Pip"
           )
 
           IFS=':' read -r PACKAGE PREFIX <<< "${TOOL_MAP[${{ matrix.tool }}]}"
@@ -215,8 +339,91 @@ jobs:
           sudo ./aws/install --update
           cd -
 
+      - name: Install Kustomize
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kustomize'
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+
+      - name: Install Trivy
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'trivy'
+        run: |
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Install Hadolint
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'hadolint'
+        run: |
+          wget -O hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          chmod +x hadolint
+          sudo mv hadolint /usr/local/bin/
+
+      - name: Install Flyway
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flyway'
+        run: |
+          wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.20.1/flyway-commandline-10.20.1-linux-x64.tar.gz | tar xvz
+          sudo ln -s "$(pwd)/flyway-10.20.1/flyway" /usr/local/bin/flyway
+
+      - name: Install Go
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Install Maven
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'mvn'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y maven
+
+      - name: Install Gradle
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gradle'
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Install pnpm
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pnpm'
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+
+      - name: Install GitHub CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'gh'
+        run: |
+          # GitHub CLI is pre-installed on ubuntu-latest
+          gh --version
+
+      - name: Install SonarScanner
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'sonar-scanner'
+        run: |
+          wget -qO- https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-6.2.1.4610-linux-x64.zip -O sonar-scanner.zip
+          unzip -q sonar-scanner.zip
+          sudo mv sonar-scanner-6.2.1.4610-linux-x64 /opt/sonar-scanner
+          sudo ln -s /opt/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+      - name: Install Snyk
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'snyk'
+        run: |
+          npm install -g snyk
+
+      - name: Install jq
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'jq'
+        run: |
+          # jq is pre-installed on ubuntu-latest
+          jq --version
+
+      - name: Install yq
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'yq'
+        run: |
+          wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod +x /tmp/yq
+          sudo mv /tmp/yq /usr/local/bin/yq
+
       # Docker is pre-installed on ubuntu-latest
       # .NET CLI is installed via setup-dotnet
+      # pip is pre-installed with Python on ubuntu-latest
 
       - name: Build Generator
         if: steps.should-run.outputs.run == 'true'
