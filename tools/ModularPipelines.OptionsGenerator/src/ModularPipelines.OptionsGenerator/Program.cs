@@ -70,6 +70,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliScraper, HelmCliScraper>();
     builder.Services.AddSingleton<ICliScraper, DockerCliScraper>();
     builder.Services.AddSingleton<ICliScraper, KubectlCliScraper>();
+    builder.Services.AddSingleton<ICliScraper, KustomizeCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GcloudCliScraper>();
     builder.Services.AddSingleton<ICliScraper, GitCliScraper>();
 
