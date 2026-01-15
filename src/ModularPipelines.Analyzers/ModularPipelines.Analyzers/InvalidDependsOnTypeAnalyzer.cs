@@ -90,7 +90,7 @@ public class InvalidDependsOnTypeAnalyzer : DiagnosticAnalyzer
 
     private static bool IsValidModuleType(ITypeSymbol dependencyType, Compilation compilation)
     {
-        var iModuleType = compilation.GetTypeByMetadataName("ModularPipelines.Interfaces.IModule");
+        var iModuleType = compilation.GetTypeByMetadataName("ModularPipelines.Modules.IModule");
         return iModuleType is not null && dependencyType.ImplementsInterface(iModuleType);
     }
 
