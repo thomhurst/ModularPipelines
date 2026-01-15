@@ -94,21 +94,16 @@ public class DependencyRegistrationGenerator : ICodeGenerator
 
         sb.AppendLine("        return services;");
         sb.AppendLine("    }");
-
-        sb.AppendLine("}");
         sb.AppendLine();
 
-        // C# 14 Extension member for context access (property syntax)
-        sb.AppendLine("/// <summary>");
-        sb.AppendLine($"/// C# 14 extension member providing property-style access to {tool.ToolName} service.");
-        sb.AppendLine("/// </summary>");
-        sb.AppendLine(GeneratorUtils.GeneratedCodeAttribute);
-        sb.AppendLine($"public implicit extension {className}ContextExtension for IPipelineContext");
-        sb.AppendLine("{");
+        // Extension method for context access (traditional extension method syntax for compatibility)
         sb.AppendLine("    /// <summary>");
         sb.AppendLine($"    /// Gets the {tool.ToolName} service from the pipeline context.");
         sb.AppendLine("    /// </summary>");
-        sb.AppendLine($"    public {interfaceName} {serviceName} => this.Services.Get<{interfaceName}>();");
+        sb.AppendLine("    /// <param name=\"context\">The pipeline context.</param>");
+        sb.AppendLine($"    /// <returns>The <see cref=\"{interfaceName}\"/> service for executing {tool.ToolName} commands.</returns>");
+        sb.AppendLine($"    public static {interfaceName} {serviceName}(this IPipelineContext context) => context.Services.Get<{interfaceName}>();");
+
         sb.AppendLine("}");
 
         return sb.ToString();
