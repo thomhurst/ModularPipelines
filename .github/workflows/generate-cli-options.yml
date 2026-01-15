@@ -473,7 +473,7 @@ jobs:
 
       - name: Install Go
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'go'
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: 'stable'
 
