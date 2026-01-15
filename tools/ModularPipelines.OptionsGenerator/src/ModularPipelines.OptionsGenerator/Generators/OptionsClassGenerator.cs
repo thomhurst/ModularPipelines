@@ -15,7 +15,7 @@ public class OptionsClassGenerator : ICodeGenerator
         foreach (var command in tool.Commands)
         {
             var content = GenerateOptionsClass(command, tool);
-            var fileName = $"{command.ClassName}.cs";
+            var fileName = $"{command.ClassName}.Generated.cs";
             var relativePath = Path.Combine(tool.OutputDirectory, "Options", fileName);
 
             files.Add(new GeneratedFile

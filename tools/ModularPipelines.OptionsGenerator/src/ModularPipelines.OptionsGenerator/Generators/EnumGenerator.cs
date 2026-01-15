@@ -15,7 +15,7 @@ public class EnumGenerator : ICodeGenerator
         foreach (var enumDef in tool.AllEnums)
         {
             var content = GenerateEnum(enumDef, tool);
-            var fileName = $"{enumDef.EnumName}.cs";
+            var fileName = $"{enumDef.EnumName}.Generated.cs";
             var relativePath = Path.Combine(tool.OutputDirectory, "Enums", fileName);
 
             files.Add(new GeneratedFile
