@@ -2,7 +2,6 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.Enums;
 using ModularPipelines.Extensions;
-using ModularPipelines.Host;
 using ModularPipelines.TestHelpers;
 using ModularPipelines.UnitTests.Models;
 using Moq;
@@ -49,23 +48,19 @@ public class SecretObfuscatorTests
         await Assert.That(logOutput).DoesNotContain("::add-mask::This is NOT a secret value!");
     }
 
-    private Task<IPipelineHost> GetPipelineHost()
+    private IPipeline GetPipeline()
     {
-        return TestPipelineHostBuilder.Create()
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton(_buildSystemMock.Object);
-                services.Configure<MyModel>(context.Configuration);
-                services.AddSingleton(_consoleWriterMock.Object);
-            })
-            .AddModule<GlobalDummyModule>()
-            .BuildHostAsync();
+        var builder = TestPipelineHostBuilder.Create();
+        builder.Services.AddSingleton(_buildSystemMock.Object);
+        builder.Services.Configure<MyModel>(builder.Configuration);
+        builder.Services.AddSingleton(_consoleWriterMock.Object);
+        builder.Services.AddModule<GlobalDummyModule>();
+        return builder.Build();
     }
 
     private async Task ExecutePipelineAsync()
     {
-        var pipelineHost = await GetPipelineHost();
-
-        await pipelineHost.ExecutePipelineAsync();
+        var pipeline = GetPipeline();
+        await pipeline.RunAsync();
     }
 }
