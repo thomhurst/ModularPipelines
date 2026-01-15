@@ -35,9 +35,9 @@ public partial class GhCliScraper : CobraCliScraper
 
     public override string NamespacePrefix => "Gh";
 
-    public override string TargetNamespace => "ModularPipelines.GitHub.Cli";
+    public override string TargetNamespace => "ModularPipelines.GitHub";
 
-    public override string OutputDirectory => "src/ModularPipelines.GitHub.Cli";
+    public override string OutputDirectory => "src/ModularPipelines.GitHub";
 
     /// <summary>
     /// Skip utility commands and help topics.
