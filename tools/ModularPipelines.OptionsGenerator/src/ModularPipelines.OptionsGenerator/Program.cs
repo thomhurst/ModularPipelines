@@ -89,6 +89,7 @@ rootCommand.SetAction(async (parseResult, cancellationToken) =>
     builder.Services.AddSingleton<ICliDocumentationScraper, DockerDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, AzureCliDocumentationScraper>();
     builder.Services.AddSingleton<ICliDocumentationScraper, DotNetCliDocumentationScraper>();
+    builder.Services.AddSingleton<ICliDocumentationScraper, BrewDocumentationScraper>();
 
     // Register generators
     builder.Services.AddSingleton<ICodeGenerator, OptionsClassGenerator>();

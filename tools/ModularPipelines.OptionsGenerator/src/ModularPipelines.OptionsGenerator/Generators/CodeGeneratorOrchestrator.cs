@@ -99,6 +99,13 @@ public class CodeGeneratorOrchestrator
 
                         _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, htmlScraper.ToolName);
 
+                        // If no commands found, fall through to HTML scraper
+                        if (allCommands.Count == 0)
+                        {
+                            _logger.LogWarning("CLI scraper for {Tool} returned no commands, falling back to HTML scraper", htmlScraper.ToolName);
+                        }
+                        else
+                        {
                         // Create complete tool definition
                         var completeToolDefinition = new CliToolDefinition
                         {
@@ -130,6 +137,7 @@ public class CodeGeneratorOrchestrator
                         _logger.LogInformation("Generated files for {Tool} ({Count} commands, {SubDomainCount} sub-domains)",
                             htmlScraper.ToolName, allCommands.Count, completeToolDefinition.SubDomainGroups.Count);
                         continue;
+                        }
                     }
 
                     _logger.LogWarning("{Tool} CLI not available, falling back to HTML scraper", htmlScraper.ToolName);
@@ -242,6 +250,14 @@ public class CodeGeneratorOrchestrator
                     }
 
                     _logger.LogInformation("Scraped {Count} commands for {Tool}", allCommands.Count, cliScraper.ToolName);
+
+                    // Throw error if no commands were found - CLI-only tools have no fallback
+                    if (allCommands.Count == 0)
+                    {
+                        var errorMessage = $"No commands found for {cliScraper.ToolName}. This is a CLI-only tool with no HTML fallback. Ensure the CLI tool is installed and accessible.";
+                        _logger.LogError(errorMessage);
+                        throw new InvalidOperationException(errorMessage);
+                    }
 
                     // Create complete tool definition
                     var completeToolDefinition = new CliToolDefinition
