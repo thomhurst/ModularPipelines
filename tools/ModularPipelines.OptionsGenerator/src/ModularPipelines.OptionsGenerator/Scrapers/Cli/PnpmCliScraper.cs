@@ -40,9 +40,9 @@ public partial class PnpmCliScraper : CliScraperBase
 
     public override string NamespacePrefix => "Pnpm";
 
-    public override string TargetNamespace => "ModularPipelines.Pnpm";
+    public override string TargetNamespace => "ModularPipelines.Node";
 
-    public override string OutputDirectory => "src/ModularPipelines.Pnpm";
+    public override string OutputDirectory => "src/ModularPipelines.Node";
 
     /// <summary>
     /// Skip utility commands.
