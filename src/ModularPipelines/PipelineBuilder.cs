@@ -8,6 +8,7 @@ using ModularPipelines.DependencyInjection;
 using ModularPipelines.Engine;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Options;
+using ModularPipelines.Plugins;
 using ModularPipelines.Validation;
 using Vertical.SpectreLogger.Options;
 
@@ -243,16 +244,22 @@ public sealed class PipelineBuilder
     {
         LoadModularPipelineAssembliesIfNotLoadedYet();
 
+        // Apply plugin configuration to the builder (modules, hooks, options)
+        PluginIntegration.ApplyPluginConfiguration(this);
+
         // Configure the host with our collected configuration
         _hostBuilder.ConfigureAppConfiguration((_, config) =>
         {
             config.AddConfiguration(_configuration);
         });
 
-        // Configure services: first the core services, then user services
+        // Configure services: first the core services, then plugins, then user services
         _hostBuilder.ConfigureServices((_, services) =>
         {
             DependencyInjectionSetup.Initialize(services);
+
+            // Apply plugin services after core services
+            PluginIntegration.ApplyPluginServices(services);
 
             // Configure pipeline options
             services.Configure<PipelineOptions>(opts =>
