@@ -24,7 +24,7 @@ public class AlwaysRunTests : TestBase
             .WithAlwaysRun()
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -38,7 +38,7 @@ public class AlwaysRunTests : TestBase
             .WithAlwaysRun()
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -52,7 +52,7 @@ public class AlwaysRunTests : TestBase
             .WithAlwaysRun()
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();

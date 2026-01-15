@@ -9,7 +9,7 @@ namespace ModularPipelines.Build.Modules;
 
 public class PrintGitInformationModule : Module<IDictionary<string, object>>
 {
-    public override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         context.Logger.LogInformation("Git Info: {GitInfo}", JsonSerializer.Serialize(context.Git().Information, DiagnosticSerializerOptions.Instance));
 

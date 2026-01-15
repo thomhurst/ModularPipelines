@@ -69,7 +69,7 @@ public class ZipTests : TestBase
 
     private class ZipModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -117,7 +117,7 @@ public class ZipTests : TestBase
 
     private class UnZipModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 

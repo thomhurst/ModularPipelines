@@ -10,7 +10,7 @@ public class GitHubRepositoryInfoTests : TestBase
 {
     public class GitRepoModule : Module<IGitHubRepositoryInfo>
     {
-        public override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IGitHubRepositoryInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return context.GitHub().RepositoryInfo;

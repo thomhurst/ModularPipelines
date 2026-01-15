@@ -22,7 +22,7 @@ public class DirectCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule2>]
     private class DependencyConflictModule1 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<DependencyConflictModule2, bool>();
             await Task.Yield();
@@ -33,7 +33,7 @@ public class DirectCollisionTests
     [ModularPipelines.Attributes.DependsOn<DependencyConflictModule1>]
     private class DependencyConflictModule2 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
             return true;

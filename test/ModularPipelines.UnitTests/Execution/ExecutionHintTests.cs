@@ -17,7 +17,7 @@ public class ExecutionHintTests : TestBase
     [ExecutionHint(ExecutionType.CpuIntensive)]
     public class CpuIntensiveModule1 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
             CpuModulesExecuting.Add(moduleName);
@@ -44,7 +44,7 @@ public class ExecutionHintTests : TestBase
     [ExecutionHint(ExecutionType.CpuIntensive)]
     public class CpuIntensiveModule2 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
             CpuModulesExecuting.Add(moduleName);
@@ -65,7 +65,7 @@ public class ExecutionHintTests : TestBase
     [ExecutionHint(ExecutionType.CpuIntensive)]
     public class CpuIntensiveModule3 : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var moduleName = GetType().Name;
             CpuModulesExecuting.Add(moduleName);
@@ -86,7 +86,7 @@ public class ExecutionHintTests : TestBase
     [ExecutionHint(ExecutionType.IoIntensive)]
     public class IoIntensiveModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(10, cancellationToken);
             return "IoIntensive";
@@ -96,7 +96,7 @@ public class ExecutionHintTests : TestBase
     [ExecutionHint(ExecutionType.Default)]
     public class DefaultExecutionTypeModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Default");
         }
@@ -104,7 +104,7 @@ public class ExecutionHintTests : TestBase
 
     public class NoHintModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("NoHint");
         }

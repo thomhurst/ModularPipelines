@@ -42,7 +42,7 @@ public class TimedDependencyTests
 
     private class FiveSecondModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(LongModuleDelay, cancellationToken);
             return true;
@@ -52,7 +52,7 @@ public class TimedDependencyTests
     [ModularPipelines.Attributes.DependsOn<FiveSecondModule>]
     private class OneSecondModuleDependentOnFiveSecondModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(ShortModuleDelay, cancellationToken);
             return true;

@@ -20,7 +20,7 @@ public class DotNetTestResultsTests : TestBase
 {
     private class DotNetTestWithFailureModule : Module<CommandResult>
     {
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;
@@ -49,7 +49,7 @@ public class DotNetTestResultsTests : TestBase
         private const string TrxFileName = "test-results.trx";
         public static File? TrxFile { get; private set; }
 
-        public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;

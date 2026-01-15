@@ -22,7 +22,7 @@ public class PushVersionTagModule : Module<CommandResult>
         })
         .Build();
 
-    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var versionInformation = context.GetModule<NugetVersionGeneratorModule, string>();
 

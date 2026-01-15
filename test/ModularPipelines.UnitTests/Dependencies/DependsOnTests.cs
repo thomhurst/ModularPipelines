@@ -29,7 +29,7 @@ public class DependsOnTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3WithGetIfRegistered : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModuleIfRegistered<Module1, bool>();
             await Task.Yield();
@@ -40,7 +40,7 @@ public class DependsOnTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
     private class Module3WithGet : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<Module1, bool>();
             await Task.Yield();
@@ -51,7 +51,7 @@ public class DependsOnTests : TestBase
     [ModularPipelines.Attributes.DependsOn<DependsOnSelfModule>]
     private class DependsOnSelfModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<Module1, bool>();
             await Task.Yield();
@@ -62,7 +62,7 @@ public class DependsOnTests : TestBase
     [ModularPipelines.Attributes.DependsOn(typeof(ModuleFailedException))]
     private class DependsOnNonModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<Module1, bool>();
             await Task.Yield();

@@ -13,7 +13,7 @@ public class JsonSerializationTests : TestBase
 {
     public class Module1 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -27,7 +27,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module2 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 
@@ -41,7 +41,7 @@ public class JsonSerializationTests : TestBase
 
     public class Module3 : Module<IDictionary<string, object>>
     {
-        public override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<IDictionary<string, object>> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
 

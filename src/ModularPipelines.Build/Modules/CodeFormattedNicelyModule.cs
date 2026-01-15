@@ -36,7 +36,7 @@ public class CodeFormattedNicelyModule : Module<CommandResult>
         .WithAlwaysRun()
         .Build();
 
-    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         if (!context.Git().Information.BranchName!.Contains("pull"))
         {

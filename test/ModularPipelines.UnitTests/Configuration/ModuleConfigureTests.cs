@@ -8,7 +8,7 @@ public class ModuleConfigureTests
 {
     private class TestModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
             => Task.FromResult<string?>("test");
     }
 
@@ -19,7 +19,7 @@ public class ModuleConfigureTests
             .WithAlwaysRun()
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken token)
             => Task.FromResult<string?>("test");
     }
 

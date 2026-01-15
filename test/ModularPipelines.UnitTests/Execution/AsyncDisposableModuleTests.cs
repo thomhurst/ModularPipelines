@@ -20,7 +20,7 @@ public class AsyncDisposableModuleTests
         public bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 100ms to 1ms for faster test execution
             await Task.Delay(1, cancellationToken);

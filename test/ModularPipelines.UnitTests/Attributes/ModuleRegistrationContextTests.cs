@@ -16,13 +16,13 @@ public class ModuleRegistrationContextTests
 {
     private class ModuleA : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("A");
     }
 
     private class ModuleB : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult<string?>("B");
     }
 

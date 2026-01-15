@@ -14,7 +14,7 @@ public class SummaryLoggerTests
 
     private class SummaryInfoLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.Info("Info message");
             await Task.CompletedTask;
@@ -24,7 +24,7 @@ public class SummaryLoggerTests
 
     private class SummarySuccessLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.Success("Success message");
             await Task.CompletedTask;
@@ -34,7 +34,7 @@ public class SummaryLoggerTests
 
     private class SummaryWarningLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.Warning("Warning message");
             await Task.CompletedTask;
@@ -44,7 +44,7 @@ public class SummaryLoggerTests
 
     private class SummaryErrorLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.Error("Error message");
             await Task.CompletedTask;
@@ -54,7 +54,7 @@ public class SummaryLoggerTests
 
     private class SummaryKeyValueLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.KeyValue("Version", "1.2.3");
             await Task.CompletedTask;
@@ -64,7 +64,7 @@ public class SummaryLoggerTests
 
     private class SummaryCategoryLoggingModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             context.Summary.Info("Build", "Build completed");
             context.Summary.Success("Build", "All tests passed");

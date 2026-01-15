@@ -14,7 +14,7 @@ namespace ModularPipelines.Build.Modules.LocalMachine;
 [DependsOn<CreateLocalNugetFolderModule>]
 public class UploadPackagesToLocalNuGetModule : Module<CommandResult[]>
 {
-    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var localRepoLocation = context.GetModule<CreateLocalNugetFolderModule, Folder>();
         var packagePaths = context.GetModule<PackagePathsParserModule, List<File>>();

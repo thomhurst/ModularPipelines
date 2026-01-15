@@ -21,7 +21,7 @@ public class TrxParsingTests : TestBase
     {
         public DotNetTestResult? LastResult { get; private set; }
 
-        public override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<DotNetTestResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             var testProject = context.Git().RootDirectory
                 .FindFile(x => x.Name == "ModularPipelines.TestsForTests.csproj")!;

@@ -58,7 +58,7 @@ public class SafeEstimatedTimeProviderTests
 
     private class DummyModule : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return await true.AsTask();
         }

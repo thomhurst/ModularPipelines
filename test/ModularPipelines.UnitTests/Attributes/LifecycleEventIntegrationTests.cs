@@ -56,7 +56,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogEnd]
     public class SuccessfulModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "Success";
@@ -67,7 +67,7 @@ public class LifecycleEventIntegrationTests : TestBase
     [LogFailed]
     public class FailingModule : Module<string>
     {
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             throw new InvalidOperationException("Intentional failure");
         }
@@ -81,7 +81,7 @@ public class LifecycleEventIntegrationTests : TestBase
             .WithSkipWhen(() => SkipDecision.Skip("Test skip reason"))
             .Build();
 
-        public override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             return Task.FromResult<string?>("Should not execute");
         }

@@ -10,7 +10,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
-    public override Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
 

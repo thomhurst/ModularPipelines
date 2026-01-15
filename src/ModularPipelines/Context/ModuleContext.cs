@@ -76,6 +76,48 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         return null;
     }
 
+    public TModule GetModule<TModule>()
+        where TModule : class, IModule
+    {
+        var moduleType = typeof(TModule);
+
+        // Check for self-reference
+        if (moduleType == _currentModule.GetType())
+        {
+            throw new ModuleReferencingSelfException(
+                $"Module '{moduleType.Name}' cannot reference itself. " +
+                "A module cannot depend on its own result.");
+        }
+
+        var module = _internalContext.GetModule<TModule>();
+
+        if (module == null)
+        {
+            throw new ModuleNotRegisteredException(
+                $"Module '{moduleType.Name}' is not registered in the pipeline.\n" +
+                $"Add '.AddModule<{moduleType.Name}>()' to your pipeline configuration.",
+                null);
+        }
+
+        return module;
+    }
+
+    public TModule? GetModuleIfRegistered<TModule>()
+        where TModule : class, IModule
+    {
+        var moduleType = typeof(TModule);
+
+        // Check for self-reference - still throw, as this is a programming error
+        if (moduleType == _currentModule.GetType())
+        {
+            throw new ModuleReferencingSelfException(
+                $"Module '{moduleType.Name}' cannot reference itself. " +
+                "A module cannot depend on its own result.");
+        }
+
+        return _internalContext.GetModule<TModule>();
+    }
+
     public async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
         var tracker = new SubModuleTracker(name, _currentModule.GetType());

@@ -21,7 +21,7 @@ public abstract class SimpleTestModule<T> : Module<T>
     protected abstract T? Result { get; }
 
     /// <inheritdoc />
-    public override async Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected internal override async Task<T?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await Task.Yield();
         return Result;

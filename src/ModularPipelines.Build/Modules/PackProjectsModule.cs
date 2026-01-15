@@ -20,7 +20,7 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    public override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var packageVersion = context.GetModule<NugetVersionGeneratorModule, string>();
 

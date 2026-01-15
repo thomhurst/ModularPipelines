@@ -28,7 +28,7 @@ public class DynamicDependencyIntegrationTests : TestBase
 
     public class ModuleA : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("A");
             await Task.Yield();
@@ -39,7 +39,7 @@ public class DynamicDependencyIntegrationTests : TestBase
     [AddDependency(typeof(ModuleA))]
     public class ModuleB : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Add("B");
             await Task.Yield();

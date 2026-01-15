@@ -47,7 +47,7 @@ public class FormatMarkdownModule : Module<CommandResult>
         .WithAlwaysRun()
         .Build();
 
-    public override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         await context.Node().Npm.Install(new NpmInstallOptions
         {

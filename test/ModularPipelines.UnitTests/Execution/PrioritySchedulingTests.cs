@@ -15,7 +15,7 @@ public class PrioritySchedulingTests : TestBase
     [Priority(ModulePriority.Low)]
     public class LowPriorityModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("Low");
             await Task.Delay(10, cancellationToken);
@@ -26,7 +26,7 @@ public class PrioritySchedulingTests : TestBase
     [Priority(ModulePriority.Normal)]
     public class NormalPriorityModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("Normal");
             await Task.Delay(10, cancellationToken);
@@ -37,7 +37,7 @@ public class PrioritySchedulingTests : TestBase
     [Priority(ModulePriority.High)]
     public class HighPriorityModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("High");
             await Task.Delay(10, cancellationToken);
@@ -48,7 +48,7 @@ public class PrioritySchedulingTests : TestBase
     [Priority(ModulePriority.Critical)]
     public class CriticalPriorityModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("Critical");
             await Task.Delay(10, cancellationToken);
@@ -58,7 +58,7 @@ public class PrioritySchedulingTests : TestBase
 
     public class DefaultPriorityModule : Module<string>
     {
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionOrder.Enqueue("Default");
             await Task.Delay(10, cancellationToken);

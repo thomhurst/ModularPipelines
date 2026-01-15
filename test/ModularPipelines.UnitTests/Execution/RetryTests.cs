@@ -44,7 +44,7 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
             await Task.Yield();
@@ -56,7 +56,7 @@ public class RetryTests : TestBase
     {
         internal int ExecutionCount;
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -80,7 +80,7 @@ public class RetryTests : TestBase
                 .WaitAndRetryAsync(DefaultRetryCount, _ => TimeSpan.Zero))
             .Build();
 
-        public override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             ExecutionCount++;
 
@@ -100,7 +100,7 @@ public class RetryTests : TestBase
             .WithTimeout(TimeSpan.FromMilliseconds(ModuleTimeoutMs))
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(ModuleDelayMs), cancellationToken);
 

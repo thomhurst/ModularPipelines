@@ -58,7 +58,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOn<BaseModule>();
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "programmatic";
@@ -75,7 +75,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnOptional<OptionalDependencyModule>();
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "optional-dep";
@@ -92,7 +92,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnIf<ConditionalModule>(true);
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "conditional-active";
@@ -109,7 +109,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnIf<ConditionalModule>(false);
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "conditional-inactive";
@@ -128,7 +128,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnIf<ConditionalModule>(() => ShouldDependOnConditional);
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "predicate-conditional";
@@ -145,7 +145,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnLazy<LazyModule>();
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "lazy-dep";
@@ -163,7 +163,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOnOptional<OptionalDependencyModule>();
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "combined";
@@ -182,7 +182,7 @@ public class DynamicDependencyDeclarationTests : TestBase
                 .DependsOnLazy<LazyModule>();
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "chained";
@@ -199,7 +199,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOn<BaseModule>(); // BaseModule not registered
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "missing-dep";
@@ -216,7 +216,7 @@ public class DynamicDependencyDeclarationTests : TestBase
             deps.DependsOn(typeof(BaseModule));
         }
 
-        public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return "type-dep";

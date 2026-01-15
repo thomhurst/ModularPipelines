@@ -10,7 +10,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
 {
     private class Module1 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return true;
@@ -20,7 +20,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             _ = context.GetModule<Module1, bool>();
             await Task.Yield();

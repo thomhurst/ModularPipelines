@@ -13,7 +13,7 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         .WithAlwaysRun()
         .Build();
 
-    public override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override Task<IReadOnlyList<File>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return Task.FromResult<IReadOnlyList<File>?>(
         [

@@ -32,7 +32,7 @@ public class PipelineProgressTests
 
     private class Module1 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 1 second to 50ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
@@ -43,7 +43,7 @@ public class PipelineProgressTests
     [ModularPipelines.Attributes.DependsOn<Module1>]
     private class Module2 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // Reduced delay from 1 second to 50ms for faster test execution
             await Task.Delay(TimeSpan.FromMilliseconds(50), cancellationToken);
@@ -63,7 +63,7 @@ public class PipelineProgressTests
             .WithSkipWhen(() => SkipDecision.Skip("Testing"))
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             return true;
@@ -77,7 +77,7 @@ public class PipelineProgressTests
             .WithIgnoreFailures()
             .Build();
 
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
             throw new Exception();
@@ -86,7 +86,7 @@ public class PipelineProgressTests
 
     private class Module6 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
@@ -100,7 +100,7 @@ public class PipelineProgressTests
 
     private class Module7 : Module<bool>
     {
-        public override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             // SubModule functionality now needs to be handled differently in the new architecture
             // For now, just execute some work
