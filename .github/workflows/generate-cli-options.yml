@@ -163,6 +163,16 @@ on:
         required: false
         default: true
         type: boolean
+      kind:
+        description: 'Kind (Kubernetes IN Docker)'
+        required: false
+        default: true
+        type: boolean
+      minikube:
+        description: 'Minikube (Local Kubernetes)'
+        required: false
+        default: true
+        type: boolean
       # Code quality/Security
       sonar-scanner:
         description: 'SonarScanner'
@@ -176,6 +186,22 @@ on:
         type: boolean
       shellcheck:
         description: 'ShellCheck'
+        required: false
+        default: true
+        type: boolean
+      # Supply chain security
+      cosign:
+        description: 'Cosign (Container Signing)'
+        required: false
+        default: true
+        type: boolean
+      syft:
+        description: 'Syft (SBOM Generator)'
+        required: false
+        default: true
+        type: boolean
+      grype:
+        description: 'Grype (Vulnerability Scanner)'
         required: false
         default: true
         type: boolean
@@ -268,10 +294,16 @@ jobs:
           - eksctl
           - argocd
           - flux
+          - kind
+          - minikube
           # Code quality/Security
           - sonar-scanner
           - snyk
           - shellcheck
+          # Supply chain security
+          - cosign
+          - syft
+          - grype
           # Testing
           - newman
           # Data processing
@@ -363,10 +395,16 @@ jobs:
             ["eksctl"]="ModularPipelines.Eksctl:Eksctl"
             ["argocd"]="ModularPipelines.ArgoCd:ArgoCd"
             ["flux"]="ModularPipelines.Flux:Flux"
+            ["kind"]="ModularPipelines.Kind:Kind"
+            ["minikube"]="ModularPipelines.Minikube:Minikube"
             # Code quality/Security
             ["sonar-scanner"]="ModularPipelines.SonarScanner:SonarScanner"
             ["snyk"]="ModularPipelines.Snyk:Snyk"
             ["shellcheck"]="ModularPipelines.Shellcheck:Shellcheck"
+            # Supply chain security
+            ["cosign"]="ModularPipelines.Cosign:Cosign"
+            ["syft"]="ModularPipelines.Syft:Syft"
+            ["grype"]="ModularPipelines.Grype:Grype"
             # Testing
             ["newman"]="ModularPipelines.Newman:Newman"
             # Data processing
@@ -605,6 +643,39 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flux'
         run: |
           curl -s https://fluxcd.io/install.sh | sudo bash
+
+      # Local Kubernetes tools
+      - name: Install Kind
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'kind'
+        run: |
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/latest/kind-linux-amd64
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+
+      - name: Install Minikube
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'minikube'
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/
+
+      # Supply chain security tools
+      - name: Install Cosign
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cosign'
+        run: |
+          curl -Lo cosign https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/
+
+      - name: Install Syft
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'syft'
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Install Grype
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'grype'
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
 
       # Code quality tools
       - name: Install ShellCheck
