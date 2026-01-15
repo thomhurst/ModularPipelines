@@ -37,6 +37,21 @@ on:
         required: false
         default: true
         type: boolean
+      podman:
+        description: 'Podman (Container Engine)'
+        required: false
+        default: true
+        type: boolean
+      buildah:
+        description: 'Buildah (Container Builder)'
+        required: false
+        default: true
+        type: boolean
+      skopeo:
+        description: 'Skopeo (Container Operations)'
+        required: false
+        default: true
+        type: boolean
       # Cloud CLIs
       az:
         description: 'Azure CLI'
@@ -59,8 +74,33 @@ on:
         required: false
         default: true
         type: boolean
+      pulumi:
+        description: 'Pulumi (IaC)'
+        required: false
+        default: true
+        type: boolean
+      packer:
+        description: 'Packer (Image Builder)'
+        required: false
+        default: true
+        type: boolean
+      vault:
+        description: 'Vault (Secrets Management)'
+        required: false
+        default: true
+        type: boolean
+      ansible:
+        description: 'Ansible'
+        required: false
+        default: true
+        type: boolean
       flyway:
         description: 'Flyway (DB Migrations)'
+        required: false
+        default: true
+        type: boolean
+      liquibase:
+        description: 'Liquibase (DB Migrations)'
         required: false
         default: true
         type: boolean
@@ -72,6 +112,11 @@ on:
         type: boolean
       go:
         description: 'Go'
+        required: false
+        default: true
+        type: boolean
+      cargo:
+        description: 'Cargo (Rust)'
         required: false
         default: true
         type: boolean
@@ -102,6 +147,22 @@ on:
         required: false
         default: true
         type: boolean
+      # Kubernetes/GitOps
+      eksctl:
+        description: 'eksctl (EKS)'
+        required: false
+        default: true
+        type: boolean
+      argocd:
+        description: 'ArgoCD'
+        required: false
+        default: true
+        type: boolean
+      flux:
+        description: 'Flux (GitOps)'
+        required: false
+        default: true
+        type: boolean
       # Code quality/Security
       sonar-scanner:
         description: 'SonarScanner'
@@ -110,6 +171,17 @@ on:
         type: boolean
       snyk:
         description: 'Snyk'
+        required: false
+        default: true
+        type: boolean
+      shellcheck:
+        description: 'ShellCheck'
+        required: false
+        default: true
+        type: boolean
+      # Testing
+      newman:
+        description: 'Newman (Postman)'
         required: false
         default: true
         type: boolean
@@ -166,16 +238,25 @@ jobs:
           - docker
           - trivy
           - hadolint
+          - podman
+          - buildah
+          - skopeo
           # Cloud CLIs
           - az
           - gcloud
           - aws
           # Infrastructure/DevOps
           - terraform
+          - pulumi
+          - packer
+          - vault
+          - ansible
           - flyway
+          - liquibase
           # Development tools
           - dotnet
           - go
+          - cargo
           - mvn
           - gradle
           # Node.js ecosystem
@@ -183,9 +264,16 @@ jobs:
           - pnpm
           # GitHub CLI
           - gh
+          # Kubernetes/GitOps
+          - eksctl
+          - argocd
+          - flux
           # Code quality/Security
           - sonar-scanner
           - snyk
+          - shellcheck
+          # Testing
+          - newman
           # Data processing
           - jq
           - yq
@@ -245,16 +333,25 @@ jobs:
             ["docker"]="ModularPipelines.Docker:Docker"
             ["trivy"]="ModularPipelines.Trivy:Trivy"
             ["hadolint"]="ModularPipelines.Hadolint:Hadolint"
+            ["podman"]="ModularPipelines.Podman:Podman"
+            ["buildah"]="ModularPipelines.Buildah:Buildah"
+            ["skopeo"]="ModularPipelines.Skopeo:Skopeo"
             # Cloud CLIs
             ["az"]="ModularPipelines.Azure:Az"
             ["gcloud"]="ModularPipelines.Google:Gcloud"
             ["aws"]="ModularPipelines.AmazonWebServices:Aws"
             # Infrastructure/DevOps
             ["terraform"]="ModularPipelines.Terraform:Terraform"
+            ["pulumi"]="ModularPipelines.Pulumi:Pulumi"
+            ["packer"]="ModularPipelines.Packer:Packer"
+            ["vault"]="ModularPipelines.Vault:Vault"
+            ["ansible"]="ModularPipelines.Ansible:Ansible"
             ["flyway"]="ModularPipelines.Flyway:Flyway"
+            ["liquibase"]="ModularPipelines.Liquibase:Liquibase"
             # Development tools
             ["dotnet"]="ModularPipelines.DotNet:DotNet"
             ["go"]="ModularPipelines.Go:Go"
+            ["cargo"]="ModularPipelines.Rust:Cargo"
             ["mvn"]="ModularPipelines.Java:Maven"
             ["gradle"]="ModularPipelines.Java:Gradle"
             # Node.js ecosystem
@@ -262,9 +359,16 @@ jobs:
             ["pnpm"]="ModularPipelines.Node:Pnpm"
             # GitHub CLI
             ["gh"]="ModularPipelines.GitHub:Gh"
+            # Kubernetes/GitOps
+            ["eksctl"]="ModularPipelines.Eksctl:Eksctl"
+            ["argocd"]="ModularPipelines.ArgoCd:ArgoCd"
+            ["flux"]="ModularPipelines.Flux:Flux"
             # Code quality/Security
             ["sonar-scanner"]="ModularPipelines.SonarScanner:SonarScanner"
             ["snyk"]="ModularPipelines.Snyk:Snyk"
+            ["shellcheck"]="ModularPipelines.Shellcheck:Shellcheck"
+            # Testing
+            ["newman"]="ModularPipelines.Newman:Newman"
             # Data processing
             ["jq"]="ModularPipelines.Jq:Jq"
             ["yq"]="ModularPipelines.Yq:Yq"
@@ -420,6 +524,100 @@ jobs:
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
+
+      # Container tools (Docker alternatives)
+      - name: Install Podman
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'podman'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Install Buildah
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'buildah'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y buildah
+
+      - name: Install Skopeo
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'skopeo'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y skopeo
+
+      # Infrastructure as Code tools
+      - name: Install Pulumi
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'pulumi'
+        run: |
+          curl -fsSL https://get.pulumi.com | sh
+          echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
+
+      - name: Install Packer
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'packer'
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt-get update && sudo apt-get install -y packer
+
+      - name: Install Vault
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'vault'
+        run: |
+          wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+          sudo apt-get update && sudo apt-get install -y vault
+
+      - name: Install Ansible
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'ansible'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
+      - name: Install Liquibase
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'liquibase'
+        run: |
+          wget -qO- https://github.com/liquibase/liquibase/releases/download/v4.29.2/liquibase-4.29.2.tar.gz | tar xvz -C /tmp
+          sudo mv /tmp/liquibase /usr/local/bin/
+
+      # Rust ecosystem
+      - name: Install Cargo
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cargo'
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      # Kubernetes/GitOps tools
+      - name: Install eksctl
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'eksctl'
+        run: |
+          ARCH=amd64
+          PLATFORM=$(uname -s)_$ARCH
+          curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+          tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp
+          sudo mv /tmp/eksctl /usr/local/bin
+
+      - name: Install ArgoCD CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'argocd'
+        run: |
+          curl -sSL -o /tmp/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x /tmp/argocd-linux-amd64
+          sudo mv /tmp/argocd-linux-amd64 /usr/local/bin/argocd
+
+      - name: Install Flux CLI
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'flux'
+        run: |
+          curl -s https://fluxcd.io/install.sh | sudo bash
+
+      # Code quality tools
+      - name: Install ShellCheck
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'shellcheck'
+        run: |
+          # ShellCheck is pre-installed on ubuntu-latest
+          shellcheck --version
+
+      # Testing tools
+      - name: Install Newman
+        if: steps.should-run.outputs.run == 'true' && matrix.tool == 'newman'
+        run: |
+          npm install -g newman
 
       # Docker is pre-installed on ubuntu-latest
       # .NET CLI is installed via setup-dotnet

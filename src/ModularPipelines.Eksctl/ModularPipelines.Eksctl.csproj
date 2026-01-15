@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Description>Helpers for interacting with eksctl Amazon EKS cluster management CLI.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+    </ItemGroup>
+
+</Project>
