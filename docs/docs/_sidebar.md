@@ -45,12 +45,6 @@
 
   - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
 
-- Migration
-
-  - [Migrating to V3](/how-to/migrating-to-v3 "Migrating to V3")
-  - [Migrating to V2 Context API](/how-to/migrating-to-v2-context "Migrating to V2 Context API")
-  - [Migrating to V2 Options](/how-to/migrating-to-v2-options "Migrating to V2 Options")
-
 - Examples
 
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
