@@ -64,6 +64,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     // Logger for output
     private ILogger? _outputLogger;
+    private readonly IOutputCoordinator _outputCoordinator;
 
     public ConsoleCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -72,7 +73,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
         IBuildSystemDetector buildSystemDetector,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IOutputCoordinator outputCoordinator)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -81,6 +83,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _loggerFactory = loggerFactory;
         _buildSystemDetector = buildSystemDetector;
         _serviceProvider = serviceProvider;
+        _outputCoordinator = outputCoordinator;
         _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
     }
 
@@ -223,6 +226,9 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             _options,
             cancellationToken);
 
+        // Wire up the progress controller for output coordination
+        _outputCoordinator.SetProgressController(session);
+
         _activeSession = session;
 
         // Start the progress display
@@ -238,6 +244,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         lock (_phaseLock)
         {
+            _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
             _isProgressActive = false;
             _activeSession = null;
         }
