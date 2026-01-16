@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.9.2">
 <title data-rh="true">Testing | Modular Pipelines</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" name="twitter:image" content="https://thomhurst.github.io/ModularPipelines/img/docusaurus-social-card.jpg"><meta data-rh="true" property="og:url" content="https://thomhurst.github.io/ModularPipelines/docs/how-to/testing"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Testing | Modular Pipelines"><meta data-rh="true" name="description" content="Testing with Mocked File System"><meta data-rh="true" property="og:description" content="Testing with Mocked File System"><link data-rh="true" rel="icon" href="/ModularPipelines/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://thomhurst.github.io/ModularPipelines/docs/how-to/testing"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/how-to/testing" hreflang="en"><link data-rh="true" rel="alternate" href="https://thomhurst.github.io/ModularPipelines/docs/how-to/testing" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"How-To","item":"https://thomhurst.github.io/ModularPipelines/docs/category/how-to"},{"@type":"ListItem","position":2,"name":"Testing","item":"https://thomhurst.github.io/ModularPipelines/docs/how-to/testing"}]}</script><link rel="stylesheet" href="/ModularPipelines/assets/css/styles.341a577a.css">
-<script src="/ModularPipelines/assets/js/runtime~main.6a94a233.js" defer="defer"></script>
+<script src="/ModularPipelines/assets/js/runtime~main.66bb734a.js" defer="defer"></script>
 <script src="/ModularPipelines/assets/js/main.ff348638.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -27,7 +27,7 @@
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="important-notes">Important Notes<a href="#important-notes" class="hash-link" aria-label="Direct link to Important Notes" title="Direct link to Important Notes" translate="no">​</a></h3>
 <ul>
 <li class="">
-<p><strong>Always use <code>context.FileSystem</code></strong>: Files created via <code>context.FileSystem.GetFile()</code> will use the injected provider. Files created directly via <code>new File(&quot;path&quot;)</code> use the real file system.</p>
+<p><strong>Always use <code>context.Files</code></strong>: Files created via <code>context.Files.GetFile()</code> will use the injected provider. Files created directly via <code>new File(&quot;path&quot;)</code> use the real file system.</p>
 </li>
 <li class="">
 <p><strong>Provider Registration</strong>: The mock provider must be registered before the pipeline runs. Using <code>services.AddSingleton&lt;IFileSystemProvider&gt;()</code> overrides the default <code>SystemFileSystemProvider</code>.</p>
@@ -36,10 +36,10 @@
 <p><strong>Mock ALL methods your code uses</strong>: The mock provider only intercepts methods you explicitly set up. If your module calls <code>ReadAllTextAsync</code>, <code>FileExists</code>, and <code>Combine</code>, you must mock all three. Unmocked methods may throw or return default values depending on your mocking framework.</p>
 </li>
 <li class="">
-<p><strong>Implicit operators bypass mocking</strong>: Implicit conversions like <code>File file = &quot;/path/to/file&quot;</code> create instances using the default <code>SystemFileSystemProvider</code>, not your mock. For full testability, always use <code>context.FileSystem.GetFile()</code>.</p>
+<p><strong>Implicit operators bypass mocking</strong>: Implicit conversions like <code>File file = &quot;/path/to/file&quot;</code> create instances using the default <code>SystemFileSystemProvider</code>, not your mock. For full testability, always use <code>context.Files.GetFile()</code>.</p>
 </li>
 <li class="">
-<p><strong>Static methods are not mockable</strong>: Methods like <code>File.GetNewTemporaryFilePath()</code> and <code>Folder.CreateTemporaryFolder()</code> use the real file system. Design your modules to receive paths via constructor or use <code>context.FileSystem.CreateTemporaryFolder()</code> instead.</p>
+<p><strong>Static methods are not mockable</strong>: Methods like <code>File.GetNewTemporaryFilePath()</code> and <code>Folder.CreateTemporaryFolder()</code> use the real file system. Design your modules to receive paths via constructor or use <code>context.Files.CreateTemporaryFolder()</code> instead.</p>
 </li>
 <li class="">
 <p><strong>Mocking Path Operations</strong>: If your code uses path operations, mock them too:</p>
