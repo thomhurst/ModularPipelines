@@ -10,6 +10,7 @@ using Status = ModularPipelines.Enums.Status;
 
 namespace ModularPipelines.UnitTests.Execution;
 
+[TUnit.Core.NotInParallel(nameof(EngineCancellationTokenTests))]
 public class EngineCancellationTokenTests : TestBase
 {
     private static readonly TimeSpan WaitForCancellationDelay = TimeSpan.FromMilliseconds(100);
@@ -64,14 +65,15 @@ public class EngineCancellationTokenTests : TestBase
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
-            var module1Result = resultRegistry.GetResult(typeof(Module1));
-            // Module1 depends on BadModule which failed, so Module1 should be marked as PipelineTerminated
-            await Assert.That(module1Result).IsNotNull();
-            await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
-        }
+        await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
+
+        // Allow time for all module results to be finalized after pipeline termination
+        await Task.Delay(TimeSpan.FromSeconds(1));
+
+        var module1Result = resultRegistry.GetResult(typeof(Module1));
+        // Module1 depends on BadModule which failed, so Module1 should be marked as PipelineTerminated
+        await Assert.That(module1Result).IsNotNull();
+        await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
     }
 
     [Test]
@@ -92,13 +94,12 @@ public class EngineCancellationTokenTests : TestBase
 
         await Task.Delay(WaitForCancellationDelay);
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(async () => await pipelineTask).ThrowsException();
-            var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule))!;
-            await Assert.That(longRunningModuleResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
-            await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
-        }
+        await Assert.That(async () => await pipelineTask).ThrowsException();
+
+        var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModule));
+        await Assert.That(longRunningModuleResult).IsNotNull();
+        await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+        await Assert.That(longRunningModuleResult.ModuleDuration).IsLessThan(TimeSpan.FromSeconds(5));
     }
 
     [Test]
@@ -119,11 +120,10 @@ public class EngineCancellationTokenTests : TestBase
 
         await Task.Delay(WaitForCancellationDelay);
 
-        using (Assert.Multiple())
-        {
-            await Assert.That(async () => await pipelineTask).ThrowsException();
-            var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation))!;
-            await Assert.That(longRunningModuleResult.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
-        }
+        await Assert.That(async () => await pipelineTask).ThrowsException();
+
+        var longRunningModuleResult = resultRegistry.GetResult(typeof(LongRunningModuleWithoutCancellation));
+        await Assert.That(longRunningModuleResult).IsNotNull();
+        await Assert.That(longRunningModuleResult!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
     }
 }
