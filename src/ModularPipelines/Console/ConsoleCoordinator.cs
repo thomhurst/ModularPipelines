@@ -32,11 +32,14 @@ namespace ModularPipelines.Console;
 [ExcludeFromCodeCoverage]
 internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 {
+    private const int DefaultCiConsoleWidth = 160;
+
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly IResultsPrinter _resultsPrinter;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILoggerFactory _loggerFactory;
+    private readonly IBuildSystemDetector _buildSystemDetector;
 
     // Console state
     private TextWriter? _originalConsoleOut;
@@ -66,13 +69,15 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IResultsPrinter resultsPrinter,
         ISecretObfuscator secretObfuscator,
         IOptions<PipelineOptions> options,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        IBuildSystemDetector buildSystemDetector)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
         _secretObfuscator = secretObfuscator;
         _options = options;
         _loggerFactory = loggerFactory;
+        _buildSystemDetector = buildSystemDetector;
         _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
     }
 
@@ -103,6 +108,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 {
                     Out = new AnsiConsoleOutput(_originalConsoleOut)
                 });
+
+                // Configure console width for CI environments
+                // Spectre.Console defaults to 80 characters when it can't detect terminal width,
+                // which is common in CI environments where output is redirected
+                ConfigureConsoleWidth();
 
                 // Create logger for structured output during flush
                 _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
@@ -339,6 +349,25 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         Uninstall();
         await Task.CompletedTask;
+    }
+
+    private void ConfigureConsoleWidth()
+    {
+        var configuredWidth = _options.Value.ConsoleWidth;
+
+        if (configuredWidth.HasValue)
+        {
+            // User explicitly configured a width
+            AnsiConsole.Console.Profile.Width = configuredWidth.Value;
+        }
+        else if (_buildSystemDetector.IsKnownBuildAgent)
+        {
+            // Running in a known CI environment - use expanded width
+            // CI environments typically don't have a TTY, causing Spectre.Console to default to 80 chars
+            AnsiConsole.Console.Profile.Width = DefaultCiConsoleWidth;
+        }
+
+        // Otherwise, leave Spectre.Console's auto-detected width (works well for local terminals)
     }
 
     #region IProgressDisplay Implementation
