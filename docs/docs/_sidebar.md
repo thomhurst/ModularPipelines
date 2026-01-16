@@ -13,17 +13,17 @@
   - [Pipeline Host](pipeline-host "Pipeline Host")
   - [Defining Modules](defining-modules "Defining Modules")
   - [Execution and Dependencies](execution-and-dependencies "Execution and Dependencies")
-  - [Sharing data across modules](sharing-data "Sharing Data amongst Modules")
+  - [Sharing Data Across Modules](sharing-data "Sharing Data Across Modules")
   - [Storing and Retrieving Results](storing-and-retrieving-results "Storing and Retrieving Results")
   - [Parallelization](parallelization "Parallelization")
-  - [Custom commands](custom-commands "Custom commands")
+  - [Custom Commands](custom-commands "Custom Commands")
   - [Analyzers](analyzers "Analyzers")
   - [Logging](logging "Logging")
   - [Secrets](secrets "Secrets")
   - [Skipping](skipping "Skipping")
   - [Hooks](hooks "Hooks")
   - [Requirements](requirements "Requirements")
-  - [Run conditions](run-conditions "Run conditions")
+  - [Run Conditions](run-conditions "Run Conditions")
   - [Inheriting](inheriting "Inheriting")
   - [Cancellation Tokens](cancellation-tokens "Cancellation Tokens")
   - [Categories](categories "Categories")
@@ -31,22 +31,27 @@
   - [Pipeline Modes](pipeline-modes "Pipeline Modes")
   - [Always Run](always-run "Always Run")
   - [Retry Policy](retry-policy "Retry Policy")
-  - [SubModules](sub-modules "Sub-Modules")
+  - [Sub-Modules](sub-modules "Sub-Modules")
   - [Timeouts](timeouts "Timeouts")
   - [Time Estimator](time-estimator "Time Estimator")
   - [Console Progress](console-progress "Console Progress")
+  - [Testing](testing "Testing")
 
 - Additional Packages
+
   - [GitHub](/mp-packages/github "GitHub Package")
 
 - Architecture
+
   - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
 
 - Migration
+
   - [Migrating to V3](/how-to/migrating-to-v3 "Migrating to V3")
-  - [Migrating to v2 Context API](/how-to/migrating-to-v2-context "Migrating to v2 Context API")
-  - [Migrating to v2 CommandLineToolOptions](/how-to/migrating-to-v2-options "Migrating to v2 CommandLineToolOptions")
+  - [Migrating to V2 Context API](/how-to/migrating-to-v2-context "Migrating to V2 Context API")
+  - [Migrating to V2 Options](/how-to/migrating-to-v2-options "Migrating to V2 Options")
 
 - Examples
+
   - [Azure Resource Provisioning](/examples/azure-example "Azure Resource Provisioning")
   - [NuGet Publishing](/examples/dotnet-test-build-publish "NuGet Publishing")
