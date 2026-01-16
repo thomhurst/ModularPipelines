@@ -1,5 +1,7 @@
 <!-- docs/_sidebar.md -->
 
+- **[Migrating to V3](/how-to/migrating-to-v3 "Migrating to V3")**
+
 - Modular Pipelines
 
   - [About](/?id=about "About Modular Pipelines")
@@ -41,6 +43,7 @@
   - [Module Execution Lifecycle](/architecture/module-execution-lifecycle "Module Execution Lifecycle")
 
 - Migration
+  - [Migrating to V3](/how-to/migrating-to-v3 "Migrating to V3")
   - [Migrating to v2 Context API](/how-to/migrating-to-v2-context "Migrating to v2 Context API")
   - [Migrating to v2 CommandLineToolOptions](/how-to/migrating-to-v2-options "Migrating to v2 CommandLineToolOptions")
 
