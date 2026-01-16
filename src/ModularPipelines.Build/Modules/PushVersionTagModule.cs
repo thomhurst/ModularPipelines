@@ -6,6 +6,7 @@ using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
@@ -31,9 +32,17 @@ public class PushVersionTagModule : Module<CommandResult>
             TagName = $"v{versionInformation.ValueOrDefault!}",
         }, token: cancellationToken);
 
-        return await context.Git().Commands.Push(new GitPushOptions
-        {
-            Tags = true,
-        }, token: cancellationToken);
+        return await context.Git().Commands.Push
+        (
+            new GitPushOptions
+            {
+                Tags = true,
+            }, 
+            new CommandExecutionOptions
+            {
+                ThrowOnNonZeroExitCode = false,
+            },
+            token: cancellationToken
+        );
     }
 }
