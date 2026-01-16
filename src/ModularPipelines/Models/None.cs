@@ -8,7 +8,7 @@ namespace ModularPipelines.Models;
 /// Use <see cref="Modules.Module"/> (non-generic) instead of <see cref="Modules.Module{T}"/> with <see cref="None"/>
 /// for modules that perform actions without returning results.
 /// </remarks>
-public readonly struct None : IEquatable<None>
+public readonly struct None : IEquatable<None>, IEquatable<None?>
 {
     /// <summary>
     /// Gets the singleton value of <see cref="None"/>.
@@ -19,7 +19,10 @@ public readonly struct None : IEquatable<None>
     public bool Equals(None other) => true;
 
     /// <inheritdoc />
-    public override bool Equals(object? obj) => obj is None;
+    public bool Equals(None? other) => true; // None is semantically equivalent to null
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj) => obj is None or null;
 
     /// <inheritdoc />
     public override int GetHashCode() => 0;
@@ -36,4 +39,25 @@ public readonly struct None : IEquatable<None>
     /// Determines whether two <see cref="None"/> values are not equal (always false).
     /// </summary>
     public static bool operator !=(None left, None right) => false;
+
+    /// <summary>
+    /// Determines whether a <see cref="None"/> equals a nullable <see cref="None"/> (always true).
+    /// </summary>
+    public static bool operator ==(None left, None? right) => true;
+
+    /// <summary>
+    /// Determines whether a <see cref="None"/> does not equal a nullable <see cref="None"/> (always false).
+    /// </summary>
+    public static bool operator !=(None left, None? right) => false;
+
+    /// <summary>
+    /// Determines whether a nullable <see cref="None"/> equals a <see cref="None"/> (always true).
+    /// </summary>
+    public static bool operator ==(None? left, None right) => true;
+
+    /// <summary>
+    /// Determines whether a nullable <see cref="None"/> does not equal a <see cref="None"/> (always false).
+    /// </summary>
+    public static bool operator !=(None? left, None right) => false;
+
 }
