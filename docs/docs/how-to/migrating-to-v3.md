@@ -15,6 +15,7 @@ ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET
 - [ ] Update `GetModule<T>()` calls to `context.GetModule<T>()` (method moved to context)
 - [ ] Migrate virtual property overrides to `Configure()` builder
 - [ ] Update result access patterns to use pattern matching or `ValueOrDefault`
+- [ ] Move `WorkingDirectory`, `EnvironmentVariables`, etc. from tool options to `CommandExecutionOptions`
 
 ## Entry Point Changes
 
@@ -261,6 +262,69 @@ protected override async Task<string?> ExecuteAsync(
 ```
 
 `IModuleContext` extends the pipeline context with module-specific capabilities like `GetModule<TModule>()`.
+
+## Command Execution Options
+
+Execution-related properties have been separated from tool-specific options into a dedicated `CommandExecutionOptions` class. This provides cleaner separation between "what to run" and "how to run it".
+
+### Before (V2)
+
+```csharp
+// Execution options were mixed with tool options
+await context.DotNet().Build(new DotNetBuildOptions
+{
+    Project = "MySolution.sln",
+    Configuration = Configuration.Release,
+    WorkingDirectory = "/path/to/project",        // Was on tool options
+    EnvironmentVariables = new Dictionary<string, string?>
+    {
+        ["CI"] = "true"
+    },
+    ThrowOnNonZeroExitCode = false
+});
+```
+
+### After (V3)
+
+```csharp
+// Tool options only contain tool-specific arguments
+await context.DotNet().Build(
+    new DotNetBuildOptions
+    {
+        ProjectSolution = "MySolution.sln",
+        Configuration = Configuration.Release,
+    },
+    new CommandExecutionOptions                    // Execution options are separate
+    {
+        WorkingDirectory = "/path/to/project",
+        EnvironmentVariables = new Dictionary<string, string?>
+        {
+            ["CI"] = "true"
+        },
+        ThrowOnNonZeroExitCode = false
+    });
+```
+
+### Migration Mapping
+
+| V2 (on tool options) | V3 (on `CommandExecutionOptions`) |
+|----------------------|-----------------------------------|
+| `WorkingDirectory` | `WorkingDirectory` |
+| `EnvironmentVariables` | `EnvironmentVariables` |
+| `ThrowOnNonZeroExitCode` | `ThrowOnNonZeroExitCode` |
+| `CommandLineCredentials` | `CommandLineCredentials` |
+| `LoggingSettings` | `LogSettings` |
+| `InputLoggingManipulator` | `InputLoggingManipulator` |
+| `OutputLoggingManipulator` | `OutputLoggingManipulator` |
+| N/A | `ExecutionTimeout` (new) |
+| N/A | `GracefulShutdownTimeout` (new) |
+| N/A | `Sudo` (new) |
+
+### Benefits
+
+- **Cleaner API**: Tool options focus only on tool-specific arguments
+- **Reusability**: Share `CommandExecutionOptions` across multiple commands
+- **New features**: `ExecutionTimeout`, `GracefulShutdownTimeout`, and `Sudo` options
 
 ## Getting Module Results
 
@@ -727,6 +791,9 @@ public class DeployModule : Module<bool>
 | `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
 | `OnBeforeExecute()` override | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach |
 | `OnAfterExecute()` override | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()` | Either approach |
+| `options.WorkingDirectory` | `CommandExecutionOptions.WorkingDirectory` | Separate parameter |
+| `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
+| `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
 
 ## Getting Help
 

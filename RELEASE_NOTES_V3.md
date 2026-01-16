@@ -234,6 +234,23 @@ protected override Task OnFailedAsync(IModuleContext context, Exception ex, Canc
 | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
 | `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or pattern match |
 
+### Command Execution
+
+Execution-related properties moved from tool options to a separate `CommandExecutionOptions` parameter:
+
+| V2 (on tool options) | V3 (on `CommandExecutionOptions`) |
+|----------------------|-----------------------------------|
+| `WorkingDirectory` | `WorkingDirectory` |
+| `EnvironmentVariables` | `EnvironmentVariables` |
+| `ThrowOnNonZeroExitCode` | `ThrowOnNonZeroExitCode` |
+
+```csharp
+// V3: Pass execution options as second parameter
+await context.DotNet().Build(
+    new DotNetBuildOptions { Configuration = "Release" },
+    new CommandExecutionOptions { WorkingDirectory = "/app" });
+```
+
 ### Removed Types
 
 - `PipelineHostBuilder` - Use `Pipeline.CreateBuilder()`
