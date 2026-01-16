@@ -1803,6 +1803,9 @@ ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET
 - [ ] Update result access patterns to use pattern matching or `ValueOrDefault`
 - [ ] Move `WorkingDirectory`, `EnvironmentVariables`, etc. from tool options to `CommandExecutionOptions`
 - [ ] Migrate `LogInput`/`LogOutput` to `CommandLoggingOptions` with `CommandLogVerbosity`
+- [ ] Update `context.Command` to `context.Shell.Command`
+- [ ] Replace tool options constructors with property initializers (e.g., `new DotNetNewOptions { TemplateShortName = "x" }`)
+- [ ] Add `token:` named parameter when calling tool commands without `CommandExecutionOptions`
 
 ## Entry Point Changes
 
@@ -2370,11 +2373,160 @@ if (buildResult.IsSkipped)
 
 The following features work the same in V3 as they did in V2:
 
-- **Sub-Modules**: `context.SubModule(name, action)` is fully supported. Use sub-modules to track iterations within a module (e.g., packing multiple NuGet packages). See [Sub-Modules documentation](/docs/how-to/sub-modules).
+- **Sub-Modules**: Both `context.SubModule<T>(name, action)` (returns value) and `context.SubModule(name, action)` (no return) are fully supported. Use sub-modules to track iterations within a module (e.g., packing multiple NuGet packages). See [Sub-Modules documentation](/docs/how-to/sub-modules).
 - **Hooks**: Global pipeline hooks via `IHook<T>` interfaces remain unchanged
 - **Requirements**: `IPipelineRequirement` for validating prerequisites
 - **Secrets**: Secret registration and obfuscation via `AddSecret()`
 - **Categories and Tags**: Module organization with `[ModuleCategory]` and `[ModuleTag]`
+
+## Tool Options Classes Regenerated
+
+**Important**: All tool options classes (DotNet, Git, Docker, Azure, etc.) have been regenerated using CLI scraping. This means:
+
+- **No constructors**: Options classes no longer accept constructor arguments. Use property initializers instead.
+- **Properties may have changed**: Some properties may have been renamed, removed, or added based on current CLI help output.
+- **Use property initializers**: Always use object initializer syntax.
+
+### Before (V2)
+
+```csharp
+// Constructor arguments - NO LONGER WORKS
+var newOptions = new DotNetNewOptions("console");
+var packOptions = new DotNetPackOptions(projectPath);
+var pushOptions = new DotNetNugetPushOptions(packagePath);
+```
+
+### After (V3)
+
+```csharp
+// Use property initializers instead
+var newOptions = new DotNetNewOptions { TemplateShortName = "console" };
+var packOptions = new DotNetPackOptions { TargetPath = projectPath };
+var pushOptions = new DotNetNugetPushOptions { PackagePath = packagePath };
+```
+
+### Finding the Right Property Names
+
+If you're unsure which property to use:
+
+1. **IntelliSense**: Type `new DotNetXxxOptions { }` and explore available properties
+2. **Source code**: Options are in `ModularPipelines.<Tool>/Options/` directories
+3. **CLI help**: Property names typically match CLI flag names (e.g., `--output` → `Output`)
+
+## Shell and Command Execution
+
+The command execution API has moved from `context.Command` to `context.Shell.Command`.
+
+### Before (V2)
+
+```csharp
+await context.Command.ExecuteCommandLineTool(new CommandLineToolOptions("mytool")
+{
+    Arguments = new[] { "arg1", "arg2" }
+});
+```
+
+### After (V3)
+
+```csharp
+await context.Shell.Command.ExecuteCommandLineTool(
+    new CommandLineToolOptions("mytool")
+    {
+        Arguments = new[] { "arg1", "arg2" }
+    },
+    new CommandExecutionOptions
+    {
+        WorkingDirectory = "/path/to/dir"
+    });
+```
+
+### Shell Context Structure
+
+```csharp
+context.Shell.Command    // General CLI tool execution (ICommand)
+context.Shell.Bash       // Bash script execution
+context.Shell.PowerShell // PowerShell script execution
+```
+
+## Git and Tool Command Signatures
+
+All tool commands (Git, DotNet, Docker, etc.) now accept an optional `CommandExecutionOptions` parameter. This is **optional** - you don't need to provide it if using defaults.
+
+### Before (V2)
+
+```csharp
+await context.Git().Tag(new GitTagOptions
+{
+    TagName = "v1.0.0",
+    Message = "Release v1.0.0"
+}, cancellationToken);
+```
+
+### After (V3)
+
+```csharp
+// Without execution options (most common)
+await context.Git().Tag(new GitTagOptions
+{
+    TagName = "v1.0.0",
+    Message = "Release v1.0.0"
+}, token: cancellationToken);
+
+// With execution options (when needed)
+await context.Git().Tag(
+    new GitTagOptions
+    {
+        TagName = "v1.0.0",
+        Message = "Release v1.0.0"
+    },
+    new CommandExecutionOptions { WorkingDirectory = repoPath },
+    cancellationToken);
+```
+
+### Note on Parameter Names
+
+When calling without `CommandExecutionOptions`, use named parameter `token:` for the cancellation token to avoid ambiguity:
+
+```csharp
+// Correct - named parameter
+await context.Git().Push(options, token: cancellationToken);
+
+// May be ambiguous without named parameter
+await context.Git().Push(options, cancellationToken); // Could fail
+```
+
+## Async Configuration Methods
+
+The `WithSkipWhen` and `WithIgnoreFailuresWhen` methods accept both sync and async lambdas. There are **no separate `Async` versions** - the same method handles both:
+
+```csharp
+// Sync lambda
+.WithSkipWhen(() => someCondition)
+
+// Async lambda - same method name
+.WithSkipWhen(async () => await CheckConditionAsync())
+
+// With context - sync
+.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+
+// With context - async
+.WithSkipWhen(async ctx => await ctx.SomeAsyncCheck())
+
+// Returning SkipDecision
+.WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+    ? SkipDecision.Skip("Not main branch")
+    : SkipDecision.DoNotSkip)
+```
+
+The same applies to `WithIgnoreFailuresWhen`:
+
+```csharp
+// Sync
+.WithIgnoreFailuresWhen((ctx, ex) => ex is TimeoutException)
+
+// Async
+.WithIgnoreFailuresWhen(async (ctx, ex) => await ShouldIgnoreAsync(ex))
+```
 
 ## Deleted Types and Members
 
@@ -2821,6 +2973,36 @@ This section provides structured data optimized for AI assistants helping with c
 - new_only: "CommandLoggingOptions.Silent / .Diagnostic / .Default presets"
   note: "Pre-configured logging options"
 
+# Shell/Command Execution (API restructured)
+- old: "context.Command.ExecuteCommandLineTool(...)"
+  new: "context.Shell.Command.ExecuteCommandLineTool(...)"
+
+- old: "context.Bash.ExecuteCommand(...)"
+  new: "context.Shell.Bash.ExecuteCommand(...)"
+
+- old: "context.Powershell.ExecuteCommand(...)"
+  new: "context.Shell.PowerShell.ExecuteCommand(...)"
+
+# Tool Options Constructors (removed - use property initializers)
+- old: "new DotNetNewOptions(\"console\")"
+  new: "new DotNetNewOptions { TemplateShortName = \"console\" }"
+  note: "All tool options constructors removed - use property initializers"
+
+- old: "new DotNetPackOptions(projectPath)"
+  new: "new DotNetPackOptions { TargetPath = projectPath }"
+
+- old: "new GitTagOptions(\"v1.0.0\")"
+  new: "new GitTagOptions { TagName = \"v1.0.0\" }"
+
+# Async Configuration (no separate Async methods)
+- old: "WithSkipWhenAsync(async () => ...)"
+  new: "WithSkipWhen(async () => ...)"
+  note: "Same method accepts both sync and async lambdas"
+
+- old: "WithIgnoreFailuresWhenAsync(...)"
+  new: "WithIgnoreFailuresWhen(...)"
+  note: "Same method accepts both sync and async lambdas"
+
 # Non-generic modules (V3 addition)
 - old: "public class MyModule : Module<IDictionary<string, object>>"
   new: "public class MyModule : Module"
@@ -2846,6 +3028,9 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'` | Property moved | Pass `CommandExecutionOptions` as second parameter |
 | `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'` | Property moved | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions` |
 | `CS0246: 'CommandLoggingOptions' could not be found` | Missing using | Add `using ModularPipelines.Options;` |
+| `CS1729: 'DotNetNewOptions' does not contain a constructor that takes 1 arguments` | Constructors removed | Use property initializer: `new DotNetNewOptions { TemplateShortName = "template" }` |
+| `CS1061: 'IModuleContext' does not contain 'Command'` | API restructured | Use `context.Shell.Command.ExecuteCommandLineTool()` |
+| `CS0117: 'SkipDecision' does not contain 'WithSkipWhenAsync'` | No async version | Use `WithSkipWhen()` with async lambda: `.WithSkipWhen(async () => await CheckAsync())` |
 
 ### Regex Patterns for Automated Migration
 
@@ -2963,7 +3148,7 @@ await context.DotNet().Build(
 
 ### Keywords for Search
 
-ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity, context.Shell.Command, context.Shell.Bash, context.Shell.PowerShell, DotNetNewOptions, DotNetPackOptions, GitTagOptions, TemplateShortName, property initializer, constructor removed, token parameter
 
 ## Getting Help
 
