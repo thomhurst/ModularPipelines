@@ -795,6 +795,227 @@ public class DeployModule : Module<bool>
 | `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
 | `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
 
+## LLM/AI Migration Reference
+
+This section provides structured data optimized for AI assistants helping with code migration.
+
+### Complete API Transformation Map
+
+```yaml
+# Entry Point Changes
+- old: "PipelineHostBuilder.Create()"
+  new: "Pipeline.CreateBuilder(args)"
+
+- old: ".ExecutePipelineAsync()"
+  new: ".Build().RunAsync()"
+
+- old: ".ConfigureAppConfiguration((context, builder) => { ... })"
+  new: "builder.Configuration.Add...()"
+
+- old: ".ConfigureServices((context, collection) => { ... })"
+  new: "builder.Services.Add...()"
+
+- old: ".ConfigurePipelineOptions((context, options) => { ... })"
+  new: "builder.Options.PropertyName = value"
+
+# Context Parameter
+- old: "IPipelineContext context"
+  new: "IModuleContext context"
+  scope: "ExecuteAsync method signature"
+
+# Module Result Access
+- old: "await GetModule<TModule>()"
+  new: "await context.GetModule<TModule>()"
+
+- old: "result.Value"
+  new: "result.ValueOrDefault"
+
+- old: "result.Exception"
+  new: "result.ExceptionOrDefault"
+
+- old: "result.ModuleResultType == ModuleResultType.Success"
+  new: "result.IsSuccess"
+
+- old: "result.ModuleResultType == ModuleResultType.Failure"
+  new: "result.IsFailure"
+
+- old: "result.ModuleResultType == ModuleResultType.Skipped"
+  new: "result.IsSkipped"
+
+# Module Configuration (property overrides → fluent builder)
+- old: "protected internal override TimeSpan Timeout => ..."
+  new: "Configure().WithTimeout(TimeSpan)"
+
+- old: "protected override AsyncRetryPolicy<T?> RetryPolicy => ..."
+  new: "Configure().WithRetryCount(int)"
+
+- old: "protected internal override Task<SkipDecision> ShouldSkip(...)"
+  new: "Configure().WithSkipWhen(Func<IModuleContext, SkipDecision>)"
+
+- old: "protected internal override Task<bool> ShouldIgnoreFailures(...)"
+  new: "Configure().WithIgnoreFailures()"
+
+- old: "public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun"
+  new: "Configure().WithAlwaysRun()"
+
+- old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
+  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+
+- old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
+  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+
+# Command Execution Options (moved from tool options to separate parameter)
+- old: "new DotNetBuildOptions { WorkingDirectory = path }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { WorkingDirectory = path }"
+
+- old: "new DotNetBuildOptions { EnvironmentVariables = dict }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { EnvironmentVariables = dict }"
+
+- old: "new DotNetBuildOptions { ThrowOnNonZeroExitCode = false }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { ThrowOnNonZeroExitCode = false }"
+
+# Non-generic modules (V3 addition)
+- old: "public class MyModule : Module<IDictionary<string, object>>"
+  new: "public class MyModule : Module"
+  note: "For modules that don't return data"
+
+- old: "protected override async Task<IDictionary<string, object>?> ExecuteAsync(...)"
+  new: "protected override async Task ExecuteModuleAsync(...)"
+  note: "No return statement needed"
+```
+
+### Common Compiler Errors and Fixes
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `CS0246: 'PipelineHostBuilder' could not be found` | Class renamed | Change to `Pipeline.CreateBuilder(args)` |
+| `CS0246: 'IPipelineContext' could not be found` | Interface renamed | Change to `IModuleContext` |
+| `CS1061: 'Module' does not contain 'GetModule'` | Method moved | Change `GetModule<T>()` to `context.GetModule<T>()` |
+| `CS0117: 'ModuleResult' does not contain 'Value'` | Property renamed | Change `.Value` to `.ValueOrDefault` |
+| `CS0117: 'ModuleResult' does not contain 'Exception'` | Property renamed | Change `.Exception` to `.ExceptionOrDefault` |
+| `CS0115: 'ShouldSkip': no suitable method found to override` | Method removed | Use `Configure().WithSkipWhen()` instead |
+| `CS0115: 'Timeout': no suitable method found to override` | Property removed | Use `Configure().WithTimeout()` instead |
+| `CS0115: 'RetryPolicy': no suitable method found to override` | Property removed | Use `Configure().WithRetryCount()` instead |
+| `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'` | Property moved | Pass `CommandExecutionOptions` as second parameter |
+
+### Regex Patterns for Automated Migration
+
+```regex
+# Entry point
+s/PipelineHostBuilder\.Create\(\)/Pipeline.CreateBuilder(args)/g
+
+# Context parameter in ExecuteAsync
+s/IPipelineContext\s+context/IModuleContext context/g
+
+# GetModule calls
+s/await\s+GetModule<(\w+)>\(\)/await context.GetModule<$1>()/g
+s/GetModule<(\w+)>\(\)/context.GetModule<$1>()/g
+
+# Result property access
+s/\.Value(?![a-zA-Z])/\.ValueOrDefault/g
+s/\.Exception(?![a-zA-Z])/\.ExceptionOrDefault/g
+
+# Result type checks
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Success/\.IsSuccess/g
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Failure/\.IsFailure/g
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Skipped/\.IsSkipped/g
+```
+
+### V3 Module Template
+
+```csharp
+// Async module WITH return value
+public class MyModule : Module<MyResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        // Add other configuration as needed
+        .Build();
+
+    protected override async Task<MyResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation
+        return new MyResult();
+    }
+}
+
+// Async module WITHOUT return value
+public class MyActionModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation - no return needed
+    }
+}
+
+// Sync module WITHOUT return value
+public class MySyncModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation - no return needed
+    }
+}
+```
+
+### V3 Result Handling Patterns
+
+```csharp
+// Pattern 1: Pattern matching (recommended)
+var result = await context.GetModule<BuildModule>();
+return result switch
+{
+    ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
+    ModuleResult.Skipped => null,
+    ModuleResult.Failure { Exception: var ex } => throw ex,
+    _ => null
+};
+
+// Pattern 2: Match helper
+var result = await context.GetModule<BuildModule>();
+return result.Match(
+    onSuccess: output => Process(output),
+    onFailure: ex => throw ex,
+    onSkipped: skip => null
+);
+
+// Pattern 3: Simple property access (easiest migration)
+var result = await context.GetModule<BuildModule>();
+if (result.IsSuccess)
+{
+    var value = result.ValueOrDefault;
+}
+```
+
+### V3 Command Execution Pattern
+
+```csharp
+// Tool-specific options separate from execution options
+await context.DotNet().Build(
+    new DotNetBuildOptions
+    {
+        ProjectSolution = "MySolution.sln",
+        Configuration = "Release",
+    },
+    new CommandExecutionOptions
+    {
+        WorkingDirectory = "/path/to/project",
+        EnvironmentVariables = new Dictionary<string, string?>
+        {
+            ["CI"] = "true"
+        },
+        ThrowOnNonZeroExitCode = false,
+        ExecutionTimeout = TimeSpan.FromMinutes(10)
+    });
+```
+
+### Keywords for Search
+
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule
+
 ## Getting Help
 
 If you encounter issues migrating to V3:
