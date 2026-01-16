@@ -205,4 +205,21 @@ public record PipelineOptions
     /// </para>
     /// </remarks>
     public CommandExecutionOptions? DefaultExecutionOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to throw a <see cref="Exceptions.PipelineFailedException"/>
+    /// when the pipeline completes with one or more failed modules.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Default is <c>true</c> to ensure non-zero exit codes in CI/CD environments.
+    /// When a pipeline fails, the exception is thrown after the summary has been printed,
+    /// ensuring users see the full output before the process exits.
+    /// </para>
+    /// <para>
+    /// Set to <c>false</c> for scenarios where you want to inspect the <see cref="Models.PipelineSummary"/>
+    /// programmatically without catching exceptions (e.g., in tests or when implementing custom failure handling).
+    /// </para>
+    /// </remarks>
+    public bool ThrowOnPipelineFailure { get; set; } = true;
 }

@@ -1,10 +1,12 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModularPipelines.Options;
 
 namespace ModularPipelines.Engine.Executors;
 
@@ -34,6 +36,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
     private readonly EngineCancellationToken _engineCancellationToken;
     private readonly IThreadPoolConfigurator _threadPoolConfigurator;
     private readonly IExceptionRethrowService _exceptionRethrowService;
+    private readonly IOptions<PipelineOptions> _options;
     private readonly ILogger<ExecutionOrchestrator> _logger;
 
     private readonly object _lock = new();
@@ -50,6 +53,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         EngineCancellationToken engineCancellationToken,
         IThreadPoolConfigurator threadPoolConfigurator,
         IExceptionRethrowService exceptionRethrowService,
+        IOptions<PipelineOptions> options,
         ILogger<ExecutionOrchestrator> logger)
     {
         _pipelineInitializer = pipelineInitializer;
@@ -61,6 +65,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         _engineCancellationToken = engineCancellationToken;
         _threadPoolConfigurator = threadPoolConfigurator;
         _exceptionRethrowService = exceptionRethrowService;
+        _options = options;
         _logger = logger;
     }
 
@@ -149,7 +154,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         // Throw exception if pipeline failed - this ensures non-zero exit code in CI
-        if (pipelineSummary.Status == Status.Failed)
+        if (pipelineSummary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
         {
             var failedModules = pipelineSummary.GetFailedModuleResults()
                 .Select(r => r.ModuleName)

@@ -29,6 +29,7 @@ public static class TestPipelineHostBuilder
         builder.Options.PrintResults = false;
         builder.Options.PrintLogo = false;
         builder.Options.PrintDependencyChains = false;
+        builder.Options.ThrowOnPipelineFailure = false; // Tests handle failures explicitly
 
         if (testHostSettings.ClearLogProviders)
         {
