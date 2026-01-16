@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Constants;
@@ -49,12 +50,8 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        LogCommandInput(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog);
-        LogExitCode(effectiveOptions, exitCode);
-        LogDuration(effectiveOptions, runTime);
-        LogOutput(effectiveOptions, execOpts, standardOutput);
-        LogError(effectiveOptions, execOpts, exitCode, standardError);
-        LogWorkingDirectory(effectiveOptions, commandWorkingDirPath);
+        // Use compact logging format for cleaner output
+        LogCompact(effectiveOptions, execOpts, commandWorkingDirPath, inputToLog, exitCode, runTime, standardOutput, standardError);
     }
 
     private CommandLoggingOptions GetEffectiveLoggingOptions(CommandLineToolOptions? options, CommandExecutionOptions? execOpts)
@@ -75,126 +72,112 @@ internal class CommandLogger : ICommandLogger
             return;
         }
 
-        var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}Command (Dry-Run): {WorkingDirectory}> {Input}",
-            timestamp,
+        Logger.LogInformation("{WorkingDirectory}> {Input} [DRY-RUN]",
             workingDirectory,
             input);
-        Logger.LogInformation("{Timestamp}⚠ Dry-Run: No actual execution", timestamp);
     }
 
-    private void LogCommandInput(CommandLoggingOptions options, CommandExecutionOptions? execOpts, string workingDirectory, string? input)
+    private void LogCompact(
+        CommandLoggingOptions options,
+        CommandExecutionOptions? execOpts,
+        string workingDirectory,
+        string? input,
+        int? exitCode,
+        TimeSpan? runTime,
+        string standardOutput,
+        string standardError)
     {
-        // Minimal and above shows command input
-        if (options.Verbosity < CommandLogVerbosity.Minimal)
+        var isSuccess = exitCode == 0;
+        var obfuscatedInput = ShouldShowInput(options)
+            ? _secretObfuscator.Obfuscate(input, execOpts)
+            : LoggingConstants.CommandMask;
+
+        // Build the main command line with inline metadata
+        var mainLine = new StringBuilder();
+        mainLine.Append(workingDirectory);
+        mainLine.Append("> ");
+        mainLine.Append(obfuscatedInput);
+
+        // Add inline output for short, single-line output on successful commands
+        var trimmedOutput = standardOutput.Trim();
+        var hasShortOutput = !string.IsNullOrEmpty(trimmedOutput)
+            && !trimmedOutput.Contains('\n')
+            && trimmedOutput.Length <= 100
+            && options.Verbosity >= CommandLogVerbosity.Normal
+            && options.ShowStandardOutput;
+
+        if (hasShortOutput && isSuccess)
         {
-            return;
+            mainLine.Append(" → ");
+            mainLine.Append(_secretObfuscator.Obfuscate(trimmedOutput, execOpts));
         }
 
-        var timestamp = GetTimestampPrefix(options);
-
-        if (ShouldShowInput(options))
+        // Add status indicator and metadata
+        if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode || options.ShowExecutionTime)
         {
-            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> {Input}",
-                timestamp,
-                workingDirectory,
-                _secretObfuscator.Obfuscate(input, execOpts));
-        }
-        else
-        {
-            Logger.LogInformation("{Timestamp}Command: {WorkingDirectory}> " + LoggingConstants.CommandMask,
-                timestamp,
-                workingDirectory);
-        }
-    }
+            mainLine.Append(' ');
+            mainLine.Append(isSuccess ? '✓' : '✗');
 
-    private void LogExitCode(CommandLoggingOptions options, int? exitCode)
-    {
-        // Detailed and above shows exit code, or if explicitly requested
-        if (options.Verbosity < CommandLogVerbosity.Detailed && !options.ShowExitCode)
-        {
-            return;
-        }
+            var hasMetadata = false;
+            if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExecutionTime)
+            {
+                mainLine.Append(" [");
+                mainLine.Append(runTime?.ToDisplayString() ?? "?");
+                hasMetadata = true;
+            }
 
-        var timestamp = GetTimestampPrefix(options);
-        var icon = exitCode == 0 ? "✓" : "✗";
-        Logger.LogInformation("{Timestamp}{Icon} Exit Code: {ExitCode}", timestamp, icon, exitCode);
-    }
+            if (options.Verbosity >= CommandLogVerbosity.Detailed || options.ShowExitCode)
+            {
+                if (hasMetadata)
+                {
+                    mainLine.Append(", ");
+                }
+                else
+                {
+                    mainLine.Append(" [");
+                    hasMetadata = true;
+                }
 
-    private void LogDuration(CommandLoggingOptions options, TimeSpan? runTime)
-    {
-        // Detailed and above shows duration, or if explicitly requested
-        if (options.Verbosity < CommandLogVerbosity.Detailed && !options.ShowExecutionTime)
-        {
-            return;
+                mainLine.Append("exit ");
+                mainLine.Append(exitCode);
+            }
+
+            if (hasMetadata)
+            {
+                mainLine.Append(']');
+            }
         }
 
-        var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}Duration: {Duration}", timestamp, runTime?.ToDisplayString());
-    }
+        Logger.LogInformation("{Message}", mainLine.ToString());
 
-    private void LogOutput(CommandLoggingOptions options, CommandExecutionOptions? execOpts, string standardOutput)
-    {
-        if (string.IsNullOrWhiteSpace(standardOutput))
+        // Log multi-line or long output on separate lines (only if not already shown inline)
+        if (!hasShortOutput && !string.IsNullOrWhiteSpace(trimmedOutput)
+            && options.Verbosity >= CommandLogVerbosity.Normal
+            && options.ShowStandardOutput)
         {
-            return;
+            var outputToLog = execOpts?.OutputLoggingManipulator is not null
+                ? execOpts.OutputLoggingManipulator(trimmedOutput)
+                : trimmedOutput;
+            Logger.LogInformation("  ↳ {Output}", _secretObfuscator.Obfuscate(outputToLog, execOpts));
         }
 
-        // Verbosity >= Normal shows output by default; ShowStandardOutput can disable it
-        if (options.Verbosity < CommandLogVerbosity.Normal || !options.ShowStandardOutput)
+        // Log errors on separate line
+        if (!string.IsNullOrWhiteSpace(standardError)
+            && options.Verbosity >= CommandLogVerbosity.Normal
+            && options.ShowStandardError
+            && exitCode != 0)
         {
-            return;
+            var errorToLog = execOpts?.OutputLoggingManipulator is not null
+                ? execOpts.OutputLoggingManipulator(standardError)
+                : standardError;
+            Logger.LogWarning("  ✗ {Error}", _secretObfuscator.Obfuscate(errorToLog, execOpts));
         }
 
-        var timestamp = GetTimestampPrefix(options);
-        var outputToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardOutput)
-            : standardOutput;
-        Logger.LogInformation("{Timestamp}Output:\n{Output}", timestamp, _secretObfuscator.Obfuscate(outputToLog, execOpts));
-    }
-
-    private void LogError(CommandLoggingOptions options, CommandExecutionOptions? execOpts, int? exitCode, string standardError)
-    {
-        if (string.IsNullOrWhiteSpace(standardError))
+        // Log working directory only at Diagnostic level (separate line, indented)
+        if (options.Verbosity >= CommandLogVerbosity.Diagnostic || options.ShowWorkingDirectory)
         {
-            return;
+            Logger.LogInformation("  Working Directory: {WorkingDirectory}", workingDirectory);
         }
-
-        // Verbosity >= Normal shows error on failure by default; ShowStandardError can disable it
-        var showDueToVerbosity = options.Verbosity >= CommandLogVerbosity.Normal && exitCode != 0;
-        if (!showDueToVerbosity || !options.ShowStandardError)
-        {
-            return;
-        }
-
-        var timestamp = GetTimestampPrefix(options);
-        var errorToLog = execOpts?.OutputLoggingManipulator is not null
-            ? execOpts.OutputLoggingManipulator(standardError)
-            : standardError;
-        Logger.LogInformation("{Timestamp}✗ Error:\n{Error}", timestamp, _secretObfuscator.Obfuscate(errorToLog, execOpts));
-    }
-
-    private void LogWorkingDirectory(CommandLoggingOptions options, string workingDirectory)
-    {
-        // Diagnostic shows working directory, or if explicitly requested
-        if (options.Verbosity < CommandLogVerbosity.Diagnostic && !options.ShowWorkingDirectory)
-        {
-            return;
-        }
-
-        var timestamp = GetTimestampPrefix(options);
-        Logger.LogInformation("{Timestamp}Working Directory: {WorkingDirectory}", timestamp, workingDirectory);
-    }
-
-    private static string GetTimestampPrefix(CommandLoggingOptions options)
-    {
-        // Diagnostic automatically includes timestamps, or if explicitly requested
-        if (options.Verbosity < CommandLogVerbosity.Diagnostic && !options.IncludeTimestamps)
-        {
-            return string.Empty;
-        }
-
-        return $"[{DateTime.UtcNow:HH:mm:ss.fff}] ";
     }
 
     private static bool ShouldShowInput(CommandLoggingOptions options)

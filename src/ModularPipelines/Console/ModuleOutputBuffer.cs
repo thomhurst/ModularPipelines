@@ -137,8 +137,8 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         // Write all buffered output
-        // Note: Log events are already written to loggers during Log() calls,
-        // so we just format and output them here for console display
+        // Log events go to the logger which handles both console (via SpectreConsole) and file output
+        // String output (from Console.WriteLine interception) goes directly to console
         foreach (var output in outputs)
         {
             if (output.IsString)
@@ -148,12 +148,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
             else if (output.LogEvent.HasValue)
             {
                 var logEvent = output.LogEvent.Value;
-                // Format the log event for console output (logs already went to providers)
-                var formatted = logEvent.Formatter(logEvent.State, logEvent.Exception);
-                if (!string.IsNullOrEmpty(formatted))
-                {
-                    WriteWithMarkup(formatted);
-                }
+
+                // Write to logger - this handles console output (via SpectreConsole) and file loggers
+                logger.Log(logEvent.Level, logEvent.EventId, logEvent.State, logEvent.Exception,
+                    (state, ex) => logEvent.Formatter(state, ex));
             }
         }
 

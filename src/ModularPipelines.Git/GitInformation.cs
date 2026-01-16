@@ -147,7 +147,9 @@ internal class GitInformation : IGitInformation, IInitializer
             var options = executionOptions ?? new CommandExecutionOptions();
             options = options with
             {
-                LogSettings = logger.IsEnabled(LogLevel.Debug) ? CommandLoggingOptions.Diagnostic : CommandLoggingOptions.Silent,
+                // Always use Silent logging for git initialization commands
+                // These are internal one-time setup commands that don't need to be logged
+                LogSettings = CommandLoggingOptions.Silent,
             };
             var result = await command.ExecuteCommandLineTool(gitOptions, options).ConfigureAwait(false);
             return result.StandardOutput.Trim();

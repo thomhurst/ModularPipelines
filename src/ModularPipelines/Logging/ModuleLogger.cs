@@ -113,14 +113,8 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             var mappedFormatter = MapFormatter(formatter);
 
             // Write to buffer for ordered module output during pipeline execution
+            // Output will be flushed to console and loggers when the module completes
             _buffer.AddLogEvent(logLevel, eventId, state!, exception, mappedFormatter);
-
-            // Create an obfuscating wrapper for the typed formatter
-            var obfuscatingFormatter = CreateObfuscatingFormatter(formatter);
-
-            // Also write directly to the default logger for immediate output
-            // This ensures logs are captured by file loggers and other providers
-            _defaultLogger.Log(logLevel, eventId, state, exception, obfuscatingFormatter);
 
             LastLogWritten = DateTime.UtcNow;
         }
@@ -164,20 +158,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         return (o, exception) =>
         {
             var formattedString = formatter.Invoke((TState) o, exception);
-            return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
-        };
-    }
-
-    private Func<TState, Exception?, string> CreateObfuscatingFormatter<TState>(Func<TState, Exception?, string>? formatter)
-    {
-        if (formatter is null)
-        {
-            return (_, _) => string.Empty;
-        }
-
-        return (state, exception) =>
-        {
-            var formattedString = formatter.Invoke(state, exception);
             return _secretObfuscator.Obfuscate(formattedString, null) ?? string.Empty;
         };
     }
