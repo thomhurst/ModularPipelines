@@ -1,30 +1,32 @@
-using System.Text;
 using ModularPipelines.Models;
+using Spectre.Console;
 
 namespace ModularPipelines.Engine;
 
 /// <summary>
-/// Formats dependency trees as text with visual tree structure.
-/// Creates a hierarchical representation using box-drawing characters.
+/// Formats dependency trees using Spectre.Console Tree widget.
+/// Creates a visual hierarchy with proper connectors, colors, and DAG support.
 /// </summary>
 /// <example>
 /// <code>
 /// // Example output:
-/// // ▶ RootModule
-/// //   └─ DependentModule1
-/// //     └─ DependentModule2
-/// //   └─ DependentModule3
+/// // Module Dependencies
+/// // ├── BuildModule
+/// // │   └── CompileModule
+/// // │       └── TestModule
+/// // └── DeployModule
+/// //     └── TestModule (↑)
 /// //
 /// var formatter = new DependencyTreeFormatter();
 /// var tree = formatter.FormatTree(rootModules);
-/// Console.WriteLine(tree);
+/// AnsiConsole.Write(tree);
 /// </code>
 /// </example>
 internal class DependencyTreeFormatter : IDependencyTreeFormatter
 {
-    public string FormatTree(IEnumerable<ModuleDependencyModel> rootModules)
+    public Tree FormatTree(IEnumerable<ModuleDependencyModel> rootModules)
     {
-        var stringBuilder = new StringBuilder();
+        var tree = new Tree("[bold]Module Dependencies[/]");
         var alreadyPrinted = new HashSet<ModuleDependencyModel>();
 
         foreach (var rootModule in rootModules.OrderBy(m => m.AllDescendantDependencies().Count()))
@@ -34,27 +36,31 @@ internal class DependencyTreeFormatter : IDependencyTreeFormatter
                 continue;
             }
 
-            stringBuilder.AppendLine();
-            AppendNode(stringBuilder, rootModule, 1, alreadyPrinted);
+            AddNode(tree, rootModule, alreadyPrinted);
         }
 
-        return stringBuilder.ToString();
+        return tree;
     }
 
-    private void AppendNode(StringBuilder sb, ModuleDependencyModel node, int depth, ISet<ModuleDependencyModel> alreadyPrinted)
+    private void AddNode(IHasTreeNodes parent, ModuleDependencyModel node, HashSet<ModuleDependencyModel> alreadyPrinted)
     {
+        var isReference = alreadyPrinted.Contains(node);
         alreadyPrinted.Add(node);
 
-        var indent = new string(' ', (depth - 1) * 2);
-        var prefix = depth == 1 ? "▶ " : "└─ ";
+        var moduleName = node.Module.GetType().Name;
+        var label = isReference
+            ? $"[dim italic]{moduleName}[/] [grey](↑)[/]"
+            : $"[blue]{moduleName}[/]";
 
-        sb.Append(indent);
-        sb.Append(prefix);
-        sb.AppendLine(node.Module.GetType().Name);
+        var treeNode = parent.AddNode(label);
 
-        foreach (var dependent in node.IsDependencyFor)
+        // Don't recurse into references - their children are shown elsewhere
+        if (!isReference)
         {
-            AppendNode(sb, dependent, depth + 1, alreadyPrinted);
+            foreach (var dependent in node.IsDependencyFor)
+            {
+                AddNode(treeNode, dependent, alreadyPrinted);
+            }
         }
     }
 }
@@ -65,9 +71,9 @@ internal class DependencyTreeFormatter : IDependencyTreeFormatter
 internal interface IDependencyTreeFormatter
 {
     /// <summary>
-    /// Formats a collection of root dependency modules as a tree structure.
+    /// Formats a collection of root dependency modules as a Spectre.Console tree.
     /// </summary>
     /// <param name="rootModules">The root modules to format.</param>
-    /// <returns>A formatted string representation of the dependency tree.</returns>
-    string FormatTree(IEnumerable<ModuleDependencyModel> rootModules);
+    /// <returns>A Spectre.Console Tree representing the dependency hierarchy.</returns>
+    Tree FormatTree(IEnumerable<ModuleDependencyModel> rootModules);
 }

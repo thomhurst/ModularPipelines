@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using ModularPipelines.Console;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
+using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines.Logging;
 
@@ -53,6 +55,8 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter
     public abstract void Dispose();
 
     public abstract void LogToConsole(string value);
+
+    public abstract void Write(IRenderable renderable);
 
     public void SetException(Exception exception)
     {
@@ -145,6 +149,20 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     public override void LogToConsole(string value)
     {
         var obfuscated = _secretObfuscator.Obfuscate(value, null) ?? value;
+        _buffer.WriteLine(obfuscated);
+    }
+
+    public override void Write(IRenderable renderable)
+    {
+        // Render to string for buffering, then obfuscate
+        using var writer = new StringWriter();
+        var console = AnsiConsole.Create(new AnsiConsoleSettings
+        {
+            Out = new AnsiConsoleOutput(writer),
+        });
+        console.Write(renderable);
+        var rendered = writer.ToString();
+        var obfuscated = _secretObfuscator.Obfuscate(rendered, null) ?? rendered;
         _buffer.WriteLine(obfuscated);
     }
 
