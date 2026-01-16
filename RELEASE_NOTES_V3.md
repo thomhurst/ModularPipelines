@@ -70,6 +70,34 @@ if (result.IsSuccess)
 
 ## New Features
 
+### Non-Generic Module Classes
+
+New `Module` and `SyncModule` base classes for modules that don't return data.
+
+```csharp
+// Async module - no return value needed
+public class DeployModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.Command.ExecuteCommandLineTool(...);
+    }
+}
+
+// Sync module - no return value needed
+public class LoggingModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Done!");
+    }
+}
+```
+
+Internally these use the `None` struct, which represents "nothing" and is semantically equivalent to `null`.
+
 ### Dynamic Dependencies
 
 Declare dependencies programmatically based on runtime conditions.
@@ -210,7 +238,6 @@ protected override Task OnFailedAsync(IModuleContext context, Exception ex, Canc
 
 - `PipelineHostBuilder` - Use `Pipeline.CreateBuilder()`
 - `ModuleBase` / `ModuleBase<T>` - Use `Module<T>`
-- `Module` (non-generic) - Use `Module<IDictionary<string, object>>`
 
 ## Migration Path
 

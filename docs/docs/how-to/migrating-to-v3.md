@@ -393,7 +393,6 @@ The following have been removed in V3:
 | `PipelineHostBuilder` class | `Pipeline.CreateBuilder()` returns `PipelineBuilder` |
 | `ModuleBase` class | `Module<T>` (simplified hierarchy) |
 | `ModuleBase<T>` class | `Module<T>` |
-| `Module` (non-generic) | `Module<IDictionary<string, object>>` |
 | `ShouldSkip()` method | `Configure().WithSkipWhen()` |
 | `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()` |
 | `ModuleRunType` property | `Configure().WithAlwaysRun()` |
@@ -402,6 +401,44 @@ The following have been removed in V3:
 | `GetModule<T>()` on module | `context.GetModule<TModule>()` |
 
 ## New Features in V3
+
+### Non-Generic Module Classes
+
+V3 introduces non-generic `Module` and `SyncModule` base classes for modules that perform actions without returning meaningful data. These use the `None` struct internally to represent the absence of a value.
+
+```csharp
+// Async module that doesn't return data
+public class DeployModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.Command.ExecuteCommandLineTool(...);
+        // No return statement needed
+    }
+}
+
+// Sync module that doesn't return data
+public class LoggingModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
+        // No return statement needed
+    }
+}
+```
+
+The `None` struct represents "nothing" and is semantically equivalent to `null`:
+
+```csharp
+None value = None.Value;
+value.Equals(null);     // true - None equals null
+value == default;       // true
+None? nullable = null;
+nullable == value;      // true - None? and None are always equal
+```
 
 ### Pipeline Validation
 
