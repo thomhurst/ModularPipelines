@@ -158,20 +158,29 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 try
                 {
                     var flushTask = _outputCoordinator.EnqueueAndFlushAsync(_buffer);
+                    var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
 
-                    // Wait with timeout to prevent potential deadlocks
-                    // 5 seconds should be enough for any reasonable output
-                    // Use a shorter timeout to avoid blocking shutdown
-                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-                    flushTask.Wait(cts.Token);
+                    // Use Task.WhenAny with GetAwaiter().GetResult() instead of Wait()
+                    // to avoid potential deadlocks from synchronization context issues
+                    var completedTask = Task.WhenAny(flushTask, timeoutTask).GetAwaiter().GetResult();
+
+                    if (completedTask == timeoutTask)
+                    {
+                        // Timeout occurred - log warning, output may be lost
+                        _defaultLogger.LogWarning(
+                            "Module output flush timed out after 30 seconds for {ModuleType}. Some output may be lost.",
+                            typeof(T).Name);
+                    }
+                    else
+                    {
+                        // Ensure any exception from the flush task is observed
+                        flushTask.GetAwaiter().GetResult();
+                    }
                 }
-                catch (AggregateException)
+                catch (Exception ex)
                 {
-                    // Best effort - don't fail disposal
-                }
-                catch (OperationCanceledException)
-                {
-                    // Timeout or cancellation during shutdown is expected
+                    // Best effort - don't fail disposal, but log the issue
+                    _defaultLogger.LogWarning(ex, "Failed to flush module output during disposal for {ModuleType}", typeof(T).Name);
                 }
             }
 

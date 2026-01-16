@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -34,6 +35,7 @@ internal class ProgressSession : IProgressSession, IProgressController
     private readonly OrganizedModules _modules;
     private readonly IOptions<PipelineOptions> _options;
     private readonly CancellationToken _cancellationToken;
+    private readonly ILogger _logger;
 
     private readonly ConcurrentDictionary<IModule, ProgressTask> _moduleTasks = new();
     private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleTasks = new();
@@ -53,11 +55,13 @@ internal class ProgressSession : IProgressSession, IProgressController
         ConsoleCoordinator coordinator,
         OrganizedModules modules,
         IOptions<PipelineOptions> options,
+        ILoggerFactory loggerFactory,
         CancellationToken cancellationToken)
     {
         _coordinator = coordinator;
         _modules = modules;
         _options = options;
+        _logger = loggerFactory.CreateLogger<ProgressSession>();
         _cancellationToken = cancellationToken;
     }
 
@@ -123,6 +127,11 @@ internal class ProgressSession : IProgressSession, IProgressController
                             if (completedTask == timeoutTask)
                             {
                                 // Timeout - force resume to prevent stuck state
+                                // Log warning as this indicates a potential issue with output flushing
+                                _logger.LogWarning(
+                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI. " +
+                                    "This may indicate slow I/O or a deadlock in output coordination.");
+
                                 await _pauseLock.WaitAsync().ConfigureAwait(false);
                                 try
                                 {

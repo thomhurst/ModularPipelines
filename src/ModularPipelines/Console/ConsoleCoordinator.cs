@@ -224,6 +224,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             this,
             modules,
             _options,
+            _loggerFactory,
             cancellationToken);
 
         // Wire up the progress controller for output coordination

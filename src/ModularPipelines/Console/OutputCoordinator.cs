@@ -13,6 +13,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
+    private readonly ILogger _logger;
     private readonly TextWriter _console;
 
     private readonly object _queueLock = new();
@@ -30,6 +31,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         _formatterProvider = formatterProvider;
         _loggerFactory = loggerFactory;
         _serviceProvider = serviceProvider;
+        _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
 
@@ -125,7 +127,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             catch (Exception ex)
             {
                 // Log error but don't fail - module execution already succeeded
-                System.Console.Error.WriteLine($"Failed to flush output for {pending.Buffer.ModuleType.Name}: {ex.Message}");
+                _logger.LogError(ex, "Failed to flush output for {ModuleType}", pending.Buffer.ModuleType.Name);
                 pending.CompletionSource.TrySetResult();
             }
         }
