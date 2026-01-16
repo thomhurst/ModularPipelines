@@ -14,7 +14,6 @@ using Polly;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
 public class RunUnitTestsModule : Module<CommandResult[]>
 {
     private readonly IOptions<PipelineSettings> _pipelineSettings;

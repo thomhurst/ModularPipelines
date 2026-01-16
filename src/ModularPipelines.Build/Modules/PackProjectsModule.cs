@@ -1,5 +1,4 @@
 using EnumerableAsyncProcessor.Extensions;
-using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -13,9 +12,7 @@ namespace ModularPipelines.Build.Modules;
 
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
-[DependsOn<CodeFormattedNicelyModule>(IgnoreIfNotRegistered = true)]
 [DependsOn<FindProjectDependenciesModule>]
-[DependsOn<ChangedFilesInPullRequestModule>]
 [DependsOn<RunUnitTestsModule>]
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
@@ -26,47 +23,18 @@ public class PackProjectsModule : Module<CommandResult[]>
 
         var projectFiles = context.GetModule<FindProjectDependenciesModule, FindProjectDependenciesModule.ProjectDependencies>();
 
-        var changedFiles = context.GetModule<ChangedFilesInPullRequestModule, IReadOnlyList<File>>();
 
         var dependencies = await projectFiles.ValueOrDefault!.Dependencies
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessOneAtATime();
-
-        var gitVersioningInformation = await context.Git().Versioning.GetGitVersioningInformation();
-
+        
         var others = await projectFiles.ValueOrDefault!.Others
-            .Where(x =>
-            {
-                if (changedFiles.SkipDecisionOrDefault?.ShouldSkip == true)
-                {
-                    return true;
-                }
-
-                return ProjectHasChanged(x,
-                    changedFiles.ValueOrDefault!, context);
-            })
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await Pack(context, cancellationToken, projectFile, packageVersion))
             .ProcessInParallel();
 
         return dependencies.Concat(others).ToArray();
-    }
-
-    private bool ProjectHasChanged(File projectFile, IEnumerable<File> changedFiles,
-        IModuleContext context)
-    {
-        var projectDirectory = projectFile.Folder!;
-
-        if (!changedFiles.Any(x => x.Path.Contains(projectDirectory.Path)))
-        {
-            context.Logger.LogInformation("{Project} has not changed so not packing it", projectFile.Name);
-            return false;
-        }
-
-        context.Logger.LogInformation("{Project} has changed so packing it", projectFile.Name);
-
-        return true;
     }
 
     private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, File projectFile, ModuleResult<string> packageVersion)

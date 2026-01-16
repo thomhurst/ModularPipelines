@@ -18,7 +18,6 @@ namespace ModularPipelines.Build.Modules;
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<UploadPackagesToNugetModule>]
-[DependsOn<DependabotCommitsModule>]
 public class CreateReleaseModule : Module<Release>
 {
     private readonly IOptions<GitHubSettings> _githubSettings;
