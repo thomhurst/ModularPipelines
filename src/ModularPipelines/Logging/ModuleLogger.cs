@@ -70,6 +70,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly IFormattedLogValuesObfuscator _formattedLogValuesObfuscator;
     private readonly IModuleOutputBuffer _buffer;
+    private readonly IOutputCoordinator _outputCoordinator;
 
     private bool _isDisposed;
 
@@ -78,12 +79,14 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         ILogger<T> defaultLogger,
         ISecretObfuscator secretObfuscator,
         IFormattedLogValuesObfuscator formattedLogValuesObfuscator,
-        IConsoleCoordinator consoleCoordinator)
+        IConsoleCoordinator consoleCoordinator,
+        IOutputCoordinator outputCoordinator)
     {
         _defaultLogger = defaultLogger;
         _secretObfuscator = secretObfuscator;
         _formattedLogValuesObfuscator = formattedLogValuesObfuscator;
         _buffer = consoleCoordinator.GetModuleBuffer(typeof(T));
+        _outputCoordinator = outputCoordinator;
 
         Disposer.RegisterOnShutdown(this);
     }
@@ -140,7 +143,16 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 _buffer.SetException(_exception);
             }
 
-            _buffer.MarkCompleted();
+            // Flush output immediately instead of just marking completed
+            // This blocks until the output is written
+            try
+            {
+                _outputCoordinator.EnqueueAndFlushAsync(_buffer).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // Best effort - don't fail disposal
+            }
 
             GC.SuppressFinalize(this);
         }
