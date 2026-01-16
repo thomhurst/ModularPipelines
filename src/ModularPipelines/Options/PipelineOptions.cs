@@ -175,6 +175,25 @@ public record PipelineOptions
     public ConcurrencyOptions Concurrency { get; set; } = new();
 
     /// <summary>
+    /// Gets or sets the console width for output rendering.
+    /// When set to a value, that width is used for all console output.
+    /// When null (default), the width is auto-detected: 160 characters for known CI environments,
+    /// or the terminal's detected width for local execution.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Spectre.Console defaults to 80 characters when it cannot detect the terminal width,
+    /// which is common in CI environments where output is redirected. This can cause
+    /// tables and other formatted output to wrap unnecessarily.
+    /// </para>
+    /// <para>
+    /// Known CI environments (GitHub Actions, Azure Pipelines, TeamCity, GitLab, Jenkins,
+    /// Bitbucket, Travis CI, AppVeyor) automatically use 160 characters unless overridden.
+    /// </para>
+    /// </remarks>
+    public int? ConsoleWidth { get; set; }
+
+    /// <summary>
     /// Gets or sets the default execution options for all commands.
     /// When set, these options apply to all command executions unless overridden per-call.
     /// </summary>
