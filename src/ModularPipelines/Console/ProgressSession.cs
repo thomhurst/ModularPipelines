@@ -98,6 +98,27 @@ internal class ProgressSession : IProgressSession, IProgressController
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
+                        // Check if we should pause for module output
+                        TaskCompletionSource? resumeSignal = null;
+                        await _pauseLock.WaitAsync().ConfigureAwait(false);
+                        try
+                        {
+                            if (_isPaused)
+                            {
+                                resumeSignal = _resumeSignal;
+                            }
+                        }
+                        finally
+                        {
+                            _pauseLock.Release();
+                        }
+
+                        if (resumeSignal != null)
+                        {
+                            // Wait for resume signal
+                            await resumeSignal.Task.ConfigureAwait(false);
+                        }
+
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
                     }
                 });

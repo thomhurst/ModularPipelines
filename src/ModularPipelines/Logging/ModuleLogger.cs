@@ -144,14 +144,26 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             }
 
             // Flush output immediately instead of just marking completed
-            // This blocks until the output is written
+            // This blocks until the output is written, with a timeout to prevent deadlocks
             try
             {
-                _outputCoordinator.EnqueueAndFlushAsync(_buffer).GetAwaiter().GetResult();
+                var flushTask = _outputCoordinator.EnqueueAndFlushAsync(_buffer);
+
+                // Wait with timeout to prevent potential deadlocks
+                // 30 seconds should be more than enough for any reasonable output
+                if (!flushTask.Wait(TimeSpan.FromSeconds(30)))
+                {
+                    // Timeout - output may be lost, but we can't block forever
+                    // This is a last resort safety measure
+                }
             }
-            catch
+            catch (AggregateException)
             {
                 // Best effort - don't fail disposal
+            }
+            catch (OperationCanceledException)
+            {
+                // Cancellation during shutdown is expected
             }
 
             GC.SuppressFinalize(this);

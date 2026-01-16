@@ -31,9 +31,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
     /// <inheritdoc />
     public Type ModuleType { get; }
 
-    /// <inheritdoc />
-    public DateTime? CompletedAtUtc { get; private set; }
-
     /// <summary>
     /// Initializes a new buffer for the specified module type.
     /// </summary>
@@ -77,15 +74,6 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         lock (_lock)
         {
             _outputs.Add(BufferedOutput.FromLogEvent(level, eventId, state, exception, formatter));
-        }
-    }
-
-    /// <inheritdoc />
-    public void MarkCompleted()
-    {
-        lock (_lock)
-        {
-            CompletedAtUtc ??= DateTime.UtcNow;
         }
     }
 
@@ -165,7 +153,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
 
     private string FormatHeader(Exception? exception)
     {
-        var duration = (CompletedAtUtc ?? DateTime.UtcNow) - _startTimeUtc;
+        var duration = DateTime.UtcNow - _startTimeUtc;
         var durationStr = duration.TotalSeconds >= 60
             ? $"{duration.TotalMinutes:F1}m"
             : $"{duration.TotalSeconds:F1}s";

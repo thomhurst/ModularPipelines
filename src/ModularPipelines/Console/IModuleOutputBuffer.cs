@@ -15,8 +15,8 @@ namespace ModularPipelines.Console;
 /// <b>Thread Safety:</b> All methods are thread-safe and can be called concurrently.
 /// </para>
 /// <para>
-/// <b>Flush Ordering:</b> Buffers are flushed in completion order (by CompletedAtUtc)
-/// to maintain logical output sequence.
+/// <b>Flush Behavior:</b> Buffers are flushed immediately when modules complete,
+/// via the OutputCoordinator which ensures ordered output.
 /// </para>
 /// </remarks>
 internal interface IModuleOutputBuffer
@@ -25,18 +25,6 @@ internal interface IModuleOutputBuffer
     /// Gets the module type this buffer belongs to.
     /// </summary>
     Type ModuleType { get; }
-
-    /// <summary>
-    /// Gets when the module completed (for ordering during flush).
-    /// Null if not yet completed.
-    /// </summary>
-    DateTime? CompletedAtUtc { get; }
-
-    /// <summary>
-    /// Records completion time for flush ordering.
-    /// Called when the module finishes execution.
-    /// </summary>
-    void MarkCompleted();
 
     /// <summary>
     /// Adds a plain string line to the buffer.
