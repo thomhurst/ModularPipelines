@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Engine;
 using ModularPipelines.Helpers;
@@ -28,12 +29,13 @@ namespace ModularPipelines.Console;
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
-internal class ProgressSession : IProgressSession
+internal class ProgressSession : IProgressSession, IProgressController
 {
     private readonly ConsoleCoordinator _coordinator;
     private readonly OrganizedModules _modules;
     private readonly IOptions<PipelineOptions> _options;
     private readonly CancellationToken _cancellationToken;
+    private readonly ILogger _logger;
 
     private readonly ConcurrentDictionary<IModule, ProgressTask> _moduleTasks = new();
     private readonly ConcurrentDictionary<SubModuleBase, ProgressTask> _subModuleTasks = new();
@@ -45,15 +47,21 @@ internal class ProgressSession : IProgressSession
     private int _totalModuleCount;
     private int _completedModuleCount;
 
+    private readonly SemaphoreSlim _pauseLock = new(1, 1);
+    private bool _isPaused;
+    private TaskCompletionSource? _resumeSignal;
+
     public ProgressSession(
         ConsoleCoordinator coordinator,
         OrganizedModules modules,
         IOptions<PipelineOptions> options,
+        ILoggerFactory loggerFactory,
         CancellationToken cancellationToken)
     {
         _coordinator = coordinator;
         _modules = modules;
         _options = options;
+        _logger = loggerFactory.CreateLogger<ProgressSession>();
         _cancellationToken = cancellationToken;
     }
 
@@ -94,6 +102,50 @@ internal class ProgressSession : IProgressSession
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
+                        // Check if we should pause for module output
+                        TaskCompletionSource? resumeSignal = null;
+                        await _pauseLock.WaitAsync().ConfigureAwait(false);
+                        try
+                        {
+                            if (_isPaused)
+                            {
+                                resumeSignal = _resumeSignal;
+                            }
+                        }
+                        finally
+                        {
+                            _pauseLock.Release();
+                        }
+
+                        if (resumeSignal != null)
+                        {
+                            // Wait for resume signal with timeout to prevent stuck UI
+                            // If output takes longer than 60 seconds, auto-resume to prevent indefinite pause
+                            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(60), CancellationToken.None);
+                            var completedTask = await Task.WhenAny(resumeSignal.Task, timeoutTask).ConfigureAwait(false);
+
+                            if (completedTask == timeoutTask)
+                            {
+                                // Timeout - force resume to prevent stuck state
+                                // Log warning as this indicates a potential issue with output flushing
+                                _logger.LogWarning(
+                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI. " +
+                                    "This may indicate slow I/O or a deadlock in output coordination.");
+
+                                await _pauseLock.WaitAsync().ConfigureAwait(false);
+                                try
+                                {
+                                    _isPaused = false;
+                                    _resumeSignal?.TrySetResult();
+                                    _resumeSignal = null;
+                                }
+                                finally
+                                {
+                                    _pauseLock.Release();
+                                }
+                            }
+                        }
+
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
                     }
                 });
@@ -170,9 +222,6 @@ internal class ProgressSession : IProgressSession
                 var increment = 100.0 / _totalModuleCount;
                 _totalTask?.Increment(increment);
 
-                // Mark buffer as completed for ordering
-                _coordinator.GetModuleBuffer(state.ModuleType).MarkCompleted();
-
                 // Check if all done
                 if (_completedModuleCount >= _totalModuleCount)
                 {
@@ -211,8 +260,6 @@ internal class ProgressSession : IProgressSession
             _completedModuleCount++;
             var increment = 100.0 / _totalModuleCount;
             _totalTask?.Increment(increment);
-
-            _coordinator.GetModuleBuffer(state.ModuleType).MarkCompleted();
 
             if (_completedModuleCount >= _totalModuleCount)
             {
@@ -309,6 +356,60 @@ internal class ProgressSession : IProgressSession
             }
         }, CancellationToken.None);
     }
+
+    #region IProgressController Implementation
+
+    /// <inheritdoc />
+    public bool IsInteractive => true;
+
+    /// <inheritdoc />
+    public async Task PauseAsync()
+    {
+        await _pauseLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            _isPaused = true;
+            _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            // Signal the progress loop to pause
+            // The loop will clear progress and wait for resume
+        }
+        finally
+        {
+            _pauseLock.Release();
+        }
+
+        // Wait a moment for progress to clear
+        await Task.Delay(50).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task ResumeAsync()
+    {
+        await _pauseLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (!_isPaused)
+            {
+                return;
+            }
+
+            _isPaused = false;
+            _resumeSignal?.TrySetResult();
+            _resumeSignal = null;
+        }
+        finally
+        {
+            _pauseLock.Release();
+        }
+    }
+
+    #endregion
 
     /// <inheritdoc />
     public async ValueTask DisposeAsync()

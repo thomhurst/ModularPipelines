@@ -64,6 +64,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     // Logger for output
     private ILogger? _outputLogger;
+    private readonly IOutputCoordinator _outputCoordinator;
 
     public ConsoleCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -72,7 +73,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
         IBuildSystemDetector buildSystemDetector,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IOutputCoordinator outputCoordinator)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -81,6 +83,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _loggerFactory = loggerFactory;
         _buildSystemDetector = buildSystemDetector;
         _serviceProvider = serviceProvider;
+        _outputCoordinator = outputCoordinator;
         _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
     }
 
@@ -221,7 +224,11 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             this,
             modules,
             _options,
+            _loggerFactory,
             cancellationToken);
+
+        // Wire up the progress controller for output coordination
+        _outputCoordinator.SetProgressController(session);
 
         _activeSession = session;
 
@@ -238,6 +245,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     {
         lock (_phaseLock)
         {
+            _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
             _isProgressActive = false;
             _activeSession = null;
         }
@@ -255,38 +263,22 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     /// <inheritdoc />
     public void FlushModuleOutput()
     {
+        // Output is now flushed immediately when modules complete.
+        // This method remains for API compatibility but only flushes
+        // unattributed output (pipeline-level logs).
         if (_originalConsoleOut == null)
         {
-            throw new InvalidOperationException("ConsoleCoordinator is not installed.");
+            return; // Not installed, nothing to flush
         }
 
         var formatter = _formatterProvider.GetFormatter();
 
-        // Flush unattributed output first (if any)
+        // Flush unattributed output (if any)
         if (_unattributedBuffer.HasOutput)
         {
             var unattributedLogger = _outputLogger ?? _loggerFactory.CreateLogger("ModularPipelines.Output");
             _unattributedBuffer.FlushTo(_originalConsoleOut, formatter, unattributedLogger);
         }
-
-        // Flush module buffers in completion order
-        var orderedBuffers = _moduleBuffers.Values
-            .Where(b => b.HasOutput)
-            .OrderBy(b => b.CompletedAtUtc ?? DateTime.MaxValue)
-            .ToList();
-
-        foreach (var buffer in orderedBuffers)
-        {
-            // Resolve the registered ILogger<T> from DI to use any custom loggers injected by tests
-            var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
-            var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
-                               ?? _loggerFactory.CreateLogger(buffer.ModuleType);
-            buffer.FlushTo(_originalConsoleOut, formatter, moduleLogger);
-        }
-
-        // Clear buffers after flush to release memory
-        // This prevents accumulation in long-running pipelines
-        _moduleBuffers.Clear();
     }
 
     /// <inheritdoc />

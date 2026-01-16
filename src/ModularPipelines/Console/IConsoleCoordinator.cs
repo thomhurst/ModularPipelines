@@ -72,10 +72,9 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     IModuleOutputBuffer GetUnattributedBuffer();
 
     /// <summary>
-    /// Flushes all module output in completion order.
-    /// Should be called after progress phase ends.
+    /// Flushes any remaining unattributed output.
+    /// Module output is flushed immediately when modules complete.
     /// </summary>
-    /// <exception cref="InvalidOperationException">Thrown if not installed.</exception>
     void FlushModuleOutput();
 
     /// <summary>

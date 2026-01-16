@@ -236,6 +236,10 @@ internal static class DependencyInjectionSetup
             .AddSingleton<Console.IConsoleCoordinator>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
             .AddSingleton<IProgressDisplay>(sp => sp.GetRequiredService<Console.ConsoleCoordinator>())
 
+            // Output coordinator - manages immediate output during live display
+            .AddSingleton<Console.OutputCoordinator>()
+            .AddSingleton<Console.IOutputCoordinator>(sp => sp.GetRequiredService<Console.OutputCoordinator>())
+
             // Progress display components
             .AddSingleton<IProgressCalculator, ProgressCalculator>()
             .AddSingleton<IResultsPrinter, SpectreResultsPrinter>()
