@@ -31,6 +31,7 @@ using ModularPipelines.Options;
 using ModularPipelines.Options.Validators;
 using ModularPipelines.Engine.State;
 using ModularPipelines.Validation;
+using Spectre.Console;
 using Vertical.SpectreLogger;
 using Vertical.SpectreLogger.Options;
 
@@ -78,6 +79,16 @@ internal static class DependencyInjectionSetup
 
                 builder.AddSpectreConsole(config =>
                 {
+                    // Configure console width for CI environments
+                    // When output is redirected (common in CI), Spectre defaults to 80 chars
+                    // We expand this to 160 for better readability in CI logs
+                    if (System.Console.IsOutputRedirected)
+                    {
+                        AnsiConsole.Console.Profile.Width = 160;
+                    }
+
+                    config.UseConsole(AnsiConsole.Console);
+
                     // Configure output templates without timestamps
                     // Command logging already includes precise timestamps ([HH:mm:ss.fff])
                     // so we don't need them from the logger as well
