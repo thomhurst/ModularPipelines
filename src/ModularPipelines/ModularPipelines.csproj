@@ -77,16 +77,22 @@
     <PackageReference Include="YamlDotNet" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.Package\ModularPipelines.Analyzers.Package.csproj" Name="ModularPipelines.Analyzers" />
+    <!-- Build analyzers (but don't apply them to this project - they're for consumers) -->
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\ModularPipelines.Analyzers.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\ModularPipelines.Analyzers.CodeFixes.csproj" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
     <ProjectReference Include="..\ModularPipelines.SourceGenerator\ModularPipelines.SourceGenerator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
-  <!-- Include source generator in NuGet package for consumers -->
+  <!-- Include source generator and analyzers in NuGet package for consumers -->
   <PropertyGroup>
     <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);_AddSourceGeneratorToPackage</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
   <Target Name="_AddSourceGeneratorToPackage">
     <ItemGroup>
+      <!-- Source Generator -->
       <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.SourceGenerator\bin\$(Configuration)\netstandard2.0\ModularPipelines.SourceGenerator.dll" PackagePath="analyzers/dotnet/cs" />
+      <!-- Analyzers -->
+      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.Analyzers\ModularPipelines.Analyzers\bin\$(Configuration)\netstandard2.0\ModularPipelines.Analyzers.dll" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\ModularPipelines.Analyzers\ModularPipelines.Analyzers.CodeFixes\bin\$(Configuration)\netstandard2.0\ModularPipelines.Analyzers.CodeFixes.dll" PackagePath="analyzers/dotnet/cs" />
     </ItemGroup>
   </Target>
 </Project>

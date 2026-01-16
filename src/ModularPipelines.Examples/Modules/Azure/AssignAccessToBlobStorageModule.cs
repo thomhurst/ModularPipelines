@@ -16,9 +16,9 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
     /// <inheritdoc/>
     protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = context.GetModule<ProvisionUserAssignedIdentityModule, UserAssignedIdentityResource>();
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
-        var storageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
             storageAccount.ValueOrDefault!.Id,

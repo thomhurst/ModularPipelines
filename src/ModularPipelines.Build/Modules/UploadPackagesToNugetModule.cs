@@ -36,7 +36,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 
-        var packagePaths = context.GetModule<PackagePathsParserModule, List<File>>();
+        var packagePaths = await context.GetModule<PackagePathsParserModule>();
 
         return await NugetUploadHelper.UploadPackagesAsync(
             context,

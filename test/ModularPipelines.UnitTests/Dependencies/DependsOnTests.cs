@@ -31,7 +31,7 @@ public class DependsOnTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModuleIfRegistered<Module1, bool>();
+            _ = context.GetModuleIfRegistered<Module1>();
             await Task.Yield();
             return true;
         }
@@ -42,7 +42,7 @@ public class DependsOnTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, bool>();
+            _ = await context.GetModule<Module1>();
             await Task.Yield();
             return true;
         }
@@ -53,7 +53,7 @@ public class DependsOnTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, bool>();
+            _ = await context.GetModule<Module1>();
             await Task.Yield();
             return true;
         }
@@ -64,7 +64,7 @@ public class DependsOnTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, bool>();
+            _ = await context.GetModule<Module1>();
             await Task.Yield();
             return true;
         }

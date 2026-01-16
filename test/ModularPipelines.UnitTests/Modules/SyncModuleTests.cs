@@ -275,7 +275,7 @@ public class SyncModuleTests : TestBase
     {
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
         {
-            var dependency = context.GetModule<SyncDependencyModule, int>();
+            var dependency = context.GetModule<SyncDependencyModule>().GetAwaiter().GetResult();
             return $"Dependency value: {dependency.ValueOrDefault}";
         }
     }
@@ -306,7 +306,7 @@ public class SyncModuleTests : TestBase
     {
         protected override string? Execute(IModuleContext context, CancellationToken cancellationToken)
         {
-            var dependency = context.GetModule<AsyncDependencyModule, int>();
+            var dependency = context.GetModule<AsyncDependencyModule>().GetAwaiter().GetResult();
             return $"Async dependency value: {dependency.ValueOrDefault}";
         }
     }
@@ -337,7 +337,7 @@ public class SyncModuleTests : TestBase
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
             await Task.Yield();
-            var dependency = context.GetModule<SyncModuleForAsyncToDepend, int>();
+            var dependency = await context.GetModule<SyncModuleForAsyncToDepend>();
             return $"Sync dependency value: {dependency.ValueOrDefault}";
         }
     }

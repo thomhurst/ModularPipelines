@@ -18,14 +18,15 @@ public class PushVersionTagModule : Module<CommandResult>
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithIgnoreFailuresWhen((ctx, ex) =>
         {
-            var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule, string>();
+            // Use GetAwaiter().GetResult() since dependency has completed by the time this callback runs
+            var versionInformation = ((IModuleContext)ctx).GetModule<NugetVersionGeneratorModule>().GetAwaiter().GetResult();
             return ex.Message.Contains($"tag 'v{versionInformation.ValueOrDefault!}' already exists");
         })
         .Build();
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var versionInformation = context.GetModule<NugetVersionGeneratorModule, string>();
+        var versionInformation = await context.GetModule<NugetVersionGeneratorModule>();
 
         await context.Git().Commands.Tag(new GitTagOptions
         {

@@ -12,7 +12,7 @@ public class ModuleReferencingSelfTests : TestBase
     {
         protected internal override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<ModuleReferencingSelf, CommandResult>();
+            _ = await context.GetModule<ModuleReferencingSelf>();
             await Task.Yield();
             return null;
         }

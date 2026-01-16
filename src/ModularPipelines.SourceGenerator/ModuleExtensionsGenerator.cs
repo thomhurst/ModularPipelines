@@ -171,25 +171,27 @@ public sealed class ModuleExtensionsGenerator : IIncrementalGenerator
             var module = moduleGroup.First();
             var methodName = StripModuleSuffix(module.ClassName);
 
-            // GetXxxModuleResult method - returns non-nullable (e.g., GetBuildModuleResult for BuildModule)
+            // GetXxxModule method - returns the module (which can be awaited for its result)
             sb.AppendLine($"    /// <summary>");
-            sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/>.");
+            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> module instance.");
+            sb.AppendLine($"    /// Await the returned module to get its <see cref=\"ModuleResult{{T}}\"/>.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
-            sb.AppendLine($"    /// <returns>The module result.</returns>");
+            sb.AppendLine($"    /// <returns>The module instance, which can be awaited for its result.</returns>");
             sb.AppendLine($"    /// <exception cref=\"ModularPipelines.Exceptions.ModuleNotRegisteredException\">Thrown when the module is not registered.</exception>");
-            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}> Get{methodName}ModuleResult(this IModuleContext context)");
-            sb.AppendLine($"        => context.GetModule<{module.ClassName}, {module.ResultTypeFullName}>();");
+            sb.AppendLine($"    public static {module.ClassName} Get{methodName}Module(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModule<{module.ClassName}>();");
             sb.AppendLine();
 
-            // GetXxxModuleResultIfRegistered method - returns nullable
+            // GetXxxModuleIfRegistered method - returns nullable module
             sb.AppendLine($"    /// <summary>");
-            sb.AppendLine($"    /// Gets the result of <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> if it is registered, otherwise null.");
+            sb.AppendLine($"    /// Gets the <see cref=\"{EscapeXmlComment(module.ClassName)}\"/> if it is registered, otherwise null.");
+            sb.AppendLine($"    /// Await the returned module to get its <see cref=\"ModuleResult{{T}}\"/>.");
             sb.AppendLine($"    /// </summary>");
             sb.AppendLine($"    /// <param name=\"context\">The module context.</param>");
-            sb.AppendLine($"    /// <returns>The module result, or null if not registered.</returns>");
-            sb.AppendLine($"    public static ModuleResult<{module.ResultTypeFullName}>? Get{methodName}ModuleResultIfRegistered(this IModuleContext context)");
-            sb.AppendLine($"        => context.GetModuleIfRegistered<{module.ClassName}, {module.ResultTypeFullName}>();");
+            sb.AppendLine($"    /// <returns>The module instance, or null if not registered.</returns>");
+            sb.AppendLine($"    public static {module.ClassName}? Get{methodName}ModuleIfRegistered(this IModuleContext context)");
+            sb.AppendLine($"        => context.GetModuleIfRegistered<{module.ClassName}>();");
             sb.AppendLine();
         }
 

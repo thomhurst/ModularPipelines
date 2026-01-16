@@ -35,47 +35,6 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
 
     #region IModuleContext specific methods
 
-    public ModuleResult<TResult> GetModule<TModule, TResult>()
-        where TModule : Module<TResult>
-    {
-        var moduleType = typeof(TModule);
-
-        // Check for self-reference
-        if (moduleType == _currentModule.GetType())
-        {
-            throw new ModuleReferencingSelfException(
-                $"Module '{moduleType.Name}' cannot reference itself. " +
-                "A module cannot depend on its own result.");
-        }
-
-        var result = GetModuleIfRegistered<TModule, TResult>();
-
-        if (result == null)
-        {
-            throw new ModuleNotRegisteredException(
-                $"Module '{moduleType.Name}' is not registered in the pipeline.\n" +
-                $"Add '.AddModule<{moduleType.Name}>()' to your pipeline configuration.",
-                null);
-        }
-
-        return result;
-    }
-
-    public ModuleResult<TResult>? GetModuleIfRegistered<TModule, TResult>()
-        where TModule : Module<TResult>
-    {
-        var moduleType = typeof(TModule);
-
-        // Find it via the module registry
-        var registry = Services.Get<IModuleResultRegistry>();
-        if (registry != null)
-        {
-            return registry.GetResult<TResult>(moduleType);
-        }
-
-        return null;
-    }
-
     public TModule GetModule<TModule>()
         where TModule : class, IModule
     {

@@ -45,7 +45,7 @@ public class CreateReleaseModule : Module<Release>
 
     protected override async Task<Release?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var versionInfoResult = context.GetModule<NugetVersionGeneratorModule, string>();
+        var versionInfoResult = await context.GetModule<NugetVersionGeneratorModule>();
 
         var repositoryIdString = context.GitHub().EnvironmentVariables.RepositoryId;
         if (!long.TryParse(repositoryIdString, out var repositoryId))

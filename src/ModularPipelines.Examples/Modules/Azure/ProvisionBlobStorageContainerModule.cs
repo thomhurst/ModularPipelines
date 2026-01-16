@@ -12,7 +12,7 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
     /// <inheritdoc/>
     protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var blobStorageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
+        var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
             blobStorageAccount.ValueOrDefault!.Id,

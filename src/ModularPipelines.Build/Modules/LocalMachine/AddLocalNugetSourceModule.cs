@@ -31,7 +31,7 @@ public class AddLocalNugetSourceModule : Module<CommandResult>
 
     protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var localNugetPathResult = context.GetModule<CreateLocalNugetFolderModule, Folder>();
+        var localNugetPathResult = await context.GetModule<CreateLocalNugetFolderModule>();
 
         return await context.DotNet().Nuget.Add.Source(new DotNetNugetAddSourceOptions
         {

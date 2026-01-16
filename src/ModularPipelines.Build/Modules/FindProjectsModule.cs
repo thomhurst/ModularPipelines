@@ -18,7 +18,6 @@ public class FindProjectsModule : Module<IReadOnlyList<File>>
         return Task.FromResult<IReadOnlyList<File>?>(
         [
             Sourcy.DotNet.Projects.ModularPipelines,
-            Sourcy.DotNet.Projects.ModularPipelines_Analyzers,
             Sourcy.DotNet.Projects.ModularPipelines_AmazonWebServices,
             Sourcy.DotNet.Projects.ModularPipelines_Azure,
             Sourcy.DotNet.Projects.ModularPipelines_Azure_Pipelines,

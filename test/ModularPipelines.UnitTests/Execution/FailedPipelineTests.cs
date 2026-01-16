@@ -31,7 +31,7 @@ public class FailedPipelineTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModuleIfRegistered<Module2, bool>();
+            _ = context.GetModuleIfRegistered<Module2>();
             await Task.Yield();
             return true;
         }

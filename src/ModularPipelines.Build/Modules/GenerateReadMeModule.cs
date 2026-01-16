@@ -29,7 +29,7 @@ public class GenerateReadMeModule : Module<IDictionary<string, object>>
         generatedContentStringBuilder.AppendLine("| Package | Description | Version |");
         generatedContentStringBuilder.AppendLine("| --- | --- | --- |");
 
-        var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
+        var projects = await context.GetModule<FindProjectsModule>();
 
         foreach (var project in projects.ValueOrDefault!
                      .Where(x => !x.NameWithoutExtension.StartsWith("ModularPipelines.Analyzers")))

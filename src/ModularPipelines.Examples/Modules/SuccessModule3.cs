@@ -13,7 +13,7 @@ public class SuccessModule3 : Module<IDictionary<string, object>?>
     {
         await Task.Delay(TimeSpan.FromSeconds(12), cancellationToken);
 
-        context.GetModule<GitVersionModule, CommandResult>();
+        _ = await context.GetModule<GitVersionModule>();
 
         return null;
     }

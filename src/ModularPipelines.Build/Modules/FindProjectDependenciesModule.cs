@@ -10,9 +10,9 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<FindProjectsModule>]
 public class FindProjectDependenciesModule : Module<FindProjectDependenciesModule.ProjectDependencies>
 {
-    protected override Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    protected override async Task<ProjectDependencies?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var projects = context.GetModule<FindProjectsModule, IReadOnlyList<File>>();
+        var projects = await context.GetModule<FindProjectsModule>();
 
         var dependencies = new List<File>();
 
@@ -40,7 +40,7 @@ public class FindProjectDependenciesModule : Module<FindProjectDependenciesModul
 
         LogProjects(context, projectDependencies);
 
-        return Task.FromResult<ProjectDependencies?>(projectDependencies);
+        return projectDependencies;
     }
 
     private static void LogProjects(IModuleContext context, ProjectDependencies projectDependencies)

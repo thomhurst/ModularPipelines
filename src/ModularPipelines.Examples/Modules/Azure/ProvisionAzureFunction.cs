@@ -20,10 +20,10 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
     /// <inheritdoc/>
     protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = context.GetModule<ProvisionUserAssignedIdentityModule, UserAssignedIdentityResource>();
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
-        var storageAccount = context.GetModule<ProvisionBlobStorageAccountModule, StorageAccountResource>();
-        var blobContainer = context.GetModule<ProvisionBlobStorageContainerModule, BlobContainerResource>();
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+        var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
 
         var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),

@@ -24,7 +24,7 @@ public class DirectCollisionTests
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<DependencyConflictModule2, bool>();
+            _ = await context.GetModule<DependencyConflictModule2>();
             await Task.Yield();
             return true;
         }

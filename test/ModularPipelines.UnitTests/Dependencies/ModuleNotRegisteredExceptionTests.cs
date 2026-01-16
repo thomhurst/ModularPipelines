@@ -22,7 +22,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            _ = context.GetModule<Module1, bool>();
+            _ = await context.GetModule<Module1>();
             await Task.Yield();
             return true;
         }
