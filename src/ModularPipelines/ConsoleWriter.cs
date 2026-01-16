@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Spectre.Console;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines;
 
@@ -18,5 +19,10 @@ internal class ConsoleWriter : IConsoleWriter
             // (e.g., unbalanced or invalid markup characters)
             System.Console.WriteLine(value);
         }
+    }
+
+    public void Write(IRenderable renderable)
+    {
+        AnsiConsole.Write(renderable);
     }
 }

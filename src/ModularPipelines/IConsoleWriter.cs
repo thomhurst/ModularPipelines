@@ -1,4 +1,5 @@
 using ModularPipelines.Logging;
+using Spectre.Console.Rendering;
 
 namespace ModularPipelines;
 
@@ -30,4 +31,10 @@ public interface IConsoleWriter
     /// </summary>
     /// <param name="value">The value to write.</param>
     void LogToConsole(string value);
+
+    /// <summary>
+    /// Writes a Spectre.Console renderable to the console.
+    /// </summary>
+    /// <param name="renderable">The renderable object to write (Tree, Table, Panel, etc.).</param>
+    void Write(IRenderable renderable);
 }
