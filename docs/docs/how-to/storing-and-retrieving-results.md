@@ -16,13 +16,16 @@ It's recommended to store and retrieve results using the Git commit SHA, as then
 ## Example Repository Class using Azure Blobs
 
 ```csharp
-await PipelineHostBuilder.Create()
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .AddModule<Module3>()
-    .AddResultsRepository<MyModuleRepository>()
-    .ExecutePipelineAsync();
+    .AddModule<Module3>();
 
+builder.AddResultsRepository<MyModuleRepository>();
+
+await builder.Build().RunAsync();
 ```
 
 ```csharp

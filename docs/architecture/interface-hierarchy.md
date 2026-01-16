@@ -55,7 +55,8 @@ public class MyModule : Module<string>
 | `Checksum` | File checksums |
 | `Environment` | Environment info |
 | `BuildSystemDetector` | CI system detection |
-| `GetModule<TModule, TResult>()` | Get another module's result |
+| `GetModule<TModule>()` | Get another module's result (preferred) |
+| `GetModule<TModule, TResult>()` | Get another module's result (explicit types) |
 | `SubModule()` | Track sub-operations |
 
 ### Extension Methods

@@ -11,7 +11,7 @@ Here's an example of publishing a NuGet package. Complete with generating semati
 ```csharp
 public class NugetVersionGeneratorModule : Module<string>
 {
-    protected override async Task<string?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
         return gitVersionInformation.FullSemVer;
@@ -24,15 +24,15 @@ public class NugetVersionGeneratorModule : Module<string>
 [DependsOn<NugetVersionGeneratorModule>]
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var packageVersion = await GetModule<NugetVersionGeneratorModule>();
+        var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
         var projects = context.Git().RootDirectory
             .GetFiles(x =>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
-        
+
         return await projects
             .ToAsyncProcessorBuilder()
             .SelectAsync(async projectFile => await context.DotNet().Pack(new DotNetPackOptions
@@ -41,8 +41,8 @@ public class PackProjectsModule : Module<CommandResult[]>
                 IncludeSource = true,
                 Properties = new List<string>
                 {
-                    $"PackageVersion={packageVersion.Value}",
-                    $"Version={packageVersion.Value}",
+                    $"PackageVersion={packageVersion.ValueOrDefault}",
+                    $"Version={packageVersion.ValueOrDefault}",
                 },
             }, cancellationToken))
             .ProcessOneAtATime();
@@ -57,7 +57,7 @@ public class PackProjectsModule : Module<CommandResult[]>
 [DependsOn<PackProjectsModule>]
 public class RunUnitTestsModule : Module<DotNetTestResult[]>
 {
-    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Git().RootDirectory
             .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
@@ -88,7 +88,7 @@ public class UploadPackagesToNugetModule : Module<CommandResult[]>
         _nugetSettings = nugetSettings;
     }
 
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
 

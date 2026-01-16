@@ -15,14 +15,14 @@ If you want to run every module regardless, you can switch to `WaitForAllModules
 ## Example
 
 ```csharp
-await PipelineHostBuilder.Create()
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .AddModule<Module3>()
-    .ConfigurePipelineOptions((context, options) =>
-    {
-        options.ExecutionMode = ExecutionMode.WaitForAllModules;
-    })
-    .ExecutePipelineAsync();
+    .AddModule<Module3>();
 
+builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+
+await builder.Build().RunAsync();
 ```

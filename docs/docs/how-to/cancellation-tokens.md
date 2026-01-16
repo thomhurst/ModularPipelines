@@ -13,7 +13,7 @@ It is recommended to use this token, and pass it in everywhere applicable. This 
 ```csharp
 public class MyModule : Module<File>
 {
-    protected override async Task<File?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
     }

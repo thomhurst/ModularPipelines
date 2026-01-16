@@ -86,9 +86,9 @@ public class ResilientModule : Module<CommandResult>
 Even when failures are ignored, you can check if a module failed from dependent modules:
 
 ```csharp
-var myModule = await GetModule<MyOptionalModule>();
+var myModule = await context.GetModule<MyOptionalModule>();
 
-if (myModule.Exception is ItemAlreadyExistsException)
+if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
 {
     // Handle the expected failure case
     return null;

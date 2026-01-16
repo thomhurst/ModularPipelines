@@ -202,7 +202,7 @@ This document provides a comprehensive audit of all `IPipeline*` interfaces in M
 - **Location:** `src/ModularPipelines/Context/IModuleContext.cs`
 - **Visibility:** Public
 - **Inherits From:** IPipelineContext
-- **Members:** GetModule<TModule, TResult>(), GetModuleIfRegistered<TModule, TResult>(), SubModule()
+- **Members:** GetModule<TModule>() (preferred), GetModule<TModule, TResult>(), GetModuleIfRegistered<TModule>(), GetModuleIfRegistered<TModule, TResult>(), SubModule()
 - **Purpose:** Primary interface for module developers
 - **Usages:** ~65 references (modules, examples, build)
 - **Recommendation:** **Keep public** - Primary user-facing interface
