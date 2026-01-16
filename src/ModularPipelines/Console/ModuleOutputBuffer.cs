@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Engine;
+using Spectre.Console;
 
 namespace ModularPipelines.Console;
 
@@ -142,7 +143,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             if (output.IsString)
             {
-                console.WriteLine(output.StringValue);
+                WriteWithMarkup(output.StringValue);
             }
             else if (output.LogEvent.HasValue)
             {
@@ -151,7 +152,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
                 var formatted = logEvent.Formatter(logEvent.State, logEvent.Exception);
                 if (!string.IsNullOrEmpty(formatted))
                 {
-                    console.WriteLine(formatted);
+                    WriteWithMarkup(formatted);
                 }
             }
         }
@@ -177,6 +178,24 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         }
 
         return $"{_moduleName} \u2713 ({durationStr})";
+    }
+
+    private static void WriteWithMarkup(string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return;
+        }
+
+        try
+        {
+            AnsiConsole.MarkupLine(value);
+        }
+        catch (InvalidOperationException)
+        {
+            // Fall back to plain console output if markup parsing fails
+            System.Console.WriteLine(value);
+        }
     }
 }
 
