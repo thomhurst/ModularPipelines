@@ -1,0 +1,4078 @@
+# Modular Pipelines Documentation
+
+> Documentation for ModularPipelines - a C# framework for building modular, testable CI/CD pipelines with dependency injection support.
+
+This file contains all documentation content in a single document following the llmstxt.org standard.
+
+## Modular Pipelines
+
+
+## About
+
+Modular Pipelines is a framework for writing your pipeline in C#. Giving you strong types, intellisense, parallelisation, and the entire .NET ecosystem at your fingertips.
+
+## Features
+
+*   Parallel execution
+*   Dependency management
+*   Familiar C# code
+*   Ability to debug pipelines
+*   Ability to run pipelines locally, even creating versions for setting up local development
+*   Strong typing, where different modules/steps can pass data to one another
+*   Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
+*   Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
+*   Easy to Skip or Ignore Failures for each individual module by passing in custom logic
+*   Hooks that can run before and/or after modules
+*   Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
+*   Easy to use File and Folder classes, that can search, read, update, delete and more
+*   Source controlled pipelines
+*   Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
+*   No need to learn new syntaxes such as YAML defined pipelines
+*   Strongly typed wrappers around command line tools
+*   Utilise existing .NET libraries
+*   Secret obfuscation
+*   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
+*   Run based on categories
+*   Easy to read exceptions
+*   Dynamic console progress reporting (if the console supports interactive mode)
+*   Pretty results table
+
+## Why the name?
+
+### Modular
+> consisting of separate parts that, when combined, form a complete whole
+
+### Pipeline
+> any channel or means whereby something is passed on
+
+---
+
+### Module
+> a self-contained unit or item, such as an assembly of electronic components and associated wiring or a segment of computer software, which itself performs a defined task and can be linked with other such units to form a larger system
+
+---
+
+## Module Execution Lifecycle
+
+
+This document describes the complete execution lifecycle of a module in ModularPipelines, including the order of operations for hooks, skip checks, retries, timeouts, and how different behavior interfaces interact with each other.
+
+## Overview
+
+ModularPipelines modules can implement several behavior interfaces to customize their execution:
+
+| Interface | Purpose |
+|-----------|---------|
+| `ISkippable` | Define conditions to skip module execution |
+| `IHookable` | Add before/after execution hooks |
+| `ITimeoutable` | Set execution timeout |
+| `IRetryable<T>` | Configure retry policy |
+| `IIgnoreFailures` | Allow failures without failing the pipeline |
+| `IAlwaysRun` | Run even when pipeline fails |
+
+## Execution Flow Diagram
+
+The following diagram shows the complete module execution lifecycle:
+
+```
+                    Module Scheduled
+                          |
+                          v
+              +------------------------+
+              |  Wait for Dependencies |
+              +------------------------+
+                          |
+                          v
+              +------------------------+
+              | Setup Cancellation     |
+              | (IAlwaysRun check)     |
+              +------------------------+
+                          |
+                          v
+              +------------------------+
+              | ISkippable.ShouldSkip  |-----> Skip? ---+
+              +------------------------+               |
+                          |                            |
+                          | No                         | Yes
+                          v                            v
+              +------------------------+    +-------------------+
+              | OnBeforeExecuteAsync   |    | OnSkippedAsync    |
+              | (direct hook)          |    | (direct hook)     |
+              +------------------------+    +-------------------+
+                          |                            |
+                          v                            v
+              +------------------------+    +-------------------+
+              | IHookable.OnBeforeExe  |    | Return Skipped    |
+              +------------------------+    | Result            |
+                          |                 +-------------------+
+                          v
+              +------------------------+
+              |    Start Stopwatch     |
+              |    Status=Processing   |
+              +------------------------+
+                          |
+                          v
+         +--------------------------------+
+         |   ExecuteWithPolicies          |
+         |   +-------------------------+  |
+         |   | Apply Timeout           |  |
+         |   | (ITimeoutable or 30min) |  |
+         |   +-------------------------+  |
+         |              |                 |
+         |              v                 |
+         |   +-------------------------+  |
+         |   | Apply Retry Policy      |  |
+         |   | (IRetryable or default) |  |
+         |   +-------------------------+  |
+         |              |                 |
+         |              v                 |
+         |   +-------------------------+  |
+         |   |    ExecuteAsync         |  |
+         |   +-------------------------+  |
+         +--------------------------------+
+                          |
+            +-------------+-------------+
+            |                           |
+         Success                     Exception
+            |                           |
+            v                           v
+  +------------------+       +--------------------+
+  | Status=Successful|       | OnFailedAsync      |
+  +------------------+       | (direct hook)      |
+            |                +--------------------+
+            |                           |
+            |                           v
+            |                +--------------------+
+            |                | IIgnoreFailures?   |----> Yes: IgnoredFailure
+            |                +--------------------+
+            |                           |
+            |                        No |
+            |                           v
+            |                +--------------------+
+            |                | Status=Failed      |
+            |                | Cancel Pipeline    |
+            |                +--------------------+
+            |                           |
+            +-------------+-------------+
+                          |
+                          v
+              +------------------------+
+              | OnAfterExecuteAsync    |
+              | (direct hook)          |
+              +------------------------+
+                          |
+                          v
+              +------------------------+
+              | IHookable.OnAfterExe   |
+              | (in finally block)     |
+              +------------------------+
+                          |
+                          v
+                    Module Complete
+```
+
+## Detailed Phase Descriptions
+
+### Phase 1: Dependency Resolution
+
+Before a module begins execution, it waits for all its dependencies to complete:
+
+1. Dependencies declared via `[DependsOn<T>]` attributes are resolved
+2. Dependencies declared via `DeclareDependencies()` method are resolved
+3. The module waits until all dependencies have finished (success, failure, or skip)
+4. If `[NotInParallel]` is specified, the module waits for exclusive execution
+
+**Exception for AlwaysRun modules**: When a pipeline fails and AlwaysRun modules are executed late, they skip dependency waiting to prevent deadlocks.
+
+### Phase 2: Cancellation Setup
+
+The cancellation token is configured based on whether the module implements `IAlwaysRun`:
+
+- **Normal modules**: Linked to the engine cancellation token (cancelled when any module fails)
+- **AlwaysRun modules**: Not linked to engine cancellation (runs even after pipeline failure)
+
+### Phase 3: Skip Check
+
+If the module implements `ISkippable`:
+
+1. `ShouldSkip(IModuleContext)` is called
+2. If `SkipDecision.ShouldSkip` is true:
+   - `OnSkippedAsync` (direct hook) is called
+   - If a result repository is configured, historical results may be returned
+   - The module is marked as `Skipped` and execution ends
+
+**Important**: When a module is skipped, neither `OnBeforeExecuteAsync` nor `IHookable.OnBeforeExecute` are called.
+
+### Phase 4: Before Hooks
+
+Hooks execute in this order:
+
+1. **OnBeforeExecuteAsync** (direct virtual method override)
+   - Exceptions here **prevent** execution and are propagated as module failure
+   - Neither `OnFailedAsync` nor `OnAfterExecuteAsync` will be called
+
+2. **IHookable.OnBeforeExecute** (interface implementation)
+   - Runs after the direct hook
+   - Exceptions are propagated
+
+### Phase 5: Execution with Policies
+
+The actual `ExecuteAsync` method is wrapped with timeout and retry policies:
+
+#### Timeout Application
+
+1. If `ITimeoutable` is implemented, use the specified `Timeout` property
+2. Otherwise, use the default timeout of 30 minutes
+3. Use `TimeSpan.Zero` to disable timeout (not recommended)
+
+#### Retry Policy Application
+
+1. If `IRetryable<T>` is implemented, use the custom retry policy
+2. Otherwise, if `PipelineOptions.DefaultRetryCount > 0`, use default retry policy
+3. Otherwise, no retries are attempted
+
+**The timeout wraps the entire retry operation**, meaning the timeout applies to the total execution time including all retries.
+
+### Phase 6: Failure Handling
+
+When `ExecuteAsync` throws an exception:
+
+1. **OnFailedAsync** (direct hook) is called first
+2. If `IIgnoreFailures` is implemented:
+   - `ShouldIgnoreFailures(context, exception)` is called
+   - If true, status is set to `IgnoredFailure` and pipeline continues
+3. If failure is not ignored, the pipeline is cancelled
+
+### Phase 7: After Hooks
+
+Regardless of success or failure, after hooks run:
+
+1. **OnAfterExecuteAsync** (direct hook)
+   - Only runs if `OnBeforeExecuteAsync` completed successfully
+   - Receives the `ModuleResult<T>` (success or failure)
+   - Can modify and return a new result
+   - Exceptions are logged but don't affect the result
+
+2. **IHookable.OnAfterExecute** (in finally block)
+   - Always runs if before hooks executed
+   - Runs even if `OnAfterExecuteAsync` threw an exception
+   - Exceptions are logged but don't affect the result
+
+## Behavior Interaction Matrix
+
+This table shows how different behavior combinations interact:
+
+| Combination | Behavior |
+|-------------|----------|
+| **IHookable + ISkippable** | `OnBeforeExecute` does NOT run if module is skipped. Skip check happens before hooks. |
+| **IRetryable + ITimeoutable** | Timeout applies to TOTAL execution time (all retries combined), not per-retry. |
+| **IHookable + IRetryable** | `OnBeforeExecute` runs ONCE before any retries. `OnAfterExecute` runs ONCE after all retries complete. |
+| **IAlwaysRun + ISkippable** | Skip check still runs. AlwaysRun only affects cancellation, not skip logic. Both can be combined. |
+| **IIgnoreFailures + IRetryable** | Retries happen first. If all retries fail, then `IIgnoreFailures` is checked. |
+| **IAlwaysRun + IIgnoreFailures** | Both apply. AlwaysRun prevents cancellation from other failures; IIgnoreFailures prevents this module's failure from cancelling others. |
+| **ITimeoutable + IAlwaysRun** | Timeout still applies. AlwaysRun only affects pipeline cancellation, not module timeout. |
+
+## Detailed Behavior Interaction Examples
+
+### IHookable + ISkippable
+
+```csharp
+public class MyModule : Module<string>, IHookable, ISkippable
+{
+    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    {
+        // This runs FIRST
+        return SkipDecision.Skip("Not needed").AsTask();
+    }
+
+    public Task OnBeforeExecute(IPipelineContext context)
+    {
+        // This does NOT run when skipped
+        return Task.CompletedTask;
+    }
+
+    public Task OnAfterExecute(IPipelineContext context)
+    {
+        // This does NOT run when skipped
+        return Task.CompletedTask;
+    }
+}
+```
+
+**Result**: When `ShouldSkip` returns true, neither `OnBeforeExecute` nor `OnAfterExecute` are called.
+
+### IRetryable + ITimeoutable
+
+```csharp
+public class MyModule : Module<string>, IRetryable<string>, ITimeoutable
+{
+    public TimeSpan Timeout => TimeSpan.FromSeconds(30);
+
+    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
+    {
+        return Policy<string?>
+            .Handle<HttpRequestException>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(i));
+    }
+}
+```
+
+**Result**: The 30-second timeout applies to the TOTAL execution time. If each retry takes 10 seconds with 3-second waits between retries, you could timeout during the second retry attempt.
+
+```
+Timeline:
+0s  - Attempt 1 starts
+10s - Attempt 1 fails, wait 1s
+11s - Attempt 2 starts
+21s - Attempt 2 fails, wait 2s
+23s - Attempt 3 starts
+30s - TIMEOUT! (even though attempt 3 might succeed at 33s)
+```
+
+### IHookable + IRetryable
+
+```csharp
+public class MyModule : Module<string>, IHookable, IRetryable<string>
+{
+    private int _beforeCount = 0;
+    private int _afterCount = 0;
+
+    public Task OnBeforeExecute(IPipelineContext context)
+    {
+        _beforeCount++; // Called ONCE, regardless of retries
+        return Task.CompletedTask;
+    }
+
+    public Task OnAfterExecute(IPipelineContext context)
+    {
+        _afterCount++; // Called ONCE, after all retries complete
+        return Task.CompletedTask;
+    }
+
+    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
+    {
+        return Policy<string?>.Handle<Exception>().RetryAsync(3);
+    }
+}
+```
+
+**Result**: Hooks run once, not per-retry:
+- `OnBeforeExecute`: Called once before first attempt
+- `ExecuteAsync`: May be called 1-4 times (initial + 3 retries)
+- `OnAfterExecute`: Called once after final attempt (success or failure)
+
+### IAlwaysRun + ISkippable
+
+```csharp
+public class CleanupModule : Module<string>, IAlwaysRun, ISkippable
+{
+    public Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    {
+        // Skip logic still applies to AlwaysRun modules
+        if (context.Environment.IsDevelopment())
+        {
+            return SkipDecision.Skip("No cleanup in dev").AsTask();
+        }
+        return SkipDecision.DoNotSkip.AsTask();
+    }
+}
+```
+
+**Result**: Both behaviors apply independently:
+- `IAlwaysRun`: Module won't be cancelled when other modules fail
+- `ISkippable`: Module can still be skipped based on custom logic
+
+### IIgnoreFailures + IRetryable
+
+```csharp
+public class ResilientModule : Module<string>, IRetryable<string>, IIgnoreFailures
+{
+    public AsyncRetryPolicy<string?> GetRetryPolicy(IPipelineContext context)
+    {
+        return Policy<string?>.Handle<Exception>().RetryAsync(3);
+    }
+
+    public Task<bool> ShouldIgnoreFailures(IPipelineContext context, Exception exception)
+    {
+        // This is only called AFTER all retries are exhausted
+        return Task.FromResult(true);
+    }
+}
+```
+
+**Result**: Order of operations:
+1. Attempt execution
+2. On failure, retry up to 3 times
+3. If all 4 attempts fail, check `ShouldIgnoreFailures`
+4. If ignored, status = `IgnoredFailure`, pipeline continues
+
+## Hook Execution Order Summary
+
+For a module that implements all behaviors and runs successfully:
+
+```
+1. Wait for dependencies
+2. Setup cancellation (check IAlwaysRun)
+3. ISkippable.ShouldSkip() [if implemented]
+4. OnBeforeExecuteAsync() [direct hook]
+5. IHookable.OnBeforeExecute() [if implemented]
+6. Start timing
+7. Apply timeout + retry wrapper
+8. ExecuteAsync() [may retry multiple times]
+9. Stop timing
+10. OnAfterExecuteAsync() [direct hook]
+11. IHookable.OnAfterExecute() [in finally block]
+```
+
+For a module that fails:
+
+```
+1-7. Same as above
+8. ExecuteAsync() fails after retries
+9. OnFailedAsync() [direct hook]
+10. IIgnoreFailures.ShouldIgnoreFailures() [if implemented]
+11. If not ignored: Cancel pipeline
+12. OnAfterExecuteAsync() [direct hook]
+13. IHookable.OnAfterExecute() [in finally block]
+```
+
+For a module that is skipped:
+
+```
+1. Wait for dependencies
+2. Setup cancellation
+3. ISkippable.ShouldSkip() returns true
+4. OnSkippedAsync() [direct hook]
+5. Check result repository for historical data
+6. Return skipped result
+```
+
+## Edge Cases
+
+### OnBeforeExecuteAsync Throws Exception
+
+If `OnBeforeExecuteAsync` throws:
+- `ExecuteAsync` is NOT called
+- `OnFailedAsync` is NOT called (module never started)
+- `OnAfterExecuteAsync` is NOT called (before hooks didn't complete)
+- `IHookable.OnAfterExecute` IS still called (in finally block)
+
+### AlwaysRun Module with Failed Dependencies
+
+When the pipeline fails and an AlwaysRun module hasn't started yet:
+- The module is started without waiting for dependencies
+- This prevents deadlocks where dependencies will never complete
+- The module receives a fresh `CancellationToken.None`
+
+### Timeout vs Cancellation
+
+- **Timeout**: Module-specific limit on execution time
+- **Cancellation**: Pipeline-wide signal when any module fails
+
+AlwaysRun modules ignore pipeline cancellation but still respect their own timeout.
+
+## Best Practices
+
+1. **Use ISkippable for conditional execution**, not OnBeforeExecuteAsync
+2. **Set reasonable timeouts** to prevent runaway modules
+3. **Use IIgnoreFailures for non-critical modules** like notifications
+4. **Combine IAlwaysRun with IIgnoreFailures** for cleanup modules
+5. **Keep hooks lightweight** - heavy logic belongs in ExecuteAsync
+6. **Log in OnFailedAsync** for debugging failed modules
+7. **Consider total time when using IRetryable + ITimeoutable** together
+
+---
+
+## Azure Resource Provisioning Example
+
+
+So for example, we want to provision some Azure services like this:
+
+- A user assigned identity
+- A blob storage account that can only be accessed via the user assigned identity we created
+- A blob storage container under that account
+- An azure function, with our user assigned identity being used for its identity, meaning it would have access to the blob storage
+
+That would look like this:
+
+## Managed User Assigned Identity
+
+```csharp
+public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
+{
+    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
+            new UserAssignedIdentityData(AzureLocation.UKSouth)
+        );
+
+        return userAssignedIdentityProvisionResponse.Value;
+    }
+}
+```
+
+## Blob Storage Account
+
+```csharp
+public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
+{
+    protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
+            new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
+        );
+
+        return blobStorageAccountProvisionResponse.Value;
+    }
+}
+```
+
+## Blob Storage Container
+
+```csharp
+[DependsOn<ProvisionBlobStorageAccountModule>]
+public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
+{
+    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+
+        var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
+            blobStorageAccount.ValueOrDefault!.Id,
+            "MyContainer",
+            new BlobContainerData()
+        );
+
+        return blobContainerProvisionResponse.Value;
+    }
+}
+```
+
+## Blob Storage Access via User Identity
+
+```csharp
+[DependsOn<ProvisionBlobStorageAccountModule>]
+[DependsOn<ProvisionUserAssignedIdentityModule>]
+public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
+{
+    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
+
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+
+        var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
+            storageAccount.ValueOrDefault!.Id,
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
+        );
+
+        return roleAssignmentResource.Value;
+    }
+}
+```
+
+## Azure Function
+
+```csharp
+[DependsOn<ProvisionUserAssignedIdentityModule>]
+[DependsOn<ProvisionBlobStorageAccountModule>]
+[DependsOn<ProvisionBlobStorageContainerModule>]
+public class ProvisionAzureFunction : Module<WebSiteResource>
+{
+    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
+
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+        var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
+
+        var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
+            new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
+            new WebSiteData(AzureLocation.UKSouth)
+            {
+                Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
+                {
+                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } }
+                },
+                SiteConfig = new SiteConfigProperties
+                {
+                    AppSettings = new List<AppServiceNameValuePair>
+                    {
+                        new()
+                        {
+                            Name = "BlobStorageConnectionString",
+                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                        },
+                        new()
+                        {
+                            Name = "BlobContainerName",
+                            Value = blobContainer.ValueOrDefault!.Data.Name
+                        }
+                    }
+                }
+                // ... Other properties
+            }
+        );
+
+        return functionProvisionResponse.Value;
+    }
+```
+
+So we can clearly see what depends on what. 
+
+Every module is isolated. 
+
+Every module will automatically run in parallel unless it is dependent on another module.
+
+A module with a dependency can retrieve the data from another module.
+
+---
+
+## .NET Test, Build & Publish
+
+
+Here's an example of publishing a NuGet package. Complete with generating sematic versioning, and running tests.
+
+## Generate Version Number
+
+```csharp
+public class NugetVersionGeneratorModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var gitVersionInformation = await context.Git().Versioning.GetGitVersioningInformation();
+        return gitVersionInformation.FullSemVer;
+    }
+}
+```
+
+## Pack Projects
+```csharp
+[DependsOn<NugetVersionGeneratorModule>]
+public class PackProjectsModule : Module<CommandResult[]>
+{
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
+
+        var projects = context.Git().RootDirectory
+            .GetFiles(x =>
+                x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+
+        return await projects
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(async projectFile => await context.DotNet().Pack(new DotNetPackOptions
+            {
+                TargetPath = projectFile.Path,
+                IncludeSource = true,
+                Properties = new List<string>
+                {
+                    $"PackageVersion={packageVersion.ValueOrDefault}",
+                    $"Version={packageVersion.ValueOrDefault}",
+                },
+            }, cancellationToken))
+            .ProcessOneAtATime();
+    }
+}
+
+```
+
+## Run Unit Tests
+
+```csharp
+[DependsOn<PackProjectsModule>]
+public class RunUnitTestsModule : Module<DotNetTestResult[]>
+{
+    protected override async Task<DotNetTestResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return await context.Git().RootDirectory
+            .GetFiles(file => file.Path.EndsWith(".csproj", StringComparison.OrdinalIgnoreCase)
+                              && file.Path.Contains("UnitTests", StringComparison.OrdinalIgnoreCase))
+            .ToAsyncProcessorBuilder()
+            .SelectAsync(async unitTestProjectFile => await context.DotNet().Test(new DotNetTestOptions
+            {
+                TargetPath = unitTestProjectFile.Path,
+                Collect = "XPlat Code Coverage",
+            }, cancellationToken))
+            .ProcessInParallel();
+    }
+}
+
+```
+
+## Upload Packages
+
+```csharp
+[DependsOn<RunUnitTestsModule>]
+[DependsOn<PackProjectsModule>]
+public class UploadPackagesToNugetModule : Module<CommandResult[]>
+{
+    private readonly IOptions<NuGetSettings> _nugetSettings;
+
+    public UploadPackagesToNugetModule(IOptions<NuGetSettings> nugetSettings, IOptions<PublishSettings> publishSettings)
+    {
+        _nugetSettings = nugetSettings;
+    }
+
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(_nugetSettings.Value.ApiKey);
+
+        var packages = context.Git().RootDirectory
+            .GetFiles(x =>
+                x.Extension == ".nupkg")
+            .ToList();
+
+        return await context.NuGet()
+            .UploadPackages(new NuGetUploadOptions(packages.AsPaths(), new Uri("https://api.nuget.org/v3/index.json"))
+            {
+                ApiKey = _nugetSettings.Value.ApiKey!,
+            });
+    }
+}
+```
+
+---
+
+## Fully Orchestrated Example
+
+# Working Example
+
+The pipeline to test, generate and upload the NuGet packages for this library.. is made from this library. 
+
+See the [ModularPipelines.Build](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Build) project in this repository.
+
+---
+
+## Single File C# Example
+
+Starting with dotnet 10 (preview 4), you can use the new file-based C# application feature to write scripts in C# without needing to create a full project structure. This is particularly useful for quick scripts or small utilities.
+
+## Using File-Based C# Application with ModularPipelines
+
+To use ModularPipelines in a single file C# application, you can follow these steps:
+
+1.  **Create a C# file**: Create a new file named `example.cs` (or any name with `.cs` extension).
+2.  **Add ModularPipelines to your project**: You can add TUnit as a package reference in your file. At the top of your `example.cs`, add the following line:
+
+    ```csharp
+    #:package ModularPipelines@3.*
+    ```
+
+    Alternatively, you can specify a specific version:
+
+    ```csharp
+    #:package ModularPipelines@3.0.0
+    ```
+
+3.  **Write your C# code**: Below the package reference, you can write your C# code using ModularPipelines. Here’s a simple example that uses ModularPipelines to check the dotnet version:
+
+    ```csharp
+    #!/usr/bin/dotnet run
+    #:package ModularPipelines.DotNet@3.*
+    using ModularPipelines;
+    using ModularPipelines.Attributes;
+    using ModularPipelines.Context;
+    using ModularPipelines.DotNet.Extensions;
+    using ModularPipelines.Extensions;
+    using ModularPipelines.Models;
+    using ModularPipelines.Modules;
+
+    var builder = Pipeline.CreateBuilder(args);
+
+    builder.Services
+        .AddModule<UpdateDotnetWorkloads>()
+        .AddModule<CheckDotnetSdkModule>();
+
+    await builder.Build().RunAsync();
+
+    public class UpdateDotnetWorkloads : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return await context.DotNet().DotNetWorkload.Update(token: cancellationToken);
+        }
+    }
+
+    [DependsOn<UpdateDotnetWorkloads>]
+    public class CheckDotnetSdkModule : Module<CommandResult>
+    {
+        protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            return await context.DotNet().Sdk.Check(token: cancellationToken);
+        }
+    }
+    ```
+
+4.  **Run your script**: You can run your script directly using the `dotnet run` command. Make sure you have the .NET SDK installed and available in your PATH.
+
+    ```powershell
+    dotnet run example.cs
+    ```
+
+If you need to convert the file based application to a regular C# project, you can run the following command:
+
+    ```powershell
+    dotnet project convert example.cs
+    ```
+
+---
+
+## Fundamentals
+
+
+## Pipeline Builder
+
+Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.NET Core minimal API pattern, providing direct access to `Configuration`, `Services`, and `Options`. Setup should feel familiar if you've used ASP.NET Core.
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddModule<MyModule>();
+await builder.Build().RunAsync();
+```
+
+## Modules
+
+The building blocks of your pipelines are called Modules. Modules can be as big or as small as you decide, though it's recommended to make them as small as possible. That way we can speed up execution by utilizing parallelization and we are able to more clearly see what failed and where it failed.
+
+> a self-contained unit or item, such as an assembly of electronic components and associated wiring or a segment of computer software, which itself performs a defined task and can be linked with other such units to form a larger system
+
+Modules can retrieve other modules and access information from them.
+
+## Strong Typing
+
+Modules are strongly typed, so we can return clear, concrete objects, and other modules have direct access to those strong objects, without any need for casting or guessing the type, or guessing keys from a dictionary.
+
+```csharp
+// Get a module's result
+var myModule = await context.GetModule<MyFirstModule>();
+
+// Access the value using pattern matching (recommended)
+if (myModule is ModuleResult<MyFirstModuleResult>.Success { Value: var result })
+{
+    var string1 = result.MyFirstString;
+    var string2 = result.MySecondString;
+}
+
+// Or use ValueOrDefault for simpler access
+var string1 = myModule.ValueOrDefault?.MyFirstString;
+var string2 = myModule.ValueOrDefault?.MySecondString;
+```
+
+## Custom Types
+
+A module isn't restricted to a pre-determined type either. You can pass the `Type` of object that you want to return when you inherit from the base `Module` class:
+
+```csharp
+public class MyModule : Module<MyCustomClass>
+```
+
+```csharp
+public class PingApiModule : Module<HttpResponseMessage>
+```
+
+You'll then be instructed by the compiler to make sure the return type of your main `ExecuteAsync` method matches the `Type` you've set up:
+
+```csharp
+protected override async Task<MyCustomClass?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+```
+
+## Optional Data
+
+You can use `IDictionary<string, object>` as a flexible return type:
+
+```csharp
+public class MyModule : Module<IDictionary<string, object>>
+{
+    protected override async Task<IDictionary<string, object>?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return new Dictionary<string, object>
+        {
+            ["key1"] = "value1",
+            ["key2"] = 42
+        };
+    }
+}
+```
+
+Returning an object isn't mandatory either. You can return `null`:
+
+```csharp
+protected override async Task<MyResult?> ExecuteAsync(
+    IModuleContext context, CancellationToken cancellationToken)
+{
+    await DoSomethingAsync();
+    return null;
+}
+```
+
+## Automatic Parallelisation and Explicit Dependencies
+
+Modules will all try to run in parallel if possible. But if a Module depends on another Module, it is smart enough to automatically wait for the dependent module to finish before executing.
+
+Dependencies are configured by adding an attribute on your Module. This also makes it clear to navigate through your pipeline, as with your IDE/Intellisense, you can click through to other Modules with ease.
+
+```csharp
+[DependsOn<MyOtherModule>]
+public class MyModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // MyOtherModule is guaranteed to have completed before this runs
+        return "result";
+    }
+}
+```
+
+## Checking a Module's Status
+
+When you get another Module, you'll be passed a `ModuleResult<T>` that contains the data you returned, as well as information about its execution. Use pattern matching to handle different outcomes:
+
+```csharp
+var myModule = await context.GetModule<MyOptionalModule>();
+
+// Pattern matching (recommended)
+return myModule switch
+{
+    ModuleResult<MyOptionalResult>.Success { Value: var result }
+        => await ProcessResult(result),
+    ModuleResult.Skipped { Decision: var skip }
+        => null,  // Module was skipped
+    ModuleResult.Failure { Exception: var ex }
+        => throw new Exception("Dependency failed", ex),
+    _ => null
+};
+```
+
+Or use the convenience properties for simpler checks:
+
+```csharp
+var myModule = await context.GetModule<MyOptionalModule>();
+
+if (myModule.IsSkipped)
+{
+    return null;
+}
+
+if (myModule.IsFailure)
+{
+    // Check the exception
+    if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
+    {
+        return null;
+    }
+    throw new Exception("Unexpected failure", myModule.ExceptionOrDefault);
+}
+
+// Success case
+return await DoSomethingAsync(myModule.ValueOrDefault);
+```
+
+You can also use the `Match` helper for exhaustive handling:
+
+```csharp
+var myModule = await context.GetModule<MyOptionalModule>();
+
+return await myModule.Match(
+    onSuccess: result => ProcessResultAsync(result),
+    onFailure: ex => HandleFailureAsync(ex),
+    onSkipped: skip => Task.FromResult<MyResult?>(null)
+);
+```
+
+---
+
+## Always Run
+
+
+## Module Run Types
+
+By default, modules only run if their dependencies succeed. If a dependency fails, the module waiting will not start and will abort.
+
+With `WithAlwaysRun()`, a module will run regardless of whether any dependencies failed. This is useful for cleanup modules that need to run regardless of whether the pipeline passed or failed.
+
+## Using ModuleConfiguration
+
+```csharp
+public class CleanupModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithAlwaysRun()
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Clean up resources - runs even if other modules failed
+    }
+}
+```
+
+## Combining with Other Behaviors
+
+Always run can be combined with other module behaviors:
+
+```csharp
+[DependsOn<BuildModule>]
+[DependsOn<TestModule>]
+public class CleanupModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithAlwaysRun()
+        .WithIgnoreFailures()  // Don't fail the pipeline if cleanup fails
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Clean up resources - runs even if Build or Test failed
+        // Won't fail the pipeline even if cleanup itself fails
+    }
+}
+```
+
+## Use Cases
+
+Common scenarios for `WithAlwaysRun()`:
+- **Resource cleanup**: Deleting temporary files, stopping services
+- **Notifications**: Sending pipeline status notifications
+- **Logging**: Final summary logging regardless of pipeline outcome
+- **State reset**: Resetting environment state after tests
+
+---
+
+## Analyzers
+
+
+## Built-in
+A few Analyzers have been built and come out-of-the-box when using Modular Pipelines. This is to prevent errors at runtime, and bring them to the developer's attention at compile time.
+
+These include:
+- Checks for injecting ILogger
+- `Console` class usage
+- Missing `DependsOn` attributes
+- Conflicting `DependsOn` attributes
+- Returning `IEnumerable<T>`
+
+---
+
+## Cancellation Tokens
+
+
+When you override a Module's `ExecuteAsync` method, you are provided a `CancellationToken` by the framework.
+
+It is recommended to use this token, and pass it in everywhere applicable. This token will be cancelled if the pipeline fails for any reason, and it'll help cancel any pending operations that haven't yet completed.
+
+## Example
+
+```csharp
+public class MyModule : Module<File>
+{
+    protected override async Task<File?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return await context.Downloader.DownloadFileAsync(new DownloadFileOptions(new Uri("https://www.example.com/somefile.zip")), cancellationToken);
+    }
+}
+```
+
+---
+
+## Categories
+
+Sometimes we want to run only certain parts of a pipeline, or we might want to split a pipeline up into different targets. For instance, a test run, and then later on a deploy run. Categories can help achieve that.
+
+## Attribute
+Categories are applied to Modules by using the `[ModuleCategory]` attribute.
+
+## PipelineBuilder
+Categories to run or ignore are configured on the `PipelineBuilder` via `Options`.
+
+## Run Categories
+If "Run Categories" have been set with some values, only Modules that have any of those categories will be run. If a module has none of those categories, it will not run.
+
+## Ignore Categories
+If "Ignore Categories" have been set with some values, if a Module has one of those categories, it will not run.
+
+## Example of Running Specific Categories
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>()
+    .AddModule<Module4>();
+
+builder.Options.RunOnlyCategories = ["UnitTest", "IntegrationTest"];
+
+await builder.Build().RunAsync();
+```
+
+## Example of Ignoring Specific Categories
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>()
+    .AddModule<Module4>();
+
+builder.Options.IgnoreCategories = ["Publish", "Deploy"];
+
+await builder.Build().RunAsync();
+```
+
+---
+
+## Console Progress
+
+
+If you are using an interactive terminal, then a progress dialog will be displayed to you. This will attempt to show you estimated remaining time, and the current progress of all executing modules.
+
+![image](https://github.com/thomhurst/ModularPipelines/assets/30480171/7d85af1e-abfd-40c4-8ef6-5df06baa88d6)
+
+---
+
+## Custom Commands
+
+Many common CLI tools, such as npm, yarn, dotnet, docker, kubectl, have all had strong objects created to wrap around their CLI commands.
+
+If you want to run a command that isn't currently supported by strong objects, you can still run commands directly through the `ICommand` interface available via `context.Shell.Command` within your modules.
+
+Every argument should be passed as a separate string in a collection. This allows proper formatting if there's things like spaces or quotes.
+
+## Example
+
+```csharp
+await context.Shell.Command.ExecuteCommandLineTool(new CommandLineToolOptions("dotnet")
+        {
+            Arguments = new[] { "tool", "install", "--global", "dotnet-coverage" },
+        }, cancellationToken);
+```
+
+This is the equivalent to running:
+
+`dotnet tool install --global dotnet-coverage`
+
+---
+
+## Defining Modules
+
+
+Modules are defined by creating a class that inherits from the `Module<T>` base class.
+
+`T` is the type of object that your Module will return, and that object can be seen by other Modules (if they depend on it).
+
+```csharp
+public class FindAFileModule : Module<FileInfo>
+{
+    protected override async Task<FileInfo?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return context.Files
+            .Glob("C:\\**\\MyJsonFile.json")
+            .Single();
+    }
+}
+```
+
+### Modules Without Return Values
+
+For modules that perform actions without returning meaningful data, use the non-generic `Module` base class:
+
+```csharp
+public class CleanupModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var folder = context.Files.GetFolder("./temp");
+        folder.Delete();
+        // No return statement needed
+    }
+}
+```
+
+For synchronous operations, use `SyncModule`:
+
+```csharp
+public class LoggingModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
+        // No return statement needed
+    }
+}
+```
+
+These classes internally use the `None` struct to represent the absence of a value. `None` is semantically equivalent to `null`, meaning `None.Value.Equals(null)` returns `true`.
+
+## Configuring Module Behavior
+
+Configure module behaviors such as timeouts, retry policies, skip conditions, and hooks by overriding the `Configure()` method:
+
+```csharp
+public class MyModule : Module<FileInfo>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .WithRetryCount(3)
+        .WithSkipWhen(() => !File.Exists("important.json"))
+        .WithIgnoreFailures()
+        .WithAlwaysRun()
+        .Build();
+
+    protected override async Task<FileInfo?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Module logic here
+    }
+}
+```
+
+### Available Configuration Options
+
+| Method | Description |
+|--------|-------------|
+| `.WithTimeout(TimeSpan)` | Maximum execution time before module is cancelled |
+| `.WithRetryCount(int)` | Number of retry attempts on failure |
+| `.WithRetryPolicy(IAsyncPolicy)` | Custom Polly retry policy |
+| `.WithSkipWhen(...)` | Condition to skip the module |
+| `.WithIgnoreFailures()` | Don't fail the pipeline if this module fails |
+| `.WithIgnoreFailuresWhen(...)` | Conditionally ignore failures |
+| `.WithAlwaysRun()` | Run even if the pipeline has failed |
+| `.WithBeforeExecute(...)` | Hook to run before execution |
+| `.WithAfterExecute(...)` | Hook to run after execution |
+
+## Lifecycle Hooks
+
+You can also override lifecycle methods directly on the module class:
+
+```csharp
+public class MyModule : Module<string>
+{
+    protected override Task OnBeforeExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Starting module execution");
+        return Task.CompletedTask;
+    }
+
+    protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<string> result,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Module completed with status: {Status}", result.ModuleStatus);
+        return Task.FromResult<ModuleResult<string>?>(null);
+    }
+
+    protected override Task OnSkippedAsync(
+        IModuleContext context,
+        SkipDecision skipDecision,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogWarning("Module skipped: {Reason}", skipDecision.Reason);
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnFailedAsync(
+        IModuleContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogError(exception, "Module failed");
+        return Task.CompletedTask;
+    }
+
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return "result";
+    }
+}
+```
+
+## Tags and Categories
+
+Organize your modules with tags and categories:
+
+```csharp
+[ModuleCategory("Build")]
+[ModuleTag("critical")]
+[ModuleTag("fast")]
+public class BuildModule : Module<BuildOutput>
+{
+    protected override async Task<BuildOutput?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // ...
+    }
+}
+```
+
+Or define them programmatically:
+
+```csharp
+public class BuildModule : Module<BuildOutput>
+{
+    public override string? Category => "Build";
+    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+
+    protected override async Task<BuildOutput?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // ...
+    }
+}
+```
+
+See the individual documentation pages for more details on each behavior:
+- [Skipping Modules](skipping)
+- [Retry Policies](retry-policy)
+- [Timeouts](timeouts)
+- [Ignoring Failures](ignoring-failures)
+- [Always Run](always-run)
+- [Hooks](hooks)
+- [Categories](categories)
+- [Run Conditions](run-conditions)
+
+---
+
+## Execution and Dependencies
+
+
+The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible. 
+
+If you don't want a particular module to start until another one has finished, then you simply add a `[DependsOn<TModule>]` attribute to your module class.
+
+These can chain together as appropriate. And it'll detect if two modules depend on each other.
+
+```csharp
+[DependsOn<Module1>] // or [DependsOn(typeof(Module1))] for older language versions
+public class Module2 : Module
+{
+    ...
+}
+```
+
+---
+
+## Hooks
+
+
+## Module Hooks
+
+There are three ways to hook into module execution:
+1. **Direct hooks** - Override virtual lifecycle methods in `Module<T>` (new in v4)
+2. **IHookable interface** - Implement the interface for before/after execution
+3. **Module hooks class** - Register global hooks invoked for every module
+
+### Direct Module Hooks (Recommended)
+
+The simplest way to add lifecycle hooks is to override the virtual methods directly in your module. These hooks run **before** IHookable hooks and provide access to the full module context and result.
+
+```csharp
+public class MyModule : Module<string>
+{
+    // Called before ExecuteAsync - ideal for setup, validation, or logging
+    protected override Task OnBeforeExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Setting up MyModule...");
+        return Task.CompletedTask;
+    }
+
+    // Called after ExecuteAsync - can modify the result or add cleanup logic
+    protected override Task<ModuleResult<string>?> OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<string> result,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("MyModule completed with: {Result}", result.Value);
+        return Task.FromResult<ModuleResult<string>?>(null); // null = keep original result
+    }
+
+    // Called when the module is skipped (ShouldSkip returns true)
+    protected override Task OnSkippedAsync(
+        IModuleContext context,
+        SkipDecision skipDecision,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("MyModule was skipped: {Reason}", skipDecision.Reason);
+        return Task.CompletedTask;
+    }
+
+    // Called when ExecuteAsync throws an exception (before OnAfterExecuteAsync)
+    protected override Task OnFailedAsync(
+        IModuleContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        context.Logger.LogError(exception, "MyModule failed!");
+        // Send alert, cleanup resources, etc.
+        return Task.CompletedTask;
+    }
+
+    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return "Hello, World!";
+    }
+}
+```
+
+**Hook execution order:**
+1. `OnBeforeExecuteAsync` (direct hook)
+2. `IHookable.OnBeforeExecute` (if implemented)
+3. `ExecuteAsync`
+4. On failure: `OnFailedAsync` (direct hook)
+5. `OnAfterExecuteAsync` (direct hook)
+6. `IHookable.OnAfterExecute` (in finally block)
+
+**Error handling:**
+- `OnBeforeExecuteAsync` exceptions **prevent** execution and are propagated
+- `OnAfterExecuteAsync` exceptions are **logged** but don't affect the result
+- `OnSkippedAsync` exceptions are **logged** but don't affect skip behavior
+- `OnFailedAsync` exceptions are **logged** but don't prevent `OnAfterExecuteAsync`
+
+**Edge case: OnBeforeExecuteAsync throws**
+If `OnBeforeExecuteAsync` throws an exception:
+- `ExecuteAsync` will NOT be called
+- `OnFailedAsync` will NOT be called (module never started)
+- `OnAfterExecuteAsync` will NOT be called (before hooks didn't complete)
+- `IHookable.OnAfterExecute` WILL still be called (in finally block)
+
+### ModuleConfiguration Hooks
+
+You can also configure simple before/after hooks using `ModuleConfiguration`:
+
+```csharp
+public class MyModule : Module<string>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithBeforeExecute(ctx =>
+        {
+            ctx.Logger.LogInformation("MyModule starting!");
+            return Task.CompletedTask;
+        })
+        .WithAfterExecute(ctx =>
+        {
+            ctx.Logger.LogInformation("MyModule ended!");
+            return Task.CompletedTask;
+        })
+        .Build();
+
+    public override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        return "Done";
+    }
+}
+```
+
+This approach is useful when you want to combine hooks with other configuration like timeouts or retry policies:
+
+```csharp
+protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+    .WithBeforeExecute(ctx => LogStartAsync(ctx))
+    .WithAfterExecute(ctx => LogEndAsync(ctx))
+    .WithTimeout(TimeSpan.FromMinutes(5))
+    .WithRetryCount(3)
+    .Build();
+```
+
+### Hooks class
+
+If we want to have repeat behaviour for every module, we can register some 'Hook' classes during startup.
+
+Pipeline Global Hooks will run once, before any modules have started, and/or after all modules have finished. Pipeline Module Hooks will run repeatedly, before every module, and/or after every module.
+
+This can be useful if you want some repeated action for every module. E.g. standard logging behaviour.
+
+To do so, simply create a class that implements `IPipelineModuleHooks`.
+
+```csharp
+collection.AddPipelineModuleHooks<MyModuleHooks>();
+```
+
+```csharp
+public class MyModuleHooks : IPipelineModuleHooks
+{
+    public Task OnBeforeModuleStartAsync(IPipelineHookContext context, IModule module)
+    {
+        context.Logger.LogInformation("{Module} is starting", module.GetType().Name);
+        return Task.CompletedTask;
+    }
+
+    public Task OnBeforeModuleEndAsync(IPipelineHookContext context, IModule module)
+    {
+        context.Logger.LogInformation("{Module} finished after {Elapsed}", module.GetType().Name, module.Duration);
+        return Task.CompletedTask;
+    }
+}
+```
+
+## Global Hooks
+
+Global hooks can be registered by creating a class that implements the `IPipelineGlobalHooks` interface. 
+
+These are similar to the module hooks, but instead of running before and after EACH module, they run before and after ALL modules. So think of them more as a pipeline start up, and a pipeline finish hook.
+
+The end hook also gives you access to a Pipeline summary object. Giving you information such as pass/fail, duration, start and end, etc.
+
+```csharp
+collection.AddPipelineGlobalHooks<MyGlobalHooks>();
+```
+
+```csharp
+public class MyGlobalHooks : IPipelineGlobalHooks
+{
+    public Task OnStartAsync(IPipelineHookContext pipelineContext)
+    {
+        pipelineContext.Logger.LogInformation("Pipeline is starting");
+        return Task.CompletedTask;
+    }
+
+    public Task OnEndAsync(IPipelineHookContext pipelineContext, PipelineSummary pipelineSummary)
+    {
+        pipelineContext.Logger.LogInformation("Pipeline is ending");
+        return Task.CompletedTask;
+    }
+}
+```
+
+---
+
+## Ignoring Failures
+
+
+Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
+
+## Using ModuleConfiguration
+
+### Always Ignore Failures
+
+To always ignore failures from a module:
+
+```csharp
+public class OptionalModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithIgnoreFailures()
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // If this fails, the pipeline continues
+    }
+}
+```
+
+### Conditional Failure Ignoring
+
+To ignore only specific types of failures:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithIgnoreFailuresWhen((ctx, exception) => exception is ItemAlreadyExistsException)
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // ItemAlreadyExistsException will be ignored, other exceptions will fail the pipeline
+    }
+}
+```
+
+### Async Condition
+
+For conditions that require async operations:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithIgnoreFailuresWhen(async (ctx, exception) =>
+        {
+            if (exception is HttpRequestException httpEx)
+            {
+                // Check if the service is in maintenance mode
+                var isMaintenanceMode = await CheckMaintenanceModeAsync();
+                return isMaintenanceMode;
+            }
+            return false;
+        })
+        .Build();
+}
+```
+
+## Combining with Other Behaviors
+
+Ignoring failures can be combined with other module behaviors:
+
+```csharp
+public class ResilientModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryCount(3)  // Try 3 times first
+        .WithIgnoreFailuresWhen((ctx, ex) => ex is HttpRequestException)  // Then ignore HTTP errors
+        .WithAlwaysRun()  // Run even if dependencies failed
+        .Build();
+}
+```
+
+## Checking Failure Status
+
+Even when failures are ignored, you can check if a module failed from dependent modules:
+
+```csharp
+var myModule = await context.GetModule<MyOptionalModule>();
+
+if (myModule.ExceptionOrDefault is ItemAlreadyExistsException)
+{
+    // Handle the expected failure case
+    return null;
+}
+
+return await DoSomethingAsync();
+```
+
+---
+
+## Inheriting
+
+
+Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different options, then you should create a new Module type that inherits from an abstract base module.
+
+---
+
+## Logging
+
+
+## IModuleLogger
+When logging in your pipeline, you should always use an IModuleLogger. Do not inject in your own ILogger, and do not write to the console directly using the `Console` class, or any other class that would write directly to the console.
+
+This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.
+
+These are detailed below.
+
+## Secret Obfuscation
+If secrets have been defined (See [Secrets](secrets) for details on this), then if any of them are attempted to be written to logs via IModuleLogger, either directly, or through things like HTTP or Command logs, they will be obfuscated in the output. So for instance, if you made a HTTP call with a bearer token of 'MySuperSecretToken', when the HTTP request is logged, that bearer will show as '**********'.
+
+## Grouped Logs
+When writing logs through IModuleLogger, logs will be grouped by what module they're in.
+Since all modules attempt to run in parallel, if there was no log organisation, then logs would be everywhere and all jumbled up, and hard to navigate. This keeps logs together, clean, and easy to read. This is why it's very important not to write to the console directly, as that'll prevent this from working.
+
+## Interfering with Console Progress 
+If you have an interactive terminal, then a progress dialog will be displayed, and constantly updated with the progress of all your modules.
+If you start writing to the console directly, then you'll be writing over the top of this progress dialog and messing up how it renders.
+
+## Analyzers
+If you forget the above, Modular Pipelines has analyzers built as part of its framework. It'll detect direct uses of `Console`, or trying to inject in custom `ILogger`s and will result in errors, asking you to fix the issues.
+
+## How to access IModuleLogger
+
+### Module
+If you're in a module, it's part of your `context` object. Call `context.Logger`.
+
+### Elsewhere
+If you're in another class, you can inject in `IModuleLoggerProvider` and call `GetLogger`.
+
+---
+
+## Migrating to V3
+
+# Migrating from V2 to V3
+
+ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
+
+## Quick Migration Checklist
+
+- [ ] Replace `PipelineHostBuilder.Create()` with `Pipeline.CreateBuilder(args)`
+- [ ] Replace callback-based configuration with direct property access
+- [ ] Change `IPipelineContext` to `IModuleContext` in `ExecuteAsync` signatures
+- [ ] Update `GetModule<T>()` calls to `context.GetModule<T>()` (method moved to context)
+- [ ] Migrate virtual property overrides to `Configure()` builder
+- [ ] Update result access patterns to use pattern matching or `ValueOrDefault`
+- [ ] Move `WorkingDirectory`, `EnvironmentVariables`, etc. from tool options to `CommandExecutionOptions`
+
+## Entry Point Changes
+
+The pipeline entry point has been completely redesigned to match ASP.NET Core's minimal API pattern.
+
+### Before (V2)
+
+```csharp
+await PipelineHostBuilder.Create()
+    .ConfigureAppConfiguration((context, builder) =>
+    {
+        builder.AddJsonFile("appsettings.json")
+            .AddUserSecrets<Program>()
+            .AddEnvironmentVariables();
+    })
+    .ConfigureServices((context, collection) =>
+    {
+        collection.Configure<MySettings>(context.Configuration.GetSection("MySettings"));
+
+        if (context.HostingEnvironment.IsDevelopment())
+        {
+            collection.AddModule<DevModule>();
+        }
+
+        collection.AddModule<BuildModule>();
+    })
+    .ConfigurePipelineOptions((context, options) =>
+    {
+        options.ExecutionMode = ExecutionMode.StopOnFirstException;
+    })
+    .AddModule<TestModule>()
+    .AddModule<DeployModule>()
+    .ExecutePipelineAsync();
+```
+
+### After (V3)
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// Direct property access instead of callbacks
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
+
+// Configure services directly
+builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddModule<DevModule>();
+}
+
+builder.Services
+    .AddModule<BuildModule>()
+    .AddModule<TestModule>()
+    .AddModule<DeployModule>();
+
+// Configure options directly
+builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+
+// Two-step build and run
+await builder.Build().RunAsync();
+```
+
+### Key Differences
+
+| V2 | V3 |
+|----|-----|
+| `PipelineHostBuilder.Create()` | `Pipeline.CreateBuilder(args)` |
+| `.ConfigureAppConfiguration((ctx, builder) => ...)` | `builder.Configuration.Add...()` |
+| `.ConfigureServices((ctx, collection) => ...)` | `builder.Services.Add...()` |
+| `.ConfigurePipelineOptions((ctx, options) => ...)` | `builder.Options.Property = value` |
+| `.AddModule<T>()` on builder | `builder.Services.AddModule<T>()` |
+| `.ExecutePipelineAsync()` | `.Build().RunAsync()` |
+
+### Compatibility Note
+
+The `ExecutePipelineAsync()` extension method still exists for simpler migrations:
+
+```csharp
+// This still works in V3
+await builder.ExecutePipelineAsync();
+```
+
+## Module Behavior Changes
+
+V2 used virtual property and method overrides to configure module behavior. V3 consolidates these into a fluent `Configure()` builder.
+
+### Before (V2)
+
+```csharp
+public class MyModule : Module<string>
+{
+    // Timeout override
+    protected internal override TimeSpan Timeout => TimeSpan.FromMinutes(5);
+
+    // Retry policy override
+    protected override AsyncRetryPolicy<string?> RetryPolicy =>
+        Policy<string?>.Handle<Exception>()
+            .WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(i * i));
+
+    // Skip logic override
+    protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    {
+        if (context.Git().Information.BranchName != "main")
+            return Task.FromResult(SkipDecision.Skip("Only runs on main branch"));
+        return Task.FromResult(SkipDecision.DoNotSkip);
+    }
+
+    // Ignore failures override
+    protected internal override Task<bool> ShouldIgnoreFailures(
+        IPipelineContext context, Exception exception) => Task.FromResult(true);
+
+    // Always run override
+    public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun;
+
+    // Lifecycle hooks
+    protected internal override Task OnBeforeExecute(IPipelineContext context)
+    {
+        // Pre-execution logic
+        return Task.CompletedTask;
+    }
+
+    protected internal override Task OnAfterExecute(IPipelineContext context)
+    {
+        // Post-execution logic
+        return Task.CompletedTask;
+    }
+
+    protected override async Task<string?> ExecuteAsync(
+        IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // Module logic
+        return "result";
+    }
+}
+```
+
+### After (V3)
+
+```csharp
+public class MyModule : Module<string>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .WithRetryCount(3)
+        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+            ? SkipDecision.Skip("Only runs on main branch")
+            : SkipDecision.DoNotSkip)
+        .WithIgnoreFailures()
+        .WithAlwaysRun()
+        .WithBeforeExecute(ctx => LogStartAsync(ctx))
+        .WithAfterExecute(ctx => LogEndAsync(ctx))
+        .Build();
+
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Module logic
+        return "result";
+    }
+}
+```
+
+### Migration Mapping
+
+| V2 Override | V3 Configure() Method |
+|-------------|----------------------|
+| `TimeSpan Timeout` property | `.WithTimeout(TimeSpan)` |
+| `AsyncRetryPolicy<T?> RetryPolicy` property | `.WithRetryCount(int)` or `.WithRetryPolicy(IAsyncPolicy)` |
+| `Task<SkipDecision> ShouldSkip()` method | `.WithSkipWhen(...)` |
+| `Task<bool> ShouldIgnoreFailures()` method | `.WithIgnoreFailures()` or `.WithIgnoreFailuresWhen(...)` |
+| `ModuleRunType.AlwaysRun` | `.WithAlwaysRun()` |
+| `Task OnBeforeExecute()` method | `.WithBeforeExecute(...)` |
+| `Task OnAfterExecute()` method | `.WithAfterExecute(...)` |
+
+### Alternative: Lifecycle Hook Overrides
+
+V3 also supports lifecycle hooks as overridable methods on the module class:
+
+```csharp
+public class MyModule : Module<string>
+{
+    protected override Task OnBeforeExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Runs before ExecuteAsync
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnAfterExecuteAsync(
+        IModuleContext context,
+        ModuleResult<string> result,
+        CancellationToken cancellationToken)
+    {
+        // Runs after ExecuteAsync (success or failure)
+        return Task.FromResult<ModuleResult<string>?>(null);
+    }
+
+    protected override Task OnSkippedAsync(
+        IModuleContext context,
+        SkipDecision skipDecision,
+        CancellationToken cancellationToken)
+    {
+        // Runs when module is skipped
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnFailedAsync(
+        IModuleContext context,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        // Runs when module fails (before OnAfterExecuteAsync)
+        return Task.CompletedTask;
+    }
+
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        return "result";
+    }
+}
+```
+
+## Context Parameter Change
+
+The `ExecuteAsync` method now receives `IModuleContext` instead of `IPipelineContext`.
+
+### Before (V2)
+
+```csharp
+protected override async Task<string?> ExecuteAsync(
+    IPipelineContext context, CancellationToken cancellationToken)
+```
+
+### After (V3)
+
+```csharp
+protected override async Task<string?> ExecuteAsync(
+    IModuleContext context, CancellationToken cancellationToken)
+```
+
+`IModuleContext` extends the pipeline context with module-specific capabilities like `GetModule<TModule>()`.
+
+## Command Execution Options
+
+Execution-related properties have been separated from tool-specific options into a dedicated `CommandExecutionOptions` class. This provides cleaner separation between "what to run" and "how to run it".
+
+### Before (V2)
+
+```csharp
+// Execution options were mixed with tool options
+await context.DotNet().Build(new DotNetBuildOptions
+{
+    Project = "MySolution.sln",
+    Configuration = Configuration.Release,
+    WorkingDirectory = "/path/to/project",        // Was on tool options
+    EnvironmentVariables = new Dictionary<string, string?>
+    {
+        ["CI"] = "true"
+    },
+    ThrowOnNonZeroExitCode = false
+});
+```
+
+### After (V3)
+
+```csharp
+// Tool options only contain tool-specific arguments
+await context.DotNet().Build(
+    new DotNetBuildOptions
+    {
+        ProjectSolution = "MySolution.sln",
+        Configuration = Configuration.Release,
+    },
+    new CommandExecutionOptions                    // Execution options are separate
+    {
+        WorkingDirectory = "/path/to/project",
+        EnvironmentVariables = new Dictionary<string, string?>
+        {
+            ["CI"] = "true"
+        },
+        ThrowOnNonZeroExitCode = false
+    });
+```
+
+### Migration Mapping
+
+| V2 (on tool options) | V3 (on `CommandExecutionOptions`) |
+|----------------------|-----------------------------------|
+| `WorkingDirectory` | `WorkingDirectory` |
+| `EnvironmentVariables` | `EnvironmentVariables` |
+| `ThrowOnNonZeroExitCode` | `ThrowOnNonZeroExitCode` |
+| `CommandLineCredentials` | `CommandLineCredentials` |
+| `LoggingSettings` | `LogSettings` |
+| `InputLoggingManipulator` | `InputLoggingManipulator` |
+| `OutputLoggingManipulator` | `OutputLoggingManipulator` |
+| N/A | `ExecutionTimeout` (new) |
+| N/A | `GracefulShutdownTimeout` (new) |
+| N/A | `Sudo` (new) |
+
+### Benefits
+
+- **Cleaner API**: Tool options focus only on tool-specific arguments
+- **Reusability**: Share `CommandExecutionOptions` across multiple commands
+- **New features**: `ExecutionTimeout`, `GracefulShutdownTimeout`, and `Sudo` options
+
+## Getting Module Results
+
+The `GetModule` method has moved from the module base class to the context. The result access patterns have also changed to use a discriminated union.
+
+### Before (V2)
+
+```csharp
+[DependsOn<BuildModule>]
+public class DeployModule : Module<DeployResult>
+{
+    protected override async Task<DeployResult?> ExecuteAsync(
+        IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // Method on module base class
+        var buildResult = await GetModule<BuildModule>();
+
+        // Direct value access
+        var artifact = buildResult.Value!.ArtifactPath;
+
+        // Enum-based status check
+        if (buildResult.ModuleResultType == ModuleResultType.Skipped)
+        {
+            return null;
+        }
+
+        if (buildResult.ModuleResultType == ModuleResultType.Failure)
+        {
+            throw new Exception("Build failed", buildResult.Exception);
+        }
+
+        return await Deploy(artifact);
+    }
+}
+```
+
+### After (V3)
+
+```csharp
+[DependsOn<BuildModule>]
+public class DeployModule : Module<DeployResult>
+{
+    protected override async Task<DeployResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Method moved to context
+        var buildResult = await context.GetModule<BuildModule>();
+
+        // Option 1: Pattern matching (recommended)
+        return buildResult switch
+        {
+            ModuleResult<BuildOutput>.Success { Value: var output }
+                => await Deploy(output.ArtifactPath),
+            ModuleResult.Skipped { Decision: var skip }
+                => null,
+            ModuleResult.Failure { Exception: var ex }
+                => throw new InvalidOperationException("Build failed", ex),
+            _ => throw new InvalidOperationException("Unexpected result type")
+        };
+    }
+}
+```
+
+### Alternative Result Access Patterns
+
+```csharp
+var buildResult = await context.GetModule<BuildModule>();
+
+// Option 1: Pattern matching (recommended - handles all cases)
+return buildResult switch
+{
+    ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
+    ModuleResult.Skipped => null,
+    ModuleResult.Failure { Exception: var ex } => throw ex,
+    _ => null
+};
+
+// Option 2: Match helper method (functional style)
+return buildResult.Match(
+    onSuccess: output => Process(output),
+    onFailure: ex => throw new InvalidOperationException("Failed", ex),
+    onSkipped: skip => null
+);
+
+// Option 3: Safe accessor (simplest migration path)
+var artifact = buildResult.ValueOrDefault?.ArtifactPath;
+if (artifact == null) return null;
+return await Deploy(artifact);
+
+// Option 4: Quick status checks
+if (buildResult.IsSuccess)
+{
+    var value = buildResult.ValueOrDefault;
+}
+if (buildResult.IsFailure)
+{
+    var ex = buildResult.ExceptionOrDefault;
+}
+if (buildResult.IsSkipped)
+{
+    var reason = buildResult.SkipDecisionOrDefault?.Reason;
+}
+```
+
+### Key Change Summary
+
+| V2 | V3 |
+|----|-----|
+| `await GetModule<T>()` (on module) | `await context.GetModule<T>()` (on context) |
+| `result.Value` | `result.ValueOrDefault` or pattern match |
+| `result.Exception` | `result.ExceptionOrDefault` or pattern match |
+| `result.ModuleResultType == ModuleResultType.X` | `result.IsSuccess`, `result.IsFailure`, `result.IsSkipped` |
+
+### Result Type Quick Reference
+
+| Check | V2 | V3 |
+|-------|-----|-----|
+| Is success? | `result.ModuleResultType == ModuleResultType.Success` | `result.IsSuccess` or `result is ModuleResult<T>.Success` |
+| Is failure? | `result.ModuleResultType == ModuleResultType.Failure` | `result.IsFailure` or `result is ModuleResult.Failure` |
+| Is skipped? | `result.ModuleResultType == ModuleResultType.Skipped` | `result.IsSkipped` or `result is ModuleResult.Skipped` |
+| Get value | `result.Value` | `result.ValueOrDefault` or pattern match |
+| Get exception | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
+
+## Deleted Types and Members
+
+The following have been removed in V3:
+
+| Removed | Replacement |
+|---------|-------------|
+| `PipelineHostBuilder` class | `Pipeline.CreateBuilder()` returns `PipelineBuilder` |
+| `ModuleBase` class | `Module<T>` (simplified hierarchy) |
+| `ModuleBase<T>` class | `Module<T>` |
+| `ShouldSkip()` method | `Configure().WithSkipWhen()` |
+| `ShouldIgnoreFailures()` method | `Configure().WithIgnoreFailures()` |
+| `ModuleRunType` property | `Configure().WithAlwaysRun()` |
+| `Timeout` property | `Configure().WithTimeout()` |
+| `RetryPolicy` property | `Configure().WithRetryCount()` or `.WithRetryPolicy()` |
+| `GetModule<T>()` on module | `context.GetModule<TModule>()` |
+
+## New Features in V3
+
+### Non-Generic Module Classes
+
+V3 introduces non-generic `Module` and `SyncModule` base classes for modules that perform actions without returning meaningful data. These use the `None` struct internally to represent the absence of a value.
+
+```csharp
+// Async module that doesn't return data
+public class DeployModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.Shell.Command.ExecuteCommandLineTool(...);
+        // No return statement needed
+    }
+}
+
+// Sync module that doesn't return data
+public class LoggingModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        context.Logger.LogInformation("Pipeline executed at {Time}", DateTime.UtcNow);
+        // No return statement needed
+    }
+}
+```
+
+The `None` struct represents "nothing" and is semantically equivalent to `null`:
+
+```csharp
+None value = None.Value;
+value.Equals(null);     // true - None equals null
+value == default;       // true
+None? nullable = null;
+nullable == value;      // true - None? and None are always equal
+```
+
+### Pipeline Validation
+
+V3 introduces a validation API to catch configuration errors before execution:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddModule<MyModule>();
+
+// Option 1: Validate without running
+var validation = await builder.ValidateAsync();
+if (validation.HasErrors)
+{
+    foreach (var error in validation.Errors)
+    {
+        Console.WriteLine($"[{error.Category}] {error.Message}");
+    }
+    Environment.Exit(1);
+}
+
+// Option 2: BuildAsync validates and throws on error
+try
+{
+    var pipeline = await builder.BuildAsync();
+    await pipeline.RunAsync();
+}
+catch (PipelineValidationException ex)
+{
+    foreach (var error in ex.ValidationResult.Errors)
+    {
+        Console.WriteLine($"[{error.Category}] {error.Message}");
+    }
+}
+```
+
+### Dynamic Dependencies
+
+Declare dependencies programmatically at runtime:
+
+```csharp
+public class MyModule : Module<string>
+{
+    protected override void DeclareDependencies(IDependencyDeclaration deps)
+    {
+        // Always depend on this module
+        deps.DependsOn<RequiredModule>();
+
+        // Optional dependency (won't fail if not registered)
+        deps.DependsOnOptional<OptionalModule>();
+
+        // Conditional dependency
+        deps.DependsOnIf<ProductionModule>(Environment.IsProduction);
+
+        // Lazy dependency (evaluated later)
+        deps.DependsOnLazy<HeavyModule>();
+    }
+
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // ...
+    }
+}
+```
+
+### New Dependency Attributes
+
+```csharp
+// Depend on all modules in a category
+[DependsOnModulesInCategory("Build")]
+public class TestModule : Module<TestResults> { }
+
+// Depend on all modules with a specific tag
+[DependsOnModulesWithTag("database")]
+public class MigrationModule : Module<bool> { }
+
+// Depend on all modules with a specific attribute
+[DependsOnModulesWithAttribute(typeof(CriticalAttribute))]
+public class ValidationModule : Module<bool> { }
+```
+
+### Conditional Execution Attributes
+
+```csharp
+// Run only on specific platforms
+[RunOnWindows]
+public class WindowsModule : Module<string> { }
+
+[RunOnLinux]
+public class LinuxModule : Module<string> { }
+
+[RunOnMacOS]
+public class MacModule : Module<string> { }
+
+// Run ONLY on specific platform (skip on others)
+[RunOnWindowsOnly]
+public class WindowsOnlyModule : Module<string> { }
+
+// Skip based on custom condition
+[SkipIf(typeof(IsNotMainBranchCondition))]
+public class MainBranchModule : Module<string> { }
+
+// Combine conditions
+[RunIfAll(typeof(IsCI), typeof(IsMainBranch))]
+public class CIMainModule : Module<string> { }
+
+[RunIfAny(typeof(IsCI), typeof(ForceRun))]
+public class FlexibleModule : Module<string> { }
+```
+
+### Module Tags
+
+Tag modules for organization and dependency management:
+
+```csharp
+// Via attributes
+[ModuleTag("critical")]
+[ModuleTag("deployment")]
+[ModuleCategory("Infrastructure")]
+public class DeployModule : Module<DeployResult> { }
+
+// Via property override
+public class MyModule : Module<string>
+{
+    public override IReadOnlySet<string> Tags => new HashSet<string> { "critical", "fast" };
+    public override string? Category => "Build";
+}
+```
+
+### Plugin System
+
+Create reusable pipeline extensions:
+
+```csharp
+public class MyPlugin : IModularPipelinesPlugin
+{
+    public string Name => "MyPlugin";
+    public int Priority => 0; // Lower runs first
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton<IMyService, MyService>();
+    }
+
+    public void ConfigurePipeline(PipelineBuilder builder)
+    {
+        builder.Services.AddModule<PluginModule>();
+        builder.Options.PrintLogo = false;
+    }
+}
+
+// Register plugin via attribute on assembly
+[assembly: ModularPipelinesPlugin(typeof(MyPlugin))]
+```
+
+## Complete Migration Example
+
+### Before (V2)
+
+```csharp
+// Program.cs
+await PipelineHostBuilder.Create()
+    .ConfigureAppConfiguration((ctx, builder) =>
+    {
+        builder.AddJsonFile("appsettings.json");
+    })
+    .ConfigureServices((ctx, services) =>
+    {
+        services.AddModule<BuildModule>()
+            .AddModule<TestModule>()
+            .AddModule<DeployModule>();
+    })
+    .ExecutePipelineAsync();
+
+// BuildModule.cs
+public class BuildModule : Module<BuildOutput>
+{
+    protected internal override TimeSpan Timeout => TimeSpan.FromMinutes(10);
+
+    protected override async Task<BuildOutput?> ExecuteAsync(
+        IPipelineContext context, CancellationToken cancellationToken)
+    {
+        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        return new BuildOutput(result.StandardOutput);
+    }
+}
+
+// DeployModule.cs
+[DependsOn<BuildModule>]
+[DependsOn<TestModule>]
+public class DeployModule : Module<bool>
+{
+    protected internal override Task<SkipDecision> ShouldSkip(IPipelineContext context)
+    {
+        if (context.Git().Information.BranchName != "main")
+            return Task.FromResult(SkipDecision.Skip("Not main branch"));
+        return Task.FromResult(SkipDecision.DoNotSkip);
+    }
+
+    protected override async Task<bool> ExecuteAsync(
+        IPipelineContext context, CancellationToken cancellationToken)
+    {
+        var buildResult = await GetModule<BuildModule>();
+
+        if (buildResult.ModuleResultType != ModuleResultType.Success)
+            return false;
+
+        // Deploy using buildResult.Value
+        return true;
+    }
+}
+```
+
+### After (V3)
+
+```csharp
+// Program.cs
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json");
+
+builder.Services
+    .AddModule<BuildModule>()
+    .AddModule<TestModule>()
+    .AddModule<DeployModule>();
+
+await builder.Build().RunAsync();
+
+// BuildModule.cs
+public class BuildModule : Module<BuildOutput>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(10))
+        .Build();
+
+    protected override async Task<BuildOutput?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var result = await context.DotNet().Build(new DotNetBuildOptions());
+        return new BuildOutput(result.StandardOutput);
+    }
+}
+
+// DeployModule.cs
+[DependsOn<BuildModule>]
+[DependsOn<TestModule>]
+public class DeployModule : Module<bool>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main"
+            ? SkipDecision.Skip("Not main branch")
+            : SkipDecision.DoNotSkip)
+        .Build();
+
+    protected override async Task<bool> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var buildResult = await context.GetModule<BuildModule>();
+
+        if (buildResult is not ModuleResult<BuildOutput>.Success { Value: var output })
+            return false;
+
+        // Deploy using output
+        return true;
+    }
+}
+```
+
+## Breaking API Reference
+
+| V2 API | V3 API | Notes |
+|--------|--------|-------|
+| `PipelineHostBuilder.Create()` | `Pipeline.CreateBuilder(args)` | Pass command-line args |
+| `.ExecutePipelineAsync()` | `.Build().RunAsync()` | Two-step, or use extension |
+| `.ConfigureAppConfiguration(...)` | `builder.Configuration` | Direct access |
+| `.ConfigureServices(...)` | `builder.Services` | Direct access |
+| `.ConfigurePipelineOptions(...)` | `builder.Options` | Direct access |
+| `IPipelineContext` | `IModuleContext` | In ExecuteAsync signature |
+| `GetModule<T>()` | `context.GetModule<T>()` | Method moved to context |
+| `result.Value` | `result.ValueOrDefault` | Or use pattern matching |
+| `result.ModuleResultType` | `result.IsSuccess/IsFailure/IsSkipped` | Or pattern match |
+| `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
+| `ShouldIgnoreFailures()` override | `Configure().WithIgnoreFailures()` | Fluent builder |
+| `Timeout` property override | `Configure().WithTimeout()` | Fluent builder |
+| `RetryPolicy` property override | `Configure().WithRetryCount()` | Fluent builder |
+| `ModuleRunType` override | `Configure().WithAlwaysRun()` | Fluent builder |
+| `OnBeforeExecute()` override | `Configure().WithBeforeExecute()` or `OnBeforeExecuteAsync()` | Either approach |
+| `OnAfterExecute()` override | `Configure().WithAfterExecute()` or `OnAfterExecuteAsync()` | Either approach |
+| `options.WorkingDirectory` | `CommandExecutionOptions.WorkingDirectory` | Separate parameter |
+| `options.EnvironmentVariables` | `CommandExecutionOptions.EnvironmentVariables` | Separate parameter |
+| `options.ThrowOnNonZeroExitCode` | `CommandExecutionOptions.ThrowOnNonZeroExitCode` | Separate parameter |
+
+## LLM/AI Migration Reference
+
+This section provides structured data optimized for AI assistants helping with code migration.
+
+### Complete API Transformation Map
+
+```yaml
+# Entry Point Changes
+- old: "PipelineHostBuilder.Create()"
+  new: "Pipeline.CreateBuilder(args)"
+
+- old: ".ExecutePipelineAsync()"
+  new: ".Build().RunAsync()"
+
+- old: ".ConfigureAppConfiguration((context, builder) => { ... })"
+  new: "builder.Configuration.Add...()"
+
+- old: ".ConfigureServices((context, collection) => { ... })"
+  new: "builder.Services.Add...()"
+
+- old: ".ConfigurePipelineOptions((context, options) => { ... })"
+  new: "builder.Options.PropertyName = value"
+
+# Context Parameter
+- old: "IPipelineContext context"
+  new: "IModuleContext context"
+  scope: "ExecuteAsync method signature"
+
+# Module Result Access
+- old: "await GetModule<TModule>()"
+  new: "await context.GetModule<TModule>()"
+
+- old: "result.Value"
+  new: "result.ValueOrDefault"
+
+- old: "result.Exception"
+  new: "result.ExceptionOrDefault"
+
+- old: "result.ModuleResultType == ModuleResultType.Success"
+  new: "result.IsSuccess"
+
+- old: "result.ModuleResultType == ModuleResultType.Failure"
+  new: "result.IsFailure"
+
+- old: "result.ModuleResultType == ModuleResultType.Skipped"
+  new: "result.IsSkipped"
+
+# Module Configuration (property overrides → fluent builder)
+- old: "protected internal override TimeSpan Timeout => ..."
+  new: "Configure().WithTimeout(TimeSpan)"
+
+- old: "protected override AsyncRetryPolicy<T?> RetryPolicy => ..."
+  new: "Configure().WithRetryCount(int)"
+
+- old: "protected internal override Task<SkipDecision> ShouldSkip(...)"
+  new: "Configure().WithSkipWhen(Func<IModuleContext, SkipDecision>)"
+
+- old: "protected internal override Task<bool> ShouldIgnoreFailures(...)"
+  new: "Configure().WithIgnoreFailures()"
+
+- old: "public override ModuleRunType ModuleRunType => ModuleRunType.AlwaysRun"
+  new: "Configure().WithAlwaysRun()"
+
+- old: "protected internal override Task OnBeforeExecute(IPipelineContext context)"
+  new: "Configure().WithBeforeExecute(...) or OnBeforeExecuteAsync(...)"
+
+- old: "protected internal override Task OnAfterExecute(IPipelineContext context)"
+  new: "Configure().WithAfterExecute(...) or OnAfterExecuteAsync(...)"
+
+# Command Execution Options (moved from tool options to separate parameter)
+- old: "new DotNetBuildOptions { WorkingDirectory = path }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { WorkingDirectory = path }"
+
+- old: "new DotNetBuildOptions { EnvironmentVariables = dict }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { EnvironmentVariables = dict }"
+
+- old: "new DotNetBuildOptions { ThrowOnNonZeroExitCode = false }"
+  new: "new DotNetBuildOptions { }, new CommandExecutionOptions { ThrowOnNonZeroExitCode = false }"
+
+# Non-generic modules (V3 addition)
+- old: "public class MyModule : Module<IDictionary<string, object>>"
+  new: "public class MyModule : Module"
+  note: "For modules that don't return data"
+
+- old: "protected override async Task<IDictionary<string, object>?> ExecuteAsync(...)"
+  new: "protected override async Task ExecuteModuleAsync(...)"
+  note: "No return statement needed"
+```
+
+### Common Compiler Errors and Fixes
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `CS0246: 'PipelineHostBuilder' could not be found` | Class renamed | Change to `Pipeline.CreateBuilder(args)` |
+| `CS0246: 'IPipelineContext' could not be found` | Interface renamed | Change to `IModuleContext` |
+| `CS1061: 'Module' does not contain 'GetModule'` | Method moved | Change `GetModule<T>()` to `context.GetModule<T>()` |
+| `CS0117: 'ModuleResult' does not contain 'Value'` | Property renamed | Change `.Value` to `.ValueOrDefault` |
+| `CS0117: 'ModuleResult' does not contain 'Exception'` | Property renamed | Change `.Exception` to `.ExceptionOrDefault` |
+| `CS0115: 'ShouldSkip': no suitable method found to override` | Method removed | Use `Configure().WithSkipWhen()` instead |
+| `CS0115: 'Timeout': no suitable method found to override` | Property removed | Use `Configure().WithTimeout()` instead |
+| `CS0115: 'RetryPolicy': no suitable method found to override` | Property removed | Use `Configure().WithRetryCount()` instead |
+| `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'` | Property moved | Pass `CommandExecutionOptions` as second parameter |
+
+### Regex Patterns for Automated Migration
+
+```regex
+# Entry point
+s/PipelineHostBuilder\.Create\(\)/Pipeline.CreateBuilder(args)/g
+
+# Context parameter in ExecuteAsync
+s/IPipelineContext\s+context/IModuleContext context/g
+
+# GetModule calls
+s/await\s+GetModule<(\w+)>\(\)/await context.GetModule<$1>()/g
+s/GetModule<(\w+)>\(\)/context.GetModule<$1>()/g
+
+# Result property access
+s/\.Value(?![a-zA-Z])/\.ValueOrDefault/g
+s/\.Exception(?![a-zA-Z])/\.ExceptionOrDefault/g
+
+# Result type checks
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Success/\.IsSuccess/g
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Failure/\.IsFailure/g
+s/\.ModuleResultType\s*==\s*ModuleResultType\.Skipped/\.IsSkipped/g
+```
+
+### V3 Module Template
+
+```csharp
+// Async module WITH return value
+public class MyModule : Module<MyResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        // Add other configuration as needed
+        .Build();
+
+    protected override async Task<MyResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation
+        return new MyResult();
+    }
+}
+
+// Async module WITHOUT return value
+public class MyActionModule : Module
+{
+    protected override async Task ExecuteModuleAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation - no return needed
+    }
+}
+
+// Sync module WITHOUT return value
+public class MySyncModule : SyncModule
+{
+    protected override void ExecuteModule(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Implementation - no return needed
+    }
+}
+```
+
+### V3 Result Handling Patterns
+
+```csharp
+// Pattern 1: Pattern matching (recommended)
+var result = await context.GetModule<BuildModule>();
+return result switch
+{
+    ModuleResult<BuildOutput>.Success { Value: var output } => Process(output),
+    ModuleResult.Skipped => null,
+    ModuleResult.Failure { Exception: var ex } => throw ex,
+    _ => null
+};
+
+// Pattern 2: Match helper
+var result = await context.GetModule<BuildModule>();
+return result.Match(
+    onSuccess: output => Process(output),
+    onFailure: ex => throw ex,
+    onSkipped: skip => null
+);
+
+// Pattern 3: Simple property access (easiest migration)
+var result = await context.GetModule<BuildModule>();
+if (result.IsSuccess)
+{
+    var value = result.ValueOrDefault;
+}
+```
+
+### V3 Command Execution Pattern
+
+```csharp
+// Tool-specific options separate from execution options
+await context.DotNet().Build(
+    new DotNetBuildOptions
+    {
+        ProjectSolution = "MySolution.sln",
+        Configuration = "Release",
+    },
+    new CommandExecutionOptions
+    {
+        WorkingDirectory = "/path/to/project",
+        EnvironmentVariables = new Dictionary<string, string?>
+        {
+            ["CI"] = "true"
+        },
+        ThrowOnNonZeroExitCode = false,
+        ExecutionTimeout = TimeSpan.FromMinutes(10)
+    });
+```
+
+### Keywords for Search
+
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule
+
+## Getting Help
+
+If you encounter issues migrating to V3:
+
+1. Check the [GitHub Issues](https://github.com/thomhurst/ModularPipelines/issues) for known migration problems
+2. Review the [Examples](https://github.com/thomhurst/ModularPipelines/tree/main/src/ModularPipelines.Examples) for V3 patterns
+3. Open a new issue with the `migration` label if you're stuck
+
+---
+
+## Parallelization
+
+# Parallelization Disabling
+
+As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
+
+However, sometimes modules don't have any dependencies, but also it isn't a good idea trying to run them in parallel.
+
+As example of this could be installing applications. Windows for instance, doesn't like you trying to install multiple applications at the same time.
+
+So if you want any modules to be run without parallelisation, there is the `NotInParallel` attribute.
+
+These modules will attempt to run first, before all other modules that can be run in parallel.
+If these have any dependencies, they will be triggered too.
+
+## Example
+
+```csharp
+[NotInParallel]
+public class MyModule : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+```
+
+Not `NotInParallel` attribute can also take a `ConstraintKey` parameter.
+If this is set, then a module will not run in parallel with other modules containing the same constraint key.
+If another module has a different constraint key, these will still run in parallel.
+
+## Example
+
+```csharp
+[NotInParallel(ConstraintKey = "Install")]
+public class InstallModule1 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[NotInParallel(ConstraintKey = "Install")]
+public class InstallModule2 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[NotInParallel(ConstraintKey = "Build")]
+public class BuildProjectModule : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+```
+
+In the above example, `InstallModule1` and `InstallModule2` will not run at the same time. However, either of them could run at the same time as `BuildProjectModule`.
+
+# Parallel Limiter
+
+ModularPipelines allows the user to control the parallel limit on specific modules.
+
+To do this, we add a `[ParallelLimiter<>]` attribute.
+
+You'll notice this has a generic type argument - You must give it a type that implements `IParallelLimit` and has a public empty constructor. That interface requires you to define what the limit is for those modules.
+
+If a module doesn't have a parallel limit defined, it'll try and eagerly run when the .NET thread pool allows it to do so.
+
+If it does have a parallel limit defined, be aware that that parallel limit is shared for any modules with that same `Type` of parallel limit. 
+
+In the example below, `MyParallelLimit` has a limit of `2`. Now any module that has this parallel limit attribute applied to it, will only be processed 2 at a time. 
+
+Other modules without this attribute may run alongside them still. 
+
+And other modules with a different `Type` of parallel limit may also run alongside them still, but limited amongst themselves by their shared `Type` and limit.
+
+So be aware that limits are only shared among modules with that same `IParallelLimit` `Type`.
+
+## Example
+
+```csharp
+using TUnit.Core;
+
+namespace MyTestProject;
+
+[ParallelLimiter<MyParallelLimit>]
+public class InstallModule1 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[ParallelLimiter<MyParallelLimit>]
+public class InstallModule2 : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+[ParallelLimiter<MyParallelLimit>]
+public class BuildProjectModule : Module
+{
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+
+public record MyParallelLimit : IParallelLimit
+{
+    public static int Limit => 2;
+}
+```
+
+## Caveats
+If a test uses `[DependsOn(nameof(OtherTest))]` and the other test has its own different parallel limit, this isn't guaranteed to be honoured.
+
+---
+
+## Pipeline Host
+
+
+To begin creating your pipeline, use the `Pipeline.CreateBuilder()` method.
+
+The recommended approach is to create a console application and use this builder in your `Program.cs` file.
+
+The pipeline builder follows the ASP.NET Core minimal API pattern, providing direct access to:
+- `Configuration` - for adding configuration sources
+- `Services` - for dependency injection
+- `Options` - for pipeline behavior settings
+- `Environment` - for host environment information
+
+## Basic Example
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<BuildModule>()
+    .AddModule<TestModule>()
+    .AddModule<DeployModule>();
+
+await builder.Build().RunAsync();
+```
+
+## Configuration
+
+Add configuration sources directly via the `Configuration` property:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
+
+// Use configuration in services
+builder.Services.Configure<MySettings>(builder.Configuration.GetSection("MySettings"));
+```
+
+## Registering Modules
+
+Modules can be registered directly on the `Services` collection:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// Register modules
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>();
+
+// Or register multiple at once
+builder.AddModules<Module1, Module2, Module3>();
+```
+
+### Conditional Registration
+
+Use `builder.Environment` or `builder.Configuration` for conditional module registration:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json");
+
+// Environment-based registration
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddModule<DevOnlyModule>();
+}
+
+// Configuration-based registration
+if (builder.Configuration.GetValue<bool>("EnableExtraModules"))
+{
+    builder.Services.AddModule<OptionalModule>();
+}
+
+builder.Services.AddModule<AlwaysRunModule>();
+```
+
+## Pipeline Options
+
+Configure pipeline behavior via the `Options` property:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// Execution mode
+builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+
+// Category filtering
+builder.Options.RunOnlyCategories = ["Build", "Test"];
+builder.Options.IgnoreCategories = ["Experimental"];
+
+// Display options
+builder.Options.ShowProgressInConsole = true;
+builder.Options.PrintResults = true;
+builder.Options.PrintLogo = true;
+
+// Concurrency settings
+builder.Options.Concurrency = new ConcurrencyOptions
+{
+    MaxParallelModules = 4
+};
+```
+
+## Building and Running
+
+The pipeline follows a two-step build-then-run pattern:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddModule<MyModule>();
+
+// Step 1: Build the pipeline
+var pipeline = builder.Build();
+
+// Step 2: Run it
+var summary = await pipeline.RunAsync();
+
+// Check results
+if (summary.Status == PipelineStatus.Failed)
+{
+    Environment.Exit(1);
+}
+```
+
+### With Validation
+
+Use `BuildAsync()` to validate the pipeline configuration before running:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddModule<MyModule>();
+
+try
+{
+    // BuildAsync validates and throws PipelineValidationException on errors
+    var pipeline = await builder.BuildAsync();
+    await pipeline.RunAsync();
+}
+catch (PipelineValidationException ex)
+{
+    foreach (var error in ex.ValidationResult.Errors)
+    {
+        Console.WriteLine($"[{error.Category}] {error.Message}");
+    }
+    Environment.Exit(1);
+}
+```
+
+### Validate Without Running
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+builder.Services.AddModule<MyModule>();
+
+var validation = await builder.ValidateAsync();
+if (validation.HasErrors)
+{
+    foreach (var error in validation.Errors)
+    {
+        Console.WriteLine($"Validation Error: {error.Message}");
+    }
+    Environment.Exit(1);
+}
+
+await builder.Build().RunAsync();
+```
+
+## Complete Example
+
+```csharp
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines;
+using ModularPipelines.Extensions;
+using ModularPipelines.Options;
+
+var builder = Pipeline.CreateBuilder(args);
+
+// Configuration
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
+
+// Options
+builder.Options.ExecutionMode = ExecutionMode.StopOnFirstException;
+builder.Options.IgnoreCategories = ["Experimental"];
+
+// Services
+builder.Services.Configure<NuGetSettings>(builder.Configuration.GetSection("NuGet"));
+builder.Services.Configure<PublishSettings>(builder.Configuration.GetSection("Publish"));
+
+// Conditional modules
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services
+        .AddModule<LocalBuildModule>()
+        .AddModule<LocalTestModule>();
+}
+else
+{
+    builder.Services
+        .AddModule<CIBuildModule>()
+        .AddModule<CITestModule>()
+        .AddModule<PublishModule>();
+}
+
+// Always-registered modules
+builder.Services
+    .AddModule<CleanupModule>()
+    .AddModule<ReportModule>();
+
+// Run
+await builder.Build().RunAsync();
+```
+
+## Hooks and Requirements
+
+Register global hooks and pipeline requirements:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// Global hooks (run before/after all modules)
+builder.AddPipelineGlobalHooks<MyGlobalHooks>();
+
+// Module hooks (run before/after each module)
+builder.AddPipelineModuleHooks<MyModuleHooks>();
+
+// Requirements (validated before pipeline starts)
+builder.AddRequirement<DotNetSdkRequirement>();
+builder.AddRequirement<GitRequirement>();
+```
+
+## Extension Methods
+
+For a more fluent API, extension methods are available:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+await builder
+    .ConfigureServices(services =>
+    {
+        services.AddModule<Module1>();
+        services.AddModule<Module2>();
+    })
+    .ConfigurePipelineOptions(options =>
+    {
+        options.ExecutionMode = ExecutionMode.StopOnFirstException;
+    })
+    .ExecutePipelineAsync();
+```
+
+---
+
+## Pipeline Execution Modes
+
+
+A pipeline has two execution modes:
+- StopOnFirstException
+- WaitForAllModules
+
+By default, a pipeline will use `StopOnFirstException`. This means as soon as any module throws an exception, the pipeline is considered fail and will terminate. This is for fast feedback.
+
+If you want to run every module regardless, you can switch to `WaitForAllModules`, and the pipeline won't terminate until all modules have finished executing.
+
+## Example
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>();
+
+builder.Options.ExecutionMode = ExecutionMode.WaitForAllModules;
+
+await builder.Build().RunAsync();
+```
+
+---
+
+## Requirements
+
+
+If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected. 
+
+Simply implement `IPipelineRequirement` and then call `IServiceCollection.AddRequirement<TRequirement>()`
+
+```csharp
+public class WindowsRequirement : IPipelineRequirement
+{
+    public Task<bool> MustAsync(IPipelineHookContext context)
+    {
+        return (context.Environment.OperatingSystem == OSPlatform.Windows).AsTask();
+    }
+}
+```
+
+---
+
+## Retry Policies
+
+
+When creating modules, you can set a retry policy per module using the `Configure()` method. The retry policy uses Polly, so if you've used Polly before you should be familiar with how to use it.
+
+## Using ModuleConfiguration
+
+### Simple Retry Count
+
+The easiest way to add retries is with `WithRetryCount()`:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryCount(3)  // Retry up to 3 times with exponential backoff
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something that might fail transiently
+    }
+}
+```
+
+### Custom Polly Policy
+
+For more control, you can provide a custom Polly policy:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryPolicy(
+            Policy.Handle<HttpRequestException>()
+                .WaitAndRetryAsync(5, i => TimeSpan.FromSeconds(i * i)))
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something
+    }
+}
+```
+
+### Context-Aware Retry Policy
+
+If you need access to the pipeline context when building your policy:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryPolicy(ctx =>
+        {
+            var retryCount = ctx.Environment.IsCI ? 5 : 2;
+            return Policy.Handle<Exception>()
+                .WaitAndRetryAsync(retryCount, i => TimeSpan.FromSeconds(i));
+        })
+        .Build();
+}
+```
+
+## Combining with Other Behaviors
+
+Retry policies can be combined with other module behaviors:
+
+```csharp
+public class ResilientModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithRetryCount(3)
+        .WithTimeout(TimeSpan.FromMinutes(10))
+        .WithIgnoreFailures()  // Don't fail the pipeline even after all retries
+        .Build();
+}
+```
+
+## Default Retry Policy
+
+Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>();
+
+builder.Options.DefaultRetryCount = 3;
+
+await builder.Build().RunAsync();
+```
+
+This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.
+
+---
+
+## Run conditions
+
+Run conditions gives us a way to easily skip or run modules based on some custom, reusable logic.
+
+Run conditions are generally controlled by attributes, placed upon your module.
+
+Some of these exist out-of-the-box
+e.g.
+[RunOnLinux]
+[RunOnWindows]
+[RunOnMacOS]
+
+You can create your own custom run conditions by inheriting from `RunConditionAttribute` and plugging custom logic into the `Condition` method.
+
+```csharp
+public class MyCustomRunConditionAttribute : RunConditionAttribute
+{
+    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
+    {
+        var response = await pipelineContext.Http.SendAsync("https://www.example.com/ping");
+        return response.StatusCode == HttpStatusCode.OK;
+    }
+}
+```
+
+Returning `true` means the module will run. Returning `false` means it won't, UNLESS another run condition attribute returns true.
+
+Multiple can be supplied, and only one needs to return `true`.
+
+e.g.
+```csharp
+[RunOnLinux]
+[RunOnMacOS]
+public class MyModule : Module
+```
+
+The above module will run on either Linux, or Mac. But not windows.
+
+## Mandatory run conditions
+
+Mandatory run conditions are similar to standard run conditions, but they MUST return true to run the module. If ANY return false, then the module will not run.
+
+For built-in OS conditions, use the `*Only` variants for mandatory behavior:
+- `[RunOnLinuxOnly]` - Module runs ONLY on Linux
+- `[RunOnWindowsOnly]` - Module runs ONLY on Windows
+- `[RunOnMacOSOnly]` - Module runs ONLY on macOS
+
+```csharp
+[RunOnLinuxOnly]
+public class MyLinuxOnlyModule : Module
+```
+
+The above module will ONLY run on Linux and will be skipped on Windows and macOS.
+
+You can create your own custom mandatory run conditions by inheriting from `MandatoryRunConditionAttribute` and plugging custom logic into the `Condition` method.
+
+```csharp
+public class MyMandatoryCustomRunConditionAttribute : MandatoryRunConditionAttribute
+{
+    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
+    {
+        var response = await pipelineContext.Http.SendAsync("https://www.example.com/service1/mustbeup/ping");
+        return response.StatusCode == HttpStatusCode.OK;
+    }
+}
+
+public class MyMandatoryCustomRunCondition2Attribute : MandatoryRunConditionAttribute
+{
+    public override async Task<bool> Condition(IPipelineHookContext pipelineContext)
+    {
+        var response = await pipelineContext.Http.SendAsync("https://www.example.com/service2/mustbeup/ping");
+        return response.StatusCode == HttpStatusCode.OK;
+    }
+}
+```
+
+Take the above 2 mandatory conditions and this module:
+
+```csharp
+[MyMandatoryCustomRunCondition]
+[MyMandatoryCustomRunCondition2]
+public class MyModule : Module
+```
+
+This module will only run if BOTH conditions return true. If either return false, then the module will be skipped.
+
+---
+
+## Secrets
+
+
+## Use IOptions\<\>
+If you don't know how IOptions work, then go check out a tutorial. This is the recommended and supported way of storing configuration in Modular Pipelines.
+
+Your options classes should be registered as IOptions.
+
+If you have any sensitive/secret data stored in these classes, you can attribute your property with `[SecretValue]`.
+
+This attribute, combined with the `IModuleLogger`, means that if that value is ever attempted to be written to logs, it'll be censored out, so that secret values aren't visible to those unauthorised.
+
+## Example
+
+```csharp
+public record MySettings
+{
+    [SecretValue]
+    public string? ApiKey { get; set; }
+}
+```
+
+---
+
+## Sharing data across modules
+
+
+Modules have been designed with data and sharing at its core.
+
+When a module returns data in its `ExecuteAsync` method, that data is available to be seen by other modules.
+
+Call `await context.GetModule<TModule>()` from within your module to access another module's result.
+
+```csharp
+[DependsOn<BuildModule>]
+public class DeployModule : Module<DeployResult>
+{
+    protected override async Task<DeployResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Get the build module's result
+        var buildResult = await context.GetModule<BuildModule>();
+
+        // Access the value safely
+        var artifact = buildResult.ValueOrDefault?.ArtifactPath;
+
+        return await Deploy(artifact);
+    }
+}
+```
+
+## Handling Different Outcomes
+
+Module results are a discriminated union with three possible states: Success, Failure, or Skipped. Use pattern matching to handle each case:
+
+```csharp
+var result = await context.GetModule<MyModule>();
+
+// Pattern matching (recommended)
+return result switch
+{
+    ModuleResult<MyResult>.Success { Value: var value }
+        => await ProcessValue(value),
+    ModuleResult.Failure { Exception: var ex }
+        => HandleFailure(ex),
+    ModuleResult.Skipped { Decision: var skip }
+        => HandleSkipped(skip.Reason),
+    _ => null
+};
+```
+
+## Using Match Helper
+
+For exhaustive handling, use the `Match` method:
+
+```csharp
+var result = await context.GetModule<MyModule>();
+
+return result.Match(
+    onSuccess: value => Process(value),
+    onFailure: ex => HandleError(ex),
+    onSkipped: skip => HandleSkip(skip)
+);
+```
+
+## Convenience Properties
+
+For simpler checks, use the convenience properties:
+
+```csharp
+var result = await context.GetModule<MyModule>();
+
+// Quick status checks
+if (result.IsSuccess)
+{
+    var value = result.ValueOrDefault;
+    // Process value
+}
+
+if (result.IsFailure)
+{
+    var exception = result.ExceptionOrDefault;
+    // Handle error
+}
+
+if (result.IsSkipped)
+{
+    var skipDecision = result.SkipDecisionOrDefault;
+    // Handle skip
+}
+```
+
+## Important: Declare Dependencies
+
+Always declare dependencies using `[DependsOn<T>]` to ensure the dependent module has completed before you call `GetModule`:
+
+```csharp
+[DependsOn<BuildModule>]  // Ensures BuildModule completes first
+[DependsOn<TestModule>]   // Ensures TestModule completes first
+public class DeployModule : Module<DeployResult>
+{
+    protected override async Task<DeployResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Safe to call - dependencies are guaranteed to be complete
+        var build = await context.GetModule<BuildModule>();
+        var tests = await context.GetModule<TestModule>();
+
+        // ...
+    }
+}
+```
+
+---
+
+## Skipping Modules
+
+
+## Using ModuleConfiguration
+
+The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+
+### Simple Boolean Condition
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(() => Environment.GetEnvironmentVariable("SKIP_MODULE") == "true")
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Module logic here
+    }
+}
+```
+
+### Using Pipeline Context
+
+When you need access to the pipeline context for your skip condition:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // This only runs on the main branch
+    }
+}
+```
+
+### With Skip Reason
+
+For better reporting, you can return a `SkipDecision` with a reason:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(ctx =>
+        {
+            if (ctx.Git().Information.BranchName == "main")
+            {
+                return SkipDecision.DoNotSkip;
+            }
+            return SkipDecision.Skip("This should only run on the main branch");
+        })
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Module logic here
+    }
+}
+```
+
+### Async Skip Conditions
+
+For conditions that require async operations:
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(async () =>
+        {
+            var response = await HttpClient.GetAsync("https://api.example.com/should-run");
+            return !response.IsSuccessStatusCode;
+        })
+        .Build();
+}
+```
+
+## Combining with Other Behaviors
+
+You can combine skip conditions with other module behaviors:
+
+```csharp
+public class CleanupModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithSkipWhen(ctx => ctx.Git().Information.BranchName != "main")
+        .WithAlwaysRun()  // Run even if dependencies fail (when not skipped)
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .Build();
+}
+```
+
+## History
+If a module was skipped, you can attempt to find its history from a previous run. See [History](storing-and-retrieving-results)
+
+## Run Conditions
+
+See [Run Conditions](run-conditions)
+
+## Categories
+
+See [Categories](categories)
+
+---
+
+## Module History
+
+
+## What is it?
+If a repository has been set up, then when a module finishes without throwing an exception, it will attempt to save its result in the repository.
+
+This can be used later on if you want to re-run the pipeline but skip certain categories or modules.
+
+If a module is skipped, but it has a result available from a previous run, then it'll be reconstructed from the historical result, and it'll act as if it was successfully run.
+
+It's recommended to store and retrieve results using the Git commit SHA, as then you'll only be using the results from that previous commit's run. And other commits remain unaffected. You have access to a `context` object that gives you access to things like the git information.
+
+## Example Repository Class using Azure Blobs
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>();
+
+builder.AddResultsRepository<MyModuleRepository>();
+
+await builder.Build().RunAsync();
+```
+
+```csharp
+public class MyModuleRepository : IModuleResultRepository
+{
+    private readonly BlobContainerClient _blobContainerClient;
+
+    public MyModuleRepository(BlobContainerClient blobContainerClient)
+    {
+        _blobContainerClient = blobContainerClient;
+    }
+    
+    public async Task SaveResultAsync<T>(ModuleBase module, ModuleResult<T> moduleResult, IPipelineHookContext pipelineContext)
+    {
+        var commit = pipelineContext.Git().Information.LastCommitSha;
+        await _blobContainerClient.UploadBlobAsync(module.GetType().FullName + commit, new BinaryData(JsonSerializer.Serialize(moduleResult)));
+    }
+
+    public async Task<ModuleResult<T>?> GetResultAsync<T>(ModuleBase module, IPipelineHookContext pipelineContext)
+    {
+        var commit = pipelineContext.Git().Information.LastCommitSha;
+        
+        var blobContent = await _blobContainerClient.GetBlobClient(module.GetType().FullName + commit).DownloadContentAsync();
+
+        return JsonSerializer.Deserialize<ModuleResult<T>>(blobContent.Value.Content.ToString());
+    }
+}
+```
+
+---
+
+## Sub-Modules
+
+
+## What are they?
+Sub-modules are ways to track and organise blocks of execution where it doesn't make sense to refactor into its own module. This might be when you're iterating through data in a loop.
+
+For instance, you have 10 .NET projects to package into NuGet packages.
+
+By looping through them and declaring each one within their own submodule, then we can easily track failures, and the console progress dialog will show time taken for each submodules.
+
+A submodule takes two arguments: A name, and the code it should execute.
+
+If a submodule fails, it'll throw an exception with the name provided, making it easier to track what specifically failed.
+
+In the example below, we use the .csproj filename as the submodule name. So if one of our projects failed to pack, we'd know which one by the exception message.
+
+## Example
+
+```csharp
+public class PackProjectsModule : Module<CommandResult[]>
+{
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
+
+        var projects = context.Git().RootDirectory
+            .GetFiles(x =>
+                x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
+
+        return await PackProjects(context, projects, packageVersion.ValueOrDefault, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+    }
+
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string? packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        foreach (var project in projects)
+        {
+            yield return await context.SubModule(project.Name, () => context.DotNet().Pack(new DotNetPackOptions
+            {
+                TargetPath = project,
+                Configuration = Configuration.Release,
+                Properties = new List<string>
+                {
+                    $"PackageVersion={packageVersion}",
+                    $"Version={packageVersion}",
+                },
+            }, cancellationToken));
+        }
+    }
+}
+```
+
+---
+
+## Testing
+
+## Testing with Mocked File System
+
+ModularPipelines supports mocking file system operations for unit testing. All file I/O goes through `IFileSystemProvider`, which can be replaced with a mock implementation.
+
+### Why Mock the File System?
+
+- **Speed**: Tests run faster without actual disk I/O
+- **Isolation**: Tests don't depend on file system state
+- **Predictability**: No flaky tests due to file permissions or disk space
+- **CI-friendly**: Works in any environment without file system setup
+
+### Example: Mocking File Reads
+
+```csharp
+using Moq;
+using ModularPipelines;
+using ModularPipelines.FileSystem;
+using ModularPipelines.Extensions;
+
+[Test]
+public async Task MyModule_ReadsConfigFile()
+{
+    // Create a mock provider
+    var mockProvider = new Mock<IFileSystemProvider>();
+    mockProvider.Setup(p => p.ReadAllTextAsync(
+            It.IsAny<string>(),
+            It.IsAny<CancellationToken>()))
+        .ReturnsAsync("{\"setting\": \"value\"}");
+
+    // Run pipeline with mock
+    var builder = Pipeline.CreateBuilder(args);
+
+    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+    builder.Services.AddModule<MyModule>();
+
+    var result = await builder.Build().RunAsync();
+
+    // Assert results
+    Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
+}
+```
+
+### Example: Verifying File Writes
+
+```csharp
+[Test]
+public async Task MyModule_WritesOutputFile()
+{
+    var mockProvider = new Mock<IFileSystemProvider>();
+
+    var builder = Pipeline.CreateBuilder(args);
+
+    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+    builder.Services.AddModule<OutputModule>();
+
+    await builder.Build().RunAsync();
+
+    // Verify the write occurred with expected content
+    mockProvider.Verify(p => p.WriteAllTextAsync(
+        It.Is<string>(path => path.Contains("output")),
+        It.Is<string>(content => content.Contains("result")),
+        It.IsAny<CancellationToken>()));
+}
+```
+
+### Important Notes
+
+- **Always use `context.Files`**: Files created via `context.Files.GetFile()` will use the injected provider. Files created directly via `new File("path")` use the real file system.
+
+- **Provider Registration**: The mock provider must be registered before the pipeline runs. Using `services.AddSingleton<IFileSystemProvider>()` overrides the default `SystemFileSystemProvider`.
+
+- **Mock ALL methods your code uses**: The mock provider only intercepts methods you explicitly set up. If your module calls `ReadAllTextAsync`, `FileExists`, and `Combine`, you must mock all three. Unmocked methods may throw or return default values depending on your mocking framework.
+
+- **Implicit operators bypass mocking**: Implicit conversions like `File file = "/path/to/file"` create instances using the default `SystemFileSystemProvider`, not your mock. For full testability, always use `context.Files.GetFile()`.
+
+- **Static methods are not mockable**: Methods like `File.GetNewTemporaryFilePath()` and `Folder.CreateTemporaryFolder()` use the real file system. Design your modules to receive paths via constructor or use `context.Files.CreateTemporaryFolder()` instead.
+
+- **Mocking Path Operations**: If your code uses path operations, mock them too:
+  ```csharp
+  mockProvider.Setup(p => p.Combine(It.IsAny<string[]>()))
+      .Returns((string[] paths) => Path.Combine(paths));
+  ```
+
+### What Gets Mocked
+
+The `IFileSystemProvider` interface covers:
+- File reads: `ReadAllTextAsync`, `ReadLinesAsync`, `ReadAllBytesAsync`
+- File writes: `WriteAllTextAsync`, `WriteAllBytesAsync`, `WriteAllLinesAsync`, `AppendAllTextAsync`
+- File management: `DeleteFile`, `CopyFile`, `MoveFile`, `FileExists`
+- Directory operations: `CreateDirectory`, `DeleteDirectory`, `MoveDirectory`, `DirectoryExists`
+- Enumeration: `EnumerateFiles`, `EnumerateDirectories`
+- Path utilities: `GetTempPath`, `GetRandomFileName`, `Combine`, `GetRelativePath`
+
+---
+
+## Time Estimator
+
+
+The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, but without it, estimated times will not be correct.
+
+The idea is that on every run of a module, it takes note of how long it took to run, and then provides it to this class to save somewhere. That's up to you. A blob storage, a database, wherever.
+
+Then on subsequent runs, it'll ask you for an estimated time for a module. You go and pull this back out of your database or wherever, and then pass it back to the framework.
+
+## Example
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
+    .AddModule<Module1>()
+    .AddModule<Module2>()
+    .AddModule<Module3>();
+
+builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
+
+await builder.Build().RunAsync();
+```
+
+```csharp
+public class MyEstimatedTimeProvider : IModuleEstimatedTimeProvider
+{
+    private readonly string _directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "ModularPipelines", "EstimatedTimes");
+
+    public async Task<TimeSpan> GetModuleEstimatedTimeAsync(Type moduleType)
+    {
+        var fileName = $"{moduleType.FullName}.txt";
+        return await GetEstimatedTimeAsync(fileName);
+    }
+
+    public async Task SaveModuleTimeAsync(Type moduleType, TimeSpan duration)
+    {
+        var fileName = $"{moduleType.FullName}.txt";
+
+        await SaveModuleTimeAsync(duration, fileName);
+    }
+
+    public async Task<IEnumerable<SubModuleEstimation>> GetSubModuleEstimatedTimesAsync(Type moduleType)
+    {
+        var directoryInfo = new DirectoryInfo(_directory);
+
+        if (!directoryInfo.Exists)
+        {
+            directoryInfo.Create();
+        }
+
+        directoryInfo.Create();
+
+        var paths = directoryInfo
+            .EnumerateFiles("*.txt", SearchOption.TopDirectoryOnly)
+            .Where(x => x.Name.StartsWith($"Mod-{moduleType.FullName}"))
+            .ToList();
+
+        var subModuleEstimations = await paths.ToAsyncProcessorBuilder()
+            .SelectAsync(async file =>
+            {
+                try
+                {
+                    var name = Path.GetFileNameWithoutExtension(file.FullName).Split("-Sub-")[1];
+                    var time = await GetEstimatedTimeAsync(file.FullName);
+                    return new SubModuleEstimation(name, time);
+                }
+                catch
+                {
+                    File.Delete(file.FullName);
+                    return null;
+                }
+            })
+            .ProcessInParallel();
+
+        return subModuleEstimations.OfType<SubModuleEstimation>();
+    }
+
+    public async Task SaveSubModuleTimeAsync(Type moduleType, SubModuleEstimation subModuleEstimation)
+    {
+        var fileName = $"Mod-{moduleType.FullName}-Sub-{subModuleEstimation.SubModuleName}.txt";
+
+        await SaveModuleTimeAsync(subModuleEstimation.EstimatedDuration, fileName);
+    }
+
+    private async Task<TimeSpan> GetEstimatedTimeAsync(string fileName)
+    {
+        var path = Path.Combine(_directory, fileName);
+
+        if (File.Exists(path))
+        {
+            var contents = await File.ReadAllTextAsync(path);
+            return TimeSpan.Parse(contents);
+        }
+
+        // Some default fallback. We can't estimate for now so we'll estimate next time.
+        return TimeSpan.FromMinutes(2);
+    }
+
+    private async Task SaveModuleTimeAsync(TimeSpan duration, string fileName)
+    {
+        Directory.CreateDirectory(_directory);
+
+        var path = Path.Combine(_directory, fileName);
+
+        await File.WriteAllTextAsync(path, duration.ToString());
+    }
+}
+```
+
+---
+
+## Timeouts
+
+
+When creating modules, you can set a timeout per module using the `Configure()` method. You can set this to any timespan you like. Just bear in mind some build runners, like GitHub Actions, have their own timeouts, so extending past these won't help.
+
+## Using ModuleConfiguration
+
+```csharp
+public class MyModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromSeconds(120))
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Do something - will be cancelled after 120 seconds
+    }
+}
+```
+
+## Combining with Other Behaviors
+
+Timeouts can be combined with other module behaviors:
+
+```csharp
+public class ResilientModule : Module<CommandResult>
+{
+    protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
+        .WithTimeout(TimeSpan.FromMinutes(5))
+        .WithRetryCount(3)  // Retry if timeout or other failure occurs
+        .WithIgnoreFailures()  // Don't fail the pipeline if module times out
+        .Build();
+
+    protected override async Task<CommandResult?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Long-running operation with timeout protection
+    }
+}
+```
+
+## Timeout Behavior
+
+When a timeout occurs:
+- The `CancellationToken` passed to `ExecuteAsync` will be cancelled
+- The module will fail with a `TimeoutException`
+- If retry policies are configured, the module may be retried
+- If `WithIgnoreFailures()` is configured, the pipeline will continue despite the timeout
+
+---
+
+## GitHub Package
+
+
+The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined approach to interacting with remote GitHub repositories.
+
+By leveraging this package, developers can more efficiently integrate their pipelines with GitHub, allowing for a smoother workflow and interaction with the platform's extensive API. The convenience afforded by this tool makes it an indispensable asset for anyone looking to automate tasks, synchronize data, or manage repositories programmatically on GitHub within their build pipelines.
+
+## GitHub Client
+
+Using **Octokit** in Modular Pipelines is pretty straightforward. Simply reference the `ModularPipelines.GitHub` package, and then, in your module, access the OctoKit client using `GitHub().Client` property as (an example):
+
+```cs
+public class GitHubModule : Module<string?>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context,
+        CancellationToken cancellationToken)
+    {
+        var info = context.GitHub().RepositoryInfo;
+        var user = await context.GitHub().Client.User.Get(info.Owner);
+
+        context.Logger.LogInformation("User location: {Location}", user.Location);
+
+        return user.Location;
+    }
+}
+```
+
+## RepositoryInfo
+
+Various GitHub APIs need certain repository data to be passed to make them work. For general developer ergonomics and easy access, as an additional convenience to work with GitHub APIs, Modular Pipelines' `GitHub()` provides the `RepositoryInfo` property that holds various basic data for easy interaction with OctoKit.
+
+This feature is really important because many services in the GitHub API need details such as the **repository owner** and **the name of the repository.** For example:
+
+```cs
+// Let's delete GitHub release with Id 12
+var info = context.GitHub().RepositoryInfo;
+var owner = info.Owner;
+var repo = info.RepositoryName;
+
+await context.GitHub().Client.Repository.Release.Delete(owner, repo, 12);
+```
+
+## Client Auth
+
+Modular Pipelines' `GitHub()` automatically authenticates OctoKit client when:
+
+*   Environment variable named `GITHUB_TOKEN` is set (which is automatically provided by GitHub when running the pipeline in the GitHub workflow)
+*   By using property `AccessToken` in`GitHubOptions` record provided by the Modular Pipelines
+
+### Using GitHubOptions Record
+
+Configuring OctoKit auth using `GitHubOptions` is straightforward as it follows standard .NET practices for working with `IConfiguration` and `IOptions<T>`. When configuring your pipeline, use the usual practices for working with configuration to configure OctoKit auth:
+
+```cs
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json")
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
+
+// Registers a section from the configuration file with GitHubOptions
+builder.Services.Configure<GitHubOptions>(builder.Configuration.GetSection("ModularPipelines:Secrets:GitHub"));
+
+await builder.Build().RunAsync();
+```
+
+where `appsettings.json` is constructed as follows:
+
+```json
+{
+  "ModularPipelines": {
+    "Secrets": {
+      "AccessToken": "your github access token"
+    }
+  }
+}
+```
+
+Once configured, Modular Pipelines will handle authentication and authorization automatically by utilizing the provided access token and will deliver a GitHub client that is ready for immediate use.
+
+**Important Note:** This is just an example; **do not store any confidential data in appsettings.json, .env files, and similar.** Use secret storage, key-vault services, etc., for storing sensitive data, and then use the described configuration practices as shown in the example above.
+
+---
+
+## Why Modular Pipelines?
+
+
+## C# / .NET
+
+- The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
+
+- If you're already a .NET developer, you don't have to concern yourself as much with the different features, languages or syntaxes of different build systems. No need for YAML-based pipeline definitions, Powershell scripts, bash scripts, or even just unfamiliar UI based build systems.
+
+- Strong typing - We can structure our modules with objects that we can pass around, and we know what data we then have available to use.
+
+## Source Control
+
+Some Pipelines, such as TeamCity, aren't typically source controlled. They're built from within the UI itself. This means that making changes for a new feature that isn't released yet has to happen globally, which can cause build breakages between different branches. With it in Source Control, we can change the pipeline on a branch for a new feature without affecting other builds and branches. This makes testing easier and doesn't degrade your production deployments.
+
+A broken pipeline shouldn't ever get merged into the main branch if it never went green. A pipeline change should be made via a pull request, and require a successful build in order to merge.
+
+We are able to easily look back at a history of changes if they're all stored in git commits
+
+We are easily able to identify who made what changes
+
+## Running locally
+
+Many build systems, such as TeamCity and Azure DevOps require running pipelines on their remote agents, and then waiting for a result and parsing through the build output if anything went wrong. It can be very trial-and-error, with lots of lengthy re-runs when trying to debug something.
+Because ModularPipelines is not tied to a specific build system, it can be run anywhere that has the .NET SDK installed. That includes your developer machine. So as long as you have adequate permissions, you can debug a pipeline locally on your machine. You get all the benefits of the .NET debugger, so we can view in-memory values, and access exceptions, etc. This makes for a much quicker feedback loop!
+
+Because a pipeline can be run locally, there's nothing to stop you from creating a 'local developer pipeline'.
+How many times have you started a new role or team, and been provided a huge developer setup guide that requires you to download and install numerous different things? You could define a pipeline for local machines. You can decide in startup, depending on something like the Environment name, and decide to either register modules for setting up a local developer machine, or if on a build agent, for deploying to the cloud.
+
+## Portability
+
+Want to move to a different build system? You don't have to re-learn or setup the whole thing from scratch. Your system simply needs access to your Pipeline project and have the .NET SDK installed.

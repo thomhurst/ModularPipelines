@@ -1,0 +1,44 @@
+# Modular Pipelines Documentation
+
+> Documentation for ModularPipelines - a C# framework for building modular, testable CI/CD pipelines with dependency injection support.
+
+This file contains links to documentation sections following the llmstxt.org standard.
+
+## Table of Contents
+
+- [Modular Pipelines](https://thomhurst.github.io/docs/README): Modular Pipelines is a framework for writing your pipeline in C#. Giving you strong types, intellisense, parallelisation, and the entire .NET ecosy...
+- [Module Execution Lifecycle](https://thomhurst.github.io/ModularPipelines/docs/architecture/module-execution-lifecycle): This document describes the complete execution lifecycle of a module in ModularPipelines, including the order of operations for hooks, skip checks,...
+- [Azure Resource Provisioning Example](https://thomhurst.github.io/ModularPipelines/docs/examples/azure-example): So for example, we want to provision some Azure services like this:
+- [.NET Test, Build & Publish](https://thomhurst.github.io/ModularPipelines/docs/examples/dotnet-test-build-publish): Here's an example of publishing a NuGet package. Complete with generating sematic versioning, and running tests.
+- [Fully Orchestrated Example](https://thomhurst.github.io/ModularPipelines/docs/examples/example): The pipeline to test, generate and upload the NuGet packages for this library.. is made from this library.
+- [Single File C# Example](https://thomhurst.github.io/ModularPipelines/docs/examples/single-file-csharp): Starting with dotnet 10 (preview 4), you can use the new file-based C# application feature to write scripts in C# without needing to create a full ...
+- [Fundamentals](https://thomhurst.github.io/ModularPipelines/docs/fundamentals): Your pipeline is created using `Pipeline.CreateBuilder()`. This follows the ASP.NET Core minimal API pattern, providing direct access to `Configura...
+- [Always Run](https://thomhurst.github.io/ModularPipelines/docs/how-to/always-run): By default, modules only run if their dependencies succeed. If a dependency fails, the module waiting will not start and will abort.
+- [Analyzers](https://thomhurst.github.io/ModularPipelines/docs/how-to/analyzers): These include:
+- [Cancellation Tokens](https://thomhurst.github.io/ModularPipelines/docs/how-to/cancellation-tokens): When you override a Module's `ExecuteAsync` method, you are provided a `CancellationToken` by the framework.
+- [Categories](https://thomhurst.github.io/ModularPipelines/docs/how-to/categories): ```csharp
+- [Console Progress](https://thomhurst.github.io/ModularPipelines/docs/how-to/console-progress): If you are using an interactive terminal, then a progress dialog will be displayed to you. This will attempt to show you estimated remaining time, ...
+- [Custom Commands](https://thomhurst.github.io/ModularPipelines/docs/how-to/custom-commands): If you want to run a command that isn't currently supported by strong objects, you can still run commands directly through the `ICommand` interface...
+- [Defining Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/defining-modules): Modules are defined by creating a class that inherits from the `Module<T>` base class.
+- [Execution and Dependencies](https://thomhurst.github.io/ModularPipelines/docs/how-to/execution-and-dependencies): The default behaviour is for modules to run in parallel, to speed up a pipeline as much as possible.
+- [Hooks](https://thomhurst.github.io/ModularPipelines/docs/how-to/hooks): There are three ways to hook into module execution:
+- [Ignoring Failures](https://thomhurst.github.io/ModularPipelines/docs/how-to/ignoring-failures): Sometimes a module might throw an exception, but we simply don't care as it's not that important, or a specific error might be expected.
+- [Inheriting](https://thomhurst.github.io/ModularPipelines/docs/how-to/inheriting): Each 'Module' is expected to be registered only once. If you build a custom module that you'd like to instantiate multiple times but with different...
+- [Logging](https://thomhurst.github.io/ModularPipelines/docs/how-to/logging): This is because the `IModuleLogger` will perform many actions that will improve the output of your logs.
+- [Migrating to V3](https://thomhurst.github.io/ModularPipelines/docs/how-to/migrating-to-v3): ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes ...
+- [Parallelization](https://thomhurst.github.io/ModularPipelines/docs/how-to/parallelization): As mentioned, modules will try to run in parallel by default, waiting on any dependencies if they need to.
+- [Pipeline Host](https://thomhurst.github.io/ModularPipelines/docs/how-to/pipeline-host): To begin creating your pipeline, use the `Pipeline.CreateBuilder()` method.
+- [Pipeline Execution Modes](https://thomhurst.github.io/ModularPipelines/docs/how-to/pipeline-modes): A pipeline has two execution modes:
+- [Requirements](https://thomhurst.github.io/ModularPipelines/docs/how-to/requirements): If you'd like to fail fast, you can register some `Requirement` classes that do some checks on start up to make sure things are as expected.
+- [Retry Policies](https://thomhurst.github.io/ModularPipelines/docs/how-to/retry-policy): When creating modules, you can set a retry policy per module using the `Configure()` method. The retry policy uses Polly, so if you've used Polly b...
+- [Run conditions](https://thomhurst.github.io/ModularPipelines/docs/how-to/run-conditions): Run conditions are generally controlled by attributes, placed upon your module.
+- [Secrets](https://thomhurst.github.io/ModularPipelines/docs/how-to/secrets): Your options classes should be registered as IOptions.
+- [Sharing data across modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sharing-data): Modules have been designed with data and sharing at its core.
+- [Skipping Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/skipping): The recommended way to configure module skipping is through the `Configure()` method with the fluent builder API:
+- [Module History](https://thomhurst.github.io/ModularPipelines/docs/how-to/storing-and-retrieving-results): This can be used later on if you want to re-run the pipeline but skip certain categories or modules.
+- [Sub-Modules](https://thomhurst.github.io/ModularPipelines/docs/how-to/sub-modules): For instance, you have 10 .NET projects to package into NuGet packages.
+- [Testing](https://thomhurst.github.io/ModularPipelines/docs/how-to/testing): ModularPipelines supports mocking file system operations for unit testing. All file I/O goes through `IFileSystemProvider`, which can be replaced w...
+- [Time Estimator](https://thomhurst.github.io/ModularPipelines/docs/how-to/time-estimator): The time estimator is a class built by you, used to estimate times for modules for displaying in the console progress dialog. It isn't mandatory, b...
+- [Timeouts](https://thomhurst.github.io/ModularPipelines/docs/how-to/timeouts): When creating modules, you can set a timeout per module using the `Configure()` method. You can set this to any timespan you like. Just bear in min...
+- [GitHub Package](https://thomhurst.github.io/ModularPipelines/docs/mp-packages/github): The **GitHub package** offered by **Modular Pipelines**, in conjunction with the implemented **OctoKit client library**, facilitates a streamlined ...
+- [Why Modular Pipelines?](https://thomhurst.github.io/ModularPipelines/docs/why): - The .NET ecosystem is rich with features and libraries. You can utilize what already exists and not have to re-invent the wheel.
