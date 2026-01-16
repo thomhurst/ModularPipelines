@@ -33,3 +33,101 @@ If you're in a module, it's part of your `context` object. Call `context.Logger`
 
 ### Elsewhere
 If you're in another class, you can inject in `IModuleLoggerProvider` and call `GetLogger`.
+
+## Command Logging
+
+When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipelines logs the command execution details. You can control what gets logged using `CommandLoggingOptions`.
+
+### Verbosity Levels
+
+| Level | Description |
+|-------|-------------|
+| `Silent` | No output at all |
+| `Minimal` | Only command input (no output/errors) |
+| `Normal` | Input, output, and errors on failure (default) |
+| `Detailed` | Above plus exit code and duration |
+| `Diagnostic` | Everything including working directory and timestamps |
+
+### Per-Command Configuration
+
+```csharp
+await context.DotNet().Build(
+    new DotNetBuildOptions { Configuration = "Release" },
+    new CommandExecutionOptions
+    {
+        LogSettings = new CommandLoggingOptions
+        {
+            Verbosity = CommandLogVerbosity.Detailed
+        }
+    });
+```
+
+### Global Defaults
+
+Set default logging for all commands at the pipeline level:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// All commands will use Silent logging unless overridden
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
+
+// Or use Diagnostic for debugging
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+
+await builder.Build().RunAsync();
+```
+
+### Using Presets
+
+```csharp
+// Silent - no command logging
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Silent }
+
+// Diagnostic - maximum verbosity
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Diagnostic }
+
+// Default - normal verbosity
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Default }
+```
+
+### Fine-Grained Control
+
+Override individual settings regardless of verbosity level:
+
+```csharp
+new CommandLoggingOptions
+{
+    Verbosity = CommandLogVerbosity.Normal,
+    ShowCommandArguments = true,
+    ShowStandardOutput = true,
+    ShowStandardError = true,
+    ShowExitCode = true,
+    ShowExecutionTime = true,
+    ShowWorkingDirectory = false,
+    IncludeTimestamps = false
+}
+```
+
+### Output Manipulators
+
+Transform logged content before it's written (useful for truncating large outputs or redacting sensitive data):
+
+```csharp
+new CommandExecutionOptions
+{
+    LogSettings = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+    InputLoggingManipulator = input => input.Length > 500
+        ? input.Substring(0, 500) + "... (truncated)"
+        : input,
+    OutputLoggingManipulator = output => output.Replace("api-key-value", "***")
+}
+```
+
+### Configuration Precedence
+
+Logging settings are resolved in this order (highest to lowest priority):
+
+1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
+2. **Global Default**: `builder.Options.DefaultLoggingOptions` set at pipeline level
+3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
