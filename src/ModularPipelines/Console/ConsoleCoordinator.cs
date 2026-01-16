@@ -40,6 +40,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     private readonly IOptions<PipelineOptions> _options;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IBuildSystemDetector _buildSystemDetector;
+    private readonly IServiceProvider _serviceProvider;
 
     // Console state
     private TextWriter? _originalConsoleOut;
@@ -70,7 +71,8 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         ISecretObfuscator secretObfuscator,
         IOptions<PipelineOptions> options,
         ILoggerFactory loggerFactory,
-        IBuildSystemDetector buildSystemDetector)
+        IBuildSystemDetector buildSystemDetector,
+        IServiceProvider serviceProvider)
     {
         _formatterProvider = formatterProvider;
         _resultsPrinter = resultsPrinter;
@@ -78,6 +80,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         _options = options;
         _loggerFactory = loggerFactory;
         _buildSystemDetector = buildSystemDetector;
+        _serviceProvider = serviceProvider;
         _unattributedBuffer = new ModuleOutputBuffer("Pipeline", typeof(void));
     }
 
@@ -274,8 +277,10 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         foreach (var buffer in orderedBuffers)
         {
-            // Create logger with the correct module category for proper log replay
-            var moduleLogger = _loggerFactory.CreateLogger(buffer.ModuleType);
+            // Resolve the registered ILogger<T> from DI to use any custom loggers injected by tests
+            var loggerType = typeof(ILogger<>).MakeGenericType(buffer.ModuleType);
+            var moduleLogger = (ILogger)_serviceProvider.GetService(loggerType)
+                               ?? _loggerFactory.CreateLogger(buffer.ModuleType);
             buffer.FlushTo(_originalConsoleOut, formatter, moduleLogger);
         }
 

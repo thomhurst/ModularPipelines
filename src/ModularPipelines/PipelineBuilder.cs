@@ -277,7 +277,9 @@ public sealed class PipelineBuilder
                 opts.DefaultHttpTimeout = _options.DefaultHttpTimeout;
                 opts.DefaultHttpResilienceOptions = _options.DefaultHttpResilienceOptions;
                 opts.Concurrency = _options.Concurrency;
+                opts.ConsoleWidth = _options.ConsoleWidth;
                 opts.DefaultExecutionOptions = _options.DefaultExecutionOptions;
+                opts.ThrowOnPipelineFailure = _options.ThrowOnPipelineFailure;
             });
 
             // Add user-registered services

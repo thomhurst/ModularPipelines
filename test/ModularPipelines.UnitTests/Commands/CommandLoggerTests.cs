@@ -123,7 +123,13 @@ public class CommandLoggerTests : TestBase
             new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Silent });
 
         var logFile = await File.ReadAllTextAsync(file);
-        await Assert.That(logFile).DoesNotContain("[ModularPipelines.Pipeline]");
+        // Silent verbosity should not log any command-related output
+        // Check for absence of command execution patterns (other pipeline logs may still appear)
+        await Assert.That(logFile).DoesNotContain($"{Environment.CurrentDirectory}>");
+        await Assert.That(logFile).DoesNotContain("→");
+        await Assert.That(logFile).DoesNotContain("↳");
+        await Assert.That(logFile).DoesNotContain("exit ");
+        await Assert.That(logFile).DoesNotContain("Working Directory:");
     }
 
     [Test]

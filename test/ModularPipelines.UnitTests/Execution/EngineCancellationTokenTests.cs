@@ -53,28 +53,38 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task When_Cancel_Engine_Token_With_DependsOn_Then_Modules_Cancel()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var builder = TestPipelineHostBuilder.Create()
             .AddModule<BadModule>()
-            .AddModule<Module1>()
-            .BuildHostAsync();
+            .AddModule<Module1>();
+
+        // This test expects the pipeline to throw when BadModule fails
+        builder.Options.ThrowOnPipelineFailure = true;
+
+        var host = await builder.BuildHostAsync();
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
         using (Assert.Multiple())
         {
             await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
-            var module1Result = resultRegistry.GetResult(typeof(Module1))!;
-            await Assert.That(module1Result.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
+            var module1Result = resultRegistry.GetResult(typeof(Module1));
+            // Module1 depends on BadModule which failed, so Module1 should be marked as PipelineTerminated
+            await Assert.That(module1Result).IsNotNull();
+            await Assert.That(module1Result!.ModuleStatus).IsEqualTo(Status.PipelineTerminated);
         }
     }
 
     [Test]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var builder = TestPipelineHostBuilder.Create()
             .AddModule<BadModule>()
-            .AddModule<LongRunningModule>()
-            .BuildHostAsync();
+            .AddModule<LongRunningModule>();
+
+        // This test expects the pipeline to throw when BadModule fails
+        builder.Options.ThrowOnPipelineFailure = true;
+
+        var host = await builder.BuildHostAsync();
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
@@ -94,10 +104,14 @@ public class EngineCancellationTokenTests : TestBase
     [Test]
     public async Task When_Cancel_Engine_Token_Without_DependsOn_Then_Modules_Cancel_Without_Cancellation()
     {
-        var host = await TestPipelineHostBuilder.Create()
+        var builder = TestPipelineHostBuilder.Create()
             .AddModule<BadModule>()
-            .AddModule<LongRunningModuleWithoutCancellation>()
-            .BuildHostAsync();
+            .AddModule<LongRunningModuleWithoutCancellation>();
+
+        // This test expects the pipeline to throw when BadModule fails
+        builder.Options.ThrowOnPipelineFailure = true;
+
+        var host = await builder.BuildHostAsync();
 
         var resultRegistry = host.RootServices.GetRequiredService<IModuleResultRegistry>();
 
