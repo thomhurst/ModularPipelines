@@ -174,9 +174,6 @@ internal class ProgressSession : IProgressSession, IProgressController
                 var increment = 100.0 / _totalModuleCount;
                 _totalTask?.Increment(increment);
 
-                // Mark buffer as completed for ordering
-                _coordinator.GetModuleBuffer(state.ModuleType).MarkCompleted();
-
                 // Check if all done
                 if (_completedModuleCount >= _totalModuleCount)
                 {
@@ -215,8 +212,6 @@ internal class ProgressSession : IProgressSession, IProgressController
             _completedModuleCount++;
             var increment = 100.0 / _totalModuleCount;
             _totalTask?.Increment(increment);
-
-            _coordinator.GetModuleBuffer(state.ModuleType).MarkCompleted();
 
             if (_completedModuleCount >= _totalModuleCount)
             {
