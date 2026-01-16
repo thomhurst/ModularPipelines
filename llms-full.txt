@@ -1687,6 +1687,104 @@ If you're in a module, it's part of your `context` object. Call `context.Logger`
 ### Elsewhere
 If you're in another class, you can inject in `IModuleLoggerProvider` and call `GetLogger`.
 
+## Command Logging
+
+When you execute CLI commands (e.g., `dotnet build`, `docker run`), ModularPipelines logs the command execution details. You can control what gets logged using `CommandLoggingOptions`.
+
+### Verbosity Levels
+
+| Level | Description |
+|-------|-------------|
+| `Silent` | No output at all |
+| `Minimal` | Only command input (no output/errors) |
+| `Normal` | Input, output, and errors on failure (default) |
+| `Detailed` | Above plus exit code and duration |
+| `Diagnostic` | Everything including working directory and timestamps |
+
+### Per-Command Configuration
+
+```csharp
+await context.DotNet().Build(
+    new DotNetBuildOptions { Configuration = "Release" },
+    new CommandExecutionOptions
+    {
+        LogSettings = new CommandLoggingOptions
+        {
+            Verbosity = CommandLogVerbosity.Detailed
+        }
+    });
+```
+
+### Global Defaults
+
+Set default logging for all commands at the pipeline level:
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// All commands will use Silent logging unless overridden
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
+
+// Or use Diagnostic for debugging
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+
+await builder.Build().RunAsync();
+```
+
+### Using Presets
+
+```csharp
+// Silent - no command logging
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Silent }
+
+// Diagnostic - maximum verbosity
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Diagnostic }
+
+// Default - normal verbosity
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Default }
+```
+
+### Fine-Grained Control
+
+Override individual settings regardless of verbosity level:
+
+```csharp
+new CommandLoggingOptions
+{
+    Verbosity = CommandLogVerbosity.Normal,
+    ShowCommandArguments = true,
+    ShowStandardOutput = true,
+    ShowStandardError = true,
+    ShowExitCode = true,
+    ShowExecutionTime = true,
+    ShowWorkingDirectory = false,
+    IncludeTimestamps = false
+}
+```
+
+### Output Manipulators
+
+Transform logged content before it's written (useful for truncating large outputs or redacting sensitive data):
+
+```csharp
+new CommandExecutionOptions
+{
+    LogSettings = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+    InputLoggingManipulator = input => input.Length > 500
+        ? input.Substring(0, 500) + "... (truncated)"
+        : input,
+    OutputLoggingManipulator = output => output.Replace("api-key-value", "***")
+}
+```
+
+### Configuration Precedence
+
+Logging settings are resolved in this order (highest to lowest priority):
+
+1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
+2. **Global Default**: `builder.Options.DefaultLoggingOptions` set at pipeline level
+3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
+
 ---
 
 ## Migrating to V3
@@ -1704,6 +1802,7 @@ ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET
 - [ ] Migrate virtual property overrides to `Configure()` builder
 - [ ] Update result access patterns to use pattern matching or `ValueOrDefault`
 - [ ] Move `WorkingDirectory`, `EnvironmentVariables`, etc. from tool options to `CommandExecutionOptions`
+- [ ] Migrate `LogInput`/`LogOutput` to `CommandLoggingOptions` with `CommandLogVerbosity`
 
 ## Entry Point Changes
 
@@ -2013,6 +2112,137 @@ await context.DotNet().Build(
 - **Cleaner API**: Tool options focus only on tool-specific arguments
 - **Reusability**: Share `CommandExecutionOptions` across multiple commands
 - **New features**: `ExecutionTimeout`, `GracefulShutdownTimeout`, and `Sudo` options
+
+## Command Logging Configuration
+
+V3 introduces a new `CommandLoggingOptions` system that replaces the previous logging configuration. The new system provides verbosity levels and fine-grained control over what gets logged.
+
+### Before (V2)
+
+```csharp
+// Logging settings were on tool options with limited control
+await context.DotNet().Build(new DotNetBuildOptions
+{
+    LogInput = true,
+    LogOutput = false,
+    // Limited options available
+});
+```
+
+### After (V3)
+
+```csharp
+// Rich logging configuration via CommandLoggingOptions
+await context.DotNet().Build(
+    new DotNetBuildOptions { Configuration = "Release" },
+    new CommandExecutionOptions
+    {
+        LogSettings = new CommandLoggingOptions
+        {
+            Verbosity = CommandLogVerbosity.Detailed,
+            ShowCommandArguments = true,
+            ShowStandardOutput = true,
+            ShowStandardError = true,
+            ShowExitCode = true,
+            ShowExecutionTime = true
+        }
+    });
+```
+
+### Verbosity Levels
+
+| Level | Description |
+|-------|-------------|
+| `Silent` | No output at all |
+| `Minimal` | Only command input (no output/errors) |
+| `Normal` | Input, output, and errors on failure (default) |
+| `Detailed` | Above plus exit code and duration |
+| `Diagnostic` | Everything including working directory and timestamps |
+
+### Configuration Precedence
+
+V3 uses a three-tier configuration system (highest to lowest priority):
+
+1. **Per-Call**: `CommandExecutionOptions.LogSettings` on individual command calls
+2. **Global Default**: `PipelineOptions.DefaultLoggingOptions` set at pipeline level
+3. **System Default**: `CommandLoggingOptions.Default` (Normal verbosity)
+
+### Setting Global Defaults
+
+```csharp
+var builder = Pipeline.CreateBuilder(args);
+
+// Set global default for all commands
+builder.Options.DefaultLoggingOptions = new CommandLoggingOptions
+{
+    Verbosity = CommandLogVerbosity.Minimal
+};
+
+// Or use presets
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent;
+builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Diagnostic;
+
+await builder.Build().RunAsync();
+```
+
+### Using Presets
+
+```csharp
+// Silent - no command logging at all
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Silent }
+
+// Diagnostic - maximum verbosity for debugging
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Diagnostic }
+
+// Default - normal verbosity
+new CommandExecutionOptions { LogSettings = CommandLoggingOptions.Default }
+```
+
+### Fine-Grained Control
+
+Override individual settings regardless of verbosity level:
+
+```csharp
+new CommandLoggingOptions
+{
+    Verbosity = CommandLogVerbosity.Normal,
+    ShowCommandArguments = true,
+    ShowStandardOutput = true,
+    ShowStandardError = true,
+    ShowExitCode = true,           // Show even at Normal verbosity
+    ShowExecutionTime = true,      // Show even at Normal verbosity
+    ShowWorkingDirectory = false,
+    IncludeTimestamps = false
+}
+```
+
+### Output Manipulators
+
+Transform logged content before it's written:
+
+```csharp
+new CommandExecutionOptions
+{
+    LogSettings = new CommandLoggingOptions { Verbosity = CommandLogVerbosity.Normal },
+    InputLoggingManipulator = input => input.Length > 100
+        ? input.Substring(0, 100) + "..."
+        : input,
+    OutputLoggingManipulator = output => output.Replace("secret-value", "***")
+}
+```
+
+### Migration Mapping
+
+| V2 | V3 |
+|----|-----|
+| `LogInput = true/false` | `ShowCommandArguments = true/false` |
+| `LogOutput = true/false` | `ShowStandardOutput = true/false` |
+| `InputLoggingManipulator` on tool options | `InputLoggingManipulator` on `CommandExecutionOptions` |
+| `OutputLoggingManipulator` on tool options | `OutputLoggingManipulator` on `CommandExecutionOptions` |
+| N/A | `Verbosity` levels (Silent, Minimal, Normal, Detailed, Diagnostic) |
+| N/A | `ShowExitCode`, `ShowExecutionTime`, `ShowWorkingDirectory` |
+| N/A | `IncludeTimestamps` |
+| N/A | Global defaults via `PipelineOptions.DefaultLoggingOptions` |
 
 ## Getting Module Results
 
@@ -2562,6 +2792,25 @@ This section provides structured data optimized for AI assistants helping with c
 - old: "new DotNetBuildOptions { ThrowOnNonZeroExitCode = false }"
   new: "new DotNetBuildOptions { }, new CommandExecutionOptions { ThrowOnNonZeroExitCode = false }"
 
+# Command Logging (new system in V3)
+- old: "new DotNetBuildOptions { LogInput = true, LogOutput = false }"
+  new: "new CommandExecutionOptions { LogSettings = new CommandLoggingOptions { ShowCommandArguments = true, ShowStandardOutput = false } }"
+
+- old: "InputLoggingManipulator on tool options"
+  new: "InputLoggingManipulator on CommandExecutionOptions"
+
+- old: "OutputLoggingManipulator on tool options"
+  new: "OutputLoggingManipulator on CommandExecutionOptions"
+
+- new_only: "CommandLogVerbosity.Silent/Minimal/Normal/Detailed/Diagnostic"
+  note: "Use verbosity levels for quick configuration"
+
+- new_only: "builder.Options.DefaultLoggingOptions = CommandLoggingOptions.Silent"
+  note: "Set global defaults at pipeline level"
+
+- new_only: "CommandLoggingOptions.Silent / .Diagnostic / .Default presets"
+  note: "Pre-configured logging options"
+
 # Non-generic modules (V3 addition)
 - old: "public class MyModule : Module<IDictionary<string, object>>"
   new: "public class MyModule : Module"
@@ -2585,6 +2834,8 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS0115: 'Timeout': no suitable method found to override` | Property removed | Use `Configure().WithTimeout()` instead |
 | `CS0115: 'RetryPolicy': no suitable method found to override` | Property removed | Use `Configure().WithRetryCount()` instead |
 | `CS1061: 'DotNetBuildOptions' does not contain 'WorkingDirectory'` | Property moved | Pass `CommandExecutionOptions` as second parameter |
+| `CS1061: 'DotNetBuildOptions' does not contain 'LogInput'` | Property moved | Use `CommandExecutionOptions.LogSettings` with `CommandLoggingOptions` |
+| `CS0246: 'CommandLoggingOptions' could not be found` | Missing using | Add `using ModularPipelines.Options;` |
 
 ### Regex Patterns for Automated Migration
 
