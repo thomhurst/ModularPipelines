@@ -82,18 +82,19 @@ public class ResilientModule : Module<CommandResult>
 
 ## Default Retry Policy
 
-Retry policies are off by default. You can set a default retry count on the `PipelineOptions` when using the `PipelineHostBuilder`:
+Retry policies are off by default. You can set a default retry count on the `PipelineOptions`:
 
 ```csharp
-await PipelineHostBuilder.Create()
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .AddModule<Module3>()
-    .ConfigurePipelineOptions((context, options) =>
-    {
-        options.DefaultRetryCount = 3;
-    })
-    .ExecutePipelineAsync();
+    .AddModule<Module3>();
+
+builder.Options.DefaultRetryCount = 3;
+
+await builder.Build().RunAsync();
 ```
 
 This applies to all modules that don't override their retry policy. Modules can override this default by configuring their own retry policy in `Configure()`.

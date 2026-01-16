@@ -18,13 +18,13 @@ That would look like this:
 ```csharp
 public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityResource>
 {
-    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<UserAssignedIdentityResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var userAssignedIdentityProvisionResponse = await context.Azure().Provisioner.Security.UserAssignedIdentity(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyUserIdentity"),
             new UserAssignedIdentityData(AzureLocation.UKSouth)
         );
-        
+
         return userAssignedIdentityProvisionResponse.Value;
     }
 }
@@ -35,13 +35,13 @@ public class ProvisionUserAssignedIdentityModule : Module<UserAssignedIdentityRe
 ```csharp
 public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 {
-    protected override async Task<StorageAccountResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<StorageAccountResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         var blobStorageAccountProvisionResponse = await context.Azure().Provisioner.Storage.StorageAccount(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyStorage"),
             new StorageAccountCreateOrUpdateContent(new StorageSku(StorageSkuName.StandardGrs), StorageKind.BlobStorage, AzureLocation.UKSouth)
         );
-        
+
         return blobStorageAccountProvisionResponse.Value;
     }
 }
@@ -53,16 +53,16 @@ public class ProvisionBlobStorageAccountModule : Module<StorageAccountResource>
 [DependsOn<ProvisionBlobStorageAccountModule>]
 public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 {
-    protected override async Task<BlobContainerResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<BlobContainerResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var blobStorageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
+        var blobStorageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
 
         var blobContainerProvisionResponse = await context.Azure().Provisioner.Storage.BlobContainer(
-            blobStorageAccount.Value!.Id,
+            blobStorageAccount.ValueOrDefault!.Id,
             "MyContainer",
             new BlobContainerData()
         );
-        
+
         return blobContainerProvisionResponse.Value;
     }
 }
@@ -75,17 +75,17 @@ public class ProvisionBlobStorageContainerModule : Module<BlobContainerResource>
 [DependsOn<ProvisionUserAssignedIdentityModule>]
 public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 {
-    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<RoleAssignmentResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
-        
-        var storageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
-        
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
+
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+
         var roleAssignmentResource = await context.Azure().Provisioner.Security.RoleAssignment(
-            storageAccount.Value!.Id,
-            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.Value!.Data.PrincipalId!.Value)
+            storageAccount.ValueOrDefault!.Id,
+            new RoleAssignmentCreateOrUpdateContent(WellKnownRoleDefinitions.BlobStorageOwnerDefinitionId, userAssignedIdentity.ValueOrDefault!.Data.PrincipalId!.Value)
         );
-        
+
         return roleAssignmentResource.Value;
     }
 }
@@ -99,20 +99,20 @@ public class AssignAccessToBlobStorageModule : Module<RoleAssignmentResource>
 [DependsOn<ProvisionBlobStorageContainerModule>]
 public class ProvisionAzureFunction : Module<WebSiteResource>
 {
-    protected override async Task<WebSiteResource?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<WebSiteResource?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var userAssignedIdentity = await GetModule<ProvisionUserAssignedIdentityModule>();
+        var userAssignedIdentity = await context.GetModule<ProvisionUserAssignedIdentityModule>();
 
-        var storageAccount = await GetModule<ProvisionBlobStorageAccountModule>();
-        var blobContainer = await GetModule<ProvisionBlobStorageContainerModule>();
-        
+        var storageAccount = await context.GetModule<ProvisionBlobStorageAccountModule>();
+        var blobContainer = await context.GetModule<ProvisionBlobStorageContainerModule>();
+
         var functionProvisionResponse = await context.Azure().Provisioner.Compute.WebSite(
             new AzureResourceIdentifier("MySubscription", "MyResourceGroup", "MyFunction"),
             new WebSiteData(AzureLocation.UKSouth)
             {
                 Identity = new ManagedServiceIdentity(ManagedServiceIdentityType.UserAssigned)
                 {
-                    UserAssignedIdentities = { { userAssignedIdentity.Value!.Id, new UserAssignedIdentity() } }
+                    UserAssignedIdentities = { { userAssignedIdentity.ValueOrDefault!.Id, new UserAssignedIdentity() } }
                 },
                 SiteConfig = new SiteConfigProperties
                 {
@@ -121,19 +121,19 @@ public class ProvisionAzureFunction : Module<WebSiteResource>
                         new()
                         {
                             Name = "BlobStorageConnectionString",
-                            Value = storageAccount.Value!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
+                            Value = storageAccount.ValueOrDefault!.Data.PrimaryEndpoints.BlobUri.AbsoluteUri
                         },
                         new()
                         {
                             Name = "BlobContainerName",
-                            Value = blobContainer.Value!.Data.Name
+                            Value = blobContainer.ValueOrDefault!.Data.Name
                         }
                     }
                 }
                 // ... Other properties
             }
         );
-        
+
         return functionProvisionResponse.Value;
     }
 ```

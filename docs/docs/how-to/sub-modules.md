@@ -22,23 +22,23 @@ In the example below, we use the .csproj filename as the submodule name. So if o
 ```csharp
 public class PackProjectsModule : Module<CommandResult[]>
 {
-    protected override async Task<CommandResult[]?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override async Task<CommandResult[]?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
-        var packageVersion = await GetModule<NugetVersionGeneratorModule>();
+        var packageVersion = await context.GetModule<NugetVersionGeneratorModule>();
 
         var projects = context.Git().RootDirectory
             .GetFiles(x =>
                 x.Extension == ".csproj" && !x.Name.Contains("test", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
 
-        return await PackProjects(context, projects, packageVersion.Value, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
+        return await PackProjects(context, projects, packageVersion.ValueOrDefault, cancellationToken).ToArrayAsync(cancellationToken: cancellationToken);
     }
 
-    private async IAsyncEnumerable<CommandResult> PackProjects(IPipelineContext context, List<File> projects, string? packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
+    private async IAsyncEnumerable<CommandResult> PackProjects(IModuleContext context, List<File> projects, string? packageVersion, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         foreach (var project in projects)
         {
-            yield return await SubModule(project.Name, () => context.DotNet().Pack(new DotNetPackOptions
+            yield return await context.SubModule(project.Name, () => context.DotNet().Pack(new DotNetPackOptions
             {
                 TargetPath = project,
                 Configuration = Configuration.Release,

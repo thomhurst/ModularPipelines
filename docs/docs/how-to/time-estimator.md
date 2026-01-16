@@ -13,12 +13,16 @@ Then on subsequent runs, it'll ask you for an estimated time for a module. You g
 ## Example
 
 ```csharp
-await PipelineHostBuilder.Create()
+var builder = Pipeline.CreateBuilder(args);
+
+builder.Services
     .AddModule<Module1>()
     .AddModule<Module2>()
-    .AddModule<Module3>()
-    .AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>()
-    .ExecutePipelineAsync();
+    .AddModule<Module3>();
+
+builder.AddModuleEstimatedTimeProvider<MyEstimatedTimeProvider>();
+
+await builder.Build().RunAsync();
 ```
 
 ```csharp

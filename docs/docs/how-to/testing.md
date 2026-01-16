@@ -18,8 +18,9 @@ ModularPipelines supports mocking file system operations for unit testing. All f
 
 ```csharp
 using Moq;
+using ModularPipelines;
 using ModularPipelines.FileSystem;
-using ModularPipelines.Host;
+using ModularPipelines.Extensions;
 
 [Test]
 public async Task MyModule_ReadsConfigFile()
@@ -32,13 +33,12 @@ public async Task MyModule_ReadsConfigFile()
         .ReturnsAsync("{\"setting\": \"value\"}");
 
     // Run pipeline with mock
-    var result = await PipelineHostBuilder.Create()
-        .ConfigureServices((_, services) =>
-        {
-            services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-        })
-        .AddModule<MyModule>()
-        .ExecutePipelineAsync();
+    var builder = Pipeline.CreateBuilder(args);
+
+    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+    builder.Services.AddModule<MyModule>();
+
+    var result = await builder.Build().RunAsync();
 
     // Assert results
     Assert.That(result.Status, Is.EqualTo(PipelineStatus.Success));
@@ -53,13 +53,12 @@ public async Task MyModule_WritesOutputFile()
 {
     var mockProvider = new Mock<IFileSystemProvider>();
 
-    await PipelineHostBuilder.Create()
-        .ConfigureServices((_, services) =>
-        {
-            services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
-        })
-        .AddModule<OutputModule>()
-        .ExecutePipelineAsync();
+    var builder = Pipeline.CreateBuilder(args);
+
+    builder.Services.AddSingleton<IFileSystemProvider>(mockProvider.Object);
+    builder.Services.AddModule<OutputModule>();
+
+    await builder.Build().RunAsync();
 
     // Verify the write occurred with expected content
     mockProvider.Verify(p => p.WriteAllTextAsync(

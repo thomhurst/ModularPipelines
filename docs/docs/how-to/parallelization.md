@@ -21,7 +21,7 @@ If these have any dependencies, they will be triggered too.
 [NotInParallel]
 public class MyModule : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -38,7 +38,7 @@ If another module has a different constraint key, these will still run in parall
 [NotInParallel(ConstraintKey = "Install")]
 public class InstallModule1 : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -47,7 +47,7 @@ public class InstallModule1 : Module
 [NotInParallel(ConstraintKey = "Install")]
 public class InstallModule2 : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -56,7 +56,7 @@ public class InstallModule2 : Module
 [NotInParallel(ConstraintKey = "Build")]
 public class BuildProjectModule : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -95,7 +95,7 @@ namespace MyTestProject;
 [ParallelLimiter<MyParallelLimit>]
 public class InstallModule1 : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -104,7 +104,7 @@ public class InstallModule1 : Module
 [ParallelLimiter<MyParallelLimit>]
 public class InstallModule2 : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
@@ -113,7 +113,7 @@ public class InstallModule2 : Module
 [ParallelLimiter<MyParallelLimit>]
 public class BuildProjectModule : Module
 {
-    protected override Task<IDictionary<string, object>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    protected override Task<IDictionary<string, object>?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
     {
         // Do something
     }
