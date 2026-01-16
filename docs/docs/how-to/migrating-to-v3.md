@@ -580,6 +580,16 @@ if (buildResult.IsSkipped)
 | Get value | `result.Value` | `result.ValueOrDefault` or pattern match |
 | Get exception | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
 
+## Unchanged Features
+
+The following features work the same in V3 as they did in V2:
+
+- **Sub-Modules**: `context.SubModule(name, action)` is fully supported. Use sub-modules to track iterations within a module (e.g., packing multiple NuGet packages). See [Sub-Modules documentation](/docs/how-to/sub-modules).
+- **Hooks**: Global pipeline hooks via `IHook<T>` interfaces remain unchanged
+- **Requirements**: `IPipelineRequirement` for validating prerequisites
+- **Secrets**: Secret registration and obfuscation via `AddSecret()`
+- **Categories and Tags**: Module organization with `[ModuleCategory]` and `[ModuleTag]`
+
 ## Deleted Types and Members
 
 The following have been removed in V3:
@@ -1167,7 +1177,7 @@ await context.DotNet().Build(
 
 ### Keywords for Search
 
-ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule
+ModularPipelines, V3 migration, PipelineHostBuilder, Pipeline.CreateBuilder, IPipelineContext, IModuleContext, GetModule, ModuleResult, ValueOrDefault, ExceptionOrDefault, IsSuccess, IsFailure, IsSkipped, ModuleConfiguration, Configure, WithTimeout, WithRetryCount, WithSkipWhen, WithIgnoreFailures, WithAlwaysRun, CommandExecutionOptions, WorkingDirectory, EnvironmentVariables, Module non-generic, SyncModule, None struct, ExecuteModuleAsync, ExecuteModule, SubModule, context.SubModule, CommandLoggingOptions, CommandLogVerbosity
 
 ## Getting Help
 
