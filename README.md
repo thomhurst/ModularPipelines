@@ -1,42 +1,137 @@
 # ModularPipelines
 
-Define your pipeline in .NET! Strong types, intellisense, parallelisation, and the entire .NET ecosystem at your fingertips.
+**Write CI/CD pipelines in C#. Debug them locally. Ship with confidence.**
 
 [![nuget](https://img.shields.io/nuget/v/ModularPipelines.svg)](https://www.nuget.org/packages/ModularPipelines/)
 
 ![Nuget](https://img.shields.io/nuget/dt/ModularPipelines) ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/thomhurst/ModularPipelines/dotnet.yml) ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/thomhurst/ModularPipelines/main) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh\&utm_medium=referral\&utm_content=\&utm_campaign=Badge_grade) [![CodeFactor](https://www.codefactor.io/repository/github/thomhurst/modularpipelines/badge)](https://www.codefactor.io/repository/github/thomhurst/modularpipelines) ![License](https://img.shields.io/github/license/thomhurst/ModularPipelines) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/5f14420d97304b42a9e96861a4c0fec4)](https://app.codacy.com/gh/thomhurst/ModularPipelines/dashboard?utm_source=gh\&utm_medium=referral\&utm_content=\&utm_campaign=Badge_coverage) [![codecov](https://codecov.io/gh/thomhurst/ModularPipelines/graph/badge.svg?token=QC48Q6JOM4)](https://codecov.io/gh/thomhurst/ModularPipelines)
 
-## [Documentation](https://thomhurst.github.io/ModularPipelines)
+## The Problem with YAML Pipelines
 
-<https://thomhurst.github.io/ModularPipelines>
+You know the drill. You write some YAML, push it, wait for CI to start, watch it fail on a typo, fix it, push again, wait again. Repeat until you lose the will to live.
 
-## Features
+YAML pipelines are:
+- **Impossible to debug locally** - "Works on my machine" but fails mysteriously in CI
+- **No compile-time safety** - Typos in variable names? Enjoy your 10-minute feedback loop
+- **Copy-paste hell** - Reusing logic means duplicating YAML and hoping you update all the copies
+- **Vendor lock-in** - Switching from GitHub Actions to Azure Pipelines? Rewrite everything
 
-*   Parallel execution
-*   Dependency management
-*   Familiar C# code
-*   Ability to debug pipelines
-*   Ability to run pipelines locally, even creating versions for setting up local development
-*   Strong typing, where different modules/steps can pass data to one another
-*   Dependency collision detection - Don't worry about accidentally making two modules dependent on each other
-*   Numerous helpers to do things like: Search files, check checksums, (un)zip folders, download files, install files, execute CLI commands, hash data, and more
-*   Easy to Skip or Ignore Failures for each individual module by passing in custom logic
-*   Hooks that can run before and/or after modules
-*   Pipeline requirements - Validate your requirements are met before executing your pipeline, such as a Linux operating system
-*   Easy to use File and Folder classes, that can search, read, update, delete and more
-*   Source controlled pipelines
-*   Build agent agnostic - Can easily move to a different build system without completely recreating your pipeline
-*   No need to learn new syntaxes such as YAML defined pipelines
-*   Strongly typed wrappers around command line tools
-*   Utilise existing .NET libraries
-*   Secret obfuscation
-*   Grouped logging, and the ability to extend sources by adding to the familiar `ILogger`
-*   Run based on categories
-*   Easy to read exceptions
-*   Dynamic console progress reporting (if the console supports interactive mode)
-*   Pretty results table
+## The Solution
 
-## Available Modules
+ModularPipelines lets you write your CI/CD pipelines as regular C# code. That means:
+
+**Set a breakpoint. Step through your pipeline. Fix it before you push.**
+
+```csharp
+[DependsOn<BuildModule>]
+[DependsOn<TestModule>]
+public class PublishModule : Module<CommandResult>
+{
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        // This is real C#. Set a breakpoint. Inspect variables. Debug locally.
+        return await context.DotNet().Publish(new DotNetPublishOptions
+        {
+            Project = "src/MyApp/MyApp.csproj",
+            Configuration = Configuration.Release,
+            Output = "publish/"
+        }, cancellationToken);
+    }
+}
+```
+
+## Why Developers Choose ModularPipelines
+
+### Your IDE Actually Helps You
+Intellisense, refactoring, compile-time errors. Your pipeline code gets the same treatment as your application code. Rename a module? Your IDE updates all the references. Typo in an option? Red squiggle before you even save.
+
+### Run Locally, Push Confidently
+Test your entire pipeline on your machine before pushing. No more "let me push and see if it works" commits. Debug failures in your IDE instead of reading logs from a build agent.
+
+### Automatic Parallelization
+Modules declare their dependencies with attributes. ModularPipelines figures out what can run in parallel and maximizes throughput. No more manually orchestrating parallel jobs.
+
+### Switch Build Systems Without Rewriting
+Your pipeline logic lives in C#, not in vendor-specific YAML. Moving from GitHub Actions to Azure Pipelines to TeamCity? Change one line - your modules stay the same.
+
+### Full Dependency Injection
+Inject services, configuration, and secrets the same way you do in ASP.NET Core. Mock dependencies for testing. No more environment variable gymnastics.
+
+### Secrets Stay Secret
+Secrets are automatically obfuscated in logs. No more accidentally exposing API keys in build output.
+
+## [Full Documentation](https://thomhurst.github.io/ModularPipelines)
+
+## Quick Start
+
+```bash
+dotnet new console -n MyPipeline
+cd MyPipeline
+dotnet add package ModularPipelines
+```
+
+```csharp
+// Program.cs
+await PipelineHostBuilder.Create()
+    .AddModule<BuildModule>()
+    .AddModule<TestModule>()
+    .AddModule<PublishModule>()
+    .ExecutePipelineAsync();
+```
+
+```csharp
+// BuildModule.cs
+public class BuildModule : Module<CommandResult>
+{
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        return await context.DotNet().Build(new DotNetBuildOptions
+        {
+            Project = "MySolution.sln",
+            Configuration = Configuration.Release
+        }, cancellationToken);
+    }
+}
+```
+
+```csharp
+// TestModule.cs
+[DependsOn<BuildModule>]
+public class TestModule : Module<CommandResult>
+{
+    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
+    {
+        return await context.DotNet().Test(new DotNetTestOptions
+        {
+            Project = "MySolution.sln",
+            Configuration = Configuration.Release
+        }, cancellationToken);
+    }
+}
+```
+
+Run it:
+```bash
+dotnet run
+```
+
+That's it. No YAML. No waiting for CI. Just `dotnet run` and watch your pipeline execute.
+
+## Console Progress
+
+See exactly what's happening as your pipeline runs:
+
+![image](https://github.com/thomhurst/ModularPipelines/assets/30480171/7d85af1e-abfd-40c4-8ef6-5df06baa88d6)
+
+## Results
+
+Get a clear summary when your pipeline completes:
+
+<img width="444" alt="image" src="https://github.com/thomhurst/ModularPipelines/assets/30480171/8963e891-2c29-4382-9a3e-6ced4daf4d4b">
+
+## Integrations
+
+ModularPipelines has strongly-typed wrappers for the tools you already use:
 
 | Package | Description | Version |
 | --- | --- | --- |
@@ -63,96 +158,33 @@ Define your pipeline in .NET! Strong types, intellisense, parallelisation, and t
 | ModularPipelines.WinGet | Helpers for interacting with the Windows Package Manager. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.WinGet.svg)](https://www.nuget.org/packages/ModularPipelines.WinGet/) |
 | ModularPipelines.Yarn | Helpers for interacting with Yarn CLI. | [![nuget](https://img.shields.io/nuget/v/ModularPipelines.Yarn.svg)](https://www.nuget.org/packages/ModularPipelines.Yarn/) |
 
+## How Does This Compare to Cake / Nuke?
 
-## Getting Started
+| | ModularPipelines | Cake | Nuke |
+|---|---|---|---|
+| **Language** | Real C# | C# DSL (scripted) | Real C# |
+| **Parallelization** | Automatic based on dependencies | Manual | Manual |
+| **Architecture** | Separate module classes (SRP) | Single build script | Single build class |
+| **Dependency Injection** | Full Microsoft.Extensions.DI | Limited | Built-in but different |
+| **Setup** | `dotnet run` | Requires bootstrapper | Requires global tool |
+| **Module Communication** | Strongly-typed return values | Shared state | Parameters |
 
-If you want to see how to get started, or want to know more about ModularPipelines, [read the Documentation here](https://thomhurst.github.io/ModularPipelines)
+ModularPipelines takes a different approach: each unit of work is a self-contained module class. This keeps code organized, makes merge conflicts rare, and lets you test modules in isolation.
 
-## Console Progress
+## Features at a Glance
 
-![image](https://github.com/thomhurst/ModularPipelines/assets/30480171/7d85af1e-abfd-40c4-8ef6-5df06baa88d6)
+- **Parallel execution** - Automatic based on declared dependencies
+- **Dependency management** - Circular dependency detection built-in
+- **Strong typing** - Pass data between modules with compile-time safety
+- **Debug locally** - Set breakpoints, inspect variables, fix issues before pushing
+- **Build agent agnostic** - Same code runs on GitHub, Azure, TeamCity, or your laptop
+- **Secret obfuscation** - Automatic masking in logs
+- **Hooks** - Run code before/after any module
+- **Skip conditions** - Dynamically skip modules based on custom logic
+- **Requirements validation** - Check prerequisites before running
+- **Progress reporting** - Real-time console output with parallel execution visualization
+- **Source controlled** - Your pipeline is code, version it like code
 
-## Results
+## Breaking Changes
 
-<img width="444" alt="image" src="https://github.com/thomhurst/ModularPipelines/assets/30480171/8963e891-2c29-4382-9a3e-6ced4daf4d4b">
-
-## How does this compare to Cake / Nuke
-
-*   Strong types! You have complete control over what data, and what shape of data to pass around from and to different modules
-*   No external tooling is required. Pipelines are run with a simple `dotnet run`
-*   Full dependency injection support for your services
-*   Similar and familiar setup to frameworks like ASP.NET Core
-*   Real C# - Whereas frameworks like cake are a scripted form of C#
-*   Parallelism - Work will run concurrently unless it is dependent on something else
-*   The style of writing pipelines is very different - Work is organised into separate module classes, keeping code organised and more closely following SRP than having all your work in one main class. This also helps multiple contributors avoid things like merge conflicts
-
-## Code Examples
-
-### Program.cs - Main method
-
-```csharp
-await PipelineHostBuilder.Create()
-    .ConfigureAppConfiguration((context, builder) =>
-    {
-        builder.AddJsonFile("appsettings.json")
-            .AddUserSecrets<Program>()
-            .AddEnvironmentVariables();
-    })
-    .ConfigureServices((context, collection) =>
-    {
-        collection.Configure<NuGetSettings>(context.Configuration.GetSection("NuGet"));
-        collection.Configure<PublishSettings>(context.Configuration.GetSection("Publish"));
-        collection.AddSingleton<ISomeService1, SomeService1>();
-        collection.AddTransient<ISomeService2, SomeService2>();
-    })
-    .AddModule<FindNugetPackagesModule>()
-    .AddModule<UploadNugetPackagesModule>()
-    .ExecutePipelineAsync();
-```
-
-### Custom Modules
-
-```csharp
-public class FindNugetPackagesModule : Module<FileInfo>
-{
-    protected override Task<List<File>?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        return context.Git()
-            .RootDirectory
-            .GetFiles(path => path.Extension is ".nupkg")
-            .ToList()
-            .AsTask();
-    }
-}
-```
-
-```csharp
-[DependsOn<FindNugetPackagesModule>]
-public class UploadNugetPackagesModule : Module<FileInfo>
-{
-    private readonly IOptions<NuGetSettings> _nugetSettings;
-
-    public UploadNugetPackagesModule(IOptions<NuGetSettings> nugetSettings)
-    {
-        _nugetSettings = nugetSettings;
-    }
-
-    protected override async Task<CommandResult?> ExecuteAsync(IPipelineContext context, CancellationToken cancellationToken)
-    {
-        var nugetFiles = await GetModule<FindNugetPackagesModule>();
-
-        return await nugetFiles.Value!
-            .SelectAsync(async nugetFile => await context.DotNet().Nuget.Push(new DotNetNugetPushOptions
-            {
-                Path = nugetFile,
-                Source = "https://api.nuget.org/v3/index.json",
-                ApiKey = _nugetSettings.Value.ApiKey!,
-            }, cancellationToken), cancellationToken: cancellationToken)
-            .ProcessOneAtATime();
-    }
-}
-```
-
-### Breaking changes
-
-While I will try to limit breaking changes, there may be some changes within minor versions. These will be noted on release notes.
+While I aim to maintain stability, minor versions may include breaking changes. These will always be documented in release notes.
