@@ -28,7 +28,7 @@ namespace ModularPipelines.Console;
 /// </para>
 /// </remarks>
 [ExcludeFromCodeCoverage]
-internal class ProgressSession : IProgressSession
+internal class ProgressSession : IProgressSession, IProgressController
 {
     private readonly ConsoleCoordinator _coordinator;
     private readonly OrganizedModules _modules;
@@ -44,6 +44,10 @@ internal class ProgressSession : IProgressSession
     private readonly TaskCompletionSource _progressCompleted = new();
     private int _totalModuleCount;
     private int _completedModuleCount;
+
+    private readonly SemaphoreSlim _pauseLock = new(1, 1);
+    private bool _isPaused;
+    private TaskCompletionSource? _resumeSignal;
 
     public ProgressSession(
         ConsoleCoordinator coordinator,
@@ -309,6 +313,60 @@ internal class ProgressSession : IProgressSession
             }
         }, CancellationToken.None);
     }
+
+    #region IProgressController Implementation
+
+    /// <inheritdoc />
+    public bool IsInteractive => true;
+
+    /// <inheritdoc />
+    public async Task PauseAsync()
+    {
+        await _pauseLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (_isPaused)
+            {
+                return;
+            }
+
+            _isPaused = true;
+            _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            // Signal the progress loop to pause
+            // The loop will clear progress and wait for resume
+        }
+        finally
+        {
+            _pauseLock.Release();
+        }
+
+        // Wait a moment for progress to clear
+        await Task.Delay(50).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    public async Task ResumeAsync()
+    {
+        await _pauseLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (!_isPaused)
+            {
+                return;
+            }
+
+            _isPaused = false;
+            _resumeSignal?.TrySetResult();
+            _resumeSignal = null;
+        }
+        finally
+        {
+            _pauseLock.Release();
+        }
+    }
+
+    #endregion
 
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
