@@ -119,17 +119,18 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             var result = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
 
-            return await OnEnd(organizedModules, stopWatch, start, result).ConfigureAwait(false);
+            return await OnEnd(organizedModules, stopWatch, start, result, throwOnFailure: true).ConfigureAwait(false);
         }
         catch
         {
-            await OnEnd(organizedModules, stopWatch, start, null).ConfigureAwait(false);
+            // Don't throw PipelineFailedException here - we want to rethrow the original exception
+            await OnEnd(organizedModules, stopWatch, start, null, throwOnFailure: false).ConfigureAwait(false);
             throw;
         }
     }
 
     private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
-        PipelineSummary? pipelineSummary)
+        PipelineSummary? pipelineSummary, bool throwOnFailure)
     {
         var end = DateTimeOffset.UtcNow;
         pipelineSummary ??= _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end);
@@ -154,7 +155,8 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         }
 
         // Throw exception if pipeline failed - this ensures non-zero exit code in CI
-        if (pipelineSummary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
+        // Only throw when throwOnFailure is true (success path), not when handling an existing exception
+        if (throwOnFailure && pipelineSummary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
         {
             var failedModules = pipelineSummary.GetFailedModuleResults()
                 .Select(r => r.ModuleName)
