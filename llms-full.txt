@@ -1793,12 +1793,21 @@ Logging settings are resolved in this order (highest to lowest priority):
 
 ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET Core minimal API patterns. This guide covers all breaking changes and how to migrate your existing pipelines.
 
+> **TL;DR - The 6 biggest changes:**
+> 1. `PipelineHostBuilder.Create()` → `Pipeline.CreateBuilder(args)`
+> 2. `IPipelineContext` → `IModuleContext` in ExecuteAsync
+> 3. `GetModule<T>()` and `SubModule()` → now on `context` instead of module class
+> 4. Virtual overrides (Timeout, ShouldSkip) → `Configure()` fluent builder
+> 5. `WorkingDirectory`, `EnvironmentVariables` → now on `CommandExecutionOptions`
+> 6. Tool options constructors removed → use property initializers
+
 ## Quick Migration Checklist
 
 - [ ] Replace `PipelineHostBuilder.Create()` with `Pipeline.CreateBuilder(args)`
 - [ ] Replace callback-based configuration with direct property access
 - [ ] Change `IPipelineContext` to `IModuleContext` in `ExecuteAsync` signatures
 - [ ] Update `GetModule<T>()` calls to `context.GetModule<T>()` (method moved to context)
+- [ ] Update `SubModule()` calls to `context.SubModule()` (method moved to context)
 - [ ] Migrate virtual property overrides to `Configure()` builder
 - [ ] Update result access patterns to use pattern matching or `ValueOrDefault`
 - [ ] Move `WorkingDirectory`, `EnvironmentVariables`, etc. from tool options to `CommandExecutionOptions`
@@ -1806,6 +1815,45 @@ ModularPipelines V3 is a major release that modernizes the API to follow ASP.NET
 - [ ] Update `context.Command` to `context.Shell.Command`
 - [ ] Replace tool options constructors with property initializers (e.g., `new DotNetNewOptions { TemplateShortName = "x" }`)
 - [ ] Add `token:` named parameter when calling tool commands without `CommandExecutionOptions`
+
+## Table of Contents
+
+**What Still Works:**
+- [Unchanged Features](#unchanged-features)
+
+**Breaking Changes (in reading order):**
+1. [Entry Point Changes](#entry-point-changes) - `Pipeline.CreateBuilder(args)`
+2. [Module Behavior Changes](#module-behavior-changes) - `Configure()` builder
+3. [Context Parameter Change](#context-parameter-change) - `IModuleContext`
+4. [Command Execution Options](#command-execution-options) - Separated from tool options
+5. [Command Logging Configuration](#command-logging-configuration) - Verbosity levels
+6. [Getting Module Results](#getting-module-results) - Pattern matching
+7. [Sub-Module Changes](#sub-module-changes) - Moved to context
+8. [Tool Options Classes Regenerated](#tool-options-classes-regenerated) - No constructors
+9. [Shell and Command Execution](#shell-and-command-execution) - `context.Shell.Command`
+10. [Git and Tool Command Signatures](#git-and-tool-command-signatures) - Optional parameters
+11. [Async Configuration Methods](#async-configuration-methods) - Unified sync/async
+12. [Deleted Types and Members](#deleted-types-and-members)
+
+**Reference:**
+- [New Features in V3](#new-features-in-v3)
+- [Complete Migration Example](#complete-migration-example)
+- [Breaking API Reference](#breaking-api-reference) - Summary table
+- [LLM/AI Migration Reference](#llmai-migration-reference) - For AI assistants
+
+## Unchanged Features
+
+The following features work the same in V3 as they did in V2. **These have NOT been removed:**
+
+- **Hooks**: Global pipeline hooks via `IHook<T>` interfaces remain unchanged
+- **Requirements**: `IPipelineRequirement` for validating prerequisites
+- **Secrets**: Secret registration and obfuscation via `AddSecret()`
+- **Categories and Tags**: Module organization with `[ModuleCategory]` and `[ModuleTag]`
+- **DependsOn Attributes**: `[DependsOn<TModule>]` for declaring dependencies
+- **Module Logger**: `context.Logger` for logging within modules
+- **File System Operations**: `context.FileSystem` for file operations
+- **Git Information**: `context.Git().Information` for repository info
+- **Sub-Modules**: Still fully supported, but API changed (see [Sub-Module Changes](#sub-module-changes) below)
 
 ## Entry Point Changes
 
@@ -2369,15 +2417,77 @@ if (buildResult.IsSkipped)
 | Get value | `result.Value` | `result.ValueOrDefault` or pattern match |
 | Get exception | `result.Exception` | `result.ExceptionOrDefault` or pattern match |
 
-## Unchanged Features
+## Sub-Module Changes
 
-The following features work the same in V3 as they did in V2:
+Sub-modules have moved from being a protected method on the module class to being on the context, similar to `GetModule`.
 
-- **Sub-Modules**: Both `context.SubModule<T>(name, action)` (returns value) and `context.SubModule(name, action)` (no return) are fully supported. Use sub-modules to track iterations within a module (e.g., packing multiple NuGet packages). See [Sub-Modules documentation](/docs/how-to/sub-modules).
-- **Hooks**: Global pipeline hooks via `IHook<T>` interfaces remain unchanged
-- **Requirements**: `IPipelineRequirement` for validating prerequisites
-- **Secrets**: Secret registration and obfuscation via `AddSecret()`
-- **Categories and Tags**: Module organization with `[ModuleCategory]` and `[ModuleTag]`
+### Before (V2)
+
+```csharp
+public class PackageModule : Module<PackageResult>
+{
+    protected override async Task<PackageResult?> ExecuteAsync(
+        IPipelineContext context, CancellationToken cancellationToken)
+    {
+        var packages = new[] { "Package1", "Package2", "Package3" };
+
+        foreach (var package in packages)
+        {
+            // Protected method on module class
+            await SubModule(package, async () =>
+            {
+                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+            });
+        }
+
+        return new PackageResult(packages.Length);
+    }
+}
+```
+
+### After (V3)
+
+```csharp
+public class PackageModule : Module<PackageResult>
+{
+    protected override async Task<PackageResult?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        var packages = new[] { "Package1", "Package2", "Package3" };
+
+        foreach (var package in packages)
+        {
+            // Method moved to context
+            await context.SubModule(package, async () =>
+            {
+                await context.DotNet().Pack(new DotNetPackOptions { Project = package });
+            });
+        }
+
+        return new PackageResult(packages.Length);
+    }
+}
+```
+
+### With Return Value
+
+```csharp
+// V2: await SubModule<T>(name, func)
+// V3: await context.SubModule<T>(name, func)
+
+var result = await context.SubModule<string>("ProcessItem", async () =>
+{
+    // Process and return value
+    return "processed";
+});
+```
+
+### Key Change
+
+| V2 | V3 |
+|----|-----|
+| `await SubModule(name, action)` (protected method) | `await context.SubModule(name, action)` |
+| `await SubModule<T>(name, func)` (protected method) | `await context.SubModule<T>(name, func)` |
 
 ## Tool Options Classes Regenerated
 
@@ -2862,6 +2972,7 @@ public class DeployModule : Module<bool>
 | `.ConfigurePipelineOptions(...)` | `builder.Options` | Direct access |
 | `IPipelineContext` | `IModuleContext` | In ExecuteAsync signature |
 | `GetModule<T>()` | `context.GetModule<T>()` | Method moved to context |
+| `SubModule()` | `context.SubModule()` | Method moved to context |
 | `result.Value` | `result.ValueOrDefault` | Or use pattern matching |
 | `result.ModuleResultType` | `result.IsSuccess/IsFailure/IsSkipped` | Or pattern match |
 | `ShouldSkip()` override | `Configure().WithSkipWhen()` | Fluent builder |
@@ -2878,6 +2989,18 @@ public class DeployModule : Module<bool>
 ## LLM/AI Migration Reference
 
 This section provides structured data optimized for AI assistants helping with code migration.
+
+> **IMPORTANT FOR AI ASSISTANTS:**
+> - **SubModule API changed**: `SubModule()` moved from module class to `context.SubModule()`
+> - **GetModule API changed**: `GetModule<T>()` moved from module class to `context.GetModule<T>()`
+>
+> **Unchanged features** (still work the same):
+> - `[DependsOn<TModule>]` attributes
+> - `IHook<T>` interfaces
+> - `IPipelineRequirement`
+> - `context.Logger`
+> - `context.FileSystem`
+> - `context.Git().Information`
 
 ### Complete API Transformation Map
 
@@ -2906,6 +3029,15 @@ This section provides structured data optimized for AI assistants helping with c
 # Module Result Access
 - old: "await GetModule<TModule>()"
   new: "await context.GetModule<TModule>()"
+
+# Sub-Module Access
+- old: "await SubModule(name, action)"
+  new: "await context.SubModule(name, action)"
+  note: "Protected method moved to context"
+
+- old: "await SubModule<T>(name, func)"
+  new: "await context.SubModule<T>(name, func)"
+  note: "Protected method moved to context"
 
 - old: "result.Value"
   new: "result.ValueOrDefault"
@@ -3020,6 +3152,7 @@ This section provides structured data optimized for AI assistants helping with c
 | `CS0246: 'PipelineHostBuilder' could not be found` | Class renamed | Change to `Pipeline.CreateBuilder(args)` |
 | `CS0246: 'IPipelineContext' could not be found` | Interface renamed | Change to `IModuleContext` |
 | `CS1061: 'Module' does not contain 'GetModule'` | Method moved | Change `GetModule<T>()` to `context.GetModule<T>()` |
+| `CS1061: 'Module' does not contain 'SubModule'` | Method moved | Change `SubModule()` to `context.SubModule()` |
 | `CS0117: 'ModuleResult' does not contain 'Value'` | Property renamed | Change `.Value` to `.ValueOrDefault` |
 | `CS0117: 'ModuleResult' does not contain 'Exception'` | Property renamed | Change `.Exception` to `.ExceptionOrDefault` |
 | `CS0115: 'ShouldSkip': no suitable method found to override` | Method removed | Use `Configure().WithSkipWhen()` instead |
@@ -3044,6 +3177,12 @@ s/IPipelineContext\s+context/IModuleContext context/g
 # GetModule calls
 s/await\s+GetModule<(\w+)>\(\)/await context.GetModule<$1>()/g
 s/GetModule<(\w+)>\(\)/context.GetModule<$1>()/g
+
+# SubModule calls
+s/await\s+SubModule<(\w+)>\(/await context.SubModule<$1>(/g
+s/await\s+SubModule\(/await context.SubModule(/g
+s/SubModule<(\w+)>\(/context.SubModule<$1>(/g
+s/SubModule\(/context.SubModule(/g
 
 # Result property access
 s/\.Value(?![a-zA-Z])/\.ValueOrDefault/g
