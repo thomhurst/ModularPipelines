@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.ExceptionServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Enums;
@@ -115,34 +116,59 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         var start = DateTimeOffset.UtcNow;
         var stopWatch = Stopwatch.StartNew();
 
+        // Step 1: Execute pipeline, capture any exception (don't rethrow yet)
+        PipelineSummary? summary = null;
+        Exception? caughtException = null;
         try
         {
-            var result = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
-
-            return await OnEnd(organizedModules, stopWatch, start, result, throwOnFailure: true).ConfigureAwait(false);
+            summary = await ExecutePipeline(runnableModules, organizedModules).ConfigureAwait(false);
         }
-        catch
+        catch (Exception ex)
         {
-            // Don't throw PipelineFailedException here - we want to rethrow the original exception
-            await OnEnd(organizedModules, stopWatch, start, null, throwOnFailure: false).ConfigureAwait(false);
-            throw;
+            caughtException = ex;
         }
+
+        // Step 2: Always print summary (exactly once)
+        summary = await PrintSummary(organizedModules, stopWatch, start, summary).ConfigureAwait(false);
+
+        // Step 3: Handle exceptions - rethrow original if present, otherwise check for pipeline failure
+        if (caughtException != null)
+        {
+            ExceptionDispatchInfo.Capture(caughtException).Throw();
+        }
+
+        if (summary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
+        {
+            var failedModules = summary.GetFailedModuleResults()
+                .Select(r => r.ModuleName)
+                .ToList();
+
+            throw new PipelineFailedException(summary, failedModules);
+        }
+
+        return summary;
     }
 
-    private async Task<PipelineSummary> OnEnd(OrganizedModules organizedModules, Stopwatch stopWatch, DateTimeOffset start,
-        PipelineSummary? pipelineSummary, bool throwOnFailure)
+    /// <summary>
+    /// Prints the pipeline summary and flushes output. Does not throw exceptions.
+    /// </summary>
+    private async Task<PipelineSummary> PrintSummary(
+        OrganizedModules organizedModules,
+        Stopwatch stopWatch,
+        DateTimeOffset start,
+        PipelineSummary? existingSummary)
     {
         var end = DateTimeOffset.UtcNow;
-        pipelineSummary ??= _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end);
+        var summary = existingSummary ?? _pipelineSummaryFactory.Create(organizedModules.AllModules, stopWatch.Elapsed, start, end);
 
-        _outputCoordinator.PrintResults(pipelineSummary);
+        _outputCoordinator.PrintResults(summary);
 
         await System.Console.Out.FlushAsync().ConfigureAwait(false);
 
         // Flush any buffered exceptions after the results table has been printed
         _outputCoordinator.FlushExceptions();
 
-        // Check for original exception before logging cancellation reason
+        // Log cancellation/failure info (informational only)
         if (_engineCancellationToken.OriginalException != null)
         {
             _logger.LogInformation("Pipeline Failed: {ExceptionType}",
@@ -154,18 +180,7 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
                 _engineCancellationToken.Reason);
         }
 
-        // Throw exception if pipeline failed - this ensures non-zero exit code in CI
-        // Only throw when throwOnFailure is true (success path), not when handling an existing exception
-        if (throwOnFailure && pipelineSummary.Status == Status.Failed && _options.Value.ThrowOnPipelineFailure)
-        {
-            var failedModules = pipelineSummary.GetFailedModuleResults()
-                .Select(r => r.ModuleName)
-                .ToList();
-
-            throw new PipelineFailedException(pipelineSummary, failedModules);
-        }
-
-        return pipelineSummary;
+        return summary;
     }
 
     private async Task<PipelineSummary> ExecutePipeline(List<IModule> runnableModules, OrganizedModules organizedModules)
