@@ -60,6 +60,40 @@ Inject services, configuration, and secrets the same way you do in ASP.NET Core.
 ### Secrets Stay Secret
 Secrets are automatically obfuscated in logs. No more accidentally exposing API keys in build output.
 
+### Modules Share Data
+Modules return strongly-typed results that other modules can consume. No shared mutable state - just clean data flow.
+
+```csharp
+// BuildModule returns version info
+public class BuildModule : Module<BuildInfo>
+{
+    protected override async Task<BuildInfo?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        await context.DotNet().Build(new DotNetBuildOptions { Project = "MyApp.csproj" }, cancellationToken);
+        return new BuildInfo { Version = "1.0.0", OutputPath = "bin/Release" };
+    }
+}
+
+// PublishModule retrieves and uses it
+[DependsOn<BuildModule>]
+public class PublishModule : Module
+{
+    protected override async Task ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+    {
+        var buildResult = await GetModule<BuildModule>();
+        var outputPath = buildResult.Value!.OutputPath; // Strongly-typed, compile-time checked
+        // Publish using the build output...
+    }
+}
+```
+
+### Catch Mistakes at Compile Time
+Built-in Roslyn analyzers catch common mistakes before you even run:
+- Missing `[DependsOn]` when calling `GetModule<T>()`
+- Circular dependencies between modules
+- Forgetting to `await` module results
+- Using `Console.Write` instead of the logging system
+
 ## [Full Documentation](https://thomhurst.github.io/ModularPipelines)
 
 ## Quick Start
@@ -151,6 +185,9 @@ ModularPipelines takes a different approach: each unit of work is a self-contain
 ## Features at a Glance
 
 - **Parallel execution** - Automatic based on declared dependencies
+- **Module data sharing** - Strongly-typed results flow between modules
+- **Roslyn analyzers** - Catch mistakes at compile time, not runtime
+- **Conditional dependencies** - `DependsOnIf<T>()` for dynamic dependency graphs
 - **Dependency management** - Circular dependency detection built-in
 - **Strong typing** - Pass data between modules with compile-time safety
 - **Debug locally** - Set breakpoints, inspect variables, fix issues before pushing
@@ -158,6 +195,7 @@ ModularPipelines takes a different approach: each unit of work is a self-contain
 - **Secret obfuscation** - Automatic masking in logs
 - **Hooks** - Run code before/after any module
 - **Skip conditions** - Dynamically skip modules based on custom logic
+- **Retry policies** - Configurable retry with Polly integration
 - **Requirements validation** - Check prerequisites before running
 - **Progress reporting** - Real-time console output with parallel execution visualization
 - **Source controlled** - Your pipeline is code, version it like code
