@@ -477,7 +477,7 @@ public class DeployModule : Module
     protected override async Task ExecuteModuleAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.Command.ExecuteCommandLineTool(...);
+        await context.Shell.Command.ExecuteCommandLineTool(...);
         // No return statement needed
     }
 }

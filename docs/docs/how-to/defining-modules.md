@@ -15,8 +15,8 @@ public class FindAFileModule : Module<FileInfo>
     protected override async Task<FileInfo?> ExecuteAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        return context.FileSystem
-            .GetFiles("C:\\", SearchOption.AllDirectories, file => file.Name == "MyJsonFile.json")
+        return context.Files
+            .Glob("C:\\**\\MyJsonFile.json")
             .Single();
     }
 }
@@ -32,7 +32,8 @@ public class CleanupModule : Module
     protected override async Task ExecuteModuleAsync(
         IModuleContext context, CancellationToken cancellationToken)
     {
-        await context.FileSystem.DeleteDirectoryAsync("./temp");
+        var folder = context.Files.GetFolder("./temp");
+        folder.Delete();
         // No return statement needed
     }
 }
