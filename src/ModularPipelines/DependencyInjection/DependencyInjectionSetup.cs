@@ -78,6 +78,34 @@ internal static class DependencyInjectionSetup
 
                 builder.AddSpectreConsole(config =>
                 {
+                    // Configure output templates without timestamps
+                    // Command logging already includes precise timestamps ([HH:mm:ss.fff])
+                    // so we don't need them from the logger as well
+                    config.ConfigureProfile(LogLevel.Trace, profile =>
+                    {
+                        profile.OutputTemplate = "[grey][[Trace]][/] {Message}{NewLine}{Exception}";
+                    });
+                    config.ConfigureProfile(LogLevel.Debug, profile =>
+                    {
+                        profile.OutputTemplate = "[grey][[Debug]][/] {Message}{NewLine}{Exception}";
+                    });
+                    config.ConfigureProfile(LogLevel.Information, profile =>
+                    {
+                        profile.OutputTemplate = "[deepskyblue1][[Info]][/] {Message}{NewLine}{Exception}";
+                    });
+                    config.ConfigureProfile(LogLevel.Warning, profile =>
+                    {
+                        profile.OutputTemplate = "[yellow][[Warn]][/] {Message}{NewLine}{Exception}";
+                    });
+                    config.ConfigureProfile(LogLevel.Error, profile =>
+                    {
+                        profile.OutputTemplate = "[red][[Error]][/] {Message}{NewLine}{Exception}";
+                    });
+                    config.ConfigureProfile(LogLevel.Critical, profile =>
+                    {
+                        profile.OutputTemplate = "[white on red][[Critical]][/] {Message}{NewLine}{Exception}";
+                    });
+
                     config.ConfigureProfiles(profile =>
                     {
                         // Enable Spectre.Console markup rendering in log messages
