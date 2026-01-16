@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Enums;
 using ModularPipelines.Exceptions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Models;
@@ -145,6 +146,16 @@ internal class ExecutionOrchestrator : IExecutionOrchestrator
         {
             _logger.LogInformation("Cancellation: {Reason}",
                 _engineCancellationToken.Reason);
+        }
+
+        // Throw exception if pipeline failed - this ensures non-zero exit code in CI
+        if (pipelineSummary.Status == Status.Failed)
+        {
+            var failedModules = pipelineSummary.GetFailedModuleResults()
+                .Select(r => r.ModuleType.Name)
+                .ToList();
+
+            throw new PipelineFailedException(pipelineSummary, failedModules);
         }
 
         return pipelineSummary;
