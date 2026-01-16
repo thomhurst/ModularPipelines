@@ -67,9 +67,7 @@ public class EngineCancellationTokenTests : TestBase
 
         await Assert.That(async () => await host.ExecutePipelineAsync()).ThrowsException();
 
-        // Allow time for all module results to be finalized after pipeline termination
-        await Task.Delay(TimeSpan.FromSeconds(1));
-
+        // Results should be registered before the exception is thrown, no delay needed
         var module1Result = resultRegistry.GetResult(typeof(Module1));
         // Module1 depends on BadModule which failed, so Module1 should be marked as PipelineTerminated
         await Assert.That(module1Result).IsNotNull();

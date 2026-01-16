@@ -129,7 +129,17 @@ internal class ModuleExecutor : IModuleExecutor
             EnsureCancellation(cancellationTokenSource);
         }
 
-        await schedulerTask.ConfigureAwait(false);
+        try
+        {
+            await schedulerTask.ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (firstException != null)
+        {
+            // Expected when cancellation was triggered due to module failure.
+            // The scheduler throws OperationCanceledException from WaitForNextSchedulingOpportunity
+            // when the cancellation token is cancelled.
+            _logger.LogDebug("Scheduler cancelled due to module failure");
+        }
 
         _logger.LogDebug("All modules completed");
 
