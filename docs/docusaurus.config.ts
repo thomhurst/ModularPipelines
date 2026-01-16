@@ -7,6 +7,18 @@ const config: Config = {
   tagline: 'Build your pipelines in C#!',
   favicon: 'img/favicon.ico',
 
+  plugins: [
+    [
+      'docusaurus-plugin-llms',
+      {
+        generateLLMsTxt: true,
+        generateLLMsFullTxt: true,
+        title: 'Modular Pipelines Documentation',
+        description: 'Documentation for ModularPipelines - a C# framework for building modular, testable CI/CD pipelines with dependency injection support.',
+      },
+    ],
+  ],
+
   // Set the production url of your site here
   url: 'https://thomhurst.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
