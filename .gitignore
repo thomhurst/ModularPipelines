@@ -403,5 +403,3 @@ requirements
 # Git worktrees directory
 .worktrees/
 docs/plans/
-# Git worktrees
-.worktrees/

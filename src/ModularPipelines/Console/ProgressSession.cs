@@ -115,8 +115,26 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                         if (resumeSignal != null)
                         {
-                            // Wait for resume signal
-                            await resumeSignal.Task.ConfigureAwait(false);
+                            // Wait for resume signal with timeout to prevent stuck UI
+                            // If output takes longer than 60 seconds, auto-resume to prevent indefinite pause
+                            var timeoutTask = Task.Delay(TimeSpan.FromSeconds(60), CancellationToken.None);
+                            var completedTask = await Task.WhenAny(resumeSignal.Task, timeoutTask).ConfigureAwait(false);
+
+                            if (completedTask == timeoutTask)
+                            {
+                                // Timeout - force resume to prevent stuck state
+                                await _pauseLock.WaitAsync().ConfigureAwait(false);
+                                try
+                                {
+                                    _isPaused = false;
+                                    _resumeSignal?.TrySetResult();
+                                    _resumeSignal = null;
+                                }
+                                finally
+                                {
+                                    _pauseLock.Release();
+                                }
+                            }
                         }
 
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);

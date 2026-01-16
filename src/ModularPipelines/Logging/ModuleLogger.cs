@@ -93,7 +93,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     ~ModuleLogger()
     {
-        Dispose();
+        Dispose(disposing: false);
     }
 
     public override IDisposable? BeginScope<TState>(TState state)
@@ -129,6 +129,12 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void Dispose()
     {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
         lock (_disposeLock)
         {
             if (_isDisposed)
@@ -143,30 +149,34 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 _buffer.SetException(_exception);
             }
 
-            // Flush output immediately instead of just marking completed
-            // This blocks until the output is written, with a timeout to prevent deadlocks
-            try
+            // Only perform blocking flush when called from Dispose(), not from finalizer
+            // Blocking in a finalizer can cause deadlocks and violates .NET best practices
+            if (disposing)
             {
-                var flushTask = _outputCoordinator.EnqueueAndFlushAsync(_buffer);
-
-                // Wait with timeout to prevent potential deadlocks
-                // 30 seconds should be more than enough for any reasonable output
-                if (!flushTask.Wait(TimeSpan.FromSeconds(30)))
+                // Flush output immediately instead of just marking completed
+                // This blocks until the output is written, with a timeout to prevent deadlocks
+                try
                 {
-                    // Timeout - output may be lost, but we can't block forever
-                    // This is a last resort safety measure
+                    var flushTask = _outputCoordinator.EnqueueAndFlushAsync(_buffer);
+
+                    // Wait with timeout to prevent potential deadlocks
+                    // 5 seconds should be enough for any reasonable output
+                    // Use a shorter timeout to avoid blocking shutdown
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                    flushTask.Wait(cts.Token);
+                }
+                catch (AggregateException)
+                {
+                    // Best effort - don't fail disposal
+                }
+                catch (OperationCanceledException)
+                {
+                    // Timeout or cancellation during shutdown is expected
                 }
             }
-            catch (AggregateException)
-            {
-                // Best effort - don't fail disposal
-            }
-            catch (OperationCanceledException)
-            {
-                // Cancellation during shutdown is expected
-            }
 
-            GC.SuppressFinalize(this);
+            // If called from finalizer (disposing=false), output may be lost
+            // but this is acceptable as proper disposal should have been called
         }
     }
 
