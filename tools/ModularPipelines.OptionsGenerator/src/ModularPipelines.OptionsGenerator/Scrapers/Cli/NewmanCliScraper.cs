@@ -39,11 +39,18 @@ public partial class NewmanCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Newman";
 
     /// <summary>
-    /// Skip utility commands.
+    /// Newman is a single-level CLI (newman [command] [options]), not multi-level.
+    /// Limit depth to prevent infinite recursion from help text parsing.
+    /// </summary>
+    protected override int MaxCommandDepth => 2; // newman + command = 2
+
+    /// <summary>
+    /// Skip utility commands and prevent recursive loops (e.g., "newman" appearing in examples).
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "--help", "-h", "--version", "help", "version"
+        "--help", "-h", "--version", "help", "version",
+        "newman" // Prevent extracting tool name from example lines in help output
     };
 
     /// <summary>

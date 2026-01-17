@@ -45,6 +45,12 @@ public partial class FlywayCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Flyway";
 
     /// <summary>
+    /// Flyway is a single-level CLI (flyway [options] command), not multi-level.
+    /// Limit depth to prevent the scraper from treating repeated help output as nested subcommands.
+    /// </summary>
+    protected override int MaxCommandDepth => 2; // flyway + command = 2
+
+    /// <summary>
     /// Skip utility commands.
     /// </summary>
     protected override IReadOnlySet<string> AdditionalSkipSubcommands => new HashSet<string>(StringComparer.OrdinalIgnoreCase)

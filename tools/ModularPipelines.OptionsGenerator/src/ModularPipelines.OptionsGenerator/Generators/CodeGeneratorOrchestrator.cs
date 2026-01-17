@@ -426,12 +426,21 @@ public class CodeGeneratorOrchestrator
 
     /// <summary>
     /// Checks if a file name matches the given namespace prefix.
-    /// Handles special cases like "Extensions" suffix (e.g., "DockerExtensions.cs" matches "Docker").
+    /// Handles special cases like "Extensions" suffix (e.g., "DockerExtensions.cs" matches "Docker")
+    /// and interface naming (e.g., "IDocker.cs" matches "Docker").
     /// </summary>
     private static bool FileMatchesNamespacePrefix(string fileName, string namespacePrefix)
     {
         // Direct prefix match (e.g., "HelmInstallOptions.Generated.cs" matches "Helm")
         if (fileName.StartsWith(namespacePrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        // Check for interface naming pattern (e.g., "IDocker.cs" or "IDocker.Generated.cs" should match "Docker")
+        // The generator creates I{Prefix}.Generated.cs files
+        var interfaceName = $"I{namespacePrefix}";
+        if (fileName.StartsWith(interfaceName, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

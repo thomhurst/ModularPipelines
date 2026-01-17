@@ -75,6 +75,13 @@ public abstract partial class CliScraperBase : ICliScraper
     protected virtual bool SkipExperimentalCommands => false;
 
     /// <summary>
+    /// Maximum depth for command path exploration.
+    /// Prevents infinite loops from malformed help text or regex issues.
+    /// Defaults to 10 levels deep (e.g., "tool a b c d e f g h i j").
+    /// </summary>
+    protected virtual int MaxCommandDepth => 10;
+
+    /// <summary>
     /// Additional subcommand names to skip (case-insensitive).
     /// Override to add CLI-specific skip patterns.
     /// </summary>
@@ -258,6 +265,14 @@ public abstract partial class CliScraperBase : ICliScraper
         WorkCoordinator coordinator,
         CancellationToken cancellationToken)
     {
+        // Safety check: prevent infinite loops by limiting command depth
+        if (path.Length > MaxCommandDepth)
+        {
+            Logger.LogWarning("Skipping command path that exceeds max depth ({MaxDepth}): {Path}",
+                MaxCommandDepth, string.Join(" ", path));
+            return;
+        }
+
         var helpText = await GetHelpTextAsync(path, cancellationToken);
         if (string.IsNullOrEmpty(helpText))
         {

@@ -311,11 +311,17 @@ public static partial class GeneratorUtils
     /// Generates a C# method name from CLI command parts.
     /// Converts command parts to PascalCase method name.
     /// E.g., ["container", "create"] -> "ContainerCreate", ["build-server"] -> "BuildServer"
+    /// Returns "Execute" for empty command parts (single-command tools like ansible).
     /// </summary>
     /// <param name="commandParts">The command parts array.</param>
-    /// <returns>The method name in PascalCase.</returns>
+    /// <returns>The method name in PascalCase, or "Execute" if command parts is empty.</returns>
     public static string GenerateMethodNameFromCommandParts(string[] commandParts)
     {
+        if (commandParts.Length == 0)
+        {
+            return "Execute";
+        }
+
         return string.Join("", commandParts
             .SelectMany(p => p.Split('-', StringSplitOptions.RemoveEmptyEntries))
             .Select(p => char.ToUpperInvariant(p[0]) + (p.Length > 1 ? p[1..].ToLowerInvariant() : "")));
