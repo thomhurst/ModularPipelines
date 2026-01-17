@@ -35,6 +35,38 @@ public partial class JqCliScraper : CliScraperBase
     public override string OutputDirectory => "src/ModularPipelines.Jq";
 
     /// <summary>
+    /// jq uses -h instead of --help for help text.
+    /// </summary>
+    protected override async Task<string?> GetHelpTextAsync(
+        string[] commandPath,
+        CancellationToken cancellationToken)
+    {
+        var cacheKey = string.Join(" ", commandPath);
+
+        if (HelpCache.TryGet(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        // jq uses -h instead of --help
+        var result = await Executor.ExecuteAsync(ToolName, "-h", cancellationToken);
+
+        // jq outputs help to stderr
+        var helpText = !string.IsNullOrEmpty(result.StandardOutput)
+            ? result.StandardOutput
+            : result.StandardError;
+
+        if (!string.IsNullOrWhiteSpace(helpText))
+        {
+            HelpCache.Set(cacheKey, helpText);
+            return helpText;
+        }
+
+        Logger.LogWarning("No help text for command: {Command}", cacheKey);
+        return null;
+    }
+
+    /// <summary>
     /// jq doesn't have subcommands.
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)

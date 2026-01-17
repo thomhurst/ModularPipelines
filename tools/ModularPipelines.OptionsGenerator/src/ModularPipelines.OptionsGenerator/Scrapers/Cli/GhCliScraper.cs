@@ -114,8 +114,9 @@ public partial class GhCliScraper : CobraCliScraper
 
     /// <summary>
     /// Matches COMMANDS section headers (but NOT HELP TOPICS or other non-command sections).
+    /// Includes AVAILABLE COMMANDS which is used in newer gh versions and subcommand help.
     /// </summary>
-    [GeneratedRegex(@"^(?:CORE|ADDITIONAL|GITHUB\s+ACTIONS|ALIAS)\s+COMMANDS\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"^(?:CORE|ADDITIONAL|GITHUB\s+ACTIONS|ALIAS|AVAILABLE)\s+COMMANDS\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase)]
     private static partial Regex GhCommandsSectionPattern();
 
     /// <summary>

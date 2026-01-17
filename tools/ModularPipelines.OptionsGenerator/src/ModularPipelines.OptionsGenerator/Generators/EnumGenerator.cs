@@ -68,7 +68,9 @@ public class EnumGenerator : ICodeGenerator
             }
 
             // Add Description attribute with the CLI value for serialization
-            sb.AppendLine($"    [Description(\"{value.CliValue}\")]");
+            // Escape special characters in the CLI value for use in string literal
+            var escapedCliValue = EscapeStringLiteral(value.CliValue);
+            sb.AppendLine($"    [Description(\"{escapedCliValue}\")]");
             sb.AppendLine($"    {value.MemberName}{(isLast ? "" : ",")}");
 
             if (!isLast)
@@ -82,4 +84,22 @@ public class EnumGenerator : ICodeGenerator
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Escapes a string for use in a C# string literal.
+    /// Handles newlines, carriage returns, tabs, backslashes, and quotes.
+    /// </summary>
+    private static string EscapeStringLiteral(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        return value
+            .Replace("\\", "\\\\")
+            .Replace("\"", "\\\"")
+            .Replace("\r", "\\r")
+            .Replace("\n", "\\n")
+            .Replace("\t", "\\t");
+    }
 }

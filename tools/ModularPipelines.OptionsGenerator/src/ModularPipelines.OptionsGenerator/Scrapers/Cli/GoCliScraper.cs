@@ -391,9 +391,10 @@ public partial class GoCliScraper : CliScraperBase
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
-    /// Matches command lines: "        build       compile packages..."
+    /// Matches command lines: "	build       compile packages..."
+    /// Go uses tabs for indentation, so we match either a tab or 4+ spaces.
     /// </summary>
-    [GeneratedRegex(@"^\s{4,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?:\t|\s{4,})(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
     private static partial Regex CommandLinePattern();
 
     /// <summary>

@@ -143,6 +143,7 @@ public static partial class GeneratorUtils
     /// <summary>
     /// Converts a string to PascalCase.
     /// Handles kebab-case, snake_case, and space-separated words.
+    /// Ensures the result is a valid C# identifier (starts with a letter).
     /// </summary>
     public static string ToPascalCase(string input)
     {
@@ -170,7 +171,16 @@ public static partial class GeneratorUtils
             }
         }
 
-        return sb.ToString();
+        var result = sb.ToString();
+
+        // Ensure the result is a valid C# identifier (must start with a letter)
+        // Handles cases like "9p" (filesystem protocol) -> "Value9p"
+        if (result.Length > 0 && !char.IsLetter(result[0]))
+        {
+            result = "Value" + result;
+        }
+
+        return result;
     }
 
     [GeneratedRegex(@"[-_\s]+")]

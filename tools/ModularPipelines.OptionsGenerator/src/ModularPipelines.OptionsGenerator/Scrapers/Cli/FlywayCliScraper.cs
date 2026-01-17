@@ -239,8 +239,9 @@ public partial class FlywayCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches "Commands" section header.
+    /// Also matches "Available Commands:" format used in newer flyway versions.
     /// </summary>
-    [GeneratedRegex(@"Commands\s*[-=]*\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:Available\s+)?Commands?\s*[-=:]*\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex FlywayCommandsSectionPattern();
 
     /// <summary>
@@ -257,8 +258,9 @@ public partial class FlywayCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches Flyway command lines: "migrate  : Migrates the database"
+    /// Also matches "  migrate         Migrates the database" format (no colon).
     /// </summary>
-    [GeneratedRegex(@"^(?<command>[\w-]+)\s+:\s+", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^(?:\s*)(?<command>[\w-]+)(?:\s+:\s+|\s{2,})", RegexOptions.Multiline)]
     private static partial Regex FlywayCommandLinePattern();
 
     /// <summary>

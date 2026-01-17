@@ -313,9 +313,10 @@ public partial class SnykCliScraper : CliScraperBase
     #region Regex Patterns
 
     /// <summary>
-    /// Matches "Commands:" section header.
+    /// Matches "Commands:" or "Available commands:" section header.
+    /// Newer versions of snyk use "Available commands" format.
     /// </summary>
-    [GeneratedRegex(@"Commands?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:Available\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>
