@@ -47,6 +47,7 @@ public record PodmanLoginOptions : PodmanOptions
     /// <summary>
     /// Password for registry
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
@@ -59,6 +60,7 @@ public record PodmanLoginOptions : PodmanOptions
     /// <summary>
     /// Retrieve password from a podman secret
     /// </summary>
+    [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public string? Secret { get; set; }
 
