@@ -8,17 +8,13 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
-/// <summary>
-/// Base options class for dotnet CLI commands.
-/// Contains global flags that apply to all commands.
-/// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("dotnet")]
-public abstract record DotNetOptions : CommandLineToolOptions
+[CliSubCommand("nuget", "disable")]
+public record DotNetNugetDisableOptions : DotNetOptions
 {
 }

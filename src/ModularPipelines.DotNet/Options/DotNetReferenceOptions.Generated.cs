@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Base options class for dotnet CLI commands.
-/// Contains global flags that apply to all commands.
+/// .NET Remove Command
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("dotnet")]
-public abstract record DotNetOptions : CommandLineToolOptions
+[CliSubCommand("reference")]
+public record DotNetReferenceOptions : DotNetOptions
 {
+    /// <summary>
+    /// The project file to operate on. If a file is not specified, the command will search the current directory for one.
+    /// </summary>
+    [CliOption("--project")]
+    public string? Project { get; set; }
+
 }

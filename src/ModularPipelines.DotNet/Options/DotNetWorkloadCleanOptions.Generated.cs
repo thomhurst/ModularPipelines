@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Base options class for dotnet CLI commands.
-/// Contains global flags that apply to all commands.
+/// Removes workload components that may have been left behind from previous
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("dotnet")]
-public abstract record DotNetOptions : CommandLineToolOptions
+[CliSubCommand("workload", "clean")]
+public record DotNetWorkloadCleanOptions : DotNetOptions
 {
+    /// <summary>
+    /// Causes clean to remove and uninstall all workload components from all SDK versions. [default: False]
+    /// </summary>
+    [CliFlag("--all")]
+    public bool? All { get; set; }
+
 }
