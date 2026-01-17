@@ -8,17 +8,25 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Base options class for docker CLI commands.
-/// Contains global flags that apply to all commands.
+/// Display the running processes
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("docker")]
-public abstract record DockerOptions : CommandLineToolOptions
+[CliSubCommand("compose", "top")]
+public record DockerComposeTopOptions : DockerOptions
 {
+    /// <summary>
+    /// Execute command in dry run mode
+    /// </summary>
+    [CliFlag("--dry-run")]
+    public bool? DryRun { get; set; }
+
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Services { get; set; }
+
 }

@@ -8,17 +8,25 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Base options class for docker CLI commands.
-/// Contains global flags that apply to all commands.
+/// Remove one or more contexts
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("docker")]
-public abstract record DockerOptions : CommandLineToolOptions
+[CliSubCommand("context", "rm")]
+public record DockerContextRmOptions : DockerOptions
 {
+    /// <summary>
+    /// Force the removal of a context in use
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
+
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Context { get; set; }
+
 }

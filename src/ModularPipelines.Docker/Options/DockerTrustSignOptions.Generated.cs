@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Base options class for docker CLI commands.
-/// Contains global flags that apply to all commands.
+/// Sign an image
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("docker")]
-public abstract record DockerOptions : CommandLineToolOptions
+[CliSubCommand("trust", "sign")]
+public record DockerTrustSignOptions : DockerOptions
 {
+    /// <summary>
+    /// Sign a locally tagged image
+    /// </summary>
+    [CliFlag("--local")]
+    public bool? Local { get; set; }
+
 }

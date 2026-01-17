@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Base options class for docker CLI commands.
-/// Contains global flags that apply to all commands.
+/// Generate and load a signing key-pair
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("docker")]
-public abstract record DockerOptions : CommandLineToolOptions
+[CliSubCommand("trust", "key", "generate")]
+public record DockerTrustKeyGenerateOptions : DockerOptions
 {
+    /// <summary>
+    /// Directory to generate key in, defaults to current directory
+    /// </summary>
+    [CliOption("--dir", Format = OptionFormat.EqualsSeparated)]
+    public string? Dir { get; set; }
+
 }
