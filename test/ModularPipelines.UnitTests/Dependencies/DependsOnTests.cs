@@ -160,4 +160,19 @@ public class DependsOnTests : TestBase
     {
         protected override bool Result => true;
     }
+
+    [Test]
+    public async Task RequiresDependency_Throws_When_Missing()
+    {
+        await Assert.That(async () => await TestPipelineHostBuilder.Create()
+                .AddModule<ModuleWithRequiredDep>()
+                .ExecutePipelineAsync())
+            .ThrowsException();
+    }
+
+    [RequiresDependency<Module1>]
+    private class ModuleWithRequiredDep : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
+    }
 }
