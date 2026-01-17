@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)ALTER\\s+ROLE(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "ALTER ROLE statement"

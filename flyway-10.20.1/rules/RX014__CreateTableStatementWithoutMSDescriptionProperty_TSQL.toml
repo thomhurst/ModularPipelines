@@ -1,0 +1,4 @@
+dialects = ["TSQL"]
+rules = ["CREATE\\s+TABLE\\s+\\w+\\s*\\([\\s\\S]*\\)(?![\\s\\S]*sp_addextendedproperty[\\s\\S]*'MS_Description')"]
+passOnRegexMatch = false
+description = "A table has been created but has no MS_Description property added"

@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)DROP\\s+COLUMN(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "DROP COLUMN statement"

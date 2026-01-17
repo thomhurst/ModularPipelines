@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)GRANT\\s+ALL(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "GRANT ALL statement"

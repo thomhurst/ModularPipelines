@@ -1,0 +1,135 @@
+bug: generate-patch now includes changes for all non-hidden files in the folder, rather than just *.rgm and model.json.
+bug: PostgreSQL constraints can now be created without rebuilding their underlying indexes.
+bug: Fixed an issue where the model-live queries would fail when run against PostgreSQL 17.
+bug: Fixed an issue where rebuild script failed due to missing explicit type casts in PostgreSQL.
+feature: Added support for TimescaleDB - particularly scripting to a hypertable, custom indexes, multiple dimensions, compression settings, and compression policy.
+bug: Fixed a cyclic dependency issue when trying to plan the ordering of steps between a CREATE TABLE and an ALTER SEQUENCE in PostgreSQL.
+bug: Fixed an issue where duplicate indexes were being populated by the PostgreSQL index query.
+feature: Added support for non-default operator classes on PostgreSQL index columns.
+bug: MySQL database name is now correctly escaped when the use-database option is specified
+bug: Fixed an issue where PostgreSQL GENERATED ALWAYS AS expressions that called a function would be scripted incorrectly.
+bug: Fixed an issue where SERIAL to GENERATED ALWAYS AS IDENTITY conversion would always fail in PostgreSQL.
+bug: Fixed a crash modelling EnterpriseDB based on older versions of PostgreSQL.
+feature: Handled unique constraints differently from indexes in PostgreSQL.
+bug: Made the error message more specific when a Postgres database contains cyclic dependencies.
+bug: Fixed an issue where GRANT and REVOKE statements on PostgreSQL routines would be scripted incorrectly if the routine contained default values for some parameters.
+bug: Fixed an issue where camelCased role names in ALTER TABLE... OWNER TO scripts were not quoted in PostgreSQL.
+feature: Added support for the INVISIBLE property on MySQL table columns.
+bug: Now filters out EnterpriseDB system objects.
+bug: Fixed an issue where error messages raised while connecting to a database would have details incorrectly redacted.
+bug: Fixed an issue where generating a model folder would crash if the model contained a PostgreSQL collation object.
+bug: Fixed an issue where foreign keys changes depending on a renamed table would be incorrectly ordered with the table rename.
+feature: Added support for owners and permissions on Postgres aggregate functions.
+bug: Fixed an issue where indexes depending on a renamed table would be created with the new table name before the table had been renamed.
+bug: In Yugabyte, when a collation is changed, tables with columns using that collation are now rebuilt, as using an alter statement to unbind them is not supported.
+feature: Added support for owners and permissions on Postgres objects.
+bug: Fixed an issue so Postgres aggregates can now contain multiple parameters.
+bug: Apply column collation changes in Yugabyte by rebuilding the table, as using an alter statement is not supported.
+feature: Database object properties can now be filtered by property name.
+feature: Added support for collations on view columns in PostgreSQL. Views are rebuilt when changes to column collations are made.
+internal: Objects that are excluded by an RgCompare PostFilter are now present-but-equal in the comparison differences.
+bug: Fixed an issue where the syntax `on update current_timestamp(n)` on a MySQL column would cause a crash when populating the database.
+bug: Fixed an issue where functional key parts in MySQL 8.0.13 and later would cause a crash when populating the database.
+bug: Fixed an issue where some postgis internal objects were not properly excluded from population queries.
+internal: Upgraded from .NET 7 to .NET 8.
+bug: MySQL index renames will now generate an Alter step to migrate the new index name. Indexes that are renamed will no longer be dropped and recreated.
+feature: Allow MySQL connections to set a 'use-database' option when a JDBC URL doessn't contain a database.
+feature: Now include collation information for PostgreSQL index columns.
+bug: Improved error handling when unable to retrieve the text of a MySQL view. 
+bug: Do not include exception message from JSON deserializer when attempting to parse credentials from stdin, to avoid potential security issues.
+bug: Fixed an issue where consumers of an object that was being unbound and rebound might unnecessarily be dropped and recreated.
+internal: MySQL jdbc urls are now parsed exclusively using the mariadb jdbc parser from ConnectionStringConverter.
+internal: Added all property names to the error message thrown when an unexpected `null` value is seen during json deserialization.
+bug: Fixed an issue when using MySQL where difference ids could collide in different schemas unnecessarily.
+bug: Fixed an issue where a MySQL trigger that depends on a new column in a table was created before the column.
+bug: Fixed an issue where json objects on stderr were not correctly split into lines when --output json and --debug were used together.
+bug: RgCompare now sets a default ApplicationName (or equivalent) connection string parameter when connecting to a database.
+bug: RgCompare now inserts additional newline symbols into the object definitions in `compare --output json` when the definitions differ only by type of newlines.
+bug: RgCompare now errors (instead of creating an invalid model) when encountering a sql_body style function
+feature: Added the `ignore-newlines-in-text-objects` comparison option for MySQL and PostgreSQL databases.
+feature: User-defined collations are now supported in PostgreSQL.
+feature: Collation properties on table columns, composite fields and domain types are now supported in PostgreSQL. 
+bug: Stricter JSON escaping when control characters appear in SQL.
+bug: Fixed a crash when creating a database object that depends on an object that needs rebuilding.
+feature: Yugabyte tables are now rebuilt to work around ALTER TABLE ALTER COLUMN TYPE being unsupported.
+bug: Fixed an issue where a MySQL function and procedure with the same name could get their parameters confused with each other.
+bug: Fixed an issue where MySQL foreign keys would be created before the indexes they rely on in some cases.
+internal: Added more detail to the error message thrown when an unexpected `null` value is seen during json deserialization.
+bug: Fixed an issue with syntax errors appearing for deployment scripts for MySQL binary columns with expression defaults. 
+bug: Fixed an issue where PostgreSQL triggers could be created before the view they are on.
+internal: Stopped including multiple copies of the .NET runtime in the self-contained distributions.
+internal: Usage reports for database exceptions should now contain more (anonymous) details like the error code from SqlState.
+bug: Fixed an issue where rgcompare would output incorrect JSON when model-live was run against a MySQL database containing a trigger.
+feature: Comments are now supported for MySQL tables, columns, functions, procedures and indexes.
+bug: Added a workaround for an issue where MySQL INFORMATION_SCHEMA.TRIGGERS would return incorrect ACTION_STATEMENT results for triggers containing an escaped single quote character.
+bug: rgcompare now outputs data loss warnings for PostgreSQL and MySQL when generating a deployment script that drops a table or column.
+bug: Improved error handling when unable to retrieve the text of a MySQL procedure or function.
+feature: Added options for source-schemas, target-schemas and omit-schema-names to allow uses to map schemas (aka databases) in mysql.
+bug: Fixed an issue where script generation would take an overly large time for large database models (tens of thousands of objects).
+bug: Added a workaround for an issue where MySQL INFORMATION_SCHEMA.ROUTINES would return incorrect ROUTINE_DEFINITION results for functions or procedures containing an escaped single quote character.
+bug: Fixed an issue where indexes on a PostgreSQL materialized view would not get recreated when the view was rebuilt.
+bug: Fixed an issue where PostgreSQL CREATE VIEW statements would end in double semicolons.
+feature: MySQL is now supported (the RGCOMPARE_MYSQL_AVAILABLE feature flag is no longer required).
+bug: MySQL foreign key dependencies on non-unique indexes are now picked up correctly.
+bug: Fixed an issue where rgcompare was attempting to deploy PostgreSQL materialized views with CREATE OR REPLACE.
+bug: Fixed an "item with the same key has already been added" crash in some cases when PostgreSQL views were being deployed and the view columns had changed order.
+bug: Fixed a bug where model-live was unable to handle SQLite databases that used certain words as identifiers or lowercase keywords in table definitions.
+bug: PostgreSQL extensions are now put into an Extensions/ subfolder in model folders.
+bug: Generated MySQL deployment scripts will now avoid quoting identifiers when possible.
+internal: MySQL objects are now arranged into folders, and sub-objects are saved in the same file as their parent.
+bug: Fixed a debug log message on stderr that wasn't properly formatted as JSON.
+internal: Implemented the `engine-name` property in `*-failed` usage events, where available.
+bug: fixed an issue where PostgresSQL functions that returned a table type did not get their function parameters scripted out correctly.
+internal: Changed PostgreSQL to now require `database-version` in model.json. 
+internal: Added isSchema property to object types returned by the get-metadata command
+internal: Upgraded from .NET 6 to .NET 7.
+feature: Added support for parameter default values in PostgreSQL functions and procedures.
+internal: Started accepting jdbc:mariadb:... urls for mysql engine.
+bug: Changes in PostgreSQL view columns can now be deployed correctly.
+internal: Improve error handling for MySQL connection failures.
+bug: Fixed an issue where Oracle connections would try to use direct mode for TNS connection strings.
+internal: Implemented support for column defaults in MySQL and MariaDB.
+internal: Bumped MySQL model version, because it was previously downgraded.
+internal: Fixed an issue where MySQL projects incorrectly said they were saved with a newer version.
+bug: Fixed an issue where the output of `model-default postgresql` was missing the model-version property
+feature: Added support for generated columns on PostgreSQL tables.
+bug: Fixed an issue where model-live would fail when populating tables in PostgresSQL 9.
+feature: Added support for identity columns on PostgreSQL tables.
+internal: Removed the experimental YAML file format.
+internal: Added a usage property to command *-failed events for the exception stacktrace to assist in diagnosing failures.
+bug: Fixed an issue where table column type names with array or length modifiers would sometimes be incorrectly escaped.
+internal: Self-contained distributions of rgcompare are now available through RgCompare.Cli.*runtime* nuget packages.
+internal: Added limited support for cleaning SQL Server and Oracle databases via model-default and generate-script commands.
+bug: Fixed an issue in PostgresSQL where triggers could not be modified.
+internal: Add a 'database-contains-table-partition' field to usage events
+internal: Started tracking engine version in MySQL database model.
+internal: Added support for column type precision in MySQL.
+internal: Added support for database (schema) object types in MySQL.
+internal: .NET assembly dependency meta-data is now present in the NuGet package.
+feature: Added support for dependencies within domain types in PostgreSQL.
+bug: Fixed an issue in PostgreSQL where unique indexs used by foreign keys were not deployed in the correct order.
+bug: Fixed an issue in PostgreSQL where functions with a return type of a view's row type were not marked as depending on that view.
+bug: Fixed issue in PostgreSQL composite types where certain field type names could not be deployed correctly.
+feature: Added support for composite types in PostgreSQL.
+feature: Added support for extensions in PostgreSQL.
+internal: When storing FUR user ID in a file, use the file that can be shared across Redgate products.
+internal: Added limited support for MySQL under a feature flag (RGCOMPARE_MYSQL_AVAILABLE).
+bug: Fixed an issue where rgcompare didn't recognize the database property in SQL Server JDBC urls.
+bug: Fixed an issue where column names in index expressions would not be escaped when necessary in PostgreSQL.
+feature: Added support for indexes on expressions in PostgreSQL.
+feature: Added support for function volatility attribute (i.e. IMMUTABLE/STABLE/VOLATILE)
+bug: Fixed a bug in which the generate-patch command would remove unrecognised files from the model folder. Files that are not part of the model are now left alone.
+bug: Fixed a bug with materialized views which prevented them from being dropped 
+bug: Fixed an issue where credentials specified inline in the jdbc url would not be used.
+feature: updated `table.primaryKeys` collection property to `table.primaryKey`. Older versions of rgcompare will need to be updated to read the new model.
+feature: Added support for ON UPDATE and ON DELETE properties for foreign keys.
+internal: First pass at Feature Usage Reporting.
+feature: Added support for scale and precision modifiers for relevant PostgreSQL types.
+bug: Fixed bug where generating model folders for functions with a large number of parameters would create files that exceed path length limits.
+feature: Allowed list of select objects to be specified via stdin. This is useful if the number of selected objects is too large to specify via command line arguments.
+feature: Added support for basic filtering by object type in PostgreSQL.
+feature: Added support for specifying filter files for SQL Server and Oracle.
+feature: Added progress reporting to more commands.
+bug: Fixed incorrect ordering of DROP FUNCTION statements.
+bug: Fixed a bug where cyclic dependencies between a table column and a sequence would cause a crash when generating scripts.
+feature: Added support for triggers in PostgreSQL.

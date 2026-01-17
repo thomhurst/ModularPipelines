@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["CREATE\\s+TABLE\\s+\\w+\\s*\\((?![\\s\\S]*PRIMARY\\s+KEY)[\\s\\S]*\\)"]
+passOnRegexMatch = false
+description = "CREATE TABLE statement without a PRIMARY KEY"

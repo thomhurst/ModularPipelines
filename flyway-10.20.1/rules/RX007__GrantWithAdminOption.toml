@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)GRANT\\s+.+?\\s+TO\\s+.+?\\s+WITH\\s+ADMIN\\s+OPTION(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "GRANT WITH ADMIN OPTION statement"
