@@ -27,7 +27,21 @@ public class DependsOnAttribute : Attribute
 
     public Type Type { get; }
 
-    public bool IgnoreIfNotRegistered { get; set; }
+    /// <summary>
+    /// When true (default), the dependency is optional - the module will run even if the dependency
+    /// is not registered or is skipped. When false, the dependency is required and must be registered.
+    /// </summary>
+    public bool Optional { get; set; } = true;
+
+    /// <summary>
+    /// Obsolete. Use Optional instead. This property now maps to !Optional for backwards compatibility.
+    /// </summary>
+    [Obsolete("Use Optional instead. IgnoreIfNotRegistered = true is equivalent to Optional = true (the new default).")]
+    public bool IgnoreIfNotRegistered
+    {
+        get => Optional;
+        set => Optional = value;
+    }
 }
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]

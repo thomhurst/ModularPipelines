@@ -14,7 +14,7 @@ public class DependsOnTests : TestBase
         protected override bool Result => true;
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>]
+    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = false)]
     private class Module2 : SimpleTestModule<bool>
     {
         protected override bool Result => true;
@@ -91,7 +91,7 @@ public class DependsOnTests : TestBase
     }
 
     [Test]
-    public async Task Exception_Thrown_When_Dependent_Module_Missing_And_No_Ignore_On_Attribute()
+    public async Task Exception_Thrown_When_Dependent_Module_Missing_And_Optional_False()
     {
         await Assert.That(async () => await TestPipelineHostBuilder.Create()
                 .AddModule<Module2>()
@@ -143,5 +143,21 @@ public class DependsOnTests : TestBase
                 .ExecutePipelineAsync()).
             Throws<InvalidModuleTypeException>()
             .And.HasMessageEqualTo("ModularPipelines.Exceptions.ModuleFailedException is not a Module (does not implement IModule)");
+    }
+
+    [Test]
+    public async Task Optional_Dependency_Default_True_No_Exception_When_Missing()
+    {
+        // New default: Optional = true, so missing dependencies don't throw
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<ModuleWithOptionalDep>()
+            .ExecutePipelineAsync();
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+    }
+
+    [ModularPipelines.Attributes.DependsOn<Module1>]  // No Optional = false, so it's optional by default
+    private class ModuleWithOptionalDep : SimpleTestModule<bool>
+    {
+        protected override bool Result => true;
     }
 }

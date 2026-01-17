@@ -54,8 +54,8 @@ public class ValidationTests
             => Task.FromResult<string?>("C");
     }
 
-    // Module with missing dependency (not registered)
-    [ModularPipelines.Attributes.DependsOn<MissingModule>]
+    // Module with missing required dependency (not registered)
+    [ModularPipelines.Attributes.DependsOn<MissingModule>(Optional = false)]
     private class ModuleWithMissingDep : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
