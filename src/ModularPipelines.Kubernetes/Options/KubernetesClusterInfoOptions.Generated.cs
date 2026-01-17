@@ -8,17 +8,16 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Base options class for kubectl CLI commands.
-/// Contains global flags that apply to all commands.
+/// Display addresses of the control plane and services with label kubernetes.io/cluster-service=true. To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("kubectl")]
-public abstract record KubernetesOptions : CommandLineToolOptions
+[CliSubCommand("cluster-info")]
+public record KubernetesClusterInfoOptions : KubernetesOptions
 {
 }

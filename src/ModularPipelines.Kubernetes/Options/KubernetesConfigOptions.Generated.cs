@@ -8,17 +8,16 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Kubernetes.Options;
 
 namespace ModularPipelines.Kubernetes.Options;
 
 /// <summary>
-/// Base options class for kubectl CLI commands.
-/// Contains global flags that apply to all commands.
+/// Modify kubeconfig files using subcommands like "kubectl config set current-context my-context".
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("kubectl")]
-public abstract record KubernetesOptions : CommandLineToolOptions
+[CliSubCommand("config")]
+public record KubernetesConfigOptions : KubernetesOptions
 {
 }
