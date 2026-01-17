@@ -59,12 +59,14 @@ public record SkopeoDeleteOptions : SkopeoOptions
     /// <summary>
     /// Password for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
     /// <summary>
     /// Provide a Bearer token for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--registry-token", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryToken { get; set; }
 
