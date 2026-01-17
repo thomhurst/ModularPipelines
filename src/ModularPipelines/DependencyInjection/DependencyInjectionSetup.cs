@@ -273,6 +273,8 @@ internal static class DependencyInjectionSetup
     {
         services.TryAddSingleton<IFileSystemProvider>(SystemFileSystemProvider.Instance);
         services
+            // Module activator - sets AsyncLocal context before module construction
+            .AddSingleton<IModuleActivator, ModuleActivator>()
             .AddSingleton<IPipelineContextProvider, ModuleContextProvider>()
             .AddSingleton<IFileSystemContext, FileSystemContext>()
             .AddSingleton<IRequirementChecker, RequirementChecker>()

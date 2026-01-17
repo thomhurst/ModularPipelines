@@ -62,7 +62,8 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
-        services.AddSingleton<IModule, TModule>();
+        services.AddSingleton<IModule>(sp =>
+            sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
@@ -77,6 +78,12 @@ public static class ServiceCollectionExtensions
     /// <para>
     /// This overload is useful when you need to pass constructor arguments to the module
     /// or when you want to share a module instance.
+    /// </para>
+    /// <para>
+    /// <b>Note:</b> Since the module instance is pre-created, any logging performed during
+    /// construction will not have module context available. For full logging context support
+    /// during construction, use <see cref="AddModule{TModule}()"/> or
+    /// <see cref="AddModule{TModule}(IServiceCollection, Func{IServiceProvider, TModule})"/> instead.
     /// </para>
     /// </remarks>
     /// <example>
@@ -117,7 +124,21 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
-        services.AddSingleton<IModule>(tModuleFactory);
+        services.AddSingleton<IModule>(sp =>
+        {
+            // Set AsyncLocal context before invoking user's factory
+            var previousType = Logging.ModuleLogger.CurrentModuleType.Value;
+            Logging.ModuleLogger.CurrentModuleType.Value = typeof(TModule);
+
+            try
+            {
+                return tModuleFactory(sp);
+            }
+            finally
+            {
+                Logging.ModuleLogger.CurrentModuleType.Value = previousType;
+            }
+        });
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
@@ -253,9 +274,12 @@ public static class ServiceCollectionExtensions
         // Validate for circular dependencies before registration
         DependencyGraphValidator.ValidateNoCycles(allModuleTypes);
 
-        foreach (var module in modules)
+        foreach (var moduleType in modules)
         {
-            services.AddSingleton(typeof(IModule), module);
+            // Capture moduleType in closure to avoid closure over loop variable
+            var capturedType = moduleType;
+            services.AddSingleton(typeof(IModule), sp =>
+                sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
         }
 
         return services;

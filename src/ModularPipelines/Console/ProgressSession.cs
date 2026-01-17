@@ -81,7 +81,7 @@ internal class ProgressSession : IProgressSession, IProgressController
         try
         {
             await AnsiConsole.Progress()
-                .AutoRefresh(true)
+                .AutoRefresh(false) // Disable auto-refresh so we can pause rendering during output writes
                 .AutoClear(false)
                 .HideCompleted(false)
                 .Columns(
@@ -103,13 +103,16 @@ internal class ProgressSession : IProgressSession, IProgressController
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
                         // Check if we should pause for module output
+                        bool shouldRefresh = true;
                         TaskCompletionSource? resumeSignal = null;
+
                         await _pauseLock.WaitAsync().ConfigureAwait(false);
                         try
                         {
                             if (_isPaused)
                             {
                                 resumeSignal = _resumeSignal;
+                                shouldRefresh = false;
                             }
                         }
                         finally
@@ -144,6 +147,12 @@ internal class ProgressSession : IProgressSession, IProgressController
                                     _pauseLock.Release();
                                 }
                             }
+                        }
+                        else if (shouldRefresh)
+                        {
+                            // Manually refresh when not paused - this prevents rendering glitches
+                            // when module output is being written to the console
+                            ctx.Refresh();
                         }
 
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
