@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Base options class for terraform CLI commands.
-/// Contains global flags that apply to all commands.
+/// Approve all plans for a deployment run.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("terraform")]
-public abstract record TerraformOptions : CommandLineToolOptions
+[CliSubCommand("stacks", "deployment-run", "approve-all-plans")]
+public record TerraformStacksDeploymentRunApproveAllPlansOptions : TerraformOptions
 {
+    /// <summary>
+    /// The ID of the deployment run (required).
+    /// </summary>
+    [CliFlag("-deployment-run-id")]
+    public bool? DeploymentRunId { get; set; }
+
 }

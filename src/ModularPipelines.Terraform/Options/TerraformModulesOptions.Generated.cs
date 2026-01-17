@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Base options class for terraform CLI commands.
-/// Contains global flags that apply to all commands.
+/// Prints out a list of all declared Terraform modules and their resolved versions
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("terraform")]
-public abstract record TerraformOptions : CommandLineToolOptions
+[CliSubCommand("modules")]
+public record TerraformModulesOptions : TerraformOptions
 {
+    /// <summary>
+    /// If specified, output declared Terraform modules and their resolved versions in a machine-readable format.
+    /// </summary>
+    [CliFlag("-json")]
+    public bool? Json { get; set; }
+
 }
