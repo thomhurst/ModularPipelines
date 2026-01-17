@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,23 +13,30 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
+/// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("settings")]
-public record WingetSettingsOptions : WingetOptions
+[CliSubCommand("export")]
+public record WingetExportOptions : WingetOptions
 {
     /// <summary>
-    /// Enables the specific administrator setting
+    /// Export packages from the specified source
     /// </summary>
-    [CliFlag("--enable")]
-    public bool? Enable { get; set; }
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
-    /// Disables the specific administrator setting
+    /// Include package versions in export file
     /// </summary>
-    [CliFlag("--disable")]
-    public bool? Disable { get; set; }
+    [CliOption("--include-versions")]
+    public string? IncludeVersions { get; set; }
+
+    /// <summary>
+    /// Accept all source agreements during source operations
+    /// </summary>
+    [CliFlag("--accept-source-agreements")]
+    public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -53,5 +61,11 @@ public record WingetSettingsOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// File where the result is to be written
+    /// </summary>
+    [CliOption("--output", ShortForm = "-o")]
+    public string? Output { get; set; }
 
 }

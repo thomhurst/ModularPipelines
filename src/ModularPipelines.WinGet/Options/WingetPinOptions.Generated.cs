@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,30 +13,13 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Writes a list of the installed packages to a file. The packages can then be installed with the import command.
+/// Manage package pins with the sub-commands. A pin can limit the Windows Package Manager from upgrading a package to specific ranges of versions, or it can prevent it from upgrading the package altogether. A pinned package may still upgrade on its own and be upgraded from outside the Windows Package Manager.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("export")]
-public record WingetExportOptions : WingetOptions
+[CliSubCommand("pin")]
+public record WingetPinOptions : WingetOptions
 {
-    /// <summary>
-    /// Export packages from the specified source
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
-
-    /// <summary>
-    /// Include package versions in export file
-    /// </summary>
-    [CliOption("--include-versions")]
-    public string? IncludeVersions { get; set; }
-
-    /// <summary>
-    /// Accept all source agreements during source operations
-    /// </summary>
-    [CliFlag("--accept-source-agreements")]
-    public bool? AcceptSourceAgreements { get; set; }
-
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
@@ -59,11 +43,5 @@ public record WingetExportOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
-
-    /// <summary>
-    /// File where the result is to be written
-    /// </summary>
-    [CliOption("--output", ShortForm = "-o")]
-    public string? Output { get; set; }
 
 }

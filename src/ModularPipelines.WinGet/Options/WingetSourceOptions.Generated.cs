@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
+/// Manage sources with the sub-commands. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("validate")]
-public record WingetValidateOptions : WingetOptions
+[CliSubCommand("source")]
+public record WingetSourceOptions : WingetOptions
 {
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -41,11 +43,5 @@ public record WingetValidateOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
-
-    /// <summary>
-    /// The path to the manifest to be validated
-    /// </summary>
-    [CliOption("--manifest")]
-    public string? Manifest { get; set; }
 
 }

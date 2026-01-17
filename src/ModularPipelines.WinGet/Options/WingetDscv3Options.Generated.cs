@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -14,6 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// The sub-commands here implement Desired State Configuration (DSC) v3 resources for configuring winget and packages.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("dscv3")]
 public record WingetDscv3Options : WingetOptions
