@@ -1,9 +1,13 @@
-﻿using ModularPipelines.Attributes;
+﻿using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
+using ModularPipelines.Build.Attributes;
+using ModularPipelines.Build.Settings;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Attributes;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Git.Options;
+using ModularPipelines.GitHub.Extensions;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 using ModularPipelines.Options;
@@ -11,11 +15,19 @@ using ModularPipelines.Options;
 namespace ModularPipelines.Build.Modules;
 
 [ModuleCategory("VersionTag")]
+[SkipIfNoStandardGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
 public class PushVersionTagModule : Module<CommandResult>
 {
+    private readonly IOptions<GitHubSettings> _gitHubSettings;
+
+    public PushVersionTagModule(IOptions<GitHubSettings> gitHubSettings)
+    {
+        _gitHubSettings = gitHubSettings;
+    }
+
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
         .WithIgnoreFailuresWhen((ctx, ex) =>
         {
@@ -29,6 +41,22 @@ public class PushVersionTagModule : Module<CommandResult>
     {
         var versionInformation = await context.GetModule<NugetVersionGeneratorModule>();
 
+        // Configure git user information
+        await GitHelpers.SetUserCommitInformation(context, cancellationToken);
+
+        // Configure remote URL with authentication token
+        var token = _gitHubSettings.Value.StandardToken!;
+        var author = context.GitHub().EnvironmentVariables.Actor ?? _gitHubSettings.Value.RepositoryOwner;
+
+        await context.Git().Commands.Remote(new GitRemoteOptions
+        {
+            Arguments =
+            [
+                "set-url", "origin",
+                $"https://x-access-token:{token}@github.com/{author}/{_gitHubSettings.Value.RepositoryName}"
+            ],
+        }, null, cancellationToken);
+
         await context.Git().Commands.Tag(new GitTagOptions
         {
             TagName = $"v{versionInformation.ValueOrDefault!}",
@@ -39,7 +67,7 @@ public class PushVersionTagModule : Module<CommandResult>
             new GitPushOptions
             {
                 Tags = true,
-            }, 
+            },
             new CommandExecutionOptions
             {
                 ThrowOnNonZeroExitCode = false,

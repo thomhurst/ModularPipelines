@@ -88,8 +88,7 @@ builder.Options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
 var runCategories = Environment.GetEnvironmentVariable("Pipeline__RunCategories");
 if (!string.IsNullOrEmpty(runCategories))
 {
-    var categories = runCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-    builder.RunCategories(categories);
+    builder.RunCategories(runCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
 }
 
 builder.SetLogLevel(LogLevel.Debug); // Temporarily hardcoded for debugging
