@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// For source location, this can be a folder/file share or an
+/// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("setapikey")]
-public record ChocoSetapikeyOptions : ChocoOptions
+[CliSubCommand("feature")]
+public record ChocoFeatureOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoSetapikeyOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,9 +112,9 @@ public record ChocoSetapikeyOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source [REQUIRED] - The source location for the key
+    /// Name - the name of the source. Required with actions other than list. Defaults to empty.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
 }

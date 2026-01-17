@@ -5,18 +5,17 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
 
 namespace ModularPipelines.Chocolatey.Options;
 
-/// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
-/// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("info")]
-public record ChocoInfoOptions : ChocoOptions
+[CliSubCommand("unpackself")]
+public record ChocoUnpackselfOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +80,7 @@ public record ChocoInfoOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -107,41 +107,5 @@ public record ChocoInfoOptions : ChocoOptions
     /// </summary>
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
-    /// Source - Source location for install. Can use special 'windowsfeatures', 'ruby', 'cygwin', or 'python' sources. Defaults to configured sources.
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
-
-    /// <summary>
-    /// Version - Specific version of a package to return.
-    /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// User - used with authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
-
-    /// <summary>
-    /// Password - the user's password to the source. Defaults to empty.
-    /// </summary>
-    [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Password { get; set; }
-
-    /// <summary>
-    /// Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+
-    /// </summary>
-    [CliFlag("--include-configured-sources")]
-    public bool? IncludeConfiguredSources { get; set; }
 
 }

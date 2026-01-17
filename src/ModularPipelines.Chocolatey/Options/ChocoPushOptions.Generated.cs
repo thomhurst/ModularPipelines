@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// If you use `--source=https://somewhere/out/there`, it is
+/// NOTE: If there is more than one nupkg file in the folder, the command
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("outdated")]
-public record ChocoOutdatedOptions : ChocoOptions
+[CliSubCommand("push")]
+public record ChocoPushOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoOutdatedOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,45 +112,9 @@ public record ChocoOutdatedOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. To specify more than one source, pass it with a semi-colon separating the values (e.g. "'source1;source2'"). Defaults to default feeds.
+    /// Source - The source we are pushing the package to. Use https://pus- h.chocolatey.org/ to push to community feed.
     /// </summary>
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
-
-    /// <summary>
-    /// User - used with authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
-
-    /// <summary>
-    /// Password - the user's password to the source. Defaults to empty.
-    /// </summary>
-    [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Password { get; set; }
-
-    /// <summary>
-    /// Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Ignore Pinned - Ignore pinned packages. Defaults to false.
-    /// </summary>
-    [CliFlag("--ignore-pinned")]
-    public bool? IgnorePinned { get; set; }
-
-    /// <summary>
-    /// Ignore Unfound Packages - Ignore packages that are not found on the sources used (or the defaults). Overrides the default feature 'ignoreUnfoundPackagesOnUpgradeOutdated' set to 'False'.
-    /// </summary>
-    [CliFlag("--ignore-unfound")]
-    public bool? IgnoreUnfound { get; set; }
-
-    /// <summary>
-    /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+
-    /// </summary>
-    [CliFlag("--include-configured-sources")]
-    public bool? IncludeConfiguredSources { get; set; }
 
 }

@@ -5,15 +5,20 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
 
 namespace ModularPipelines.Chocolatey.Options;
 
+/// <summary>
+/// For source location, this can be a folder/file share or an
+/// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("unpackself")]
-public record ChocoUnpackselfOptions : ChocoOptions
+[CliSubCommand("apikey")]
+public record ChocoApikeyOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -78,6 +83,7 @@ public record ChocoUnpackselfOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -104,5 +110,11 @@ public record ChocoUnpackselfOptions : ChocoOptions
     /// </summary>
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
+
+    /// <summary>
+    /// Source [REQUIRED] - The source location for the key
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: If there is more than one nupkg file in the folder, the command
+/// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("push")]
-public record ChocoPushOptions : ChocoOptions
+[CliSubCommand("templates")]
+public record ChocoTemplatesOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoPushOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,9 +112,9 @@ public record ChocoPushOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - The source we are pushing the package to. Use https://pus- h.chocolatey.org/ to push to community feed.
+    /// The name of the template to get information about.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
 }

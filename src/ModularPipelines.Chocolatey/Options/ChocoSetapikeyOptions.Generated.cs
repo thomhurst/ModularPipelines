@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// packageversion
+/// For source location, this can be a folder/file share or an
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("new")]
-public record ChocoNewOptions : ChocoOptions
+[CliSubCommand("setapikey")]
+public record ChocoSetapikeyOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoNewOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,21 +112,9 @@ public record ChocoNewOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Name [Required]- the name of the package. Can be passed as first parameter without "--name=".
+    /// Source [REQUIRED] - The source location for the key
     /// </summary>
-    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// Version - the version of the package. Can also be passed as the property PackageVersion=somevalue
-    /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// Maintainer - the name of the maintainer. Can also be passed as the property MaintainerName=somevalue
-    /// </summary>
-    [CliOption("--maintainer", Format = OptionFormat.EqualsSeparated)]
-    public string? Maintainer { get; set; }
+    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
 }

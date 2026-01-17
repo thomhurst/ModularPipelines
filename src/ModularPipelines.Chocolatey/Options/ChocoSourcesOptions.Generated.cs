@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// When it comes to the source location, this can be a folder/file share or an http
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cache")]
-public record ChocoCacheOptions : ChocoOptions
+[CliSubCommand("sources")]
+public record ChocoSourcesOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoCacheOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,9 +112,40 @@ public record ChocoCacheOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Expired - Remove cached items that have expired.
+    /// Name - the name of the source. Required with actions other than list. Defaults to empty.
     /// </summary>
-    [CliFlag("--expired")]
-    public bool? Expired { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Source - The source. This can be a folder/file share or an http locatio- n. If it is a url, it will be a location you can go to in a browser and it returns OData with something that says Packages in the browser, similar to what you see when you go to https://community.chocolate- y.org/api/v2/. Required with add action. Defaults to empty.
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// User - used with authenticated feeds. Defaults to empty.
+    /// </summary>
+    [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
+    public string? User { get; set; }
+
+    /// <summary>
+    /// Password - the user's password to the source. Encrypted in chocolate- y.config file.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.
+    /// </summary>
+    [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
+    public string? Cert { get; set; }
+
+    /// <summary>
+    /// Priority - The priority order of this source as compared to other sources, lower is better. Defaults to 0 (no priority). All priorities above 0 will be evaluated first, then zero-based values will be evaluated in config file order.
+    /// </summary>
+    [CliOption("--priority", Format = OptionFormat.EqualsSeparated)]
+    public string? Priority { get; set; }
 
 }
