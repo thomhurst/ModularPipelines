@@ -8,17 +8,25 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Docker.Options;
 
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Base options class for docker CLI commands.
-/// Contains global flags that apply to all commands.
+/// Disable a plugin
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("docker")]
-public abstract record DockerOptions : CommandLineToolOptions
+[CliSubCommand("plugin", "disable")]
+public record DockerPluginDisableOptions : DockerOptions
 {
+    /// <summary>
+    /// Force the disable of an active plugin
+    /// </summary>
+    [CliFlag("--force", ShortForm = "-f")]
+    public bool? Force { get; set; }
+
+    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
+    public string? Options { get; set; }
+
 }
