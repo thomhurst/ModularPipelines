@@ -340,6 +340,112 @@ public class HeuristicTypeDetectorTests
 
     #endregion
 
+    #region Value Option Detection Tests - Multi-Value Patterns
+
+    [Test]
+    [Arguments("Variable for templates, can be used multiple times.")]
+    [Arguments("May be specified multiple times")]
+    [Arguments("Can be specified multiple times")]
+    [Arguments("This option can be repeated")]
+    [Arguments("May be repeated for each value")]
+    [Arguments("Specify multiple times for different values")]
+    [Arguments("This is a repeatable option")]
+    public async Task DetectType_Returns_StringList_For_MultiValue_Description_Patterns(string description)
+    {
+        var context = CreateContext("--var", description: description);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.StringList);
+        await Assert.That(result.Confidence).IsEqualTo(80);
+    }
+
+    #endregion
+
+    #region Value Option Detection Tests - High Confidence Patterns
+
+    [Test]
+    [Arguments("Set to 'hcl2' to run in HCL2 mode when no file is passed.")]
+    [Arguments("Set to \"json\" for JSON output")]
+    [Arguments("Defaults to 'yaml' format")]
+    [Arguments("Defaults to \"text\" output")]
+    [Arguments("One of: debug, info, warn, error")]
+    [Arguments("Valid values: json, yaml, xml")]
+    [Arguments("Allowed values: true, false, auto")]
+    [Arguments("Possible values: always, never, auto")]
+    [Arguments("Accepted values: low, medium, high")]
+    public async Task DetectType_Returns_String_For_HighConfidence_Value_Description_Patterns(string description)
+    {
+        var context = CreateContext("--config-type", description: description);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.Confidence).IsEqualTo(85);
+    }
+
+    #endregion
+
+    #region Value Option Detection Tests - Medium Confidence Patterns
+
+    [Test]
+    [Arguments("Specifies the output format")]
+    [Arguments("Specify the path to config")]
+    [Arguments("Path to the configuration file")]
+    [Arguments("Name of the resource to create")]
+    [Arguments("Location of the input file")]
+    [Arguments("Format for the output data")]
+    public async Task DetectType_Returns_String_For_MediumConfidence_Value_Description_Patterns(string description)
+    {
+        var context = CreateContext("--format", description: description);
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+        await Assert.That(result.Confidence).IsEqualTo(70);
+    }
+
+    #endregion
+
+    #region Value Detection Overrides Boolean Name Patterns
+
+    [Test]
+    public async Task DetectType_Value_Pattern_Overrides_Boolean_Name_Pattern()
+    {
+        // Even though "var" might not match boolean patterns, this tests that
+        // value-indicating descriptions take precedence
+        var context = CreateContext("--var", description: "Variable for templates, can be used multiple times.");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.StringList);
+        await Assert.That(result.Confidence).IsEqualTo(80);
+    }
+
+    [Test]
+    public async Task DetectType_Packer_Var_Option_Returns_StringList()
+    {
+        // Real-world test case from Packer CLI
+        var context = CreateContext("--var", description: "Variable for templates, can be used multiple times.");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.StringList);
+    }
+
+    [Test]
+    public async Task DetectType_Packer_ConfigType_Option_Returns_String()
+    {
+        // Real-world test case from Packer CLI
+        var context = CreateContext("--config-type", description: "Set to 'hcl2' to run in HCL2 mode when no file is passed.");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Type).IsEqualTo(CliOptionType.String);
+    }
+
+    #endregion
+
     #region Default String Detection Tests
 
     [Test]
@@ -367,13 +473,53 @@ public class HeuristicTypeDetectorTests
     #region Confidence and Source Tests
 
     [Test]
-    public async Task DetectType_Returns_Confidence_50()
+    public async Task DetectType_Returns_Confidence_50_For_Boolean_Patterns()
     {
         var context = CreateContext("--verbose");
 
         var result = await _detector.DetectTypeAsync(context);
 
         await Assert.That(result.Confidence).IsEqualTo(50);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Confidence_50_For_Default_String_Fallback()
+    {
+        var context = CreateContext("--unknown-option");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Confidence).IsEqualTo(50);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Confidence_80_For_MultiValue_Patterns()
+    {
+        var context = CreateContext("--option", description: "can be used multiple times");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Confidence).IsEqualTo(80);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Confidence_85_For_HighConfidence_Value_Patterns()
+    {
+        var context = CreateContext("--option", description: "Set to 'value' for something");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Confidence).IsEqualTo(85);
+    }
+
+    [Test]
+    public async Task DetectType_Returns_Confidence_70_For_MediumConfidence_Value_Patterns()
+    {
+        var context = CreateContext("--option", description: "Specifies the output");
+
+        var result = await _detector.DetectTypeAsync(context);
+
+        await Assert.That(result.Confidence).IsEqualTo(70);
     }
 
     [Test]

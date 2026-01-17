@@ -106,6 +106,53 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         "true", "false", "yes", "no", "0", "1"
     ];
 
+    /// <summary>
+    /// Description patterns that strongly indicate the option accepts a value (not a boolean).
+    /// These patterns override boolean detection when present.
+    /// High confidence patterns - explicit value examples or "set to X" language.
+    /// </summary>
+    private static readonly string[] ValueDescriptionPatternsHighConfidence =
+    [
+        "set to '",      // "Set to 'hcl2' to run in HCL2 mode"
+        "set to \"",     // Same with double quotes
+        "defaults to '", // "Defaults to 'json'"
+        "defaults to \"",
+        "one of:",       // "One of: json, yaml, xml"
+        "valid values:", // "Valid values: debug, info, warn"
+        "allowed values:",
+        "possible values:",
+        "accepted values:"
+    ];
+
+    /// <summary>
+    /// Description patterns that indicate the option can be specified multiple times.
+    /// This strongly indicates a value-accepting option, not a boolean.
+    /// </summary>
+    private static readonly string[] MultiValueDescriptionPatterns =
+    [
+        "can be used multiple times",
+        "may be specified multiple times",
+        "can be specified multiple times",
+        "can be repeated",
+        "may be repeated",
+        "multiple times",
+        "repeatable"
+    ];
+
+    /// <summary>
+    /// Description patterns that moderately suggest a value option.
+    /// Lower confidence than explicit patterns above.
+    /// </summary>
+    private static readonly string[] ValueDescriptionPatternsMediumConfidence =
+    [
+        "specifies the",   // "Specifies the output format"
+        "specify the",     // "Specify the path"
+        "path to",         // "Path to the config file"
+        "name of",         // "Name of the resource"
+        "location of",     // "Location of the file"
+        "format for"       // "Format for the output"
+    ];
+
     #endregion
 
     private readonly ILogger<HeuristicTypeDetector> _logger;
@@ -163,6 +210,23 @@ public class HeuristicTypeDetector : IOptionTypeDetector
             }
         }
 
+        // Check for strong value-indicating patterns FIRST (before boolean checks)
+        // These patterns override any potential boolean detection based on name alone
+        if (MultiValueDescriptionPatterns.Any(p => description.Contains(p)))
+        {
+            return CreateResult(CliOptionType.StringList, "Description indicates multi-value option", 80);
+        }
+
+        if (ValueDescriptionPatternsHighConfidence.Any(p => description.Contains(p)))
+        {
+            return CreateResult(CliOptionType.String, "Description contains explicit value example", 85);
+        }
+
+        if (ValueDescriptionPatternsMediumConfidence.Any(p => description.Contains(p)))
+        {
+            return CreateResult(CliOptionType.String, "Description suggests value option", 70);
+        }
+
         // Check option name patterns for booleans
         if (BooleanPrefixes.Any(p => optionName.StartsWith(p, StringComparison.OrdinalIgnoreCase)) ||
             BooleanSuffixes.Any(s => optionName.EndsWith(s, StringComparison.OrdinalIgnoreCase)) ||
@@ -201,13 +265,13 @@ public class HeuristicTypeDetector : IOptionTypeDetector
         return CreateResult(CliOptionType.String, "Default fallback to string");
     }
 
-    private OptionTypeDetectionResult CreateResult(CliOptionType type, string reason)
+    private OptionTypeDetectionResult CreateResult(CliOptionType type, string reason, int confidence = 50)
     {
-        _logger.LogDebug("Heuristic detection: {Type} - {Reason}", type, reason);
+        _logger.LogDebug("Heuristic detection: {Type} - {Reason} (confidence: {Confidence})", type, reason, confidence);
         return new OptionTypeDetectionResult
         {
             Type = type,
-            Confidence = 50, // Lower confidence for heuristic guessing
+            Confidence = confidence,
             Source = Name,
             Notes = reason
         };
