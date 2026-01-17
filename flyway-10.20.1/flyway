@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# Detect Linux
+linux=false
+ case "`uname`" in
+  Linux*) linux=true;;
+ esac
+
+# Dereference softlinks
+THIS="$0"
+ while [ -h "$THIS" ] ; do
+  ls=`ls -ld "$THIS"`
+  softlink=`expr "$ls" : '.*-> \(.*\)$'`
+  if expr "$softlink" : '/.*' > /dev/null; then THIS="$softlink"; else THIS=`dirname "$THIS"`/"$softlink"; fi
+ done
+# Detect the installation directory
+INSTALLDIR=`dirname "$THIS"`
+
+if [ -x "$INSTALLDIR/jre/bin/java" ]; then
+ JAVA_CMD=$INSTALLDIR/jre/bin/java
+else
+ # Use JAVA_HOME if it is set
+ if [ -z "$JAVA_HOME" ]; then JAVA_CMD=java; else JAVA_CMD=$JAVA_HOME/bin/java; fi
+fi
+
+CP="$CLASSPATH:$INSTALLDIR/lib/*:$INSTALLDIR/lib/aad/*:$INSTALLDIR/lib/plugins/*:$INSTALLDIR/lib/oracle_wallet/*:$INSTALLDIR/lib/flyway/*:$INSTALLDIR/drivers/*:$INSTALLDIR/drivers/gcp/*:$INSTALLDIR/drivers/cassandra/*"
+
+EXTRA_ARGS=
+if $linux; then
+  EXTRA_ARGS=-Djava.security.egd=file:/dev/../dev/urandom
+else
+  EXTRA_ARGS=-Djava.library.path="$INSTALLDIR/native"
+fi
+
+if `command -v cygpath > /dev/null`; then CP=`cygpath -pw "$CP"`; fi
+"$JAVA_CMD" $JAVA_ARGS "$EXTRA_ARGS" -cp "$CP" org.flywaydb.commandline.Main "$@"
+
+# Exit using the same code returned from Java
+exit $?

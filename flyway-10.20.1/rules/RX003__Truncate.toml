@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)TRUNCATE(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "TRUNCATE statement"

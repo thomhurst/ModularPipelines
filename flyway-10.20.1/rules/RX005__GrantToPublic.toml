@@ -1,0 +1,4 @@
+dialects = ["TEXT"]
+rules = ["(?i)(?<=^|\\s)GRANT\\s+.+?\\s+ON\\s+.+?TO\\s+PUBLIC(?=$|\\s|;)"]
+passOnRegexMatch = false
+description = "GRANT TO PUBLIC statement"
