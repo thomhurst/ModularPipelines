@@ -1,6 +1,6 @@
 ---
 title: Migrating to V3
-sidebar_position: 99
+sidebar_position: 7
 ---
 
 # Migrating from V2 to V3
