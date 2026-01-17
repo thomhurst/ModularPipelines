@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// For source location, this can be a folder/file share or an
+/// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("apikey")]
-public record ChocoApikeyOptions : ChocoOptions
+[CliSubCommand("rule")]
+public record ChocoRuleOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,9 +111,9 @@ public record ChocoApikeyOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source [REQUIRED] - The source location for the key
+    /// Name - the name of the rule to show more details about. Required with actions other than list. Defaults to empty.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
 }

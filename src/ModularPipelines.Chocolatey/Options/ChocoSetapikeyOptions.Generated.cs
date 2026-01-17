@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,6 +15,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// For source location, this can be a folder/file share or an
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("setapikey")]
 public record ChocoSetapikeyOptions : ChocoOptions

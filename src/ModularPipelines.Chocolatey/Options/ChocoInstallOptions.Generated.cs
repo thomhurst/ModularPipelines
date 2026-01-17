@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: `all` is a special package keyword that will allow you to upgrade
+/// NOTE: Any package name ending with .config is considered a
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("upgrade")]
-public record ChocoUpgradeOptions : ChocoOptions
+[CliSubCommand("install")]
+public record ChocoInstallOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -121,12 +123,6 @@ public record ChocoUpgradeOptions : ChocoOptions
     public string? Version { get; set; }
 
     /// <summary>
-    /// Ignore Unfound Packages - Ignore packages that are not found on the sources used (or the defaults). Overrides the default feature 'ignoreUnfoundPackagesOnUpgradeOutdated' set to 'False'.
-    /// </summary>
-    [CliFlag("--ignore-unfound")]
-    public bool? IgnoreUnfound { get; set; }
-
-    /// <summary>
     /// User - used with authenticated feeds. Defaults to empty.
     /// </summary>
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
@@ -143,24 +139,6 @@ public record ChocoUpgradeOptions : ChocoOptions
     /// </summary>
     [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
     public string? Cert { get; set; }
-
-    /// <summary>
-    /// Except - a comma-separated list of package names that should not be upgraded when upgrading 'all'. Overrides the configuration setting 'upgradeAllExceptions' set to ''.
-    /// </summary>
-    [CliOption("--except", Format = OptionFormat.EqualsSeparated)]
-    public string? Except { get; set; }
-
-    /// <summary>
-    /// Install Missing Packages When Not Installed - if a package is not installed, install it as part of running upgrade (typically default behavior). Overrides the default feature 'skipPackageUpgradesWhenNotInstalled' set to 'False'.
-    /// </summary>
-    [CliFlag("--install-if-not-installed")]
-    public bool? InstallIfNotInstalled { get; set; }
-
-    /// <summary>
-    /// Ignore Pinned - Ignores any pins and upgrades the package(s) anyway. Available in 2.3.0+
-    /// </summary>
-    [CliFlag("--ignore-pinned")]
-    public bool? IgnorePinned { get; set; }
 
     /// <summary>
     /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("search")]
-public record ChocoSearchOptions : ChocoOptions
+[CliSubCommand("pin")]
+public record ChocoPinOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,93 +111,15 @@ public record ChocoSearchOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - Source location for install. Can use special 'windowsfeatures', 'ruby', 'cygwin', or 'python' sources. Defaults to sources.
+    /// Name - the name of the package. Required with some actions. Defaults to empty.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
     /// <summary>
-    /// Version - Specific version of a package to return.
+    /// Version - Used when multiple versions of a package are installed. Defaults to empty.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
-
-    /// <summary>
-    /// User - used with authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
-
-    /// <summary>
-    /// Password - the user's password to the source. Defaults to empty.
-    /// </summary>
-    [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
-    public string? Password { get; set; }
-
-    /// <summary>
-    /// Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.
-    /// </summary>
-    [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
-    public string? Cert { get; set; }
-
-    /// <summary>
-    /// Page - the 'page' of results to return. Defaults to return all results.
-    /// </summary>
-    [CliOption("--page", Format = OptionFormat.EqualsSeparated)]
-    public string? Page { get; set; }
-
-    /// <summary>
-    /// Page Size - the amount of packages to return in each page of results. NOTE: this value is per source. Defaults to 25 for each source that is included in query.
-    /// </summary>
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public string? PageSize { get; set; }
-
-    /// <summary>
-    /// Exact - Only return packages with this exact name.
-    /// </summary>
-    [CliFlag("--exact", ShortForm = "-e")]
-    public bool? Exact { get; set; }
-
-    /// <summary>
-    /// ByIdOnly - Only return packages where the id contains the search filter.
-    /// </summary>
-    [CliFlag("--by-id-only")]
-    public bool? ByIdOnly { get; set; }
-
-    /// <summary>
-    /// IdStartsWith - Only return packages where the id starts with the search filter.
-    /// </summary>
-    [CliFlag("--id-starts-with")]
-    public bool? IdStartsWith { get; set; }
-
-    /// <summary>
-    /// OrderBy - Sort package results by Id (default), Title, Popularity, LastPublished, Unsorted. Available in 2.5.0+.
-    /// </summary>
-    [CliOption("--order-by", Format = OptionFormat.EqualsSeparated)]
-    public string? OrderBy { get; set; }
-
-    /// <summary>
-    /// (Deprecated) OrderByPopularity - Sort package results by popularity. Use '--order-by='Popularity'' instead.
-    /// </summary>
-    [CliFlag("--order-by-popularity")]
-    public bool? OrderByPopularity { get; set; }
-
-    /// <summary>
-    /// ApprovedOnly - Only return approved packages - this option will filter out results not from the community repository.
-    /// </summary>
-    [CliFlag("--approved-only")]
-    public bool? ApprovedOnly { get; set; }
-
-    /// <summary>
-    /// NotBroken - Only return packages that are not failing testing - this option only filters out failing results from the community feed. It will not filter against other sources.
-    /// </summary>
-    [CliFlag("--not-broken")]
-    public bool? NotBroken { get; set; }
-
-    /// <summary>
-    /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+
-    /// </summary>
-    [CliFlag("--include-configured-sources")]
-    public bool? IncludeConfiguredSources { get; set; }
 
 }

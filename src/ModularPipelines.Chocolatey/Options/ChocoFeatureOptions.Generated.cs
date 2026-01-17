@@ -5,15 +5,20 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
 
 namespace ModularPipelines.Chocolatey.Options;
 
+/// <summary>
+/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("unpackself")]
-public record ChocoUnpackselfOptions : ChocoOptions
+[CliSubCommand("feature")]
+public record ChocoFeatureOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -104,5 +109,11 @@ public record ChocoUnpackselfOptions : ChocoOptions
     /// </summary>
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
+
+    /// <summary>
+    /// Name - the name of the source. Required with actions other than list. Defaults to empty.
+    /// </summary>
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: `all` is a special package keyword that will allow you to
+/// packageversion
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("uninstall")]
-public record ChocoUninstallOptions : ChocoOptions
+[CliSubCommand("new")]
+public record ChocoNewOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,15 +111,21 @@ public record ChocoUninstallOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. Defaults to default feeds.
+    /// Name [Required]- the name of the package. Can be passed as first parameter without "--name=".
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
 
     /// <summary>
-    /// Version - A specific version to uninstall. Defaults to unspecified.
+    /// Version - the version of the package. Can also be passed as the property PackageVersion=somevalue
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// Maintainer - the name of the maintainer. Can also be passed as the property MaintainerName=somevalue
+    /// </summary>
+    [CliOption("--maintainer", Format = OptionFormat.EqualsSeparated)]
+    public string? Maintainer { get; set; }
 
 }

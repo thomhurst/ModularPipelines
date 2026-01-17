@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// NOTE: `all` is a special package keyword that will allow you to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("config")]
-public record ChocoConfigOptions : ChocoOptions
+[CliSubCommand("uninstall")]
+public record ChocoUninstallOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,15 +111,15 @@ public record ChocoConfigOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Name - the name of the config setting. Required with some actions. Defaults to empty.
+    /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. Defaults to default feeds.
     /// </summary>
-    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
-    public string? Name { get; set; }
+    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
     /// <summary>
-    /// Value - the value of the config setting. Required with some actions. Defaults to empty.
+    /// Version - A specific version to uninstall. Defaults to unspecified.
     /// </summary>
-    [CliOption("--value", Format = OptionFormat.EqualsSeparated)]
-    public string? Value { get; set; }
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
 
 }

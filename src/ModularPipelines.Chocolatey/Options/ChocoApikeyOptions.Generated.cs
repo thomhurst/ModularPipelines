@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// For source location, this can be a folder/file share or an
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("export")]
-public record ChocoExportOptions : ChocoOptions
+[CliSubCommand("apikey")]
+public record ChocoApikeyOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,9 +111,9 @@ public record ChocoExportOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Output File Path - the path to where the list of currently installed packages should be saved. Defaults to packages.config.
+    /// Source [REQUIRED] - The source location for the key
     /// </summary>
-    [CliOption("--output-file-path", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputFilePath { get; set; }
+    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: If there is more than one nupkg file in the folder, the command
+/// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("push")]
-public record ChocoPushOptions : ChocoOptions
+[CliSubCommand("license")]
+public record ChocoLicenseOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -107,11 +109,5 @@ public record ChocoPushOptions : ChocoOptions
     /// </summary>
     [CliFlag("--ignore-http-cache")]
     public bool? IgnoreHttpCache { get; set; }
-
-    /// <summary>
-    /// Source - The source we are pushing the package to. Use https://pus- h.chocolatey.org/ to push to community feed.
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
 
 }

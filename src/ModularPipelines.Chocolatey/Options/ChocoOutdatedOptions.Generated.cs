@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: Any package name ending with .config is considered a
+/// If you use `--source=https://somewhere/out/there`, it is
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("install")]
-public record ChocoInstallOptions : ChocoOptions
+[CliSubCommand("outdated")]
+public record ChocoOutdatedOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -115,12 +117,6 @@ public record ChocoInstallOptions : ChocoOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// Version - A specific version to install. Defaults to unspecified.
-    /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
-
-    /// <summary>
     /// User - used with authenticated feeds. Defaults to empty.
     /// </summary>
     [CliOption("--user", ShortForm = "-u", Format = OptionFormat.EqualsSeparated)]
@@ -137,6 +133,18 @@ public record ChocoInstallOptions : ChocoOptions
     /// </summary>
     [CliOption("--cert", Format = OptionFormat.EqualsSeparated)]
     public string? Cert { get; set; }
+
+    /// <summary>
+    /// Ignore Pinned - Ignore pinned packages. Defaults to false.
+    /// </summary>
+    [CliFlag("--ignore-pinned")]
+    public bool? IgnorePinned { get; set; }
+
+    /// <summary>
+    /// Ignore Unfound Packages - Ignore packages that are not found on the sources used (or the defaults). Overrides the default feature 'ignoreUnfoundPackagesOnUpgradeOutdated' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignore-unfound")]
+    public bool? IgnoreUnfound { get; set; }
 
     /// <summary>
     /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("cache")]
-public record ChocoCacheOptions : ChocoOptions
+[CliSubCommand("config")]
+public record ChocoConfigOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,9 +111,15 @@ public record ChocoCacheOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Expired - Remove cached items that have expired.
+    /// Name - the name of the config setting. Required with some actions. Defaults to empty.
     /// </summary>
-    [CliFlag("--expired")]
-    public bool? Expired { get; set; }
+    [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Value - the value of the config setting. Required with some actions. Defaults to empty.
+    /// </summary>
+    [CliOption("--value", Format = OptionFormat.EqualsSeparated)]
+    public string? Value { get; set; }
 
 }

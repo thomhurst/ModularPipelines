@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.Chocolatey.Options;
 namespace ModularPipelines.Chocolatey.Options;
 
 /// <summary>
-/// NOTE: See scripting in the command reference (`choco --help`) for how to
+/// NOTE: `all` is a special package keyword that will allow you to upgrade
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("find")]
-public record ChocoFindOptions : ChocoOptions
+[CliSubCommand("upgrade")]
+public record ChocoUpgradeOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -109,16 +111,22 @@ public record ChocoFindOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - Source location for install. Can use special 'windowsfeatures', 'ruby', 'cygwin', or 'python' sources. Defaults to sources.
+    /// Source - The source to find the package(s) to install. Special sources include: ruby, cygwin, windowsfeatures, and python. To specify more than one source, pass it with a semi-colon separating the values (e.g. "'source1;source2'"). Defaults to default feeds.
     /// </summary>
     [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
     public string? Source { get; set; }
 
     /// <summary>
-    /// Version - Specific version of a package to return.
+    /// Version - A specific version to install. Defaults to unspecified.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// Ignore Unfound Packages - Ignore packages that are not found on the sources used (or the defaults). Overrides the default feature 'ignoreUnfoundPackagesOnUpgradeOutdated' set to 'False'.
+    /// </summary>
+    [CliFlag("--ignore-unfound")]
+    public bool? IgnoreUnfound { get; set; }
 
     /// <summary>
     /// User - used with authenticated feeds. Defaults to empty.
@@ -139,58 +147,22 @@ public record ChocoFindOptions : ChocoOptions
     public string? Cert { get; set; }
 
     /// <summary>
-    /// Page - the 'page' of results to return. Defaults to return all results.
+    /// Except - a comma-separated list of package names that should not be upgraded when upgrading 'all'. Overrides the configuration setting 'upgradeAllExceptions' set to ''.
     /// </summary>
-    [CliOption("--page", Format = OptionFormat.EqualsSeparated)]
-    public string? Page { get; set; }
+    [CliOption("--except", Format = OptionFormat.EqualsSeparated)]
+    public string? Except { get; set; }
 
     /// <summary>
-    /// Page Size - the amount of packages to return in each page of results. NOTE: this value is per source. Defaults to 25 for each source that is included in query.
+    /// Install Missing Packages When Not Installed - if a package is not installed, install it as part of running upgrade (typically default behavior). Overrides the default feature 'skipPackageUpgradesWhenNotInstalled' set to 'False'.
     /// </summary>
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public string? PageSize { get; set; }
+    [CliFlag("--install-if-not-installed")]
+    public bool? InstallIfNotInstalled { get; set; }
 
     /// <summary>
-    /// Exact - Only return packages with this exact name.
+    /// Ignore Pinned - Ignores any pins and upgrades the package(s) anyway. Available in 2.3.0+
     /// </summary>
-    [CliFlag("--exact", ShortForm = "-e")]
-    public bool? Exact { get; set; }
-
-    /// <summary>
-    /// ByIdOnly - Only return packages where the id contains the search filter.
-    /// </summary>
-    [CliFlag("--by-id-only")]
-    public bool? ByIdOnly { get; set; }
-
-    /// <summary>
-    /// IdStartsWith - Only return packages where the id starts with the search filter.
-    /// </summary>
-    [CliFlag("--id-starts-with")]
-    public bool? IdStartsWith { get; set; }
-
-    /// <summary>
-    /// OrderBy - Sort package results by Id (default), Title, Popularity, LastPublished, Unsorted. Available in 2.5.0+.
-    /// </summary>
-    [CliOption("--order-by", Format = OptionFormat.EqualsSeparated)]
-    public string? OrderBy { get; set; }
-
-    /// <summary>
-    /// (Deprecated) OrderByPopularity - Sort package results by popularity. Use '--order-by='Popularity'' instead.
-    /// </summary>
-    [CliFlag("--order-by-popularity")]
-    public bool? OrderByPopularity { get; set; }
-
-    /// <summary>
-    /// ApprovedOnly - Only return approved packages - this option will filter out results not from the community repository.
-    /// </summary>
-    [CliFlag("--approved-only")]
-    public bool? ApprovedOnly { get; set; }
-
-    /// <summary>
-    /// NotBroken - Only return packages that are not failing testing - this option only filters out failing results from the community feed. It will not filter against other sources.
-    /// </summary>
-    [CliFlag("--not-broken")]
-    public bool? NotBroken { get; set; }
+    [CliFlag("--ignore-pinned")]
+    public bool? IgnorePinned { get; set; }
 
     /// <summary>
     /// Include Configured Sources - When using the '--source' option, this appends the sources that have been saved into the chocolatey.config file by 'source' command.  Available in 2.3.0+
