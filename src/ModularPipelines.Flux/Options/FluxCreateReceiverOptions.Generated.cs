@@ -38,6 +38,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     [CliOption("--resource", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Resource { get; set; }
 
+    [SecretValue]
     [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? SecretRef { get; set; }
 
@@ -173,6 +174,7 @@ public record FluxCreateReceiverOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

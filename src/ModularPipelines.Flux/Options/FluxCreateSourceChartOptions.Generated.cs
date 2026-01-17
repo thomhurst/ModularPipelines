@@ -66,6 +66,7 @@ public record FluxCreateSourceChartOptions : FluxOptions
     /// <summary>
     /// the name of a secret to use for signature verification
     /// </summary>
+    [SecretValue]
     [CliOption("--verify-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? VerifySecretRef { get; set; }
 
@@ -210,6 +211,7 @@ public record FluxCreateSourceChartOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

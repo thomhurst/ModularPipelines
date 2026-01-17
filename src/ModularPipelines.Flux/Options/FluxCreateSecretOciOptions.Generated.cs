@@ -29,6 +29,7 @@ public record FluxCreateSecretOciOptions : FluxOptions
     /// <summary>
     /// basic authentication password
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
@@ -173,6 +174,7 @@ public record FluxCreateSecretOciOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

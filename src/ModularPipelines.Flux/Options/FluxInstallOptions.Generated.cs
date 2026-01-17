@@ -60,6 +60,7 @@ public record FluxInstallOptions : FluxOptions
     /// <summary>
     /// Kubernetes secret name used for pulling the toolkit images from a private registry
     /// </summary>
+    [SecretValue]
     [CliOption("--image-pull-secret", Format = OptionFormat.EqualsSeparated)]
     public string? ImagePullSecret { get; set; }
 
@@ -216,6 +217,7 @@ public record FluxInstallOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

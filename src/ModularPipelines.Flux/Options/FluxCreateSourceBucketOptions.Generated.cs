@@ -24,6 +24,7 @@ public record FluxCreateSourceBucketOptions : FluxOptions
     /// <summary>
     /// the bucket access key
     /// </summary>
+    [SecretValue]
     [CliOption("--access-key", Format = OptionFormat.EqualsSeparated)]
     public string? AccessKey { get; set; }
 
@@ -66,6 +67,7 @@ public record FluxCreateSourceBucketOptions : FluxOptions
     /// <summary>
     /// the name of an existing secret containing the proxy address and credentials
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretRef { get; set; }
 
@@ -78,12 +80,14 @@ public record FluxCreateSourceBucketOptions : FluxOptions
     /// <summary>
     /// the bucket secret key
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-key", Format = OptionFormat.EqualsSeparated)]
     public string? SecretKey { get; set; }
 
     /// <summary>
     /// the name of an existing secret containing credentials
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? SecretRef { get; set; }
 
@@ -222,6 +226,7 @@ public record FluxCreateSourceBucketOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 
