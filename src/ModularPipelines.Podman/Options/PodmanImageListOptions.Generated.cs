@@ -69,7 +69,7 @@ public record PodmanImageListOptions : PodmanOptions
     public bool? Quiet { get; set; }
 
     /// <summary>
-    /// Sort by tag, created, id, repository, size (default "created")
+    /// Sort by created, id, repository, size, tag (default "created")
     /// </summary>
     [CliOption("--sort", Format = OptionFormat.EqualsSeparated)]
     public string? Sort { get; set; }

@@ -119,6 +119,7 @@ public record PodmanPushOptions : PodmanOptions
     /// <summary>
     /// Sign the image using a sigstore private key at PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-by-sigstore-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? SignBySigstorePrivateKey { get; set; }
 

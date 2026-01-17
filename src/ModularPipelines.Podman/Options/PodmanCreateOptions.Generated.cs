@@ -668,6 +668,7 @@ public record PodmanCreateOptions : PodmanOptions
     /// <summary>
     /// Add secret to container
     /// </summary>
+    [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Secret { get; set; }
 
