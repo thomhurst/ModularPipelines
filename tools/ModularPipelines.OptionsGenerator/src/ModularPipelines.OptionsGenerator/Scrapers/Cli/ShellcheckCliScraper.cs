@@ -227,11 +227,12 @@ public partial class ShellcheckCliScraper : CliScraperBase
     #region Regex Patterns
 
     /// <summary>
-    /// Matches ShellCheck-style option lines:
+    /// Matches ShellCheck-style option lines with optional short form:
     ///   -a                   --check-sourced      Check sourced files
     ///   -C[WHEN]             --color[=WHEN]       Enable color output
+    ///                        --wiki-link-count=NUM  Count of wiki links (no short form)
     /// </summary>
-    [GeneratedRegex(@"^\s+(?<short>-\w(?:\[[^\]]+\])?)\s+(?<long>--[\w-]+(?:=\w+|\[=\w+\])?)\s+(?<desc>.*)$", RegexOptions.Multiline)]
+    [GeneratedRegex(@"^\s+(?:(?<short>-\w(?:\[[^\]]+\])?)\s+)?(?<long>--[\w-]+(?:=\w+|\[=\w+\])?)\s+(?<desc>.*)$", RegexOptions.Multiline)]
     private static partial Regex ShellcheckOptionPattern();
 
     #endregion

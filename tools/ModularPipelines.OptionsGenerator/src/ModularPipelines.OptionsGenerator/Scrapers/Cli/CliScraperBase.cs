@@ -272,8 +272,13 @@ public abstract partial class CliScraperBase : ICliScraper
             return;
         }
 
+        // Extract subcommands first to determine if this is a single-command tool
+        var subcommands = ExtractSubcommands(helpText).ToList();
+        var isSingleCommandTool = path.Length == 1 && subcommands.Count == 0;
+
         // If this command has options, parse and write to channel
-        if (HasOptions(helpText) && path.Length > 1)
+        // Parse if: (1) it's a subcommand (path.Length > 1), OR (2) it's a single-command tool with no subcommands
+        if (HasOptions(helpText) && (path.Length > 1 || isSingleCommandTool))
         {
             try
             {
@@ -292,7 +297,6 @@ public abstract partial class CliScraperBase : ICliScraper
 
         // Enqueue subcommands for parallel processing
         // IMPORTANT: Increment BEFORE adding to channel to avoid race conditions
-        var subcommands = ExtractSubcommands(helpText);
         foreach (var subcommand in subcommands)
         {
             if (IsSkippableSubcommand(subcommand))

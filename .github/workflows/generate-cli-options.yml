@@ -255,6 +255,14 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@stable --activate
+          # Create a minimal project context for Yarn Berry (required for help output)
+          mkdir -p /tmp/yarn-context && cd /tmp/yarn-context
+          echo '{"name":"temp","packageManager":"yarn@4.0.0"}' > package.json
+          # Verify yarn works in the project context
+          yarn --version
+        env:
+          # Set default Yarn context for subsequent commands
+          YARN_IGNORE_CWD: "true"
 
       - name: Install AWS CLI
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'aws'
@@ -399,7 +407,10 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'liquibase'
         run: |
           wget -qO- https://github.com/liquibase/liquibase/releases/download/v4.29.2/liquibase-4.29.2.tar.gz | tar xvz -C /tmp
-          sudo mv /tmp/liquibase /usr/local/bin/
+          # The tarball extracts to liquibase-<version>/ directory, symlink the liquibase script
+          sudo ln -s /tmp/liquibase-4.29.2/liquibase /usr/local/bin/liquibase
+          # Verify installation
+          liquibase --version
 
       # Rust ecosystem
       - name: Install Cargo
@@ -449,9 +460,12 @@ jobs:
       - name: Install Cosign
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'cosign'
         run: |
-          curl -Lo cosign https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
+          # Use -fL to fail on HTTP errors and follow redirects
+          curl -fLo cosign https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-amd64
           chmod +x cosign
           sudo mv cosign /usr/local/bin/
+          # Verify installation
+          cosign version
 
       - name: Install Syft
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'syft'
@@ -734,4 +748,4 @@ jobs:
         shell: pwsh
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}

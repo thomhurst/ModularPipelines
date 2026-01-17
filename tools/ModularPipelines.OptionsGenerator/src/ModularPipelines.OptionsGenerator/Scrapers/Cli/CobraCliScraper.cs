@@ -541,7 +541,16 @@ public abstract partial class CobraCliScraper : CliScraperBase
     {
         var cleaned = value.Replace("-", "_").Replace(".", "_");
         var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
-        return string.Join("", parts.Select(ToPascalCase));
+        var result = string.Join("", parts.Select(ToPascalCase));
+
+        // Ensure the enum member name starts with a letter (C# identifier requirement)
+        // Handles cases like "82540EM" (VirtualBox NIC type) or "9p" (filesystem protocol)
+        if (result.Length > 0 && !char.IsLetter(result[0]))
+        {
+            result = "Value" + result;
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -701,9 +710,10 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches command section headers like "Available Commands:", "Commands:",
-    /// "Common Commands:", "Management Commands:", "Swarm Commands:", etc.
+    /// "Common Commands:", "Management Commands:", "Swarm Commands:", "Scanning Commands:",
+    /// "Utility Commands:", etc. Uses a flexible pattern to match any word prefix.
     /// </summary>
-    [GeneratedRegex(@"(?:Available\s+|Common\s+|Management\s+|Swarm\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"(?:\w+\s+)?Commands?:\s*\n", RegexOptions.IgnoreCase)]
     private static partial Regex CommandsSectionPattern();
 
     /// <summary>

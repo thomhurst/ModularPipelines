@@ -54,13 +54,24 @@ public partial class PnpmCliScraper : CliScraperBase
 
     /// <summary>
     /// Extracts subcommand names from pnpm help text.
+    /// pnpm has a FLAT command structure - commands like "add", "install", "run" do NOT have subcommands.
+    /// Only extract subcommands from the root help text (pnpm --help).
     /// </summary>
     protected override IEnumerable<string> ExtractSubcommands(string helpText)
     {
+        // pnpm has a flat command structure - no nested subcommands.
+        // Only parse subcommands from the root help (which shows "Usage: pnpm [command]")
+        // Subcommand help (e.g., "pnpm add --help") shows "pnpm add <pkg>" not "Usage: pnpm [command]"
+        if (!helpText.Contains("Usage: pnpm [command]") && !helpText.Contains("pnpm [command]"))
+        {
+            // This is a subcommand's help text, not the root - no further subcommands
+            return [];
+        }
+
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // pnpm uses sections with headers followed by command lines:
+        // pnpm root help uses sections with headers followed by command lines:
         // Manage your dependencies:
         //       add                  Installs a package...
         //       install              Installs all dependencies...
