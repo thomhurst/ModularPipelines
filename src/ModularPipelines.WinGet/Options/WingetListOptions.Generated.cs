@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,18 +13,13 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Shows information on a specific package. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("show")]
-public record WingetShowOptions : WingetOptions
+[CliSubCommand("list")]
+public record WingetListOptions : WingetOptions
 {
-    /// <summary>
-    /// The path to the manifest of the package
-    /// </summary>
-    [CliOption("--manifest", ShortForm = "-m")]
-    public string? Manifest { get; set; }
-
     /// <summary>
     /// Filter results by id
     /// </summary>
@@ -43,16 +39,22 @@ public record WingetShowOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Use the specified version; default is the latest version
-    /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
-
-    /// <summary>
     /// Find package using the specified source
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Filter results by tag
+    /// </summary>
+    [CliOption("--tag")]
+    public string? Tag { get; set; }
+
+    /// <summary>
+    /// Show no more than specified number of results (between 1 and 1000)
+    /// </summary>
+    [CliOption("--count", ShortForm = "-n")]
+    public string? Count { get; set; }
 
     /// <summary>
     /// Find package using exact match
@@ -61,34 +63,10 @@ public record WingetShowOptions : WingetOptions
     public string? Exact { get; set; }
 
     /// <summary>
-    /// Select install scope (user or machine)
+    /// Select installed package scope filter (user or machine)
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; set; }
-
-    /// <summary>
-    /// Select the architecture
-    /// </summary>
-    [CliOption("--architecture", ShortForm = "-a")]
-    public string? Architecture { get; set; }
-
-    /// <summary>
-    /// Select the installer type
-    /// </summary>
-    [CliOption("--installer-type")]
-    public string? InstallerType { get; set; }
-
-    /// <summary>
-    /// Locale to use (BCP47 format)
-    /// </summary>
-    [CliOption("--locale")]
-    public string? Locale { get; set; }
-
-    /// <summary>
-    /// Show available versions of the package
-    /// </summary>
-    [CliOption("--versions")]
-    public string? Versions { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -113,6 +91,12 @@ public record WingetShowOptions : WingetOptions
     /// </summary>
     [CliFlag("--accept-source-agreements")]
     public bool? AcceptSourceAgreements { get; set; }
+
+    /// <summary>
+    /// Lists only packages which have an upgrade available
+    /// </summary>
+    [CliOption("--upgrade-available")]
+    public string? UpgradeAvailable { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

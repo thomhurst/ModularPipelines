@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Uninstalls the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+/// Shows information on a specific package. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("uninstall")]
-public record WingetUninstallOptions : WingetOptions
+[CliSubCommand("show")]
+public record WingetShowOptions : WingetOptions
 {
     /// <summary>
     /// The path to the manifest of the package
@@ -43,16 +45,10 @@ public record WingetUninstallOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Filters using the product code
+    /// Use the specified version; default is the latest version
     /// </summary>
-    [CliOption("--product-code")]
-    public string? ProductCode { get; set; }
-
-    /// <summary>
-    /// The version to act upon
-    /// </summary>
-    [CliOption("--version", ShortForm = "-v")]
-    public string? Version { get; set; }
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
     /// <summary>
     /// Find package using the specified source
@@ -67,46 +63,34 @@ public record WingetUninstallOptions : WingetOptions
     public string? Exact { get; set; }
 
     /// <summary>
-    /// Select installed package scope filter (user or machine)
+    /// Select install scope (user or machine)
     /// </summary>
     [CliOption("--scope")]
     public string? Scope { get; set; }
 
     /// <summary>
-    /// Request interactive installation; user input may be needed
+    /// Select the architecture
     /// </summary>
-    [CliFlag("--interactive", ShortForm = "-i")]
-    public bool? Interactive { get; set; }
+    [CliOption("--architecture", ShortForm = "-a")]
+    public string? Architecture { get; set; }
 
     /// <summary>
-    /// Request silent installation
+    /// Select the installer type
     /// </summary>
-    [CliFlag("--silent", ShortForm = "-h")]
-    public bool? Silent { get; set; }
+    [CliOption("--installer-type")]
+    public string? InstallerType { get; set; }
 
     /// <summary>
-    /// Direct run the command and continue with non security related issues
+    /// Locale to use (BCP47 format)
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
+    [CliOption("--locale")]
+    public string? Locale { get; set; }
 
     /// <summary>
-    /// Deletes all files and directories in the package directory (portable)
+    /// Show available versions of the package
     /// </summary>
-    [CliOption("--purge")]
-    public string? Purge { get; set; }
-
-    /// <summary>
-    /// Retains all files and directories created by the package (portable)
-    /// </summary>
-    [CliOption("--preserve")]
-    public string? Preserve { get; set; }
-
-    /// <summary>
-    /// Log location (if supported)
-    /// </summary>
-    [CliOption("--log", ShortForm = "-o")]
-    public string? Log { get; set; }
+    [CliOption("--versions")]
+    public string? Versions { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,17 +13,24 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
+/// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("hash")]
-public record WingetHashOptions : WingetOptions
+[CliSubCommand("settings")]
+public record WingetSettingsOptions : WingetOptions
 {
     /// <summary>
-    /// Input file will be treated as msix; signature hash will be provided if signed
+    /// Enables the specific administrator setting
     /// </summary>
-    [CliOption("--msix", ShortForm = "-m")]
-    public string? Msix { get; set; }
+    [CliFlag("--enable")]
+    public bool? Enable { get; set; }
+
+    /// <summary>
+    /// Disables the specific administrator setting
+    /// </summary>
+    [CliFlag("--disable")]
+    public bool? Disable { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -47,11 +55,5 @@ public record WingetHashOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
-
-    /// <summary>
-    /// File to be hashed
-    /// </summary>
-    [CliOption("--file", ShortForm = "-f")]
-    public string? File { get; set; }
 
 }

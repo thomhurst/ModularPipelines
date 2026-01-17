@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// The list command displays the packages installed on the system, as well as whether an upgrade is available. Additional options can be provided to filter the output, much like the search command.
+/// Searches for packages from configured sources.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("list")]
-public record WingetListOptions : WingetOptions
+[CliSubCommand("search")]
+public record WingetSearchOptions : WingetOptions
 {
     /// <summary>
     /// Filter results by id
@@ -37,16 +39,16 @@ public record WingetListOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Find package using the specified source
-    /// </summary>
-    [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
-
-    /// <summary>
     /// Filter results by tag
     /// </summary>
     [CliOption("--tag")]
     public string? Tag { get; set; }
+
+    /// <summary>
+    /// Find package using the specified source
+    /// </summary>
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Show no more than specified number of results (between 1 and 1000)
@@ -59,12 +61,6 @@ public record WingetListOptions : WingetOptions
     /// </summary>
     [CliOption("--exact", ShortForm = "-e")]
     public string? Exact { get; set; }
-
-    /// <summary>
-    /// Select installed package scope filter (user or machine)
-    /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -91,10 +87,10 @@ public record WingetListOptions : WingetOptions
     public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
-    /// Lists only packages which have an upgrade available
+    /// Show available versions of the package
     /// </summary>
-    [CliOption("--upgrade-available")]
-    public string? UpgradeAvailable { get; set; }
+    [CliOption("--versions")]
+    public string? Versions { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

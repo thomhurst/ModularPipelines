@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Shows the status of experimental features. Experimental features can be turned on via 'winget settings'.
+/// Validates a manifest using a strict set of guidelines. This is intended to enable you to check your manifest before submitting to a repo.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("features")]
-public record WingetFeaturesOptions : WingetOptions
+[CliSubCommand("validate")]
+public record WingetValidateOptions : WingetOptions
 {
     /// <summary>
     /// Prompts the user to press any key before exiting
@@ -41,5 +43,11 @@ public record WingetFeaturesOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// The path to the manifest to be validated
+    /// </summary>
+    [CliOption("--manifest")]
+    public string? Manifest { get; set; }
 
 }

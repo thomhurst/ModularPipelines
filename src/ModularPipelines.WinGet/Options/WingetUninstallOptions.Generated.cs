@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
+/// Uninstalls the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("repair")]
-public record WingetRepairOptions : WingetOptions
+[CliSubCommand("uninstall")]
+public record WingetUninstallOptions : WingetOptions
 {
     /// <summary>
     /// The path to the manifest of the package
@@ -43,34 +45,34 @@ public record WingetRepairOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// The version to act upon
-    /// </summary>
-    [CliOption("--version", ShortForm = "-v")]
-    public string? Version { get; set; }
-
-    /// <summary>
     /// Filters using the product code
     /// </summary>
     [CliOption("--product-code")]
     public string? ProductCode { get; set; }
 
     /// <summary>
-    /// Select the architecture
+    /// The version to act upon
     /// </summary>
-    [CliOption("--architecture", ShortForm = "-a")]
-    public string? Architecture { get; set; }
-
-    /// <summary>
-    /// Select installed package scope filter (user or machine)
-    /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
     /// <summary>
     /// Find package using the specified source
     /// </summary>
     [CliOption("--source", ShortForm = "-s")]
     public string? Source { get; set; }
+
+    /// <summary>
+    /// Find package using exact match
+    /// </summary>
+    [CliOption("--exact", ShortForm = "-e")]
+    public string? Exact { get; set; }
+
+    /// <summary>
+    /// Select installed package scope filter (user or machine)
+    /// </summary>
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
     /// Request interactive installation; user input may be needed
@@ -85,34 +87,28 @@ public record WingetRepairOptions : WingetOptions
     public bool? Silent { get; set; }
 
     /// <summary>
+    /// Direct run the command and continue with non security related issues
+    /// </summary>
+    [CliOption("--force")]
+    public string? Force { get; set; }
+
+    /// <summary>
+    /// Deletes all files and directories in the package directory (portable)
+    /// </summary>
+    [CliOption("--purge")]
+    public string? Purge { get; set; }
+
+    /// <summary>
+    /// Retains all files and directories created by the package (portable)
+    /// </summary>
+    [CliOption("--preserve")]
+    public string? Preserve { get; set; }
+
+    /// <summary>
     /// Log location (if supported)
     /// </summary>
     [CliOption("--log", ShortForm = "-o")]
     public string? Log { get; set; }
-
-    /// <summary>
-    /// Ignore the malware scan performed as part of installing an archive type package from local manifest
-    /// </summary>
-    [CliFlag("--ignore-local-archive-malware-scan")]
-    public bool? IgnoreLocalArchiveMalwareScan { get; set; }
-
-    /// <summary>
-    /// Accept all source agreements during source operations
-    /// </summary>
-    [CliFlag("--accept-source-agreements")]
-    public bool? AcceptSourceAgreements { get; set; }
-
-    /// <summary>
-    /// Accept all license agreements for packages
-    /// </summary>
-    [CliFlag("--accept-package-agreements")]
-    public bool? AcceptPackageAgreements { get; set; }
-
-    /// <summary>
-    /// Locale to use (BCP47 format)
-    /// </summary>
-    [CliOption("--locale")]
-    public string? Locale { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -133,22 +129,10 @@ public record WingetRepairOptions : WingetOptions
     public string? AuthenticationAccount { get; set; }
 
     /// <summary>
-    /// Direct run the command and continue with non security related issues
+    /// Accept all source agreements during source operations
     /// </summary>
-    [CliOption("--force")]
-    public string? Force { get; set; }
-
-    /// <summary>
-    /// Ignore the installer hash check failure
-    /// </summary>
-    [CliFlag("--ignore-security-hash")]
-    public bool? IgnoreSecurityHash { get; set; }
-
-    /// <summary>
-    /// Find package using exact match
-    /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliFlag("--accept-source-agreements")]
+    public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
