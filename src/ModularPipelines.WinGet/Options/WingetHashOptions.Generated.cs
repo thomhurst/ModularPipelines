@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,12 +13,19 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Manage sources with the sub-commands. A source provides the data for you to discover and install packages. Only add a new source if you trust it as a secure location.
+/// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("source")]
-public record WingetSourceOptions : WingetOptions
+[CliSubCommand("hash")]
+public record WingetHashOptions : WingetOptions
 {
+    /// <summary>
+    /// Input file will be treated as msix; signature hash will be provided if signed
+    /// </summary>
+    [CliOption("--msix", ShortForm = "-m")]
+    public string? Msix { get; set; }
+
     /// <summary>
     /// Prompts the user to press any key before exiting
     /// </summary>
@@ -41,5 +49,11 @@ public record WingetSourceOptions : WingetOptions
     /// </summary>
     [CliFlag("--no-proxy")]
     public bool? NoProxy { get; set; }
+
+    /// <summary>
+    /// File to be hashed
+    /// </summary>
+    [CliOption("--file", ShortForm = "-f")]
+    public string? File { get; set; }
 
 }

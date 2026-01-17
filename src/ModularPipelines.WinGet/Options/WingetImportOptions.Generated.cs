@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -14,6 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// Installs all the packages listed in a file.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("import")]
 public record WingetImportOptions : WingetOptions

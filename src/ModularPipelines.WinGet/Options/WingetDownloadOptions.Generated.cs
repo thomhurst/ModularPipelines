@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,12 +13,25 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Searches for packages from configured sources.
+/// Downloads the installer from the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, download command will download the appropriate installer to the user's Downloads folder.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("search")]
-public record WingetSearchOptions : WingetOptions
+[CliSubCommand("download")]
+public record WingetDownloadOptions : WingetOptions
 {
+    /// <summary>
+    /// Directory where the installers are downloaded to
+    /// </summary>
+    [CliOption("--download-directory", ShortForm = "-d")]
+    public string? DownloadDirectory { get; set; }
+
+    /// <summary>
+    /// The path to the manifest of the package
+    /// </summary>
+    [CliOption("--manifest", ShortForm = "-m")]
+    public string? Manifest { get; set; }
+
     /// <summary>
     /// Filter results by id
     /// </summary>
@@ -37,10 +51,10 @@ public record WingetSearchOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Filter results by tag
+    /// Use the specified version; default is the latest version
     /// </summary>
-    [CliOption("--tag")]
-    public string? Tag { get; set; }
+    [CliFlag("--version", ShortForm = "-v")]
+    public bool? Version { get; set; }
 
     /// <summary>
     /// Find package using the specified source
@@ -49,16 +63,46 @@ public record WingetSearchOptions : WingetOptions
     public string? Source { get; set; }
 
     /// <summary>
-    /// Show no more than specified number of results (between 1 and 1000)
+    /// Select install scope (user or machine)
     /// </summary>
-    [CliOption("--count", ShortForm = "-n")]
-    public string? Count { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
+
+    /// <summary>
+    /// Select the architecture
+    /// </summary>
+    [CliOption("--architecture", ShortForm = "-a")]
+    public string? Architecture { get; set; }
+
+    /// <summary>
+    /// Select the installer type
+    /// </summary>
+    [CliOption("--installer-type")]
+    public string? InstallerType { get; set; }
 
     /// <summary>
     /// Find package using exact match
     /// </summary>
     [CliOption("--exact", ShortForm = "-e")]
     public string? Exact { get; set; }
+
+    /// <summary>
+    /// Locale to use (BCP47 format)
+    /// </summary>
+    [CliOption("--locale")]
+    public string? Locale { get; set; }
+
+    /// <summary>
+    /// Ignore the installer hash check failure
+    /// </summary>
+    [CliFlag("--ignore-security-hash")]
+    public bool? IgnoreSecurityHash { get; set; }
+
+    /// <summary>
+    /// Skips processing package dependencies and Windows features
+    /// </summary>
+    [CliFlag("--skip-dependencies")]
+    public bool? SkipDependencies { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -79,16 +123,22 @@ public record WingetSearchOptions : WingetOptions
     public string? AuthenticationAccount { get; set; }
 
     /// <summary>
+    /// Accept all license agreements for packages
+    /// </summary>
+    [CliFlag("--accept-package-agreements")]
+    public bool? AcceptPackageAgreements { get; set; }
+
+    /// <summary>
     /// Accept all source agreements during source operations
     /// </summary>
     [CliFlag("--accept-source-agreements")]
     public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
-    /// Show available versions of the package
+    /// Select the target platform
     /// </summary>
-    [CliOption("--versions")]
-    public string? Versions { get; set; }
+    [CliOption("--platform")]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting

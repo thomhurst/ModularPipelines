@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.WinGet.Options;
@@ -12,11 +13,12 @@ using ModularPipelines.WinGet.Options;
 namespace ModularPipelines.WinGet.Options;
 
 /// <summary>
-/// Installs the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, install command will check package installed status and try to perform an upgrade if applicable. Override with --force to perform a direct install.
+/// Repairs the selected package, either found by searching the installed packages list or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("install")]
-public record WingetInstallOptions : WingetOptions
+[CliSubCommand("repair")]
+public record WingetRepairOptions : WingetOptions
 {
     /// <summary>
     /// The path to the manifest of the package
@@ -43,22 +45,16 @@ public record WingetInstallOptions : WingetOptions
     public string? Moniker { get; set; }
 
     /// <summary>
-    /// Use the specified version; default is the latest version
+    /// The version to act upon
     /// </summary>
-    [CliFlag("--version", ShortForm = "-v")]
-    public bool? Version { get; set; }
+    [CliOption("--version", ShortForm = "-v")]
+    public string? Version { get; set; }
 
     /// <summary>
-    /// Find package using the specified source
+    /// Filters using the product code
     /// </summary>
-    [CliOption("--source", ShortForm = "-s")]
-    public string? Source { get; set; }
-
-    /// <summary>
-    /// Select install scope (user or machine)
-    /// </summary>
-    [CliOption("--scope")]
-    public string? Scope { get; set; }
+    [CliOption("--product-code")]
+    public string? ProductCode { get; set; }
 
     /// <summary>
     /// Select the architecture
@@ -67,16 +63,16 @@ public record WingetInstallOptions : WingetOptions
     public string? Architecture { get; set; }
 
     /// <summary>
-    /// Select the installer type
+    /// Select installed package scope filter (user or machine)
     /// </summary>
-    [CliOption("--installer-type")]
-    public string? InstallerType { get; set; }
+    [CliOption("--scope")]
+    public string? Scope { get; set; }
 
     /// <summary>
-    /// Find package using exact match
+    /// Find package using the specified source
     /// </summary>
-    [CliOption("--exact", ShortForm = "-e")]
-    public string? Exact { get; set; }
+    [CliOption("--source", ShortForm = "-s")]
+    public string? Source { get; set; }
 
     /// <summary>
     /// Request interactive installation; user input may be needed
@@ -91,52 +87,10 @@ public record WingetInstallOptions : WingetOptions
     public bool? Silent { get; set; }
 
     /// <summary>
-    /// Locale to use (BCP47 format)
-    /// </summary>
-    [CliOption("--locale")]
-    public string? Locale { get; set; }
-
-    /// <summary>
     /// Log location (if supported)
     /// </summary>
     [CliOption("--log", ShortForm = "-o")]
     public string? Log { get; set; }
-
-    /// <summary>
-    /// Arguments to be passed on to the installer in addition to the defaults
-    /// </summary>
-    [CliOption("--custom")]
-    public string? Custom { get; set; }
-
-    /// <summary>
-    /// Override arguments to be passed on to the installer
-    /// </summary>
-    [CliOption("--override")]
-    public string? Override { get; set; }
-
-    /// <summary>
-    /// Location to install to (if supported)
-    /// </summary>
-    [CliOption("--location", ShortForm = "-l")]
-    public string? Location { get; set; }
-
-    /// <summary>
-    /// Ignore the installer hash check failure
-    /// </summary>
-    [CliFlag("--ignore-security-hash")]
-    public bool? IgnoreSecurityHash { get; set; }
-
-    /// <summary>
-    /// Allows a reboot if applicable
-    /// </summary>
-    [CliOption("--allow-reboot")]
-    public string? AllowReboot { get; set; }
-
-    /// <summary>
-    /// Skips processing package dependencies and Windows features
-    /// </summary>
-    [CliFlag("--skip-dependencies")]
-    public bool? SkipDependencies { get; set; }
 
     /// <summary>
     /// Ignore the malware scan performed as part of installing an archive type package from local manifest
@@ -145,10 +99,10 @@ public record WingetInstallOptions : WingetOptions
     public bool? IgnoreLocalArchiveMalwareScan { get; set; }
 
     /// <summary>
-    /// Find package dependencies using the specified source
+    /// Accept all source agreements during source operations
     /// </summary>
-    [CliOption("--dependency-source")]
-    public string? DependencySource { get; set; }
+    [CliFlag("--accept-source-agreements")]
+    public bool? AcceptSourceAgreements { get; set; }
 
     /// <summary>
     /// Accept all license agreements for packages
@@ -157,10 +111,10 @@ public record WingetInstallOptions : WingetOptions
     public bool? AcceptPackageAgreements { get; set; }
 
     /// <summary>
-    /// Skips upgrade if an installed version already exists
+    /// Locale to use (BCP47 format)
     /// </summary>
-    [CliFlag("--no-upgrade")]
-    public bool? NoUpgrade { get; set; }
+    [CliOption("--locale")]
+    public string? Locale { get; set; }
 
     /// <summary>
     /// Optional Windows-Package-Manager REST source HTTP header
@@ -181,28 +135,22 @@ public record WingetInstallOptions : WingetOptions
     public string? AuthenticationAccount { get; set; }
 
     /// <summary>
-    /// Accept all source agreements during source operations
-    /// </summary>
-    [CliFlag("--accept-source-agreements")]
-    public bool? AcceptSourceAgreements { get; set; }
-
-    /// <summary>
-    /// The value to rename the executable file (portable)
-    /// </summary>
-    [CliOption("--rename", ShortForm = "-r")]
-    public string? Rename { get; set; }
-
-    /// <summary>
-    /// Uninstall the previous version of the package during upgrade
-    /// </summary>
-    [CliOption("--uninstall-previous")]
-    public string? UninstallPrevious { get; set; }
-
-    /// <summary>
     /// Direct run the command and continue with non security related issues
     /// </summary>
     [CliOption("--force")]
     public string? Force { get; set; }
+
+    /// <summary>
+    /// Ignore the installer hash check failure
+    /// </summary>
+    [CliFlag("--ignore-security-hash")]
+    public bool? IgnoreSecurityHash { get; set; }
+
+    /// <summary>
+    /// Find package using exact match
+    /// </summary>
+    [CliOption("--exact", ShortForm = "-e")]
+    public string? Exact { get; set; }
 
     /// <summary>
     /// Prompts the user to press any key before exiting
