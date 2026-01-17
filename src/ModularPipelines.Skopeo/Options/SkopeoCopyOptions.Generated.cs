@@ -107,6 +107,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// Password for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--dest-password", Format = OptionFormat.EqualsSeparated)]
     public string? DestPassword { get; set; }
 
@@ -119,6 +120,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// Provide a Bearer token for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--dest-registry-token", Format = OptionFormat.EqualsSeparated)]
     public string? DestRegistryToken { get; set; }
 
@@ -215,6 +217,7 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// Sign the image using a sigstore private key at PATH
     /// </summary>
+    [SecretValue]
     [CliOption("--sign-by-sigstore-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? SignBySigstorePrivateKey { get; set; }
 
@@ -263,12 +266,14 @@ public record SkopeoCopyOptions : SkopeoOptions
     /// <summary>
     /// Password for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--src-password", Format = OptionFormat.EqualsSeparated)]
     public string? SrcPassword { get; set; }
 
     /// <summary>
     /// Provide a Bearer token for accessing the registry
     /// </summary>
+    [SecretValue]
     [CliOption("--src-registry-token", Format = OptionFormat.EqualsSeparated)]
     public string? SrcRegistryToken { get; set; }
 
