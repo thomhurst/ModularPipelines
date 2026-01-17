@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -306,7 +307,8 @@ public partial class DotNetCliScraper : CliScraperBase
                 IsKeyValue = primaryFlag.Contains("property", StringComparison.OrdinalIgnoreCase),
                 IsNumeric = csharpType == "int?",
                 ValueSeparator = " ",
-                EnumDefinition = null
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
@@ -349,7 +351,8 @@ public partial class DotNetCliScraper : CliScraperBase
                 IsKeyValue = true,
                 IsNumeric = false,
                 ValueSeparator = ":",
-                EnumDefinition = null
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption("Properties", false)
             });
         }
     }

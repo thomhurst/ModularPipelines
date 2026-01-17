@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
 
@@ -260,7 +261,8 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
                     IsKeyValue = false,
                     IsNumeric = isNumeric,
                     ValueSeparator = isFlag ? " " : "=",
-                    EnumDefinition = enumDef
+                    EnumDefinition = enumDef,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
             }
         }
@@ -308,7 +310,8 @@ public partial class KubectlDocumentationScraper : CliDocumentationScraperBase
             IsKeyValue = false,
             IsNumeric = isNumeric,
             ValueSeparator = isFlag ? " " : "=",
-            EnumDefinition = enumDef
+            EnumDefinition = enumDef,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
     }
 

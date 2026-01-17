@@ -399,4 +399,45 @@ public static partial class GeneratorUtils
 
         sb.AppendLine($"{indent}}}");
     }
+
+    /// <summary>
+    /// Secret-related keywords that indicate an option should be obfuscated in logs.
+    /// </summary>
+    private static readonly string[] SecretKeywords =
+    [
+        "Secret",
+        "Password",
+        "Token",
+        "Credential",
+        "ApiKey",
+        "PrivateKey",
+        "AccessKey",
+        "SecretKey"
+    ];
+
+    /// <summary>
+    /// Determines if an option should be marked as a secret based on its property name.
+    /// Options containing keywords like "Secret", "Password", "Token", "Key", or "Credential"
+    /// in their name are considered secrets and should be obfuscated in logs.
+    /// </summary>
+    /// <param name="propertyName">The C# property name of the option.</param>
+    /// <param name="isFlag">Whether this is a boolean flag (flags are not considered secrets).</param>
+    /// <returns>True if the option should be marked as a secret.</returns>
+    public static bool IsSecretOption(string propertyName, bool isFlag)
+    {
+        // Flags (boolean options) don't take values, so they can't be secrets
+        if (isFlag)
+        {
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(propertyName))
+        {
+            return false;
+        }
+
+        // Check if the property name contains any secret-related keywords
+        return SecretKeywords.Any(keyword =>
+            propertyName.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+    }
 }

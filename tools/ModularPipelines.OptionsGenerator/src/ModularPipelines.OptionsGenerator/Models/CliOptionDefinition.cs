@@ -56,6 +56,12 @@ public record CliOptionDefinition
     public bool IsNumeric { get; init; }
 
     /// <summary>
+    /// Whether this option contains a secret value that should be obfuscated in logs.
+    /// Automatically detected for options with "Secret", "Password", "Token", "Key", or "Credential" in the name.
+    /// </summary>
+    public bool IsSecret { get; init; }
+
+    /// <summary>
     /// The value separator (space, equals, etc.).
     /// </summary>
     public string ValueSeparator { get; init; } = " ";

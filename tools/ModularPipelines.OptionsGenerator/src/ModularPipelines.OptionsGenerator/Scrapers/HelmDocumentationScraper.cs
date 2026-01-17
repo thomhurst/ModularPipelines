@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
 
@@ -258,7 +259,8 @@ public partial class HelmDocumentationScraper : CliDocumentationScraperBase
                 IsKeyValue = false,
                 IsNumeric = isNumeric,
                 ValueSeparator = separator,
-                EnumDefinition = enumDef
+                EnumDefinition = enumDef,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 

@@ -499,4 +499,147 @@ public class GeneratorUtilsTests
     }
 
     #endregion
+
+    #region IsSecretOption Tests
+
+    [Test]
+    [Arguments("Password")]
+    [Arguments("password")]
+    [Arguments("PASSWORD")]
+    [Arguments("UserPassword")]
+    [Arguments("PasswordHash")]
+    public async Task IsSecretOption_Returns_True_For_Password_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Secret")]
+    [Arguments("ClientSecret")]
+    [Arguments("SecretKey")]
+    [Arguments("MySecretValue")]
+    public async Task IsSecretOption_Returns_True_For_Secret_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Token")]
+    [Arguments("AccessToken")]
+    [Arguments("RefreshToken")]
+    [Arguments("BearerToken")]
+    public async Task IsSecretOption_Returns_True_For_Token_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Credential")]
+    [Arguments("UserCredential")]
+    [Arguments("CredentialPath")]
+    public async Task IsSecretOption_Returns_True_For_Credential_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("ApiKey")]
+    [Arguments("MyApiKey")]
+    [Arguments("ApiKeyValue")]
+    public async Task IsSecretOption_Returns_True_For_ApiKey_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("PrivateKey")]
+    [Arguments("SshPrivateKey")]
+    public async Task IsSecretOption_Returns_True_For_PrivateKey_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("AccessKey")]
+    [Arguments("AwsAccessKey")]
+    public async Task IsSecretOption_Returns_True_For_AccessKey_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("SecretKey")]
+    [Arguments("AwsSecretKey")]
+    public async Task IsSecretOption_Returns_True_For_SecretKey_Variants(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    [Arguments("Output")]
+    [Arguments("Verbose")]
+    [Arguments("Format")]
+    [Arguments("ConfigFile")]
+    [Arguments("Namespace")]
+    [Arguments("Repository")]
+    public async Task IsSecretOption_Returns_False_For_Non_Secret_Names(string propertyName)
+    {
+        var result = GeneratorUtils.IsSecretOption(propertyName, isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Returns_False_For_Flags_Even_With_Secret_Name()
+    {
+        var result = GeneratorUtils.IsSecretOption("ShowPassword", isFlag: true);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Returns_False_For_Empty_PropertyName()
+    {
+        var result = GeneratorUtils.IsSecretOption("", isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Returns_False_For_Null_PropertyName()
+    {
+        var result = GeneratorUtils.IsSecretOption(null!, isFlag: false);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsSecretOption_Is_Case_Insensitive()
+    {
+        var lowerResult = GeneratorUtils.IsSecretOption("password", isFlag: false);
+        var upperResult = GeneratorUtils.IsSecretOption("PASSWORD", isFlag: false);
+        var mixedResult = GeneratorUtils.IsSecretOption("PaSsWoRd", isFlag: false);
+
+        await Assert.That(lowerResult).IsTrue();
+        await Assert.That(upperResult).IsTrue();
+        await Assert.That(mixedResult).IsTrue();
+    }
+
+    #endregion
 }

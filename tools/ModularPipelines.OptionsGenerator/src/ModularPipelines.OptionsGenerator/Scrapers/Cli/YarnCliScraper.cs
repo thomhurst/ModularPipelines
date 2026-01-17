@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -491,7 +492,8 @@ public partial class YarnCliScraper : CliScraperBase
                 IsKeyValue = false,
                 IsNumeric = false,
                 ValueSeparator = isFlag ? " " : " ",
-                EnumDefinition = null
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 

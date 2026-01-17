@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -160,7 +161,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 IsKeyValue = longForm == "--define",
                 IsNumeric = false,
                 ValueSeparator = " ",
-                EnumDefinition = null
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 
@@ -182,7 +184,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "The project's unique key. Allowed characters are: letters, numbers, -, _, . and :",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("ProjectKey", false)
             },
             new CliOptionDefinition
             {
@@ -192,7 +195,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Name of the project that will be displayed on the web interface",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("ProjectName", false)
             },
             new CliOptionDefinition
             {
@@ -202,7 +206,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "The project version",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("ProjectVersion", false)
             },
             new CliOptionDefinition
             {
@@ -212,7 +217,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Comma-separated paths to directories containing main source files",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("Sources", false)
             },
             new CliOptionDefinition
             {
@@ -222,7 +228,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Comma-separated paths to directories containing test source files",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("Tests", false)
             },
             new CliOptionDefinition
             {
@@ -232,7 +239,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "The server URL",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("HostUrl", false)
             },
             new CliOptionDefinition
             {
@@ -242,7 +250,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Authentication token for the SonarQube server",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("Token", false)
             },
             new CliOptionDefinition
             {
@@ -252,7 +261,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Organization key (required for SonarCloud)",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("Organization", false)
             },
             new CliOptionDefinition
             {
@@ -262,7 +272,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Comma-separated file path patterns to exclude from analysis",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("Exclusions", false)
             },
             new CliOptionDefinition
             {
@@ -272,7 +283,8 @@ public partial class SonarScannerCliScraper : CliScraperBase
                 Description = "Comma-separated file path patterns to exclude from coverage analysis",
                 IsFlag = false,
                 IsRequired = false,
-                ValueSeparator = "="
+                ValueSeparator = "=",
+                IsSecret = GeneratorUtils.IsSecretOption("CoverageExclusions", false)
             }
         ];
     }

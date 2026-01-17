@@ -131,7 +131,8 @@ public class OptionsClassGenerator : ICodeGenerator
             foreach (var opt in requiredOptions)
             {
                 var attr = GeneratorUtils.GenerateCliAttributeString(opt);
-                parameters.Add($"    [property: {attr}] {opt.CSharpType.TrimEnd('?')} {opt.PropertyName}");
+                var secretAttr = opt.IsSecret ? "SecretValue, " : "";
+                parameters.Add($"    [property: {secretAttr}{attr}] {opt.CSharpType.TrimEnd('?')} {opt.PropertyName}");
                 existingNames.Add(opt.PropertyName);
             }
 
@@ -165,6 +166,12 @@ public class OptionsClassGenerator : ICodeGenerator
         if (option.ValidationConstraints is not null)
         {
             GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
+        }
+
+        // Secret attribute for sensitive values
+        if (option.IsSecret)
+        {
+            sb.AppendLine("    [SecretValue]");
         }
 
         // Command attribute

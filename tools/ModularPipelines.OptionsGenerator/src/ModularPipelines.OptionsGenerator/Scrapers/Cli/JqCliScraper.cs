@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -175,7 +176,8 @@ public partial class JqCliScraper : CliScraperBase
                     IsKeyValue = longForm == "--arg" || longForm == "--argjson",
                     IsNumeric = false,
                     ValueSeparator = " ",
-                    EnumDefinition = null
+                    EnumDefinition = null,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
             }
             else
@@ -217,7 +219,8 @@ public partial class JqCliScraper : CliScraperBase
                         IsKeyValue = false,
                         IsNumeric = false,
                         ValueSeparator = " ",
-                        EnumDefinition = null
+                        EnumDefinition = null,
+                        IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                     });
                 }
             }

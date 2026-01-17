@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -309,7 +310,8 @@ public abstract partial class CobraCliScraper : CliScraperBase
                     IsKeyValue = isKeyValue,
                     IsNumeric = isInteger || isFloat,
                     ValueSeparator = separator,
-                    EnumDefinition = enumDef
+                    EnumDefinition = enumDef,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
             }
         }

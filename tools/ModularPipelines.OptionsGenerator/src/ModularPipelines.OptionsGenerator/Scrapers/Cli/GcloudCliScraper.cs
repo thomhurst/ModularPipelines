@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -267,7 +268,8 @@ public partial class GcloudCliScraper : CliScraperBase
                 IsKeyValue = isKeyValue,
                 IsNumeric = isNumeric,
                 ValueSeparator = isFlag ? " " : "=",
-                EnumDefinition = enumDef
+                EnumDefinition = enumDef,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 

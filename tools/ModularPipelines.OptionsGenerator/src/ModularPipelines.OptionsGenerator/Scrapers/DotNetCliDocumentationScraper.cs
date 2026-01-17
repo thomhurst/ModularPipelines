@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.Scrapers.Base;
 
@@ -275,7 +276,8 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
                     IsKeyValue = false,
                     IsNumeric = false,
                     ValueSeparator = " ",
-                    EnumDefinition = null
+                    EnumDefinition = null,
+                    IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
                 });
             }
         }
@@ -332,7 +334,8 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             IsKeyValue = false,
             IsNumeric = isNumeric,
             ValueSeparator = " ",
-            EnumDefinition = enumDef
+            EnumDefinition = enumDef,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
     }
 
@@ -385,7 +388,8 @@ public partial class DotNetCliDocumentationScraper : CliDocumentationScraperBase
             IsKeyValue = false,
             IsNumeric = isNumeric,
             ValueSeparator = " ",
-            EnumDefinition = enumDef
+            EnumDefinition = enumDef,
+            IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
         };
     }
 

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -329,7 +330,8 @@ public partial class PnpmCliScraper : CliScraperBase
                 IsKeyValue = false,
                 IsNumeric = false,
                 ValueSeparator = " ",
-                EnumDefinition = null
+                EnumDefinition = null,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 

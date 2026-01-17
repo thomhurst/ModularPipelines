@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.OptionsGenerator.Generators;
 using ModularPipelines.OptionsGenerator.Models;
 using ModularPipelines.OptionsGenerator.TypeDetection;
 
@@ -259,7 +260,8 @@ public partial class GitCliScraper : ICliScraper
                 PropertyName = propertyName,
                 CSharpType = csharpType,
                 IsRequired = false,
-                IsFlag = isFlag
+                IsFlag = isFlag,
+                IsSecret = GeneratorUtils.IsSecretOption(propertyName, isFlag)
             });
         }
 

@@ -99,6 +99,12 @@ public class GlobalOptionsBaseGenerator : ICodeGenerator
             GeneratorUtils.GenerateValidationAttributes(sb, option.ValidationConstraints);
         }
 
+        // Secret attribute for sensitive values
+        if (option.IsSecret)
+        {
+            sb.AppendLine("    [SecretValue]");
+        }
+
         // Command attribute
         var attribute = GeneratorUtils.GenerateCliAttributeString(option);
         sb.AppendLine($"    [{attribute}]");
