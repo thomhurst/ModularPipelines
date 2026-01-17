@@ -24,7 +24,7 @@ public record MinikubeMountOptions : MinikubeOptions
     /// Specify the 9p version that the mount should use
     /// </summary>
     [CliOption("--9p-version", Format = OptionFormat.EqualsSeparated)]
-    public string? Value9pVersion { get; set; }
+    public string? _9pVersion { get; set; }
 
     /// <summary>
     /// Default group id used for the mount

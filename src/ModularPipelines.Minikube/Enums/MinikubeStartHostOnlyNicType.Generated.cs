@@ -21,13 +21,13 @@ public enum MinikubeStartHostOnlyNicType
     Am79c973,
 
     [Description("82540EM")]
-    Value82540em,
+    __82540em,
 
     [Description("82543GC")]
-    Value82543gc,
+    __82543gc,
 
     [Description("82545EM")]
-    Value82545em,
+    __82545em,
 
     [Description("virtio")]
     Virtio
