@@ -10,6 +10,7 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
+[ModuleCategory("VersionTag")]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
 [DependsOn<NugetVersionGeneratorModule>]
