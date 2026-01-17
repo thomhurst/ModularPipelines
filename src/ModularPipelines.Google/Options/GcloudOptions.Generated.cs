@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Options;
@@ -15,6 +16,7 @@ namespace ModularPipelines.Google.Options;
 /// Base options class for gcloud CLI commands.
 /// Contains global flags that apply to all commands.
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
 [CliTool("gcloud")]
 public abstract record GcloudOptions : CommandLineToolOptions
