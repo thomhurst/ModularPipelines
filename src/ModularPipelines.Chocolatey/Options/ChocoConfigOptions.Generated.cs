@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,6 +15,7 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config")]
 public record ChocoConfigOptions : ChocoOptions
@@ -81,6 +83,7 @@ public record ChocoConfigOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("list")]
-public record ChocoListOptions : ChocoOptions
+[CliSubCommand("cache")]
+public record ChocoCacheOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoListOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,51 +112,9 @@ public record ChocoListOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Source - Name of alternative source to use, for example 'windowsfeatures', 'ruby', 'cygwin', or 'python'.
+    /// Expired - Remove cached items that have expired.
     /// </summary>
-    [CliOption("--source", ShortForm = "-s", Format = OptionFormat.EqualsSeparated)]
-    public string? Source { get; set; }
-
-    /// <summary>
-    /// Version - Specific version of a package to return.
-    /// </summary>
-    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
-    public string? Version { get; set; }
-
-    /// <summary>
-    /// Page - the 'page' of results to return. Defaults to return all results.
-    /// </summary>
-    [CliOption("--page", Format = OptionFormat.EqualsSeparated)]
-    public string? Page { get; set; }
-
-    /// <summary>
-    /// Page Size - the amount of package results to return per page. Defaults to 25.
-    /// </summary>
-    [CliOption("--page-size", Format = OptionFormat.EqualsSeparated)]
-    public string? PageSize { get; set; }
-
-    /// <summary>
-    /// Exact - Only return packages with this exact name.
-    /// </summary>
-    [CliFlag("--exact", ShortForm = "-e")]
-    public bool? Exact { get; set; }
-
-    /// <summary>
-    /// ByIdOnly - Only return packages where the id contains the search filter.
-    /// </summary>
-    [CliFlag("--by-id-only")]
-    public bool? ByIdOnly { get; set; }
-
-    /// <summary>
-    /// IdStartsWith - Only return packages where the id starts with the search filter.
-    /// </summary>
-    [CliFlag("--id-starts-with")]
-    public bool? IdStartsWith { get; set; }
-
-    /// <summary>
-    /// Ignore Pinned - Ignore pinned packages. Defaults to false.
-    /// </summary>
-    [CliFlag("--ignore-pinned")]
-    public bool? IgnorePinned { get; set; }
+    [CliFlag("--expired")]
+    public bool? Expired { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("features")]
-public record ChocoFeaturesOptions : ChocoOptions
+[CliSubCommand("pin")]
+public record ChocoPinOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoFeaturesOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,9 +112,15 @@ public record ChocoFeaturesOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Name - the name of the source. Required with actions other than list. Defaults to empty.
+    /// Name - the name of the package. Required with some actions. Defaults to empty.
     /// </summary>
     [CliOption("--name", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Name { get; set; }
+
+    /// <summary>
+    /// Version - Used when multiple versions of a package are installed. Defaults to empty.
+    /// </summary>
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
 
 }

@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// NOTE: See scripting in the command reference (`choco --help`) for how to
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("export")]
-public record ChocoExportOptions : ChocoOptions
+[CliSubCommand("pack")]
+public record ChocoPackOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoExportOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -109,9 +112,9 @@ public record ChocoExportOptions : ChocoOptions
     public bool? IgnoreHttpCache { get; set; }
 
     /// <summary>
-    /// Output File Path - the path to where the list of currently installed packages should be saved. Defaults to packages.config.
+    /// Version - The version you would like to insert into the package.
     /// </summary>
-    [CliOption("--output-file-path", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
-    public string? OutputFilePath { get; set; }
+    [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
+    public string? Version { get; set; }
 
 }

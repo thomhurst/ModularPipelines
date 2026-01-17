@@ -5,6 +5,7 @@
 
 #nullable enable
 
+using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Chocolatey.Options;
@@ -14,9 +15,10 @@ namespace ModularPipelines.Chocolatey.Options;
 /// <summary>
 /// When it comes to the source location, this can be a folder/file share or an http
 /// </summary>
+[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("sources")]
-public record ChocoSourcesOptions : ChocoOptions
+[CliSubCommand("source")]
+public record ChocoSourceOptions : ChocoOptions
 {
     /// <summary>
     /// Online - Open help for specified command in default browser application. This option only works when used in combination with the -?/--help/-h option.  Available in 2.0.0+
@@ -81,6 +83,7 @@ public record ChocoSourcesOptions : ChocoOptions
     /// <summary>
     /// Proxy Password - Explicit proxy password (optional) to be used with user name. Encrypted. Requires explicit proxy (`--proxy` or config setting) and user name (`--proxy-user` or config setting).  Overrides the default proxy password.
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-password", Format = OptionFormat.EqualsSeparated)]
     public string? ProxyPassword { get; set; }
 
@@ -129,6 +132,7 @@ public record ChocoSourcesOptions : ChocoOptions
     /// <summary>
     /// Password - the user's password to the source. Encrypted in chocolate- y.config file.
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
