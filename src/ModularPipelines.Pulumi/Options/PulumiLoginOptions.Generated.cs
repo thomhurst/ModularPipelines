@@ -77,6 +77,7 @@ public record PulumiLoginOptions : PulumiOptions
     /// <summary>
     /// An OIDC token to exchange for a cloud backend access token. Can be either a raw token or a file path prefixed with 'file://'.
     /// </summary>
+    [SecretValue]
     [CliOption("--oidc-token", Format = OptionFormat.EqualsSeparated)]
     public string? OidcToken { get; set; }
 

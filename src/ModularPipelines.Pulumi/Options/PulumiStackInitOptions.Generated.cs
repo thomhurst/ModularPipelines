@@ -41,6 +41,7 @@ public record PulumiStackInitOptions : PulumiOptions
     /// <summary>
     /// The type of the provider that should be used to encrypt and decrypt secrets (possible choices: default, passphrase, awskms, azurekeyvault, gcpkms, hashivault)
     /// </summary>
+    [SecretValue]
     [CliOption("--secrets-provider", Format = OptionFormat.EqualsSeparated)]
     public string? SecretsProvider { get; set; }
 

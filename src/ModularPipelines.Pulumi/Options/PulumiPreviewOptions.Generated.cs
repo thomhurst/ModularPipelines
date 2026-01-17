@@ -185,6 +185,7 @@ public record PulumiPreviewOptions : PulumiOptions
     /// <summary>
     /// Show secrets in plaintext in the CLI output, if used with --save-plan the secrets will also be shown in the plan file. Defaults to false
     /// </summary>
+    [SecretValue]
     [CliOption("--show-secrets", Format = OptionFormat.EqualsSeparated)]
     public string? ShowSecrets { get; set; }
 

@@ -47,6 +47,7 @@ public record PulumiConfigSetAllOptions : PulumiOptions
     /// <summary>
     /// Marks a value as secret to be encrypted
     /// </summary>
+    [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Secret { get; set; }
 

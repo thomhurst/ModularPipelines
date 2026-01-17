@@ -35,6 +35,7 @@ public record PulumiStackExportOptions : PulumiOptions
     /// <summary>
     /// Emit secrets in plaintext in exported stack. Defaults to false
     /// </summary>
+    [SecretValue]
     [CliOption("--show-secrets", Format = OptionFormat.EqualsSeparated)]
     public string? ShowSecrets { get; set; }
 
