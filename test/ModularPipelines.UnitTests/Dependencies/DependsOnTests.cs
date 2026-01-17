@@ -175,4 +175,25 @@ public class DependsOnTests : TestBase
     {
         protected override bool Result => true;
     }
+
+    [Test]
+    public async Task Optional_Dependency_Returns_Null_When_GetModuleIfRegistered_Called_On_Unregistered()
+    {
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<ModuleCheckingUnregisteredDep>()
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+    }
+
+    [ModularPipelines.Attributes.DependsOn<Module1>]
+    private class ModuleCheckingUnregisteredDep : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            var dep = context.GetModuleIfRegistered<Module1>();
+            await Task.Yield();
+            return dep == null;  // Should be null since Module1 is not registered
+        }
+    }
 }
