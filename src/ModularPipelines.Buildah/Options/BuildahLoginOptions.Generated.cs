@@ -53,6 +53,7 @@ public record BuildahLoginOptions : BuildahOptions
     /// <summary>
     /// Password for registry
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 

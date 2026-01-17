@@ -455,6 +455,7 @@ public record BuildahBuildOptions : BuildahOptions
     /// <summary>
     /// secret file to expose to the build
     /// </summary>
+    [SecretValue]
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Secret { get; set; }
 
