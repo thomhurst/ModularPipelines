@@ -24,11 +24,11 @@ internal static class ModuleDependencyResolver
     /// Gets all dependencies declared on a module type via DependsOn attributes.
     /// This overload only handles DependsOnAttribute, not DependsOnAllModulesInheritingFromAttribute.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(Type moduleType)
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(Type moduleType)
     {
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
-            yield return (attribute.Type, attribute.IgnoreIfNotRegistered);
+            yield return (attribute.Type, attribute.Optional);
         }
     }
 
@@ -36,7 +36,7 @@ internal static class ModuleDependencyResolver
     /// Gets all dependencies declared on a module type via DependsOn attributes,
     /// including DependsOnAllModulesInheritingFromAttribute which requires the list of available modules.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
         Type moduleType,
         IEnumerable<Type> availableModuleTypes)
     {
@@ -51,7 +51,7 @@ internal static class ModuleDependencyResolver
     /// <param name="availableModuleTypes">All available module types in the pipeline.</param>
     /// <param name="dependencyContext">Context providing access to module metadata (tags, categories, attributes).
     /// Required for predicate-based dependencies. If null, predicate-based dependencies are skipped.</param>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(
         Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IDependencyContext? dependencyContext)
@@ -61,7 +61,7 @@ internal static class ModuleDependencyResolver
         // Handle regular DependsOn attributes
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
-            yield return (attribute.Type, attribute.IgnoreIfNotRegistered);
+            yield return (attribute.Type, attribute.Optional);
         }
 
         // Handle DependsOnAllModulesInheritingFrom attributes
@@ -99,8 +99,8 @@ internal static class ModuleDependencyResolver
     /// <param name="moduleType">The module type to get predicate dependencies for.</param>
     /// <param name="availableModuleTypes">All available module types to evaluate against predicates.</param>
     /// <param name="dependencyContext">Context providing access to module metadata.</param>
-    /// <returns>Enumerable of dependency tuples (DependencyType, IgnoreIfNotRegistered).</returns>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetPredicateDependencies(
+    /// <returns>Enumerable of dependency tuples (DependencyType, Optional).</returns>
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetPredicateDependencies(
         Type moduleType,
         IReadOnlyList<Type> availableModuleTypes,
         IDependencyContext dependencyContext)
@@ -136,7 +136,7 @@ internal static class ModuleDependencyResolver
     /// <summary>
     /// Gets all dependencies declared on a module via DependsOn attributes.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetDependencies(IModule module)
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetDependencies(IModule module)
     {
         return GetDependencies(module.GetType());
     }
@@ -145,8 +145,8 @@ internal static class ModuleDependencyResolver
     /// Gets programmatic dependencies declared via DeclareDependencies method on a module instance.
     /// </summary>
     /// <param name="module">The module instance to get programmatic dependencies from.</param>
-    /// <returns>An enumerable of dependency tuples (DependencyType, IgnoreIfNotRegistered).</returns>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetProgrammaticDependencies(IModule module)
+    /// <returns>An enumerable of dependency tuples (DependencyType, Optional).</returns>
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetProgrammaticDependencies(IModule module)
     {
         // Use cached reflection lookup for GetDeclaredDependencies method
         var moduleType = module.GetType();
@@ -168,7 +168,7 @@ internal static class ModuleDependencyResolver
 
         foreach (var dep in dependencies)
         {
-            yield return (dep.ModuleType, dep.IgnoreIfNotRegistered);
+            yield return (dep.ModuleType, dep.IsOptional);
         }
     }
 
@@ -176,7 +176,7 @@ internal static class ModuleDependencyResolver
     /// Gets all dependencies declared on a module type via DependsOn attributes,
     /// including both static (attribute-based) and dynamic (runtime-added) dependencies.
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependencies(
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
         Type moduleType,
         IEnumerable<Type> availableModuleTypes,
         IModuleDependencyRegistry? dynamicRegistry = null)
@@ -203,7 +203,7 @@ internal static class ModuleDependencyResolver
     /// - Programmatic dependencies from DeclareDependencies method
     /// - Dynamic dependencies from the registry
     /// </summary>
-    public static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependencies(
+    public static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(
         IModule module,
         IEnumerable<Type> availableModuleTypes,
         IModuleDependencyRegistry? dynamicRegistry = null)
