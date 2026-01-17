@@ -6,240 +6,20 @@ on:
     - cron: '0 2 * * 0'
   workflow_dispatch:
     inputs:
-      # Linux tools - Kubernetes/Container ecosystem
-      helm:
-        description: 'Helm'
+      # Specify which tools to run (comma-separated). Leave empty to run all tools.
+      # Linux tools: helm, kubectl, kustomize, docker, trivy, hadolint, podman, buildah, skopeo
+      # Cloud CLIs: az, gcloud, aws
+      # Infrastructure: terraform, pulumi, packer, vault, ansible, flyway, liquibase
+      # Development: dotnet, go, cargo, mvn, gradle, yarn, pnpm, gh
+      # Kubernetes/GitOps: eksctl, argocd, flux, kind, minikube
+      # Security/Quality: sonar-scanner, snyk, shellcheck, cosign, syft, grype
+      # Other: newman, jq, yq, pip
+      # Windows-only: choco, winget
+      tools:
+        description: 'Tools to run (comma-separated, empty = all). Example: helm,kubectl,docker'
         required: false
-        default: true
-        type: boolean
-      kubectl:
-        description: 'Kubectl'
-        required: false
-        default: true
-        type: boolean
-      kustomize:
-        description: 'Kustomize'
-        required: false
-        default: true
-        type: boolean
-      docker:
-        description: 'Docker'
-        required: false
-        default: true
-        type: boolean
-      trivy:
-        description: 'Trivy (Security Scanner)'
-        required: false
-        default: true
-        type: boolean
-      hadolint:
-        description: 'Hadolint (Dockerfile Linter)'
-        required: false
-        default: true
-        type: boolean
-      podman:
-        description: 'Podman (Container Engine)'
-        required: false
-        default: true
-        type: boolean
-      buildah:
-        description: 'Buildah (Container Builder)'
-        required: false
-        default: true
-        type: boolean
-      skopeo:
-        description: 'Skopeo (Container Operations)'
-        required: false
-        default: true
-        type: boolean
-      # Cloud CLIs
-      az:
-        description: 'Azure CLI'
-        required: false
-        default: true
-        type: boolean
-      gcloud:
-        description: 'Google Cloud CLI'
-        required: false
-        default: true
-        type: boolean
-      aws:
-        description: 'AWS CLI'
-        required: false
-        default: true
-        type: boolean
-      # Infrastructure/DevOps tools
-      terraform:
-        description: 'Terraform'
-        required: false
-        default: true
-        type: boolean
-      pulumi:
-        description: 'Pulumi (IaC)'
-        required: false
-        default: true
-        type: boolean
-      packer:
-        description: 'Packer (Image Builder)'
-        required: false
-        default: true
-        type: boolean
-      vault:
-        description: 'Vault (Secrets Management)'
-        required: false
-        default: true
-        type: boolean
-      ansible:
-        description: 'Ansible'
-        required: false
-        default: true
-        type: boolean
-      flyway:
-        description: 'Flyway (DB Migrations)'
-        required: false
-        default: true
-        type: boolean
-      liquibase:
-        description: 'Liquibase (DB Migrations)'
-        required: false
-        default: true
-        type: boolean
-      # Development tools
-      dotnet:
-        description: '.NET CLI'
-        required: false
-        default: true
-        type: boolean
-      go:
-        description: 'Go'
-        required: false
-        default: true
-        type: boolean
-      cargo:
-        description: 'Cargo (Rust)'
-        required: false
-        default: true
-        type: boolean
-      mvn:
-        description: 'Maven'
-        required: false
-        default: true
-        type: boolean
-      gradle:
-        description: 'Gradle'
-        required: false
-        default: true
-        type: boolean
-      # Node.js ecosystem
-      yarn:
-        description: 'Yarn'
-        required: false
-        default: true
-        type: boolean
-      pnpm:
-        description: 'pnpm'
-        required: false
-        default: true
-        type: boolean
-      # GitHub CLI
-      gh:
-        description: 'GitHub CLI'
-        required: false
-        default: true
-        type: boolean
-      # Kubernetes/GitOps
-      eksctl:
-        description: 'eksctl (EKS)'
-        required: false
-        default: true
-        type: boolean
-      argocd:
-        description: 'ArgoCD'
-        required: false
-        default: true
-        type: boolean
-      flux:
-        description: 'Flux (GitOps)'
-        required: false
-        default: true
-        type: boolean
-      kind:
-        description: 'Kind (Kubernetes IN Docker)'
-        required: false
-        default: true
-        type: boolean
-      minikube:
-        description: 'Minikube (Local Kubernetes)'
-        required: false
-        default: true
-        type: boolean
-      # Code quality/Security
-      sonar-scanner:
-        description: 'SonarScanner'
-        required: false
-        default: true
-        type: boolean
-      snyk:
-        description: 'Snyk'
-        required: false
-        default: true
-        type: boolean
-      shellcheck:
-        description: 'ShellCheck'
-        required: false
-        default: true
-        type: boolean
-      # Supply chain security
-      cosign:
-        description: 'Cosign (Container Signing)'
-        required: false
-        default: true
-        type: boolean
-      syft:
-        description: 'Syft (SBOM Generator)'
-        required: false
-        default: true
-        type: boolean
-      grype:
-        description: 'Grype (Vulnerability Scanner)'
-        required: false
-        default: true
-        type: boolean
-      # Testing
-      newman:
-        description: 'Newman (Postman)'
-        required: false
-        default: true
-        type: boolean
-      # Data processing
-      jq:
-        description: 'jq (JSON processor)'
-        required: false
-        default: true
-        type: boolean
-      yq:
-        description: 'yq (YAML processor)'
-        required: false
-        default: true
-        type: boolean
-      # Python
-      pip:
-        description: 'pip (Python)'
-        required: false
-        default: true
-        type: boolean
-      # Windows tools
-      choco:
-        description: 'Chocolatey'
-        required: false
-        default: true
-        type: boolean
-      winget:
-        description: 'WinGet'
-        required: false
-        default: true
-        type: boolean
-      # Options
+        default: ''
+        type: string
       create-pr:
         description: 'Create a pull request with changes'
         required: false
@@ -316,16 +96,22 @@ jobs:
       - name: Check if tool should run
         id: should-run
         run: |
-          # For scheduled runs, all tools run. For manual runs, check the checkbox.
+          # For scheduled runs, all tools run. For manual runs, check the tools input.
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
             echo "run=true" >> $GITHUB_OUTPUT
           else
-            # Get the input for this specific tool (defaults to true if not set)
-            TOOL_ENABLED="${{ github.event.inputs[matrix.tool] }}"
-            if [[ "$TOOL_ENABLED" != "false" ]]; then
+            # Get the tools input (comma-separated list, empty = all)
+            TOOLS_INPUT="${{ github.event.inputs.tools }}"
+            if [[ -z "$TOOLS_INPUT" ]]; then
+              # Empty input means run all tools
               echo "run=true" >> $GITHUB_OUTPUT
             else
-              echo "run=false" >> $GITHUB_OUTPUT
+              # Check if this tool is in the comma-separated list
+              if echo ",$TOOLS_INPUT," | grep -q ",${{ matrix.tool }},"; then
+                echo "run=true" >> $GITHUB_OUTPUT
+              else
+                echo "run=false" >> $GITHUB_OUTPUT
+              fi
             fi
           fi
 
@@ -779,16 +565,23 @@ jobs:
         id: should-run
         shell: pwsh
         run: |
-          # For scheduled runs, all tools run. For manual runs, check the checkbox.
+          # For scheduled runs, all tools run. For manual runs, check the tools input.
           if ("${{ github.event_name }}" -eq "schedule") {
             "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
           } else {
-            # Get the input for this specific tool (defaults to true if not set)
-            $toolEnabled = "${{ github.event.inputs[matrix.tool] }}"
-            if ($toolEnabled -ne "false") {
+            # Get the tools input (comma-separated list, empty = all)
+            $toolsInput = "${{ github.event.inputs.tools }}"
+            if ([string]::IsNullOrWhiteSpace($toolsInput)) {
+              # Empty input means run all tools
               "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             } else {
-              "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+              # Check if this tool is in the comma-separated list
+              $toolsList = $toolsInput -split ',' | ForEach-Object { $_.Trim() }
+              if ($toolsList -contains "${{ matrix.tool }}") {
+                "run=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+              } else {
+                "run=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+              }
             }
           }
 
