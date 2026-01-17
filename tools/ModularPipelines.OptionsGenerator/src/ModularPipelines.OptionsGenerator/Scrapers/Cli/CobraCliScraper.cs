@@ -42,29 +42,36 @@ public abstract partial class CobraCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+        // Normalize line endings for consistent parsing
+        var normalizedText = helpText.Replace("\r\n", "\n").Replace("\r", "\n");
+
         // Find ALL command sections (Common Commands, Management Commands, Swarm Commands, Commands)
-        var commandsSectionMatches = CommandsSectionPattern().Matches(helpText);
+        var commandsSectionMatches = CommandsSectionPattern().Matches(normalizedText);
         if (commandsSectionMatches.Count == 0)
         {
+            Logger.LogDebug("[{Tool}] No command sections found in help text using CommandsSectionPattern", ToolName);
             return subcommands;
         }
+
+        Logger.LogDebug("[{Tool}] Found {Count} command sections in help text", ToolName, commandsSectionMatches.Count);
 
         foreach (Match commandsSectionMatch in commandsSectionMatches)
         {
             var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
 
             // Find where this section ends (next section header or end of text)
-            var sectionEnd = helpText.Length;
-            var nextSectionMatch = SectionHeaderPattern().Match(helpText, sectionStart);
+            var sectionEnd = normalizedText.Length;
+            var nextSectionMatch = SectionHeaderPattern().Match(normalizedText, sectionStart);
             if (nextSectionMatch.Success)
             {
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
 
             // Parse command lines: "  command    description"
             var lines = section.Split('\n');
+            var sectionCommandCount = 0;
             foreach (var line in lines)
             {
                 var match = SubcommandLinePattern().Match(line);
@@ -75,9 +82,23 @@ public abstract partial class CobraCliScraper : CliScraperBase
                         seenCommands.Add(commandName))
                     {
                         subcommands.Add(commandName);
+                        sectionCommandCount++;
                     }
                 }
             }
+
+            Logger.LogDebug("[{Tool}] Extracted {Count} commands from section '{Section}'",
+                ToolName, sectionCommandCount, commandsSectionMatch.Value.Trim());
+        }
+
+        // If no subcommands found, log diagnostic info
+        if (subcommands.Count == 0)
+        {
+            Logger.LogWarning(
+                "[{Tool}] No subcommands extracted from Cobra help. Help text length: {Length}. First 500 chars: {Preview}",
+                ToolName,
+                normalizedText.Length,
+                normalizedText.Length > 500 ? normalizedText[..500] : normalizedText);
         }
 
         return subcommands;
@@ -491,9 +512,35 @@ public abstract partial class CobraCliScraper : CliScraperBase
             .Replace(" and ", "|")
             .Split(['|', ','], StringSplitOptions.RemoveEmptyEntries)
             .Select(v => v.Trim().Trim('"', '\'', '`'))
+            // Remove any embedded newlines, carriage returns, or other control characters
+            .Select(SanitizeEnumValue)
             .Where(v => !string.IsNullOrWhiteSpace(v) && v.Length < 30)
             .Distinct()
             .ToArray();
+    }
+
+    /// <summary>
+    /// Removes newlines, control characters, and other problematic characters from enum values.
+    /// </summary>
+    private static string SanitizeEnumValue(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        // Remove newlines, carriage returns, and other control characters
+        var sanitized = new System.Text.StringBuilder(value.Length);
+        foreach (var c in value)
+        {
+            // Skip control characters including newlines, tabs, etc.
+            if (!char.IsControl(c) && c != '\u2028' && c != '\u2029')
+            {
+                sanitized.Append(c);
+            }
+        }
+
+        return sanitized.ToString().Trim();
     }
 
     private static bool IsValidEnumValue(string value)
@@ -541,15 +588,30 @@ public abstract partial class CobraCliScraper : CliScraperBase
 
     private static string NormalizeEnumMemberName(string value)
     {
-        var cleaned = value.Replace("-", "_").Replace(".", "_");
+        // First sanitize to remove control characters
+        var sanitized = SanitizeEnumValue(value);
+        if (string.IsNullOrEmpty(sanitized))
+        {
+            return "Unknown";
+        }
+
+        var cleaned = sanitized.Replace("-", "_").Replace(".", "_");
         var parts = cleaned.Split('_', StringSplitOptions.RemoveEmptyEntries);
         var result = string.Join("", parts.Select(ToPascalCase));
 
-        // Ensure the enum member name starts with a letter (C# identifier requirement)
-        // Handles cases like "82540EM" (VirtualBox NIC type) or "9p" (filesystem protocol)
-        if (result.Length > 0 && !char.IsLetter(result[0]))
+        // Remove any remaining non-identifier characters
+        result = new string(result.Where(c => char.IsLetterOrDigit(c) || c == '_').ToArray());
+
+        if (string.IsNullOrEmpty(result))
         {
-            result = "Value" + result;
+            return "Unknown";
+        }
+
+        // Ensure the enum member name starts with a letter or underscore (C# identifier requirement)
+        // Handles cases like "82540EM" (VirtualBox NIC type) or "9p" (filesystem protocol)
+        if (!char.IsLetter(result[0]))
+        {
+            result = "_" + result;
         }
 
         return result;

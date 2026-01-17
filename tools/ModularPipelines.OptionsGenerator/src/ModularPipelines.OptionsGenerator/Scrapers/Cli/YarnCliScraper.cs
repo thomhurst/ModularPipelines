@@ -41,9 +41,70 @@ namespace ModularPipelines.OptionsGenerator.Scrapers.Cli;
 /// </summary>
 public partial class YarnCliScraper : CliScraperBase
 {
+    private string? _yarnProjectDir;
+
     public YarnCliScraper(ICliCommandExecutor executor, IHelpTextCache helpCache, ILogger<YarnCliScraper> logger)
         : base(executor, helpCache, logger)
     {
+    }
+
+    /// <summary>
+    /// Yarn Berry requires a project context (package.json) to function properly.
+    /// Override GetHelpTextAsync to ensure we have a valid project context.
+    /// </summary>
+    protected override async Task<string?> GetHelpTextAsync(string[] commandPath, CancellationToken cancellationToken)
+    {
+        // Ensure we have a temporary project context for Yarn
+        await EnsureYarnProjectContextAsync(cancellationToken);
+
+        var cacheKey = string.Join(" ", commandPath);
+
+        if (HelpCache.TryGet(cacheKey, out var cached))
+        {
+            return cached;
+        }
+
+        // Build the arguments: everything after the tool name, plus --help
+        var args = commandPath.Length > 1
+            ? string.Join(" ", commandPath.Skip(1)) + " --help"
+            : "--help";
+
+        // Execute yarn from the project context directory
+        var result = await Executor.ExecuteAsync(ExecutablePath, args, cancellationToken, _yarnProjectDir);
+
+        // Many CLIs output help to stderr when using --help
+        var helpText = !string.IsNullOrEmpty(result.StandardOutput)
+            ? result.StandardOutput
+            : result.StandardError;
+
+        if (!string.IsNullOrWhiteSpace(helpText))
+        {
+            HelpCache.Set(cacheKey, helpText);
+            return helpText;
+        }
+
+        Logger.LogWarning("[yarn] No help text for command: {Command}", cacheKey);
+        return null;
+    }
+
+    /// <summary>
+    /// Creates a temporary project context for Yarn Berry if needed.
+    /// </summary>
+    private async Task EnsureYarnProjectContextAsync(CancellationToken cancellationToken)
+    {
+        if (_yarnProjectDir is not null)
+        {
+            return;
+        }
+
+        // Create a temp directory with package.json for Yarn Berry
+        _yarnProjectDir = Path.Combine(Path.GetTempPath(), $"yarn-scraper-{Guid.NewGuid():N}");
+        Directory.CreateDirectory(_yarnProjectDir);
+
+        var packageJson = Path.Combine(_yarnProjectDir, "package.json");
+        await File.WriteAllTextAsync(packageJson, "{\"name\":\"yarn-scraper-temp\",\"packageManager\":\"yarn@4.0.0\"}", cancellationToken);
+
+        Logger.LogDebug("[yarn] Created temporary project context at {Dir}", _yarnProjectDir);
     }
 
     public override string ToolName => "yarn";

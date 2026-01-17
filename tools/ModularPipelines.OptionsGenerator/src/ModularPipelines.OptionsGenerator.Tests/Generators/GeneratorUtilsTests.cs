@@ -349,9 +349,10 @@ public class GeneratorUtilsTests
     [Test]
     public async Task GenerateMethodNameFromCommandParts_Handles_Empty_Array()
     {
+        // Empty array returns "Execute" for single-command tools (e.g., ansible)
         var result = GeneratorUtils.GenerateMethodNameFromCommandParts([]);
 
-        await Assert.That(result).IsEqualTo(string.Empty);
+        await Assert.That(result).IsEqualTo("Execute");
     }
 
     #endregion

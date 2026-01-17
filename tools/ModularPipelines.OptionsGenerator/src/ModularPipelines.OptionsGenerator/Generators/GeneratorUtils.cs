@@ -173,11 +173,11 @@ public static partial class GeneratorUtils
 
         var result = sb.ToString();
 
-        // Ensure the result is a valid C# identifier (must start with a letter)
-        // Handles cases like "9p" (filesystem protocol) -> "Value9p"
+        // Ensure the result is a valid C# identifier (must start with a letter or underscore)
+        // Handles cases like "9p" (filesystem protocol) -> "_9p"
         if (result.Length > 0 && !char.IsLetter(result[0]))
         {
-            result = "Value" + result;
+            result = "_" + result;
         }
 
         return result;

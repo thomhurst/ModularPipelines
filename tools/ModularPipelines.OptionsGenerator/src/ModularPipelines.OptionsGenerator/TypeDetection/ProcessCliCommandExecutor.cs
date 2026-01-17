@@ -22,9 +22,10 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
     public async Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        string? workingDirectory = null)
     {
-        _logger.LogDebug("Executing: {Command} {Arguments}", command, arguments);
+        _logger.LogDebug("Executing: {Command} {Arguments} (WorkingDir: {WorkingDir})", command, arguments, workingDirectory ?? "default");
 
         var startInfo = new ProcessStartInfo
         {
@@ -35,6 +36,11 @@ public class ProcessCliCommandExecutor : ICliCommandExecutor
             RedirectStandardError = true,
             CreateNoWindow = true
         };
+
+        if (!string.IsNullOrEmpty(workingDirectory))
+        {
+            startInfo.WorkingDirectory = workingDirectory;
+        }
 
         // Disable pagers for CLI tools - many CLIs use pagers by default which hang in non-interactive mode
         startInfo.Environment["AWS_PAGER"] = "";    // AWS CLI

@@ -291,6 +291,16 @@ public abstract partial class CliScraperBase : ICliScraper
         var subcommands = ExtractSubcommands(helpText).ToList();
         var isSingleCommandTool = path.Length == 1 && subcommands.Count == 0;
 
+        // Log diagnostic info when no subcommands found at root level
+        if (path.Length == 1 && subcommands.Count == 0)
+        {
+            Logger.LogWarning(
+                "[{Tool}] No subcommands extracted from root help text. Help text length: {Length} chars. First 500 chars: {Preview}",
+                ToolName,
+                helpText.Length,
+                helpText.Length > 500 ? helpText[..500] : helpText);
+        }
+
         // If this command has options, parse and write to channel
         // Parse if: (1) it's a subcommand (path.Length > 1), OR (2) it's a single-command tool with no subcommands
         if (HasOptions(helpText) && (path.Length > 1 || isSingleCommandTool))

@@ -108,12 +108,13 @@ public sealed class ResilientCliCommandExecutor : ICliCommandExecutor
     public async Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        string? workingDirectory = null)
     {
         try
         {
             return await _pipeline.ExecuteAsync(
-                async token => await _inner.ExecuteAsync(command, arguments, token),
+                async token => await _inner.ExecuteAsync(command, arguments, token, workingDirectory),
                 cancellationToken);
         }
         catch (BrokenCircuitException ex)

@@ -86,7 +86,7 @@ public class EnumGenerator : ICodeGenerator
 
     /// <summary>
     /// Escapes a string for use in a C# string literal.
-    /// Handles newlines, carriage returns, tabs, backslashes, and quotes.
+    /// Handles newlines, carriage returns, tabs, backslashes, quotes, and other control characters.
     /// </summary>
     private static string EscapeStringLiteral(string value)
     {
@@ -95,11 +95,57 @@ public class EnumGenerator : ICodeGenerator
             return value;
         }
 
-        return value
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"")
-            .Replace("\r", "\\r")
-            .Replace("\n", "\\n")
-            .Replace("\t", "\\t");
+        var sb = new StringBuilder(value.Length + 10);
+
+        foreach (var c in value)
+        {
+            switch (c)
+            {
+                case '\\':
+                    sb.Append("\\\\");
+                    break;
+                case '"':
+                    sb.Append("\\\"");
+                    break;
+                case '\r':
+                    sb.Append("\\r");
+                    break;
+                case '\n':
+                    sb.Append("\\n");
+                    break;
+                case '\t':
+                    sb.Append("\\t");
+                    break;
+                case '\0':
+                    sb.Append("\\0");
+                    break;
+                case '\a':
+                    sb.Append("\\a");
+                    break;
+                case '\b':
+                    sb.Append("\\b");
+                    break;
+                case '\f':
+                    sb.Append("\\f");
+                    break;
+                case '\v':
+                    sb.Append("\\v");
+                    break;
+                default:
+                    // Escape other control characters and Unicode line/paragraph separators
+                    if (char.IsControl(c) || c == '\u2028' || c == '\u2029')
+                    {
+                        sb.Append($"\\u{(int)c:X4}");
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+
+                    break;
+            }
+        }
+
+        return sb.ToString();
     }
 }

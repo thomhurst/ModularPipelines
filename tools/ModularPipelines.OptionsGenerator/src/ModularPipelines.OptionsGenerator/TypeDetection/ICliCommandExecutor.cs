@@ -12,11 +12,13 @@ public interface ICliCommandExecutor
     /// <param name="command">The command to execute (e.g., "docker").</param>
     /// <param name="arguments">Arguments for the command (e.g., "run --help").</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <param name="workingDirectory">Optional working directory for the command.</param>
     /// <returns>Result containing stdout, stderr, and exit code.</returns>
     Task<CliCommandResult> ExecuteAsync(
         string command,
         string arguments,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default,
+        string? workingDirectory = null);
 
     /// <summary>
     /// Checks if a CLI tool is available on the system.

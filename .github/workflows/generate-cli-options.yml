@@ -406,9 +406,26 @@ jobs:
       - name: Install Liquibase
         if: steps.should-run.outputs.run == 'true' && matrix.tool == 'liquibase'
         run: |
-          wget -qO- https://github.com/liquibase/liquibase/releases/download/v4.29.2/liquibase-4.29.2.tar.gz | tar xvz -C /tmp
-          # The tarball extracts to liquibase-<version>/ directory, symlink the liquibase script
-          sudo ln -s /tmp/liquibase-4.29.2/liquibase /usr/local/bin/liquibase
+          # Use latest version - the tarball may extract directly or into a versioned directory
+          LIQUIBASE_VERSION="4.30.0"
+          mkdir -p /tmp/liquibase
+          wget -qO- "https://github.com/liquibase/liquibase/releases/download/v${LIQUIBASE_VERSION}/liquibase-${LIQUIBASE_VERSION}.tar.gz" | tar xvz -C /tmp/liquibase
+          # Find the liquibase executable (could be directly in /tmp/liquibase or in a subdirectory)
+          LIQUIBASE_BIN=$(find /tmp/liquibase -name "liquibase" -type f -executable 2>/dev/null | head -1)
+          if [ -z "$LIQUIBASE_BIN" ]; then
+            # Try without executable check (might need chmod)
+            LIQUIBASE_BIN=$(find /tmp/liquibase -name "liquibase" -type f 2>/dev/null | head -1)
+            if [ -n "$LIQUIBASE_BIN" ]; then
+              chmod +x "$LIQUIBASE_BIN"
+            fi
+          fi
+          if [ -z "$LIQUIBASE_BIN" ]; then
+            echo "Error: Could not find liquibase executable"
+            ls -laR /tmp/liquibase
+            exit 1
+          fi
+          echo "Found liquibase at: $LIQUIBASE_BIN"
+          sudo ln -sf "$LIQUIBASE_BIN" /usr/local/bin/liquibase
           # Verify installation
           liquibase --version
 

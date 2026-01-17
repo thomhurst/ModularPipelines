@@ -59,39 +59,60 @@ public partial class GhCliScraper : CobraCliScraper
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // Only process COMMANDS sections, skip HELP TOPICS and other sections
-        var commandsSectionMatches = GhCommandsSectionPattern().Matches(helpText);
-        if (commandsSectionMatches.Count == 0)
+        // Normalize line endings for consistent parsing
+        var normalizedText = helpText.Replace("\r\n", "\n").Replace("\r", "\n");
+
+        // Collect all command section matches
+        var sectionMatches = new List<Match>();
+
+        // Try primary pattern for gh-specific sections (CORE COMMANDS, etc.)
+        var commandsSectionMatches = GhCommandsSectionPattern().Matches(normalizedText);
+        foreach (Match m in commandsSectionMatches)
         {
-            // Also try FLAGS section which sometimes contains Available Commands
-            var flagsMatch = GhFlagsSectionPattern().Match(helpText);
-            if (flagsMatch.Success)
-            {
-                // No commands in FLAGS section, but we check to ensure we don't miss subcommands
-                return subcommands;
-            }
+            sectionMatches.Add(m);
+        }
+
+        // Also try fallback pattern for standard Cobra "Commands:" sections
+        var fallbackMatches = FallbackCommandsSectionPattern().Matches(normalizedText);
+        foreach (Match m in fallbackMatches)
+        {
+            sectionMatches.Add(m);
+        }
+
+        if (sectionMatches.Count == 0)
+        {
+            Logger.LogWarning("[gh] No COMMANDS sections found in help text. Tried GhCommandsSectionPattern and FallbackCommandsSectionPattern");
             return subcommands;
         }
 
-        foreach (Match sectionMatch in commandsSectionMatches)
+        Logger.LogDebug("[gh] Found {Count} command sections in help text", sectionMatches.Count);
+
+        foreach (var sectionMatch in sectionMatches)
         {
             var sectionStart = sectionMatch.Index + sectionMatch.Length;
 
             // Find where this section ends (next ALL-CAPS section header)
-            var sectionEnd = helpText.Length;
-            var nextSectionMatch = GhSectionHeaderPattern().Match(helpText, sectionStart);
+            var sectionEnd = normalizedText.Length;
+            var nextSectionMatch = GhSectionHeaderPattern().Match(normalizedText, sectionStart);
             if (nextSectionMatch.Success)
             {
                 sectionEnd = nextSectionMatch.Index;
             }
 
-            var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+            var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
 
             // Parse command lines in this section only
             var lines = section.Split('\n');
             foreach (var line in lines)
             {
+                // Try gh-specific pattern first (command: description)
                 var match = GhSubcommandLinePattern().Match(line);
+                if (!match.Success)
+                {
+                    // Try standard Cobra pattern (command    description)
+                    match = FallbackSubcommandLinePattern().Match(line);
+                }
+
                 if (match.Success)
                 {
                     var commandName = match.Groups["name"].Value.Trim();
@@ -136,6 +157,18 @@ public partial class GhCliScraper : CobraCliScraper
     /// </summary>
     [GeneratedRegex(@"^\s{2}(?<name>[\w-]+):\s+\S", RegexOptions.Multiline)]
     private static partial Regex GhSubcommandLinePattern();
+
+    /// <summary>
+    /// Fallback pattern for standard Cobra-style "Commands:" or "Available Commands:" sections.
+    /// </summary>
+    [GeneratedRegex(@"(?:\w+\s+)?[Cc]ommands?:\s*\n", RegexOptions.Multiline)]
+    private static partial Regex FallbackCommandsSectionPattern();
+
+    /// <summary>
+    /// Fallback pattern for standard Cobra subcommand lines: "  command    description"
+    /// </summary>
+    [GeneratedRegex(@"^\s{2,}(?<name>[\w-]+)\s{2,}", RegexOptions.Multiline)]
+    private static partial Regex FallbackSubcommandLinePattern();
 
     #endregion
 }

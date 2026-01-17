@@ -121,11 +121,27 @@ public partial class AwsCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+        // Normalize line endings for consistent parsing
+        var normalizedText = helpText.Replace("\r\n", "\n").Replace("\r", "\n");
+
         // Extract from AVAILABLE SERVICES section (root level)
-        subcommands.AddRange(ExtractFromSection(helpText, "AVAILABLE SERVICES", seenCommands));
+        var services = ExtractFromSection(normalizedText, "AVAILABLE SERVICES", seenCommands);
+        subcommands.AddRange(services);
+        Logger.LogDebug("[aws] Extracted {Count} services from AVAILABLE SERVICES section", services.Count);
 
         // Extract from AVAILABLE COMMANDS section (service level)
-        subcommands.AddRange(ExtractFromSection(helpText, "AVAILABLE COMMANDS", seenCommands));
+        var commands = ExtractFromSection(normalizedText, "AVAILABLE COMMANDS", seenCommands);
+        subcommands.AddRange(commands);
+        Logger.LogDebug("[aws] Extracted {Count} commands from AVAILABLE COMMANDS section", commands.Count);
+
+        // If no subcommands found, log diagnostic info
+        if (subcommands.Count == 0)
+        {
+            Logger.LogWarning(
+                "[aws] No subcommands extracted. Help text length: {Length}. First 500 chars: {Preview}",
+                normalizedText.Length,
+                normalizedText.Length > 500 ? normalizedText[..500] : normalizedText);
+        }
 
         return subcommands;
     }
@@ -206,14 +222,15 @@ public partial class AwsCliScraper : CliScraperBase
 
     #region AWS-Specific Parsing Helpers
 
-    private static List<string> ExtractFromSection(string helpText, string sectionName, HashSet<string> seenCommands)
+    private List<string> ExtractFromSection(string helpText, string sectionName, HashSet<string> seenCommands)
     {
         var subcommands = new List<string>();
 
-        // Find the section
-        var sectionMatch = Regex.Match(helpText, $@"^{sectionName}\s*$", RegexOptions.Multiline);
+        // Find the section - use case-insensitive match for robustness
+        var sectionMatch = Regex.Match(helpText, $@"^{sectionName}\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
         if (!sectionMatch.Success)
         {
+            Logger.LogDebug("[aws] Section '{SectionName}' not found in help text", sectionName);
             return subcommands;
         }
 
@@ -224,8 +241,9 @@ public partial class AwsCliScraper : CliScraperBase
         var sectionEnd = nextMatch.Success ? sectionStart + nextMatch.Index : helpText.Length;
 
         var section = helpText[sectionStart..sectionEnd];
+        Logger.LogDebug("[aws] Found section '{SectionName}' with {Length} chars", sectionName, section.Length);
 
-        // AWS format: "       o command-name" or just indented "command-name"
+        // AWS format: "       o command-name"
         var matches = AwsCommandPattern().Matches(section);
         foreach (Match match in matches)
         {
@@ -233,6 +251,26 @@ public partial class AwsCliScraper : CliScraperBase
             if (!string.IsNullOrEmpty(name) && seenCommands.Add(name))
             {
                 subcommands.Add(name);
+            }
+        }
+
+        // Fallback: Try alternate pattern if primary didn't match
+        // Some versions use "* command-name" or just indented commands
+        if (subcommands.Count == 0)
+        {
+            var fallbackMatches = AwsCommandPatternFallback().Matches(section);
+            foreach (Match match in fallbackMatches)
+            {
+                var name = match.Groups["name"].Value.Trim();
+                if (!string.IsNullOrEmpty(name) && seenCommands.Add(name))
+                {
+                    subcommands.Add(name);
+                }
+            }
+
+            if (subcommands.Count > 0)
+            {
+                Logger.LogDebug("[aws] Used fallback pattern to extract {Count} commands", subcommands.Count);
             }
         }
 
@@ -449,10 +487,17 @@ public partial class AwsCliScraper : CliScraperBase
 
     /// <summary>
     /// Matches AWS command lines in AVAILABLE SERVICES/COMMANDS sections.
-    /// Format: "       o command-name" or indented "command-name"
+    /// Format: "       o command-name"
     /// </summary>
     [GeneratedRegex(@"^\s+o\s+(?<name>[\w-]+)", RegexOptions.Multiline)]
     private static partial Regex AwsCommandPattern();
+
+    /// <summary>
+    /// Fallback pattern for AWS commands.
+    /// Format: "  * command-name" or just indented "command-name" at start of line
+    /// </summary>
+    [GeneratedRegex(@"^\s+(?:\*\s+)?(?<name>[a-z][a-z0-9-]+)\s*$", RegexOptions.Multiline)]
+    private static partial Regex AwsCommandPatternFallback();
 
     /// <summary>
     /// Matches AWS CLI option patterns:

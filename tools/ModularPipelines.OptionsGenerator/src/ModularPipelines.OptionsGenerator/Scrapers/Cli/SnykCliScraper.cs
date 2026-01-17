@@ -53,29 +53,42 @@ public partial class SnykCliScraper : CliScraperBase
         var subcommands = new List<string>();
         var seenCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+        // Normalize line endings for consistent parsing
+        var normalizedText = helpText.Replace("\r\n", "\n").Replace("\r", "\n");
+
         // Find "Commands:" section
-        var commandsSectionMatch = CommandsSectionPattern().Match(helpText);
+        var commandsSectionMatch = CommandsSectionPattern().Match(normalizedText);
         if (!commandsSectionMatch.Success)
         {
+            Logger.LogWarning("[snyk] No Commands section found in help text. Pattern: CommandsSectionPattern");
             return subcommands;
         }
 
+        Logger.LogDebug("[snyk] Found Commands section at index {Index}", commandsSectionMatch.Index);
+
         var sectionStart = commandsSectionMatch.Index + commandsSectionMatch.Length;
-        var sectionEnd = helpText.Length;
+        var sectionEnd = normalizedText.Length;
 
         // Find where this section ends
-        var nextSection = NextSectionPattern().Match(helpText, sectionStart);
+        var nextSection = NextSectionPattern().Match(normalizedText, sectionStart);
         if (nextSection.Success)
         {
             sectionEnd = nextSection.Index;
         }
 
-        var section = helpText.Substring(sectionStart, sectionEnd - sectionStart);
+        var section = normalizedText.Substring(sectionStart, sectionEnd - sectionStart);
         var lines = section.Split('\n');
 
         foreach (var line in lines)
         {
+            // Try primary pattern
             var match = SnykCommandLinePattern().Match(line);
+            if (!match.Success)
+            {
+                // Try fallback pattern for standard indented format
+                match = FallbackCommandLinePattern().Match(line);
+            }
+
             if (match.Success)
             {
                 var commandName = match.Groups["command"].Value.Trim();
@@ -88,6 +101,7 @@ public partial class SnykCliScraper : CliScraperBase
             }
         }
 
+        Logger.LogInformation("[snyk] Extracted {Count} subcommands", subcommands.Count);
         return subcommands;
     }
 
@@ -338,6 +352,13 @@ public partial class SnykCliScraper : CliScraperBase
     /// </summary>
     [GeneratedRegex(@"^\s{2,}(?<command>[\w-]+)(?:\s+\[[^\]]+\])?\s{2,}", RegexOptions.Multiline)]
     private static partial Regex SnykCommandLinePattern();
+
+    /// <summary>
+    /// Fallback pattern for command lines with simpler format: "  command    description"
+    /// Also matches format: "  command [args]    description"
+    /// </summary>
+    [GeneratedRegex(@"^\s{2,}(?<command>[\w-]+)\s+", RegexOptions.Multiline)]
+    private static partial Regex FallbackCommandLinePattern();
 
     /// <summary>
     /// Matches Snyk-style option lines:
