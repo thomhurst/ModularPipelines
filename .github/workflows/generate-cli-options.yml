@@ -529,7 +529,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
@@ -554,12 +554,14 @@ jobs:
           labels: |
             automated
             dependencies
+          author: thomhurst <9139608+thomhurst@users.noreply.github.com>
+          committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
         if: steps.create-pr.outputs.pull-request-number
         run: gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --auto --squash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
 
   # Generate options for Windows-only tools
   generate-windows:
@@ -717,7 +719,7 @@ jobs:
         if: steps.should-run.outputs.run == 'true' && steps.changes.outputs.has_changes == 'true' && (github.event.inputs.create-pr != 'false')
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CLI_SCRAPER_PAT_TOKEN }}
           commit-message: "chore: Update ${{ matrix.tool }} CLI options"
           title: "[Automated] Update ${{ matrix.tool }} CLI Options"
           body: |
@@ -742,6 +744,8 @@ jobs:
           labels: |
             automated
             dependencies
+          author: thomhurst <9139608+thomhurst@users.noreply.github.com>
+          committer: thomhurst <9139608+thomhurst@users.noreply.github.com>
 
       - name: Enable auto-merge
         if: steps.create-pr.outputs.pull-request-number
