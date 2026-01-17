@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ModularPipelines.Attributes;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -7,6 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[ModuleCategory("VersionTag")]
 public class NugetVersionGeneratorModule : Module<string>
 {
     private readonly IOptions<PublishSettings> _publishSettings;

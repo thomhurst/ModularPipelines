@@ -84,6 +84,13 @@ else if (!builder.Environment.IsDevelopment())
 var pipelineSettings = builder.Configuration.GetSection("Pipeline").Get<PipelineSettings>() ?? new PipelineSettings();
 builder.Options.DefaultRetryCount = pipelineSettings.DefaultRetryCount;
 
+// Support running only specific categories via environment variable
+var runCategories = Environment.GetEnvironmentVariable("Pipeline__RunCategories");
+if (!string.IsNullOrEmpty(runCategories))
+{
+    builder.RunCategories(runCategories.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries));
+}
+
 builder.SetLogLevel(LogLevel.Debug); // Temporarily hardcoded for debugging
 
 var pipeline = builder.Build();

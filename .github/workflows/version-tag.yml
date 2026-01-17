@@ -1,0 +1,39 @@
+name: Version Tag
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: write
+
+jobs:
+  version-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Cache NuGet
+        uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      - name: Build Pipeline Project
+        run: dotnet build src/ModularPipelines.Build/ModularPipelines.Build.csproj -c Release
+      - name: Run Version Tag Pipeline
+        run: dotnet run -c Release --framework net10.0 --no-build
+        working-directory: "src/ModularPipelines.Build"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          DOTNET_ENVIRONMENT: Production
+          Pipeline__RunCategories: VersionTag
+          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
