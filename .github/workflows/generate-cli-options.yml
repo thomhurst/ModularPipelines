@@ -528,9 +528,13 @@ jobs:
         if: steps.should-run.outputs.run == 'true'
         id: changes
         run: |
-          git add -A
-          if git diff --staged --quiet; then
+          # Only stage .cs files in src/ directory - ignore any other generated artifacts
+          git add 'src/**/*.cs'
+
+          # Check for actual content changes (ignore whitespace-only changes)
+          if git diff --staged --quiet --ignore-all-space --ignore-blank-lines; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No meaningful changes detected for ${{ matrix.tool }}"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
             echo "Changed files:"
@@ -717,14 +721,19 @@ jobs:
         id: changes
         shell: pwsh
         run: |
-          git add -A
-          $diff = git diff --staged --quiet; $hasChanges = $LASTEXITCODE -ne 0
+          # Only stage .cs files in src/ directory - ignore any other generated artifacts
+          git add 'src/**/*.cs'
+
+          # Check for actual content changes (ignore whitespace-only changes)
+          git diff --staged --quiet --ignore-all-space --ignore-blank-lines
+          $hasChanges = $LASTEXITCODE -ne 0
           if ($hasChanges) {
             "has_changes=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
             Write-Host "Changed files:"
             git diff --staged --name-only
           } else {
             "has_changes=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "No meaningful changes detected for ${{ matrix.tool }}"
           }
 
       - name: Build solution to verify changes
