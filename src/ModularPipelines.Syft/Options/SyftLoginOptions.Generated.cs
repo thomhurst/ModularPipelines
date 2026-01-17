@@ -29,6 +29,7 @@ public record SyftLoginOptions : SyftOptions
     /// <summary>
     /// Password
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
