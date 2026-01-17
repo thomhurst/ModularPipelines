@@ -24,6 +24,7 @@ public record FluxCreateSecretGitOptions : FluxOptions
     /// <summary>
     /// bearer authentication token
     /// </summary>
+    [SecretValue]
     [CliOption("--bearer-token", Format = OptionFormat.EqualsSeparated)]
     public string? BearerToken { get; set; }
 
@@ -42,12 +43,14 @@ public record FluxCreateSecretGitOptions : FluxOptions
     /// <summary>
     /// basic authentication password
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
     /// <summary>
     /// path to a passwordless private key file used for authenticating to the Git SSH server
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
@@ -210,6 +213,7 @@ public record FluxCreateSecretGitOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

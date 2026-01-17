@@ -72,6 +72,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// the name of the Kubernetes Secret that contains a key with the kubeconfig file for connecting to a remote cluster
     /// </summary>
+    [SecretValue]
     [CliOption("--kubeconfig-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? KubeconfigSecretRef { get; set; }
 
@@ -252,6 +253,7 @@ public record FluxCreateHelmreleaseOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

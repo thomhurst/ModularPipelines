@@ -60,12 +60,14 @@ public record FluxCreateSourceOciOptions : FluxOptions
     /// <summary>
     /// the name of an existing secret containing the proxy address and credentials
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretRef { get; set; }
 
     /// <summary>
     /// the name of the Kubernetes image pull secret (type 'kubernetes.io/dockerconfigjson')
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? SecretRef { get; set; }
 
@@ -108,6 +110,7 @@ public record FluxCreateSourceOciOptions : FluxOptions
     /// <summary>
     /// the name of a secret to use for signature verification
     /// </summary>
+    [SecretValue]
     [CliOption("--verify-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? VerifySecretRef { get; set; }
 
@@ -252,6 +255,7 @@ public record FluxCreateSourceOciOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

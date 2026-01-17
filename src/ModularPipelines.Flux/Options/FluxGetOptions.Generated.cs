@@ -167,6 +167,7 @@ public record FluxGetOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

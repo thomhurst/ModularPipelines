@@ -47,6 +47,7 @@ public record FluxCreateImageRepositoryOptions : FluxOptions
     /// <summary>
     /// the name of a docker-registry secret to use for credentials
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? SecretRef { get; set; }
 
@@ -179,6 +180,7 @@ public record FluxCreateImageRepositoryOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

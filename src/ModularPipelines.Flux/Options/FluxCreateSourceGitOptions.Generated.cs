@@ -54,12 +54,14 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// basic authentication password
     /// </summary>
+    [SecretValue]
     [CliOption("--password", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? Password { get; set; }
 
     /// <summary>
     /// path to a passwordless private key file used for authenticating to the Git SSH server
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
@@ -72,6 +74,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// the name of an existing secret containing the proxy address and credentials
     /// </summary>
+    [SecretValue]
     [CliOption("--proxy-secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? ProxySecretRef { get; set; }
 
@@ -90,6 +93,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// the name of an existing secret containing SSH or basic credentials or github app authentication
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-ref", Format = OptionFormat.EqualsSeparated)]
     public string? SecretRef { get; set; }
 
@@ -282,6 +286,7 @@ public record FluxCreateSourceGitOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

@@ -102,6 +102,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// <summary>
     /// Kubernetes secret name used for pulling the controller images from a private registry
     /// </summary>
+    [SecretValue]
     [CliOption("--image-pull-secret", Format = OptionFormat.EqualsSeparated)]
     public string? ImagePullSecret { get; set; }
 
@@ -120,6 +121,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// <summary>
     /// path to a private key file used for authenticating to the Git SSH server
     /// </summary>
+    [SecretValue]
     [CliOption("--private-key-file", Format = OptionFormat.EqualsSeparated)]
     public string? PrivateKeyFile { get; set; }
 
@@ -144,6 +146,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// <summary>
     /// name of the secret the sync credentials can be found in or stored to (default "flux-system")
     /// </summary>
+    [SecretValue]
     [CliOption("--secret-name", Format = OptionFormat.EqualsSeparated)]
     public string? SecretName { get; set; }
 
@@ -312,6 +315,7 @@ public record FluxBootstrapOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 

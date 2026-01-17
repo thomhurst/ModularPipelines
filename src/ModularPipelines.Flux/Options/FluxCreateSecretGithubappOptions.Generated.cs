@@ -41,6 +41,7 @@ public record FluxCreateSecretGithubappOptions : FluxOptions
     /// <summary>
     /// github app private key file path
     /// </summary>
+    [SecretValue]
     [CliOption("--app-private-key", Format = OptionFormat.EqualsSeparated)]
     public string? AppPrivateKey { get; set; }
 
@@ -179,6 +180,7 @@ public record FluxCreateSecretGithubappOptions : FluxOptions
     /// <summary>
     /// Bearer token for authentication to the API server
     /// </summary>
+    [SecretValue]
     [CliOption("--token", Format = OptionFormat.EqualsSeparated)]
     public string? Token { get; set; }
 
