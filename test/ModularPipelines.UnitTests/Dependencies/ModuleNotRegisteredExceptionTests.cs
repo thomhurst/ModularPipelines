@@ -17,8 +17,21 @@ public class ModuleNotRegisteredExceptionTests : TestBase
         }
     }
 
+    // Uses optional dependency (default) - validation passes, but GetModule fails at runtime
     [ModularPipelines.Attributes.DependsOn<Module1>]
-    private class Module2 : Module<bool>
+    private class Module2WithOptionalDep : Module<bool>
+    {
+        protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
+        {
+            _ = await context.GetModule<Module1>();
+            await Task.Yield();
+            return true;
+        }
+    }
+
+    // Uses required dependency - validation fails if Module1 is not registered
+    [RequiresDependency<Module1>]
+    private class Module2WithRequiredDep : Module<bool>
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -29,11 +42,24 @@ public class ModuleNotRegisteredExceptionTests : TestBase
     }
 
     [Test]
-    public async Task Module_Getting_Non_Registered_Module_Throws_Exception()
+    public async Task Module_Getting_Non_Registered_Module_With_Optional_Dep_Throws_ModuleFailedException()
     {
+        // With Optional dependency (default), validation passes but GetModule fails at runtime
+        // The exception is wrapped in ModuleFailedException
+        await Assert.ThrowsAsync<ModuleFailedException>(() =>
+            TestPipelineHostBuilder.Create()
+                .AddModule<Module2WithOptionalDep>()
+                .ExecutePipelineAsync()
+        );
+    }
+
+    [Test]
+    public async Task Module_With_Required_Non_Registered_Dependency_Throws_ModuleNotRegisteredException()
+    {
+        // With Required dependency, validation fails and throws ModuleNotRegisteredException directly
         await Assert.ThrowsAsync<ModuleNotRegisteredException>(() =>
             TestPipelineHostBuilder.Create()
-                .AddModule<Module2>()
+                .AddModule<Module2WithRequiredDep>()
                 .ExecutePipelineAsync()
         );
     }
@@ -44,7 +70,7 @@ public class ModuleNotRegisteredExceptionTests : TestBase
         await Assert.That(() =>
             TestPipelineHostBuilder.Create()
                 .AddModule<Module1>()
-                .AddModule<Module2>()
+                .AddModule<Module2WithOptionalDep>()
                 .ExecutePipelineAsync()
         ).ThrowsNothing();
     }
