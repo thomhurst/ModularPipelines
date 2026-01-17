@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using ModularPipelines.OptionsGenerator.Models;
@@ -18,8 +19,12 @@ public static partial class GeneratorUtils
 
     /// <summary>
     /// The version of this generator tool, used in [GeneratedCode] attributes.
+    /// Populated at build time by MinVer from git tags.
     /// </summary>
-    public const string GeneratorVersion = "1.0.0";
+    public static string GeneratorVersion =>
+        typeof(GeneratorUtils).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+        ?? typeof(GeneratorUtils).Assembly.GetName().Version?.ToString(3)
+        ?? "0.0.0";
 
     /// <summary>
     /// The full [GeneratedCode] attribute string for use in generated types.

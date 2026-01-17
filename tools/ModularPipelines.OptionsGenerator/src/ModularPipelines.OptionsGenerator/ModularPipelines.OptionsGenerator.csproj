@@ -13,6 +13,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Http" />
     <PackageReference Include="Microsoft.Playwright" />
+    <PackageReference Include="MinVer" PrivateAssets="All" />
     <PackageReference Include="Polly" />
     <PackageReference Include="System.CommandLine" />
   </ItemGroup>
