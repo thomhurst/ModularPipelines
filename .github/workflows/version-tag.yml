@@ -10,7 +10,6 @@ permissions:
 jobs:
   version-tag:
     runs-on: ubuntu-latest
-    environment: Production
 
     steps:
       - uses: actions/checkout@v6
@@ -37,4 +36,4 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           DOTNET_ENVIRONMENT: Production
           Pipeline__RunCategories: VersionTag
-          GitHub__StandardToken: ${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}
+          GitHub__StandardToken: ${{ github.token }}

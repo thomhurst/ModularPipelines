@@ -46,14 +46,13 @@ public class PushVersionTagModule : Module<CommandResult>
 
         // Configure remote URL with authentication token
         var token = _gitHubSettings.Value.StandardToken!;
-        var author = context.GitHub().EnvironmentVariables.Actor ?? _gitHubSettings.Value.RepositoryOwner;
 
         await context.Git().Commands.Remote(new GitRemoteOptions
         {
             Arguments =
             [
                 "set-url", "origin",
-                $"https://x-access-token:{token}@github.com/{author}/{_gitHubSettings.Value.RepositoryName}"
+                $"https://x-access-token:{token}@github.com/{_gitHubSettings.Value.RepositoryOwner}/{_gitHubSettings.Value.RepositoryName}"
             ],
         }, null, cancellationToken);
 
