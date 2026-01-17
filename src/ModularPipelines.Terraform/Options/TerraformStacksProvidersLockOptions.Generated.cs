@@ -8,17 +8,16 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Base options class for terraform CLI commands.
-/// Contains global flags that apply to all commands.
+/// Create or update the dependency lock file (.terraform.lock.hcl) for the
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("terraform")]
-public abstract record TerraformOptions : CommandLineToolOptions
+[CliSubCommand("stacks", "providers-lock")]
+public record TerraformStacksProvidersLockOptions : TerraformOptions
 {
 }

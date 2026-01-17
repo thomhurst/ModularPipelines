@@ -8,17 +8,16 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.Terraform.Options;
 
 namespace ModularPipelines.Terraform.Options;
 
 /// <summary>
-/// Base options class for terraform CLI commands.
-/// Contains global flags that apply to all commands.
+/// list                List all deployment runs in the current configuration.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("terraform")]
-public abstract record TerraformOptions : CommandLineToolOptions
+[CliSubCommand("stacks", "deployment-run")]
+public record TerraformStacksDeploymentRunOptions : TerraformOptions
 {
 }
