@@ -8,17 +8,22 @@
 using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
-using ModularPipelines.Options;
+using ModularPipelines.DotNet.Options;
 
 namespace ModularPipelines.DotNet.Options;
 
 /// <summary>
-/// Base options class for dotnet CLI commands.
-/// Contains global flags that apply to all commands.
+/// Modify or display workload configuration values.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
 [ExcludeFromCodeCoverage]
-[CliTool("dotnet")]
-public abstract record DotNetOptions : CommandLineToolOptions
+[CliSubCommand("workload", "config")]
+public record DotNetWorkloadConfigOptions : DotNetOptions
 {
+    /// <summary>
+    /// Controls whether updates should look for workload sets or the latest version of each individual manifest.
+    /// </summary>
+    [CliOption("--update-mode")]
+    public string? UpdateMode { get; set; }
+
 }
