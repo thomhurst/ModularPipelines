@@ -138,18 +138,20 @@ public class ValidationTests
     }
 
     [Test]
-    public async Task ValidateAsync_WithMissingDependency_ReturnsError()
+    public async Task ValidateAsync_WithMissingRequiredDependency_ReturnsNoError_BecauseAutoRegistered()
     {
         // Arrange
         var builder = Pipeline.CreateBuilder();
-        builder.Services.AddModule<ModuleWithMissingDep>(); // MissingModule is not registered
+        builder.Services.AddModule<ModuleWithMissingDep>(); // MissingModule is not registered but will be auto-registered
 
         // Act
         var result = await builder.ValidateAsync();
 
-        // Assert
-        await Assert.That(result.HasErrors).IsTrue();
-        await Assert.That(result.Errors.Any(e => e.Category == ValidationErrorCategory.Dependency)).IsTrue();
+        // Assert - Required dependencies are auto-registered, so no dependency error
+        var hasDependencyError = result.Errors.Any(e =>
+            e.Category == ValidationErrorCategory.Dependency &&
+            e.Message.Contains("MissingModule"));
+        await Assert.That(hasDependencyError).IsFalse();
     }
 
     [Test]
