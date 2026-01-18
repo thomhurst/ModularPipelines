@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Save one or more images to a tar archive (streamed to STDOUT by default)
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("image", "save")]
 public record DockerImageSaveOptions : DockerOptions

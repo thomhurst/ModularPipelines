@@ -15,7 +15,7 @@ namespace ModularPipelines.Docker.Options;
 /// <summary>
 /// Convert compose files to Kubernetes manifests, Helm charts, or another model
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("compose", "bridge", "convert")]
 public record DockerComposeBridgeConvertOptions : DockerOptions
