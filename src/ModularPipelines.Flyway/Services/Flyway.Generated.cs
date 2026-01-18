@@ -14,7 +14,7 @@ namespace ModularPipelines.Flyway.Services;
 /// <summary>
 /// Generated implementation for flyway CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Flyway : IFlyway
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Baseline(
-        FlywayBaselineOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayBaselineOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayBaselineOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Check(
-        FlywayCheckOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayCheckOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayCheckOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Clean(
-        FlywayCleanOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayCleanOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayCleanOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Deploy(
-        FlywayDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayDeployOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Info(
-        FlywayInfoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayInfoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayInfoOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
-        FlywayInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayInitOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ListEngines(
-        FlywayListEnginesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayListEnginesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayListEnginesOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Migrate(
-        FlywayMigrateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayMigrateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayMigrateOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Prepare(
-        FlywayPrepareOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayPrepareOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayPrepareOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Repair(
-        FlywayRepairOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayRepairOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayRepairOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Snapshot(
-        FlywaySnapshotOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywaySnapshotOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywaySnapshotOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ internal partial class Flyway : IFlyway
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Validate(
-        FlywayValidateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FlywayValidateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FlywayValidateOptions(), executionOptions, cancellationToken);

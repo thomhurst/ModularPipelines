@@ -13,34 +13,34 @@ namespace ModularPipelines.Flyway.Services;
 /// <summary>
 /// Generated interface for flyway CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IFlyway
 {
     #region Commands
 
-    Task<CommandResult> Baseline(FlywayBaselineOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Baseline(FlywayBaselineOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Check(FlywayCheckOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Check(FlywayCheckOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Clean(FlywayCleanOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Clean(FlywayCleanOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Deploy(FlywayDeployOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Deploy(FlywayDeployOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Info(FlywayInfoOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Info(FlywayInfoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Init(FlywayInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(FlywayInitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> ListEngines(FlywayListEnginesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> ListEngines(FlywayListEnginesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Migrate(FlywayMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Migrate(FlywayMigrateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Prepare(FlywayPrepareOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Prepare(FlywayPrepareOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Repair(FlywayRepairOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Repair(FlywayRepairOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Snapshot(FlywaySnapshotOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Snapshot(FlywaySnapshotOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
-    Task<CommandResult> Validate(FlywayValidateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Validate(FlywayValidateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
