@@ -13,7 +13,7 @@ namespace ModularPipelines.Packer.Services;
 /// <summary>
 /// Generated interface for packer CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IPacker
 {
     #region Commands
@@ -25,7 +25,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Build(PackerBuildOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Build(PackerBuildOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a console for testing variable interpolation.
@@ -34,7 +34,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Console(PackerConsoleOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Console(PackerConsoleOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reads the JSON template and attempts to fix known backwards
@@ -43,7 +43,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Fix(PackerFixOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Fix(PackerFixOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rewrites all Packer configuration files to a canonical format. Both
@@ -52,7 +52,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Fmt(PackerFmtOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Fmt(PackerFmtOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Will transform your JSON template into an HCL2 configuration.
@@ -61,7 +61,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Hcl2_upgrade(PackerHcl2UpgradeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Hcl2_upgrade(PackerHcl2UpgradeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Install all the missing plugins required in a Packer config. Note that Packer
@@ -70,7 +70,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Init(PackerInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(PackerInitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects a template, parsing and outputting the components a template
@@ -79,7 +79,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(PackerInspectOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Inspect(PackerInspectOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command groups subcommands for interacting with Packer plugins.
@@ -88,7 +88,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Plugins(PackerPluginsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Plugins(PackerPluginsOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks the template is valid by parsing the template and also
@@ -97,7 +97,7 @@ public partial interface IPacker
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Validate(PackerValidateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Validate(PackerValidateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
