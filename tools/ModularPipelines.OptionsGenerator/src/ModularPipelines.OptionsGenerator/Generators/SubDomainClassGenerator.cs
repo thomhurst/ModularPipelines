@@ -149,7 +149,7 @@ public class SubDomainClassGenerator : ICodeGenerator
         foreach (var child in node.Children.Values.OrderBy(c => c.PascalSegment))
         {
             var fieldName = GetSafeFieldName(child.PascalSegment);
-            sb.AppendLine($"    private {child.ClassName}? {fieldName};");
+            sb.AppendLine($"    private {child.ClassName} {fieldName};");
         }
 
         sb.AppendLine();
@@ -232,8 +232,8 @@ public class SubDomainClassGenerator : ICodeGenerator
         sb.AppendLine("    /// <param name=\"cancellationToken\">Cancellation token.</param>");
         sb.AppendLine("    /// <returns>The command result.</returns>");
         sb.AppendLine($"    public virtual async Task<CommandResult> Execute(");
-        sb.AppendLine($"        {command.ClassName}? options = default,");
-        sb.AppendLine("        CommandExecutionOptions? executionOptions = null,");
+        sb.AppendLine($"        {command.ClassName} options = default,");
+        sb.AppendLine("        CommandExecutionOptions executionOptions = null,");
         sb.AppendLine("        CancellationToken cancellationToken = default)");
         sb.AppendLine("    {");
         sb.AppendLine($"        return await _command.ExecuteCommandLineTool(options ?? new {command.ClassName}(), executionOptions, cancellationToken);");

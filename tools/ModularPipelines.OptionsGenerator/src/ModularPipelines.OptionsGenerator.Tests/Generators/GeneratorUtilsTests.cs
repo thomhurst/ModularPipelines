@@ -381,13 +381,13 @@ public class GeneratorUtilsTests
     }
 
     [Test]
-    public async Task GenerateFileHeaderWithNullable_Includes_Nullable_Enable()
+    public async Task GenerateFileHeaderWithNullable_DoesNot_Include_Nullable_Enable()
     {
         var sb = new StringBuilder();
 
         GeneratorUtils.GenerateFileHeaderWithNullable(sb);
 
-        await Assert.That(sb.ToString()).Contains("#nullable enable");
+        await Assert.That(sb.ToString()).DoesNotContain("#nullable enable");
     }
 
     #endregion

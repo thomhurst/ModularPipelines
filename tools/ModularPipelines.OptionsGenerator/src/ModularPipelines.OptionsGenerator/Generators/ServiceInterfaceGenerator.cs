@@ -125,11 +125,11 @@ public class ServiceInterfaceGenerator : ICodeGenerator
             sb.AppendLine("    /// <returns>The command result.</returns>");
         }
 
-        // Interface signature must match implementation - nullable options when no required params
+        // Interface signature must match implementation
         var optionsParam = hasRequiredParams
             ? $"{command.ClassName} options"
-            : $"{command.ClassName}? options = default";
+            : $"{command.ClassName} options = default";
 
-        sb.AppendLine($"    Task<CommandResult> {methodName}({optionsParam}, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);");
+        sb.AppendLine($"    Task<CommandResult> {methodName}({optionsParam}, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);");
     }
 }

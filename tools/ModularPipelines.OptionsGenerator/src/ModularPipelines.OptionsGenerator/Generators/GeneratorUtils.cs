@@ -96,13 +96,11 @@ public static partial class GeneratorUtils
     }
 
     /// <summary>
-    /// Generates a standard auto-generated file header with nullable enable.
+    /// Generates a standard auto-generated file header.
     /// </summary>
     public static void GenerateFileHeaderWithNullable(StringBuilder sb, string? sourceUrl = null)
     {
         GenerateFileHeader(sb, sourceUrl);
-        sb.AppendLine("#nullable enable");
-        sb.AppendLine();
     }
 
     /// <summary>
@@ -388,14 +386,14 @@ public static partial class GeneratorUtils
             sb.AppendLine($"{indent}/// <inheritdoc />");
         }
 
-        // Method signature - nullable options if no required params
+        // Method signature
         var optionsParam = hasRequiredParams
             ? $"{command.ClassName} options"
-            : $"{command.ClassName}? options = default";
+            : $"{command.ClassName} options = default";
 
         sb.AppendLine($"{indent}public virtual async Task<CommandResult> {methodName}(");
         sb.AppendLine($"{indent}    {optionsParam},");
-        sb.AppendLine($"{indent}    CommandExecutionOptions? executionOptions = null,");
+        sb.AppendLine($"{indent}    CommandExecutionOptions executionOptions = null,");
         sb.AppendLine($"{indent}    CancellationToken cancellationToken = default)");
         sb.AppendLine($"{indent}{{");
 
