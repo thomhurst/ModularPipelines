@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vmware commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmware
 {
     private readonly ICommand _command;
-    private GcloudVmwareAnnouncements? _announcements;
-    private GcloudVmwareDatastores? _datastores;
-    private GcloudVmwareDnsBindPermission? _dnsBindPermission;
-    private GcloudVmwareLocations? _locations;
-    private GcloudVmwareNetworkPeerings? _networkPeerings;
-    private GcloudVmwareNetworkPolicies? _networkPolicies;
-    private GcloudVmwareNetworks? _networks;
-    private GcloudVmwareNodeTypes? _nodeTypes;
-    private GcloudVmwareOperations? _operations;
-    private GcloudVmwarePrivateClouds? _privateClouds;
-    private GcloudVmwarePrivateConnections? _privateConnections;
+    private GcloudVmwareAnnouncements _announcements;
+    private GcloudVmwareDatastores _datastores;
+    private GcloudVmwareDnsBindPermission _dnsBindPermission;
+    private GcloudVmwareLocations _locations;
+    private GcloudVmwareNetworkPeerings _networkPeerings;
+    private GcloudVmwareNetworkPolicies _networkPolicies;
+    private GcloudVmwareNetworks _networks;
+    private GcloudVmwareNodeTypes _nodeTypes;
+    private GcloudVmwareOperations _operations;
+    private GcloudVmwarePrivateClouds _privateClouds;
+    private GcloudVmwarePrivateConnections _privateConnections;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmware"/> class.
@@ -107,8 +107,8 @@ public class GcloudVmware
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudVmwareOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareOptions(), executionOptions, cancellationToken);

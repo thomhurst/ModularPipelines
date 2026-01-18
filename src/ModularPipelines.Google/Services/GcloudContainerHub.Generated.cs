@@ -14,26 +14,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud hub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHub
 {
     private readonly ICommand _command;
-    private GcloudContainerHubCloudrun? _cloudrun;
-    private GcloudContainerHubClusterupgrade? _clusterupgrade;
-    private GcloudContainerHubConfigManagement? _configManagement;
-    private GcloudContainerHubDataplaneV2Encryption? _dataplaneV2Encryption;
-    private GcloudContainerHubFeatures? _features;
-    private GcloudContainerHubFleetobservability? _fleetobservability;
-    private GcloudContainerHubIdentityService? _identityService;
-    private GcloudContainerHubIngress? _ingress;
-    private GcloudContainerHubMemberships? _memberships;
-    private GcloudContainerHubMesh? _mesh;
-    private GcloudContainerHubMultiClusterServices? _multiClusterServices;
-    private GcloudContainerHubOperations? _operations;
-    private GcloudContainerHubPackages? _packages;
-    private GcloudContainerHubPolicycontroller? _policycontroller;
-    private GcloudContainerHubRbacrolebindingactuation? _rbacrolebindingactuation;
-    private GcloudContainerHubScopes? _scopes;
+    private GcloudContainerHubCloudrun _cloudrun;
+    private GcloudContainerHubClusterupgrade _clusterupgrade;
+    private GcloudContainerHubConfigManagement _configManagement;
+    private GcloudContainerHubDataplaneV2Encryption _dataplaneV2Encryption;
+    private GcloudContainerHubFeatures _features;
+    private GcloudContainerHubFleetobservability _fleetobservability;
+    private GcloudContainerHubIdentityService _identityService;
+    private GcloudContainerHubIngress _ingress;
+    private GcloudContainerHubMemberships _memberships;
+    private GcloudContainerHubMesh _mesh;
+    private GcloudContainerHubMultiClusterServices _multiClusterServices;
+    private GcloudContainerHubOperations _operations;
+    private GcloudContainerHubPackages _packages;
+    private GcloudContainerHubPolicycontroller _policycontroller;
+    private GcloudContainerHubRbacrolebindingactuation _rbacrolebindingactuation;
+    private GcloudContainerHubScopes _scopes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHub"/> class.
@@ -137,8 +137,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerHubCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubCreateOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDeleteOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDescribeOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubListOptions(), executionOptions, cancellationToken);
@@ -197,8 +197,8 @@ public class GcloudContainerHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubUpdateOptions(), executionOptions, cancellationToken);

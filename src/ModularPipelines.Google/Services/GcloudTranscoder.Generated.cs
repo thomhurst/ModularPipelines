@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud transcoder commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudTranscoder
 {
     private readonly ICommand _command;
-    private GcloudTranscoderJobs? _jobs;
-    private GcloudTranscoderTemplates? _templates;
+    private GcloudTranscoderJobs _jobs;
+    private GcloudTranscoderTemplates _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudTranscoder"/> class.
@@ -53,8 +53,8 @@ public class GcloudTranscoder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudTranscoderOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTranscoderOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTranscoderOptions(), executionOptions, cancellationToken);

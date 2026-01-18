@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud groups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIdentityGroups
 {
     private readonly ICommand _command;
-    private GcloudIdentityGroupsMemberships? _memberships;
+    private GcloudIdentityGroupsMemberships _memberships;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIdentityGroups"/> class.
@@ -48,7 +48,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIdentityGroupsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIdentityGroupsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIdentityGroupsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudIdentityGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudIdentityGroupsSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsSearchOptions(), executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudIdentityGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudIdentityGroupsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

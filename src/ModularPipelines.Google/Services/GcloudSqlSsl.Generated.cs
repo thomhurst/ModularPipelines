@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ssl commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSqlSsl
 {
     private readonly ICommand _command;
-    private GcloudSqlSslClientCerts? _clientCerts;
-    private GcloudSqlSslServerCaCerts? _serverCaCerts;
-    private GcloudSqlSslServerCerts? _serverCerts;
+    private GcloudSqlSslClientCerts _clientCerts;
+    private GcloudSqlSslServerCaCerts _serverCaCerts;
+    private GcloudSqlSslServerCerts _serverCerts;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSqlSsl"/> class.

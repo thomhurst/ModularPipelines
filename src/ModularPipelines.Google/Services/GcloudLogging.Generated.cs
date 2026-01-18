@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud logging commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLogging
 {
     private readonly ICommand _command;
-    private GcloudLoggingBuckets? _buckets;
-    private GcloudLoggingLinks? _links;
-    private GcloudLoggingLocations? _locations;
-    private GcloudLoggingLogs? _logs;
-    private GcloudLoggingMetrics? _metrics;
-    private GcloudLoggingOperations? _operations;
-    private GcloudLoggingResourceDescriptors? _resourceDescriptors;
-    private GcloudLoggingScopes? _scopes;
-    private GcloudLoggingSettings? _settings;
-    private GcloudLoggingSinks? _sinks;
-    private GcloudLoggingViews? _views;
+    private GcloudLoggingBuckets _buckets;
+    private GcloudLoggingLinks _links;
+    private GcloudLoggingLocations _locations;
+    private GcloudLoggingLogs _logs;
+    private GcloudLoggingMetrics _metrics;
+    private GcloudLoggingOperations _operations;
+    private GcloudLoggingResourceDescriptors _resourceDescriptors;
+    private GcloudLoggingScopes _scopes;
+    private GcloudLoggingSettings _settings;
+    private GcloudLoggingSinks _sinks;
+    private GcloudLoggingViews _views;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLogging"/> class.
@@ -107,8 +107,8 @@ public class GcloudLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudLoggingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingOptions(), executionOptions, cancellationToken);
@@ -123,7 +123,7 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
         GcloudLoggingCopyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Read(
-        GcloudLoggingReadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingReadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingReadOptions(), executionOptions, cancellationToken);
@@ -153,7 +153,7 @@ public class GcloudLogging
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Write(
         GcloudLoggingWriteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

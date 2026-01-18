@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud os-login commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeOsLogin
 {
     private readonly ICommand _command;
-    private GcloudComputeOsLoginSshKeys? _sshKeys;
+    private GcloudComputeOsLoginSshKeys _sshKeys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeOsLogin"/> class.
@@ -47,8 +47,8 @@ public class GcloudComputeOsLogin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeProfile(
-        GcloudComputeOsLoginDescribeProfileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsLoginDescribeProfileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginDescribeProfileOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudComputeOsLogin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveProfile(
-        GcloudComputeOsLoginRemoveProfileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsLoginRemoveProfileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsLoginRemoveProfileOptions(), executionOptions, cancellationToken);

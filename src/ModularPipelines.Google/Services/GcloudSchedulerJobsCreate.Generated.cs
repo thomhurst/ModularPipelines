@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSchedulerJobsCreate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSchedulerJobsCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AppEngine(
-        GcloudSchedulerJobsCreateAppEngineOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSchedulerJobsCreateAppEngineOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateAppEngineOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSchedulerJobsCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Http(
-        GcloudSchedulerJobsCreateHttpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSchedulerJobsCreateHttpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreateHttpOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudSchedulerJobsCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pubsub(
-        GcloudSchedulerJobsCreatePubsubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSchedulerJobsCreatePubsubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerJobsCreatePubsubOptions(), executionOptions, cancellationToken);

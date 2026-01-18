@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud nodes commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateCloudsClustersNodes
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsClustersNodesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsClustersNodesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudVmwarePrivateCloudsClustersNodes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsClustersNodesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsClustersNodesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsClustersNodesListOptions(), executionOptions, cancellationToken);

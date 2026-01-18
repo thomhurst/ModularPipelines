@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud actions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplexZonesActions
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDataplexZonesActions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexZonesActionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesActionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesActionsListOptions(), executionOptions, cancellationToken);

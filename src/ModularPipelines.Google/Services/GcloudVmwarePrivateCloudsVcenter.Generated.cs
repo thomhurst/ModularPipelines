@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vcenter commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateCloudsVcenter
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsVcenterCredentials? _credentials;
+    private GcloudVmwarePrivateCloudsVcenterCredentials _credentials;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateCloudsVcenter"/> class.

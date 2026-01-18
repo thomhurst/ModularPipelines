@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud active-directories commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetappActiveDirectories
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetappActiveDirectories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappActiveDirectoriesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappActiveDirectoriesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetappActiveDirectories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappActiveDirectoriesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappActiveDirectoriesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetappActiveDirectories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappActiveDirectoriesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappActiveDirectoriesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetappActiveDirectories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappActiveDirectoriesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappActiveDirectoriesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetappActiveDirectories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappActiveDirectoriesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappActiveDirectoriesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappActiveDirectoriesUpdateOptions(), executionOptions, cancellationToken);

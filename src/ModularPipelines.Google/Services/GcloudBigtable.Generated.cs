@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bigtable commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBigtable
 {
     private readonly ICommand _command;
-    private GcloudBigtableAppProfiles? _appProfiles;
-    private GcloudBigtableAuthorizedViews? _authorizedViews;
-    private GcloudBigtableBackups? _backups;
-    private GcloudBigtableClusters? _clusters;
-    private GcloudBigtableHotTablets? _hotTablets;
-    private GcloudBigtableInstances? _instances;
-    private GcloudBigtableLogicalViews? _logicalViews;
-    private GcloudBigtableMaterializedViews? _materializedViews;
-    private GcloudBigtableOperations? _operations;
-    private GcloudBigtableSchemaBundles? _schemaBundles;
-    private GcloudBigtableTables? _tables;
+    private GcloudBigtableAppProfiles _appProfiles;
+    private GcloudBigtableAuthorizedViews _authorizedViews;
+    private GcloudBigtableBackups _backups;
+    private GcloudBigtableClusters _clusters;
+    private GcloudBigtableHotTablets _hotTablets;
+    private GcloudBigtableInstances _instances;
+    private GcloudBigtableLogicalViews _logicalViews;
+    private GcloudBigtableMaterializedViews _materializedViews;
+    private GcloudBigtableOperations _operations;
+    private GcloudBigtableSchemaBundles _schemaBundles;
+    private GcloudBigtableTables _tables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBigtable"/> class.
@@ -107,8 +107,8 @@ public class GcloudBigtable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBigtableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableOptions(), executionOptions, cancellationToken);

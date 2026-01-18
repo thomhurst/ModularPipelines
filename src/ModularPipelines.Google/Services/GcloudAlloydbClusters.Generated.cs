@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud clusters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAlloydbClusters
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAlloydbClustersCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSecondary(
         GcloudAlloydbClustersCreateSecondaryOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAlloydbClustersDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAlloydbClustersDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudAlloydbClustersExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudAlloydbClustersImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudAlloydbClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAlloydbClustersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAlloydbClustersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbClustersListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MigrateCloudSql(
         GcloudAlloydbClustersMigrateCloudSqlOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -158,7 +158,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Promote(
         GcloudAlloydbClustersPromoteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
         GcloudAlloydbClustersRestoreOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,7 +188,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Switchover(
         GcloudAlloydbClustersSwitchoverOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAlloydbClustersUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -218,7 +218,7 @@ public class GcloudAlloydbClusters
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
         GcloudAlloydbClustersUpgradeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

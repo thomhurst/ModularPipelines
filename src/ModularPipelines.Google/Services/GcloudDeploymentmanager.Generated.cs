@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud deploymentmanager commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeploymentmanager
 {
     private readonly ICommand _command;
-    private GcloudDeploymentmanagerDeployments? _deployments;
-    private GcloudDeploymentmanagerManifests? _manifests;
-    private GcloudDeploymentmanagerOperations? _operations;
-    private GcloudDeploymentmanagerResources? _resources;
-    private GcloudDeploymentmanagerTypes? _types;
+    private GcloudDeploymentmanagerDeployments _deployments;
+    private GcloudDeploymentmanagerManifests _manifests;
+    private GcloudDeploymentmanagerOperations _operations;
+    private GcloudDeploymentmanagerResources _resources;
+    private GcloudDeploymentmanagerTypes _types;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeploymentmanager"/> class.

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud recommender-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRecommenderRecommenderConfig
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudRecommenderRecommenderConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudRecommenderRecommenderConfigDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudRecommenderRecommenderConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudRecommenderRecommenderConfigUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

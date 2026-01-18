@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud peered-dns-domains commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudServicesPeeredDnsDomains
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudServicesPeeredDnsDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudServicesPeeredDnsDomainsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudServicesPeeredDnsDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudServicesPeeredDnsDomainsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudServicesPeeredDnsDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServicesPeeredDnsDomainsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServicesPeeredDnsDomainsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServicesPeeredDnsDomainsListOptions(), executionOptions, cancellationToken);

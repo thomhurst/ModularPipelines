@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud servicedirectory commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudServicedirectory
 {
     private readonly ICommand _command;
-    private GcloudServicedirectoryEndpoints? _endpoints;
-    private GcloudServicedirectoryLocations? _locations;
-    private GcloudServicedirectoryNamespaces? _namespaces;
-    private GcloudServicedirectoryServices? _services;
+    private GcloudServicedirectoryEndpoints _endpoints;
+    private GcloudServicedirectoryLocations _locations;
+    private GcloudServicedirectoryNamespaces _namespaces;
+    private GcloudServicedirectoryServices _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServicedirectory"/> class.

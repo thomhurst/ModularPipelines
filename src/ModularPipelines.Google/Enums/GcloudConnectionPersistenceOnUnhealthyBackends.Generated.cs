@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --connectionpersistenceonunhealthybackends.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudConnectionPersistenceOnUnhealthyBackends
 {
     [Description("DEFAULT_FOR_PROTOCOL")]

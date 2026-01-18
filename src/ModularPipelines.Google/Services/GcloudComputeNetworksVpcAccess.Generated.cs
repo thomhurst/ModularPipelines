@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vpc-access commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworksVpcAccess
 {
     private readonly ICommand _command;
-    private GcloudComputeNetworksVpcAccessConnectors? _connectors;
-    private GcloudComputeNetworksVpcAccessLocations? _locations;
-    private GcloudComputeNetworksVpcAccessOperations? _operations;
+    private GcloudComputeNetworksVpcAccessConnectors _connectors;
+    private GcloudComputeNetworksVpcAccessLocations _locations;
+    private GcloudComputeNetworksVpcAccessOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworksVpcAccess"/> class.

@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apigateway commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApigateway
 {
     private readonly ICommand _command;
-    private GcloudApigatewayApiConfigs? _apiConfigs;
-    private GcloudApigatewayApis? _apis;
-    private GcloudApigatewayGateways? _gateways;
-    private GcloudApigatewayOperations? _operations;
+    private GcloudApigatewayApiConfigs _apiConfigs;
+    private GcloudApigatewayApis _apis;
+    private GcloudApigatewayGateways _gateways;
+    private GcloudApigatewayOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApigateway"/> class.

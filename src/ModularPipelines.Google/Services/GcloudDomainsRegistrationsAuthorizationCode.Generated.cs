@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud authorization-code commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDomainsRegistrationsAuthorizationCode
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDomainsRegistrationsAuthorizationCode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        GcloudDomainsRegistrationsAuthorizationCodeGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsRegistrationsAuthorizationCodeGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeGetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDomainsRegistrationsAuthorizationCode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudDomainsRegistrationsAuthorizationCodeResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsRegistrationsAuthorizationCodeResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsAuthorizationCodeResetOptions(), executionOptions, cancellationToken);

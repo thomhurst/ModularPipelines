@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud sinks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLoggingSinks
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudLoggingSinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudLoggingSinksCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudLoggingSinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingSinksDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudLoggingSinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudLoggingSinksDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudLoggingSinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingSinksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingSinksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingSinksListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudLoggingSinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudLoggingSinksUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

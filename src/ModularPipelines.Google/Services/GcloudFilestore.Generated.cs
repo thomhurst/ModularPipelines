@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud filestore commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFilestore
 {
     private readonly ICommand _command;
-    private GcloudFilestoreBackups? _backups;
-    private GcloudFilestoreInstances? _instances;
-    private GcloudFilestoreLocations? _locations;
-    private GcloudFilestoreOperations? _operations;
-    private GcloudFilestoreRegions? _regions;
-    private GcloudFilestoreZones? _zones;
+    private GcloudFilestoreBackups _backups;
+    private GcloudFilestoreInstances _instances;
+    private GcloudFilestoreLocations _locations;
+    private GcloudFilestoreOperations _operations;
+    private GcloudFilestoreRegions _regions;
+    private GcloudFilestoreZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFilestore"/> class.
@@ -77,8 +77,8 @@ public class GcloudFilestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudFilestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreOptions(), executionOptions, cancellationToken);

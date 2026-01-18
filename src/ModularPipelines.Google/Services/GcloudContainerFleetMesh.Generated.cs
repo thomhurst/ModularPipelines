@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud mesh commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleetMesh
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerFleetMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetMeshDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetMeshDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerFleetMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetMeshDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetMeshDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshDisableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerFleetMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetMeshEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetMeshEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshEnableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerFleetMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetMeshUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetMeshUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetMeshUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud identity-service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleetIdentityService
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerFleetIdentityService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        GcloudContainerFleetIdentityServiceApplyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetIdentityServiceApplyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceApplyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerFleetIdentityService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerFleetIdentityServiceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetIdentityServiceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerFleetIdentityService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetIdentityServiceDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetIdentityServiceDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerFleetIdentityService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetIdentityServiceDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetIdentityServiceDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceDisableOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudContainerFleetIdentityService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetIdentityServiceEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetIdentityServiceEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetIdentityServiceEnableOptions(), executionOptions, cancellationToken);

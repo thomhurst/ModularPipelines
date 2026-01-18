@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud peerings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudActivedirectoryPeerings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudActivedirectoryPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryPeeringsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryPeeringsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudActivedirectoryPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryPeeringsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryPeeringsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudActivedirectoryPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryPeeringsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryPeeringsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudActivedirectoryPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryPeeringsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryPeeringsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudActivedirectoryPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryPeeringsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryPeeringsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryPeeringsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud public-keys commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerBinauthzAttestorsPublicKeys
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudContainerBinauthzAttestorsPublicKeysAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsPublicKeysAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsPublicKeysAddOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudContainerBinauthzAttestorsPublicKeysRemoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudContainerBinauthzAttestorsPublicKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudContainerBinauthzAttestorsPublicKeysUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

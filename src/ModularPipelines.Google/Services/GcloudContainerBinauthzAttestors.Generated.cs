@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud attestors commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerBinauthzAttestors
 {
     private readonly ICommand _command;
-    private GcloudContainerBinauthzAttestorsPublicKeys? _publicKeys;
+    private GcloudContainerBinauthzAttestorsPublicKeys _publicKeys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBinauthzAttestors"/> class.
@@ -47,8 +47,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerBinauthzAttestorsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsCreateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerBinauthzAttestorsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerBinauthzAttestorsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsDescribeOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudContainerBinauthzAttestorsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerBinauthzAttestorsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -153,7 +153,7 @@ public class GcloudContainerBinauthzAttestors
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudContainerBinauthzAttestorsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudContainerBinauthzAttestors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerBinauthzAttestorsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestorsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestorsUpdateOptions(), executionOptions, cancellationToken);

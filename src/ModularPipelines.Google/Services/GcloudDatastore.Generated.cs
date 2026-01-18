@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud datastore commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatastore
 {
     private readonly ICommand _command;
-    private GcloudDatastoreIndexes? _indexes;
-    private GcloudDatastoreOperations? _operations;
+    private GcloudDatastoreIndexes _indexes;
+    private GcloudDatastoreOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatastore"/> class.
@@ -53,8 +53,8 @@ public class GcloudDatastore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDatastoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastoreOptions(), executionOptions, cancellationToken);
@@ -69,7 +69,7 @@ public class GcloudDatastore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudDatastoreExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,7 +84,7 @@ public class GcloudDatastore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudDatastoreImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

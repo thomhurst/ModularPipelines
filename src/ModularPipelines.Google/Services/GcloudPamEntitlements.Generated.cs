@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud entitlements commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPamEntitlements
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPamEntitlementsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudPamEntitlementsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPamEntitlementsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudPamEntitlementsExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsExportOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPamEntitlementsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudPamEntitlementsSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsSearchOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudPamEntitlements
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudPamEntitlementsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamEntitlementsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamEntitlementsUpdateOptions(), executionOptions, cancellationToken);

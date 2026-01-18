@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud controller commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAnthosConfigController
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAnthosConfigController
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAnthosConfigControllerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosConfigControllerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAnthosConfigController
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAnthosConfigControllerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosConfigControllerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAnthosConfigController
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAnthosConfigControllerDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosConfigControllerDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerDescribeOptions(), executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudAnthosConfigController
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfigConnectorIdentity(
         GcloudAnthosConfigControllerGetConfigConnectorIdentityOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudAnthosConfigController
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
         GcloudAnthosConfigControllerGetCredentialsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAnthosConfigController
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAnthosConfigControllerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosConfigControllerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosConfigControllerListOptions(), executionOptions, cancellationToken);

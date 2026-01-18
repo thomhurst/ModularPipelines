@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bare-metal commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerBareMetal
 {
     private readonly ICommand _command;
-    private GcloudContainerBareMetalAdminClusters? _adminClusters;
-    private GcloudContainerBareMetalClusters? _clusters;
-    private GcloudContainerBareMetalNodePools? _nodePools;
-    private GcloudContainerBareMetalOperations? _operations;
+    private GcloudContainerBareMetalAdminClusters _adminClusters;
+    private GcloudContainerBareMetalClusters _clusters;
+    private GcloudContainerBareMetalNodePools _nodePools;
+    private GcloudContainerBareMetalOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBareMetal"/> class.

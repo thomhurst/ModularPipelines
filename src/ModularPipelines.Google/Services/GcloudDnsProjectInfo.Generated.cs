@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud project-info commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsProjectInfo
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDnsProjectInfo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDnsProjectInfoDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

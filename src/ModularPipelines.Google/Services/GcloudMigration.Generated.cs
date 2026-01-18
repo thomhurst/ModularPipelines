@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud migration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMigration
 {
     private readonly ICommand _command;
-    private GcloudMigrationVms? _vms;
+    private GcloudMigrationVms _vms;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMigration"/> class.
@@ -47,8 +47,8 @@ public class GcloudMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudMigrationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMigrationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMigrationOptions(), executionOptions, cancellationToken);

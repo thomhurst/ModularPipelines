@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud iac-validation-reports commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSccIacValidationReports
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudSccIacValidationReports
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSccIacValidationReportsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSccIacValidationReports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSccIacValidationReportsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccIacValidationReportsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccIacValidationReportsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudSccIacValidationReports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccIacValidationReportsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccIacValidationReportsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccIacValidationReportsListOptions(), executionOptions, cancellationToken);

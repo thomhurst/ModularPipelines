@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFilestoreInstances
 {
     private readonly ICommand _command;
-    private GcloudFilestoreInstancesSnapshots? _snapshots;
+    private GcloudFilestoreInstancesSnapshots _snapshots;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFilestoreInstances"/> class.
@@ -47,8 +47,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudFilestoreInstancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudFilestoreInstancesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFilestoreInstancesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFilestoreInstancesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PauseReplica(
-        GcloudFilestoreInstancesPauseReplicaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesPauseReplicaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesPauseReplicaOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PromoteReplica(
-        GcloudFilestoreInstancesPromoteReplicaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesPromoteReplicaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesPromoteReplicaOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudFilestoreInstancesRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesRestoreOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResumeReplica(
-        GcloudFilestoreInstancesResumeReplicaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesResumeReplicaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesResumeReplicaOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revert(
-        GcloudFilestoreInstancesRevertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesRevertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesRevertOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class GcloudFilestoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudFilestoreInstancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreInstancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreInstancesUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud rollouts commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeployRollouts
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Advance(
-        GcloudDeployRolloutsAdvanceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsAdvanceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsAdvanceOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        GcloudDeployRolloutsApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsApproveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudDeployRolloutsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsCancelOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeployRolloutsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> IgnoreJob(
-        GcloudDeployRolloutsIgnoreJobOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsIgnoreJobOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsIgnoreJobOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeployRolloutsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        GcloudDeployRolloutsRejectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsRejectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRejectOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudDeployRollouts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RetryJob(
-        GcloudDeployRolloutsRetryJobOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployRolloutsRetryJobOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployRolloutsRetryJobOptions(), executionOptions, cancellationToken);

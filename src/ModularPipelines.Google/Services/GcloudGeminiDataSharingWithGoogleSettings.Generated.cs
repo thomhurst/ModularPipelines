@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud data-sharing-with-google-settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudGeminiDataSharingWithGoogleSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiDataSharingWithGoogleSettingsSettingBindings? _settingBindings;
+    private GcloudGeminiDataSharingWithGoogleSettingsSettingBindings _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiDataSharingWithGoogleSettings"/> class.
@@ -47,8 +47,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiDataSharingWithGoogleSettingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiDataSharingWithGoogleSettingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudGeminiDataSharingWithGoogleSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiDataSharingWithGoogleSettingsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud lustre commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLustre
 {
     private readonly ICommand _command;
-    private GcloudLustreInstances? _instances;
-    private GcloudLustreOperations? _operations;
+    private GcloudLustreInstances _instances;
+    private GcloudLustreOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLustre"/> class.
@@ -53,8 +53,8 @@ public class GcloudLustre
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudLustreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreOptions(), executionOptions, cancellationToken);

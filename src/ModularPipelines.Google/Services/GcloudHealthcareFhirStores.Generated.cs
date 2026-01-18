@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud fhir-stores commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudHealthcareFhirStores
 {
     private readonly ICommand _command;
-    private GcloudHealthcareFhirStoresExport? _export;
-    private GcloudHealthcareFhirStoresImport? _import;
+    private GcloudHealthcareFhirStoresExport _export;
+    private GcloudHealthcareFhirStoresImport _import;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudHealthcareFhirStores"/> class.
@@ -53,8 +53,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudHealthcareFhirStoresAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudHealthcareFhirStoresCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresCreateOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deidentify(
-        GcloudHealthcareFhirStoresDeidentifyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresDeidentifyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDeidentifyOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudHealthcareFhirStoresDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDeleteOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudHealthcareFhirStoresDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresDescribeOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudHealthcareFhirStoresGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudHealthcareFhirStoresListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresListOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Metrics(
-        GcloudHealthcareFhirStoresMetricsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresMetricsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresMetricsOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudHealthcareFhirStoresRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -189,7 +189,7 @@ public class GcloudHealthcareFhirStores
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudHealthcareFhirStoresSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,8 +203,8 @@ public class GcloudHealthcareFhirStores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudHealthcareFhirStoresUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresUpdateOptions(), executionOptions, cancellationToken);

@@ -14,22 +14,22 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backupdr commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdr
 {
     private readonly ICommand _command;
-    private GcloudBackupdrBackupPlanAssociations? _backupPlanAssociations;
-    private GcloudBackupdrBackupPlanRevisions? _backupPlanRevisions;
-    private GcloudBackupdrBackupPlans? _backupPlans;
-    private GcloudBackupdrBackups? _backups;
-    private GcloudBackupdrBackupVaults? _backupVaults;
-    private GcloudBackupdrDataSourceReferences? _dataSourceReferences;
-    private GcloudBackupdrDataSources? _dataSources;
-    private GcloudBackupdrLocations? _locations;
-    private GcloudBackupdrManagementServers? _managementServers;
-    private GcloudBackupdrOperations? _operations;
-    private GcloudBackupdrResourceBackupConfig? _resourceBackupConfig;
-    private GcloudBackupdrServiceConfig? _serviceConfig;
+    private GcloudBackupdrBackupPlanAssociations _backupPlanAssociations;
+    private GcloudBackupdrBackupPlanRevisions _backupPlanRevisions;
+    private GcloudBackupdrBackupPlans _backupPlans;
+    private GcloudBackupdrBackups _backups;
+    private GcloudBackupdrBackupVaults _backupVaults;
+    private GcloudBackupdrDataSourceReferences _dataSourceReferences;
+    private GcloudBackupdrDataSources _dataSources;
+    private GcloudBackupdrLocations _locations;
+    private GcloudBackupdrManagementServers _managementServers;
+    private GcloudBackupdrOperations _operations;
+    private GcloudBackupdrResourceBackupConfig _resourceBackupConfig;
+    private GcloudBackupdrServiceConfig _serviceConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBackupdr"/> class.

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud user-workloads-config-maps commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComposerEnvironmentsUserWorkloadsConfigMapsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsUserWorkloadsConfigMapsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsConfigMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComposerEnvironmentsUserWorkloadsConfigMapsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsConfigMapsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsConfigMapsUpdateOptions(), executionOptions, cancellationToken);

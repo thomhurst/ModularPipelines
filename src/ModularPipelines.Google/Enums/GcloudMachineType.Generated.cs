@@ -11,21 +11,21 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --machinetype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudMachineType
 {
     [Description("e2-highcpu-32")]
-    E2HighcpuValue32,
+    E2Highcpu_32,
 
     [Description("e2-highcpu-8")]
-    E2HighcpuValue8,
+    E2Highcpu_8,
 
     [Description("e2-medium")]
     E2Medium,
 
     [Description("n1-highcpu-32")]
-    N1HighcpuValue32,
+    N1Highcpu_32,
 
     [Description("n1-highcpu-8")]
-    N1HighcpuValue8
+    N1Highcpu_8
 }

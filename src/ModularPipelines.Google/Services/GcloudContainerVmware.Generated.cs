@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vmware commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerVmware
 {
     private readonly ICommand _command;
-    private GcloudContainerVmwareAdminClusters? _adminClusters;
-    private GcloudContainerVmwareClusters? _clusters;
-    private GcloudContainerVmwareNodePools? _nodePools;
-    private GcloudContainerVmwareOperations? _operations;
+    private GcloudContainerVmwareAdminClusters _adminClusters;
+    private GcloudContainerVmwareClusters _clusters;
+    private GcloudContainerVmwareNodePools _nodePools;
+    private GcloudContainerVmwareOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerVmware"/> class.

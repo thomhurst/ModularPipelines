@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud entries commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplexEntries
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexEntriesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexEntriesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexEntriesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexEntriesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudDataplexEntriesLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesLookupOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAspects(
-        GcloudDataplexEntriesRemoveAspectsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesRemoveAspectsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesRemoveAspectsOptions(), executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudDataplexEntries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
         GcloudDataplexEntriesSearchOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateAspects(
-        GcloudDataplexEntriesUpdateAspectsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesUpdateAspectsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesUpdateAspectsOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudDataplexEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexEntriesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexEntriesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexEntriesUpdateOptions(), executionOptions, cancellationToken);

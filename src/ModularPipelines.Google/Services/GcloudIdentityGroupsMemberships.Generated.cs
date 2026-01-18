@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud memberships commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIdentityGroupsMemberships
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        GcloudIdentityGroupsMembershipsAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckTransitiveMembership(
-        GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsCheckTransitiveMembershipOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIdentityGroupsMembershipsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIdentityGroupsMembershipsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetMembershipGraph(
-        GcloudIdentityGroupsMembershipsGetMembershipGraphOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsGetMembershipGraphOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsGetMembershipGraphOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIdentityGroupsMembershipsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ModifyMembershipRoles(
-        GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsModifyMembershipRolesOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchTransitiveGroups(
-        GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsSearchTransitiveGroupsOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudIdentityGroupsMemberships
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchTransitiveMemberships(
-        GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIdentityGroupsMembershipsSearchTransitiveMembershipsOptions(), executionOptions, cancellationToken);

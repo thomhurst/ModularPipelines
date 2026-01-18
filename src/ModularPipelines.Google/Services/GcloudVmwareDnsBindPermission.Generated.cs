@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dns-bind-permission commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwareDnsBindPermission
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwareDnsBindPermissionDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDnsBindPermissionDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Grant(
-        GcloudVmwareDnsBindPermissionGrantOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDnsBindPermissionGrantOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionGrantOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudVmwareDnsBindPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        GcloudVmwareDnsBindPermissionRevokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDnsBindPermissionRevokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDnsBindPermissionRevokeOptions(), executionOptions, cancellationToken);

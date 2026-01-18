@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMonitoringPolicies
 {
     private readonly ICommand _command;
-    private GcloudMonitoringPoliciesConditions? _conditions;
+    private GcloudMonitoringPoliciesConditions _conditions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMonitoringPolicies"/> class.
@@ -47,8 +47,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMonitoringPoliciesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMonitoringPoliciesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMonitoringPoliciesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMonitoringPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Migrate(
-        GcloudMonitoringPoliciesMigrateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesMigrateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesMigrateOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudMonitoringPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMonitoringPoliciesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringPoliciesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringPoliciesUpdateOptions(), executionOptions, cancellationToken);

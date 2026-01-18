@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ml commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMl
 {
     private readonly ICommand _command;
-    private GcloudMlLanguage? _language;
-    private GcloudMlSpeech? _speech;
-    private GcloudMlVideo? _video;
-    private GcloudMlVision? _vision;
+    private GcloudMlLanguage _language;
+    private GcloudMlSpeech _speech;
+    private GcloudMlVideo _video;
+    private GcloudMlVision _vision;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMl"/> class.
@@ -65,8 +65,8 @@ public class GcloudMl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudMlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMlOptions(), executionOptions, cancellationToken);

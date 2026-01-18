@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud managedkafka commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudManagedkafka
 {
     private readonly ICommand _command;
-    private GcloudManagedkafkaAcls? _acls;
-    private GcloudManagedkafkaClusters? _clusters;
-    private GcloudManagedkafkaConnectClusters? _connectClusters;
-    private GcloudManagedkafkaConnectors? _connectors;
-    private GcloudManagedkafkaConsumerGroups? _consumerGroups;
-    private GcloudManagedkafkaOperations? _operations;
-    private GcloudManagedkafkaTopics? _topics;
+    private GcloudManagedkafkaAcls _acls;
+    private GcloudManagedkafkaClusters _clusters;
+    private GcloudManagedkafkaConnectClusters _connectClusters;
+    private GcloudManagedkafkaConnectors _connectors;
+    private GcloudManagedkafkaConsumerGroups _consumerGroups;
+    private GcloudManagedkafkaOperations _operations;
+    private GcloudManagedkafkaTopics _topics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudManagedkafka"/> class.

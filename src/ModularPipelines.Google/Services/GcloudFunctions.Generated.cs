@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud functions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFunctions
 {
     private readonly ICommand _command;
-    private GcloudFunctionsEventTypes? _eventTypes;
-    private GcloudFunctionsLogs? _logs;
-    private GcloudFunctionsRegions? _regions;
-    private GcloudFunctionsRuntimes? _runtimes;
+    private GcloudFunctionsEventTypes _eventTypes;
+    private GcloudFunctionsLogs _logs;
+    private GcloudFunctionsRegions _regions;
+    private GcloudFunctionsRuntimes _runtimes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFunctions"/> class.
@@ -65,8 +65,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudFunctionsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudFunctionsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInvokerPolicyBinding(
-        GcloudFunctionsAddInvokerPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsAddInvokerPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsAddInvokerPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Call(
-        GcloudFunctionsCallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsCallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsCallOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudFunctionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeleteOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudFunctionsDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDeployOptions(), executionOptions, cancellationToken);
@@ -155,8 +155,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFunctionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDescribeOptions(), executionOptions, cancellationToken);
@@ -170,8 +170,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Detach(
-        GcloudFunctionsDetachOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsDetachOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsDetachOptions(), executionOptions, cancellationToken);
@@ -185,8 +185,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudFunctionsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFunctionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsListOptions(), executionOptions, cancellationToken);
@@ -215,8 +215,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudFunctionsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -230,8 +230,8 @@ public class GcloudFunctions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInvokerPolicyBinding(
-        GcloudFunctionsRemoveInvokerPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsRemoveInvokerPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRemoveInvokerPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -246,7 +246,7 @@ public class GcloudFunctions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudFunctionsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

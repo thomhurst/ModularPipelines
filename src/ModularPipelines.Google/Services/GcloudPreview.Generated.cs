@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud preview commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPreview
 {
     private readonly ICommand _command;
-    private GcloudPreviewConfig? _config;
+    private GcloudPreviewConfig _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreview"/> class.
@@ -47,8 +47,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPreviewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPreviewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Init(
-        GcloudPreviewInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPreviewInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewInitOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudPreview
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Survey(
-        GcloudPreviewSurveyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPreviewSurveyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewSurveyOptions(), executionOptions, cancellationToken);

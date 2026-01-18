@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud unmanaged commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeInstanceGroupsUnmanaged
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddInstances(
         GcloudComputeInstanceGroupsUnmanagedAddInstancesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeInstanceGroupsUnmanagedCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeInstanceGroupsUnmanagedDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeInstanceGroupsUnmanagedDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetNamedPorts(
         GcloudComputeInstanceGroupsUnmanagedGetNamedPortsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInstances(
         GcloudComputeInstanceGroupsUnmanagedListInstancesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeInstanceGroupsUnmanagedListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeInstanceGroupsUnmanagedListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInstanceGroupsUnmanagedListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveInstances(
         GcloudComputeInstanceGroupsUnmanagedRemoveInstancesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -158,7 +158,7 @@ public class GcloudComputeInstanceGroupsUnmanaged
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetNamedPorts(
         GcloudComputeInstanceGroupsUnmanagedSetNamedPortsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

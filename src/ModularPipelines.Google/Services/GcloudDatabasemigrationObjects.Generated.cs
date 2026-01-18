@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud objects commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatabasemigrationObjects
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDatabasemigrationObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatabaseMigrationObjectsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationObjectsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDatabasemigrationObjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudDatabaseMigrationObjectsLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationObjectsLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationObjectsLookupOptions(), executionOptions, cancellationToken);

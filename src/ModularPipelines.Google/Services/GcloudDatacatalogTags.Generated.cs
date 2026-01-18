@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud tags commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatacatalogTags
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDatacatalogTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogTagsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDatacatalogTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogTagsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDatacatalogTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataCatalogTagsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagsListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDatacatalogTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogTagsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataproc commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataproc
 {
     private readonly ICommand _command;
-    private GcloudDataprocAutoscalingPolicies? _autoscalingPolicies;
-    private GcloudDataprocBatches? _batches;
-    private GcloudDataprocClusters? _clusters;
-    private GcloudDataprocJobs? _jobs;
-    private GcloudDataprocNodeGroups? _nodeGroups;
-    private GcloudDataprocOperations? _operations;
-    private GcloudDataprocWorkflowTemplates? _workflowTemplates;
+    private GcloudDataprocAutoscalingPolicies _autoscalingPolicies;
+    private GcloudDataprocBatches _batches;
+    private GcloudDataprocClusters _clusters;
+    private GcloudDataprocJobs _jobs;
+    private GcloudDataprocNodeGroups _nodeGroups;
+    private GcloudDataprocOperations _operations;
+    private GcloudDataprocWorkflowTemplates _workflowTemplates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataproc"/> class.
@@ -83,8 +83,8 @@ public class GcloudDataproc
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDataprocOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud fields commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirestoreIndexesFields
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudFirestoreIndexesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudFirestoreIndexesFieldsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreIndexesFieldsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudFirestoreIndexesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreIndexesFieldsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreIndexesFieldsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudFirestoreIndexesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudFirestoreIndexesFieldsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreIndexesFieldsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreIndexesFieldsUpdateOptions(), executionOptions, cancellationToken);

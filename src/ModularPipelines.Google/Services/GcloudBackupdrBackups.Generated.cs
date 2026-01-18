@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrBackups
 {
     private readonly ICommand _command;
-    private GcloudBackupdrBackupsRestore? _restore;
+    private GcloudBackupdrBackupsRestore _restore;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBackupdrBackups"/> class.
@@ -47,8 +47,8 @@ public class GcloudBackupdrBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBackupDrBackupsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsDeleteOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudBackupdrBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrBackupsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsDescribeOptions(), executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudBackupdrBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchForResourceType(
         GcloudBackupDrBackupsFetchForResourceTypeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudBackupdrBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrBackupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudBackupdrBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBackupDrBackupsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsUpdateOptions(), executionOptions, cancellationToken);

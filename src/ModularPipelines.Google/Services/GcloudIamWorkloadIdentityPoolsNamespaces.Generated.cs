@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud namespaces commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamWorkloadIdentityPoolsNamespaces
 {
     private readonly ICommand _command;
-    private GcloudIamWorkloadIdentityPoolsNamespacesOperations? _operations;
+    private GcloudIamWorkloadIdentityPoolsNamespacesOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamWorkloadIdentityPoolsNamespaces"/> class.
@@ -47,8 +47,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamWorkloadIdentityPoolsNamespacesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUndeleteOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudIamWorkloadIdentityPoolsNamespaces
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsNamespacesUpdateOptions(), executionOptions, cancellationToken);

@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud resourcemanager commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudResourcemanager
 {
     private readonly ICommand _command;
-    private GcloudResourcemanagerCapabilities? _capabilities;
-    private GcloudResourcemanagerFolders? _folders;
-    private GcloudResourcemanagerOrgPolicies? _orgPolicies;
-    private GcloudResourcemanagerTags? _tags;
+    private GcloudResourcemanagerCapabilities _capabilities;
+    private GcloudResourcemanagerFolders _folders;
+    private GcloudResourcemanagerOrgPolicies _orgPolicies;
+    private GcloudResourcemanagerTags _tags;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudResourcemanager"/> class.

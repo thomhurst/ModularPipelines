@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud org-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudResourcemanagerOrgPolicies
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Allow(
         GcloudResourceManagerOrgPoliciesAllowOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudResourceManagerOrgPoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deny(
         GcloudResourceManagerOrgPoliciesDenyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudResourceManagerOrgPoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableEnforce(
         GcloudResourceManagerOrgPoliciesDisableEnforceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableEnforce(
         GcloudResourceManagerOrgPoliciesEnableEnforceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudResourcemanagerOrgPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudResourceManagerOrgPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerOrgPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerOrgPoliciesListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudResourcemanagerOrgPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPolicy(
         GcloudResourceManagerOrgPoliciesSetPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud single-tenant-hsm commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudKmsSingleTenantHsm
 {
     private readonly ICommand _command;
-    private GcloudKmsSingleTenantHsmProposal? _proposal;
+    private GcloudKmsSingleTenantHsmProposal _proposal;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudKmsSingleTenantHsm"/> class.
@@ -47,8 +47,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudKmsSingleTenantHsmCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsSingleTenantHsmCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsSingleTenantHsmDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsSingleTenantHsmDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmDescribeOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudKmsSingleTenantHsm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudKmsSingleTenantHsmListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsSingleTenantHsmListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsSingleTenantHsmListOptions(), executionOptions, cancellationToken);

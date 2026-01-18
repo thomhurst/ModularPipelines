@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dns-keys commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsDnsKeys
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDnsDnsKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDnsDnsKeysDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDnsDnsKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDnsDnsKeysListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsDnsKeysListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsDnsKeysListOptions(), executionOptions, cancellationToken);

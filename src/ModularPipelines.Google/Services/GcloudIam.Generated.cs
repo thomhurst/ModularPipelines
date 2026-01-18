@@ -14,19 +14,19 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud iam commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIam
 {
     private readonly ICommand _command;
-    private GcloudIamOauthClients? _oauthClients;
-    private GcloudIamPolicies? _policies;
-    private GcloudIamPolicyBindings? _policyBindings;
-    private GcloudIamPrincipalAccessBoundaryPolicies? _principalAccessBoundaryPolicies;
-    private GcloudIamRoles? _roles;
-    private GcloudIamServiceAccounts? _serviceAccounts;
-    private GcloudIamSimulator? _simulator;
-    private GcloudIamWorkforcePools? _workforcePools;
-    private GcloudIamWorkloadIdentityPools? _workloadIdentityPools;
+    private GcloudIamOauthClients _oauthClients;
+    private GcloudIamPolicies _policies;
+    private GcloudIamPolicyBindings _policyBindings;
+    private GcloudIamPrincipalAccessBoundaryPolicies _principalAccessBoundaryPolicies;
+    private GcloudIamRoles _roles;
+    private GcloudIamServiceAccounts _serviceAccounts;
+    private GcloudIamSimulator _simulator;
+    private GcloudIamWorkforcePools _workforcePools;
+    private GcloudIamWorkloadIdentityPools _workloadIdentityPools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIam"/> class.
@@ -95,8 +95,8 @@ public class GcloudIam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudIamOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOptions(), executionOptions, cancellationToken);
@@ -111,7 +111,7 @@ public class GcloudIam
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGrantableRoles(
         GcloudIamListGrantableRolesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -126,7 +126,7 @@ public class GcloudIam
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTestablePermissions(
         GcloudIamListTestablePermissionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud orchestration-cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudTelcoautomationOrchestrationCluster
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudTelcoautomationOrchestrationCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudTelcoAutomationOrchestrationClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOrchestrationClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudTelcoautomationOrchestrationCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudTelcoAutomationOrchestrationClusterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOrchestrationClusterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudTelcoautomationOrchestrationCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudTelcoAutomationOrchestrationClusterDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOrchestrationClusterDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudTelcoautomationOrchestrationCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudTelcoAutomationOrchestrationClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOrchestrationClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOrchestrationClusterListOptions(), executionOptions, cancellationToken);

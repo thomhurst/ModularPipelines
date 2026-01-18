@@ -11,20 +11,20 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --exceedaction.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudExceedAction
 {
     [Description("deny-403")]
-    DenyValue403,
+    Deny_403,
 
     [Description("deny-404")]
-    DenyValue404,
+    Deny_404,
 
     [Description("deny-429")]
-    DenyValue429,
+    Deny_429,
 
     [Description("deny-502")]
-    DenyValue502,
+    Deny_502,
 
     [Description("deny")]
     Deny,

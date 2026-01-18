@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud export commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudHealthcareFhirStoresExport
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudHealthcareFhirStoresExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bq(
-        GcloudHealthcareFhirStoresExportBqOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresExportBqOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportBqOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudHealthcareFhirStoresExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareFhirStoresExportGcsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareFhirStoresExportGcsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareFhirStoresExportGcsOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policy-tags commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatacatalogTaxonomiesPolicyTags
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataCatalogTaxonomiesPolicyTagsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTaxonomiesPolicyTagsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataCatalogTaxonomiesPolicyTagsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTaxonomiesPolicyTagsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTaxonomiesPolicyTagsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudDatacatalogTaxonomiesPolicyTags
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataCatalogTaxonomiesPolicyTagsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

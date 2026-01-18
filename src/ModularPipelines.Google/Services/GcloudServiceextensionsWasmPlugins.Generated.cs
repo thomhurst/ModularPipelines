@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud wasm-plugins commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudServiceextensionsWasmPlugins
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudServiceextensionsWasmPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudServiceExtensionsWasmPluginsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceExtensionsWasmPluginsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudServiceextensionsWasmPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudServiceExtensionsWasmPluginsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceExtensionsWasmPluginsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudServiceextensionsWasmPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceExtensionsWasmPluginsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceExtensionsWasmPluginsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudServiceextensionsWasmPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceExtensionsWasmPluginsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceExtensionsWasmPluginsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudServiceextensionsWasmPlugins
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudServiceExtensionsWasmPluginsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceExtensionsWasmPluginsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceExtensionsWasmPluginsUpdateOptions(), executionOptions, cancellationToken);

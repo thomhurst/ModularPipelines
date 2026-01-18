@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud immersivestream commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudImmersivestream
 {
     private readonly ICommand _command;
-    private GcloudImmersivestreamXr? _xr;
+    private GcloudImmersivestreamXr _xr;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudImmersivestream"/> class.

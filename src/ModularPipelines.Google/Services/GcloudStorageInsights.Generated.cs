@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud insights commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudStorageInsights
 {
     private readonly ICommand _command;
-    private GcloudStorageInsightsDatasetConfigs? _datasetConfigs;
-    private GcloudStorageInsightsInventoryReports? _inventoryReports;
+    private GcloudStorageInsightsDatasetConfigs _datasetConfigs;
+    private GcloudStorageInsightsInventoryReports _inventoryReports;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageInsights"/> class.

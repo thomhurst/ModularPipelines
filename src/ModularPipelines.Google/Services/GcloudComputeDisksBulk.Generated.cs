@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bulk commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeDisksBulk
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeDisksBulk
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeDisksBulkCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeDisksBulkCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksBulkCreateOptions(), executionOptions, cancellationToken);

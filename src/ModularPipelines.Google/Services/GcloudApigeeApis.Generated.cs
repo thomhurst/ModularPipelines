@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apis commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApigeeApis
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudApigeeApis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudApigeeApisDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApigeeApisDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisDeployOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudApigeeApis
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudApigeeApisDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudApigeeApis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApigeeApisListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApigeeApisListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudApigeeApis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undeploy(
-        GcloudApigeeApisUndeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApigeeApisUndeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeApisUndeployOptions(), executionOptions, cancellationToken);

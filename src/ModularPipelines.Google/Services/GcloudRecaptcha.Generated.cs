@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud recaptcha commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRecaptcha
 {
     private readonly ICommand _command;
-    private GcloudRecaptchaFirewallPolicies? _firewallPolicies;
-    private GcloudRecaptchaKeys? _keys;
+    private GcloudRecaptchaFirewallPolicies _firewallPolicies;
+    private GcloudRecaptchaKeys _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRecaptcha"/> class.
@@ -53,8 +53,8 @@ public class GcloudRecaptcha
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudRecaptchaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRecaptchaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRecaptchaOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud shared-vpc commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeSharedVpc
 {
     private readonly ICommand _command;
-    private GcloudComputeSharedVpcAssociatedProjects? _associatedProjects;
-    private GcloudComputeSharedVpcOrganizations? _organizations;
+    private GcloudComputeSharedVpcAssociatedProjects _associatedProjects;
+    private GcloudComputeSharedVpcOrganizations _organizations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeSharedVpc"/> class.
@@ -54,7 +54,7 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudComputeSharedVpcDisableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,7 +69,7 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudComputeSharedVpcEnableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,7 +84,7 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHostProject(
         GcloudComputeSharedVpcGetHostProjectOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,7 +99,7 @@ public class GcloudComputeSharedVpc
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAssociatedResources(
         GcloudComputeSharedVpcListAssociatedResourcesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bms commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBms
 {
     private readonly ICommand _command;
-    private GcloudBmsInstances? _instances;
-    private GcloudBmsNetworks? _networks;
-    private GcloudBmsNfsShares? _nfsShares;
-    private GcloudBmsOperations? _operations;
-    private GcloudBmsOsImages? _osImages;
-    private GcloudBmsSshKeys? _sshKeys;
-    private GcloudBmsVolumes? _volumes;
+    private GcloudBmsInstances _instances;
+    private GcloudBmsNetworks _networks;
+    private GcloudBmsNfsShares _nfsShares;
+    private GcloudBmsOperations _operations;
+    private GcloudBmsOsImages _osImages;
+    private GcloudBmsSshKeys _sshKeys;
+    private GcloudBmsVolumes _volumes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBms"/> class.
@@ -83,8 +83,8 @@ public class GcloudBms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBmsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsOptions(), executionOptions, cancellationToken);

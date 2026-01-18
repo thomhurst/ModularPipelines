@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud restore commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrBackupsRestore
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBackupdrBackupsRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Compute(
-        GcloudBackupDrBackupsRestoreComputeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsRestoreComputeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsRestoreComputeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBackupdrBackupsRestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disk(
-        GcloudBackupDrBackupsRestoreDiskOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupsRestoreDiskOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupsRestoreDiskOptions(), executionOptions, cancellationToken);

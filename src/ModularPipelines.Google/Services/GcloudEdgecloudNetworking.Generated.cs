@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networking commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecloudNetworking
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudNetworkingInterconnects? _interconnects;
-    private GcloudEdgecloudNetworkingNetworks? _networks;
-    private GcloudEdgecloudNetworkingOperations? _operations;
-    private GcloudEdgecloudNetworkingRouters? _routers;
-    private GcloudEdgecloudNetworkingSubnets? _subnets;
-    private GcloudEdgecloudNetworkingZones? _zones;
+    private GcloudEdgecloudNetworkingInterconnects _interconnects;
+    private GcloudEdgecloudNetworkingNetworks _networks;
+    private GcloudEdgecloudNetworkingOperations _operations;
+    private GcloudEdgecloudNetworkingRouters _routers;
+    private GcloudEdgecloudNetworkingSubnets _subnets;
+    private GcloudEdgecloudNetworkingZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworking"/> class.

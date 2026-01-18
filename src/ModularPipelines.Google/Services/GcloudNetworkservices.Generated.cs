@@ -14,30 +14,30 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networkservices commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkservices
 {
     private readonly ICommand _command;
-    private GcloudNetworkservicesEndpointPolicies? _endpointPolicies;
-    private GcloudNetworkservicesGateways? _gateways;
-    private GcloudNetworkservicesGrpcRoutes? _grpcRoutes;
-    private GcloudNetworkservicesHttpRoutes? _httpRoutes;
-    private GcloudNetworkservicesMeshes? _meshes;
-    private GcloudNetworkservicesMulticastConsumerAssociations? _multicastConsumerAssociations;
-    private GcloudNetworkservicesMulticastDomainActivations? _multicastDomainActivations;
-    private GcloudNetworkservicesMulticastDomainGroups? _multicastDomainGroups;
-    private GcloudNetworkservicesMulticastDomains? _multicastDomains;
-    private GcloudNetworkservicesMulticastGroupConsumerActivations? _multicastGroupConsumerActivations;
-    private GcloudNetworkservicesMulticastGroupProducerActivations? _multicastGroupProducerActivations;
-    private GcloudNetworkservicesMulticastGroupRangeActivations? _multicastGroupRangeActivations;
-    private GcloudNetworkservicesMulticastGroupRanges? _multicastGroupRanges;
-    private GcloudNetworkservicesMulticastProducerAssociations? _multicastProducerAssociations;
-    private GcloudNetworkservicesOperations? _operations;
-    private GcloudNetworkservicesRouteViews? _routeViews;
-    private GcloudNetworkservicesServiceBindings? _serviceBindings;
-    private GcloudNetworkservicesServiceLbPolicies? _serviceLbPolicies;
-    private GcloudNetworkservicesTcpRoutes? _tcpRoutes;
-    private GcloudNetworkservicesTlsRoutes? _tlsRoutes;
+    private GcloudNetworkservicesEndpointPolicies _endpointPolicies;
+    private GcloudNetworkservicesGateways _gateways;
+    private GcloudNetworkservicesGrpcRoutes _grpcRoutes;
+    private GcloudNetworkservicesHttpRoutes _httpRoutes;
+    private GcloudNetworkservicesMeshes _meshes;
+    private GcloudNetworkservicesMulticastConsumerAssociations _multicastConsumerAssociations;
+    private GcloudNetworkservicesMulticastDomainActivations _multicastDomainActivations;
+    private GcloudNetworkservicesMulticastDomainGroups _multicastDomainGroups;
+    private GcloudNetworkservicesMulticastDomains _multicastDomains;
+    private GcloudNetworkservicesMulticastGroupConsumerActivations _multicastGroupConsumerActivations;
+    private GcloudNetworkservicesMulticastGroupProducerActivations _multicastGroupProducerActivations;
+    private GcloudNetworkservicesMulticastGroupRangeActivations _multicastGroupRangeActivations;
+    private GcloudNetworkservicesMulticastGroupRanges _multicastGroupRanges;
+    private GcloudNetworkservicesMulticastProducerAssociations _multicastProducerAssociations;
+    private GcloudNetworkservicesOperations _operations;
+    private GcloudNetworkservicesRouteViews _routeViews;
+    private GcloudNetworkservicesServiceBindings _serviceBindings;
+    private GcloudNetworkservicesServiceLbPolicies _serviceLbPolicies;
+    private GcloudNetworkservicesTcpRoutes _tcpRoutes;
+    private GcloudNetworkservicesTlsRoutes _tlsRoutes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkservices"/> class.

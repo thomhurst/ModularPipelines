@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud connectors commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworksVpcAccessConnectors
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeNetworksVpcAccessConnectorsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksVpcAccessConnectorsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeNetworksVpcAccessConnectorsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksVpcAccessConnectorsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeNetworksVpcAccessConnectorsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksVpcAccessConnectorsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeNetworksVpcAccessConnectorsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksVpcAccessConnectorsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeNetworksVpcAccessConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeNetworksVpcAccessConnectorsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksVpcAccessConnectorsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksVpcAccessConnectorsUpdateOptions(), executionOptions, cancellationToken);

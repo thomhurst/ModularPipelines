@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudConfig
 {
     private readonly ICommand _command;
-    private GcloudConfigConfigurations? _configurations;
+    private GcloudConfigConfigurations _configurations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudConfig"/> class.
@@ -47,8 +47,8 @@ public class GcloudConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigOptions(), executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
         GcloudConfigGetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudConfigListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudConfigListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudConfigListOptions(), executionOptions, cancellationToken);
@@ -93,7 +93,7 @@ public class GcloudConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudConfigSetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unset(
         GcloudConfigUnsetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

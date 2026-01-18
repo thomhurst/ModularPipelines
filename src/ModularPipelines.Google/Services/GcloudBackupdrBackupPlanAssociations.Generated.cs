@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backup-plan-associations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrBackupPlanAssociations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBackupDrBackupPlanAssociationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBackupDrBackupPlanAssociationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrBackupPlanAssociationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsDescribeOptions(), executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchForResourceType(
         GcloudBackupDrBackupPlanAssociationsFetchForResourceTypeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrBackupPlanAssociationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TriggerBackup(
-        GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudBackupdrBackupPlanAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBackupDrBackupPlanAssociationsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanAssociationsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanAssociationsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud user-workloads-secrets commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComposerEnvironmentsUserWorkloadsSecrets
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComposerEnvironmentsUserWorkloadsSecrets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsUserWorkloadsSecretsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud model-garden commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiModelGarden
 {
     private readonly ICommand _command;
-    private GcloudAiModelGardenModels? _models;
+    private GcloudAiModelGardenModels _models;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAiModelGarden"/> class.

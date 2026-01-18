@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud essentialcontacts commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEssentialcontacts
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEssentialcontacts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Compute(
-        GcloudEssentialContactsComputeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEssentialContactsComputeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsComputeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEssentialcontacts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEssentialContactsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEssentialContactsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsCreateOptions(), executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudEssentialcontacts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudEssentialContactsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudEssentialcontacts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudEssentialContactsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudEssentialcontacts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEssentialContactsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEssentialContactsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEssentialContactsListOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudEssentialcontacts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudEssentialContactsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

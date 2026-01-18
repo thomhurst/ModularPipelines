@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bq commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBq
 {
     private readonly ICommand _command;
-    private GcloudBqMigrationWorkflows? _migrationWorkflows;
+    private GcloudBqMigrationWorkflows _migrationWorkflows;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBq"/> class.
@@ -47,8 +47,8 @@ public class GcloudBq
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBqOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBqOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBqOptions(), executionOptions, cancellationToken);

@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud datacatalog commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatacatalog
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogEntries? _entries;
-    private GcloudDatacatalogEntryGroups? _entryGroups;
-    private GcloudDatacatalogTags? _tags;
-    private GcloudDatacatalogTagTemplates? _tagTemplates;
-    private GcloudDatacatalogTaxonomies? _taxonomies;
+    private GcloudDatacatalogEntries _entries;
+    private GcloudDatacatalogEntryGroups _entryGroups;
+    private GcloudDatacatalogTags _tags;
+    private GcloudDatacatalogTagTemplates _tagTemplates;
+    private GcloudDatacatalogTaxonomies _taxonomies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalog"/> class.
@@ -72,7 +72,7 @@ public class GcloudDatacatalog
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
         GcloudDataCatalogSearchOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

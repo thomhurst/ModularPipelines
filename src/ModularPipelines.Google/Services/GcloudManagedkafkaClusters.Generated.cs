@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud clusters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudManagedkafkaClusters
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudManagedkafkaClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudManagedKafkaClustersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaClustersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudManagedkafkaClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudManagedKafkaClustersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaClustersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudManagedkafkaClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudManagedKafkaClustersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaClustersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudManagedkafkaClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudManagedKafkaClustersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaClustersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudManagedkafkaClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaClustersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaClustersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaClustersUpdateOptions(), executionOptions, cancellationToken);

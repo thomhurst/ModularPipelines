@@ -14,19 +14,19 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud deploy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeploy
 {
     private readonly ICommand _command;
-    private GcloudDeployAutomationRuns? _automationRuns;
-    private GcloudDeployAutomations? _automations;
-    private GcloudDeployCustomTargetTypes? _customTargetTypes;
-    private GcloudDeployDeliveryPipelines? _deliveryPipelines;
-    private GcloudDeployDeployPolicies? _deployPolicies;
-    private GcloudDeployJobRuns? _jobRuns;
-    private GcloudDeployReleases? _releases;
-    private GcloudDeployRollouts? _rollouts;
-    private GcloudDeployTargets? _targets;
+    private GcloudDeployAutomationRuns _automationRuns;
+    private GcloudDeployAutomations _automations;
+    private GcloudDeployCustomTargetTypes _customTargetTypes;
+    private GcloudDeployDeliveryPipelines _deliveryPipelines;
+    private GcloudDeployDeployPolicies _deployPolicies;
+    private GcloudDeployJobRuns _jobRuns;
+    private GcloudDeployReleases _releases;
+    private GcloudDeployRollouts _rollouts;
+    private GcloudDeployTargets _targets;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDeploy"/> class.
@@ -95,8 +95,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        GcloudDeployApplyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployApplyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployApplyOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDeployDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployDeleteOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class GcloudDeploy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
-        GcloudDeployGetConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeployGetConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeployGetConfigOptions(), executionOptions, cancellationToken);

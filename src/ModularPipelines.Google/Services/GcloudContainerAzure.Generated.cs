@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud azure commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerAzure
 {
     private readonly ICommand _command;
-    private GcloudContainerAzureClients? _clients;
-    private GcloudContainerAzureClusters? _clusters;
-    private GcloudContainerAzureNodePools? _nodePools;
-    private GcloudContainerAzureOperations? _operations;
+    private GcloudContainerAzureClients _clients;
+    private GcloudContainerAzureClusters _clusters;
+    private GcloudContainerAzureNodePools _nodePools;
+    private GcloudContainerAzureOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAzure"/> class.
@@ -65,8 +65,8 @@ public class GcloudContainerAzure
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerAzureGetServerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureGetServerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureGetServerConfigOptions(), executionOptions, cancellationToken);

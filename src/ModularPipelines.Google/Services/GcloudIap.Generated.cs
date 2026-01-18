@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud iap commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIap
 {
     private readonly ICommand _command;
-    private GcloudIapOauthBrands? _oauthBrands;
-    private GcloudIapOauthClients? _oauthClients;
-    private GcloudIapSettings? _settings;
-    private GcloudIapTcp? _tcp;
-    private GcloudIapWeb? _web;
+    private GcloudIapOauthBrands _oauthBrands;
+    private GcloudIapOauthClients _oauthClients;
+    private GcloudIapSettings _settings;
+    private GcloudIapTcp _tcp;
+    private GcloudIapWeb _web;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIap"/> class.
@@ -71,8 +71,8 @@ public class GcloudIap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudIapOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapOptions(), executionOptions, cancellationToken);

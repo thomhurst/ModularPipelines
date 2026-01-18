@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud spanner commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEmulatorsSpanner
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnvInit(
-        GcloudEmulatorsSpannerEnvInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEmulatorsSpannerEnvInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerEnvInitOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Notices(
-        GcloudEmulatorsSpannerNoticesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEmulatorsSpannerNoticesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerNoticesOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudEmulatorsSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudEmulatorsSpannerStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEmulatorsSpannerStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsSpannerStartOptions(), executionOptions, cancellationToken);

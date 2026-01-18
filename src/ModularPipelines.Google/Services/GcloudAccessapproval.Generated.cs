@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud accessapproval commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAccessapproval
 {
     private readonly ICommand _command;
-    private GcloudAccessapprovalRequests? _requests;
-    private GcloudAccessapprovalServiceAccount? _serviceAccount;
-    private GcloudAccessapprovalSettings? _settings;
+    private GcloudAccessapprovalRequests _requests;
+    private GcloudAccessapprovalServiceAccount _serviceAccount;
+    private GcloudAccessapprovalSettings _settings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccessapproval"/> class.

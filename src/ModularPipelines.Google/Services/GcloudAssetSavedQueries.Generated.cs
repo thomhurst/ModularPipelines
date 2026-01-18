@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud saved-queries commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAssetSavedQueries
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAssetSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAssetSavedQueriesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAssetSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAssetSavedQueriesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAssetSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAssetSavedQueriesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAssetSavedQueries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAssetSavedQueriesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetSavedQueriesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSavedQueriesListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudAssetSavedQueries
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAssetSavedQueriesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

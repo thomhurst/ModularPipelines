@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud google-api-sources commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEventarcGoogleApiSources
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEventarcGoogleApiSourcesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcGoogleApiSourcesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEventarcGoogleApiSourcesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcGoogleApiSourcesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcGoogleApiSourcesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcGoogleApiSourcesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcGoogleApiSourcesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcGoogleApiSourcesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudEventarcGoogleApiSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEventarcGoogleApiSourcesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcGoogleApiSourcesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcGoogleApiSourcesUpdateOptions(), executionOptions, cancellationToken);

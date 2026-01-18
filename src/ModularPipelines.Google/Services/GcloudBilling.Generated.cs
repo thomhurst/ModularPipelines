@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud billing commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBilling
 {
     private readonly ICommand _command;
-    private GcloudBillingAccounts? _accounts;
-    private GcloudBillingBudgets? _budgets;
-    private GcloudBillingProjects? _projects;
+    private GcloudBillingAccounts _accounts;
+    private GcloudBillingBudgets _budgets;
+    private GcloudBillingProjects _projects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBilling"/> class.
@@ -59,8 +59,8 @@ public class GcloudBilling
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBillingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBillingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingOptions(), executionOptions, cancellationToken);

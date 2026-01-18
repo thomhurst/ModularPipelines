@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bundles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHubPolicycontrollerContentBundles
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudContainerHubPolicycontrollerContentBundles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudContainerHubPolicycontrollerContentBundlesRemoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudContainerHubPolicycontrollerContentBundles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudContainerHubPolicycontrollerContentBundlesSetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

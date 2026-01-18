@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFilestoreBackups
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudFilestoreBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudFilestoreBackupsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudFilestoreBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudFilestoreBackupsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudFilestoreBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFilestoreBackupsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudFilestoreBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFilestoreBackupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFilestoreBackupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFilestoreBackupsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudFilestoreBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudFilestoreBackupsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

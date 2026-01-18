@@ -14,80 +14,80 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud compute commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCompute
 {
     private readonly ICommand _command;
-    private GcloudComputeAcceleratorTypes? _acceleratorTypes;
-    private GcloudComputeAddresses? _addresses;
-    private GcloudComputeAdvice? _advice;
-    private GcloudComputeBackendBuckets? _backendBuckets;
-    private GcloudComputeBackendServices? _backendServices;
-    private GcloudComputeCommitments? _commitments;
-    private GcloudComputeDiagnose? _diagnose;
-    private GcloudComputeDisks? _disks;
-    private GcloudComputeDiskTypes? _diskTypes;
-    private GcloudComputeExternalVpnGateways? _externalVpnGateways;
-    private GcloudComputeFirewallPolicies? _firewallPolicies;
-    private GcloudComputeFirewallRules? _firewallRules;
-    private GcloudComputeForwardingRules? _forwardingRules;
-    private GcloudComputeFutureReservations? _futureReservations;
-    private GcloudComputeHealthChecks? _healthChecks;
-    private GcloudComputeHttpHealthChecks? _httpHealthChecks;
-    private GcloudComputeHttpsHealthChecks? _httpsHealthChecks;
-    private GcloudComputeImages? _images;
-    private GcloudComputeInstanceGroups? _instanceGroups;
-    private GcloudComputeInstances? _instances;
-    private GcloudComputeInstanceTemplates? _instanceTemplates;
-    private GcloudComputeInstantSnapshots? _instantSnapshots;
-    private GcloudComputeInterconnects? _interconnects;
-    private GcloudComputeMachineImages? _machineImages;
-    private GcloudComputeMachineTypes? _machineTypes;
-    private GcloudComputeMigration? _migration;
-    private GcloudComputeNetworkAttachments? _networkAttachments;
-    private GcloudComputeNetworkEdgeSecurityServices? _networkEdgeSecurityServices;
-    private GcloudComputeNetworkEndpointGroups? _networkEndpointGroups;
-    private GcloudComputeNetworkFirewallPolicies? _networkFirewallPolicies;
-    private GcloudComputeNetworkProfiles? _networkProfiles;
-    private GcloudComputeNetworks? _networks;
-    private GcloudComputeOperations? _operations;
-    private GcloudComputeOrgSecurityPolicies? _orgSecurityPolicies;
-    private GcloudComputeOsConfig? _osConfig;
-    private GcloudComputeOsLogin? _osLogin;
-    private GcloudComputePacketMirrorings? _packetMirrorings;
-    private GcloudComputePreviewFeatures? _previewFeatures;
-    private GcloudComputeProjectInfo? _projectInfo;
-    private GcloudComputeProjectZonalMetadata? _projectZonalMetadata;
-    private GcloudComputePublicAdvertisedPrefixes? _publicAdvertisedPrefixes;
-    private GcloudComputePublicDelegatedPrefixes? _publicDelegatedPrefixes;
-    private GcloudComputeRegions? _regions;
-    private GcloudComputeReservations? _reservations;
-    private GcloudComputeResourcePolicies? _resourcePolicies;
-    private GcloudComputeRouters? _routers;
-    private GcloudComputeRoutes? _routes;
-    private GcloudComputeSecurityPolicies? _securityPolicies;
-    private GcloudComputeServiceAttachments? _serviceAttachments;
-    private GcloudComputeSharedVpc? _sharedVpc;
-    private GcloudComputeSnapshots? _snapshots;
-    private GcloudComputeSnapshotSettings? _snapshotSettings;
-    private GcloudComputeSoleTenancy? _soleTenancy;
-    private GcloudComputeSslCertificates? _sslCertificates;
-    private GcloudComputeSslPolicies? _sslPolicies;
-    private GcloudComputeStoragePools? _storagePools;
-    private GcloudComputeStoragePoolTypes? _storagePoolTypes;
-    private GcloudComputeTargetGrpcProxies? _targetGrpcProxies;
-    private GcloudComputeTargetHttpProxies? _targetHttpProxies;
-    private GcloudComputeTargetHttpsProxies? _targetHttpsProxies;
-    private GcloudComputeTargetInstances? _targetInstances;
-    private GcloudComputeTargetPools? _targetPools;
-    private GcloudComputeTargetSslProxies? _targetSslProxies;
-    private GcloudComputeTargetTcpProxies? _targetTcpProxies;
-    private GcloudComputeTargetVpnGateways? _targetVpnGateways;
-    private GcloudComputeTpus? _tpus;
-    private GcloudComputeUrlMaps? _urlMaps;
-    private GcloudComputeVpnGateways? _vpnGateways;
-    private GcloudComputeVpnTunnels? _vpnTunnels;
-    private GcloudComputeZones? _zones;
+    private GcloudComputeAcceleratorTypes _acceleratorTypes;
+    private GcloudComputeAddresses _addresses;
+    private GcloudComputeAdvice _advice;
+    private GcloudComputeBackendBuckets _backendBuckets;
+    private GcloudComputeBackendServices _backendServices;
+    private GcloudComputeCommitments _commitments;
+    private GcloudComputeDiagnose _diagnose;
+    private GcloudComputeDisks _disks;
+    private GcloudComputeDiskTypes _diskTypes;
+    private GcloudComputeExternalVpnGateways _externalVpnGateways;
+    private GcloudComputeFirewallPolicies _firewallPolicies;
+    private GcloudComputeFirewallRules _firewallRules;
+    private GcloudComputeForwardingRules _forwardingRules;
+    private GcloudComputeFutureReservations _futureReservations;
+    private GcloudComputeHealthChecks _healthChecks;
+    private GcloudComputeHttpHealthChecks _httpHealthChecks;
+    private GcloudComputeHttpsHealthChecks _httpsHealthChecks;
+    private GcloudComputeImages _images;
+    private GcloudComputeInstanceGroups _instanceGroups;
+    private GcloudComputeInstances _instances;
+    private GcloudComputeInstanceTemplates _instanceTemplates;
+    private GcloudComputeInstantSnapshots _instantSnapshots;
+    private GcloudComputeInterconnects _interconnects;
+    private GcloudComputeMachineImages _machineImages;
+    private GcloudComputeMachineTypes _machineTypes;
+    private GcloudComputeMigration _migration;
+    private GcloudComputeNetworkAttachments _networkAttachments;
+    private GcloudComputeNetworkEdgeSecurityServices _networkEdgeSecurityServices;
+    private GcloudComputeNetworkEndpointGroups _networkEndpointGroups;
+    private GcloudComputeNetworkFirewallPolicies _networkFirewallPolicies;
+    private GcloudComputeNetworkProfiles _networkProfiles;
+    private GcloudComputeNetworks _networks;
+    private GcloudComputeOperations _operations;
+    private GcloudComputeOrgSecurityPolicies _orgSecurityPolicies;
+    private GcloudComputeOsConfig _osConfig;
+    private GcloudComputeOsLogin _osLogin;
+    private GcloudComputePacketMirrorings _packetMirrorings;
+    private GcloudComputePreviewFeatures _previewFeatures;
+    private GcloudComputeProjectInfo _projectInfo;
+    private GcloudComputeProjectZonalMetadata _projectZonalMetadata;
+    private GcloudComputePublicAdvertisedPrefixes _publicAdvertisedPrefixes;
+    private GcloudComputePublicDelegatedPrefixes _publicDelegatedPrefixes;
+    private GcloudComputeRegions _regions;
+    private GcloudComputeReservations _reservations;
+    private GcloudComputeResourcePolicies _resourcePolicies;
+    private GcloudComputeRouters _routers;
+    private GcloudComputeRoutes _routes;
+    private GcloudComputeSecurityPolicies _securityPolicies;
+    private GcloudComputeServiceAttachments _serviceAttachments;
+    private GcloudComputeSharedVpc _sharedVpc;
+    private GcloudComputeSnapshots _snapshots;
+    private GcloudComputeSnapshotSettings _snapshotSettings;
+    private GcloudComputeSoleTenancy _soleTenancy;
+    private GcloudComputeSslCertificates _sslCertificates;
+    private GcloudComputeSslPolicies _sslPolicies;
+    private GcloudComputeStoragePools _storagePools;
+    private GcloudComputeStoragePoolTypes _storagePoolTypes;
+    private GcloudComputeTargetGrpcProxies _targetGrpcProxies;
+    private GcloudComputeTargetHttpProxies _targetHttpProxies;
+    private GcloudComputeTargetHttpsProxies _targetHttpsProxies;
+    private GcloudComputeTargetInstances _targetInstances;
+    private GcloudComputeTargetPools _targetPools;
+    private GcloudComputeTargetSslProxies _targetSslProxies;
+    private GcloudComputeTargetTcpProxies _targetTcpProxies;
+    private GcloudComputeTargetVpnGateways _targetVpnGateways;
+    private GcloudComputeTpus _tpus;
+    private GcloudComputeUrlMaps _urlMaps;
+    private GcloudComputeVpnGateways _vpnGateways;
+    private GcloudComputeVpnTunnels _vpnTunnels;
+    private GcloudComputeZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCompute"/> class.
@@ -461,8 +461,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudComputeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOptions(), executionOptions, cancellationToken);
@@ -476,8 +476,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigSsh(
-        GcloudComputeConfigSshOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeConfigSshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConfigSshOptions(), executionOptions, cancellationToken);
@@ -491,8 +491,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConnectToSerialPort(
-        GcloudComputeConnectToSerialPortOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeConnectToSerialPortOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeConnectToSerialPortOptions(), executionOptions, cancellationToken);
@@ -506,8 +506,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyFiles(
-        GcloudComputeCopyFilesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeCopyFilesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeCopyFilesOptions(), executionOptions, cancellationToken);
@@ -522,7 +522,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetWindowsPassword(
         GcloudComputeResetWindowsPasswordOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -536,8 +536,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudComputeScpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeScpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeScpOptions(), executionOptions, cancellationToken);
@@ -552,7 +552,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignUrl(
         GcloudComputeSignUrlOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -566,8 +566,8 @@ public class GcloudCompute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudComputeSshOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSshOptions(), executionOptions, cancellationToken);
@@ -582,7 +582,7 @@ public class GcloudCompute
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartIapTunnel(
         GcloudComputeStartIapTunnelOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

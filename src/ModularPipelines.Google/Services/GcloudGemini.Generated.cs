@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud gemini commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudGemini
 {
     private readonly ICommand _command;
-    private GcloudGeminiCodeRepositoryIndexes? _codeRepositoryIndexes;
-    private GcloudGeminiCodeToolsSettings? _codeToolsSettings;
-    private GcloudGeminiDataSharingWithGoogleSettings? _dataSharingWithGoogleSettings;
-    private GcloudGeminiGeminiGcpEnablementSettings? _geminiGcpEnablementSettings;
-    private GcloudGeminiLoggingSettings? _loggingSettings;
-    private GcloudGeminiOperations? _operations;
-    private GcloudGeminiReleaseChannelSettings? _releaseChannelSettings;
+    private GcloudGeminiCodeRepositoryIndexes _codeRepositoryIndexes;
+    private GcloudGeminiCodeToolsSettings _codeToolsSettings;
+    private GcloudGeminiDataSharingWithGoogleSettings _dataSharingWithGoogleSettings;
+    private GcloudGeminiGeminiGcpEnablementSettings _geminiGcpEnablementSettings;
+    private GcloudGeminiLoggingSettings _loggingSettings;
+    private GcloudGeminiOperations _operations;
+    private GcloudGeminiReleaseChannelSettings _releaseChannelSettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGemini"/> class.
@@ -83,8 +83,8 @@ public class GcloudGemini
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudGeminiOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiOptions(), executionOptions, cancellationToken);

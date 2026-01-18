@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud disks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeDisks
 {
     private readonly ICommand _command;
-    private GcloudComputeDisksBulk? _bulk;
+    private GcloudComputeDisksBulk _bulk;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeDisks"/> class.
@@ -47,8 +47,8 @@ public class GcloudComputeDisks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeDisksAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeDisksAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddLabels(
         GcloudComputeDisksAddLabelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddResourcePolicies(
         GcloudComputeDisksAddResourcePoliciesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -93,7 +93,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Convert(
         GcloudComputeDisksConvertOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeDisksCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -123,7 +123,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeDisksDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -138,7 +138,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeDisksDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudComputeDisks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeDisksGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeDisksGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudComputeDisks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeDisksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeDisksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksListOptions(), executionOptions, cancellationToken);
@@ -183,7 +183,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
         GcloudComputeDisksMoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -197,8 +197,8 @@ public class GcloudComputeDisks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeDisksRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeDisksRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeDisksRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -213,7 +213,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveLabels(
         GcloudComputeDisksRemoveLabelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -228,7 +228,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveResourcePolicies(
         GcloudComputeDisksRemoveResourcePoliciesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -243,7 +243,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resize(
         GcloudComputeDisksResizeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -258,7 +258,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeDisksSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -273,7 +273,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Snapshot(
         GcloudComputeDisksSnapshotOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -288,7 +288,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartAsyncReplication(
         GcloudComputeDisksStartAsyncReplicationOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -303,7 +303,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopAsyncReplication(
         GcloudComputeDisksStopAsyncReplicationOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -318,7 +318,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopGroupAsyncReplication(
         GcloudComputeDisksStopGroupAsyncReplicationOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -333,7 +333,7 @@ public class GcloudComputeDisks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeDisksUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

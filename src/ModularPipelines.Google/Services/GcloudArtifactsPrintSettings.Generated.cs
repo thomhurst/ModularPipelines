@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud print-settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudArtifactsPrintSettings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudArtifactsPrintSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gradle(
-        GcloudArtifactsPrintSettingsGradleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsPrintSettingsGradleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsGradleOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudArtifactsPrintSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mvn(
-        GcloudArtifactsPrintSettingsMvnOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsPrintSettingsMvnOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsMvnOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudArtifactsPrintSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Npm(
-        GcloudArtifactsPrintSettingsNpmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsPrintSettingsNpmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsNpmOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudArtifactsPrintSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Python(
-        GcloudArtifactsPrintSettingsPythonOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsPrintSettingsPythonOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsPrintSettingsPythonOptions(), executionOptions, cancellationToken);

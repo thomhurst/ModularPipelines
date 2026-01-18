@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud import commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudHealthcareDicomStoresImport
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudHealthcareDicomStoresImport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gcs(
-        GcloudHealthcareDicomStoresImportGcsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudHealthcareDicomStoresImportGcsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudHealthcareDicomStoresImportGcsOptions(), executionOptions, cancellationToken);

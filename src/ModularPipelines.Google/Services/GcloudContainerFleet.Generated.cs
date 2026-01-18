@@ -14,26 +14,26 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud fleet commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleet
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetCloudrun? _cloudrun;
-    private GcloudContainerFleetClusterupgrade? _clusterupgrade;
-    private GcloudContainerFleetConfigManagement? _configManagement;
-    private GcloudContainerFleetDataplaneV2Encryption? _dataplaneV2Encryption;
-    private GcloudContainerFleetFeatures? _features;
-    private GcloudContainerFleetFleetobservability? _fleetobservability;
-    private GcloudContainerFleetIdentityService? _identityService;
-    private GcloudContainerFleetIngress? _ingress;
-    private GcloudContainerFleetMemberships? _memberships;
-    private GcloudContainerFleetMesh? _mesh;
-    private GcloudContainerFleetMultiClusterServices? _multiClusterServices;
-    private GcloudContainerFleetOperations? _operations;
-    private GcloudContainerFleetPackages? _packages;
-    private GcloudContainerFleetPolicycontroller? _policycontroller;
-    private GcloudContainerFleetRbacrolebindingactuation? _rbacrolebindingactuation;
-    private GcloudContainerFleetScopes? _scopes;
+    private GcloudContainerFleetCloudrun _cloudrun;
+    private GcloudContainerFleetClusterupgrade _clusterupgrade;
+    private GcloudContainerFleetConfigManagement _configManagement;
+    private GcloudContainerFleetDataplaneV2Encryption _dataplaneV2Encryption;
+    private GcloudContainerFleetFeatures _features;
+    private GcloudContainerFleetFleetobservability _fleetobservability;
+    private GcloudContainerFleetIdentityService _identityService;
+    private GcloudContainerFleetIngress _ingress;
+    private GcloudContainerFleetMemberships _memberships;
+    private GcloudContainerFleetMesh _mesh;
+    private GcloudContainerFleetMultiClusterServices _multiClusterServices;
+    private GcloudContainerFleetOperations _operations;
+    private GcloudContainerFleetPackages _packages;
+    private GcloudContainerFleetPolicycontroller _policycontroller;
+    private GcloudContainerFleetRbacrolebindingactuation _rbacrolebindingactuation;
+    private GcloudContainerFleetScopes _scopes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleet"/> class.
@@ -137,8 +137,8 @@ public class GcloudContainerFleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerFleetCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCreateOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudContainerFleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerFleetDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDeleteOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudContainerFleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetDescribeOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class GcloudContainerFleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerFleetListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetListOptions(), executionOptions, cancellationToken);
@@ -197,8 +197,8 @@ public class GcloudContainerFleet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetUpdateOptions(), executionOptions, cancellationToken);

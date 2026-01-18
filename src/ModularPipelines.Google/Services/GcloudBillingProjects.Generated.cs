@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud projects commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBillingProjects
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudBillingProjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudBillingProjectsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudBillingProjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Link(
         GcloudBillingProjectsLinkOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBillingProjects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBillingProjectsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBillingProjectsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBillingProjectsListOptions(), executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudBillingProjects
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unlink(
         GcloudBillingProjectsUnlinkOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

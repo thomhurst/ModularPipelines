@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud grants commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPamGrants
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        GcloudPamGrantsApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPamGrantsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deny(
-        GcloudPamGrantsDenyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsDenyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsDenyOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudPamGrantsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPamGrantsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        GcloudPamGrantsRevokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsRevokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsRevokeOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudPamGrants
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudPamGrantsSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamGrantsSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamGrantsSearchOptions(), executionOptions, cancellationToken);

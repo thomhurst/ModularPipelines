@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud eventarc commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEventarc
 {
     private readonly ICommand _command;
-    private GcloudEventarcAuditLogsProvider? _auditLogsProvider;
-    private GcloudEventarcChannelConnections? _channelConnections;
-    private GcloudEventarcChannels? _channels;
-    private GcloudEventarcEnrollments? _enrollments;
-    private GcloudEventarcGoogleApiSources? _googleApiSources;
-    private GcloudEventarcGoogleChannels? _googleChannels;
-    private GcloudEventarcLocations? _locations;
-    private GcloudEventarcMessageBuses? _messageBuses;
-    private GcloudEventarcPipelines? _pipelines;
-    private GcloudEventarcProviders? _providers;
-    private GcloudEventarcTriggers? _triggers;
+    private GcloudEventarcAuditLogsProvider _auditLogsProvider;
+    private GcloudEventarcChannelConnections _channelConnections;
+    private GcloudEventarcChannels _channels;
+    private GcloudEventarcEnrollments _enrollments;
+    private GcloudEventarcGoogleApiSources _googleApiSources;
+    private GcloudEventarcGoogleChannels _googleChannels;
+    private GcloudEventarcLocations _locations;
+    private GcloudEventarcMessageBuses _messageBuses;
+    private GcloudEventarcPipelines _pipelines;
+    private GcloudEventarcProviders _providers;
+    private GcloudEventarcTriggers _triggers;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEventarc"/> class.
@@ -107,8 +107,8 @@ public class GcloudEventarc
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudEventarcOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcOptions(), executionOptions, cancellationToken);

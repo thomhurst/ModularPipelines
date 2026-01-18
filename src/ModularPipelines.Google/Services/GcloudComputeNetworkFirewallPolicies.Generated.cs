@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud network-firewall-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworkFirewallPolicies
 {
     private readonly ICommand _command;
-    private GcloudComputeNetworkFirewallPoliciesAssociations? _associations;
-    private GcloudComputeNetworkFirewallPoliciesMirroringRules? _mirroringRules;
-    private GcloudComputeNetworkFirewallPoliciesRules? _rules;
+    private GcloudComputeNetworkFirewallPoliciesAssociations _associations;
+    private GcloudComputeNetworkFirewallPoliciesMirroringRules _mirroringRules;
+    private GcloudComputeNetworkFirewallPoliciesRules _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworkFirewallPolicies"/> class.
@@ -60,7 +60,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloneRules(
         GcloudComputeNetworkFirewallPoliciesCloneRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -75,7 +75,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeNetworkFirewallPoliciesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -90,7 +90,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeNetworkFirewallPoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -105,7 +105,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeNetworkFirewallPoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -120,7 +120,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportRules(
         GcloudComputeNetworkFirewallPoliciesExportRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveFirewalls(
-        GcloudComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesGetEffectiveFirewallsOptions(), executionOptions, cancellationToken);
@@ -150,7 +150,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportRules(
         GcloudComputeNetworkFirewallPoliciesImportRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeNetworkFirewallPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworkFirewallPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesListOptions(), executionOptions, cancellationToken);
@@ -180,7 +180,7 @@ public class GcloudComputeNetworkFirewallPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeNetworkFirewallPoliciesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

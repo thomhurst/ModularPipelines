@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud auditmanager commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAuditmanager
 {
     private readonly ICommand _command;
-    private GcloudAuditmanagerAuditReports? _auditReports;
-    private GcloudAuditmanagerAuditScopes? _auditScopes;
-    private GcloudAuditmanagerEnrollments? _enrollments;
-    private GcloudAuditmanagerOperations? _operations;
+    private GcloudAuditmanagerAuditReports _auditReports;
+    private GcloudAuditmanagerAuditScopes _auditScopes;
+    private GcloudAuditmanagerEnrollments _enrollments;
+    private GcloudAuditmanagerOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAuditmanager"/> class.

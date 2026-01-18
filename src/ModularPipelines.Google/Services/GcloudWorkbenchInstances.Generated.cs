@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudWorkbenchInstances
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudWorkbenchInstancesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckInstanceUpgradability(
-        GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesCheckInstanceUpgradabilityOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudWorkbenchInstancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudWorkbenchInstancesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudWorkbenchInstancesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diagnose(
-        GcloudWorkbenchInstancesDiagnoseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesDiagnoseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesDiagnoseOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
-        GcloudWorkbenchInstancesGetConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesGetConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesGetConfigOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudWorkbenchInstancesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudWorkbenchInstancesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesListOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudWorkbenchInstancesResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesResetOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResizeDisk(
-        GcloudWorkbenchInstancesResizeDiskOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesResizeDiskOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesResizeDiskOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        GcloudWorkbenchInstancesRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRestoreOptions(), executionOptions, cancellationToken);
@@ -232,8 +232,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        GcloudWorkbenchInstancesRollbackOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesRollbackOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesRollbackOptions(), executionOptions, cancellationToken);
@@ -248,7 +248,7 @@ public class GcloudWorkbenchInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudWorkbenchInstancesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -262,8 +262,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudWorkbenchInstancesStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesStartOptions(), executionOptions, cancellationToken);
@@ -277,8 +277,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudWorkbenchInstancesStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesStopOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudWorkbenchInstancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesUpdateOptions(), executionOptions, cancellationToken);
@@ -307,8 +307,8 @@ public class GcloudWorkbenchInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudWorkbenchInstancesUpgradeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchInstancesUpgradeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchInstancesUpgradeOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud model-monitoring-jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiModelMonitoringJobs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiModelMonitoringJobsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiModelMonitoringJobsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiModelMonitoringJobsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiModelMonitoringJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
-        GcloudAiModelMonitoringJobsPauseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsPauseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsPauseOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        GcloudAiModelMonitoringJobsResumeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsResumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsResumeOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudAiModelMonitoringJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAiModelMonitoringJobsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelMonitoringJobsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelMonitoringJobsUpdateOptions(), executionOptions, cancellationToken);

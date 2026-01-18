@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ssh-keys commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBmsSshKeys
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudBmsSshKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         GcloudBmsSshKeysAddOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBmsSshKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsSshKeysListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsSshKeysListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsSshKeysListOptions(), executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudBmsSshKeys
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudBmsSshKeysRemoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

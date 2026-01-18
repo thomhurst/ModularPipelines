@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud submit commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataprocJobsSubmit
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Flink(
-        GcloudDataprocJobsSubmitFlinkOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitFlinkOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitFlinkOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hadoop(
-        GcloudDataprocJobsSubmitHadoopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitHadoopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHadoopOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hive(
-        GcloudDataprocJobsSubmitHiveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitHiveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitHiveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pig(
-        GcloudDataprocJobsSubmitPigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitPigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPigOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Presto(
-        GcloudDataprocJobsSubmitPrestoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitPrestoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitPrestoOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudDataprocJobsSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pyspark(
         GcloudDataprocJobsSubmitPysparkOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spark(
-        GcloudDataprocJobsSubmitSparkOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitSparkOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudDataprocJobsSubmit
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkR(
         GcloudDataprocJobsSubmitSparkROptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SparkSql(
-        GcloudDataprocJobsSubmitSparkSqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitSparkSqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitSparkSqlOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudDataprocJobsSubmit
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Trino(
-        GcloudDataprocJobsSubmitTrinoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocJobsSubmitTrinoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocJobsSubmitTrinoOptions(), executionOptions, cancellationToken);

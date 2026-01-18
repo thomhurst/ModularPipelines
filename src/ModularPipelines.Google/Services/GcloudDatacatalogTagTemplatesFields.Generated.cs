@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud fields commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatacatalogTagTemplatesFields
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogTagTemplatesFieldsEnumValues? _enumValues;
+    private GcloudDatacatalogTagTemplatesFieldsEnumValues _enumValues;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplatesFields"/> class.
@@ -47,8 +47,8 @@ public class GcloudDatacatalogTagTemplatesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogTagTemplatesFieldsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesFieldsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDatacatalogTagTemplatesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogTagTemplatesFieldsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesFieldsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudDatacatalogTagTemplatesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rename(
-        GcloudDataCatalogTagTemplatesFieldsRenameOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesFieldsRenameOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsRenameOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudDatacatalogTagTemplatesFields
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogTagTemplatesFieldsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesFieldsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesFieldsUpdateOptions(), executionOptions, cancellationToken);

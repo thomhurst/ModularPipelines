@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud git-repository-links commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchReadToken(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadTokenOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchReadWriteToken(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksFetchReadWriteTokenOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDeveloperconnectConnectionsGitRepositoryLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectConnectionsGitRepositoryLinksListOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud emulators commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEmulators
 {
     private readonly ICommand _command;
-    private GcloudEmulatorsFirestore? _firestore;
-    private GcloudEmulatorsSpanner? _spanner;
+    private GcloudEmulatorsFirestore _firestore;
+    private GcloudEmulatorsSpanner _spanner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEmulators"/> class.
@@ -53,8 +53,8 @@ public class GcloudEmulators
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudEmulatorsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEmulatorsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEmulatorsOptions(), executionOptions, cancellationToken);

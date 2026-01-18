@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud insight-type-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRecommenderInsightTypeConfig
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudRecommenderInsightTypeConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudRecommenderInsightTypeConfigDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudRecommenderInsightTypeConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudRecommenderInsightTypeConfigUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

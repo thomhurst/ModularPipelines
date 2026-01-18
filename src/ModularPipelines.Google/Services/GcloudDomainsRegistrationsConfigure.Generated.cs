@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud configure commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDomainsRegistrationsConfigure
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDomainsRegistrationsConfigure
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Contacts(
-        GcloudDomainsRegistrationsConfigureContactsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsRegistrationsConfigureContactsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureContactsOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDomainsRegistrationsConfigure
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Dns(
-        GcloudDomainsRegistrationsConfigureDnsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsRegistrationsConfigureDnsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureDnsOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDomainsRegistrationsConfigure
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Management(
-        GcloudDomainsRegistrationsConfigureManagementOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsRegistrationsConfigureManagementOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsRegistrationsConfigureManagementOptions(), executionOptions, cancellationToken);

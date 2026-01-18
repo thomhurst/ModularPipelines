@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud project-info commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeProjectInfo
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMetadata(
-        GcloudComputeProjectInfoAddMetadataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeProjectInfoAddMetadataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoAddMetadataOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeProjectInfoDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeProjectInfoDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMetadata(
-        GcloudComputeProjectInfoRemoveMetadataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeProjectInfoRemoveMetadataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoRemoveMetadataOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetUsageBucket(
-        GcloudComputeProjectInfoSetUsageBucketOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeProjectInfoSetUsageBucketOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoSetUsageBucketOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeProjectInfo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeProjectInfoUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeProjectInfoUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeProjectInfoUpdateOptions(), executionOptions, cancellationToken);

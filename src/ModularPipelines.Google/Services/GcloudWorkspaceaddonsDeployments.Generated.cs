@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud deployments commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudWorkspaceaddonsDeployments
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudWorkspaceAddOnsDeploymentsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudWorkspaceAddOnsDeploymentsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudWorkspaceAddOnsDeploymentsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        GcloudWorkspaceAddOnsDeploymentsInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstallStatus(
-        GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsInstallStatusOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudWorkspaceAddOnsDeploymentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
-        GcloudWorkspaceAddOnsDeploymentsReplaceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsReplaceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsReplaceOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudWorkspaceaddonsDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Uninstall(
-        GcloudWorkspaceAddOnsDeploymentsUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsDeploymentsUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsDeploymentsUninstallOptions(), executionOptions, cancellationToken);

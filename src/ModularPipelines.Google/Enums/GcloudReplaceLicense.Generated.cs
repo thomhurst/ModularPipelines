@@ -11,12 +11,12 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --replacelicense.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudReplaceLicense
 {
     [Description("ARM64")]
     Arm64,
 
     [Description("X86_64")]
-    X86Value64
+    X86_64
 }

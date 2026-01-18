@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud tpus commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTpus
 {
     private readonly ICommand _command;
-    private GcloudComputeTpusAcceleratorTypes? _acceleratorTypes;
-    private GcloudComputeTpusLocations? _locations;
-    private GcloudComputeTpusQueuedResources? _queuedResources;
-    private GcloudComputeTpusTopologies? _topologies;
-    private GcloudComputeTpusTpuVm? _tpuVm;
-    private GcloudComputeTpusVersions? _versions;
+    private GcloudComputeTpusAcceleratorTypes _acceleratorTypes;
+    private GcloudComputeTpusLocations _locations;
+    private GcloudComputeTpusQueuedResources _queuedResources;
+    private GcloudComputeTpusTopologies _topologies;
+    private GcloudComputeTpusTpuVm _tpuVm;
+    private GcloudComputeTpusVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeTpus"/> class.

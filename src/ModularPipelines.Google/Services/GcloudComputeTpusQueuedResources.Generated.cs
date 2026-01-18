@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud queued-resources commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTpusQueuedResources
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeTpusQueuedResourcesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeTpusQueuedResourcesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusQueuedResourcesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTpusQueuedResourcesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudComputeTpusQueuedResourcesResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesResetOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudComputeTpusQueuedResourcesScpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesScpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesScpOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudComputeTpusQueuedResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudComputeTpusQueuedResourcesSshOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusQueuedResourcesSshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusQueuedResourcesSshOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud custom-modules commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSccManageCustomModules
 {
     private readonly ICommand _command;
-    private GcloudSccManageCustomModulesEtd? _etd;
-    private GcloudSccManageCustomModulesSha? _sha;
+    private GcloudSccManageCustomModulesEtd _etd;
+    private GcloudSccManageCustomModulesSha _sha;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSccManageCustomModules"/> class.

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud inventory commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudKmsInventory
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetProtectedResourcesSummary(
-        GcloudKmsInventoryGetProtectedResourcesSummaryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsInventoryGetProtectedResourcesSummaryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryGetProtectedResourcesSummaryOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListKeys(
-        GcloudKmsInventoryListKeysOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsInventoryListKeysOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventoryListKeysOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudKmsInventory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchProtectedResources(
-        GcloudKmsInventorySearchProtectedResourcesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsInventorySearchProtectedResourcesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsInventorySearchProtectedResourcesOptions(), executionOptions, cancellationToken);

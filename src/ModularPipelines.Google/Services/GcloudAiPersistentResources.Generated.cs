@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud persistent-resources commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiPersistentResources
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiPersistentResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiPersistentResourcesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPersistentResourcesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiPersistentResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiPersistentResourcesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPersistentResourcesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiPersistentResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiPersistentResourcesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPersistentResourcesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiPersistentResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiPersistentResourcesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPersistentResourcesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAiPersistentResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reboot(
-        GcloudAiPersistentResourcesRebootOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPersistentResourcesRebootOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPersistentResourcesRebootOptions(), executionOptions, cancellationToken);

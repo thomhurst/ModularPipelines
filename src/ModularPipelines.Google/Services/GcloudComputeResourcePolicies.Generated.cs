@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud resource-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeResourcePolicies
 {
     private readonly ICommand _command;
-    private GcloudComputeResourcePoliciesCreate? _create;
-    private GcloudComputeResourcePoliciesUpdate? _update;
+    private GcloudComputeResourcePoliciesCreate _create;
+    private GcloudComputeResourcePoliciesUpdate _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeResourcePolicies"/> class.
@@ -54,7 +54,7 @@ public class GcloudComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeResourcePoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,7 +69,7 @@ public class GcloudComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeResourcePoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudComputeResourcePolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeResourcePoliciesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeResourcePoliciesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudComputeResourcePolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeResourcePoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeResourcePoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeResourcePoliciesListOptions(), executionOptions, cancellationToken);
@@ -114,7 +114,7 @@ public class GcloudComputeResourcePolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeResourcePoliciesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

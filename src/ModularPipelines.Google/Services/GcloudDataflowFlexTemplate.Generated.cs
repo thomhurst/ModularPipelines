@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud flex-template commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataflowFlexTemplate
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDataflowFlexTemplate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
         GcloudDataflowFlexTemplateBuildOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudDataflowFlexTemplate
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudDataflowFlexTemplateRunOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

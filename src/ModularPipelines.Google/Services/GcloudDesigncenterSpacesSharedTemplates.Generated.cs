@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud shared-templates commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDesigncenterSpacesSharedTemplates
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterSpacesSharedTemplatesRevisions? _revisions;
+    private GcloudDesigncenterSpacesSharedTemplatesRevisions _revisions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesSharedTemplates"/> class.
@@ -48,7 +48,7 @@ public class GcloudDesigncenterSpacesSharedTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDesignCenterSpacesSharedTemplatesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDesigncenterSpacesSharedTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesSharedTemplatesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesSharedTemplatesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesSharedTemplatesListOptions(), executionOptions, cancellationToken);

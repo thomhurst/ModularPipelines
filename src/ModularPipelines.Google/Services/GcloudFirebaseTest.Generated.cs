@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud test commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirebaseTest
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTestAndroid? _android;
-    private GcloudFirebaseTestIos? _ios;
-    private GcloudFirebaseTestNetworkProfiles? _networkProfiles;
+    private GcloudFirebaseTestAndroid _android;
+    private GcloudFirebaseTestIos _ios;
+    private GcloudFirebaseTestNetworkProfiles _networkProfiles;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTest"/> class.

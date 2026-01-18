@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud gi-versions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudOracledatabaseGiVersions
 {
     private readonly ICommand _command;
-    private GcloudOracledatabaseGiVersionsMinorVersions? _minorVersions;
+    private GcloudOracledatabaseGiVersionsMinorVersions _minorVersions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudOracledatabaseGiVersions"/> class.
@@ -47,8 +47,8 @@ public class GcloudOracledatabaseGiVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseGiVersionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseGiVersionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseGiVersionsListOptions(), executionOptions, cancellationToken);

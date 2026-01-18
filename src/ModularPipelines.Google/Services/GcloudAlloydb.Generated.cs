@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud alloydb commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAlloydb
 {
     private readonly ICommand _command;
-    private GcloudAlloydbBackups? _backups;
-    private GcloudAlloydbClusters? _clusters;
-    private GcloudAlloydbInstances? _instances;
-    private GcloudAlloydbOperations? _operations;
-    private GcloudAlloydbUsers? _users;
+    private GcloudAlloydbBackups _backups;
+    private GcloudAlloydbClusters _clusters;
+    private GcloudAlloydbInstances _instances;
+    private GcloudAlloydbOperations _operations;
+    private GcloudAlloydbUsers _users;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAlloydb"/> class.
@@ -71,8 +71,8 @@ public class GcloudAlloydb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAlloydbOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAlloydbOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbOptions(), executionOptions, cancellationToken);

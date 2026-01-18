@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud hp-tuning-jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiHpTuningJobs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiHpTuningJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudAiHpTuningJobsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiHpTuningJobsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiHpTuningJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiHpTuningJobsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiHpTuningJobsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiHpTuningJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiHpTuningJobsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiHpTuningJobsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiHpTuningJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiHpTuningJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiHpTuningJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAiHpTuningJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StreamLogs(
-        GcloudAiHpTuningJobsStreamLogsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiHpTuningJobsStreamLogsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiHpTuningJobsStreamLogsOptions(), executionOptions, cancellationToken);

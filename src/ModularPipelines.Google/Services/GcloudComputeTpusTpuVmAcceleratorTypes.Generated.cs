@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud accelerator-types commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTpusTpuVmAcceleratorTypes
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeTpusTpuVmAcceleratorTypes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTpusTpuVmAcceleratorTypesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmAcceleratorTypesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmAcceleratorTypesListOptions(), executionOptions, cancellationToken);

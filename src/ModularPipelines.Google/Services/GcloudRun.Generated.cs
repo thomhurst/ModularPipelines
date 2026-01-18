@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud run commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRun
 {
     private readonly ICommand _command;
-    private GcloudRunDomainMappings? _domainMappings;
-    private GcloudRunJobs? _jobs;
-    private GcloudRunMultiRegionServices? _multiRegionServices;
-    private GcloudRunRegions? _regions;
-    private GcloudRunRevisions? _revisions;
-    private GcloudRunServices? _services;
+    private GcloudRunDomainMappings _domainMappings;
+    private GcloudRunJobs _jobs;
+    private GcloudRunMultiRegionServices _multiRegionServices;
+    private GcloudRunRegions _regions;
+    private GcloudRunRevisions _revisions;
+    private GcloudRunServices _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRun"/> class.
@@ -77,8 +77,8 @@ public class GcloudRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudRunDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunDeployOptions(), executionOptions, cancellationToken);

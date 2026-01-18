@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud cmek-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudTasksCmekConfig
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudTasksCmekConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudTasksCmekConfigDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTasksCmekConfigDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCmekConfigDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudTasksCmekConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudTasksCmekConfigUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTasksCmekConfigUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTasksCmekConfigUpdateOptions(), executionOptions, cancellationToken);

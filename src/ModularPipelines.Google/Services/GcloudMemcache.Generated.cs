@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud memcache commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMemcache
 {
     private readonly ICommand _command;
-    private GcloudMemcacheInstances? _instances;
-    private GcloudMemcacheOperations? _operations;
-    private GcloudMemcacheRegions? _regions;
+    private GcloudMemcacheInstances _instances;
+    private GcloudMemcacheOperations _operations;
+    private GcloudMemcacheRegions _regions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemcache"/> class.
@@ -59,8 +59,8 @@ public class GcloudMemcache
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudMemcacheOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemcacheOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemcacheOptions(), executionOptions, cancellationToken);

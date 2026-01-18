@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud org-security-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeOrgSecurityPolicies
 {
     private readonly ICommand _command;
-    private GcloudComputeOrgSecurityPoliciesAssociations? _associations;
-    private GcloudComputeOrgSecurityPoliciesRules? _rules;
+    private GcloudComputeOrgSecurityPoliciesAssociations _associations;
+    private GcloudComputeOrgSecurityPoliciesRules _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeOrgSecurityPolicies"/> class.
@@ -54,7 +54,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CopyRules(
         GcloudComputeOrgSecurityPoliciesCopyRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudComputeOrgSecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeOrgSecurityPoliciesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOrgSecurityPoliciesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -84,7 +84,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeOrgSecurityPoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,7 +99,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeOrgSecurityPoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudComputeOrgSecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeOrgSecurityPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOrgSecurityPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOrgSecurityPoliciesListOptions(), executionOptions, cancellationToken);
@@ -129,7 +129,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRules(
         GcloudComputeOrgSecurityPoliciesListRulesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -144,7 +144,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
         GcloudComputeOrgSecurityPoliciesMoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -159,7 +159,7 @@ public class GcloudComputeOrgSecurityPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeOrgSecurityPoliciesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

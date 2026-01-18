@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud patch-jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeOsConfigPatchJobs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudComputeOsConfigPatchJobsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigPatchJobsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeOsConfigPatchJobsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigPatchJobsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudComputeOsConfigPatchJobsExecuteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigPatchJobsExecuteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsExecuteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInstanceDetails(
-        GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsListInstanceDetailsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeOsConfigPatchJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeOsConfigPatchJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigPatchJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigPatchJobsListOptions(), executionOptions, cancellationToken);

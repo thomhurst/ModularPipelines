@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud keysets commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecacheKeysets
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEdgeCacheKeysetsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEdgeCacheKeysetsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCacheKeysetsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudEdgeCacheKeysetsExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsExportOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudEdgeCacheKeysetsImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsImportOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCacheKeysetsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudEdgecacheKeysets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudEdgeCacheKeysetsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCacheKeysetsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCacheKeysetsUpdateOptions(), executionOptions, cancellationToken);
