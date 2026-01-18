@@ -20,6 +20,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
     private readonly Queue<PendingFlush> _pendingQueue = new();
     private readonly SemaphoreSlim _writeLock = new(1, 1);
 
+    // Separate lock for deferred output operations to reduce contention
+    // with immediate flush operations that use _queueLock
+    private readonly object _deferredLock = new();
+
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
     private volatile bool _isFlushingOutput;
@@ -56,6 +60,23 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
     /// <inheritdoc />
     public void SetProgressActive(bool isActive)
     {
+        if (isActive)
+        {
+            // Starting a new progress session - check for stale deferred outputs
+            // from a previous run that crashed before FlushDeferredAsync was called
+            lock (_deferredLock)
+            {
+                if (_deferredOutputs.Count > 0)
+                {
+                    _logger.LogWarning(
+                        "Found {Count} stale deferred outputs from a previous pipeline run. " +
+                        "This indicates FlushDeferredAsync was not called. Clearing to prevent memory leak.",
+                        _deferredOutputs.Count);
+                    _deferredOutputs.Clear();
+                }
+            }
+        }
+
         _isProgressActive = isActive;
     }
 
@@ -70,7 +91,8 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
         if (_isProgressActive)
         {
             // Progress is active - defer output until pipeline end
-            lock (_queueLock)
+            // Uses separate lock to avoid contention with immediate flush operations
+            lock (_deferredLock)
             {
                 _deferredOutputs.Add(new DeferredModuleOutput(
                     buffer,
@@ -91,13 +113,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
     {
         List<DeferredModuleOutput> toFlush;
 
-        lock (_queueLock)
+        lock (_deferredLock)
         {
             if (_deferredOutputs.Count == 0)
             {
                 return;
             }
 
+            // Order by completion time to maintain consistent output ordering
             toFlush = _deferredOutputs
                 .OrderBy(x => x.CompletedAt)
                 .ToList();
@@ -250,6 +273,19 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
     /// <summary>
     /// Safety net: flushes any remaining deferred output on disposal.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This is a defensive measure - the primary flush happens in
+    /// <see cref="Engine.Executors.PipelineOutputCoordinator.PipelineOutputScope.DisposeAsync"/>
+    /// which explicitly calls <see cref="FlushDeferredAsync"/> after progress ends.
+    /// </para>
+    /// <para>
+    /// This safety net handles edge cases where the normal flush sequence is interrupted
+    /// (e.g., due to exceptions or abnormal termination). Note that this requires the
+    /// DI container to be disposed via <c>DisposeAsync()</c> - synchronous disposal
+    /// may not trigger this method.
+    /// </para>
+    /// </remarks>
     public async ValueTask DisposeAsync()
     {
         try
