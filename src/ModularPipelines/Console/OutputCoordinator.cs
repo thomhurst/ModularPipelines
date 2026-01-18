@@ -23,6 +23,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
     private volatile bool _isFlushingOutput;
+    private volatile bool _isProgressActive;
+    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
+
+    private readonly record struct DeferredModuleOutput(
+        IModuleOutputBuffer Buffer,
+        Type ModuleType,
+        DateTimeOffset CompletedAt
+    );
 
     public OutputCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -43,6 +51,86 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     public void SetProgressController(IProgressController controller)
     {
         _progressController = controller;
+    }
+
+    /// <inheritdoc />
+    public void SetProgressActive(bool isActive)
+    {
+        _isProgressActive = isActive;
+    }
+
+    /// <inheritdoc />
+    public async Task OnModuleCompletedAsync(IModuleOutputBuffer buffer, Type moduleType, CancellationToken cancellationToken = default)
+    {
+        if (!buffer.HasOutput)
+        {
+            return;
+        }
+
+        if (_isProgressActive)
+        {
+            // Progress is active - defer output until pipeline end
+            lock (_queueLock)
+            {
+                _deferredOutputs.Add(new DeferredModuleOutput(
+                    buffer,
+                    moduleType,
+                    DateTimeOffset.UtcNow
+                ));
+            }
+        }
+        else
+        {
+            // No progress - flush immediately (existing behavior)
+            await EnqueueAndFlushAsync(buffer, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task FlushDeferredAsync(CancellationToken cancellationToken = default)
+    {
+        List<DeferredModuleOutput> toFlush;
+
+        lock (_queueLock)
+        {
+            if (_deferredOutputs.Count == 0)
+            {
+                return;
+            }
+
+            toFlush = _deferredOutputs
+                .OrderBy(x => x.CompletedAt)
+                .ToList();
+            _deferredOutputs.Clear();
+        }
+
+        var formatter = _formatterProvider.GetFormatter();
+
+        await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            _isFlushingOutput = true;
+            try
+            {
+                foreach (var output in toFlush)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    FlushBuffer(output.Buffer, formatter);
+                }
+            }
+            finally
+            {
+                _isFlushingOutput = false;
+            }
+        }
+        finally
+        {
+            _writeLock.Release();
+        }
     }
 
     /// <inheritdoc />
