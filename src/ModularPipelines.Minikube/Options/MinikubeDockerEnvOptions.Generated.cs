@@ -16,7 +16,7 @@ namespace ModularPipelines.Minikube.Options;
 /// <summary>
 /// Provides instructions to point your terminal's docker-cli to the Docker Engine inside minikube. (Useful for building docker images directly inside minikube)
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("docker-env")]
 public record MinikubeDockerEnvOptions : MinikubeOptions
