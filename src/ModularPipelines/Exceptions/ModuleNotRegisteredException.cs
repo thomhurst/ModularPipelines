@@ -29,7 +29,7 @@ namespace ModularPipelines.Exceptions;
 /// <para><b>Resolution:</b></para>
 /// <list type="number">
 /// <item>Add the missing module: <c>.AddModule&lt;MissingModule&gt;()</c></item>
-/// <item>Use optional dependencies: <c>[DependsOn&lt;T&gt;(IgnoreIfNotRegistered = true)]</c></item>
+/// <item>Use optional dependencies: <c>[DependsOn&lt;T&gt;(Optional = true)]</c></item>
 /// <item>Check for typos in the dependency type name</item>
 /// <item>Verify the dependency module is in a referenced project</item>
 /// </list>

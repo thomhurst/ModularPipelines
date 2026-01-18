@@ -198,7 +198,7 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Gets all dependencies for a module including predicate-based dependencies.
     /// </summary>
-    private IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependenciesIncludingPredicate(
+    private IEnumerable<(Type DependencyType, bool Optional)> GetAllDependenciesIncludingPredicate(
         IModule module,
         IReadOnlyList<Type> availableModuleTypes)
     {

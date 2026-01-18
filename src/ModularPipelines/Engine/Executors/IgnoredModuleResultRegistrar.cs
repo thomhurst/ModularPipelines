@@ -142,7 +142,8 @@ internal static class CompletionSourceSetterCache
 
         // Access CompletionSource property
         var completionSourceProp = moduleType.GetProperty("CompletionSource",
-            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            ?? throw new InvalidOperationException($"CompletionSource property not found on {moduleType.Name}");
         var completionSource = Expression.Property(castModule, completionSourceProp);
 
         // Get the actual property type and its TrySetResult method
@@ -160,21 +161,5 @@ internal static class CompletionSourceSetterCache
         // Compile to Action<IModule, IModuleResult>
         var lambda = Expression.Lambda<Action<IModule, IModuleResult>>(callTrySetResult, moduleParam, resultParam);
         return lambda.Compile();
-    }
-}
-
-/// <summary>
-/// Extension method to make a value type nullable.
-/// </summary>
-internal static class TypeExtensions
-{
-    public static Type MakeNullableIfValueType(this Type type)
-    {
-        if (type.IsValueType && Nullable.GetUnderlyingType(type) == null)
-        {
-            return typeof(Nullable<>).MakeGenericType(type);
-        }
-
-        return type;
     }
 }

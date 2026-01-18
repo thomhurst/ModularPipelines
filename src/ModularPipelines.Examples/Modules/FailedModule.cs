@@ -4,7 +4,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Examples.Modules;
 
-[DependsOn<SuccessModule3>(IgnoreIfNotRegistered = true)]
+[DependsOn<SuccessModule3>(Optional = true)]
 public class FailedModule : Module<IDictionary<string, object>?>
 {
     /// <inheritdoc/>
