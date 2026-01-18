@@ -15,7 +15,7 @@ namespace ModularPipelines.Terraform.Options;
 /// <summary>
 /// Rerun deployments within a deployment group.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("stacks", "deployment-group", "rerun")]
 public record TerraformStacksDeploymentGroupRerunOptions : TerraformOptions
