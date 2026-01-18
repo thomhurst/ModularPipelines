@@ -14,7 +14,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// Generated implementation for kustomize CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Kustomize : IKustomize
 {
     private readonly ICommand _command;
@@ -52,8 +52,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        KustomizeBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeBuildOptions(), executionOptions, cancellationToken);
@@ -61,8 +61,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
-        KustomizeCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCreateOptions(), executionOptions, cancellationToken);
@@ -70,8 +70,8 @@ internal partial class Kustomize : IKustomize
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Localize(
-        KustomizeLocalizeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeLocalizeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeLocalizeOptions(), executionOptions, cancellationToken);

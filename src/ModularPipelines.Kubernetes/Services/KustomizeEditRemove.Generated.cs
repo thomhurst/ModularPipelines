@@ -14,7 +14,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize remove commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KustomizeEditRemove
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Annotation(
-        KustomizeEditRemoveAnnotationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveAnnotationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveAnnotationOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Configmap(
-        KustomizeEditRemoveConfigmapOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveConfigmapOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveConfigmapOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Label(
-        KustomizeEditRemoveLabelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveLabelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveLabelOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
-        KustomizeEditRemovePatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemovePatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemovePatchOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resource(
-        KustomizeEditRemoveResourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveResourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveResourceOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Secret(
-        KustomizeEditRemoveSecretOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveSecretOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveSecretOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class KustomizeEditRemove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Transformer(
-        KustomizeEditRemoveTransformerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditRemoveTransformerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditRemoveTransformerOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize set commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KustomizeEditSet
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Annotation(
-        KustomizeEditSetAnnotationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetAnnotationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetAnnotationOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Configmap(
-        KustomizeEditSetConfigmapOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetConfigmapOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetConfigmapOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Image(
-        KustomizeEditSetImageOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetImageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetImageOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Label(
-        KustomizeEditSetLabelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetLabelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetLabelOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Nameprefix(
-        KustomizeEditSetNameprefixOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetNameprefixOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetNameprefixOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Namespace(
-        KustomizeEditSetNamespaceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetNamespaceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetNamespaceOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Namesuffix(
-        KustomizeEditSetNamesuffixOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetNamesuffixOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetNamesuffixOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replicas(
-        KustomizeEditSetReplicasOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetReplicasOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetReplicasOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class KustomizeEditSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Secret(
-        KustomizeEditSetSecretOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeEditSetSecretOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeEditSetSecretOptions(), executionOptions, cancellationToken);

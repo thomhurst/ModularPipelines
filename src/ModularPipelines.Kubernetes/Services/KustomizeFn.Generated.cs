@@ -14,7 +14,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize fn commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KustomizeFn
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KustomizeFn
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KustomizeFnOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeFnOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeFnOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KustomizeFn
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        KustomizeFnRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeFnRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeFnRunOptions(), executionOptions, cancellationToken);

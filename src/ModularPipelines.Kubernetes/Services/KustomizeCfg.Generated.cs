@@ -14,7 +14,7 @@ namespace ModularPipelines.Kubernetes.Services;
 /// <summary>
 /// kustomize cfg commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KustomizeCfg
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KustomizeCfg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KustomizeCfgOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCfgOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCfgOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KustomizeCfg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cat(
-        KustomizeCfgCatOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCfgCatOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCfgCatOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class KustomizeCfg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Count(
-        KustomizeCfgCountOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCfgCountOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCfgCountOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class KustomizeCfg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Grep(
-        KustomizeCfgGrepOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCfgGrepOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCfgGrepOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class KustomizeCfg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tree(
-        KustomizeCfgTreeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KustomizeCfgTreeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KustomizeCfgTreeOptions(), executionOptions, cancellationToken);
