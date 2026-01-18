@@ -14,7 +14,7 @@ namespace ModularPipelines.Python.Services;
 /// <summary>
 /// Generated implementation for pip CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Pip : IPip
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Cache(
-        PipCacheOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipCacheOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipCacheOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Check(
-        PipCheckOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipCheckOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipCheckOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Config(
-        PipConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipConfigOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Download(
-        PipDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipDownloadOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Freeze(
-        PipFreezeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipFreezeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipFreezeOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Hash(
-        PipHashOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipHashOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipHashOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Index(
-        PipIndexOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipIndexOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipIndexOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        PipInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipInspectOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        PipInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipInstallOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
-        PipListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipListOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Search(
-        PipSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipSearchOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Show(
-        PipShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipShowOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
-        PipUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipUninstallOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ internal partial class Pip : IPip
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Wheel(
-        PipWheelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PipWheelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PipWheelOptions(), executionOptions, cancellationToken);
