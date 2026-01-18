@@ -140,6 +140,7 @@ internal class ProgressSession : IProgressSession, IProgressController
                                 lock (_pauseStateLock)
                                 {
                                     _isPaused = false;
+                                    _inRefresh = false; // Reset for state consistency
                                     _resumeSignal?.TrySetResult();
                                     _resumeSignal = null;
                                     _refreshCompleted = null;
@@ -392,22 +393,22 @@ internal class ProgressSession : IProgressSession, IProgressController
         {
             if (_isPaused)
             {
-                // Already paused - if there's an in-flight refresh, wait for it
+                // Already paused - nothing to do. We don't wait on _refreshCompleted here
+                // because it could be stale (e.g., from a previous pause that timed out),
+                // which would cause this caller to wait forever.
+                return;
+            }
+
+            _isPaused = true;
+            _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            if (_inRefresh)
+            {
+                // Progress loop is currently in ctx.Refresh() - need to wait for it
+                _refreshCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 waitForRefresh = _refreshCompleted;
             }
-            else
-            {
-                _isPaused = true;
-                _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-
-                if (_inRefresh)
-                {
-                    // Progress loop is currently in ctx.Refresh() - need to wait for it
-                    _refreshCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                    waitForRefresh = _refreshCompleted;
-                }
-                // else: Progress loop is not refreshing, pause takes effect immediately
-            }
+            // else: Progress loop is not refreshing, pause takes effect immediately
         }
 
         // Wait for any in-flight refresh to complete (outside the lock)
@@ -440,10 +441,13 @@ internal class ProgressSession : IProgressSession, IProgressController
     public async ValueTask DisposeAsync()
     {
         // Signal resume in case we're disposed while paused
+        // Also clear the signals to prevent any concurrent PauseAsync from hanging
         lock (_pauseStateLock)
         {
             _isPaused = false;
             _resumeSignal?.TrySetResult();
+            _resumeSignal = null;
+            _refreshCompleted = null;
         }
 
         // Signal all tasks to stop

@@ -30,10 +30,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         IServiceProvider serviceProvider,
         IConsoleCoordinator consoleCoordinator)
     {
-        _formatterProvider = formatterProvider;
-        _loggerFactory = loggerFactory;
-        _serviceProvider = serviceProvider;
-        _consoleCoordinator = consoleCoordinator;
+        _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
+        _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _consoleCoordinator = consoleCoordinator ?? throw new ArgumentNullException(nameof(consoleCoordinator));
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
