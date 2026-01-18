@@ -69,7 +69,7 @@ public class DependsOnAllInheritingFromTests : TestBase
         }
     }
 
-    [ModularPipelines.Attributes.DependsOn<Module1>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<Module1>(Optional = true)]
     private class Module3 : BaseModule
     {
         protected internal override async Task<bool> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

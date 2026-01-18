@@ -80,8 +80,8 @@ public static class ModuleDependencyValidator
                 {
                     throw new ModuleNotRegisteredException(
                         $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
-                        $"but '{dependencyType.Name}' is not registered. " +
-                        "Either register the dependency module or use [DependsOn<T>] (optional by default) instead of [RequiresDependency<T>].", null);
+                        $"but '{dependencyType.Name}' is not registered and could not be auto-registered. " +
+                        "Either register the dependency module or use [DependsOn<T>(Optional = true)] if the dependency is optional.", null);
                 }
             }
         }

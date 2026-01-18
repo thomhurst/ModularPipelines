@@ -288,6 +288,9 @@ public sealed class PipelineBuilder
                 services.Add(descriptor);
             }
 
+            // Auto-register any missing required dependencies
+            ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
+
             // Register context delegates from loaded ModularPipeline assemblies
             foreach (var contextRegistrationDelegate in ModularPipelinesContextRegistry.ContextRegistrationDelegates)
             {

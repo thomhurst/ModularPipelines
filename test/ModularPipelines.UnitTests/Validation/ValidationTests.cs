@@ -69,7 +69,7 @@ public class ValidationTests
     }
 
     // Module with optional dependency (missing but ignored)
-    [ModularPipelines.Attributes.DependsOn<MissingModule>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<MissingModule>(Optional = true)]
     private class ModuleWithOptionalDep : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

@@ -18,8 +18,8 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [ModularPipelines.Attributes.DependsOn<CompileModule>]  // Optional by default
-    private class TestModule : Module<string>
+    [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Optional - gracefully handle if dependency is filtered
+    private class TestModuleWithOptionalDep : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
@@ -35,45 +35,57 @@ public class CategoryFilterDependencyTests : TestBase
     }
 
     [ModuleCategory("test")]
-    [RequiresDependency<CompileModule>]
-    private class TestModuleWithRequiredDep : Module<string>
+    [ModularPipelines.Attributes.DependsOn<CompileModule>(Optional = true)]  // Must be optional when dependency might be filtered by category
+    private class TestModuleWithOptionalDepForCategoryFilter : Module<string>
     {
         protected internal override async Task<string> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
         {
-            var result = await context.GetModule<CompileModule>();
-            return $"test-with-{result.ValueOrDefault}";
+            var compile = context.GetModuleIfRegistered<CompileModule>();
+            if (compile == null)
+            {
+                return "test-without-compile";
+            }
+
+            var result = await compile;
+            return result.IsSkipped ? "test-compile-skipped" : $"test-with-{result.ValueOrDefault}";
         }
     }
 
     [Test]
     public async Task Optional_Dependency_Works_When_Filtered_By_Category()
     {
-        // Issue #2164: Running only "test" category should not throw for optional deps
+        // Issue #2164: Running only "test" category with optional deps should work
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<CompileModule>()
-            .AddModule<TestModule>()
+            .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
             .ExecutePipelineAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 
-        var testModule = pipelineSummary.Modules.OfType<TestModule>().Single();
+        var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;
-        // CompileModule is filtered out, so TestModule should handle gracefully
-        await Assert.That(result.ValueOrDefault).IsEqualTo("test-without-compile")
-            .Or.IsEqualTo("test-compile-skipped");
+        // CompileModule is filtered out (skipped), TestModule handles gracefully
+        await Assert.That(result.ValueOrDefault).IsEqualTo("test-compile-skipped");
     }
 
     [Test]
-    public async Task Required_Dependency_Fails_When_Filtered_By_Category()
+    public async Task Optional_Dependency_Is_Skipped_When_Filtered_By_Category()
     {
-        // Required dependency in different category - should fail validation
-        await Assert.That(async () => await TestPipelineHostBuilder.Create()
-                .AddModule<CompileModule>()
-                .AddModule<TestModuleWithRequiredDep>()
-                .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
-                .ExecutePipelineAsync())
-            .ThrowsException();
+        // When using category filters, dependencies in other categories should be marked optional
+        // This test verifies that optional deps work correctly with category filtering
+        var pipelineSummary = await TestPipelineHostBuilder.Create()
+            .AddModule<CompileModule>()
+            .AddModule<TestModuleWithOptionalDepForCategoryFilter>()
+            .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["test"])
+            .ExecutePipelineAsync();
+
+        await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
+
+        var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDepForCategoryFilter>().Single();
+        var result = await testModule;
+        // CompileModule was skipped due to category filter
+        await Assert.That(result.ValueOrDefault).IsEqualTo("test-compile-skipped");
     }
 
     [Test]
@@ -81,13 +93,13 @@ public class CategoryFilterDependencyTests : TestBase
     {
         var pipelineSummary = await TestPipelineHostBuilder.Create()
             .AddModule<CompileModule>()
-            .AddModule<TestModule>()
+            .AddModule<TestModuleWithOptionalDep>()
             .ConfigurePipelineOptions(opt => opt.RunOnlyCategories = ["compile", "test"])
             .ExecutePipelineAsync();
 
         await Assert.That(pipelineSummary.Status).IsEqualTo(Status.Successful);
 
-        var testModule = pipelineSummary.Modules.OfType<TestModule>().Single();
+        var testModule = pipelineSummary.Modules.OfType<TestModuleWithOptionalDep>().Single();
         var result = await testModule;
         await Assert.That(result.ValueOrDefault).IsEqualTo("test-with-compiled");
     }

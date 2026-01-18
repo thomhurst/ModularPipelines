@@ -49,10 +49,10 @@ internal class DependencyWaiter : IDependencyWaiter
             else if (!optional)
             {
                 var message = $"Module '{moduleState.ModuleType.Name}' requires '{dependencyType.Name}', " +
-                              $"but '{dependencyType.Name}' has not been registered in the pipeline.\n\n" +
+                              $"but '{dependencyType.Name}' has not been registered and could not be auto-registered.\n\n" +
                               $"Suggestions:\n" +
                               $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration\n" +
-                              $"  2. Use '[DependsOn<{dependencyType.Name}>]' instead of '[RequiresDependency<{dependencyType.Name}>]' if this dependency is optional";
+                              $"  2. Use '[DependsOn<{dependencyType.Name}>(Optional = true)]' if this dependency is optional";
                 throw new ModuleNotRegisteredException(message, null);
             }
         }

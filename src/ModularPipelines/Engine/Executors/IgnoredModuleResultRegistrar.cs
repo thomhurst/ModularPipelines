@@ -132,8 +132,6 @@ internal static class CompletionSourceSetterCache
     {
         // Create compiled delegate for: ((Module<T>)module).CompletionSource.TrySetResult((ModuleResult<T?>)result)
         var moduleType = typeof(Module<>).MakeGenericType(resultType);
-        var moduleResultType = typeof(ModuleResult<>).MakeGenericType(resultType.MakeNullableIfValueType());
-        var tcsType = typeof(TaskCompletionSource<>).MakeGenericType(moduleResultType);
 
         // Parameters
         var moduleParam = Expression.Parameter(typeof(IModule), "module");
@@ -147,11 +145,16 @@ internal static class CompletionSourceSetterCache
             System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
         var completionSource = Expression.Property(castModule, completionSourceProp);
 
+        // Get the actual property type and its TrySetResult method
+        // This ensures we use the correct generic type as declared on the property
+        var completionSourceType = completionSourceProp.PropertyType;
+        var moduleResultType = completionSourceType.GetGenericArguments()[0]; // ModuleResult<T?>
+
         // Cast result to ModuleResult<T?>
         var castResult = Expression.Convert(resultParam, moduleResultType);
 
-        // Call TrySetResult
-        var trySetResultMethod = tcsType.GetMethod("TrySetResult")!;
+        // Call TrySetResult using the method from the actual property type
+        var trySetResultMethod = completionSourceType.GetMethod("TrySetResult")!;
         var callTrySetResult = Expression.Call(completionSource, trySetResultMethod, castResult);
 
         // Compile to Action<IModule, IModuleResult>
