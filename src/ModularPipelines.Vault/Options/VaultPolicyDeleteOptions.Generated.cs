@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Options;
 /// <summary>
 /// Deletes the policy named NAME in the Vault server. Once the policy is deleted,
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "delete")]
 public record VaultPolicyDeleteOptions : VaultOptions
