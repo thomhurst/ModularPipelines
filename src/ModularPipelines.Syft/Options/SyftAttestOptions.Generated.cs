@@ -15,7 +15,7 @@ namespace ModularPipelines.Syft.Options;
 /// <summary>
 /// Generate a packaged-based Software Bill Of Materials (SBOM) from a container image as the predicate of an in-toto attestation that will be uploaded to the image registry
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("attest")]
 public record SyftAttestOptions(
