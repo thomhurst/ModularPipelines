@@ -111,12 +111,24 @@ public static class ModuleActivityTracing
     }
 
     /// <summary>
-    /// Gets the current module name from the current Activity, if available.
+    /// Gets the current module name from the current Activity or AsyncLocal context.
     /// </summary>
-    /// <returns>The module name, or null if no module activity is active.</returns>
+    /// <returns>The module name, or null if no module context is available.</returns>
+    /// <remarks>
+    /// This method first checks the Activity (for OpenTelemetry integration), then falls back
+    /// to the AsyncLocal context (AmbientModuleContext) which is always available during module execution.
+    /// </remarks>
     public static string? GetCurrentModuleName()
     {
-        return Activity.Current?.GetTagItem(ModuleTypeTag) as string;
+        // First try Activity (for OpenTelemetry integration)
+        var activityModuleName = Activity.Current?.GetTagItem(ModuleTypeTag) as string;
+        if (activityModuleName != null)
+        {
+            return activityModuleName;
+        }
+
+        // Fall back to AsyncLocal context (always available during module execution)
+        return AmbientModuleContext.CurrentModuleName;
     }
 
     /// <summary>

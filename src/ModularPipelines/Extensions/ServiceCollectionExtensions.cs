@@ -62,6 +62,9 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
+        // Track module type for auto-registration to find later
+        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+
         services.AddSingleton<IModule>(sp =>
             sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
         return new ModuleRegistrationBuilder(services, typeof(TModule));
@@ -95,6 +98,9 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
+        // Track module type for auto-registration to find later
+        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+
         services.AddSingleton<IModule>(tModule);
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
@@ -124,6 +130,9 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
+        // Track module type for auto-registration to find later
+        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+
         services.AddSingleton<IModule>(sp =>
         {
             // Set AsyncLocal context before invoking user's factory
@@ -260,13 +269,8 @@ public static class ServiceCollectionExtensions
             .Where(type => !type.IsGenericTypeDefinition) // Skip open generic types - DI cannot instantiate them
             .ToList();
 
-        // Get already registered module types from the service collection
-        var existingModuleTypes = services
-            .Where(sd => sd.ServiceType == typeof(IModule))
-            .Select(sd => sd.ImplementationType ?? sd.ImplementationInstance?.GetType())
-            .Where(t => t != null)
-            .Cast<Type>()
-            .ToList();
+        // Get already registered module types from ModuleRegistrationOptions
+        var existingModuleTypes = GetRegisteredModuleTypes(services);
 
         // Combine existing modules with new modules for cycle detection
         var allModuleTypes = existingModuleTypes.Concat(modules).Distinct().ToList();
@@ -276,13 +280,59 @@ public static class ServiceCollectionExtensions
 
         foreach (var moduleType in modules)
         {
-            // Capture moduleType in closure to avoid closure over loop variable
+            // Track module type for auto-registration to find later
             var capturedType = moduleType;
+            services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(capturedType));
+
             services.AddSingleton(typeof(IModule), sp =>
                 sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
         }
 
         return services;
+    }
+
+    /// <summary>
+    /// Gets all module types that have been registered via AddModule methods.
+    /// This reads from ModuleRegistrationOptions which tracks module types
+    /// even when factory delegates are used for registration.
+    /// </summary>
+    internal static HashSet<Type> GetRegisteredModuleTypes(IServiceCollection services)
+    {
+        var result = new HashSet<Type>();
+
+        // Find all Configure<ModuleRegistrationOptions> registrations and extract module types
+        foreach (var descriptor in services)
+        {
+            if (descriptor.ServiceType != typeof(Microsoft.Extensions.Options.IConfigureOptions<Options.ModuleRegistrationOptions>))
+            {
+                continue;
+            }
+
+            // The descriptor uses a factory, so we can't directly read the module types here.
+            // Instead, we need to build a temporary options instance to extract types.
+        }
+
+        // Alternative approach: Look at ModuleRegistrationOptions directly if already registered
+        // This is a simpler approach - build a temporary service provider to get the options
+        IServiceCollection tempServices = new ServiceCollection();
+        foreach (var descriptor in services.Where(d =>
+            d.ServiceType == typeof(Microsoft.Extensions.Options.IConfigureOptions<Options.ModuleRegistrationOptions>)))
+        {
+            tempServices.Add(descriptor);
+        }
+
+        if (tempServices.Count > 0)
+        {
+            tempServices.AddOptions<Options.ModuleRegistrationOptions>();
+            using var tempProvider = tempServices.BuildServiceProvider();
+            var options = tempProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<Options.ModuleRegistrationOptions>>().Value;
+            foreach (var moduleType in options.RegisteredModuleTypes.Keys)
+            {
+                result.Add(moduleType);
+            }
+        }
+
+        return result;
     }
 
     /// <summary>

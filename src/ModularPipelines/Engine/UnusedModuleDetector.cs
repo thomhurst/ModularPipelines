@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Extensions;
 using ModularPipelines.Helpers;
 using ModularPipelines.Modules;
 
@@ -23,10 +24,8 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
 
     public void Log()
     {
-        var registeredServices = _serviceContainerWrapper.ServiceCollection
-            .Where(x => x.ServiceType == typeof(IModule))
-            .Select(x => x.ImplementationType)
-            .ToHashSet();
+        // Use the centralized helper that works with factory-based registrations
+        var registeredServices = ServiceCollectionExtensions.GetRegisteredModuleTypes(_serviceContainerWrapper.ServiceCollection);
 
         var allDetectedModules = _assemblyLoadedTypesProvider.GetLoadedTypesAssignableTo(typeof(IModule));
 
@@ -34,12 +33,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
             .Except(registeredServices)
             .ToList();
 
-        var registeredModuleTypes = _serviceContainerWrapper.ServiceCollection
-            .Where(x => x.ServiceType == typeof(IModule) && x.ImplementationType != null)
-            .Select(x => x.ImplementationType!)
-            .ToList();
-
-        var unregisteredDependencies = registeredModuleTypes
+        var unregisteredDependencies = registeredServices
             .SelectMany(moduleType => moduleType.GetCustomAttributes(typeof(DependsOnAttribute), inherit: true)
                 .Cast<DependsOnAttribute>())
             .Where(attr => !attr.Optional)
