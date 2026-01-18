@@ -172,11 +172,9 @@ public class ModuleRegistrationApiTests : TestBase
         // Should find TrueModule, NullModule, and ExceptionModule (3 concrete non-generic modules)
         await Assert.That(moduleRegistrations.Count).IsGreaterThanOrEqualTo(3);
 
-        // Verify specific modules are registered
-        var registeredTypes = moduleRegistrations
-            .Select(sd => sd.ImplementationType)
-            .Where(t => t != null)
-            .ToList();
+        // Verify specific modules are registered using the centralized type tracking
+        // Note: ImplementationType is null for factory registrations, so we use GetRegisteredModuleTypes
+        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
 
         await Assert.That(registeredTypes).Contains(typeof(TrueModule));
         await Assert.That(registeredTypes).Contains(typeof(NullModule));
@@ -224,14 +222,11 @@ public class ModuleRegistrationApiTests : TestBase
         services.AddModulesFromAssembly(assembly);
 
         // Assert - open generics should NOT be registered
-        var registeredTypes = services
-            .Where(sd => sd.ServiceType == typeof(IModule))
-            .Select(sd => sd.ImplementationType)
-            .Where(t => t != null)
-            .ToList();
+        // Note: Use GetRegisteredModuleTypes since ImplementationType is null for factory registrations
+        var registeredTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
 
         // None of the registered types should be open generics
-        await Assert.That(registeredTypes.Any(t => t!.IsGenericTypeDefinition)).IsFalse();
+        await Assert.That(registeredTypes.Any(t => t.IsGenericTypeDefinition)).IsFalse();
     }
 
     #endregion

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using ModularPipelines.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -17,7 +18,7 @@ internal static class ModuleAutoRegistrar
     /// <param name="services">The service collection containing module registrations.</param>
     public static void AutoRegisterMissingDependencies(IServiceCollection services)
     {
-        var registeredModuleTypes = GetRegisteredModuleTypes(services);
+        var registeredModuleTypes = ServiceCollectionExtensions.GetRegisteredModuleTypes(services);
         var modulesToAdd = new HashSet<Type>();
 
         // Keep iterating until no new modules need to be added
@@ -62,21 +63,9 @@ internal static class ModuleAutoRegistrar
         // Register all discovered missing dependencies
         foreach (var moduleType in modulesToAdd)
         {
-            services.AddSingleton(typeof(IModule), moduleType);
+            // Use the standard AddModule pattern which handles tracking
+            services.AddModule(moduleType);
         }
-    }
-
-    /// <summary>
-    /// Gets all module types currently registered in the service collection.
-    /// </summary>
-    private static HashSet<Type> GetRegisteredModuleTypes(IServiceCollection services)
-    {
-        return services
-            .Where(sd => sd.ServiceType == typeof(IModule))
-            .Select(sd => sd.ImplementationType ?? sd.ImplementationInstance?.GetType())
-            .Where(t => t != null)
-            .Cast<Type>()
-            .ToHashSet();
     }
 
     /// <summary>

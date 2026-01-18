@@ -62,7 +62,11 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
-        services.AddSingleton<IModule, TModule>();
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
+
+        services.AddSingleton<IModule>(sp =>
+            sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
 
@@ -78,6 +82,12 @@ public static class ServiceCollectionExtensions
     /// This overload is useful when you need to pass constructor arguments to the module
     /// or when you want to share a module instance.
     /// </para>
+    /// <para>
+    /// <b>Note:</b> Since the module instance is pre-created, any logging performed during
+    /// construction will not have module context available. For full logging context support
+    /// during construction, use <see cref="AddModule{TModule}()"/> or
+    /// <see cref="AddModule{TModule}(IServiceCollection, Func{IServiceProvider, TModule})"/> instead.
+    /// </para>
     /// </remarks>
     /// <example>
     /// <code>
@@ -88,6 +98,9 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
+
         services.AddSingleton<IModule>(tModule);
         return new ModuleRegistrationBuilder(services, typeof(TModule));
     }
@@ -117,8 +130,46 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
-        services.AddSingleton<IModule>(tModuleFactory);
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
+
+        services.AddSingleton<IModule>(sp =>
+        {
+            // Set AsyncLocal context before invoking user's factory
+            var previousType = Logging.ModuleLogger.CurrentModuleType.Value;
+            Logging.ModuleLogger.CurrentModuleType.Value = typeof(TModule);
+
+            try
+            {
+                return tModuleFactory(sp);
+            }
+            finally
+            {
+                Logging.ModuleLogger.CurrentModuleType.Value = previousType;
+            }
+        });
         return new ModuleRegistrationBuilder(services, typeof(TModule));
+    }
+
+    /// <summary>
+    /// Adds a Module to the pipeline using a runtime type.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <param name="moduleType">The type of Module to add.</param>
+    /// <returns>The pipeline's same service collection.</returns>
+    /// <remarks>
+    /// This is an internal overload used by ModuleAutoRegistrar for auto-registration
+    /// of required dependencies discovered at runtime.
+    /// </remarks>
+    internal static IServiceCollection AddModule(this IServiceCollection services, Type moduleType)
+    {
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(moduleType);
+
+        services.AddSingleton(typeof(IModule), sp =>
+            sp.GetRequiredService<IModuleActivator>().CreateModule(moduleType, sp));
+
+        return services;
     }
 
     /// <summary>
@@ -239,13 +290,8 @@ public static class ServiceCollectionExtensions
             .Where(type => !type.IsGenericTypeDefinition) // Skip open generic types - DI cannot instantiate them
             .ToList();
 
-        // Get already registered module types from the service collection
-        var existingModuleTypes = services
-            .Where(sd => sd.ServiceType == typeof(IModule))
-            .Select(sd => sd.ImplementationType ?? sd.ImplementationInstance?.GetType())
-            .Where(t => t != null)
-            .Cast<Type>()
-            .ToList();
+        // Get already registered module types
+        var existingModuleTypes = GetRegisteredModuleTypes(services);
 
         // Combine existing modules with new modules for cycle detection
         var allModuleTypes = existingModuleTypes.Concat(modules).Distinct().ToList();
@@ -253,12 +299,48 @@ public static class ServiceCollectionExtensions
         // Validate for circular dependencies before registration
         DependencyGraphValidator.ValidateNoCycles(allModuleTypes);
 
-        foreach (var module in modules)
+        var holder = GetOrCreateModuleTypesHolder(services);
+        foreach (var moduleType in modules)
         {
-            services.AddSingleton(typeof(IModule), module);
+            // Track module type for auto-registration and unused module detection
+            holder.Add(moduleType);
+
+            // Capture moduleType in closure to avoid closure over loop variable
+            var capturedType = moduleType;
+            services.AddSingleton(typeof(IModule), sp =>
+                sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
         }
 
         return services;
+    }
+
+    /// <summary>
+    /// Gets all module types that have been registered via AddModule methods.
+    /// </summary>
+    internal static HashSet<Type> GetRegisteredModuleTypes(IServiceCollection services)
+    {
+        return GetOrCreateModuleTypesHolder(services).GetAll();
+    }
+
+    /// <summary>
+    /// Gets or creates the RegisteredModuleTypesHolder singleton in the service collection.
+    /// </summary>
+    private static RegisteredModuleTypesHolder GetOrCreateModuleTypesHolder(IServiceCollection services)
+    {
+        // Look for existing holder in service collection
+        var existingDescriptor = services.FirstOrDefault(d =>
+            d.ServiceType == typeof(RegisteredModuleTypesHolder) &&
+            d.ImplementationInstance != null);
+
+        if (existingDescriptor?.ImplementationInstance is RegisteredModuleTypesHolder existingHolder)
+        {
+            return existingHolder;
+        }
+
+        // Create new holder and register it
+        var holder = new RegisteredModuleTypesHolder();
+        services.AddSingleton(holder);
+        return holder;
     }
 
     /// <summary>
