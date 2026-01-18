@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanContainer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Attach(
-        PodmanContainerAttachOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerAttachOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerAttachOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Checkpoint(
-        PodmanContainerCheckpointOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCheckpointOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCheckpointOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cleanup(
-        PodmanContainerCleanupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCleanupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCleanupOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clone(
-        PodmanContainerCloneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCloneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCloneOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
-        PodmanContainerCommitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCommitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCommitOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cp(
-        PodmanContainerCpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCpOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        PodmanContainerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerCreateOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diff(
-        PodmanContainerDiffOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerDiffOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerDiffOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exec(
-        PodmanContainerExecOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerExecOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerExecOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        PodmanContainerExistsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerExistsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerExistsOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        PodmanContainerExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerExportOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Init(
-        PodmanContainerInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerInitOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        PodmanContainerInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerInspectOptions(), executionOptions, cancellationToken);
@@ -232,8 +232,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kill(
-        PodmanContainerKillOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerKillOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerKillOptions(), executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PodmanContainerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerListOptions(), executionOptions, cancellationToken);
@@ -262,8 +262,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
-        PodmanContainerLogsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerLogsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerLogsOptions(), executionOptions, cancellationToken);
@@ -277,8 +277,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mount(
-        PodmanContainerMountOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerMountOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerMountOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
-        PodmanContainerPauseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerPauseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerPauseOptions(), executionOptions, cancellationToken);
@@ -307,8 +307,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Port(
-        PodmanContainerPortOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerPortOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerPortOptions(), executionOptions, cancellationToken);
@@ -322,8 +322,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanContainerPruneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerPruneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerPruneOptions(), executionOptions, cancellationToken);
@@ -337,8 +337,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ps(
-        PodmanContainerPsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerPsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerPsOptions(), executionOptions, cancellationToken);
@@ -352,8 +352,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        PodmanContainerRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerRestartOptions(), executionOptions, cancellationToken);
@@ -367,8 +367,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        PodmanContainerRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerRestoreOptions(), executionOptions, cancellationToken);
@@ -382,8 +382,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PodmanContainerRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerRmOptions(), executionOptions, cancellationToken);
@@ -397,8 +397,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Runlabel(
-        PodmanContainerRunlabelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerRunlabelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerRunlabelOptions(), executionOptions, cancellationToken);
@@ -412,8 +412,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        PodmanContainerRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerRunOptions(), executionOptions, cancellationToken);
@@ -427,8 +427,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        PodmanContainerStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerStartOptions(), executionOptions, cancellationToken);
@@ -442,8 +442,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stats(
-        PodmanContainerStatsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerStatsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerStatsOptions(), executionOptions, cancellationToken);
@@ -457,8 +457,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        PodmanContainerStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerStopOptions(), executionOptions, cancellationToken);
@@ -472,8 +472,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Top(
-        PodmanContainerTopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerTopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerTopOptions(), executionOptions, cancellationToken);
@@ -487,8 +487,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unmount(
-        PodmanContainerUnmountOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerUnmountOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerUnmountOptions(), executionOptions, cancellationToken);
@@ -502,8 +502,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unpause(
-        PodmanContainerUnpauseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerUnpauseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerUnpauseOptions(), executionOptions, cancellationToken);
@@ -517,8 +517,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        PodmanContainerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerUpdateOptions(), executionOptions, cancellationToken);
@@ -532,8 +532,8 @@ public class PodmanContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        PodmanContainerWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanContainerWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanContainerWaitOptions(), executionOptions, cancellationToken);

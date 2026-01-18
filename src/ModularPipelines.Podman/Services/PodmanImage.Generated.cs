@@ -14,11 +14,11 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanImage
 {
     private readonly ICommand _command;
-    private PodmanImageTrust? _trust;
+    private PodmanImageTrust _trust;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PodmanImage"/> class.
@@ -47,8 +47,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        PodmanImageBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageBuildOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diff(
-        PodmanImageDiffOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageDiffOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageDiffOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> History(
-        PodmanImageHistoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageHistoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageHistoryOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        PodmanImageImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageImportOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        PodmanImageInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageInspectOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PodmanImageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        PodmanImageLoadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageLoadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageLoadOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mount(
-        PodmanImageMountOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageMountOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageMountOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanImagePruneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImagePruneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImagePruneOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        PodmanImagePullOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImagePullOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImagePullOptions(), executionOptions, cancellationToken);
@@ -197,8 +197,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        PodmanImagePushOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImagePushOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImagePushOptions(), executionOptions, cancellationToken);
@@ -212,8 +212,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PodmanImageRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageRmOptions(), executionOptions, cancellationToken);
@@ -227,8 +227,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Save(
-        PodmanImageSaveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageSaveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageSaveOptions(), executionOptions, cancellationToken);
@@ -242,8 +242,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        PodmanImageScpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageScpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageScpOptions(), executionOptions, cancellationToken);
@@ -257,8 +257,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        PodmanImageSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageSearchOptions(), executionOptions, cancellationToken);
@@ -272,8 +272,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sign(
-        PodmanImageSignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageSignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageSignOptions(), executionOptions, cancellationToken);
@@ -287,8 +287,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tree(
-        PodmanImageTreeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageTreeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageTreeOptions(), executionOptions, cancellationToken);
@@ -302,8 +302,8 @@ public class PodmanImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unmount(
-        PodmanImageUnmountOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageUnmountOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageUnmountOptions(), executionOptions, cancellationToken);

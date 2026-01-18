@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman kube commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanKube
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        PodmanKubeApplyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanKubeApplyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeApplyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Down(
-        PodmanKubeDownOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanKubeDownOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeDownOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        PodmanKubeGenerateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanKubeGenerateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubeGenerateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PodmanKube
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Play(
-        PodmanKubePlayOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanKubePlayOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanKubePlayOptions(), executionOptions, cancellationToken);
