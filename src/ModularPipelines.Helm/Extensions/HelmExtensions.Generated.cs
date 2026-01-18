@@ -16,7 +16,7 @@ namespace ModularPipelines.Helm.Extensions;
 /// <summary>
 /// Generated extensions for registering helm services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public static class HelmExtensions
 {
 #pragma warning disable CA2255

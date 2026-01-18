@@ -14,7 +14,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm registry commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class HelmRegistry
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmRegistryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmRegistryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Login(
-        HelmRegistryLoginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmRegistryLoginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryLoginOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class HelmRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logout(
-        HelmRegistryLogoutOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmRegistryLogoutOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmRegistryLogoutOptions(), executionOptions, cancellationToken);

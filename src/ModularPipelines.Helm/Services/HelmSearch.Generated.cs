@@ -14,7 +14,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm search commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class HelmSearch
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class HelmSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmSearchOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class HelmSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hub(
-        HelmSearchHubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmSearchHubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmSearchHubOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class HelmSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repo(
-        HelmSearchRepoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmSearchRepoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmSearchRepoOptions(), executionOptions, cancellationToken);
