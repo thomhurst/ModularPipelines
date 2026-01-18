@@ -14,7 +14,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi tag commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiEnvTag
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        PulumiEnvTagGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiEnvTagGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagGetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PulumiEnvTagLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiEnvTagLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagLsOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mv(
-        PulumiEnvTagMvOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiEnvTagMvOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagMvOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PulumiEnvTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PulumiEnvTagRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiEnvTagRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiEnvTagRmOptions(), executionOptions, cancellationToken);

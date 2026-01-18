@@ -14,7 +14,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi project commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiProject
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PulumiProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiProjectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiProjectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiProjectOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PulumiProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PulumiProjectLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiProjectLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiProjectLsOptions(), executionOptions, cancellationToken);

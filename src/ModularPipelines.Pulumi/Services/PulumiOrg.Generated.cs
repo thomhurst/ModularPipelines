@@ -14,11 +14,11 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi org commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiOrg
 {
     private readonly ICommand _command;
-    private PulumiOrgSearch? _search;
+    private PulumiOrgSearch _search;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PulumiOrg"/> class.
@@ -47,8 +47,8 @@ public class PulumiOrg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiOrgOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiOrgOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiOrgOptions(), executionOptions, cancellationToken);
