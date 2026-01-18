@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Work with Pulumi packages
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("package")]
 public record PulumiPackageOptions : PulumiOptions

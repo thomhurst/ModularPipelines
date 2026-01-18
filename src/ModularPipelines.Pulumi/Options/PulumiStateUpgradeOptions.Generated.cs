@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Migrates the current backend to the latest supported version
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("state", "upgrade")]
 public record PulumiStateUpgradeOptions : PulumiOptions

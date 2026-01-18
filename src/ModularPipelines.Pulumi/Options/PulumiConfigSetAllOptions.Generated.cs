@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// pulumi set-all allows you to set multiple configuration values in one command.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("config", "set-all")]
 public record PulumiConfigSetAllOptions : PulumiOptions

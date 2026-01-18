@@ -15,7 +15,7 @@ namespace ModularPipelines.Pulumi.Options;
 /// <summary>
 /// Removes a Policy Pack from a Pulumi organization. The Policy Pack must be disabled from all Policy Groups before it can be removed.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("policy", "rm")]
 public record PulumiPolicyRmOptions : PulumiOptions
