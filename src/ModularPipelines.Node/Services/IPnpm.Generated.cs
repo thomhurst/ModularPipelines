@@ -13,7 +13,7 @@ namespace ModularPipelines.Node.Services;
 /// <summary>
 /// Generated interface for pnpm CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IPnpm
 {
     #region Commands
@@ -25,7 +25,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Add(PnpmAddOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Add(PnpmAddOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Checks for known security issues with the installed packages.
@@ -34,7 +34,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Audit(PnpmAuditOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Audit(PnpmAuditOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a project from a `create-*` starter kit.
@@ -43,7 +43,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Create(PnpmCreateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Create(PnpmCreateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run a package in a temporary environment.
@@ -52,7 +52,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Dlx(PnpmDlxOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dlx(PnpmDlxOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a package.json file
@@ -61,7 +61,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Init(PnpmInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Init(PnpmInitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Publishes a package to the npm registry.
@@ -70,7 +70,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Publish(PnpmPublishOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Publish(PnpmPublishOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Alias: run-script
@@ -79,7 +79,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Run(PnpmRunOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Run(PnpmRunOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Alias: dislink
@@ -88,7 +88,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unlink(PnpmUnlinkOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Unlink(PnpmUnlinkOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Shows the packages that depend on &lt;pkg&gt;
@@ -97,7 +97,7 @@ public partial interface IPnpm
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Why(PnpmWhyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Why(PnpmWhyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
