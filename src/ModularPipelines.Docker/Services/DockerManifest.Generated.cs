@@ -14,7 +14,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker manifest commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerManifest
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DockerManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerManifestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerManifestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DockerManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Annotate(
-        DockerManifestAnnotateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerManifestAnnotateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestAnnotateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class DockerManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerManifestCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerManifestCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class DockerManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerManifestInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerManifestInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestInspectOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class DockerManifest
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        DockerManifestPushOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerManifestPushOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerManifestPushOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker trust commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerTrust
 {
     private readonly ICommand _command;
-    private DockerTrustKey? _key;
-    private DockerTrustSigner? _signer;
+    private DockerTrustKey _key;
+    private DockerTrustSigner _signer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerTrust"/> class.
@@ -53,8 +53,8 @@ public class DockerTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerTrustOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerTrustOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class DockerTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerTrustInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerTrustInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustInspectOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class DockerTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Revoke(
-        DockerTrustRevokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerTrustRevokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustRevokeOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class DockerTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sign(
-        DockerTrustSignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerTrustSignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerTrustSignOptions(), executionOptions, cancellationToken);

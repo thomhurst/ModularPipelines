@@ -14,7 +14,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker context commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerContext
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerContextOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerContextCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerContextInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextInspectOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerContextLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextLsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerContextRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextRmOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class DockerContext
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        DockerContextUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerContextUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerContextUpdateOptions(), executionOptions, cancellationToken);

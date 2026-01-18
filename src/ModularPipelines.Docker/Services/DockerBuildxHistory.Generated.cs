@@ -14,11 +14,11 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker history commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuildxHistory
 {
     private readonly ICommand _command;
-    private DockerBuildxHistoryInspect? _inspect;
+    private DockerBuildxHistoryInspect _inspect;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildxHistory"/> class.
@@ -47,8 +47,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        DockerBuildxHistoryExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryExportOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        DockerBuildxHistoryImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryImportOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Logs(
-        DockerBuildxHistoryLogsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryLogsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryLogsOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerBuildxHistoryLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryLsOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Open(
-        DockerBuildxHistoryOpenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryOpenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryOpenOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerBuildxHistoryRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryRmOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class DockerBuildxHistory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Trace(
-        DockerBuildxHistoryTraceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxHistoryTraceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxHistoryTraceOptions(), executionOptions, cancellationToken);
