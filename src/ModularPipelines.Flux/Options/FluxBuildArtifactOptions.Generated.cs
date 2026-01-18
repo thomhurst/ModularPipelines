@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The build artifact command creates a tgz file with the manifests
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("build", "artifact")]
 public record FluxBuildArtifactOptions : FluxOptions

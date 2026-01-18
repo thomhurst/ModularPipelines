@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The create tenant command generates namespaces, service accounts and role bindings to limit the
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "tenant")]
 public record FluxCreateTenantOptions : FluxOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The export artifact generator command exports one or all ArtifactGenerator resources in YAML format.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("export", "artifact", "generator")]
 public record FluxExportArtifactGeneratorOptions : FluxOptions

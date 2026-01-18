@@ -16,7 +16,7 @@ namespace ModularPipelines.Flux.Options;
 /// <summary>
 /// The create source chart command generates a HelmChart resource and waits for the chart to be available.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("create", "source", "chart")]
 public record FluxCreateSourceChartOptions : FluxOptions
