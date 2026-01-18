@@ -14,12 +14,12 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux resume commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxResume
 {
     private readonly ICommand _command;
-    private FluxResumeImage? _image;
-    private FluxResumeSource? _source;
+    private FluxResumeImage _image;
+    private FluxResumeSource _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxResume"/> class.
@@ -53,8 +53,8 @@ public class FluxResume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxResumeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class FluxResume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alert(
-        FluxResumeAlertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeAlertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeAlertOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class FluxResume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmrelease(
-        FluxResumeHelmreleaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeHelmreleaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeHelmreleaseOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class FluxResume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomization(
-        FluxResumeKustomizationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeKustomizationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeKustomizationOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class FluxResume
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxResumeReceiverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeReceiverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeReceiverOptions(), executionOptions, cancellationToken);

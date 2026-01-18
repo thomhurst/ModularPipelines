@@ -14,13 +14,13 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux export commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxExport
 {
     private readonly ICommand _command;
-    private FluxExportArtifact? _artifact;
-    private FluxExportImage? _image;
-    private FluxExportSource? _source;
+    private FluxExportArtifact _artifact;
+    private FluxExportImage _image;
+    private FluxExportSource _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxExport"/> class.
@@ -59,8 +59,8 @@ public class FluxExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class FluxExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alert(
-        FluxExportAlertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportAlertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportAlertOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class FluxExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmrelease(
-        FluxExportHelmreleaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportHelmreleaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportHelmreleaseOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class FluxExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomization(
-        FluxExportKustomizationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportKustomizationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportKustomizationOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class FluxExport
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxExportReceiverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportReceiverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportReceiverOptions(), executionOptions, cancellationToken);

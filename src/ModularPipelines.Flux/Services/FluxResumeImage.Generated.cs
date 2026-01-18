@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxResumeImage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxResumeImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxResumeImagePolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeImagePolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeImagePolicyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxResumeImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxResumeImageRepositoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeImageRepositoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxResumeImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxResumeImageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeImageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeImageUpdateOptions(), executionOptions, cancellationToken);

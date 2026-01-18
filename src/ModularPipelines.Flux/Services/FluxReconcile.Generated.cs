@@ -14,12 +14,12 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux reconcile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxReconcile
 {
     private readonly ICommand _command;
-    private FluxReconcileImage? _image;
-    private FluxReconcileSource? _source;
+    private FluxReconcileImage _image;
+    private FluxReconcileSource _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxReconcile"/> class.
@@ -53,8 +53,8 @@ public class FluxReconcile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxReconcileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class FluxReconcile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmrelease(
-        FluxReconcileHelmreleaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileHelmreleaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileHelmreleaseOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class FluxReconcile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxReconcileReceiverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileReceiverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileReceiverOptions(), executionOptions, cancellationToken);

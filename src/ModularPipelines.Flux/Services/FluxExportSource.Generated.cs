@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux source commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxExportSource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxExportSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bucket(
-        FluxExportSourceBucketOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportSourceBucketOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceBucketOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxExportSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Chart(
-        FluxExportSourceChartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportSourceChartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceChartOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxExportSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxExportSourceGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportSourceGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceGitOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class FluxExportSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helm(
-        FluxExportSourceHelmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportSourceHelmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceHelmOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class FluxExportSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oci(
-        FluxExportSourceOciOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportSourceOciOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceOciOptions(), executionOptions, cancellationToken);

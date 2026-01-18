@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxSuspendImage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxSuspendImagePolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxSuspendImagePolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImagePolicyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxSuspendImageRepositoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxSuspendImageRepositoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxSuspendImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxSuspendImageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxSuspendImageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxSuspendImageUpdateOptions(), executionOptions, cancellationToken);

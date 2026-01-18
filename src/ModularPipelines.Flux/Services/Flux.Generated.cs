@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// Generated implementation for flux CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Flux : IFlux
 {
     private readonly ICommand _command;
@@ -117,8 +117,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Check(
-        FluxCheckOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCheckOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCheckOptions(), executionOptions, cancellationToken);
@@ -126,8 +126,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Envsubst(
-        FluxEnvsubstOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxEnvsubstOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxEnvsubstOptions(), executionOptions, cancellationToken);
@@ -135,8 +135,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Events(
-        FluxEventsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxEventsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxEventsOptions(), executionOptions, cancellationToken);
@@ -144,8 +144,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        FluxInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxInstallOptions(), executionOptions, cancellationToken);
@@ -153,8 +153,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logs(
-        FluxLogsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxLogsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxLogsOptions(), executionOptions, cancellationToken);
@@ -162,8 +162,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Migrate(
-        FluxMigrateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxMigrateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxMigrateOptions(), executionOptions, cancellationToken);
@@ -171,8 +171,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stats(
-        FluxStatsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxStatsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxStatsOptions(), executionOptions, cancellationToken);
@@ -180,8 +180,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Trace(
-        FluxTraceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxTraceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTraceOptions(), executionOptions, cancellationToken);
@@ -189,8 +189,8 @@ internal partial class Flux : IFlux
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
-        FluxUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxUninstallOptions(), executionOptions, cancellationToken);

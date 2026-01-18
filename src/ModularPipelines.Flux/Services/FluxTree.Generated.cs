@@ -14,11 +14,11 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux tree commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxTree
 {
     private readonly ICommand _command;
-    private FluxTreeArtifact? _artifact;
+    private FluxTreeArtifact _artifact;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxTree"/> class.
@@ -47,8 +47,8 @@ public class FluxTree
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxTreeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxTreeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxTreeOptions(), executionOptions, cancellationToken);
