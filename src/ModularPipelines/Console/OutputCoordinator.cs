@@ -8,7 +8,7 @@ namespace ModularPipelines.Console;
 /// Coordinates immediate flushing of module output with FIFO ordering and synchronization.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
+internal sealed class OutputCoordinator : IOutputCoordinator
 {
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
@@ -60,17 +60,31 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
     /// <inheritdoc />
     public void SetProgressActive(bool isActive)
     {
-        if (isActive)
+        lock (_deferredLock)
         {
-            // Starting a new progress session - check for stale deferred outputs
-            // from a previous run that crashed before FlushDeferredAsync was called
-            lock (_deferredLock)
+            if (isActive)
             {
+                // Starting a new progress session - check for stale deferred outputs
+                // from a previous run that crashed before FlushDeferredAsync was called
                 if (_deferredOutputs.Count > 0)
                 {
                     _logger.LogWarning(
                         "Found {Count} stale deferred outputs from a previous pipeline run. " +
                         "This indicates FlushDeferredAsync was not called. Clearing to prevent memory leak.",
+                        _deferredOutputs.Count);
+                    _deferredOutputs.Clear();
+                }
+            }
+            else
+            {
+                // Progress ending - clean up any remaining deferred outputs that weren't flushed
+                // This handles cancellation scenarios where FlushDeferredAsync wasn't called
+                if (_deferredOutputs.Count > 0)
+                {
+                    _logger.LogWarning(
+                        "Progress ended with {Count} unflushed deferred outputs. " +
+                        "This indicates FlushDeferredAsync was not called (possibly due to cancellation). " +
+                        "Clearing to prevent memory leak.",
                         _deferredOutputs.Count);
                     _deferredOutputs.Clear();
                 }
@@ -267,34 +281,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
         public PendingFlush(IModuleOutputBuffer buffer)
         {
             Buffer = buffer;
-        }
-    }
-
-    /// <summary>
-    /// Safety net: flushes any remaining deferred output on disposal.
-    /// </summary>
-    /// <remarks>
-    /// <para>
-    /// This is a defensive measure - the primary flush happens in
-    /// <see cref="Engine.Executors.PipelineOutputCoordinator.PipelineOutputScope.DisposeAsync"/>
-    /// which explicitly calls <see cref="FlushDeferredAsync"/> after progress ends.
-    /// </para>
-    /// <para>
-    /// This safety net handles edge cases where the normal flush sequence is interrupted
-    /// (e.g., due to exceptions or abnormal termination). Note that this requires the
-    /// DI container to be disposed via <c>DisposeAsync()</c> - synchronous disposal
-    /// may not trigger this method.
-    /// </para>
-    /// </remarks>
-    public async ValueTask DisposeAsync()
-    {
-        try
-        {
-            await FlushDeferredAsync(CancellationToken.None).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Failed to flush deferred output during disposal");
         }
     }
 }
