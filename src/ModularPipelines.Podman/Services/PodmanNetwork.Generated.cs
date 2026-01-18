@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman network commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanNetwork
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
-        PodmanNetworkConnectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkConnectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkConnectOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        PodmanNetworkCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disconnect(
-        PodmanNetworkDisconnectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkDisconnectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkDisconnectOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        PodmanNetworkInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkInspectOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PodmanNetworkLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkLsOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        PodmanNetworkPruneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkPruneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkPruneOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reload(
-        PodmanNetworkReloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkReloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkReloadOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PodmanNetworkRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkRmOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class PodmanNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        PodmanNetworkUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanNetworkUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanNetworkUpdateOptions(), executionOptions, cancellationToken);

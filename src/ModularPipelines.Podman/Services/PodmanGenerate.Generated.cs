@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman generate commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanGenerate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kube(
-        PodmanGenerateKubeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanGenerateKubeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateKubeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Spec(
-        PodmanGenerateSpecOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanGenerateSpecOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateSpecOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanGenerate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Systemd(
-        PodmanGenerateSystemdOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanGenerateSystemdOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanGenerateSystemdOptions(), executionOptions, cancellationToken);

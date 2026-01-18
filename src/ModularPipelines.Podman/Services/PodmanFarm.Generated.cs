@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman farm commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanFarm
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanFarm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        PodmanFarmBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanFarmBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanFarmBuildOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanFarm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        PodmanFarmCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanFarmCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanFarmCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanFarm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PodmanFarmListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanFarmListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanFarmListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PodmanFarm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PodmanFarmRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanFarmRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanFarmRemoveOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class PodmanFarm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        PodmanFarmUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanFarmUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanFarmUpdateOptions(), executionOptions, cancellationToken);

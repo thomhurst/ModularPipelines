@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman trust commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanImageTrust
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanImageTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        PodmanImageTrustSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageTrustSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageTrustSetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanImageTrust
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        PodmanImageTrustShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanImageTrustShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanImageTrustShowOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Podman.Services;
 /// <summary>
 /// podman connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PodmanSystemConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        PodmanSystemConnectionAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanSystemConnectionAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        PodmanSystemConnectionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanSystemConnectionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PodmanSystemConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        PodmanSystemConnectionRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PodmanSystemConnectionRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PodmanSystemConnectionRemoveOptions(), executionOptions, cancellationToken);
