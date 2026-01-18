@@ -14,7 +14,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm get commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class HelmGet
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
-        HelmGetAllOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetAllOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetAllOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Hooks(
-        HelmGetHooksOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetHooksOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetHooksOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Manifest(
-        HelmGetManifestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetManifestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetManifestOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Metadata(
-        HelmGetMetadataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetMetadataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetMetadataOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Notes(
-        HelmGetNotesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetNotesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetNotesOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class HelmGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Values(
-        HelmGetValuesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmGetValuesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmGetValuesOptions(), executionOptions, cancellationToken);

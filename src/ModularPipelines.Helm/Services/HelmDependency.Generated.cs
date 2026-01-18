@@ -14,7 +14,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm dependency commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class HelmDependency
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmDependencyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmDependencyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        HelmDependencyBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmDependencyBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyBuildOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        HelmDependencyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmDependencyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class HelmDependency
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        HelmDependencyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmDependencyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmDependencyUpdateOptions(), executionOptions, cancellationToken);

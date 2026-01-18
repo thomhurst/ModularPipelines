@@ -14,7 +14,7 @@ namespace ModularPipelines.Helm.Services;
 /// <summary>
 /// helm plugin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class HelmPlugin
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class HelmPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        HelmPluginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmPluginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPluginOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class HelmPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        HelmPluginInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmPluginInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPluginInstallOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class HelmPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        HelmPluginListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmPluginListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPluginListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class HelmPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Uninstall(
-        HelmPluginUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmPluginUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPluginUninstallOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class HelmPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        HelmPluginUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        HelmPluginUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new HelmPluginUpdateOptions(), executionOptions, cancellationToken);
