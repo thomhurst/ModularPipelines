@@ -14,7 +14,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// kind build commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KindBuild
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KindBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindBuildOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KindBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NodeImage(
-        KindBuildNodeImageOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindBuildNodeImageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindBuildNodeImageOptions(), executionOptions, cancellationToken);

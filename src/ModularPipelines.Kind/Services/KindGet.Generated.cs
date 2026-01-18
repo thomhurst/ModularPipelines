@@ -14,7 +14,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// kind get commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KindGet
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clusters(
-        KindGetClustersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindGetClustersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetClustersOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kubeconfig(
-        KindGetKubeconfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindGetKubeconfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetKubeconfigOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class KindGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Nodes(
-        KindGetNodesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindGetNodesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindGetNodesOptions(), executionOptions, cancellationToken);

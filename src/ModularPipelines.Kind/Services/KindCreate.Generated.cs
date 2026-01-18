@@ -14,7 +14,7 @@ namespace ModularPipelines.Kind.Services;
 /// <summary>
 /// kind create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class KindCreate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class KindCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        KindCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class KindCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cluster(
-        KindCreateClusterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        KindCreateClusterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new KindCreateClusterOptions(), executionOptions, cancellationToken);
