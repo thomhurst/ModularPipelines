@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud connectors commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudManagedkafkaConnectors
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudManagedKafkaConnectorsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudManagedKafkaConnectorsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudManagedKafkaConnectorsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudManagedKafkaConnectorsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
-        GcloudManagedKafkaConnectorsPauseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsPauseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsPauseOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        GcloudManagedKafkaConnectorsRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsRestartOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        GcloudManagedKafkaConnectorsResumeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsResumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsResumeOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudManagedKafkaConnectorsStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsStopOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudManagedkafkaConnectors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudManagedKafkaConnectorsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudManagedKafkaConnectorsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudManagedKafkaConnectorsUpdateOptions(), executionOptions, cancellationToken);

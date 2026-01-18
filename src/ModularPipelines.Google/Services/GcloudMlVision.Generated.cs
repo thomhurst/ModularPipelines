@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vision commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMlVision
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectDocument(
         GcloudMlVisionDetectDocumentOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectFaces(
         GcloudMlVisionDetectFacesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectImageProperties(
         GcloudMlVisionDetectImagePropertiesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectLabels(
         GcloudMlVisionDetectLabelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectLandmarks(
         GcloudMlVisionDetectLandmarksOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectLogos(
         GcloudMlVisionDetectLogosOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectObjects(
         GcloudMlVisionDetectObjectsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectSafeSearch(
         GcloudMlVisionDetectSafeSearchOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -158,7 +158,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectText(
         GcloudMlVisionDetectTextOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectTextPdf(
         GcloudMlVisionDetectTextPdfOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,7 +188,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectTextTiff(
         GcloudMlVisionDetectTextTiffOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectWeb(
         GcloudMlVisionDetectWebOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -218,7 +218,7 @@ public class GcloudMlVision
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SuggestCrop(
         GcloudMlVisionSuggestCropOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud linked-router-appliances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkconnectivitySpokesLinkedRouterAppliances
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworkconnectivitySpokesLinkedRouterAppliances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedRouterAppliancesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworkconnectivitySpokesLinkedRouterAppliances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivitySpokesLinkedRouterAppliancesUpdateOptions(), executionOptions, cancellationToken);

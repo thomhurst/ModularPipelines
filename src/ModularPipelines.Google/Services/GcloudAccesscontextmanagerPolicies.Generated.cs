@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAccesscontextmanagerPolicies
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudAccessContextManagerPoliciesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerPoliciesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerPoliciesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerPoliciesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudAccessContextManagerPoliciesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudAccessContextManagerPoliciesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudAccesscontextmanagerPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudAccessContextManagerPoliciesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudAccesscontextmanagerPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerPoliciesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPoliciesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPoliciesUpdateOptions(), executionOptions, cancellationToken);

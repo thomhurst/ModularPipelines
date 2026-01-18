@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud associations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeFirewallPoliciesAssociations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeFirewallPoliciesAssociationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeFirewallPoliciesAssociationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeFirewallPoliciesAssociationsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeFirewallPoliciesAssociationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeFirewallPoliciesAssociationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeFirewallPoliciesAssociationsListOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud tls-inspection-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecurityTlsInspectionPolicies
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworksecurityTlsInspectionPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityTlsInspectionPoliciesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityTlsInspectionPoliciesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworksecurityTlsInspectionPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudNetworkSecurityTlsInspectionPoliciesExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityTlsInspectionPoliciesExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesExportOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetworksecurityTlsInspectionPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudNetworkSecurityTlsInspectionPoliciesImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityTlsInspectionPoliciesImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesImportOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetworksecurityTlsInspectionPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityTlsInspectionPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityTlsInspectionPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityTlsInspectionPoliciesListOptions(), executionOptions, cancellationToken);

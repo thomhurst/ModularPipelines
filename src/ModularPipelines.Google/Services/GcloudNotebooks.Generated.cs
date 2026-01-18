@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud notebooks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNotebooks
 {
     private readonly ICommand _command;
-    private GcloudNotebooksEnvironments? _environments;
-    private GcloudNotebooksInstances? _instances;
-    private GcloudNotebooksLocations? _locations;
-    private GcloudNotebooksRuntimes? _runtimes;
+    private GcloudNotebooksEnvironments _environments;
+    private GcloudNotebooksInstances _instances;
+    private GcloudNotebooksLocations _locations;
+    private GcloudNotebooksRuntimes _runtimes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNotebooks"/> class.
@@ -65,8 +65,8 @@ public class GcloudNotebooks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudNotebooksOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksOptions(), executionOptions, cancellationToken);

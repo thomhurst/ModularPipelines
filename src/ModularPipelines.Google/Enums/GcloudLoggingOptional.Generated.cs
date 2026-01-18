@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --loggingoptional.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudLoggingOptional
 {
     [Description("EXCLUDE_ALL_OPTIONAL")]

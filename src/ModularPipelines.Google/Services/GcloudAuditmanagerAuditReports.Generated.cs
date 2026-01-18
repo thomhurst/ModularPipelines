@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud audit-reports commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAuditmanagerAuditReports
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAuditmanagerAuditReports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        GcloudAuditManagerAuditReportsGenerateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAuditManagerAuditReportsGenerateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAuditManagerAuditReportsGenerateOptions(), executionOptions, cancellationToken);

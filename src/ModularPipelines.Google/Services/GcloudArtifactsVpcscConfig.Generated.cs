@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud vpcsc-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudArtifactsVpcscConfig
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Allow(
-        GcloudArtifactsVpcscConfigAllowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsVpcscConfigAllowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigAllowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deny(
-        GcloudArtifactsVpcscConfigDenyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsVpcscConfigDenyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDenyOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudArtifactsVpcscConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsVpcscConfigDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsVpcscConfigDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsVpcscConfigDescribeOptions(), executionOptions, cancellationToken);

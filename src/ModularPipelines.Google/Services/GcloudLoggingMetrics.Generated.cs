@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud metrics commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLoggingMetrics
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudLoggingMetrics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudLoggingMetricsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudLoggingMetrics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingMetricsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudLoggingMetrics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudLoggingMetricsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudLoggingMetrics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingMetricsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingMetricsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingMetricsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudLoggingMetrics
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudLoggingMetricsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

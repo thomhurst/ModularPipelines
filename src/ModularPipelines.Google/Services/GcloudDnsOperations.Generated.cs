@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsOperations
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDnsOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDnsOperationsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDnsOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDnsOperationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsOperationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsOperationsListOptions(), executionOptions, cancellationToken);

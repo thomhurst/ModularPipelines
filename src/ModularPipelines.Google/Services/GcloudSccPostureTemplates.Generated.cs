@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud posture-templates commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSccPostureTemplates
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSccPostureTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSccPostureTemplatesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccPostureTemplatesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureTemplatesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSccPostureTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSccPostureTemplatesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccPostureTemplatesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccPostureTemplatesListOptions(), executionOptions, cancellationToken);

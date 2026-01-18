@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ddl commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSpannerDatabasesDdl
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSpannerDatabasesDdl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSpannerDatabasesDdlDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerDatabasesDdlDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDdlDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSpannerDatabasesDdl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSpannerDatabasesDdlUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerDatabasesDdlUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerDatabasesDdlUpdateOptions(), executionOptions, cancellationToken);

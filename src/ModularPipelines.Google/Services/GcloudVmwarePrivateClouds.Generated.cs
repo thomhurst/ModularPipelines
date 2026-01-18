@@ -14,20 +14,20 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud private-clouds commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateClouds
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsClusters? _clusters;
-    private GcloudVmwarePrivateCloudsDnsForwarding? _dnsForwarding;
-    private GcloudVmwarePrivateCloudsExternalAddresses? _externalAddresses;
-    private GcloudVmwarePrivateCloudsHcx? _hcx;
-    private GcloudVmwarePrivateCloudsLoggingServers? _loggingServers;
-    private GcloudVmwarePrivateCloudsManagementDnsZoneBindings? _managementDnsZoneBindings;
-    private GcloudVmwarePrivateCloudsNsx? _nsx;
-    private GcloudVmwarePrivateCloudsSubnets? _subnets;
-    private GcloudVmwarePrivateCloudsUpgrades? _upgrades;
-    private GcloudVmwarePrivateCloudsVcenter? _vcenter;
+    private GcloudVmwarePrivateCloudsClusters _clusters;
+    private GcloudVmwarePrivateCloudsDnsForwarding _dnsForwarding;
+    private GcloudVmwarePrivateCloudsExternalAddresses _externalAddresses;
+    private GcloudVmwarePrivateCloudsHcx _hcx;
+    private GcloudVmwarePrivateCloudsLoggingServers _loggingServers;
+    private GcloudVmwarePrivateCloudsManagementDnsZoneBindings _managementDnsZoneBindings;
+    private GcloudVmwarePrivateCloudsNsx _nsx;
+    private GcloudVmwarePrivateCloudsSubnets _subnets;
+    private GcloudVmwarePrivateCloudsUpgrades _upgrades;
+    private GcloudVmwarePrivateCloudsVcenter _vcenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateClouds"/> class.
@@ -101,8 +101,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsCreateOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteNow(
-        GcloudVmwarePrivateCloudsDeleteNowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsDeleteNowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteNowOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDeleteOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsDescribeOptions(), executionOptions, cancellationToken);
@@ -161,8 +161,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsListOptions(), executionOptions, cancellationToken);
@@ -176,8 +176,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        GcloudVmwarePrivateCloudsUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUndeleteOptions(), executionOptions, cancellationToken);
@@ -191,8 +191,8 @@ public class GcloudVmwarePrivateClouds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsUpdateOptions(), executionOptions, cancellationToken);

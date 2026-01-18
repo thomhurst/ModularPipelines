@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud config-management commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHubConfigManagement
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerHubConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubConfigManagementDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubConfigManagementDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerHubConfigManagement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubConfigManagementDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubConfigManagementDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubConfigManagementDisableOptions(), executionOptions, cancellationToken);

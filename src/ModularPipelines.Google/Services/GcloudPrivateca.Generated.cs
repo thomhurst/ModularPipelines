@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud privateca commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPrivateca
 {
     private readonly ICommand _command;
-    private GcloudPrivatecaCertificates? _certificates;
-    private GcloudPrivatecaLocations? _locations;
-    private GcloudPrivatecaPools? _pools;
-    private GcloudPrivatecaRoots? _roots;
-    private GcloudPrivatecaSubordinates? _subordinates;
-    private GcloudPrivatecaTemplates? _templates;
+    private GcloudPrivatecaCertificates _certificates;
+    private GcloudPrivatecaLocations _locations;
+    private GcloudPrivatecaPools _pools;
+    private GcloudPrivatecaRoots _roots;
+    private GcloudPrivatecaSubordinates _subordinates;
+    private GcloudPrivatecaTemplates _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPrivateca"/> class.
@@ -77,8 +77,8 @@ public class GcloudPrivateca
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPrivatecaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPrivatecaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaOptions(), executionOptions, cancellationToken);

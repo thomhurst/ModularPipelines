@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud schema-bundles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBigtableSchemaBundles
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudBigtableSchemaBundlesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBigtableSchemaBundlesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBigtableSchemaBundlesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBigtableSchemaBundlesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBigtableSchemaBundlesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBigtableSchemaBundlesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudBigtableSchemaBundlesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudBigtableSchemaBundles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBigtableSchemaBundlesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudBigtableSchemaBundles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBigtableSchemaBundlesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableSchemaBundlesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableSchemaBundlesUpdateOptions(), executionOptions, cancellationToken);

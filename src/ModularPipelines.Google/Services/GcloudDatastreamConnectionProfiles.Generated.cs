@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud connection-profiles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatastreamConnectionProfiles
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDatastreamConnectionProfilesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDatastreamConnectionProfilesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDatastreamConnectionProfilesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Discover(
-        GcloudDatastreamConnectionProfilesDiscoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesDiscoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesDiscoverOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDatastreamConnectionProfilesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDatastreamConnectionProfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDatastreamConnectionProfilesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamConnectionProfilesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamConnectionProfilesUpdateOptions(), executionOptions, cancellationToken);

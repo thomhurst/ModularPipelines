@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud edgecache commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecache
 {
     private readonly ICommand _command;
-    private GcloudEdgecacheKeysets? _keysets;
-    private GcloudEdgecacheOperations? _operations;
-    private GcloudEdgecacheOrigins? _origins;
-    private GcloudEdgecacheServices? _services;
+    private GcloudEdgecacheKeysets _keysets;
+    private GcloudEdgecacheOperations _operations;
+    private GcloudEdgecacheOrigins _origins;
+    private GcloudEdgecacheServices _services;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecache"/> class.

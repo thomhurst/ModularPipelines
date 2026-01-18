@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud sources commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSccSources
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSccSources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSccSourcesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccSourcesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccSourcesDescribeOptions(), executionOptions, cancellationToken);

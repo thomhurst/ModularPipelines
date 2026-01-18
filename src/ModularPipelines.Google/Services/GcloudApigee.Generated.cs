@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apigee commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApigee
 {
     private readonly ICommand _command;
-    private GcloudApigeeApis? _apis;
-    private GcloudApigeeApplications? _applications;
-    private GcloudApigeeDeployments? _deployments;
-    private GcloudApigeeDevelopers? _developers;
-    private GcloudApigeeEnvironments? _environments;
-    private GcloudApigeeOrganizations? _organizations;
-    private GcloudApigeeProducts? _products;
+    private GcloudApigeeApis _apis;
+    private GcloudApigeeApplications _applications;
+    private GcloudApigeeDeployments _deployments;
+    private GcloudApigeeDevelopers _developers;
+    private GcloudApigeeEnvironments _environments;
+    private GcloudApigeeOrganizations _organizations;
+    private GcloudApigeeProducts _products;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApigee"/> class.
@@ -83,8 +83,8 @@ public class GcloudApigee
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudApigeeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApigeeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApigeeOptions(), executionOptions, cancellationToken);

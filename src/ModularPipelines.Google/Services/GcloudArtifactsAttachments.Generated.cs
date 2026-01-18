@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud attachments commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudArtifactsAttachments
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudArtifactsAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudArtifactsAttachmentsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsAttachmentsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudArtifactsAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudArtifactsAttachmentsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsAttachmentsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudArtifactsAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudArtifactsAttachmentsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsAttachmentsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudArtifactsAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        GcloudArtifactsAttachmentsDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsAttachmentsDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsDownloadOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudArtifactsAttachments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudArtifactsAttachmentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsAttachmentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsAttachmentsListOptions(), executionOptions, cancellationToken);

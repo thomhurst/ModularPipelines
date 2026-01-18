@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --localitylbpolicy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudLocalityLbPolicy
 {
     [Description("INVALID_LB_POLICY")]

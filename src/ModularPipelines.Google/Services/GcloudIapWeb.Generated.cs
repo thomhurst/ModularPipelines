@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud web commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIapWeb
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudIapWeb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudIapWebAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapWebAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapWebAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudIapWeb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudIapWebDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapWebDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapWebDisableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudIapWeb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudIapWebEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapWebEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapWebEnableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudIapWeb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudIapWebGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapWebGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapWebGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudIapWeb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudIapWebRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapWebRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapWebRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudIapWeb
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudIapWebSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud components commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComponents
 {
     private readonly ICommand _command;
-    private GcloudComponentsRepositories? _repositories;
+    private GcloudComponentsRepositories _repositories;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComponents"/> class.
@@ -47,8 +47,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudComponentsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsOptions(), executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudComponents
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
         GcloudComponentsInstallOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComponentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reinstall(
-        GcloudComponentsReinstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsReinstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsReinstallOptions(), executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudComponents
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
         GcloudComponentsRemoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComponentsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsUpdateOptions(), executionOptions, cancellationToken);

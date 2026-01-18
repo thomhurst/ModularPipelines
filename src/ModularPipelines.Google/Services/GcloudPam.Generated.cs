@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud pam commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPam
 {
     private readonly ICommand _command;
-    private GcloudPamEntitlements? _entitlements;
-    private GcloudPamGrants? _grants;
-    private GcloudPamOperations? _operations;
+    private GcloudPamEntitlements _entitlements;
+    private GcloudPamGrants _grants;
+    private GcloudPamOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPam"/> class.
@@ -59,8 +59,8 @@ public class GcloudPam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPamOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class GcloudPam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckOnboardingStatus(
-        GcloudPamCheckOnboardingStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPamCheckOnboardingStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPamCheckOnboardingStatusOptions(), executionOptions, cancellationToken);

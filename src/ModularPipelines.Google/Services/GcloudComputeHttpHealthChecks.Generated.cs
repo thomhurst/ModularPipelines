@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud http-health-checks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeHttpHealthChecks
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeHttpHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeHttpHealthChecksCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeHttpHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeHttpHealthChecksDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeHttpHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeHttpHealthChecksDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeHttpHealthChecks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeHttpHealthChecksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeHttpHealthChecksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeHttpHealthChecksListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeHttpHealthChecks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeHttpHealthChecksUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --resourcetype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudResourceType
 {
     [Description("app-engine")]

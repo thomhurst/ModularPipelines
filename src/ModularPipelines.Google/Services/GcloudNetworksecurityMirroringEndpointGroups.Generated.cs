@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud mirroring-endpoint-groups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecurityMirroringEndpointGroups
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworksecurityMirroringEndpointGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworksecurityMirroringEndpointGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityMirroringEndpointGroupsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointGroupsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetworksecurityMirroringEndpointGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityMirroringEndpointGroupsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointGroupsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetworksecurityMirroringEndpointGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityMirroringEndpointGroupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointGroupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetworksecurityMirroringEndpointGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecurityMirroringEndpointGroupsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityMirroringEndpointGroupsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityMirroringEndpointGroupsUpdateOptions(), executionOptions, cancellationToken);

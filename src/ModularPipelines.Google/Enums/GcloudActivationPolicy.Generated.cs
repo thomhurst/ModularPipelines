@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --activationpolicy.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudActivationPolicy
 {
     [Description("always")]

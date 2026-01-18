@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud apphub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApphub
 {
     private readonly ICommand _command;
-    private GcloudApphubApplications? _applications;
-    private GcloudApphubBoundary? _boundary;
-    private GcloudApphubDiscoveredServices? _discoveredServices;
-    private GcloudApphubDiscoveredWorkloads? _discoveredWorkloads;
-    private GcloudApphubLocations? _locations;
-    private GcloudApphubOperations? _operations;
-    private GcloudApphubServiceProjects? _serviceProjects;
+    private GcloudApphubApplications _applications;
+    private GcloudApphubBoundary _boundary;
+    private GcloudApphubDiscoveredServices _discoveredServices;
+    private GcloudApphubDiscoveredWorkloads _discoveredWorkloads;
+    private GcloudApphubLocations _locations;
+    private GcloudApphubOperations _operations;
+    private GcloudApphubServiceProjects _serviceProjects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApphub"/> class.
@@ -83,8 +83,8 @@ public class GcloudApphub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudApphubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud revisions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRunRevisions
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudRunRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRunRevisionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunRevisionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunRevisionsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudRunRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRunRevisionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunRevisionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudRunRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRunRevisionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunRevisionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunRevisionsListOptions(), executionOptions, cancellationToken);

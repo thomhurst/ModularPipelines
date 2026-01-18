@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud android commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirebaseTestAndroid
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTestAndroidLocales? _locales;
-    private GcloudFirebaseTestAndroidModels? _models;
-    private GcloudFirebaseTestAndroidVersions? _versions;
+    private GcloudFirebaseTestAndroidLocales _locales;
+    private GcloudFirebaseTestAndroidModels _models;
+    private GcloudFirebaseTestAndroidVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTestAndroid"/> class.
@@ -59,8 +59,8 @@ public class GcloudFirebaseTestAndroid
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeviceCapacities(
-        GcloudFirebaseTestAndroidListDeviceCapacitiesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirebaseTestAndroidListDeviceCapacitiesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidListDeviceCapacitiesOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class GcloudFirebaseTestAndroid
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        GcloudFirebaseTestAndroidRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirebaseTestAndroidRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestAndroidRunOptions(), executionOptions, cancellationToken);

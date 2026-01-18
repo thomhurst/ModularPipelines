@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud cloud-control-deployments commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCompliancemanagerCloudControlDeployments
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudCompliancemanagerCloudControlDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComplianceManagerCloudControlDeploymentsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComplianceManagerCloudControlDeploymentsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudCompliancemanagerCloudControlDeployments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComplianceManagerCloudControlDeploymentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComplianceManagerCloudControlDeploymentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComplianceManagerCloudControlDeploymentsListOptions(), executionOptions, cancellationToken);

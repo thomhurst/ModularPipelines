@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud management-servers commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrManagementServers
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBackupdrManagementServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBackupDrManagementServersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrManagementServersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBackupdrManagementServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBackupDrManagementServersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrManagementServersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBackupdrManagementServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrManagementServersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrManagementServersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBackupdrManagementServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrManagementServersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrManagementServersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrManagementServersListOptions(), executionOptions, cancellationToken);

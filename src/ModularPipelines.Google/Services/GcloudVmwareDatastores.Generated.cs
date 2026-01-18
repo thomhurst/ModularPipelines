@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud datastores commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwareDatastores
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudVmwareDatastores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudVmwareDatastoresCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDatastoresCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDatastoresCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudVmwareDatastores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVmwareDatastoresDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDatastoresDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDatastoresDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudVmwareDatastores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwareDatastoresDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDatastoresDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDatastoresDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudVmwareDatastores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwareDatastoresListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDatastoresListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDatastoresListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudVmwareDatastores
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwareDatastoresUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareDatastoresUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareDatastoresUpdateOptions(), executionOptions, cancellationToken);

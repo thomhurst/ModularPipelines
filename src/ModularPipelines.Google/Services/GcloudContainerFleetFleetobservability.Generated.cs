@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud fleetobservability commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleetFleetobservability
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerFleetFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetFleetobservabilityDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetFleetobservabilityDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerFleetFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetFleetobservabilityDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetFleetobservabilityDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityDisableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerFleetFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetFleetobservabilityEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetFleetobservabilityEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityEnableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerFleetFleetobservability
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerFleetFleetobservabilityUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetFleetobservabilityUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetFleetobservabilityUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud peerings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworksPeerings
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeNetworksPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeNetworksPeeringsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeNetworksPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeNetworksPeeringsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeNetworksPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeNetworksPeeringsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksPeeringsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksPeeringsListOptions(), executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeNetworksPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRoutes(
         GcloudComputeNetworksPeeringsListRoutesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeNetworksPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RequestDelete(
         GcloudComputeNetworksPeeringsRequestDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeNetworksPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeNetworksPeeringsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

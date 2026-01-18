@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud attestations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerBinauthzAttestations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerBinauthzAttestations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerBinauthzAttestationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerBinauthzAttestations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerBinauthzAttestationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzAttestationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzAttestationsListOptions(), executionOptions, cancellationToken);

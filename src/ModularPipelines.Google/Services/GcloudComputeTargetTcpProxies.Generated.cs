@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud target-tcp-proxies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTargetTcpProxies
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeTargetTcpProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeTargetTcpProxiesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeTargetTcpProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeTargetTcpProxiesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeTargetTcpProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeTargetTcpProxiesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeTargetTcpProxies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTargetTcpProxiesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTargetTcpProxiesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetTcpProxiesListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeTargetTcpProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeTargetTcpProxiesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

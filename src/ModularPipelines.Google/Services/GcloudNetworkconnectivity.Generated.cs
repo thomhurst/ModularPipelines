@@ -14,20 +14,20 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networkconnectivity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkconnectivity
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityHubs? _hubs;
-    private GcloudNetworkconnectivityInternalRanges? _internalRanges;
-    private GcloudNetworkconnectivityLocations? _locations;
-    private GcloudNetworkconnectivityMulticloudDataTransferConfigs? _multicloudDataTransferConfigs;
-    private GcloudNetworkconnectivityMulticloudDataTransferSupportedServices? _multicloudDataTransferSupportedServices;
-    private GcloudNetworkconnectivityOperations? _operations;
-    private GcloudNetworkconnectivityPolicyBasedRoutes? _policyBasedRoutes;
-    private GcloudNetworkconnectivityRegionalEndpoints? _regionalEndpoints;
-    private GcloudNetworkconnectivityServiceConnectionPolicies? _serviceConnectionPolicies;
-    private GcloudNetworkconnectivitySpokes? _spokes;
+    private GcloudNetworkconnectivityHubs _hubs;
+    private GcloudNetworkconnectivityInternalRanges _internalRanges;
+    private GcloudNetworkconnectivityLocations _locations;
+    private GcloudNetworkconnectivityMulticloudDataTransferConfigs _multicloudDataTransferConfigs;
+    private GcloudNetworkconnectivityMulticloudDataTransferSupportedServices _multicloudDataTransferSupportedServices;
+    private GcloudNetworkconnectivityOperations _operations;
+    private GcloudNetworkconnectivityPolicyBasedRoutes _policyBasedRoutes;
+    private GcloudNetworkconnectivityRegionalEndpoints _regionalEndpoints;
+    private GcloudNetworkconnectivityServiceConnectionPolicies _serviceConnectionPolicies;
+    private GcloudNetworkconnectivitySpokes _spokes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivity"/> class.

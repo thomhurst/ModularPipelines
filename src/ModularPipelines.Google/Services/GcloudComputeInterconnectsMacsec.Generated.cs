@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud macsec commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeInterconnectsMacsec
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddKey(
         GcloudComputeInterconnectsMacsecAddKeyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
         GcloudComputeInterconnectsMacsecGetConfigOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveKey(
         GcloudComputeInterconnectsMacsecRemoveKeyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateKey(
         GcloudComputeInterconnectsMacsecUpdateKeyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeInterconnectsMacsec
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInterconnectsMacsecUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

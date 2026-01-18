@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud machines commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecloudContainerMachines
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEdgecloudContainerMachines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudContainerMachinesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudContainerMachinesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerMachinesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEdgecloudContainerMachines
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudContainerMachinesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudContainerMachinesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerMachinesListOptions(), executionOptions, cancellationToken);

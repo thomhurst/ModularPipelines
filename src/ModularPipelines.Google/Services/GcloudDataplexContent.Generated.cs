@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud content commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplexContent
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataplexContentAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexContentCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexContentDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexContentDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentDescribeOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudDataplexContent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudDataplexContentGetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexContentListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataplexContentRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudDataplexContent
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataplexContentSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudDataplexContent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexContentUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexContentUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexContentUpdateOptions(), executionOptions, cancellationToken);

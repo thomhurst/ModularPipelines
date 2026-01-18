@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ios commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirebaseTestIos
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTestIosLocales? _locales;
-    private GcloudFirebaseTestIosModels? _models;
-    private GcloudFirebaseTestIosVersions? _versions;
+    private GcloudFirebaseTestIosLocales _locales;
+    private GcloudFirebaseTestIosModels _models;
+    private GcloudFirebaseTestIosVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebaseTestIos"/> class.
@@ -59,8 +59,8 @@ public class GcloudFirebaseTestIos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeviceCapacities(
-        GcloudFirebaseTestIosListDeviceCapacitiesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirebaseTestIosListDeviceCapacitiesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosListDeviceCapacitiesOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class GcloudFirebaseTestIos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        GcloudFirebaseTestIosRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirebaseTestIosRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseTestIosRunOptions(), executionOptions, cancellationToken);

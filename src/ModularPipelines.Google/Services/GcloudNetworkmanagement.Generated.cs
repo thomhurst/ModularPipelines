@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networkmanagement commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkmanagement
 {
     private readonly ICommand _command;
-    private GcloudNetworkmanagementConnectivityTests? _connectivityTests;
-    private GcloudNetworkmanagementOperations? _operations;
-    private GcloudNetworkmanagementVpcFlowLogsConfigs? _vpcFlowLogsConfigs;
+    private GcloudNetworkmanagementConnectivityTests _connectivityTests;
+    private GcloudNetworkmanagementOperations _operations;
+    private GcloudNetworkmanagementVpcFlowLogsConfigs _vpcFlowLogsConfigs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkmanagement"/> class.

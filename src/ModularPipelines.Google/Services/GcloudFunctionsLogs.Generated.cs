@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud logs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFunctionsLogs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudFunctionsLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Read(
-        GcloudFunctionsLogsReadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsLogsReadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsLogsReadOptions(), executionOptions, cancellationToken);

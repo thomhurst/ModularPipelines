@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workspaceaddons commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudWorkspaceaddons
 {
     private readonly ICommand _command;
-    private GcloudWorkspaceaddonsDeployments? _deployments;
+    private GcloudWorkspaceaddonsDeployments _deployments;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkspaceaddons"/> class.
@@ -47,8 +47,8 @@ public class GcloudWorkspaceaddons
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAuthorization(
-        GcloudWorkspaceAddOnsGetAuthorizationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkspaceAddOnsGetAuthorizationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkspaceAddOnsGetAuthorizationOptions(), executionOptions, cancellationToken);

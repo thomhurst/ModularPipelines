@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud logging-settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudGeminiLoggingSettings
 {
     private readonly ICommand _command;
-    private GcloudGeminiLoggingSettingsSettingBindings? _settingBindings;
+    private GcloudGeminiLoggingSettingsSettingBindings _settingBindings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudGeminiLoggingSettings"/> class.
@@ -47,8 +47,8 @@ public class GcloudGeminiLoggingSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiLoggingSettingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiLoggingSettingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudGeminiLoggingSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiLoggingSettingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiLoggingSettingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudGeminiLoggingSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiLoggingSettingsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiLoggingSettingsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudGeminiLoggingSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiLoggingSettingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiLoggingSettingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudGeminiLoggingSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiLoggingSettingsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiLoggingSettingsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiLoggingSettingsUpdateOptions(), executionOptions, cancellationToken);

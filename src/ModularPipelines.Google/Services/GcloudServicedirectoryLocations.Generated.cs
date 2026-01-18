@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud locations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudServicedirectoryLocations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudServicedirectoryLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudServiceDirectoryLocationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceDirectoryLocationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudServicedirectoryLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudServiceDirectoryLocationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudServiceDirectoryLocationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudServiceDirectoryLocationsListOptions(), executionOptions, cancellationToken);

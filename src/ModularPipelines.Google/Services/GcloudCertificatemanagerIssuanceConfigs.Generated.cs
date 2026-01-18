@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud issuance-configs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCertificatemanagerIssuanceConfigs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudCertificatemanagerIssuanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerIssuanceConfigsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerIssuanceConfigsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudCertificatemanagerIssuanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerIssuanceConfigsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerIssuanceConfigsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudCertificatemanagerIssuanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerIssuanceConfigsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerIssuanceConfigsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudCertificatemanagerIssuanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerIssuanceConfigsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerIssuanceConfigsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudCertificatemanagerIssuanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerIssuanceConfigsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerIssuanceConfigsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerIssuanceConfigsUpdateOptions(), executionOptions, cancellationToken);

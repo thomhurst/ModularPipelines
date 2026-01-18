@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud entries commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCertificatemanagerMapsEntries
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudCertificatemanagerMapsEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudCertificateManagerMapsEntriesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerMapsEntriesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudCertificatemanagerMapsEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudCertificateManagerMapsEntriesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerMapsEntriesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudCertificatemanagerMapsEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCertificateManagerMapsEntriesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerMapsEntriesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudCertificatemanagerMapsEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCertificateManagerMapsEntriesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerMapsEntriesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudCertificatemanagerMapsEntries
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudCertificateManagerMapsEntriesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCertificateManagerMapsEntriesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCertificateManagerMapsEntriesUpdateOptions(), executionOptions, cancellationToken);

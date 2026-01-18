@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud support-access commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHubMembershipsSupportAccess
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerHubMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubMembershipsSupportAccessDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsSupportAccessDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerHubMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubMembershipsSupportAccessDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsSupportAccessDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessDisableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerHubMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubMembershipsSupportAccessEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsSupportAccessEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessEnableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerHubMembershipsSupportAccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetYaml(
-        GcloudContainerHubMembershipsSupportAccessGetYamlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsSupportAccessGetYamlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsSupportAccessGetYamlOptions(), executionOptions, cancellationToken);

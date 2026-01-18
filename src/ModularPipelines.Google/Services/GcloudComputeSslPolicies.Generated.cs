@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ssl-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeSslPolicies
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeSslPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeSslPoliciesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeSslPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeSslPoliciesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeSslPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeSslPoliciesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeSslPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAvailableFeatures(
-        GcloudComputeSslPoliciesListAvailableFeaturesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSslPoliciesListAvailableFeaturesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesListAvailableFeaturesOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeSslPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeSslPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSslPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSslPoliciesListOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeSslPolicies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeSslPoliciesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

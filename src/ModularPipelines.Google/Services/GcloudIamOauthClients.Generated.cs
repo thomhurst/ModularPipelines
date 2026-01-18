@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud oauth-clients commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamOauthClients
 {
     private readonly ICommand _command;
-    private GcloudIamOauthClientsCredentials? _credentials;
+    private GcloudIamOauthClientsCredentials _credentials;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamOauthClients"/> class.
@@ -47,8 +47,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamOauthClientsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamOauthClientsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamOauthClientsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamOauthClientsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        GcloudIamOauthClientsUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsUndeleteOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudIamOauthClients
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamOauthClientsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamOauthClientsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamOauthClientsUpdateOptions(), executionOptions, cancellationToken);

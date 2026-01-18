@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud binauthz commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerBinauthz
 {
     private readonly ICommand _command;
-    private GcloudContainerBinauthzAttestations? _attestations;
-    private GcloudContainerBinauthzAttestors? _attestors;
-    private GcloudContainerBinauthzPolicy? _policy;
+    private GcloudContainerBinauthzAttestations _attestations;
+    private GcloudContainerBinauthzAttestors _attestors;
+    private GcloudContainerBinauthzPolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerBinauthz"/> class.
@@ -59,8 +59,8 @@ public class GcloudContainerBinauthz
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateSignaturePayload(
-        GcloudContainerBinauthzCreateSignaturePayloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerBinauthzCreateSignaturePayloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerBinauthzCreateSignaturePayloadOptions(), executionOptions, cancellationToken);

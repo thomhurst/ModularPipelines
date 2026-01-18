@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud tpu-vm commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTpusTpuVm
 {
     private readonly ICommand _command;
-    private GcloudComputeTpusTpuVmAcceleratorTypes? _acceleratorTypes;
-    private GcloudComputeTpusTpuVmServiceIdentity? _serviceIdentity;
-    private GcloudComputeTpusTpuVmVersions? _versions;
+    private GcloudComputeTpusTpuVmAcceleratorTypes _acceleratorTypes;
+    private GcloudComputeTpusTpuVmServiceIdentity _serviceIdentity;
+    private GcloudComputeTpusTpuVmVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeTpusTpuVm"/> class.
@@ -59,8 +59,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeTpusTpuVmCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeTpusTpuVmDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmDeleteOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeTpusTpuVmDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmDescribeOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetGuestAttributes(
-        GcloudComputeTpusTpuVmGetGuestAttributesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmGetGuestAttributesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmGetGuestAttributesOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTpusTpuVmListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmListOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scp(
-        GcloudComputeTpusTpuVmScpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmScpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmScpOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ssh(
-        GcloudComputeTpusTpuVmSshOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmSshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmSshOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudComputeTpusTpuVmStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmStartOptions(), executionOptions, cancellationToken);
@@ -179,8 +179,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudComputeTpusTpuVmStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmStopOptions(), executionOptions, cancellationToken);
@@ -194,8 +194,8 @@ public class GcloudComputeTpusTpuVm
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeTpusTpuVmUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmUpdateOptions(), executionOptions, cancellationToken);

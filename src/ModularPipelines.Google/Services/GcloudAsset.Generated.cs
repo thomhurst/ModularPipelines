@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud asset commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAsset
 {
     private readonly ICommand _command;
-    private GcloudAssetFeeds? _feeds;
-    private GcloudAssetOperations? _operations;
-    private GcloudAssetSavedQueries? _savedQueries;
+    private GcloudAssetFeeds _feeds;
+    private GcloudAssetOperations _operations;
+    private GcloudAssetSavedQueries _savedQueries;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAsset"/> class.
@@ -59,8 +59,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAssetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeIamPolicyLongrunning(
-        GcloudAssetAnalyzeIamPolicyLongrunningOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeIamPolicyLongrunningOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeIamPolicyLongrunningOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeIamPolicy(
-        GcloudAssetAnalyzeIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeIamPolicyOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeMove(
-        GcloudAssetAnalyzeMoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeMoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeMoveOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicies(
-        GcloudAssetAnalyzeOrgPoliciesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeOrgPoliciesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPoliciesOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedAssets(
-        GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPolicyGovernedAssetsOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AnalyzeOrgPolicyGovernedContainers(
-        GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetAnalyzeOrgPolicyGovernedContainersOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudAssetExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetExportOptions(), executionOptions, cancellationToken);
@@ -179,8 +179,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveIamPolicy(
-        GcloudAssetGetEffectiveIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetGetEffectiveIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetGetEffectiveIamPolicyOptions(), executionOptions, cancellationToken);
@@ -194,8 +194,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHistory(
-        GcloudAssetGetHistoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetGetHistoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetGetHistoryOptions(), executionOptions, cancellationToken);
@@ -209,8 +209,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAssetListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetListOptions(), executionOptions, cancellationToken);
@@ -224,8 +224,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Query(
-        GcloudAssetQueryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetQueryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetQueryOptions(), executionOptions, cancellationToken);
@@ -239,8 +239,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAllIamPolicies(
-        GcloudAssetSearchAllIamPoliciesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetSearchAllIamPoliciesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSearchAllIamPoliciesOptions(), executionOptions, cancellationToken);
@@ -254,8 +254,8 @@ public class GcloudAsset
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SearchAllResources(
-        GcloudAssetSearchAllResourcesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssetSearchAllResourcesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssetSearchAllResourcesOptions(), executionOptions, cancellationToken);

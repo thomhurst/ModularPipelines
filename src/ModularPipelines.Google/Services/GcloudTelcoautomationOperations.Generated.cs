@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudTelcoautomationOperations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudTelcoautomationOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudTelcoAutomationOperationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOperationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudTelcoautomationOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudTelcoAutomationOperationsWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTelcoAutomationOperationsWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTelcoAutomationOperationsWaitOptions(), executionOptions, cancellationToken);

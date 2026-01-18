@@ -14,19 +14,19 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud pubsub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPubsub
 {
     private readonly ICommand _command;
-    private GcloudPubsubLiteOperations? _liteOperations;
-    private GcloudPubsubLiteReservations? _liteReservations;
-    private GcloudPubsubLiteSubscriptions? _liteSubscriptions;
-    private GcloudPubsubLiteTopics? _liteTopics;
-    private GcloudPubsubMessageTransforms? _messageTransforms;
-    private GcloudPubsubSchemas? _schemas;
-    private GcloudPubsubSnapshots? _snapshots;
-    private GcloudPubsubSubscriptions? _subscriptions;
-    private GcloudPubsubTopics? _topics;
+    private GcloudPubsubLiteOperations _liteOperations;
+    private GcloudPubsubLiteReservations _liteReservations;
+    private GcloudPubsubLiteSubscriptions _liteSubscriptions;
+    private GcloudPubsubLiteTopics _liteTopics;
+    private GcloudPubsubMessageTransforms _messageTransforms;
+    private GcloudPubsubSchemas _schemas;
+    private GcloudPubsubSnapshots _snapshots;
+    private GcloudPubsubSubscriptions _subscriptions;
+    private GcloudPubsubTopics _topics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPubsub"/> class.
@@ -95,8 +95,8 @@ public class GcloudPubsub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudPubsubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPubsubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPubsubOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud url-maps commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeUrlMaps
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddHostRule(
         GcloudComputeUrlMapsAddHostRuleOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddPathMatcher(
         GcloudComputeUrlMapsAddPathMatcherOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeUrlMapsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeUrlMapsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeUrlMapsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Edit(
         GcloudComputeUrlMapsEditOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudComputeUrlMapsExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudComputeUrlMapsImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -158,7 +158,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvalidateCdnCache(
         GcloudComputeUrlMapsInvalidateCdnCacheOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCdnCacheInvalidations(
         GcloudComputeUrlMapsListCdnCacheInvalidationsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudComputeUrlMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeUrlMapsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeUrlMapsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsListOptions(), executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveHostRule(
         GcloudComputeUrlMapsRemoveHostRuleOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -218,7 +218,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemovePathMatcher(
         GcloudComputeUrlMapsRemovePathMatcherOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -233,7 +233,7 @@ public class GcloudComputeUrlMaps
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefaultService(
         GcloudComputeUrlMapsSetDefaultServiceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ public class GcloudComputeUrlMaps
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        GcloudComputeUrlMapsValidateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeUrlMapsValidateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeUrlMapsValidateOptions(), executionOptions, cancellationToken);

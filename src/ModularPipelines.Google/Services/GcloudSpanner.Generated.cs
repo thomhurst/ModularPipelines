@@ -14,19 +14,19 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud spanner commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSpanner
 {
     private readonly ICommand _command;
-    private GcloudSpannerBackups? _backups;
-    private GcloudSpannerBackupSchedules? _backupSchedules;
-    private GcloudSpannerDatabases? _databases;
-    private GcloudSpannerInstanceConfigs? _instanceConfigs;
-    private GcloudSpannerInstancePartitions? _instancePartitions;
-    private GcloudSpannerInstances? _instances;
-    private GcloudSpannerOperations? _operations;
-    private GcloudSpannerRows? _rows;
-    private GcloudSpannerSamples? _samples;
+    private GcloudSpannerBackups _backups;
+    private GcloudSpannerBackupSchedules _backupSchedules;
+    private GcloudSpannerDatabases _databases;
+    private GcloudSpannerInstanceConfigs _instanceConfigs;
+    private GcloudSpannerInstancePartitions _instancePartitions;
+    private GcloudSpannerInstances _instances;
+    private GcloudSpannerOperations _operations;
+    private GcloudSpannerRows _rows;
+    private GcloudSpannerSamples _samples;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSpanner"/> class.
@@ -95,8 +95,8 @@ public class GcloudSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSpannerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class GcloudSpanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cli(
-        GcloudSpannerCliOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerCliOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerCliOptions(), executionOptions, cancellationToken);

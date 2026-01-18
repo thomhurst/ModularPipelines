@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud roots commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPrivatecaRoots
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudPrivatecaRoots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudPrivatecaRootsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPrivatecaRootsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaRootsCreateOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudPrivatecaRootsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudPrivatecaRootsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudPrivatecaRootsDisableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudPrivatecaRootsEnableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudPrivatecaRoots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPrivatecaRootsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPrivatecaRootsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPrivatecaRootsListOptions(), executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudPrivatecaRootsUndeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudPrivatecaRoots
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudPrivatecaRootsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

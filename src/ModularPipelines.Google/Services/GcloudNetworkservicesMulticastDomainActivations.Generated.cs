@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud multicast-domain-activations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkservicesMulticastDomainActivations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworkservicesMulticastDomainActivations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkServicesMulticastDomainActivationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkServicesMulticastDomainActivationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworkservicesMulticastDomainActivations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkServicesMulticastDomainActivationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkServicesMulticastDomainActivationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetworkservicesMulticastDomainActivations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkServicesMulticastDomainActivationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkServicesMulticastDomainActivationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetworkservicesMulticastDomainActivations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkServicesMulticastDomainActivationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkServicesMulticastDomainActivationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetworkservicesMulticastDomainActivations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkServicesMulticastDomainActivationsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkServicesMulticastDomainActivationsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkServicesMulticastDomainActivationsUpdateOptions(), executionOptions, cancellationToken);

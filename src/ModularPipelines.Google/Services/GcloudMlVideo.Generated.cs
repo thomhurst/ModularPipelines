@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud video commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMlVideo
 {
     private readonly ICommand _command;
-    private GcloudMlVideoOperations? _operations;
+    private GcloudMlVideoOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMlVideo"/> class.
@@ -48,7 +48,7 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectExplicitContent(
         GcloudMlVideoDetectExplicitContentOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectLabels(
         GcloudMlVideoDetectLabelsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudMlVideo
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DetectShotChanges(
         GcloudMlVideoDetectShotChangesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

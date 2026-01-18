@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ssl-certs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSqlSslCerts
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudSqlSslCerts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSqlSslCertsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudSqlSslCerts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSqlSslCertsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudSqlSslCerts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSqlSslCertsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudSqlSslCerts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSqlSslCertsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSqlSslCertsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlSslCertsListOptions(), executionOptions, cancellationToken);

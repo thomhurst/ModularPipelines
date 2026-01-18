@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud cloud-locations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCloudlocationfinderCloudLocations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudCloudlocationfinderCloudLocationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudCloudlocationfinderCloudLocationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudCloudlocationfinderCloudLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Search(
-        GcloudCloudlocationfinderCloudLocationsSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCloudlocationfinderCloudLocationsSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderCloudLocationsSearchOptions(), executionOptions, cancellationToken);

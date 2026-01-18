@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud resource-changes commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudInframanagerResourceChanges
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudInframanagerResourceChanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerResourceChangesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerResourceChangesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudInframanagerResourceChanges
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudInfraManagerResourceChangesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerResourceChangesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerResourceChangesListOptions(), executionOptions, cancellationToken);

@@ -11,24 +11,24 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --loggingaggregationinterval.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudLoggingAggregationInterval
 {
     [Description("interval-10-min")]
-    IntervalValue10Min,
+    Interval_10Min,
 
     [Description("interval-15-min")]
-    IntervalValue15Min,
+    Interval_15Min,
 
     [Description("interval-1-min")]
-    IntervalValue1Min,
+    Interval_1Min,
 
     [Description("interval-30-sec")]
-    IntervalValue30Sec,
+    Interval_30Sec,
 
     [Description("interval-5-min")]
-    IntervalValue5Min,
+    Interval_5Min,
 
     [Description("interval-5-sec")]
-    IntervalValue5Sec
+    Interval_5Sec
 }

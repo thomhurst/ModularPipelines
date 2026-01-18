@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud buckets commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudStorageBuckets
 {
     private readonly ICommand _command;
-    private GcloudStorageBucketsAnywhereCaches? _anywhereCaches;
-    private GcloudStorageBucketsNotifications? _notifications;
+    private GcloudStorageBucketsAnywhereCaches _anywhereCaches;
+    private GcloudStorageBucketsNotifications _notifications;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageBuckets"/> class.
@@ -54,7 +54,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
         GcloudStorageBucketsAddIamPolicyBindingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,7 +69,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudStorageBucketsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,7 +84,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudStorageBucketsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,7 +99,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudStorageBucketsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,7 +114,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudStorageBucketsGetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudStorageBuckets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudStorageBucketsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudStorageBucketsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsListOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class GcloudStorageBuckets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Relocate(
-        GcloudStorageBucketsRelocateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudStorageBucketsRelocateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsRelocateOptions(), executionOptions, cancellationToken);
@@ -159,7 +159,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
         GcloudStorageBucketsRemoveIamPolicyBindingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -174,7 +174,7 @@ public class GcloudStorageBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudStorageBucketsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,8 +188,8 @@ public class GcloudStorageBuckets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudStorageBucketsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudStorageBucketsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudStorageBucketsUpdateOptions(), executionOptions, cancellationToken);

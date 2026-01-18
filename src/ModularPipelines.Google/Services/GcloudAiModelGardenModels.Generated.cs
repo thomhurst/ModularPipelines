@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud models commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiModelGardenModels
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiModelGardenModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudAiModelGardenModelsDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelGardenModelsDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsDeployOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiModelGardenModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeploymentConfig(
-        GcloudAiModelGardenModelsListDeploymentConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelGardenModelsListDeploymentConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsListDeploymentConfigOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiModelGardenModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiModelGardenModelsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelGardenModelsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelGardenModelsListOptions(), executionOptions, cancellationToken);

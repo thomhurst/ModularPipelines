@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud memorystore commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMemorystore
 {
     private readonly ICommand _command;
-    private GcloudMemorystoreBackupCollections? _backupCollections;
-    private GcloudMemorystoreInstances? _instances;
-    private GcloudMemorystoreLocations? _locations;
-    private GcloudMemorystoreOperations? _operations;
+    private GcloudMemorystoreBackupCollections _backupCollections;
+    private GcloudMemorystoreInstances _instances;
+    private GcloudMemorystoreLocations _locations;
+    private GcloudMemorystoreOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemorystore"/> class.
@@ -65,8 +65,8 @@ public class GcloudMemorystore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudMemorystoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud go commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudArtifactsGo
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudArtifactsGo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Auth(
-        GcloudArtifactsGoAuthOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsGoAuthOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGoAuthOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudArtifactsGo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        GcloudArtifactsGoUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudArtifactsGoUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudArtifactsGoUploadOptions(), executionOptions, cancellationToken);

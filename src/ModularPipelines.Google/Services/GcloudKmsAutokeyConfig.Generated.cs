@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud autokey-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudKmsAutokeyConfig
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudKmsAutokeyConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudKmsAutokeyConfigDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsAutokeyConfigDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudKmsAutokeyConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowEffectiveConfig(
-        GcloudKmsAutokeyConfigShowEffectiveConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudKmsAutokeyConfigShowEffectiveConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudKmsAutokeyConfigShowEffectiveConfigOptions(), executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudKmsAutokeyConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudKmsAutokeyConfigUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

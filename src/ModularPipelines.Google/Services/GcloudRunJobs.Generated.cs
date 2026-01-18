@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRunJobs
 {
     private readonly ICommand _command;
-    private GcloudRunJobsExecutions? _executions;
-    private GcloudRunJobsLogs? _logs;
+    private GcloudRunJobsExecutions _executions;
+    private GcloudRunJobsLogs _logs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRunJobs"/> class.
@@ -53,8 +53,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudRunJobsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudRunJobsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsCreateOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudRunJobsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsDeleteOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deploy(
-        GcloudRunJobsDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsDeployOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRunJobsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudRunJobsExecuteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsExecuteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsExecuteOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudRunJobsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRunJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsListOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudRunJobsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -189,7 +189,7 @@ public class GcloudRunJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
         GcloudRunJobsReplaceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -204,7 +204,7 @@ public class GcloudRunJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudRunJobsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -218,8 +218,8 @@ public class GcloudRunJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudRunJobsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRunJobsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRunJobsUpdateOptions(), executionOptions, cancellationToken);

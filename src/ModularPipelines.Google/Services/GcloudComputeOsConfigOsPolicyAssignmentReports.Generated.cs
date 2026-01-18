@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud os-policy-assignment-reports commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeOsConfigOsPolicyAssignmentReports
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeOsConfigOsPolicyAssignmentReports
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeOsConfigOsPolicyAssignmentReportsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeOsConfigOsPolicyAssignmentReports
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentReportsListOptions(), executionOptions, cancellationToken);

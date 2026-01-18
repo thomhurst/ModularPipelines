@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud perimeters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAccesscontextmanagerPerimeters
 {
     private readonly ICommand _command;
-    private GcloudAccesscontextmanagerPerimetersDryRun? _dryRun;
+    private GcloudAccesscontextmanagerPerimetersDryRun _dryRun;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAccesscontextmanagerPerimeters"/> class.
@@ -47,8 +47,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerPerimetersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerPerimetersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerPerimetersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerPerimetersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplaceAll(
-        GcloudAccessContextManagerPerimetersReplaceAllOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersReplaceAllOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersReplaceAllOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudAccesscontextmanagerPerimeters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerPerimetersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerPerimetersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerPerimetersUpdateOptions(), executionOptions, cancellationToken);

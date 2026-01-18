@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workbench commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudWorkbench
 {
     private readonly ICommand _command;
-    private GcloudWorkbenchInstances? _instances;
+    private GcloudWorkbenchInstances _instances;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkbench"/> class.
@@ -47,8 +47,8 @@ public class GcloudWorkbench
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudWorkbenchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudWorkbenchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudWorkbenchOptions(), executionOptions, cancellationToken);

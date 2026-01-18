@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsPolicies
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDnsPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDnsPoliciesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsPoliciesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsPoliciesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDnsPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDnsPoliciesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsPoliciesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDnsPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDnsPoliciesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsPoliciesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsPoliciesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDnsPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDnsPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsPoliciesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDnsPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDnsPoliciesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsPoliciesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsPoliciesUpdateOptions(), executionOptions, cancellationToken);

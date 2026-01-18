@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud logging-servers commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateCloudsLoggingServers
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateCloudsLoggingServersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsLoggingServersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateCloudsLoggingServersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsLoggingServersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsLoggingServersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsLoggingServersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateCloudsLoggingServersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsLoggingServersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudVmwarePrivateCloudsLoggingServers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateCloudsLoggingServersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsLoggingServersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsLoggingServersUpdateOptions(), executionOptions, cancellationToken);

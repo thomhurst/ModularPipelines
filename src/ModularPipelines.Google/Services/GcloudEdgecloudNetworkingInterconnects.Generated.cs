@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud interconnects commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecloudNetworkingInterconnects
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudNetworkingInterconnectsAttachments? _attachments;
+    private GcloudEdgecloudNetworkingInterconnectsAttachments _attachments;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudNetworkingInterconnects"/> class.
@@ -47,8 +47,8 @@ public class GcloudEdgecloudNetworkingInterconnects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEdgeCloudNetworkingInterconnectsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudNetworkingInterconnectsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsDescribeOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudEdgecloudNetworkingInterconnects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDiagnostics(
-        GcloudEdgeCloudNetworkingInterconnectsGetDiagnosticsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudNetworkingInterconnectsGetDiagnosticsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsGetDiagnosticsOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudEdgecloudNetworkingInterconnects
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEdgeCloudNetworkingInterconnectsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudNetworkingInterconnectsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudNetworkingInterconnectsListOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplexTasksJobs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudDataplexTasksJobsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexTasksJobsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexTasksJobsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexTasksJobsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDataplexTasksJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexTasksJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexTasksJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexTasksJobsListOptions(), executionOptions, cancellationToken);

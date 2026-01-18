@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud remote-locations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeInterconnectsRemoteLocations
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeInterconnectsRemoteLocations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeInterconnectsRemoteLocationsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeInterconnectsRemoteLocations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeInterconnectsRemoteLocationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeInterconnectsRemoteLocationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeInterconnectsRemoteLocationsListOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud attached commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerAttached
 {
     private readonly ICommand _command;
-    private GcloudContainerAttachedClusters? _clusters;
-    private GcloudContainerAttachedOperations? _operations;
+    private GcloudContainerAttachedClusters _clusters;
+    private GcloudContainerAttachedOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAttached"/> class.
@@ -53,8 +53,8 @@ public class GcloudContainerAttached
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerAttachedGetServerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAttachedGetServerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAttachedGetServerConfigOptions(), executionOptions, cancellationToken);

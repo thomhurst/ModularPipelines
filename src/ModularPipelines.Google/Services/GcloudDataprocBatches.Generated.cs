@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud batches commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataprocBatches
 {
     private readonly ICommand _command;
-    private GcloudDataprocBatchesSubmit? _submit;
+    private GcloudDataprocBatchesSubmit _submit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataprocBatches"/> class.
@@ -47,8 +47,8 @@ public class GcloudDataprocBatches
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudDataprocBatchesCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocBatchesCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesCancelOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDataprocBatches
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataprocBatchesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocBatchesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudDataprocBatches
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataprocBatchesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocBatchesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudDataprocBatches
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataprocBatchesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocBatchesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudDataprocBatches
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        GcloudDataprocBatchesWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataprocBatchesWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataprocBatchesWaitOptions(), executionOptions, cancellationToken);

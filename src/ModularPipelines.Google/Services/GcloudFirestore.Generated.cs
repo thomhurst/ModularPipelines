@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud firestore commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirestore
 {
     private readonly ICommand _command;
-    private GcloudFirestoreBackups? _backups;
-    private GcloudFirestoreDatabases? _databases;
-    private GcloudFirestoreFields? _fields;
-    private GcloudFirestoreIndexes? _indexes;
-    private GcloudFirestoreLocations? _locations;
-    private GcloudFirestoreOperations? _operations;
-    private GcloudFirestoreUserCreds? _userCreds;
+    private GcloudFirestoreBackups _backups;
+    private GcloudFirestoreDatabases _databases;
+    private GcloudFirestoreFields _fields;
+    private GcloudFirestoreIndexes _indexes;
+    private GcloudFirestoreLocations _locations;
+    private GcloudFirestoreOperations _operations;
+    private GcloudFirestoreUserCreds _userCreds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirestore"/> class.
@@ -83,8 +83,8 @@ public class GcloudFirestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudFirestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudFirestore
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BulkDelete(
-        GcloudFirestoreBulkDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreBulkDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreBulkDeleteOptions(), executionOptions, cancellationToken);
@@ -114,7 +114,7 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudFirestoreExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -129,7 +129,7 @@ public class GcloudFirestore
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudFirestoreImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

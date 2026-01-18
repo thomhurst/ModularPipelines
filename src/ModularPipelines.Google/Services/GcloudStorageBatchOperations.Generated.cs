@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud batch-operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudStorageBatchOperations
 {
     private readonly ICommand _command;
-    private GcloudStorageBatchOperationsJobs? _jobs;
+    private GcloudStorageBatchOperationsJobs _jobs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudStorageBatchOperations"/> class.

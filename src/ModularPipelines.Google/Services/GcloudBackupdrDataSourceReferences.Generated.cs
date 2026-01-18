@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud data-source-references commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrDataSourceReferences
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBackupdrDataSourceReferences
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrDataSourceReferencesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrDataSourceReferencesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourceReferencesDescribeOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudBackupdrDataSourceReferences
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FetchForResourceType(
         GcloudBackupDrDataSourceReferencesFetchForResourceTypeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBackupdrDataSourceReferences
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrDataSourceReferencesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrDataSourceReferencesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrDataSourceReferencesListOptions(), executionOptions, cancellationToken);

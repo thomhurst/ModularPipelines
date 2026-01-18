@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAlloydbBackups
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAlloydbBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAlloydbBackupsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAlloydbBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAlloydbBackupsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAlloydbBackups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAlloydbBackupsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAlloydbBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAlloydbBackupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAlloydbBackupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAlloydbBackupsListOptions(), executionOptions, cancellationToken);

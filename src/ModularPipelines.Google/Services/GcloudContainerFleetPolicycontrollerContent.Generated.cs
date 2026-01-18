@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud content commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleetPolicycontrollerContent
 {
     private readonly ICommand _command;
-    private GcloudContainerFleetPolicycontrollerContentBundles? _bundles;
-    private GcloudContainerFleetPolicycontrollerContentTemplates? _templates;
+    private GcloudContainerFleetPolicycontrollerContentBundles _bundles;
+    private GcloudContainerFleetPolicycontrollerContentTemplates _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleetPolicycontrollerContent"/> class.

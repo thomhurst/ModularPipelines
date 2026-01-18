@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecloudContainer
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudContainerClusters? _clusters;
-    private GcloudEdgecloudContainerMachines? _machines;
-    private GcloudEdgecloudContainerOperations? _operations;
-    private GcloudEdgecloudContainerRegions? _regions;
-    private GcloudEdgecloudContainerVpnConnections? _vpnConnections;
-    private GcloudEdgecloudContainerZones? _zones;
+    private GcloudEdgecloudContainerClusters _clusters;
+    private GcloudEdgecloudContainerMachines _machines;
+    private GcloudEdgecloudContainerOperations _operations;
+    private GcloudEdgecloudContainerRegions _regions;
+    private GcloudEdgecloudContainerVpnConnections _vpnConnections;
+    private GcloudEdgecloudContainerZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloudContainer"/> class.
@@ -77,8 +77,8 @@ public class GcloudEdgecloudContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudEdgeCloudContainerGetServerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEdgeCloudContainerGetServerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEdgeCloudContainerGetServerConfigOptions(), executionOptions, cancellationToken);

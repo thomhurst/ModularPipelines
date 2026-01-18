@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud folders commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudResourcemanagerFolders
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudResourcemanagerFolders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudResourceManagerFoldersAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerFoldersAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudResourcemanagerFolders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudResourceManagerFoldersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerFoldersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersCreateOptions(), executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudResourceManagerFoldersDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudResourceManagerFoldersDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudResourcemanagerFolders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAncestorsIamPolicy(
-        GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersGetAncestorsIamPolicyOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudResourceManagerFoldersGetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudResourcemanagerFolders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudResourceManagerFoldersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerFoldersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
         GcloudResourceManagerFoldersMoveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudResourcemanagerFolders
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudResourceManagerFoldersRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudResourceManagerFoldersRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudResourceManagerFoldersRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudResourceManagerFoldersSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,7 +188,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudResourceManagerFoldersUndeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudResourcemanagerFolders
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudResourceManagerFoldersUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

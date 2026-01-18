@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud cloudlocationfinder commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudCloudlocationfinder
 {
     private readonly ICommand _command;
-    private GcloudCloudlocationfinderCloudLocations? _cloudLocations;
+    private GcloudCloudlocationfinderCloudLocations _cloudLocations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudCloudlocationfinder"/> class.
@@ -47,8 +47,8 @@ public class GcloudCloudlocationfinder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudCloudlocationfinderOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudCloudlocationfinderOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudCloudlocationfinderOptions(), executionOptions, cancellationToken);

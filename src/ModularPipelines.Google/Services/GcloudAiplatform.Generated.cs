@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud aiplatform commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiplatform
 {
     private readonly ICommand _command;
-    private GcloudAiplatformJobs? _jobs;
-    private GcloudAiplatformLocal? _local;
-    private GcloudAiplatformModels? _models;
-    private GcloudAiplatformOperations? _operations;
-    private GcloudAiplatformVersions? _versions;
+    private GcloudAiplatformJobs _jobs;
+    private GcloudAiplatformLocal _local;
+    private GcloudAiplatformModels _models;
+    private GcloudAiplatformOperations _operations;
+    private GcloudAiplatformVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAiplatform"/> class.
@@ -71,8 +71,8 @@ public class GcloudAiplatform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Predict(
-        GcloudAiPlatformPredictOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPlatformPredictOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformPredictOptions(), executionOptions, cancellationToken);

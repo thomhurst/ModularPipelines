@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud speech commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMlSpeech
 {
     private readonly ICommand _command;
-    private GcloudMlSpeechOperations? _operations;
+    private GcloudMlSpeechOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMlSpeech"/> class.
@@ -48,7 +48,7 @@ public class GcloudMlSpeech
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RecognizeLongRunning(
         GcloudMlSpeechRecognizeLongRunningOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudMlSpeech
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Recognize(
         GcloudMlSpeechRecognizeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instance-configs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSpannerInstanceConfigs
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudSpannerInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudSpannerInstanceConfigsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudSpannerInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudSpannerInstanceConfigsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudSpannerInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSpannerInstanceConfigsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudSpannerInstanceConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerInstanceConfigsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstanceConfigsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstanceConfigsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudSpannerInstanceConfigs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudSpannerInstanceConfigsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

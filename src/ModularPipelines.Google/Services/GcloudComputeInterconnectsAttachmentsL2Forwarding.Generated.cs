@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud l2-forwarding commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeInterconnectsAttachmentsL2Forwarding
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddMapping(
         GcloudComputeInterconnectsAttachmentsL2ForwardingAddMappingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeInterconnectsAttachmentsL2ForwardingCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DescribeMapping(
         GcloudComputeInterconnectsAttachmentsL2ForwardingDescribeMappingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMapping(
         GcloudComputeInterconnectsAttachmentsL2ForwardingListMappingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveMapping(
         GcloudComputeInterconnectsAttachmentsL2ForwardingRemoveMappingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateMapping(
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateMappingOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudComputeInterconnectsAttachmentsL2Forwarding
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeInterconnectsAttachmentsL2ForwardingUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

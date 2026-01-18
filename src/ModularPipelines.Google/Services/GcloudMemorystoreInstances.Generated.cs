@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMemorystoreInstances
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Backup(
-        GcloudMemorystoreInstancesBackupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesBackupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesBackupOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMemorystoreInstancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudMemorystoreInstancesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMemorystoreInstancesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCertificateAuthority(
-        GcloudMemorystoreInstancesGetCertificateAuthorityOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesGetCertificateAuthorityOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesGetCertificateAuthorityOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMemorystoreInstancesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RescheduleMaintenance(
-        GcloudMemorystoreInstancesRescheduleMaintenanceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesRescheduleMaintenanceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesRescheduleMaintenanceOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudMemorystoreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMemorystoreInstancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreInstancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesUpdateOptions(), executionOptions, cancellationToken);

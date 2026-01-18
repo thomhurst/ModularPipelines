@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workloads commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAssuredWorkloads
 {
     private readonly ICommand _command;
-    private GcloudAssuredWorkloadsViolations? _violations;
+    private GcloudAssuredWorkloadsViolations _violations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAssuredWorkloads"/> class.
@@ -47,8 +47,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAssuredWorkloadsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAssuredWorkloadsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAssuredWorkloadsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableResourceMonitoring(
-        GcloudAssuredWorkloadsEnableResourceMonitoringOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsEnableResourceMonitoringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsEnableResourceMonitoringOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAssuredWorkloadsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsListOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudAssuredWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAssuredWorkloadsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAssuredWorkloadsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAssuredWorkloadsUpdateOptions(), executionOptions, cancellationToken);

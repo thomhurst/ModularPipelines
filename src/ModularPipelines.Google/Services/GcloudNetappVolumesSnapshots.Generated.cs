@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud snapshots commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetappVolumesSnapshots
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetappVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappVolumesSnapshotsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappVolumesSnapshotsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetappVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappVolumesSnapshotsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappVolumesSnapshotsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetappVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappVolumesSnapshotsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappVolumesSnapshotsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetappVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappVolumesSnapshotsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappVolumesSnapshotsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetappVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappVolumesSnapshotsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappVolumesSnapshotsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesSnapshotsUpdateOptions(), executionOptions, cancellationToken);

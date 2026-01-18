@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud supported-services commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAccesscontextmanagerSupportedServices
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAccesscontextmanagerSupportedServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerSupportedServicesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerSupportedServicesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerSupportedServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAccesscontextmanagerSupportedServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerSupportedServicesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerSupportedServicesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerSupportedServicesListOptions(), executionOptions, cancellationToken);

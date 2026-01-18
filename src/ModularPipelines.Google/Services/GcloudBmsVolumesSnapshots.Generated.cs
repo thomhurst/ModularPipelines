@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud snapshots commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBmsVolumesSnapshots
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBmsVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBmsVolumesSnapshotsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsVolumesSnapshotsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBmsVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsVolumesSnapshotsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsVolumesSnapshotsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBmsVolumesSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsVolumesSnapshotsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsVolumesSnapshotsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsVolumesSnapshotsListOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud authorized-orgs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAccesscontextmanagerAuthorizedOrgs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAccesscontextmanagerAuthorizedOrgs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAccessContextManagerAuthorizedOrgsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerAuthorizedOrgsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAccesscontextmanagerAuthorizedOrgs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAccessContextManagerAuthorizedOrgsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerAuthorizedOrgsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAccesscontextmanagerAuthorizedOrgs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAccessContextManagerAuthorizedOrgsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerAuthorizedOrgsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAccesscontextmanagerAuthorizedOrgs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAccessContextManagerAuthorizedOrgsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerAuthorizedOrgsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAccesscontextmanagerAuthorizedOrgs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAccessContextManagerAuthorizedOrgsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAccessContextManagerAuthorizedOrgsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAccessContextManagerAuthorizedOrgsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud resources commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeploymentmanagerResources
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDeploymentmanagerResources
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeploymentManagerResourcesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDeploymentmanagerResources
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeploymentManagerResourcesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeploymentManagerResourcesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerResourcesListOptions(), executionOptions, cancellationToken);

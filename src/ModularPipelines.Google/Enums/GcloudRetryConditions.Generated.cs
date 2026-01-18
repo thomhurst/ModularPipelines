@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --retryconditions.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudRetryConditions
 {
     [Description("connect-failure")]
@@ -24,11 +24,11 @@ public enum GcloudRetryConditions
     GatewayError,
 
     [Description("http-5xx")]
-    HttpValue5xx,
+    Http_5xx,
 
     [Description("not-found")]
     NotFound,
 
     [Description("retriable-4xx")]
-    RetriableValue4xx
+    Retriable_4xx
 }

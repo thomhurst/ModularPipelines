@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud revisions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDesigncenterSpacesApplicationTemplatesRevisions
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesApplicationTemplatesRevisionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesRevisionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesApplicationTemplatesRevisionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesRevisionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesApplicationTemplatesRevisionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesRevisionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesRevisionsListOptions(), executionOptions, cancellationToken);

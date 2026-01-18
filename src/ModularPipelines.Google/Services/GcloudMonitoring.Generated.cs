@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud monitoring commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMonitoring
 {
     private readonly ICommand _command;
-    private GcloudMonitoringDashboards? _dashboards;
-    private GcloudMonitoringPolicies? _policies;
-    private GcloudMonitoringSnoozes? _snoozes;
-    private GcloudMonitoringUptime? _uptime;
+    private GcloudMonitoringDashboards _dashboards;
+    private GcloudMonitoringPolicies _policies;
+    private GcloudMonitoringSnoozes _snoozes;
+    private GcloudMonitoringUptime _uptime;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMonitoring"/> class.
@@ -65,8 +65,8 @@ public class GcloudMonitoring
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudMonitoringOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringOptions(), executionOptions, cancellationToken);

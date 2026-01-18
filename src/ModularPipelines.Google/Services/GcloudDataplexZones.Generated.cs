@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud zones commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplexZones
 {
     private readonly ICommand _command;
-    private GcloudDataplexZonesActions? _actions;
+    private GcloudDataplexZonesActions _actions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplexZones"/> class.
@@ -47,8 +47,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataplexZonesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataplexZonesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesCreateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataplexZonesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataplexZonesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesDescribeOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataplexZonesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataplexZonesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataplexZonesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -153,7 +153,7 @@ public class GcloudDataplexZones
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataplexZonesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudDataplexZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataplexZonesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexZonesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexZonesUpdateOptions(), executionOptions, cancellationToken);

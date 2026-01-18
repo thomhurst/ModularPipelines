@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud service-identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTpusTpuVmServiceIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeTpusTpuVmServiceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeTpusTpuVmServiceIdentityCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTpusTpuVmServiceIdentityCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTpusTpuVmServiceIdentityCreateOptions(), executionOptions, cancellationToken);

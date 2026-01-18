@@ -14,16 +14,16 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud serviceextensions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudServiceextensions
 {
     private readonly ICommand _command;
-    private GcloudServiceextensionsAuthzExtensions? _authzExtensions;
-    private GcloudServiceextensionsLbEdgeExtensions? _lbEdgeExtensions;
-    private GcloudServiceextensionsLbRouteExtensions? _lbRouteExtensions;
-    private GcloudServiceextensionsLbTrafficExtensions? _lbTrafficExtensions;
-    private GcloudServiceextensionsWasmPlugins? _wasmPlugins;
-    private GcloudServiceextensionsWasmPluginVersions? _wasmPluginVersions;
+    private GcloudServiceextensionsAuthzExtensions _authzExtensions;
+    private GcloudServiceextensionsLbEdgeExtensions _lbEdgeExtensions;
+    private GcloudServiceextensionsLbRouteExtensions _lbRouteExtensions;
+    private GcloudServiceextensionsLbTrafficExtensions _lbTrafficExtensions;
+    private GcloudServiceextensionsWasmPlugins _wasmPlugins;
+    private GcloudServiceextensionsWasmPluginVersions _wasmPluginVersions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudServiceextensions"/> class.

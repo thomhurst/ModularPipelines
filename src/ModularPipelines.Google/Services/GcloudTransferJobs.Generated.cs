@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudTransferJobs
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudTransferJobsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudTransferJobsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudTransferJobsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudTransferJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudTransferJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudTransferJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudTransferJobsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Monitor(
         GcloudTransferJobsMonitorOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudTransferJobsRunOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudTransferJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudTransferJobsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

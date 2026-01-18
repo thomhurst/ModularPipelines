@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud edgecloud commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEdgecloud
 {
     private readonly ICommand _command;
-    private GcloudEdgecloudContainer? _container;
-    private GcloudEdgecloudNetworking? _networking;
+    private GcloudEdgecloudContainer _container;
+    private GcloudEdgecloudNetworking _networking;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEdgecloud"/> class.

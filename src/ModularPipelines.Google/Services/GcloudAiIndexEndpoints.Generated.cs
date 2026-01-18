@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud index-endpoints commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiIndexEndpoints
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudAiIndexEndpointsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiIndexEndpointsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeployIndex(
-        GcloudAiIndexEndpointsDeployIndexOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsDeployIndexOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDeployIndexOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiIndexEndpointsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiIndexEndpointsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MutateDeployedIndex(
-        GcloudAiIndexEndpointsMutateDeployedIndexOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsMutateDeployedIndexOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsMutateDeployedIndexOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UndeployIndex(
-        GcloudAiIndexEndpointsUndeployIndexOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsUndeployIndexOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsUndeployIndexOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudAiIndexEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAiIndexEndpointsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiIndexEndpointsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiIndexEndpointsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud scheduler commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudScheduler
 {
     private readonly ICommand _command;
-    private GcloudSchedulerCmekConfig? _cmekConfig;
-    private GcloudSchedulerJobs? _jobs;
-    private GcloudSchedulerLocations? _locations;
-    private GcloudSchedulerOperations? _operations;
+    private GcloudSchedulerCmekConfig _cmekConfig;
+    private GcloudSchedulerJobs _jobs;
+    private GcloudSchedulerLocations _locations;
+    private GcloudSchedulerOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudScheduler"/> class.
@@ -65,8 +65,8 @@ public class GcloudScheduler
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSchedulerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSchedulerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSchedulerOptions(), executionOptions, cancellationToken);

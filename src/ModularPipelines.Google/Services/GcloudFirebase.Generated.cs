@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud firebase commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirebase
 {
     private readonly ICommand _command;
-    private GcloudFirebaseTest? _test;
+    private GcloudFirebaseTest _test;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudFirebase"/> class.
@@ -47,8 +47,8 @@ public class GcloudFirebase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudFirebaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirebaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirebaseOptions(), executionOptions, cancellationToken);

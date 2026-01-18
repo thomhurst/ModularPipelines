@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud local commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiplatformLocal
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiplatformLocal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Predict(
-        GcloudAiPlatformLocalPredictOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPlatformLocalPredictOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalPredictOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiplatformLocal
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Train(
-        GcloudAiPlatformLocalTrainOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPlatformLocalTrainOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformLocalTrainOptions(), executionOptions, cancellationToken);

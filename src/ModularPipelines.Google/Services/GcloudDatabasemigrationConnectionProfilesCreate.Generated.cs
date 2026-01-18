@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatabasemigrationConnectionProfilesCreate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alloydb(
-        GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateAlloydbOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cloudsql(
-        GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateCloudsqlOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Mysql(
-        GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateMysqlOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oracle(
-        GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateOracleOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Postgresql(
-        GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreatePostgresqlOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDatabasemigrationConnectionProfilesCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sqlserver(
-        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatabaseMigrationConnectionProfilesCreateSqlserverOptions(), executionOptions, cancellationToken);

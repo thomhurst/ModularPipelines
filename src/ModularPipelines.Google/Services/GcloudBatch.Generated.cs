@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud batch commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBatch
 {
     private readonly ICommand _command;
-    private GcloudBatchJobs? _jobs;
-    private GcloudBatchTasks? _tasks;
+    private GcloudBatchJobs _jobs;
+    private GcloudBatchTasks _tasks;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBatch"/> class.
@@ -53,8 +53,8 @@ public class GcloudBatch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBatchOptions(), executionOptions, cancellationToken);

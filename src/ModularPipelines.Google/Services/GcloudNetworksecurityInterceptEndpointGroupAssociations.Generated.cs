@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud intercept-endpoint-group-associations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecurityInterceptEndpointGroupAssociations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetworksecurityInterceptEndpointGroupAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityInterceptEndpointGroupAssociationsUpdateOptions(), executionOptions, cancellationToken);

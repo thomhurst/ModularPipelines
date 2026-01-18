@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRedisOperations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudRedisOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudRedisOperationsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRedisOperationsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisOperationsCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudRedisOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudRedisOperationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRedisOperationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisOperationsDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudRedisOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudRedisOperationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRedisOperationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisOperationsListOptions(), executionOptions, cancellationToken);

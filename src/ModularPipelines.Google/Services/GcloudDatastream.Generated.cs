@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud datastream commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatastream
 {
     private readonly ICommand _command;
-    private GcloudDatastreamConnectionProfiles? _connectionProfiles;
-    private GcloudDatastreamLocations? _locations;
-    private GcloudDatastreamObjects? _objects;
-    private GcloudDatastreamOperations? _operations;
-    private GcloudDatastreamPrivateConnections? _privateConnections;
-    private GcloudDatastreamRoutes? _routes;
-    private GcloudDatastreamStreams? _streams;
+    private GcloudDatastreamConnectionProfiles _connectionProfiles;
+    private GcloudDatastreamLocations _locations;
+    private GcloudDatastreamObjects _objects;
+    private GcloudDatastreamOperations _operations;
+    private GcloudDatastreamPrivateConnections _privateConnections;
+    private GcloudDatastreamRoutes _routes;
+    private GcloudDatastreamStreams _streams;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatastream"/> class.
@@ -83,8 +83,8 @@ public class GcloudDatastream
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDatastreamOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDatastreamOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDatastreamOptions(), executionOptions, cancellationToken);

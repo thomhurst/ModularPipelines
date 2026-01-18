@@ -11,7 +11,7 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --inlinetrustconfigfile.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudInlineTrustConfigFile
 {
     [Description("ecdsa-p256")]
@@ -21,11 +21,11 @@ public enum GcloudInlineTrustConfigFile
     EcdsaP384,
 
     [Description("rsa-2048")]
-    RsaValue2048,
+    Rsa_2048,
 
     [Description("rsa-3072")]
-    RsaValue3072,
+    Rsa_3072,
 
     [Description("rsa-4096")]
-    RsaValue4096
+    Rsa_4096
 }

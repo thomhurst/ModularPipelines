@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud contents commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudImmersivestreamXrContents
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        GcloudImmersiveStreamXrContentsBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsBuildOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudImmersiveStreamXrContentsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudImmersiveStreamXrContentsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudImmersiveStreamXrContentsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudImmersiveStreamXrContentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudImmersivestreamXrContents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudImmersiveStreamXrContentsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudImmersiveStreamXrContentsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudImmersiveStreamXrContentsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud xr commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudImmersivestreamXr
 {
     private readonly ICommand _command;
-    private GcloudImmersivestreamXrContents? _contents;
-    private GcloudImmersivestreamXrInstances? _instances;
-    private GcloudImmersivestreamXrOperations? _operations;
+    private GcloudImmersivestreamXrContents _contents;
+    private GcloudImmersivestreamXrInstances _instances;
+    private GcloudImmersivestreamXrOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudImmersivestreamXr"/> class.

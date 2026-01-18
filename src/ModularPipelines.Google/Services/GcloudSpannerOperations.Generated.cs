@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSpannerOperations
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudSpannerOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudSpannerOperationsCancelOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudSpannerOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudSpannerOperationsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudSpannerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerOperationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerOperationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerOperationsListOptions(), executionOptions, cancellationToken);

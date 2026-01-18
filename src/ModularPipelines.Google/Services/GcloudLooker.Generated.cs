@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud looker commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLooker
 {
     private readonly ICommand _command;
-    private GcloudLookerBackups? _backups;
-    private GcloudLookerInstances? _instances;
-    private GcloudLookerOperations? _operations;
-    private GcloudLookerRegions? _regions;
+    private GcloudLookerBackups _backups;
+    private GcloudLookerInstances _instances;
+    private GcloudLookerOperations _operations;
+    private GcloudLookerRegions _regions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudLooker"/> class.
@@ -65,8 +65,8 @@ public class GcloudLooker
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudLookerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLookerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLookerOptions(), executionOptions, cancellationToken);

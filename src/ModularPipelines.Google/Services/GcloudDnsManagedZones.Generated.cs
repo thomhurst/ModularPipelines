@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud managed-zones commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsManagedZones
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDnsManagedZones
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDnsManagedZonesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudDnsManagedZones
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDnsManagedZonesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDnsManagedZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDnsManagedZonesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsManagedZonesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsManagedZonesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDnsManagedZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDnsManagedZonesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsManagedZonesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsManagedZonesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDnsManagedZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDnsManagedZonesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsManagedZonesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsManagedZonesListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudDnsManagedZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
-        GcloudDnsManagedZonesSetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsManagedZonesSetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsManagedZonesSetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudDnsManagedZones
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDnsManagedZonesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsManagedZonesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsManagedZonesUpdateOptions(), executionOptions, cancellationToken);

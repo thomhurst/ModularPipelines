@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLustreInstances
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudLustreInstancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudLustreInstancesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudLustreInstancesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ExportData(
-        GcloudLustreInstancesExportDataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesExportDataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesExportDataOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ImportData(
-        GcloudLustreInstancesImportDataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesImportDataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesImportDataOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLustreInstancesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesListOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudLustreInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudLustreInstancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLustreInstancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLustreInstancesUpdateOptions(), executionOptions, cancellationToken);

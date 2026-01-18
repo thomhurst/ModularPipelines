@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud firewall-rules commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAppFirewallRules
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAppFirewallRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAppFirewallRulesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAppFirewallRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAppFirewallRulesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAppFirewallRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAppFirewallRulesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAppFirewallRules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAppFirewallRulesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAppFirewallRulesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppFirewallRulesListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudAppFirewallRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIp(
         GcloudAppFirewallRulesTestIpOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudAppFirewallRules
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudAppFirewallRulesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

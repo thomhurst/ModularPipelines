@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud clusters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerAwsClusters
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerAwsClustersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerAwsClustersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerAwsClustersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerAwsClustersGetCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersGetCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAwsClustersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudContainerAwsClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerAwsClustersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsClustersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsClustersUpdateOptions(), executionOptions, cancellationToken);

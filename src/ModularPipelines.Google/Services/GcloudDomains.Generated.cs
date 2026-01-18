@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud domains commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDomains
 {
     private readonly ICommand _command;
-    private GcloudDomainsRegistrations? _registrations;
+    private GcloudDomainsRegistrations _registrations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDomains"/> class.
@@ -47,8 +47,8 @@ public class GcloudDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDomainsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDomains
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListUserVerified(
-        GcloudDomainsListUserVerifiedOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDomainsListUserVerifiedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDomainsListUserVerifiedOptions(), executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudDomains
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Verify(
         GcloudDomainsVerifyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

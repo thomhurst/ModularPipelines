@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud tag-templates commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDatacatalogTagTemplates
 {
     private readonly ICommand _command;
-    private GcloudDatacatalogTagTemplatesFields? _fields;
+    private GcloudDatacatalogTagTemplatesFields _fields;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDatacatalogTagTemplates"/> class.
@@ -47,8 +47,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudDataCatalogTagTemplatesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDataCatalogTagTemplatesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesCreateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDataCatalogTagTemplatesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDataCatalogTagTemplatesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesDescribeOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudDataCatalogTagTemplatesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudDataCatalogTagTemplatesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -138,7 +138,7 @@ public class GcloudDatacatalogTagTemplates
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudDataCatalogTagTemplatesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudDatacatalogTagTemplates
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDataCatalogTagTemplatesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataCatalogTagTemplatesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataCatalogTagTemplatesUpdateOptions(), executionOptions, cancellationToken);

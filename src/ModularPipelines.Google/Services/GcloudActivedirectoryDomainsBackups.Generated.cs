@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudActivedirectoryDomainsBackups
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudActivedirectoryDomainsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudActiveDirectoryDomainsBackupsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryDomainsBackupsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudActivedirectoryDomainsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudActiveDirectoryDomainsBackupsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryDomainsBackupsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudActivedirectoryDomainsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudActiveDirectoryDomainsBackupsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryDomainsBackupsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudActivedirectoryDomainsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudActiveDirectoryDomainsBackupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryDomainsBackupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudActivedirectoryDomainsBackups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudActiveDirectoryDomainsBackupsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudActiveDirectoryDomainsBackupsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudActiveDirectoryDomainsBackupsUpdateOptions(), executionOptions, cancellationToken);

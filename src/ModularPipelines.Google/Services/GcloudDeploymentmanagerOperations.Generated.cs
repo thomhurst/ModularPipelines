@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud operations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeploymentmanagerOperations
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDeploymentmanagerOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDeploymentManagerOperationsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDeploymentmanagerOperations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeploymentManagerOperationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeploymentManagerOperationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeploymentManagerOperationsListOptions(), executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudDeploymentmanagerOperations
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
         GcloudDeploymentManagerOperationsWaitOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

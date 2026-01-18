@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud parametermanager commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudParametermanager
 {
     private readonly ICommand _command;
-    private GcloudParametermanagerParameters? _parameters;
+    private GcloudParametermanagerParameters _parameters;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudParametermanager"/> class.
@@ -47,8 +47,8 @@ public class GcloudParametermanager
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudParametermanagerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerOptions(), executionOptions, cancellationToken);

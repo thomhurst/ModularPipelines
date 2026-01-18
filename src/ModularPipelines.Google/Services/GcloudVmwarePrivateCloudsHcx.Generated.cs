@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud hcx commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateCloudsHcx
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateCloudsHcxActivationkeys? _activationkeys;
+    private GcloudVmwarePrivateCloudsHcxActivationkeys _activationkeys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateCloudsHcx"/> class.

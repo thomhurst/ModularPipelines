@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud target-https-proxies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeTargetHttpsProxies
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeTargetHttpsProxiesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeTargetHttpsProxiesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeTargetHttpsProxiesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudComputeTargetHttpsProxiesExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudComputeTargetHttpsProxiesImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudComputeTargetHttpsProxies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeTargetHttpsProxiesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeTargetHttpsProxiesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeTargetHttpsProxiesListOptions(), executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudComputeTargetHttpsProxies
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeTargetHttpsProxiesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud db-nodes commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudOracledatabaseCloudVmClustersDbNodes
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudOracledatabaseCloudVmClustersDbNodes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseCloudVmClustersDbNodesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseCloudVmClustersDbNodesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseCloudVmClustersDbNodesListOptions(), executionOptions, cancellationToken);

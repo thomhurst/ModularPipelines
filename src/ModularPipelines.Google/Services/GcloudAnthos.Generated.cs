@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud anthos commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAnthos
 {
     private readonly ICommand _command;
-    private GcloudAnthosAuth? _auth;
-    private GcloudAnthosConfig? _config;
+    private GcloudAnthosAuth _auth;
+    private GcloudAnthosConfig _config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAnthos"/> class.
@@ -53,8 +53,8 @@ public class GcloudAnthos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAnthosOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudAnthos
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CreateLoginConfig(
-        GcloudAnthosCreateLoginConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAnthosCreateLoginConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAnthosCreateLoginConfigOptions(), executionOptions, cancellationToken);

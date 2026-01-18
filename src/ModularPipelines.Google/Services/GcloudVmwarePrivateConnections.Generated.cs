@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud private-connections commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateConnections
 {
     private readonly ICommand _command;
-    private GcloudVmwarePrivateConnectionsRoutes? _routes;
+    private GcloudVmwarePrivateConnectionsRoutes _routes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwarePrivateConnections"/> class.
@@ -47,8 +47,8 @@ public class GcloudVmwarePrivateConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudVmwarePrivateConnectionsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateConnectionsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudVmwarePrivateConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudVmwarePrivateConnectionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateConnectionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudVmwarePrivateConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateConnectionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateConnectionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudVmwarePrivateConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwarePrivateConnectionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateConnectionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudVmwarePrivateConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudVmwarePrivateConnectionsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateConnectionsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateConnectionsUpdateOptions(), executionOptions, cancellationToken);

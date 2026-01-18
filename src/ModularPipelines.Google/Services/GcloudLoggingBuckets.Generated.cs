@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud buckets commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLoggingBuckets
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudLoggingBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudLoggingBucketsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudLoggingBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingBucketsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudLoggingBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudLoggingBucketsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudLoggingBuckets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingBucketsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingBucketsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingBucketsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudLoggingBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudLoggingBucketsUndeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudLoggingBuckets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudLoggingBucketsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

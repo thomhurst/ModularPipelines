@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud applications commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApphubApplications
 {
     private readonly ICommand _command;
-    private GcloudApphubApplicationsServices? _services;
-    private GcloudApphubApplicationsWorkloads? _workloads;
+    private GcloudApphubApplicationsServices _services;
+    private GcloudApphubApplicationsWorkloads _workloads;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudApphubApplications"/> class.
@@ -53,8 +53,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudApphubApplicationsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApphubApplicationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsCreateOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApphubApplicationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsDeleteOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubApplicationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsDescribeOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudApphubApplicationsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubApplicationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsListOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudApphubApplicationsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -159,7 +159,7 @@ public class GcloudApphubApplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudApphubApplicationsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class GcloudApphubApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudApphubApplicationsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsUpdateOptions(), executionOptions, cancellationToken);

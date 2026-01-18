@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud repositories commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComponentsRepositories
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComponentsRepositories
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
         GcloudComponentsRepositoriesAddOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComponentsRepositories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComponentsRepositoriesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsRepositoriesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComponentsRepositories
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        GcloudComponentsRepositoriesRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComponentsRepositoriesRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComponentsRepositoriesRemoveOptions(), executionOptions, cancellationToken);

@@ -14,19 +14,19 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud netapp commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetapp
 {
     private readonly ICommand _command;
-    private GcloudNetappActiveDirectories? _activeDirectories;
-    private GcloudNetappBackupPolicies? _backupPolicies;
-    private GcloudNetappBackupVaults? _backupVaults;
-    private GcloudNetappHostGroups? _hostGroups;
-    private GcloudNetappKmsConfigs? _kmsConfigs;
-    private GcloudNetappLocations? _locations;
-    private GcloudNetappOperations? _operations;
-    private GcloudNetappStoragePools? _storagePools;
-    private GcloudNetappVolumes? _volumes;
+    private GcloudNetappActiveDirectories _activeDirectories;
+    private GcloudNetappBackupPolicies _backupPolicies;
+    private GcloudNetappBackupVaults _backupVaults;
+    private GcloudNetappHostGroups _hostGroups;
+    private GcloudNetappKmsConfigs _kmsConfigs;
+    private GcloudNetappLocations _locations;
+    private GcloudNetappOperations _operations;
+    private GcloudNetappStoragePools _storagePools;
+    private GcloudNetappVolumes _volumes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetapp"/> class.
@@ -95,8 +95,8 @@ public class GcloudNetapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudNetappOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappOptions(), executionOptions, cancellationToken);

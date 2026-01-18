@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud aws commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerAws
 {
     private readonly ICommand _command;
-    private GcloudContainerAwsClusters? _clusters;
-    private GcloudContainerAwsNodePools? _nodePools;
-    private GcloudContainerAwsOperations? _operations;
+    private GcloudContainerAwsClusters _clusters;
+    private GcloudContainerAwsNodePools _nodePools;
+    private GcloudContainerAwsOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerAws"/> class.
@@ -59,8 +59,8 @@ public class GcloudContainerAws
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerAwsGetServerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAwsGetServerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAwsGetServerConfigOptions(), executionOptions, cancellationToken);

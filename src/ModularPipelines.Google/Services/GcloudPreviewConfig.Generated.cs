@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPreviewConfig
 {
     private readonly ICommand _command;
-    private GcloudPreviewConfigConfigurations? _configurations;
+    private GcloudPreviewConfigConfigurations _configurations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPreviewConfig"/> class.
@@ -48,7 +48,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
         GcloudPreviewConfigGetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudPreviewConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudPreviewConfigListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPreviewConfigListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPreviewConfigListOptions(), executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudPreviewConfigSetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -93,7 +93,7 @@ public class GcloudPreviewConfig
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unset(
         GcloudPreviewConfigUnsetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

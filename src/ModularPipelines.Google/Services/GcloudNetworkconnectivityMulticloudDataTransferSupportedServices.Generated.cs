@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud multicloud-data-transfer-supported-services commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkconnectivityMulticloudDataTransferSupportedServices
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferSupportedServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetworkconnectivityMulticloudDataTransferSupportedServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityMulticloudDataTransferSupportedServicesListOptions(), executionOptions, cancellationToken);

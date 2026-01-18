@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud exascale-db-storage-vaults commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudOracledatabaseExascaleDbStorageVaults
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudOracleDatabaseExascaleDbStorageVaultsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseExascaleDbStorageVaultsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudOracledatabaseExascaleDbStorageVaults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudOracleDatabaseExascaleDbStorageVaultsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudOracleDatabaseExascaleDbStorageVaultsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudOracleDatabaseExascaleDbStorageVaultsListOptions(), executionOptions, cancellationToken);

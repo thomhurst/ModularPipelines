@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud setting-bindings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudGeminiReleaseChannelSettingsSettingBindings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudGeminiReleaseChannelSettingsSettingBindingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiReleaseChannelSettingsSettingBindingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudGeminiReleaseChannelSettingsSettingBindingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiReleaseChannelSettingsSettingBindingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudGeminiReleaseChannelSettingsSettingBindingsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiReleaseChannelSettingsSettingBindingsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudGeminiReleaseChannelSettingsSettingBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudGeminiReleaseChannelSettingsSettingBindingsUpdateOptions(), executionOptions, cancellationToken);

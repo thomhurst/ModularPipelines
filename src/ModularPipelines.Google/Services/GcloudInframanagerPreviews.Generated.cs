@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud previews commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudInframanagerPreviews
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudInfraManagerPreviewsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerPreviewsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudInfraManagerPreviewsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerPreviewsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudInfraManagerPreviewsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerPreviewsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudInfraManagerPreviewsExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerPreviewsExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsExportOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudInframanagerPreviews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudInfraManagerPreviewsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudInfraManagerPreviewsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudInfraManagerPreviewsListOptions(), executionOptions, cancellationToken);

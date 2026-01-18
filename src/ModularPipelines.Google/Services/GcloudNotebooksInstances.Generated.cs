@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instances commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNotebooksInstances
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudNotebooksInstancesAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNotebooksInstancesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNotebooksInstancesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNotebooksInstancesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Diagnose(
-        GcloudNotebooksInstancesDiagnoseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesDiagnoseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesDiagnoseOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetHealth(
-        GcloudNotebooksInstancesGetHealthOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesGetHealthOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesGetHealthOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudNotebooksInstancesGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> IsUpgradeable(
-        GcloudNotebooksInstancesIsUpgradeableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesIsUpgradeableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesIsUpgradeableOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNotebooksInstancesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesListOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Migrate(
-        GcloudNotebooksInstancesMigrateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesMigrateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesMigrateOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        GcloudNotebooksInstancesRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRegisterOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudNotebooksInstancesRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudNotebooksInstancesResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesResetOptions(), executionOptions, cancellationToken);
@@ -232,8 +232,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rollback(
-        GcloudNotebooksInstancesRollbackOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesRollbackOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesRollbackOptions(), executionOptions, cancellationToken);
@@ -248,7 +248,7 @@ public class GcloudNotebooksInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudNotebooksInstancesSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -262,8 +262,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        GcloudNotebooksInstancesStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesStartOptions(), executionOptions, cancellationToken);
@@ -277,8 +277,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        GcloudNotebooksInstancesStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesStopOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNotebooksInstancesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesUpdateOptions(), executionOptions, cancellationToken);
@@ -307,8 +307,8 @@ public class GcloudNotebooksInstances
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upgrade(
-        GcloudNotebooksInstancesUpgradeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNotebooksInstancesUpgradeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNotebooksInstancesUpgradeOptions(), executionOptions, cancellationToken);

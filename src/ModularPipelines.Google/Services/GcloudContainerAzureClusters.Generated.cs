@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud clusters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerAzureClusters
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerAzureClustersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerAzureClustersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerAzureClustersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        GcloudContainerAzureClustersGetCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersGetCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerAzureClustersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudContainerAzureClusters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerAzureClustersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerAzureClustersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerAzureClustersUpdateOptions(), executionOptions, cancellationToken);

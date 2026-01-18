@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backup-plan-revisions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBackupdrBackupPlanRevisions
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBackupdrBackupPlanRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBackupDrBackupPlanRevisionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanRevisionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBackupdrBackupPlanRevisions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBackupDrBackupPlanRevisionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBackupDrBackupPlanRevisionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBackupDrBackupPlanRevisionsListOptions(), executionOptions, cancellationToken);

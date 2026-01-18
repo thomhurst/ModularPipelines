@@ -14,24 +14,24 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainer
 {
     private readonly ICommand _command;
-    private GcloudContainerAi? _ai;
-    private GcloudContainerAttached? _attached;
-    private GcloudContainerAws? _aws;
-    private GcloudContainerAzure? _azure;
-    private GcloudContainerBareMetal? _bareMetal;
-    private GcloudContainerBinauthz? _binauthz;
-    private GcloudContainerClusters? _clusters;
-    private GcloudContainerFleet? _fleet;
-    private GcloudContainerHub? _hub;
-    private GcloudContainerImages? _images;
-    private GcloudContainerNodePools? _nodePools;
-    private GcloudContainerOperations? _operations;
-    private GcloudContainerSubnets? _subnets;
-    private GcloudContainerVmware? _vmware;
+    private GcloudContainerAi _ai;
+    private GcloudContainerAttached _attached;
+    private GcloudContainerAws _aws;
+    private GcloudContainerAzure _azure;
+    private GcloudContainerBareMetal _bareMetal;
+    private GcloudContainerBinauthz _binauthz;
+    private GcloudContainerClusters _clusters;
+    private GcloudContainerFleet _fleet;
+    private GcloudContainerHub _hub;
+    private GcloudContainerImages _images;
+    private GcloudContainerNodePools _nodePools;
+    private GcloudContainerOperations _operations;
+    private GcloudContainerSubnets _subnets;
+    private GcloudContainerVmware _vmware;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainer"/> class.
@@ -125,8 +125,8 @@ public class GcloudContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudContainerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class GcloudContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetServerConfig(
-        GcloudContainerGetServerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerGetServerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerGetServerConfigOptions(), executionOptions, cancellationToken);

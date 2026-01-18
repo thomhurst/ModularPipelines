@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud kms-configs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetappKmsConfigs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetappKmsConfigsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetappKmsConfigsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetappKmsConfigsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Encrypt(
-        GcloudNetappKmsConfigsEncryptOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsEncryptOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsEncryptOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetappKmsConfigsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetappKmsConfigsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsUpdateOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudNetappKmsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Verify(
-        GcloudNetappKmsConfigsVerifyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetappKmsConfigsVerifyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappKmsConfigsVerifyOptions(), executionOptions, cancellationToken);

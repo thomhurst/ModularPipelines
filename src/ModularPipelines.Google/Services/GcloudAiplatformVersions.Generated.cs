@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud versions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiplatformVersions
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAiplatformVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudAiPlatformVersionsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAiplatformVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAiPlatformVersionsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAiplatformVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAiPlatformVersionsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiplatformVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiPlatformVersionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPlatformVersionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudAiplatformVersions
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetDefault(
         GcloudAiPlatformVersionsSetDefaultOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAiplatformVersions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAiPlatformVersionsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiPlatformVersionsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiPlatformVersionsUpdateOptions(), executionOptions, cancellationToken);

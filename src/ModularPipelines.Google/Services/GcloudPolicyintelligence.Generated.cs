@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud policyintelligence commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudPolicyintelligence
 {
     private readonly ICommand _command;
-    private GcloudPolicyintelligenceSimulate? _simulate;
-    private GcloudPolicyintelligenceTroubleshootPolicy? _troubleshootPolicy;
+    private GcloudPolicyintelligenceSimulate _simulate;
+    private GcloudPolicyintelligenceTroubleshootPolicy _troubleshootPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudPolicyintelligence"/> class.
@@ -53,8 +53,8 @@ public class GcloudPolicyintelligence
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryActivity(
-        GcloudPolicyIntelligenceQueryActivityOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudPolicyIntelligenceQueryActivityOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudPolicyIntelligenceQueryActivityOptions(), executionOptions, cancellationToken);

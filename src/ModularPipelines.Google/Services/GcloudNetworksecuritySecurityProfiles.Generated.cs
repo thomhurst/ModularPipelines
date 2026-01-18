@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud security-profiles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecuritySecurityProfiles
 {
     private readonly ICommand _command;
-    private GcloudNetworksecuritySecurityProfilesCustomIntercept? _customIntercept;
-    private GcloudNetworksecuritySecurityProfilesCustomMirroring? _customMirroring;
-    private GcloudNetworksecuritySecurityProfilesThreatPrevention? _threatPrevention;
+    private GcloudNetworksecuritySecurityProfilesCustomIntercept _customIntercept;
+    private GcloudNetworksecuritySecurityProfilesCustomMirroring _customMirroring;
+    private GcloudNetworksecuritySecurityProfilesThreatPrevention _threatPrevention;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecuritySecurityProfiles"/> class.

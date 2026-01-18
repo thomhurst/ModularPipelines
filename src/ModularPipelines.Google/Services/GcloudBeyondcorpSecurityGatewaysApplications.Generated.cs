@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud applications commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBeyondcorpSecurityGatewaysApplications
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBeyondcorpSecurityGatewaysApplicationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBeyondcorpSecurityGatewaysApplicationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBeyondcorpSecurityGatewaysApplicationsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBeyondcorpSecurityGatewaysApplicationsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsListOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudBeyondcorpSecurityGatewaysApplicationsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudBeyondcorpSecurityGatewaysApplications
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBeyondcorpSecurityGatewaysApplicationsUpdateOptions(), executionOptions, cancellationToken);

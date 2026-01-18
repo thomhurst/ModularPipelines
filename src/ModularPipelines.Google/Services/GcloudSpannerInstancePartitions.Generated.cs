@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud instance-partitions commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSpannerInstancePartitions
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSpannerInstancePartitions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudSpannerInstancePartitionsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstancePartitionsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSpannerInstancePartitions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudSpannerInstancePartitionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstancePartitionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudSpannerInstancePartitions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSpannerInstancePartitionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstancePartitionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudSpannerInstancePartitions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudSpannerInstancePartitionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstancePartitionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudSpannerInstancePartitions
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSpannerInstancePartitionsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSpannerInstancePartitionsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSpannerInstancePartitionsUpdateOptions(), executionOptions, cancellationToken);

@@ -14,24 +14,24 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud scc commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudScc
 {
     private readonly ICommand _command;
-    private GcloudSccAssets? _assets;
-    private GcloudSccBqexports? _bqexports;
-    private GcloudSccCustomModules? _customModules;
-    private GcloudSccFindings? _findings;
-    private GcloudSccIacValidationReports? _iacValidationReports;
-    private GcloudSccManage? _manage;
-    private GcloudSccMuteconfigs? _muteconfigs;
-    private GcloudSccNotifications? _notifications;
-    private GcloudSccOperations? _operations;
-    private GcloudSccPostureDeployments? _postureDeployments;
-    private GcloudSccPostureOperations? _postureOperations;
-    private GcloudSccPostures? _postures;
-    private GcloudSccPostureTemplates? _postureTemplates;
-    private GcloudSccSources? _sources;
+    private GcloudSccAssets _assets;
+    private GcloudSccBqexports _bqexports;
+    private GcloudSccCustomModules _customModules;
+    private GcloudSccFindings _findings;
+    private GcloudSccIacValidationReports _iacValidationReports;
+    private GcloudSccManage _manage;
+    private GcloudSccMuteconfigs _muteconfigs;
+    private GcloudSccNotifications _notifications;
+    private GcloudSccOperations _operations;
+    private GcloudSccPostureDeployments _postureDeployments;
+    private GcloudSccPostureOperations _postureOperations;
+    private GcloudSccPostures _postures;
+    private GcloudSccPostureTemplates _postureTemplates;
+    private GcloudSccSources _sources;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudScc"/> class.
@@ -125,8 +125,8 @@ public class GcloudScc
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSccOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSccOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSccOptions(), executionOptions, cancellationToken);

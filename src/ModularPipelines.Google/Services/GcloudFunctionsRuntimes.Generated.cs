@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud runtimes commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFunctionsRuntimes
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudFunctionsRuntimes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFunctionsRuntimesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFunctionsRuntimesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFunctionsRuntimesListOptions(), executionOptions, cancellationToken);

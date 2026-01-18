@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dags commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComposerEnvironmentsStorageDags
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComposerEnvironmentsStorageDags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComposerEnvironmentsStorageDagsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsStorageDagsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComposerEnvironmentsStorageDags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudComposerEnvironmentsStorageDagsExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsStorageDagsExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsExportOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComposerEnvironmentsStorageDags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudComposerEnvironmentsStorageDagsImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsStorageDagsImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsImportOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComposerEnvironmentsStorageDags
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComposerEnvironmentsStorageDagsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsStorageDagsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsStorageDagsListOptions(), executionOptions, cancellationToken);

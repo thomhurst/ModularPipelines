@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud services commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAppServices
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudAppServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Browse(
         GcloudAppServicesBrowseOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudAppServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudAppServicesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudAppServices
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudAppServicesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAppServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAppServicesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAppServicesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAppServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetTraffic(
-        GcloudAppServicesSetTrafficOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAppServicesSetTrafficOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesSetTrafficOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAppServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudAppServicesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAppServicesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAppServicesUpdateOptions(), executionOptions, cancellationToken);

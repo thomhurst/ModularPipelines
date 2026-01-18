@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud logs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLoggingLogs
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudLoggingLogs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingLogsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudLoggingLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingLogsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingLogsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingLogsListOptions(), executionOptions, cancellationToken);

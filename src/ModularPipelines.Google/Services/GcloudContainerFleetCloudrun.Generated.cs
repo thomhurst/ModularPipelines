@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud cloudrun commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerFleetCloudrun
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerFleetCloudrun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Apply(
-        GcloudContainerFleetCloudrunApplyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetCloudrunApplyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunApplyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerFleetCloudrun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerFleetCloudrunDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetCloudrunDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunDescribeOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerFleetCloudrun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerFleetCloudrunDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetCloudrunDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunDisableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerFleetCloudrun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerFleetCloudrunEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerFleetCloudrunEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerFleetCloudrunEnableOptions(), executionOptions, cancellationToken);

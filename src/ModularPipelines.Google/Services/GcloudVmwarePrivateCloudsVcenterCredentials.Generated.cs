@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud credentials commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwarePrivateCloudsVcenterCredentials
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudVmwarePrivateCloudsVcenterCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsVcenterCredentialsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudVmwarePrivateCloudsVcenterCredentials
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwarePrivateCloudsVcenterCredentialsResetOptions(), executionOptions, cancellationToken);

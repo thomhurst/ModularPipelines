@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud models commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAiModels
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        GcloudAiModelsCopyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsCopyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsCopyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudAiModelsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteVersion(
-        GcloudAiModelsDeleteVersionOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsDeleteVersionOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsDeleteVersionOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudAiModelsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsDescribeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudAiModelsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVersion(
-        GcloudAiModelsListVersionOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsListVersionOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsListVersionOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudAiModels
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        GcloudAiModelsUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiModelsUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiModelsUploadOptions(), executionOptions, cancellationToken);

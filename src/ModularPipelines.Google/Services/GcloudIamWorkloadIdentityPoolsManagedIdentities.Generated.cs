@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud managed-identities commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamWorkloadIdentityPoolsManagedIdentities
 {
     private readonly ICommand _command;
-    private GcloudIamWorkloadIdentityPoolsManagedIdentitiesOperations? _operations;
+    private GcloudIamWorkloadIdentityPoolsManagedIdentitiesOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamWorkloadIdentityPoolsManagedIdentities"/> class.
@@ -47,8 +47,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddAttestationRule(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesAddAttestationRuleOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesCreateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesDescribeOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAttestationRules(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesListAttestationRulesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesListAttestationRulesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesListAttestationRulesOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveAttestationRule(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesRemoveAttestationRuleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesRemoveAttestationRuleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesRemoveAttestationRuleOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAttestationRules(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesSetAttestationRulesOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesUndeleteOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class GcloudIamWorkloadIdentityPoolsManagedIdentities
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamWorkloadIdentityPoolsManagedIdentitiesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamWorkloadIdentityPoolsManagedIdentitiesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamWorkloadIdentityPoolsManagedIdentitiesUpdateOptions(), executionOptions, cancellationToken);

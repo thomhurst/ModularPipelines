@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud triggers commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBuildsTriggers
 {
     private readonly ICommand _command;
-    private GcloudBuildsTriggersCreate? _create;
-    private GcloudBuildsTriggersUpdate? _update;
+    private GcloudBuildsTriggersCreate _create;
+    private GcloudBuildsTriggersUpdate _update;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudBuildsTriggers"/> class.
@@ -53,8 +53,8 @@ public class GcloudBuildsTriggers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBuildsTriggersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersDeleteOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudBuildsTriggers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBuildsTriggersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersDescribeOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudBuildsTriggers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudBuildsTriggersImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersImportOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudBuildsTriggers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBuildsTriggersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersListOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudBuildsTriggers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        GcloudBuildsTriggersRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersRunOptions(), executionOptions, cancellationToken);

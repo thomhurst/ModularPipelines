@@ -11,27 +11,27 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --maintenancewindowday.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudMaintenanceWindowDay
 {
-    [Description("friday")]
-    Friday,
-
-    [Description("monday")]
-    Monday,
-
-    [Description("saturday")]
-    Saturday,
-
-    [Description("sunday")]
+    [Description("SUNDAY")]
     Sunday,
 
-    [Description("thursday")]
-    Thursday,
+    [Description("MONDAY")]
+    Monday,
 
-    [Description("tuesday")]
+    [Description("TUESDAY")]
     Tuesday,
 
-    [Description("wednesday")]
-    Wednesday
+    [Description("WEDNESDAY")]
+    Wednesday,
+
+    [Description("THURSDAY")]
+    Thursday,
+
+    [Description("FRIDAY")]
+    Friday,
+
+    [Description("SATURDAY")]
+    Saturday
 }

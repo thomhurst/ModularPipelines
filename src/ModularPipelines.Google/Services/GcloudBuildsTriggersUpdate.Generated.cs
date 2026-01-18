@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud update commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBuildsTriggersUpdate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketCloud(
-        GcloudBuildsTriggersUpdateBitbucketCloudOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateBitbucketCloudOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketCloudOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BitbucketDataCenter(
-        GcloudBuildsTriggersUpdateBitbucketDataCenterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateBitbucketDataCenterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketDataCenterOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bitbucketserver(
-        GcloudBuildsTriggersUpdateBitbucketserverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateBitbucketserverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateBitbucketserverOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CloudSourceRepositories(
-        GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateCloudSourceRepositoriesOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Github(
-        GcloudBuildsTriggersUpdateGithubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateGithubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateGithubOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gitlab(
-        GcloudBuildsTriggersUpdateGitlabOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateGitlabOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateGitlabOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Manual(
-        GcloudBuildsTriggersUpdateManualOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateManualOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateManualOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pubsub(
-        GcloudBuildsTriggersUpdatePubsubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdatePubsubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdatePubsubOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudBuildsTriggersUpdate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Webhook(
-        GcloudBuildsTriggersUpdateWebhookOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBuildsTriggersUpdateWebhookOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBuildsTriggersUpdateWebhookOptions(), executionOptions, cancellationToken);

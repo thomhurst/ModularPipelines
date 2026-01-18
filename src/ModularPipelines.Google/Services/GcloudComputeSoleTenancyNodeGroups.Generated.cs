@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud node-groups commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeSoleTenancyNodeGroups
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeSoleTenancyNodeGroupsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeSoleTenancyNodeGroupsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeSoleTenancyNodeGroupsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListNodes(
         GcloudComputeSoleTenancyNodeGroupsListNodesOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeSoleTenancyNodeGroupsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSoleTenancyNodeGroupsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsListOptions(), executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformMaintenance(
         GcloudComputeSoleTenancyNodeGroupsPerformMaintenanceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeSoleTenancyNodeGroupsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -173,7 +173,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeSoleTenancyNodeGroupsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -188,7 +188,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SimulateMaintenanceEvent(
         GcloudComputeSoleTenancyNodeGroupsSimulateMaintenanceEventOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -203,7 +203,7 @@ public class GcloudComputeSoleTenancyNodeGroups
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeSoleTenancyNodeGroupsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

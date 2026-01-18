@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud bindings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHubMembershipsBindings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerHubMembershipsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudContainerHubMembershipsBindingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsBindingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsBindingsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerHubMembershipsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudContainerHubMembershipsBindingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsBindingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsBindingsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerHubMembershipsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubMembershipsBindingsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsBindingsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsBindingsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudContainerHubMembershipsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudContainerHubMembershipsBindingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsBindingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsBindingsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudContainerHubMembershipsBindings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudContainerHubMembershipsBindingsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubMembershipsBindingsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubMembershipsBindingsUpdateOptions(), executionOptions, cancellationToken);

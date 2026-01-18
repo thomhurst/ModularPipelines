@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud enterprise-certificate-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAuthEnterpriseCertificateConfig
 {
     private readonly ICommand _command;
-    private GcloudAuthEnterpriseCertificateConfigCreate? _create;
+    private GcloudAuthEnterpriseCertificateConfigCreate _create;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAuthEnterpriseCertificateConfig"/> class.

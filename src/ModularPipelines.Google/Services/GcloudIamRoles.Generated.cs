@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud roles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamRoles
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudIamRoles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        GcloudIamRolesCopyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamRolesCopyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamRolesCopyOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudIamRoles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIamRolesCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudIamRoles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIamRolesDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudIamRoles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIamRolesDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudIamRoles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamRolesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamRolesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamRolesListOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudIamRoles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudIamRolesUndeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudIamRoles
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudIamRolesUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

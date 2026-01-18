@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud links commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudLoggingLinks
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudLoggingLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudLoggingLinksCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudLoggingLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudLoggingLinksDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudLoggingLinks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudLoggingLinksDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudLoggingLinks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudLoggingLinksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudLoggingLinksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudLoggingLinksListOptions(), executionOptions, cancellationToken);

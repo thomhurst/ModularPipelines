@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud rolling-action commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeInstanceGroupsManagedRollingAction
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Replace(
         GcloudComputeInstanceGroupsManagedRollingActionReplaceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
         GcloudComputeInstanceGroupsManagedRollingActionRestartOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartUpdate(
         GcloudComputeInstanceGroupsManagedRollingActionStartUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudComputeInstanceGroupsManagedRollingAction
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopProactiveUpdate(
         GcloudComputeInstanceGroupsManagedRollingActionStopProactiveUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

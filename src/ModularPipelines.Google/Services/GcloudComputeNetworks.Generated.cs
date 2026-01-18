@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworks
 {
     private readonly ICommand _command;
-    private GcloudComputeNetworksPeerings? _peerings;
-    private GcloudComputeNetworksSubnets? _subnets;
-    private GcloudComputeNetworksVpcAccess? _vpcAccess;
+    private GcloudComputeNetworksPeerings _peerings;
+    private GcloudComputeNetworksSubnets _subnets;
+    private GcloudComputeNetworksVpcAccess _vpcAccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeNetworks"/> class.
@@ -60,7 +60,7 @@ public class GcloudComputeNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeNetworksCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -75,7 +75,7 @@ public class GcloudComputeNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeNetworksDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -90,7 +90,7 @@ public class GcloudComputeNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeNetworksDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -105,7 +105,7 @@ public class GcloudComputeNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetEffectiveFirewalls(
         GcloudComputeNetworksGetEffectiveFirewallsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class GcloudComputeNetworks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeNetworksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworksListOptions(), executionOptions, cancellationToken);
@@ -135,7 +135,7 @@ public class GcloudComputeNetworks
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeNetworksUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud materialized-views commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBigtableMaterializedViews
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBigtableMaterializedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBigtableMaterializedViewsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableMaterializedViewsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBigtableMaterializedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBigtableMaterializedViewsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableMaterializedViewsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBigtableMaterializedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBigtableMaterializedViewsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableMaterializedViewsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBigtableMaterializedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBigtableMaterializedViewsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableMaterializedViewsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBigtableMaterializedViews
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBigtableMaterializedViewsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBigtableMaterializedViewsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBigtableMaterializedViewsUpdateOptions(), executionOptions, cancellationToken);

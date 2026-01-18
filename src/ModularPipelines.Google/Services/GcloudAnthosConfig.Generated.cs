@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAnthosConfig
 {
     private readonly ICommand _command;
-    private GcloudAnthosConfigController? _controller;
-    private GcloudAnthosConfigOperations? _operations;
+    private GcloudAnthosConfigController _controller;
+    private GcloudAnthosConfigOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAnthosConfig"/> class.

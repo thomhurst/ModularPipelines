@@ -14,17 +14,17 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dns commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDns
 {
     private readonly ICommand _command;
-    private GcloudDnsDnsKeys? _dnsKeys;
-    private GcloudDnsManagedZones? _managedZones;
-    private GcloudDnsOperations? _operations;
-    private GcloudDnsPolicies? _policies;
-    private GcloudDnsProjectInfo? _projectInfo;
-    private GcloudDnsRecordSets? _recordSets;
-    private GcloudDnsResponsePolicies? _responsePolicies;
+    private GcloudDnsDnsKeys _dnsKeys;
+    private GcloudDnsManagedZones _managedZones;
+    private GcloudDnsOperations _operations;
+    private GcloudDnsPolicies _policies;
+    private GcloudDnsProjectInfo _projectInfo;
+    private GcloudDnsRecordSets _recordSets;
+    private GcloudDnsResponsePolicies _responsePolicies;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDns"/> class.
@@ -83,8 +83,8 @@ public class GcloudDns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDnsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsOptions(), executionOptions, cancellationToken);

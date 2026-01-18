@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud migration-workflows commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBqMigrationWorkflows
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBqMigrationWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBqMigrationWorkflowsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBqMigrationWorkflowsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBqMigrationWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBqMigrationWorkflowsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBqMigrationWorkflowsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBqMigrationWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBqMigrationWorkflowsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBqMigrationWorkflowsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBqMigrationWorkflows
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBqMigrationWorkflowsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBqMigrationWorkflowsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBqMigrationWorkflowsListOptions(), executionOptions, cancellationToken);

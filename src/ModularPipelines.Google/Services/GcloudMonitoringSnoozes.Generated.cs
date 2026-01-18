@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud snoozes commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMonitoringSnoozes
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudMonitoringSnoozes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        GcloudMonitoringSnoozesCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringSnoozesCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringSnoozesCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudMonitoringSnoozes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudMonitoringSnoozesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringSnoozesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringSnoozesCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudMonitoringSnoozes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMonitoringSnoozesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringSnoozesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringSnoozesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudMonitoringSnoozes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMonitoringSnoozesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringSnoozesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringSnoozesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudMonitoringSnoozes
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudMonitoringSnoozesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMonitoringSnoozesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMonitoringSnoozesUpdateOptions(), executionOptions, cancellationToken);

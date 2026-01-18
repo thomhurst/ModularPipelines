@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud nfs-shares commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudBmsNfsShares
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudBmsNfsSharesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudBmsNfsSharesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudBmsNfsSharesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudBmsNfsSharesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rename(
-        GcloudBmsNfsSharesRenameOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesRenameOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesRenameOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudBmsNfsShares
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudBmsNfsSharesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudBmsNfsSharesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudBmsNfsSharesUpdateOptions(), executionOptions, cancellationToken);

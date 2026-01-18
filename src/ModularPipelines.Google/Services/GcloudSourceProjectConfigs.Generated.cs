@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud project-configs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSourceProjectConfigs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudSourceProjectConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudSourceProjectConfigsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSourceProjectConfigsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceProjectConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudSourceProjectConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudSourceProjectConfigsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSourceProjectConfigsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSourceProjectConfigsUpdateOptions(), executionOptions, cancellationToken);

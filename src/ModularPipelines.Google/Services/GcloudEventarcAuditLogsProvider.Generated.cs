@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud audit-logs-provider commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEventarcAuditLogsProvider
 {
     private readonly ICommand _command;
-    private GcloudEventarcAuditLogsProviderMethodNames? _methodNames;
-    private GcloudEventarcAuditLogsProviderServiceNames? _serviceNames;
+    private GcloudEventarcAuditLogsProviderMethodNames _methodNames;
+    private GcloudEventarcAuditLogsProviderServiceNames _serviceNames;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudEventarcAuditLogsProvider"/> class.

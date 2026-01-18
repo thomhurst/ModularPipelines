@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud simulator commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamSimulator
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudIamSimulator
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReplayRecentAccess(
         GcloudIamSimulatorReplayRecentAccessOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

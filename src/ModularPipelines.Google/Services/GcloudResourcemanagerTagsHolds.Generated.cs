@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud holds commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudResourcemanagerTagsHolds
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudResourcemanagerTagsHolds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudResourceManagerTagsHoldsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudResourcemanagerTagsHolds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudResourceManagerTagsHoldsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudResourcemanagerTagsHolds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
         GcloudResourceManagerTagsHoldsListOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

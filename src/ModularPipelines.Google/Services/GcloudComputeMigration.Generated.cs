@@ -14,13 +14,13 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud migration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeMigration
 {
     private readonly ICommand _command;
-    private GcloudComputeMigrationImageImports? _imageImports;
-    private GcloudComputeMigrationMachineImageImports? _machineImageImports;
-    private GcloudComputeMigrationTargetProjects? _targetProjects;
+    private GcloudComputeMigrationImageImports _imageImports;
+    private GcloudComputeMigrationMachineImageImports _machineImageImports;
+    private GcloudComputeMigrationTargetProjects _targetProjects;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeMigration"/> class.

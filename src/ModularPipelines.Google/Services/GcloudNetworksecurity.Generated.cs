@@ -14,33 +14,33 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud networksecurity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecurity
 {
     private readonly ICommand _command;
-    private GcloudNetworksecurityAddressGroups? _addressGroups;
-    private GcloudNetworksecurityAuthorizationPolicies? _authorizationPolicies;
-    private GcloudNetworksecurityAuthzPolicies? _authzPolicies;
-    private GcloudNetworksecurityBackendAuthenticationConfigs? _backendAuthenticationConfigs;
-    private GcloudNetworksecurityClientTlsPolicies? _clientTlsPolicies;
-    private GcloudNetworksecurityDnsThreatDetectors? _dnsThreatDetectors;
-    private GcloudNetworksecurityFirewallEndpointAssociations? _firewallEndpointAssociations;
-    private GcloudNetworksecurityFirewallEndpoints? _firewallEndpoints;
-    private GcloudNetworksecurityGatewaySecurityPolicies? _gatewaySecurityPolicies;
-    private GcloudNetworksecurityInterceptDeploymentGroups? _interceptDeploymentGroups;
-    private GcloudNetworksecurityInterceptDeployments? _interceptDeployments;
-    private GcloudNetworksecurityInterceptEndpointGroupAssociations? _interceptEndpointGroupAssociations;
-    private GcloudNetworksecurityInterceptEndpointGroups? _interceptEndpointGroups;
-    private GcloudNetworksecurityMirroringDeploymentGroups? _mirroringDeploymentGroups;
-    private GcloudNetworksecurityMirroringDeployments? _mirroringDeployments;
-    private GcloudNetworksecurityMirroringEndpointGroupAssociations? _mirroringEndpointGroupAssociations;
-    private GcloudNetworksecurityMirroringEndpointGroups? _mirroringEndpointGroups;
-    private GcloudNetworksecurityOrgAddressGroups? _orgAddressGroups;
-    private GcloudNetworksecuritySecurityProfileGroups? _securityProfileGroups;
-    private GcloudNetworksecuritySecurityProfiles? _securityProfiles;
-    private GcloudNetworksecurityServerTlsPolicies? _serverTlsPolicies;
-    private GcloudNetworksecurityTlsInspectionPolicies? _tlsInspectionPolicies;
-    private GcloudNetworksecurityUrlLists? _urlLists;
+    private GcloudNetworksecurityAddressGroups _addressGroups;
+    private GcloudNetworksecurityAuthorizationPolicies _authorizationPolicies;
+    private GcloudNetworksecurityAuthzPolicies _authzPolicies;
+    private GcloudNetworksecurityBackendAuthenticationConfigs _backendAuthenticationConfigs;
+    private GcloudNetworksecurityClientTlsPolicies _clientTlsPolicies;
+    private GcloudNetworksecurityDnsThreatDetectors _dnsThreatDetectors;
+    private GcloudNetworksecurityFirewallEndpointAssociations _firewallEndpointAssociations;
+    private GcloudNetworksecurityFirewallEndpoints _firewallEndpoints;
+    private GcloudNetworksecurityGatewaySecurityPolicies _gatewaySecurityPolicies;
+    private GcloudNetworksecurityInterceptDeploymentGroups _interceptDeploymentGroups;
+    private GcloudNetworksecurityInterceptDeployments _interceptDeployments;
+    private GcloudNetworksecurityInterceptEndpointGroupAssociations _interceptEndpointGroupAssociations;
+    private GcloudNetworksecurityInterceptEndpointGroups _interceptEndpointGroups;
+    private GcloudNetworksecurityMirroringDeploymentGroups _mirroringDeploymentGroups;
+    private GcloudNetworksecurityMirroringDeployments _mirroringDeployments;
+    private GcloudNetworksecurityMirroringEndpointGroupAssociations _mirroringEndpointGroupAssociations;
+    private GcloudNetworksecurityMirroringEndpointGroups _mirroringEndpointGroups;
+    private GcloudNetworksecurityOrgAddressGroups _orgAddressGroups;
+    private GcloudNetworksecuritySecurityProfileGroups _securityProfileGroups;
+    private GcloudNetworksecuritySecurityProfiles _securityProfiles;
+    private GcloudNetworksecurityServerTlsPolicies _serverTlsPolicies;
+    private GcloudNetworksecurityTlsInspectionPolicies _tlsInspectionPolicies;
+    private GcloudNetworksecurityUrlLists _urlLists;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecurity"/> class.

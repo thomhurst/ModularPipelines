@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud hubs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworkconnectivityHubs
 {
     private readonly ICommand _command;
-    private GcloudNetworkconnectivityHubsGroups? _groups;
-    private GcloudNetworkconnectivityHubsRouteTables? _routeTables;
+    private GcloudNetworkconnectivityHubsGroups _groups;
+    private GcloudNetworkconnectivityHubsRouteTables _routeTables;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworkconnectivityHubs"/> class.
@@ -53,8 +53,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptSpoke(
-        GcloudNetworkConnectivityHubsAcceptSpokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsAcceptSpokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AcceptSpokeUpdate(
-        GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAcceptSpokeUpdateOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudNetworkConnectivityHubsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsCreateOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkConnectivityHubsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDeleteOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudNetworkConnectivityHubsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsDescribeOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudNetworkConnectivityHubsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkConnectivityHubsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSpokes(
-        GcloudNetworkConnectivityHubsListSpokesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsListSpokesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsListSpokesOptions(), executionOptions, cancellationToken);
@@ -188,8 +188,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryStatus(
-        GcloudNetworkConnectivityHubsQueryStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsQueryStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsQueryStatusOptions(), executionOptions, cancellationToken);
@@ -203,8 +203,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectSpoke(
-        GcloudNetworkConnectivityHubsRejectSpokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsRejectSpokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeOptions(), executionOptions, cancellationToken);
@@ -218,8 +218,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RejectSpokeUpdate(
-        GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRejectSpokeUpdateOptions(), executionOptions, cancellationToken);
@@ -233,8 +233,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -249,7 +249,7 @@ public class GcloudNetworkconnectivityHubs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudNetworkConnectivityHubsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -263,8 +263,8 @@ public class GcloudNetworkconnectivityHubs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudNetworkConnectivityHubsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkConnectivityHubsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkConnectivityHubsUpdateOptions(), executionOptions, cancellationToken);

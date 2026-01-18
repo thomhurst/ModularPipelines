@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIapSettings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudIapSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        GcloudIapSettingsGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIapSettingsGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIapSettingsGetOptions(), executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudIapSettings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
         GcloudIapSettingsSetOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

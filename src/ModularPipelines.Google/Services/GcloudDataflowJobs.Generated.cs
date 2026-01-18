@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud jobs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataflowJobs
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Archive(
         GcloudDataflowJobsArchiveOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
         GcloudDataflowJobsCancelOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDataflowJobsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Drain(
         GcloudDataflowJobsDrainOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDataflowJobs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDataflowJobsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataflowJobsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowJobsListOptions(), executionOptions, cancellationToken);
@@ -113,7 +113,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
         GcloudDataflowJobsRunOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
         GcloudDataflowJobsShowOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -143,7 +143,7 @@ public class GcloudDataflowJobs
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateOptions(
         GcloudDataflowJobsUpdateOptionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

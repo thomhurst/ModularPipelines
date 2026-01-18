@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud components commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDesigncenterSpacesApplicationTemplatesComponents
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterSpacesApplicationTemplatesComponentsConnections? _connections;
+    private GcloudDesigncenterSpacesApplicationTemplatesComponentsConnections _connections;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesApplicationTemplatesComponents"/> class.
@@ -47,8 +47,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudDesigncenterSpacesApplicationTemplatesComponents
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesApplicationTemplatesComponentsUpdateOptions(), executionOptions, cancellationToken);

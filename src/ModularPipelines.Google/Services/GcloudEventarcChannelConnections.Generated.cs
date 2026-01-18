@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud channel-connections commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEventarcChannelConnections
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEventarcChannelConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudEventarcChannelConnectionsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcChannelConnectionsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcChannelConnectionsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudEventarcChannelConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudEventarcChannelConnectionsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcChannelConnectionsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcChannelConnectionsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudEventarcChannelConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudEventarcChannelConnectionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcChannelConnectionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcChannelConnectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudEventarcChannelConnections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcChannelConnectionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcChannelConnectionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcChannelConnectionsListOptions(), executionOptions, cancellationToken);

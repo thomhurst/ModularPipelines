@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud schedules commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudColabSchedules
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudColabSchedulesCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudColabSchedulesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudColabSchedulesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudColabSchedulesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pause(
-        GcloudColabSchedulesPauseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesPauseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesPauseOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        GcloudColabSchedulesResumeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesResumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesResumeOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class GcloudColabSchedules
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudColabSchedulesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudColabSchedulesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudColabSchedulesUpdateOptions(), executionOptions, cancellationToken);

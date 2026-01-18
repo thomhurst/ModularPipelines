@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud nats commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeRoutersNats
 {
     private readonly ICommand _command;
-    private GcloudComputeRoutersNatsRules? _rules;
+    private GcloudComputeRoutersNatsRules _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeRoutersNats"/> class.
@@ -48,7 +48,7 @@ public class GcloudComputeRoutersNats
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeRoutersNatsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudComputeRoutersNats
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeRoutersNatsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudComputeRoutersNats
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeRoutersNatsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudComputeRoutersNats
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeRoutersNatsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeRoutersNatsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeRoutersNatsListOptions(), executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudComputeRoutersNats
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeRoutersNatsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

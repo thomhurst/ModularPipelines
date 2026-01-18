@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud discovered-services commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApphubDiscoveredServices
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudApphubDiscoveredServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubDiscoveredServicesDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubDiscoveredServicesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudApphubDiscoveredServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubDiscoveredServicesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubDiscoveredServicesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudApphubDiscoveredServices
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lookup(
-        GcloudApphubDiscoveredServicesLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubDiscoveredServicesLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubDiscoveredServicesLookupOptions(), executionOptions, cancellationToken);

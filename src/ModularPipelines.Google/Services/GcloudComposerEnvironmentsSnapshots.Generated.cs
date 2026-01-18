@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud snapshots commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComposerEnvironmentsSnapshots
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComposerEnvironmentsSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        GcloudComposerEnvironmentsSnapshotsLoadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsSnapshotsLoadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsLoadOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComposerEnvironmentsSnapshots
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Save(
-        GcloudComposerEnvironmentsSnapshotsSaveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComposerEnvironmentsSnapshotsSaveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComposerEnvironmentsSnapshotsSaveOptions(), executionOptions, cancellationToken);

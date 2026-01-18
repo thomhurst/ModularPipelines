@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud sql commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudSql
 {
     private readonly ICommand _command;
-    private GcloudSqlBackups? _backups;
-    private GcloudSqlDatabases? _databases;
-    private GcloudSqlExport? _export;
-    private GcloudSqlFlags? _flags;
-    private GcloudSqlImport? _import;
-    private GcloudSqlInstances? _instances;
-    private GcloudSqlOperations? _operations;
-    private GcloudSqlSsl? _ssl;
-    private GcloudSqlSslCerts? _sslCerts;
-    private GcloudSqlTiers? _tiers;
-    private GcloudSqlUsers? _users;
+    private GcloudSqlBackups _backups;
+    private GcloudSqlDatabases _databases;
+    private GcloudSqlExport _export;
+    private GcloudSqlFlags _flags;
+    private GcloudSqlImport _import;
+    private GcloudSqlInstances _instances;
+    private GcloudSqlOperations _operations;
+    private GcloudSqlSsl _ssl;
+    private GcloudSqlSslCerts _sslCerts;
+    private GcloudSqlTiers _tiers;
+    private GcloudSqlUsers _users;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudSql"/> class.
@@ -107,8 +107,8 @@ public class GcloudSql
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudSqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlOptions(), executionOptions, cancellationToken);
@@ -123,7 +123,7 @@ public class GcloudSql
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Connect(
         GcloudSqlConnectOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class GcloudSql
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateLoginToken(
-        GcloudSqlGenerateLoginTokenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudSqlGenerateLoginTokenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudSqlGenerateLoginTokenOptions(), executionOptions, cancellationToken);
@@ -153,7 +153,7 @@ public class GcloudSql
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RescheduleMaintenance(
         GcloudSqlRescheduleMaintenanceOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

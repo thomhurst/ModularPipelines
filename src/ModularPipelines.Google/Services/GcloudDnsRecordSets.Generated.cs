@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud record-sets commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDnsRecordSets
 {
     private readonly ICommand _command;
-    private GcloudDnsRecordSetsChanges? _changes;
-    private GcloudDnsRecordSetsTransaction? _transaction;
+    private GcloudDnsRecordSetsChanges _changes;
+    private GcloudDnsRecordSetsTransaction _transaction;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDnsRecordSets"/> class.
@@ -54,7 +54,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudDnsRecordSetsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -69,7 +69,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudDnsRecordSetsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -84,7 +84,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudDnsRecordSetsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -99,7 +99,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
         GcloudDnsRecordSetsExportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -114,7 +114,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
         GcloudDnsRecordSetsImportOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class GcloudDnsRecordSets
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDnsRecordSetsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDnsRecordSetsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDnsRecordSetsListOptions(), executionOptions, cancellationToken);
@@ -144,7 +144,7 @@ public class GcloudDnsRecordSets
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudDnsRecordSetsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

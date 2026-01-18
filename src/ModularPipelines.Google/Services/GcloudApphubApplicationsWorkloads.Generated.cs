@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud workloads commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudApphubApplicationsWorkloads
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudApphubApplicationsWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudApphubApplicationsWorkloadsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsWorkloadsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudApphubApplicationsWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudApphubApplicationsWorkloadsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsWorkloadsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudApphubApplicationsWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudApphubApplicationsWorkloadsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsWorkloadsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudApphubApplicationsWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudApphubApplicationsWorkloadsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsWorkloadsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudApphubApplicationsWorkloads
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudApphubApplicationsWorkloadsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudApphubApplicationsWorkloadsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudApphubApplicationsWorkloadsUpdateOptions(), executionOptions, cancellationToken);

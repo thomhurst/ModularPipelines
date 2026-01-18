@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud parameters commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudParametermanagerParameters
 {
     private readonly ICommand _command;
-    private GcloudParametermanagerParametersVersions? _versions;
+    private GcloudParametermanagerParametersVersions _versions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudParametermanagerParameters"/> class.
@@ -47,8 +47,8 @@ public class GcloudParametermanagerParameters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudParametermanagerParametersCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerParametersCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudParametermanagerParameters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudParametermanagerParametersDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerParametersDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudParametermanagerParameters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudParametermanagerParametersDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerParametersDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersDescribeOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudParametermanagerParameters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudParametermanagerParametersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerParametersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudParametermanagerParameters
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudParametermanagerParametersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudParametermanagerParametersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudParametermanagerParametersUpdateOptions(), executionOptions, cancellationToken);

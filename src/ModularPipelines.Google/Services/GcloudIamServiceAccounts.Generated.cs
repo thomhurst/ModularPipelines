@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud service-accounts commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudIamServiceAccounts
 {
     private readonly ICommand _command;
-    private GcloudIamServiceAccountsKeys? _keys;
+    private GcloudIamServiceAccountsKeys _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudIamServiceAccounts"/> class.
@@ -47,8 +47,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddIamPolicyBinding(
-        GcloudIamServiceAccountsAddIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsAddIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsAddIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudIamServiceAccountsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudIamServiceAccountsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -93,7 +93,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudIamServiceAccountsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudIamServiceAccountsDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsDisableOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudIamServiceAccountsEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsEnableOptions(), executionOptions, cancellationToken);
@@ -138,7 +138,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
         GcloudIamServiceAccountsGetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudIamServiceAccountsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsListOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveIamPolicyBinding(
-        GcloudIamServiceAccountsRemoveIamPolicyBindingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsRemoveIamPolicyBindingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsRemoveIamPolicyBindingOptions(), executionOptions, cancellationToken);
@@ -183,7 +183,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudIamServiceAccountsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -198,7 +198,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignBlob(
         GcloudIamServiceAccountsSignBlobOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -213,7 +213,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SignJwt(
         GcloudIamServiceAccountsSignJwtOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -228,7 +228,7 @@ public class GcloudIamServiceAccounts
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
         GcloudIamServiceAccountsUndeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -242,8 +242,8 @@ public class GcloudIamServiceAccounts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudIamServiceAccountsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudIamServiceAccountsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudIamServiceAccountsUpdateOptions(), executionOptions, cancellationToken);

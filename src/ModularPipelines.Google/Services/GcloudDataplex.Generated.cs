@@ -14,24 +14,24 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataplex commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataplex
 {
     private readonly ICommand _command;
-    private GcloudDataplexAspectTypes? _aspectTypes;
-    private GcloudDataplexAssets? _assets;
-    private GcloudDataplexContent? _content;
-    private GcloudDataplexDatascans? _datascans;
-    private GcloudDataplexEncryptionConfig? _encryptionConfig;
-    private GcloudDataplexEntries? _entries;
-    private GcloudDataplexEntryGroups? _entryGroups;
-    private GcloudDataplexEntryTypes? _entryTypes;
-    private GcloudDataplexEnvironments? _environments;
-    private GcloudDataplexGlossaries? _glossaries;
-    private GcloudDataplexLakes? _lakes;
-    private GcloudDataplexMetadataJobs? _metadataJobs;
-    private GcloudDataplexTasks? _tasks;
-    private GcloudDataplexZones? _zones;
+    private GcloudDataplexAspectTypes _aspectTypes;
+    private GcloudDataplexAssets _assets;
+    private GcloudDataplexContent _content;
+    private GcloudDataplexDatascans _datascans;
+    private GcloudDataplexEncryptionConfig _encryptionConfig;
+    private GcloudDataplexEntries _entries;
+    private GcloudDataplexEntryGroups _entryGroups;
+    private GcloudDataplexEntryTypes _entryTypes;
+    private GcloudDataplexEnvironments _environments;
+    private GcloudDataplexGlossaries _glossaries;
+    private GcloudDataplexLakes _lakes;
+    private GcloudDataplexMetadataJobs _metadataJobs;
+    private GcloudDataplexTasks _tasks;
+    private GcloudDataplexZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataplex"/> class.
@@ -125,8 +125,8 @@ public class GcloudDataplex
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDataplexOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataplexOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataplexOptions(), executionOptions, cancellationToken);

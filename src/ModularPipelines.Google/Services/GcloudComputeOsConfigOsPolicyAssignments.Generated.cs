@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud os-policy-assignments commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeOsConfigOsPolicyAssignments
 {
     private readonly ICommand _command;
-    private GcloudComputeOsConfigOsPolicyAssignmentsOperations? _operations;
+    private GcloudComputeOsConfigOsPolicyAssignmentsOperations _operations;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudComputeOsConfigOsPolicyAssignments"/> class.
@@ -48,7 +48,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputeOsConfigOsPolicyAssignmentsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputeOsConfigOsPolicyAssignmentsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputeOsConfigOsPolicyAssignmentsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeOsConfigOsPolicyAssignmentsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeOsConfigOsPolicyAssignmentsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeOsConfigOsPolicyAssignmentsListOptions(), executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListRevisions(
         GcloudComputeOsConfigOsPolicyAssignmentsListRevisionsOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -123,7 +123,7 @@ public class GcloudComputeOsConfigOsPolicyAssignments
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputeOsConfigOsPolicyAssignmentsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

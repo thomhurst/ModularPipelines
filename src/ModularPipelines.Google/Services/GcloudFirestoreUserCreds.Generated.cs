@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud user-creds commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudFirestoreUserCreds
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudFirestoreUserCredsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudFirestoreUserCredsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudFirestoreUserCredsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -83,7 +83,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
         GcloudFirestoreUserCredsDisableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
         GcloudFirestoreUserCredsEnableOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudFirestoreUserCreds
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudFirestoreUserCredsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudFirestoreUserCredsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudFirestoreUserCredsListOptions(), executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudFirestoreUserCreds
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetPassword(
         GcloudFirestoreUserCredsResetPasswordOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

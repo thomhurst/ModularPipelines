@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud associations commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeNetworkFirewallPoliciesAssociations
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeNetworkFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesAssociationsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeNetworkFirewallPoliciesAssociations
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeNetworkFirewallPoliciesAssociationsDeleteOptions(), executionOptions, cancellationToken);

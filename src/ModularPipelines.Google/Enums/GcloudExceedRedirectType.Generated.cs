@@ -11,12 +11,12 @@ namespace ModularPipelines.Google.Enums;
 /// <summary>
 /// Allowed values for --exceedredirecttype.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudExceedRedirectType
 {
     [Description("google-recaptcha")]
     GoogleRecaptcha,
 
     [Description("external-302")]
-    ExternalValue302
+    External_302
 }

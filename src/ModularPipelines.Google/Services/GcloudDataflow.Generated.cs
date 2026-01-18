@@ -14,14 +14,14 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataflow commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDataflow
 {
     private readonly ICommand _command;
-    private GcloudDataflowFlexTemplate? _flexTemplate;
-    private GcloudDataflowJobs? _jobs;
-    private GcloudDataflowSnapshots? _snapshots;
-    private GcloudDataflowYaml? _yaml;
+    private GcloudDataflowFlexTemplate _flexTemplate;
+    private GcloudDataflowJobs _jobs;
+    private GcloudDataflowSnapshots _snapshots;
+    private GcloudDataflowYaml _yaml;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDataflow"/> class.
@@ -65,8 +65,8 @@ public class GcloudDataflow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudDataflowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDataflowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDataflowOptions(), executionOptions, cancellationToken);

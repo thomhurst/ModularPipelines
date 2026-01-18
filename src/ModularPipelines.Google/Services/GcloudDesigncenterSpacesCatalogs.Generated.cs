@@ -14,12 +14,12 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud catalogs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDesigncenterSpacesCatalogs
 {
     private readonly ICommand _command;
-    private GcloudDesigncenterSpacesCatalogsShares? _shares;
-    private GcloudDesigncenterSpacesCatalogsTemplates? _templates;
+    private GcloudDesigncenterSpacesCatalogsShares _shares;
+    private GcloudDesigncenterSpacesCatalogsTemplates _templates;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudDesigncenterSpacesCatalogs"/> class.
@@ -53,8 +53,8 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDesignCenterSpacesCatalogsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDesignCenterSpacesCatalogsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDesignCenterSpacesCatalogsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsDescribeOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDesignCenterSpacesCatalogsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsListOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class GcloudDesigncenterSpacesCatalogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDesignCenterSpacesCatalogsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDesignCenterSpacesCatalogsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDesignCenterSpacesCatalogsUpdateOptions(), executionOptions, cancellationToken);

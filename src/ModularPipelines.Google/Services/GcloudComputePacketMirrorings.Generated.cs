@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud packet-mirrorings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputePacketMirrorings
 {
     private readonly ICommand _command;
@@ -38,7 +38,7 @@ public class GcloudComputePacketMirrorings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudComputePacketMirroringsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -53,7 +53,7 @@ public class GcloudComputePacketMirrorings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudComputePacketMirroringsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -68,7 +68,7 @@ public class GcloudComputePacketMirrorings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudComputePacketMirroringsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputePacketMirrorings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputePacketMirroringsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputePacketMirroringsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputePacketMirroringsListOptions(), executionOptions, cancellationToken);
@@ -98,7 +98,7 @@ public class GcloudComputePacketMirrorings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudComputePacketMirroringsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

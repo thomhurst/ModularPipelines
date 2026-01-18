@@ -14,21 +14,21 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud ai commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudAi
 {
     private readonly ICommand _command;
-    private GcloudAiCustomJobs? _customJobs;
-    private GcloudAiEndpoints? _endpoints;
-    private GcloudAiHpTuningJobs? _hpTuningJobs;
-    private GcloudAiIndexEndpoints? _indexEndpoints;
-    private GcloudAiIndexes? _indexes;
-    private GcloudAiModelGarden? _modelGarden;
-    private GcloudAiModelMonitoringJobs? _modelMonitoringJobs;
-    private GcloudAiModels? _models;
-    private GcloudAiOperations? _operations;
-    private GcloudAiPersistentResources? _persistentResources;
-    private GcloudAiTensorboards? _tensorboards;
+    private GcloudAiCustomJobs _customJobs;
+    private GcloudAiEndpoints _endpoints;
+    private GcloudAiHpTuningJobs _hpTuningJobs;
+    private GcloudAiIndexEndpoints _indexEndpoints;
+    private GcloudAiIndexes _indexes;
+    private GcloudAiModelGarden _modelGarden;
+    private GcloudAiModelMonitoringJobs _modelMonitoringJobs;
+    private GcloudAiModels _models;
+    private GcloudAiOperations _operations;
+    private GcloudAiPersistentResources _persistentResources;
+    private GcloudAiTensorboards _tensorboards;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudAi"/> class.
@@ -107,8 +107,8 @@ public class GcloudAi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudAiOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudAiOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudAiOptions(), executionOptions, cancellationToken);

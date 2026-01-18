@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud gateway-security-policies commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudNetworksecurityGatewaySecurityPolicies
 {
     private readonly ICommand _command;
-    private GcloudNetworksecurityGatewaySecurityPoliciesRules? _rules;
+    private GcloudNetworksecurityGatewaySecurityPoliciesRules _rules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudNetworksecurityGatewaySecurityPolicies"/> class.
@@ -47,8 +47,8 @@ public class GcloudNetworksecurityGatewaySecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudNetworkSecurityGatewaySecurityPoliciesDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityGatewaySecurityPoliciesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesDeleteOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudNetworksecurityGatewaySecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        GcloudNetworkSecurityGatewaySecurityPoliciesExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityGatewaySecurityPoliciesExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesExportOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class GcloudNetworksecurityGatewaySecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesImportOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudNetworksecurityGatewaySecurityPolicies
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudNetworkSecurityGatewaySecurityPoliciesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudNetworkSecurityGatewaySecurityPoliciesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecurityGatewaySecurityPoliciesListOptions(), executionOptions, cancellationToken);

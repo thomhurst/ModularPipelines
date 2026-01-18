@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud network-peerings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudVmwareNetworkPeerings
 {
     private readonly ICommand _command;
-    private GcloudVmwareNetworkPeeringsRoutes? _routes;
+    private GcloudVmwareNetworkPeeringsRoutes _routes;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudVmwareNetworkPeerings"/> class.
@@ -48,7 +48,7 @@ public class GcloudVmwareNetworkPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
         GcloudVmwareNetworkPeeringsCreateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -63,7 +63,7 @@ public class GcloudVmwareNetworkPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
         GcloudVmwareNetworkPeeringsDeleteOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -78,7 +78,7 @@ public class GcloudVmwareNetworkPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
         GcloudVmwareNetworkPeeringsDescribeOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class GcloudVmwareNetworkPeerings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudVmwareNetworkPeeringsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudVmwareNetworkPeeringsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudVmwareNetworkPeeringsListOptions(), executionOptions, cancellationToken);
@@ -108,7 +108,7 @@ public class GcloudVmwareNetworkPeerings
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
         GcloudVmwareNetworkPeeringsUpdateOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);

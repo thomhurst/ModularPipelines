@@ -14,15 +14,15 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud redis commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudRedis
 {
     private readonly ICommand _command;
-    private GcloudRedisClusters? _clusters;
-    private GcloudRedisInstances? _instances;
-    private GcloudRedisOperations? _operations;
-    private GcloudRedisRegions? _regions;
-    private GcloudRedisZones? _zones;
+    private GcloudRedisClusters _clusters;
+    private GcloudRedisInstances _instances;
+    private GcloudRedisOperations _operations;
+    private GcloudRedisRegions _regions;
+    private GcloudRedisZones _zones;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudRedis"/> class.
@@ -71,8 +71,8 @@ public class GcloudRedis
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        GcloudRedisOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudRedisOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudRedisOptions(), executionOptions, cancellationToken);

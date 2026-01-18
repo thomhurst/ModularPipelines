@@ -14,11 +14,11 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud backup-collections commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudMemorystoreBackupCollections
 {
     private readonly ICommand _command;
-    private GcloudMemorystoreBackupCollectionsBackups? _backups;
+    private GcloudMemorystoreBackupCollectionsBackups _backups;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudMemorystoreBackupCollections"/> class.
@@ -47,8 +47,8 @@ public class GcloudMemorystoreBackupCollections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudMemorystoreBackupCollectionsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreBackupCollectionsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsDescribeOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class GcloudMemorystoreBackupCollections
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudMemorystoreBackupCollectionsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudMemorystoreBackupCollectionsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreBackupCollectionsListOptions(), executionOptions, cancellationToken);

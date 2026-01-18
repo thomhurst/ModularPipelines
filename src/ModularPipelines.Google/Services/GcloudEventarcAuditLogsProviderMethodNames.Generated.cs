@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud method-names commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudEventarcAuditLogsProviderMethodNames
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudEventarcAuditLogsProviderMethodNames
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudEventarcAuditLogsProviderMethodNamesListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudEventarcAuditLogsProviderMethodNamesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudEventarcAuditLogsProviderMethodNamesListOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud storage-pools commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudComputeStoragePools
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudComputeStoragePoolsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudComputeStoragePoolsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudComputeStoragePoolsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetIamPolicy(
-        GcloudComputeStoragePoolsGetIamPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsGetIamPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsGetIamPolicyOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDisks(
-        GcloudComputeStoragePoolsListDisksOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsListDisksOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsListDisksOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudComputeStoragePoolsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsListOptions(), executionOptions, cancellationToken);
@@ -128,7 +128,7 @@ public class GcloudComputeStoragePools
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetIamPolicy(
         GcloudComputeStoragePoolsSetIamPolicyOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class GcloudComputeStoragePools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudComputeStoragePoolsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudComputeStoragePoolsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudComputeStoragePoolsUpdateOptions(), executionOptions, cancellationToken);

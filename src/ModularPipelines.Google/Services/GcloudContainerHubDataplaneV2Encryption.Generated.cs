@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud dataplane-v2-encryption commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudContainerHubDataplaneV2Encryption
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudContainerHubDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudContainerHubDataplaneV2EncryptionDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubDataplaneV2EncryptionDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDataplaneV2EncryptionDescribeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudContainerHubDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        GcloudContainerHubDataplaneV2EncryptionDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubDataplaneV2EncryptionDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDataplaneV2EncryptionDisableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudContainerHubDataplaneV2Encryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        GcloudContainerHubDataplaneV2EncryptionEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudContainerHubDataplaneV2EncryptionEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudContainerHubDataplaneV2EncryptionEnableOptions(), executionOptions, cancellationToken);

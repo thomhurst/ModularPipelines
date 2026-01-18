@@ -14,7 +14,7 @@ namespace ModularPipelines.Google.Services;
 /// <summary>
 /// gcloud insights-configs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class GcloudDeveloperconnectInsightsConfigs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        GcloudDeveloperConnectInsightsConfigsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        GcloudDeveloperConnectInsightsConfigsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Describe(
-        GcloudDeveloperConnectInsightsConfigsDescribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsDescribeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        GcloudDeveloperConnectInsightsConfigsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class GcloudDeveloperconnectInsightsConfigs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        GcloudDeveloperConnectInsightsConfigsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GcloudDeveloperConnectInsightsConfigsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GcloudDeveloperConnectInsightsConfigsUpdateOptions(), executionOptions, cancellationToken);
