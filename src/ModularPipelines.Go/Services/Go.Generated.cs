@@ -14,7 +14,7 @@ namespace ModularPipelines.Go.Services;
 /// <summary>
 /// Generated implementation for go CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Go : IGo
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        GoBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GoBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoBuildOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Generate(
-        GoGenerateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GoGenerateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoGenerateOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ internal partial class Go : IGo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
-        GoTestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GoTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GoTestOptions(), executionOptions, cancellationToken);
