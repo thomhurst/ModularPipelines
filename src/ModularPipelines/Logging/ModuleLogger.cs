@@ -16,7 +16,7 @@ namespace ModularPipelines.Logging;
 /// This allows File/Folder helpers and other utilities to access the logger without explicit parameter passing.
 /// AsyncLocal is thread-safe and flows with async/await contexts, making it ideal for async module execution.
 /// </remarks>
-internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter
+internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter, IAsyncDisposable
 {
     /// <summary>
     /// Ambient context storage for the current module's logger.
@@ -53,6 +53,8 @@ internal abstract class ModuleLogger : IInternalModuleLogger, IConsoleWriter
         where TState : notnull;
 
     public abstract void Dispose();
+
+    public abstract ValueTask DisposeAsync();
 
     public abstract void LogToConsole(string value);
 
@@ -91,11 +93,6 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
         Disposer.RegisterOnShutdown(this);
     }
 
-    ~ModuleLogger()
-    {
-        Dispose(disposing: false);
-    }
-
     public override IDisposable? BeginScope<TState>(TState state)
     {
         return new NoopDisposable();
@@ -129,12 +126,30 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
 
     public override void Dispose()
     {
-        Dispose(disposing: true);
+        // Synchronous disposal - just mark as disposed without blocking on flush
+        // Prefer using DisposeAsync() for proper async output flushing
+        lock (_disposeLock)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            _isDisposed = true;
+
+            if (_exception != null)
+            {
+                _buffer.SetException(_exception);
+            }
+        }
+
         GC.SuppressFinalize(this);
     }
 
-    private void Dispose(bool disposing)
+    public override async ValueTask DisposeAsync()
     {
+        bool shouldFlush;
+
         lock (_disposeLock)
         {
             if (_isDisposed)
@@ -149,44 +164,32 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
                 _buffer.SetException(_exception);
             }
 
-            // Only perform blocking flush when called from Dispose(), not from finalizer
-            // Blocking in a finalizer can cause deadlocks and violates .NET best practices
-            if (disposing)
-            {
-                // Flush output immediately instead of just marking completed
-                // This blocks until the output is written, with a timeout to prevent deadlocks
-                try
-                {
-                    var flushTask = _outputCoordinator.EnqueueAndFlushAsync(_buffer);
-                    var timeoutTask = Task.Delay(TimeSpan.FromSeconds(30));
-
-                    // Use Task.WhenAny with GetAwaiter().GetResult() instead of Wait()
-                    // to avoid potential deadlocks from synchronization context issues
-                    var completedTask = Task.WhenAny(flushTask, timeoutTask).GetAwaiter().GetResult();
-
-                    if (completedTask == timeoutTask)
-                    {
-                        // Timeout occurred - log warning, output may be lost
-                        _defaultLogger.LogWarning(
-                            "Module output flush timed out after 30 seconds for {ModuleType}. Some output may be lost.",
-                            typeof(T).Name);
-                    }
-                    else
-                    {
-                        // Ensure any exception from the flush task is observed
-                        flushTask.GetAwaiter().GetResult();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Best effort - don't fail disposal, but log the issue
-                    _defaultLogger.LogWarning(ex, "Failed to flush module output during disposal for {ModuleType}", typeof(T).Name);
-                }
-            }
-
-            // If called from finalizer (disposing=false), output may be lost
-            // but this is acceptable as proper disposal should have been called
+            shouldFlush = true;
         }
+
+        if (shouldFlush)
+        {
+            // Flush output asynchronously without blocking
+            try
+            {
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                await _outputCoordinator.EnqueueAndFlushAsync(_buffer, cts.Token).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Timeout occurred - log warning, output may be lost
+                _defaultLogger.LogWarning(
+                    "Module output flush timed out after 30 seconds for {ModuleType}. Some output may be lost.",
+                    typeof(T).Name);
+            }
+            catch (Exception ex)
+            {
+                // Best effort - don't fail disposal, but log the issue
+                _defaultLogger.LogWarning(ex, "Failed to flush module output during disposal for {ModuleType}", typeof(T).Name);
+            }
+        }
+
+        GC.SuppressFinalize(this);
     }
 
     public override void LogToConsole(string value)

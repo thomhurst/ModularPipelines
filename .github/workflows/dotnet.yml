@@ -83,3 +83,13 @@ jobs:
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+
+      - name: Upload Hang Dumps
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hang-dumps-${{ matrix.os }}
+          path: |
+            **/*.dmp
+          if-no-files-found: ignore
+          retention-days: 7

@@ -38,7 +38,7 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 Project = unitTestProjectFile.Path,
                 NoBuild = true,
                 Framework = _pipelineSettings.Value.TestFramework,
-                Arguments = ["--coverage", "--coverage-output-format", "cobertura"],
+                Arguments = ["--coverage", "--coverage-output-format", "cobertura", "--hangdump", "--hangdump-timeout", "20m"],
                 Configuration = "Release",
                 Properties =
                 [

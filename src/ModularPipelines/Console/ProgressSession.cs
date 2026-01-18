@@ -47,9 +47,12 @@ internal class ProgressSession : IProgressSession, IProgressController
     private int _totalModuleCount;
     private int _completedModuleCount;
 
-    private readonly SemaphoreSlim _pauseLock = new(1, 1);
+    // Pause coordination - uses signals instead of locks held during slow operations
+    private readonly object _pauseStateLock = new();
     private bool _isPaused;
+    private bool _inRefresh; // True while ctx.Refresh() is executing
     private TaskCompletionSource? _resumeSignal;
+    private TaskCompletionSource? _refreshCompleted; // Signaled when in-flight refresh completes
 
     public ProgressSession(
         ConsoleCoordinator coordinator,
@@ -102,57 +105,67 @@ internal class ProgressSession : IProgressSession, IProgressController
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
-                        // Check if we should pause for module output
-                        bool shouldRefresh = true;
+                        // Check pause state and prepare for refresh
+                        bool shouldRefresh;
                         TaskCompletionSource? resumeSignal = null;
 
-                        await _pauseLock.WaitAsync().ConfigureAwait(false);
-                        try
+                        lock (_pauseStateLock)
                         {
                             if (_isPaused)
                             {
+                                // We're paused - signal that any in-flight refresh is done
+                                _refreshCompleted?.TrySetResult();
                                 resumeSignal = _resumeSignal;
                                 shouldRefresh = false;
                             }
-                        }
-                        finally
-                        {
-                            _pauseLock.Release();
+                            else
+                            {
+                                // Mark that we're about to refresh
+                                _inRefresh = true;
+                                shouldRefresh = true;
+                            }
                         }
 
                         if (resumeSignal != null)
                         {
                             // Wait for resume signal with timeout to prevent stuck UI
-                            // If output takes longer than 60 seconds, auto-resume to prevent indefinite pause
                             var timeoutTask = Task.Delay(TimeSpan.FromSeconds(60), CancellationToken.None);
                             var completedTask = await Task.WhenAny(resumeSignal.Task, timeoutTask).ConfigureAwait(false);
 
                             if (completedTask == timeoutTask)
                             {
-                                // Timeout - force resume to prevent stuck state
-                                // Log warning as this indicates a potential issue with output flushing
                                 _logger.LogWarning(
-                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI. " +
-                                    "This may indicate slow I/O or a deadlock in output coordination.");
+                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI.");
 
-                                await _pauseLock.WaitAsync().ConfigureAwait(false);
-                                try
+                                lock (_pauseStateLock)
                                 {
                                     _isPaused = false;
+                                    _inRefresh = false; // Reset for state consistency
                                     _resumeSignal?.TrySetResult();
                                     _resumeSignal = null;
-                                }
-                                finally
-                                {
-                                    _pauseLock.Release();
+                                    _refreshCompleted = null;
                                 }
                             }
                         }
                         else if (shouldRefresh)
                         {
-                            // Manually refresh when not paused - this prevents rendering glitches
-                            // when module output is being written to the console
-                            ctx.Refresh();
+                            try
+                            {
+                                ctx.Refresh();
+                            }
+                            finally
+                            {
+                                // Mark refresh complete and check if pause was requested during refresh
+                                lock (_pauseStateLock)
+                                {
+                                    _inRefresh = false;
+                                    if (_isPaused)
+                                    {
+                                        // Pause was requested while we were refreshing - signal completion
+                                        _refreshCompleted?.TrySetResult();
+                                    }
+                                }
+                            }
                         }
 
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
@@ -374,48 +387,52 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async Task PauseAsync()
     {
-        await _pauseLock.WaitAsync().ConfigureAwait(false);
-        try
+        TaskCompletionSource? waitForRefresh = null;
+
+        lock (_pauseStateLock)
         {
             if (_isPaused)
             {
+                // Already paused - nothing to do. We don't wait on _refreshCompleted here
+                // because it could be stale (e.g., from a previous pause that timed out),
+                // which would cause this caller to wait forever.
                 return;
             }
 
             _isPaused = true;
             _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            // Signal the progress loop to pause
-            // The loop will clear progress and wait for resume
-        }
-        finally
-        {
-            _pauseLock.Release();
+            if (_inRefresh)
+            {
+                // Progress loop is currently in ctx.Refresh() - need to wait for it
+                _refreshCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                waitForRefresh = _refreshCompleted;
+            }
+            // else: Progress loop is not refreshing, pause takes effect immediately
         }
 
-        // Wait a moment for progress to clear
+        // Wait for any in-flight refresh to complete (outside the lock)
+        if (waitForRefresh != null)
+        {
+            await waitForRefresh.Task.ConfigureAwait(false);
+        }
+
+        // Small delay to allow terminal to process any buffered escape sequences
         await Task.Delay(50).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task ResumeAsync()
+    public Task ResumeAsync()
     {
-        await _pauseLock.WaitAsync().ConfigureAwait(false);
-        try
+        lock (_pauseStateLock)
         {
-            if (!_isPaused)
-            {
-                return;
-            }
-
             _isPaused = false;
             _resumeSignal?.TrySetResult();
             _resumeSignal = null;
+            _refreshCompleted = null;
         }
-        finally
-        {
-            _pauseLock.Release();
-        }
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -423,6 +440,16 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        // Signal resume in case we're disposed while paused
+        // Also clear the signals to prevent any concurrent PauseAsync from hanging
+        lock (_pauseStateLock)
+        {
+            _isPaused = false;
+            _resumeSignal?.TrySetResult();
+            _resumeSignal = null;
+            _refreshCompleted = null;
+        }
+
         // Signal all tasks to stop
         lock (_progressLock)
         {
