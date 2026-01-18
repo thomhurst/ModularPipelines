@@ -14,12 +14,12 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker buildx commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuildx
 {
     private readonly ICommand _command;
-    private DockerBuildxHistory? _history;
-    private DockerBuildxImagetools? _imagetools;
+    private DockerBuildxHistory _history;
+    private DockerBuildxImagetools _imagetools;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildx"/> class.
@@ -53,8 +53,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerBuildxOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bake(
-        DockerBuildxBakeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxBakeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxBakeOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        DockerBuildxBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxBuildOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerBuildxCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxCreateOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DialStdio(
-        DockerBuildxDialStdioOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxDialStdioOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxDialStdioOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Du(
-        DockerBuildxDuOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxDuOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxDuOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerBuildxInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxInspectOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        DockerBuildxLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxLsOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerBuildxPruneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxPruneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxPruneOptions(), executionOptions, cancellationToken);
@@ -188,8 +188,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        DockerBuildxRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxRmOptions(), executionOptions, cancellationToken);
@@ -203,8 +203,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        DockerBuildxStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxStopOptions(), executionOptions, cancellationToken);
@@ -218,8 +218,8 @@ public class DockerBuildx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Use(
-        DockerBuildxUseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxUseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxUseOptions(), executionOptions, cancellationToken);

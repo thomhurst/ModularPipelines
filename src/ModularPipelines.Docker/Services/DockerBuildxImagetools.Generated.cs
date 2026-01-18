@@ -14,7 +14,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker imagetools commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerBuildxImagetools
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DockerBuildxImagetools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        DockerBuildxImagetoolsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxImagetoolsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxImagetoolsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DockerBuildxImagetools
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Inspect(
-        DockerBuildxImagetoolsInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildxImagetoolsInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildxImagetoolsInspectOptions(), executionOptions, cancellationToken);

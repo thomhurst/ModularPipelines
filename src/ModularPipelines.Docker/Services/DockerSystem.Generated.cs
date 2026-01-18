@@ -14,7 +14,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// docker system commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DockerSystem
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DockerSystemOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSystemOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Df(
-        DockerSystemDfOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSystemDfOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemDfOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Events(
-        DockerSystemEventsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSystemEventsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemEventsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Info(
-        DockerSystemInfoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSystemInfoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemInfoOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class DockerSystem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prune(
-        DockerSystemPruneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSystemPruneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSystemPruneOptions(), executionOptions, cancellationToken);

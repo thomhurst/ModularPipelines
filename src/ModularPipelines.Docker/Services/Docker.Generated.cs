@@ -14,7 +14,7 @@ namespace ModularPipelines.Docker.Services;
 /// <summary>
 /// Generated implementation for docker CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Docker : IDocker
 {
     private readonly ICommand _command;
@@ -102,8 +102,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Attach(
-        DockerAttachOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerAttachOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerAttachOptions(), executionOptions, cancellationToken);
@@ -111,8 +111,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        DockerBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerBuildOptions(), executionOptions, cancellationToken);
@@ -120,8 +120,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Commit(
-        DockerCommitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerCommitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerCommitOptions(), executionOptions, cancellationToken);
@@ -129,8 +129,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Cp(
-        DockerCpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerCpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerCpOptions(), executionOptions, cancellationToken);
@@ -138,8 +138,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Create(
-        DockerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerCreateOptions(), executionOptions, cancellationToken);
@@ -147,8 +147,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Events(
-        DockerEventsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerEventsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerEventsOptions(), executionOptions, cancellationToken);
@@ -156,8 +156,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Exec(
-        DockerExecOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerExecOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerExecOptions(), executionOptions, cancellationToken);
@@ -165,8 +165,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Export(
-        DockerExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerExportOptions(), executionOptions, cancellationToken);
@@ -174,8 +174,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> History(
-        DockerHistoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerHistoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerHistoryOptions(), executionOptions, cancellationToken);
@@ -183,8 +183,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Images(
-        DockerImagesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerImagesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImagesOptions(), executionOptions, cancellationToken);
@@ -192,8 +192,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Import(
-        DockerImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerImportOptions(), executionOptions, cancellationToken);
@@ -201,8 +201,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Info(
-        DockerInfoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerInfoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerInfoOptions(), executionOptions, cancellationToken);
@@ -210,8 +210,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Inspect(
-        DockerInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerInspectOptions(), executionOptions, cancellationToken);
@@ -219,8 +219,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Kill(
-        DockerKillOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerKillOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerKillOptions(), executionOptions, cancellationToken);
@@ -228,8 +228,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Load(
-        DockerLoadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerLoadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerLoadOptions(), executionOptions, cancellationToken);
@@ -237,8 +237,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        DockerLoginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerLoginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerLoginOptions(), executionOptions, cancellationToken);
@@ -246,8 +246,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logs(
-        DockerLogsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerLogsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerLogsOptions(), executionOptions, cancellationToken);
@@ -255,8 +255,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Ps(
-        DockerPsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerPsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPsOptions(), executionOptions, cancellationToken);
@@ -264,8 +264,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pull(
-        DockerPullOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerPullOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPullOptions(), executionOptions, cancellationToken);
@@ -273,8 +273,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Push(
-        DockerPushOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerPushOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerPushOptions(), executionOptions, cancellationToken);
@@ -282,8 +282,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Restart(
-        DockerRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerRestartOptions(), executionOptions, cancellationToken);
@@ -291,8 +291,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rmi(
-        DockerRmiOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerRmiOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerRmiOptions(), executionOptions, cancellationToken);
@@ -300,8 +300,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Rm(
-        DockerRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerRmOptions(), executionOptions, cancellationToken);
@@ -309,8 +309,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
-        DockerRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerRunOptions(), executionOptions, cancellationToken);
@@ -318,8 +318,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Save(
-        DockerSaveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSaveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSaveOptions(), executionOptions, cancellationToken);
@@ -327,8 +327,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Search(
-        DockerSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerSearchOptions(), executionOptions, cancellationToken);
@@ -336,8 +336,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Start(
-        DockerStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerStartOptions(), executionOptions, cancellationToken);
@@ -345,8 +345,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stats(
-        DockerStatsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerStatsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerStatsOptions(), executionOptions, cancellationToken);
@@ -354,8 +354,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Stop(
-        DockerStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerStopOptions(), executionOptions, cancellationToken);
@@ -363,8 +363,8 @@ internal partial class Docker : IDocker
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Update(
-        DockerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DockerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerUpdateOptions(), executionOptions, cancellationToken);
