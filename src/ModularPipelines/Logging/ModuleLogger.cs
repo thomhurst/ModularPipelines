@@ -179,7 +179,7 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             {
                 // Timeout occurred - log warning, output may be lost
                 _defaultLogger.LogWarning(
-                    "Module output handling timed out after 30 seconds for {ModuleType}.",
+                    "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
                     typeof(T).Name);
             }
             catch (Exception ex)
