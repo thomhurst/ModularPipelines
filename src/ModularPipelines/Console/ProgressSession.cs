@@ -48,8 +48,11 @@ internal class ProgressSession : IProgressSession, IProgressController
     private int _completedModuleCount;
 
     private readonly SemaphoreSlim _pauseLock = new(1, 1);
+    private readonly SemaphoreSlim _renderLock = new(1, 1);
     private bool _isPaused;
+    private int _renderLockHeldByPause; // 0 = not held, 1 = held; use Interlocked for atomic access
     private TaskCompletionSource? _resumeSignal;
+    private TaskCompletionSource? _pauseComplete;
 
     public ProgressSession(
         ConsoleCoordinator coordinator,
@@ -150,9 +153,17 @@ internal class ProgressSession : IProgressSession, IProgressController
                         }
                         else if (shouldRefresh)
                         {
-                            // Manually refresh when not paused - this prevents rendering glitches
-                            // when module output is being written to the console
-                            ctx.Refresh();
+                            // Acquire render lock to ensure exclusive access during refresh.
+                            // This prevents rendering glitches when module output is being written.
+                            await _renderLock.WaitAsync().ConfigureAwait(false);
+                            try
+                            {
+                                ctx.Refresh();
+                            }
+                            finally
+                            {
+                                _renderLock.Release();
+                            }
                         }
 
                         await Task.Delay(100, CancellationToken.None).ConfigureAwait(false);
@@ -374,27 +385,46 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async Task PauseAsync()
     {
+        TaskCompletionSource? existingPauseComplete = null;
+
         await _pauseLock.WaitAsync().ConfigureAwait(false);
         try
         {
             if (_isPaused)
             {
-                return;
+                // Already pausing/paused - wait for the pause to complete
+                existingPauseComplete = _pauseComplete;
             }
-
-            _isPaused = true;
-            _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-
-            // Signal the progress loop to pause
-            // The loop will clear progress and wait for resume
+            else
+            {
+                _isPaused = true;
+                _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                _pauseComplete = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            }
         }
         finally
         {
             _pauseLock.Release();
         }
 
-        // Wait a moment for progress to clear
-        await Task.Delay(50).ConfigureAwait(false);
+        if (existingPauseComplete != null)
+        {
+            // Wait for the first caller to complete the pause
+            await existingPauseComplete.Task.ConfigureAwait(false);
+            return;
+        }
+
+        // Acquire the render lock to ensure any in-flight render completes.
+        // This guarantees ctx.Refresh() is not executing when we return.
+        // The lock is held until ResumeAsync() to prevent any rendering during output writes.
+        await _renderLock.WaitAsync().ConfigureAwait(false);
+        Interlocked.Exchange(ref _renderLockHeldByPause, 1);
+
+        // Small delay to allow terminal to process any buffered escape sequences
+        await Task.Delay(100).ConfigureAwait(false);
+
+        // Signal that pause is complete
+        _pauseComplete?.TrySetResult();
     }
 
     /// <inheritdoc />
@@ -403,18 +433,23 @@ internal class ProgressSession : IProgressSession, IProgressController
         await _pauseLock.WaitAsync().ConfigureAwait(false);
         try
         {
-            if (!_isPaused)
-            {
-                return;
-            }
-
+            // Always reset state - even if timeout already cleared _isPaused,
+            // we may still hold the render lock and must release it.
+            // These operations are all idempotent/harmless if already done.
             _isPaused = false;
             _resumeSignal?.TrySetResult();
             _resumeSignal = null;
+            _pauseComplete = null;
         }
         finally
         {
             _pauseLock.Release();
+        }
+
+        // Atomically check and clear the flag - only release if we held the lock
+        if (Interlocked.Exchange(ref _renderLockHeldByPause, 0) == 1)
+        {
+            _renderLock.Release();
         }
     }
 
@@ -423,6 +458,13 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
+        // Atomically check and clear the flag - only release if we held the lock
+        // This handles the case where we're disposed while paused
+        if (Interlocked.Exchange(ref _renderLockHeldByPause, 0) == 1)
+        {
+            _renderLock.Release();
+        }
+
         // Signal all tasks to stop
         lock (_progressLock)
         {
@@ -451,6 +493,10 @@ internal class ProgressSession : IProgressSession, IProgressController
 
         // NOW it's safe to end the progress phase
         _coordinator.EndProgressPhase();
+
+        // Dispose semaphores
+        _pauseLock.Dispose();
+        _renderLock.Dispose();
     }
 }
 

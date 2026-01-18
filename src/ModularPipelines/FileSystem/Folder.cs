@@ -7,7 +7,6 @@ using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.JsonUtils;
 using ModularPipelines.Logging;
-using ModularPipelines.Tracing;
 
 namespace ModularPipelines.FileSystem;
 
@@ -97,7 +96,7 @@ public class Folder : IEquatable<Folder>
 
     public Folder Create()
     {
-        LogFolderOperation("Creating Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", this);
+        LogFolderOperation("Creating Folder: {Path}", this);
 
         _provider.CreateDirectory(Path);
         return this;
@@ -113,7 +112,7 @@ public class Folder : IEquatable<Folder>
     /// <returns>This folder instance for method chaining.</returns>
     public Task<Folder> CreateAsync(CancellationToken cancellationToken = default)
     {
-        LogFolderOperation("Creating Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", this);
+        LogFolderOperation("Creating Folder: {Path}", this);
 
         return Task.Run(() =>
         {
@@ -124,7 +123,7 @@ public class Folder : IEquatable<Folder>
 
     public void Delete()
     {
-        LogFolderOperation("Deleting Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", this);
+        LogFolderOperation("Deleting Folder: {Path}", this);
 
         _provider.DeleteDirectory(Path, recursive: true);
     }
@@ -138,7 +137,7 @@ public class Folder : IEquatable<Folder>
     /// <param name="cancellationToken">Cancellation token.</param>
     public Task DeleteAsync(CancellationToken cancellationToken = default)
     {
-        LogFolderOperation("Deleting Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", this);
+        LogFolderOperation("Deleting Folder: {Path}", this);
 
         return Task.Run(() => _provider.DeleteDirectory(Path, recursive: true), cancellationToken);
     }
@@ -185,7 +184,7 @@ public class Folder : IEquatable<Folder>
     /// </exception>
     public void Clean(bool removeReadOnlyAttribute, bool continueOnError)
     {
-        LogFolderOperation("Cleaning Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", this);
+        LogFolderOperation("Cleaning Folder: {Path}", this);
 
         var errors = new List<Exception>();
 
@@ -202,7 +201,7 @@ public class Folder : IEquatable<Folder>
             }
             catch (Exception ex) when (continueOnError)
             {
-                LogFolderWarning(ex, "Failed to delete directory: {Path} (Module: {ModuleName}, Activity: {ActivityId})", directory.FullName);
+                LogFolderWarning(ex, "Failed to delete directory: {Path}", directory.FullName);
                 errors.Add(ex);
             }
         }
@@ -220,7 +219,7 @@ public class Folder : IEquatable<Folder>
             }
             catch (Exception ex) when (continueOnError)
             {
-                LogFolderWarning(ex, "Failed to delete file: {Path} (Module: {ModuleName}, Activity: {ActivityId})", file.FullName);
+                LogFolderWarning(ex, "Failed to delete file: {Path}", file.FullName);
                 errors.Add(ex);
             }
         }
@@ -252,7 +251,7 @@ public class Folder : IEquatable<Folder>
     /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
     public Folder CopyTo(string targetPath, bool preserveTimestamps)
     {
-        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} (Module: {ModuleName}, Activity: {ActivityId})", this, targetPath);
+        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
 
         _provider.CreateDirectory(targetPath);
 
@@ -335,7 +334,7 @@ public class Folder : IEquatable<Folder>
     /// <returns>A new <see cref="Folder"/> instance representing the copied folder.</returns>
     public async Task<Folder> CopyToAsync(string targetPath, bool preserveTimestamps, CancellationToken cancellationToken = default)
     {
-        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination} (Module: {ModuleName}, Activity: {ActivityId})", this, targetPath);
+        LogFolderOperationWithDestination("Copying Folder: {Source} > {Destination}", this, targetPath);
 
         _provider.CreateDirectory(targetPath);
 
@@ -406,7 +405,7 @@ public class Folder : IEquatable<Folder>
 
     public Folder MoveTo(string path)
     {
-        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} (Module: {ModuleName}, Activity: {ActivityId})", this, path);
+        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination}", this, path);
 
         _provider.MoveDirectory(Path, path);
         return new Folder(path, _provider);
@@ -423,7 +422,7 @@ public class Folder : IEquatable<Folder>
     /// <returns>A new Folder instance at the destination path.</returns>
     public Task<Folder> MoveToAsync(string path, CancellationToken cancellationToken = default)
     {
-        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination} (Module: {ModuleName}, Activity: {ActivityId})", this, path);
+        LogFolderOperationWithDestination("Moving Folder: {Source} > {Destination}", this, path);
 
         return Task.Run(() =>
         {
@@ -436,7 +435,7 @@ public class Folder : IEquatable<Folder>
     {
         var combinedPath = _provider.Combine(Path, name);
 
-        LogFolderOperation("Getting Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", combinedPath);
+        LogFolderOperation("Getting Folder: {Path}", combinedPath);
 
         return new Folder(combinedPath, _provider);
     }
@@ -445,7 +444,7 @@ public class Folder : IEquatable<Folder>
     {
         var folder = GetFolder(name).Create();
 
-        LogFolderOperation("Creating Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", folder);
+        LogFolderOperation("Creating Folder: {Path}", folder);
 
         return folder;
     }
@@ -454,7 +453,7 @@ public class Folder : IEquatable<Folder>
     {
         var combinedPath = _provider.Combine(Path, name);
 
-        LogFolderOperation("Getting File: {Path} (Module: {ModuleName}, Activity: {ActivityId})", combinedPath);
+        LogFolderOperation("Getting File: {Path}", combinedPath);
 
         return new File(combinedPath, _provider);
     }
@@ -470,7 +469,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<Folder> GetFolders(Func<Folder, bool> predicate, Func<Folder, bool> exclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression} (Module: {ModuleName}, Activity: {ActivityId})", this, predicateExpression);
+        LogFolderOperationWithExpression("Searching Folders in: {Path} > {Expression}", this, predicateExpression);
 
         return SafeWalk.EnumerateFolders(this, exclusionFilters)
             .Select(x => new Folder(x))
@@ -480,7 +479,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(Func<File, bool> predicate, Func<Folder, bool> directoryExclusionFilters, [CallerArgumentExpression("predicate")] string predicateExpression = "")
     {
-        LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression} (Module: {ModuleName}, Activity: {ActivityId})", this, predicateExpression);
+        LogFolderOperationWithExpression("Searching Files in: {Path} > {Expression}", this, predicateExpression);
 
         return SafeWalk.EnumerateFiles(this, directoryExclusionFilters)
             .Select(x => new File(x))
@@ -490,7 +489,7 @@ public class Folder : IEquatable<Folder>
 
     public IEnumerable<File> GetFiles(string globPattern)
     {
-        LogFolderOperationWithExpression("Searching Files in: {Path} > {Glob} (Module: {ModuleName}, Activity: {ActivityId})", this, globPattern);
+        LogFolderOperationWithExpression("Searching Files in: {Path} > {Glob}", this, globPattern);
 
         return new Matcher(StringComparison.OrdinalIgnoreCase)
             .AddInclude(globPattern)
@@ -528,7 +527,7 @@ public class Folder : IEquatable<Folder>
         var tempDirectory = provider.Combine(provider.GetTempPath(), provider.GetRandomFileName().Replace(".", string.Empty));
         provider.CreateDirectory(tempDirectory);
 
-        LogFolderOperation("Creating Temporary Folder: {Path} (Module: {ModuleName}, Activity: {ActivityId})", tempDirectory);
+        LogFolderOperation("Creating Temporary Folder: {Path}", tempDirectory);
 
         return tempDirectory!;
     }
@@ -640,50 +639,34 @@ public class Folder : IEquatable<Folder>
     }
 
     /// <summary>
-    /// Logs a folder operation with Activity context information.
+    /// Logs a folder operation.
     /// </summary>
-    /// <remarks>
-    /// Phase 2: Uses Activity.Current for context alongside AsyncLocal for backward compatibility.
-    /// The log message includes the current module name and activity ID when available.
-    /// </remarks>
     private static void LogFolderOperation(string messageTemplate, object? arg1)
     {
-        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
-        var activityId = ModuleActivityTracing.GetCurrentActivityId();
-
-        ModuleLogger.Current.LogInformation(messageTemplate, arg1, moduleName, activityId);
+        ModuleLogger.Current.LogInformation(messageTemplate, arg1);
     }
 
     /// <summary>
-    /// Logs a folder operation with Activity context information for operations with source and destination.
+    /// Logs a folder operation for operations with source and destination.
     /// </summary>
     private static void LogFolderOperationWithDestination(string messageTemplate, object? source, object? destination)
     {
-        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
-        var activityId = ModuleActivityTracing.GetCurrentActivityId();
-
-        ModuleLogger.Current.LogInformation(messageTemplate, source, destination, moduleName, activityId);
+        ModuleLogger.Current.LogInformation(messageTemplate, source, destination);
     }
 
     /// <summary>
-    /// Logs a folder operation with Activity context information for operations with path and expression/glob.
+    /// Logs a folder operation for operations with path and expression/glob.
     /// </summary>
     private static void LogFolderOperationWithExpression(string messageTemplate, object? path, object? expression)
     {
-        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
-        var activityId = ModuleActivityTracing.GetCurrentActivityId();
-
-        ModuleLogger.Current.LogInformation(messageTemplate, path, expression, moduleName, activityId);
+        ModuleLogger.Current.LogInformation(messageTemplate, path, expression);
     }
 
     /// <summary>
-    /// Logs a folder warning with Activity context information.
+    /// Logs a folder warning.
     /// </summary>
     private static void LogFolderWarning(Exception ex, string messageTemplate, object? arg1)
     {
-        var moduleName = ModuleActivityTracing.GetCurrentModuleName() ?? "Unknown";
-        var activityId = ModuleActivityTracing.GetCurrentActivityId();
-
-        ModuleLogger.Current.LogWarning(ex, messageTemplate, arg1, moduleName, activityId);
+        ModuleLogger.Current.LogWarning(ex, messageTemplate, arg1);
     }
 }

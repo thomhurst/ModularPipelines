@@ -29,7 +29,7 @@ internal class CoordinatedTextWriter : TextWriter
 {
     private readonly IConsoleCoordinator _coordinator;
     private readonly TextWriter _realConsole;
-    private readonly Func<bool> _isProgressActive;
+    private readonly Func<bool> _shouldBuffer;
     private readonly ISecretObfuscator _secretObfuscator;
     private readonly StringBuilder _lineBuffer = new();
     private readonly object _lineBufferLock = new();
@@ -39,17 +39,17 @@ internal class CoordinatedTextWriter : TextWriter
     /// </summary>
     /// <param name="coordinator">The console coordinator.</param>
     /// <param name="realConsole">The real console to write to when not buffering.</param>
-    /// <param name="isProgressActive">Function that returns whether progress is active.</param>
+    /// <param name="shouldBuffer">Function that returns whether output should be buffered.</param>
     /// <param name="secretObfuscator">Obfuscator for secrets in output.</param>
     public CoordinatedTextWriter(
         IConsoleCoordinator coordinator,
         TextWriter realConsole,
-        Func<bool> isProgressActive,
+        Func<bool> shouldBuffer,
         ISecretObfuscator secretObfuscator)
     {
         _coordinator = coordinator;
         _realConsole = realConsole;
-        _isProgressActive = isProgressActive;
+        _shouldBuffer = shouldBuffer;
         _secretObfuscator = secretObfuscator;
     }
 
@@ -62,7 +62,7 @@ internal class CoordinatedTextWriter : TextWriter
         var message = value ?? string.Empty;
         var obfuscated = _secretObfuscator.Obfuscate(message, null);
 
-        if (!_isProgressActive())
+        if (!_shouldBuffer())
         {
             // Progress not running - write directly
             _realConsole.WriteLine(obfuscated);
@@ -89,7 +89,7 @@ internal class CoordinatedTextWriter : TextWriter
 
         var obfuscated = _secretObfuscator.Obfuscate(value, null);
 
-        if (!_isProgressActive())
+        if (!_shouldBuffer())
         {
             // Progress not running - write directly
             _realConsole.Write(obfuscated);
@@ -159,7 +159,7 @@ internal class CoordinatedTextWriter : TextWriter
                 var line = _lineBuffer.ToString();
                 _lineBuffer.Clear();
 
-                if (_isProgressActive())
+                if (_shouldBuffer())
                 {
                     RouteToBuffer(line);
                 }

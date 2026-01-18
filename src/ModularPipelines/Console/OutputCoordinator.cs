@@ -13,6 +13,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
+    private readonly IConsoleCoordinator _consoleCoordinator;
     private readonly ILogger _logger;
     private readonly TextWriter _console;
 
@@ -26,11 +27,13 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     public OutputCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
         ILoggerFactory loggerFactory,
-        IServiceProvider serviceProvider)
+        IServiceProvider serviceProvider,
+        IConsoleCoordinator consoleCoordinator)
     {
         _formatterProvider = formatterProvider;
         _loggerFactory = loggerFactory;
         _serviceProvider = serviceProvider;
+        _consoleCoordinator = consoleCoordinator;
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
@@ -104,12 +107,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 try
                 {
                     await _progressController.PauseAsync().ConfigureAwait(false);
+                    _consoleCoordinator.SetFlushingOutput(true);
                     try
                     {
                         FlushBuffer(pending.Buffer, formatter);
                     }
                     finally
                     {
+                        _consoleCoordinator.SetFlushingOutput(false);
                         await _progressController.ResumeAsync().ConfigureAwait(false);
                     }
                 }

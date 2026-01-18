@@ -51,6 +51,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     // Phase management
     private volatile bool _isProgressActive;
+    private volatile bool _isFlushingOutput;
     private readonly object _phaseLock = new();
     private bool _isInstalled;
     private IProgressSession? _activeSession;
@@ -124,16 +125,17 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 _outputLogger = _loggerFactory.CreateLogger("ModularPipelines.Output");
 
                 // Install our intercepting writers
+                // Buffer output when progress is active AND we're not in the middle of flushing
                 _coordinatedOut = new CoordinatedTextWriter(
                     this,
                     _originalConsoleOut,
-                    () => _isProgressActive,
+                    () => _isProgressActive && !_isFlushingOutput,
                     _secretObfuscator);
 
                 _coordinatedError = new CoordinatedTextWriter(
                     this,
                     _originalConsoleError,
-                    () => _isProgressActive,
+                    () => _isProgressActive && !_isFlushingOutput,
                     _secretObfuscator);
 
                 System.Console.SetOut(_coordinatedOut);
@@ -196,6 +198,12 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             _coordinatedError = null;
             _isInstalled = false;
         }
+    }
+
+    /// <inheritdoc />
+    public void SetFlushingOutput(bool isFlushing)
+    {
+        _isFlushingOutput = isFlushing;
     }
 
     /// <inheritdoc />
