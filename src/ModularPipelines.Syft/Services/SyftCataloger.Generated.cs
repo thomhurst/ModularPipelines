@@ -14,7 +14,7 @@ namespace ModularPipelines.Syft.Services;
 /// <summary>
 /// syft cataloger commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class SyftCataloger
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class SyftCataloger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        SyftCatalogerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        SyftCatalogerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftCatalogerOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class SyftCataloger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        SyftCatalogerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        SyftCatalogerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftCatalogerListOptions(), executionOptions, cancellationToken);
