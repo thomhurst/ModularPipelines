@@ -16,7 +16,7 @@ namespace ModularPipelines.Packer.Options;
 /// <summary>
 /// Will transform your JSON template into an HCL2 configuration.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hcl2_upgrade")]
 public record PackerHcl2UpgradeOptions : PackerOptions

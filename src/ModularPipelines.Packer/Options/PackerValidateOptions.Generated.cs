@@ -16,7 +16,7 @@ namespace ModularPipelines.Packer.Options;
 /// <summary>
 /// Checks the template is valid by parsing the template and also
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("validate")]
 public record PackerValidateOptions : PackerOptions
