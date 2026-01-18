@@ -47,12 +47,12 @@ internal class ProgressSession : IProgressSession, IProgressController
     private int _totalModuleCount;
     private int _completedModuleCount;
 
-    private readonly SemaphoreSlim _pauseLock = new(1, 1);
-    private readonly SemaphoreSlim _renderLock = new(1, 1);
+    // Pause coordination - uses signals instead of locks held during slow operations
+    private readonly object _pauseStateLock = new();
     private bool _isPaused;
-    private int _renderLockHeldByPause; // 0 = not held, 1 = held; use Interlocked for atomic access
+    private bool _inRefresh; // True while ctx.Refresh() is executing
     private TaskCompletionSource? _resumeSignal;
-    private TaskCompletionSource? _pauseComplete;
+    private TaskCompletionSource? _refreshCompleted; // Signaled when in-flight refresh completes
 
     public ProgressSession(
         ConsoleCoordinator coordinator,
@@ -105,64 +105,65 @@ internal class ProgressSession : IProgressSession, IProgressController
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
-                        // Check if we should pause for module output
-                        bool shouldRefresh = true;
+                        // Check pause state and prepare for refresh
+                        bool shouldRefresh;
                         TaskCompletionSource? resumeSignal = null;
 
-                        await _pauseLock.WaitAsync().ConfigureAwait(false);
-                        try
+                        lock (_pauseStateLock)
                         {
                             if (_isPaused)
                             {
+                                // We're paused - signal that any in-flight refresh is done
+                                _refreshCompleted?.TrySetResult();
                                 resumeSignal = _resumeSignal;
                                 shouldRefresh = false;
                             }
-                        }
-                        finally
-                        {
-                            _pauseLock.Release();
+                            else
+                            {
+                                // Mark that we're about to refresh
+                                _inRefresh = true;
+                                shouldRefresh = true;
+                            }
                         }
 
                         if (resumeSignal != null)
                         {
                             // Wait for resume signal with timeout to prevent stuck UI
-                            // If output takes longer than 60 seconds, auto-resume to prevent indefinite pause
                             var timeoutTask = Task.Delay(TimeSpan.FromSeconds(60), CancellationToken.None);
                             var completedTask = await Task.WhenAny(resumeSignal.Task, timeoutTask).ConfigureAwait(false);
 
                             if (completedTask == timeoutTask)
                             {
-                                // Timeout - force resume to prevent stuck state
-                                // Log warning as this indicates a potential issue with output flushing
                                 _logger.LogWarning(
-                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI. " +
-                                    "This may indicate slow I/O or a deadlock in output coordination.");
+                                    "Progress pause timed out after 60 seconds. Forcing resume to prevent stuck UI.");
 
-                                await _pauseLock.WaitAsync().ConfigureAwait(false);
-                                try
+                                lock (_pauseStateLock)
                                 {
                                     _isPaused = false;
                                     _resumeSignal?.TrySetResult();
                                     _resumeSignal = null;
-                                }
-                                finally
-                                {
-                                    _pauseLock.Release();
+                                    _refreshCompleted = null;
                                 }
                             }
                         }
                         else if (shouldRefresh)
                         {
-                            // Acquire render lock to ensure exclusive access during refresh.
-                            // This prevents rendering glitches when module output is being written.
-                            await _renderLock.WaitAsync().ConfigureAwait(false);
                             try
                             {
                                 ctx.Refresh();
                             }
                             finally
                             {
-                                _renderLock.Release();
+                                // Mark refresh complete and check if pause was requested during refresh
+                                lock (_pauseStateLock)
+                                {
+                                    _inRefresh = false;
+                                    if (_isPaused)
+                                    {
+                                        // Pause was requested while we were refreshing - signal completion
+                                        _refreshCompleted?.TrySetResult();
+                                    }
+                                }
                             }
                         }
 
@@ -385,72 +386,52 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async Task PauseAsync()
     {
-        TaskCompletionSource? existingPauseComplete = null;
+        TaskCompletionSource? waitForRefresh = null;
 
-        await _pauseLock.WaitAsync().ConfigureAwait(false);
-        try
+        lock (_pauseStateLock)
         {
             if (_isPaused)
             {
-                // Already pausing/paused - wait for the pause to complete
-                existingPauseComplete = _pauseComplete;
+                // Already paused - if there's an in-flight refresh, wait for it
+                waitForRefresh = _refreshCompleted;
             }
             else
             {
                 _isPaused = true;
                 _resumeSignal = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                _pauseComplete = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+                if (_inRefresh)
+                {
+                    // Progress loop is currently in ctx.Refresh() - need to wait for it
+                    _refreshCompleted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                    waitForRefresh = _refreshCompleted;
+                }
+                // else: Progress loop is not refreshing, pause takes effect immediately
             }
         }
-        finally
-        {
-            _pauseLock.Release();
-        }
 
-        if (existingPauseComplete != null)
+        // Wait for any in-flight refresh to complete (outside the lock)
+        if (waitForRefresh != null)
         {
-            // Wait for the first caller to complete the pause
-            await existingPauseComplete.Task.ConfigureAwait(false);
-            return;
+            await waitForRefresh.Task.ConfigureAwait(false);
         }
-
-        // Acquire the render lock to ensure any in-flight render completes.
-        // This guarantees ctx.Refresh() is not executing when we return.
-        // The lock is held until ResumeAsync() to prevent any rendering during output writes.
-        await _renderLock.WaitAsync().ConfigureAwait(false);
-        Interlocked.Exchange(ref _renderLockHeldByPause, 1);
 
         // Small delay to allow terminal to process any buffered escape sequences
-        await Task.Delay(100).ConfigureAwait(false);
-
-        // Signal that pause is complete
-        _pauseComplete?.TrySetResult();
+        await Task.Delay(50).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
-    public async Task ResumeAsync()
+    public Task ResumeAsync()
     {
-        await _pauseLock.WaitAsync().ConfigureAwait(false);
-        try
+        lock (_pauseStateLock)
         {
-            // Always reset state - even if timeout already cleared _isPaused,
-            // we may still hold the render lock and must release it.
-            // These operations are all idempotent/harmless if already done.
             _isPaused = false;
             _resumeSignal?.TrySetResult();
             _resumeSignal = null;
-            _pauseComplete = null;
-        }
-        finally
-        {
-            _pauseLock.Release();
+            _refreshCompleted = null;
         }
 
-        // Atomically check and clear the flag - only release if we held the lock
-        if (Interlocked.Exchange(ref _renderLockHeldByPause, 0) == 1)
-        {
-            _renderLock.Release();
-        }
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -458,11 +439,11 @@ internal class ProgressSession : IProgressSession, IProgressController
     /// <inheritdoc />
     public async ValueTask DisposeAsync()
     {
-        // Atomically check and clear the flag - only release if we held the lock
-        // This handles the case where we're disposed while paused
-        if (Interlocked.Exchange(ref _renderLockHeldByPause, 0) == 1)
+        // Signal resume in case we're disposed while paused
+        lock (_pauseStateLock)
         {
-            _renderLock.Release();
+            _isPaused = false;
+            _resumeSignal?.TrySetResult();
         }
 
         // Signal all tasks to stop
@@ -493,10 +474,6 @@ internal class ProgressSession : IProgressSession, IProgressController
 
         // NOW it's safe to end the progress phase
         _coordinator.EndProgressPhase();
-
-        // Dispose semaphores
-        _pauseLock.Dispose();
-        _renderLock.Dispose();
     }
 }
 
