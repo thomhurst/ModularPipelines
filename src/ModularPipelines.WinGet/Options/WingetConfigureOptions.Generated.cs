@@ -15,7 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// Ensures that the system matches the desired state as described by the provided configuration. May download/execute processors in order to achieve the desired state. The configuration and the processors should be checked to ensure that they are trustworthy before applying them.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("configure")]
 public record WingetConfigureOptions : WingetOptions

@@ -15,7 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// Computes the hash of a local file, appropriate for entry into a manifest.  It can also compute the hash of the signature file of an MSIX package to enable streaming installations.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("hash")]
 public record WingetHashOptions : WingetOptions

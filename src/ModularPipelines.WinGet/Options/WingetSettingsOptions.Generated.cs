@@ -15,7 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// Open settings in the default json text editor. If no editor is configured, opens settings in notepad. For available settings see https://aka.ms/winget-settings This command can also be used to set administrator settings by providing the --enable or --disable arguments
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("settings")]
 public record WingetSettingsOptions : WingetOptions

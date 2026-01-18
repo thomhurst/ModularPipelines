@@ -15,7 +15,7 @@ namespace ModularPipelines.WinGet.Options;
 /// <summary>
 /// Installs the selected package, either found by searching a configured source or directly from a manifest. By default, the query must case-insensitively match the id, name, or moniker of the package. Other fields can be used by passing their appropriate option. By default, install command will check package installed status and try to perform an upgrade if applicable. Override with --force to perform a direct install.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("install")]
 public record WingetInstallOptions : WingetOptions
