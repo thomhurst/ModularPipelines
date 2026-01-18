@@ -230,6 +230,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         // Wire up the progress controller for output coordination
         _outputCoordinator.SetProgressController(session);
+        _outputCoordinator.SetProgressActive(true);
 
         _activeSession = session;
 
@@ -247,6 +248,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         lock (_phaseLock)
         {
             _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
+            _outputCoordinator.SetProgressActive(false);
             _isProgressActive = false;
             _activeSession = null;
         }
