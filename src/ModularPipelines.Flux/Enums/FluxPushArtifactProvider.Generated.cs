@@ -11,7 +11,7 @@ namespace ModularPipelines.Flux.Enums;
 /// <summary>
 /// Allowed values for the --provider option.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum FluxPushArtifactProvider
 {
     [Description("generic")]

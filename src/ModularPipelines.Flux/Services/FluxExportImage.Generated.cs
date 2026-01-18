@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxExportImage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxExportImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Policy(
-        FluxExportImagePolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportImagePolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportImagePolicyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxExportImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repository(
-        FluxExportImageRepositoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportImageRepositoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportImageRepositoryOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxExportImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        FluxExportImageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxExportImageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxExportImageUpdateOptions(), executionOptions, cancellationToken);

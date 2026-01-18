@@ -14,13 +14,13 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxCreate
 {
     private readonly ICommand _command;
-    private FluxCreateImage? _image;
-    private FluxCreateSecret? _secret;
-    private FluxCreateSource? _source;
+    private FluxCreateImage _image;
+    private FluxCreateSecret _secret;
+    private FluxCreateSource _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxCreate"/> class.
@@ -59,8 +59,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alert(
-        FluxCreateAlertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateAlertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateAlertOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmrelease(
-        FluxCreateHelmreleaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateHelmreleaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateHelmreleaseOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomization(
-        FluxCreateKustomizationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateKustomizationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateKustomizationOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receiver(
-        FluxCreateReceiverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateReceiverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateReceiverOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class FluxCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tenant(
-        FluxCreateTenantOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateTenantOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateTenantOptions(), executionOptions, cancellationToken);

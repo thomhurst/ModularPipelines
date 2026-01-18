@@ -14,13 +14,13 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux get commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxGet
 {
     private readonly ICommand _command;
-    private FluxGetArtifacts? _artifacts;
-    private FluxGetImages? _images;
-    private FluxGetSources? _sources;
+    private FluxGetArtifacts _artifacts;
+    private FluxGetImages _images;
+    private FluxGetSources _sources;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="FluxGet"/> class.
@@ -59,8 +59,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Alerts(
-        FluxGetAlertsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetAlertsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetAlertsOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> All(
-        FluxGetAllOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetAllOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetAllOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helmreleases(
-        FluxGetHelmreleasesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetHelmreleasesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetHelmreleasesOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Kustomizations(
-        FluxGetKustomizationsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetKustomizationsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetKustomizationsOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class FluxGet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Receivers(
-        FluxGetReceiversOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxGetReceiversOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxGetReceiversOptions(), executionOptions, cancellationToken);

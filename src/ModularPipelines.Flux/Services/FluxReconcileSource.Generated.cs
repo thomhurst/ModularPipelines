@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux source commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxReconcileSource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxReconcileSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bucket(
-        FluxReconcileSourceBucketOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileSourceBucketOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileSourceBucketOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxReconcileSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Chart(
-        FluxReconcileSourceChartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileSourceChartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileSourceChartOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxReconcileSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxReconcileSourceGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileSourceGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileSourceGitOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class FluxReconcileSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helm(
-        FluxReconcileSourceHelmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileSourceHelmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileSourceHelmOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class FluxReconcileSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oci(
-        FluxReconcileSourceOciOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxReconcileSourceOciOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxReconcileSourceOciOptions(), executionOptions, cancellationToken);

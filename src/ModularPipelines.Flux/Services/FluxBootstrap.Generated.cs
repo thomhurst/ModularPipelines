@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux bootstrap commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxBootstrap
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxBootstrapOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxBootstrapOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gitea(
-        FluxBootstrapGiteaOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxBootstrapGiteaOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapGiteaOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Github(
-        FluxBootstrapGithubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxBootstrapGithubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapGithubOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class FluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Gitlab(
-        FluxBootstrapGitlabOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxBootstrapGitlabOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapGitlabOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class FluxBootstrap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxBootstrapGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxBootstrapGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxBootstrapGitOptions(), executionOptions, cancellationToken);

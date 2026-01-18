@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux secret commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxCreateSecret
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Githubapp(
-        FluxCreateSecretGithubappOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretGithubappOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretGithubappOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxCreateSecretGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretGitOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helm(
-        FluxCreateSecretHelmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretHelmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretHelmOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Notation(
-        FluxCreateSecretNotationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretNotationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretNotationOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oci(
-        FluxCreateSecretOciOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretOciOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretOciOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Proxy(
-        FluxCreateSecretProxyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretProxyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretProxyOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class FluxCreateSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Tls(
-        FluxCreateSecretTlsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxCreateSecretTlsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxCreateSecretTlsOptions(), executionOptions, cancellationToken);

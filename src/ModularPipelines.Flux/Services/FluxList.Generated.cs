@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux list commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxList
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxList
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        FluxListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxList
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Artifacts(
-        FluxListArtifactsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxListArtifactsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxListArtifactsOptions(), executionOptions, cancellationToken);

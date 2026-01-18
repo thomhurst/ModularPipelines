@@ -14,7 +14,7 @@ namespace ModularPipelines.Flux.Services;
 /// <summary>
 /// flux source commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class FluxResumeSource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class FluxResumeSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bucket(
-        FluxResumeSourceBucketOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeSourceBucketOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeSourceBucketOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class FluxResumeSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Chart(
-        FluxResumeSourceChartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeSourceChartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeSourceChartOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class FluxResumeSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Git(
-        FluxResumeSourceGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeSourceGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeSourceGitOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class FluxResumeSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Helm(
-        FluxResumeSourceHelmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeSourceHelmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeSourceHelmOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class FluxResumeSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Oci(
-        FluxResumeSourceOciOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        FluxResumeSourceOciOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new FluxResumeSourceOciOptions(), executionOptions, cancellationToken);
