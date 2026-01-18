@@ -14,7 +14,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// minikube config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class MinikubeConfig
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class MinikubeConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        MinikubeConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeConfigOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class MinikubeConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Defaults(
-        MinikubeConfigDefaultsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeConfigDefaultsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeConfigDefaultsOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class MinikubeConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> View(
-        MinikubeConfigViewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeConfigViewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeConfigViewOptions(), executionOptions, cancellationToken);
