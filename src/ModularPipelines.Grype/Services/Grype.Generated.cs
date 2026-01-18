@@ -14,7 +14,7 @@ namespace ModularPipelines.Grype.Services;
 /// <summary>
 /// Generated implementation for grype CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Grype : IGrype
 {
     private readonly ICommand _command;
@@ -42,8 +42,8 @@ internal partial class Grype : IGrype
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Explain(
-        GrypeExplainOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        GrypeExplainOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new GrypeExplainOptions(), executionOptions, cancellationToken);
