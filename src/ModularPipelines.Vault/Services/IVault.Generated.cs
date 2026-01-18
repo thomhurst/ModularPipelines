@@ -13,7 +13,7 @@ namespace ModularPipelines.Vault.Services;
 /// <summary>
 /// Generated interface for vault CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IVault
 {
     #region Commands
@@ -25,7 +25,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AgentGenerateConfig(VaultAgentGenerateConfigOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AgentGenerateConfig(VaultAgentGenerateConfigOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command starts a Vault Agent that can perform automatic authentication
@@ -34,7 +34,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Agent(VaultAgentOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Agent(VaultAgentOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an audit device. Once an audit device is disabled, no future audit
@@ -43,7 +43,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuditDisable(VaultAuditDisableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuditDisable(VaultAuditDisableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables an audit device at a given path.
@@ -52,7 +52,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuditEnable(VaultAuditEnableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuditEnable(VaultAuditEnableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the enabled audit devices in the Vault server. The output lists the
@@ -61,7 +61,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuditList(VaultAuditListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuditList(VaultAuditListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables an existing auth method at the given PATH. The argument corresponds
@@ -70,7 +70,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthDisable(VaultAuthDisableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuthDisable(VaultAuthDisableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables a new auth method. An auth method is responsible for authenticating
@@ -79,7 +79,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthEnable(VaultAuthEnableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuthEnable(VaultAuthEnableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the enabled auth methods on the Vault server. This command also outputs
@@ -88,7 +88,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthList(VaultAuthListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuthList(VaultAuthListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves an existing auth method to a new path. Any leases from the old
@@ -97,7 +97,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthMove(VaultAuthMoveOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuthMove(VaultAuthMoveOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tunes the configuration options for the auth method at the given PATH. The
@@ -106,7 +106,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> AuthTune(VaultAuthTuneOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> AuthTune(VaultAuthTuneOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes secrets and configuration from Vault at the given path. The behavior
@@ -115,7 +115,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Delete(VaultDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Delete(VaultDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Subscribe to events of the given event type (topic), which may be a glob
@@ -124,7 +124,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> EventsSubscribe(VaultEventsSubscribeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> EventsSubscribe(VaultEventsSubscribeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the data for the provided version and path in the key-value store. The
@@ -133,7 +133,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvDelete(VaultKvDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvDelete(VaultKvDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Permanently removes the specified versions' data from the key-value store. If
@@ -142,7 +142,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvDestroy(VaultKvDestroyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvDestroy(VaultKvDestroyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command turns on versioning for the backend at the provided path.
@@ -151,7 +151,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvEnableVersioning(VaultKvEnableVersioningOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvEnableVersioning(VaultKvEnableVersioningOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the value from Vault's key-value store at the given key name. If no
@@ -160,7 +160,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvGet(VaultKvGetOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvGet(VaultKvGetOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists data from Vault's key-value store at the given path.
@@ -169,7 +169,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvList(VaultKvListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvList(VaultKvListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes all versions and metadata for the provided key.
@@ -178,7 +178,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvMetadataDelete(VaultKvMetadataDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvMetadataDelete(VaultKvMetadataDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the metadata from Vault's key-value store at the given key name. If no
@@ -187,7 +187,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvMetadataGet(VaultKvMetadataGetOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvMetadataGet(VaultKvMetadataGetOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command can be used to create a blank key in the key-value store or to
@@ -196,7 +196,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvMetadataPatch(VaultKvMetadataPatchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvMetadataPatch(VaultKvMetadataPatchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command can be used to create a blank key in the key-value store or to
@@ -205,7 +205,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvMetadataPut(VaultKvMetadataPutOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvMetadataPut(VaultKvMetadataPutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// *NOTE*: This is only supported for KV v2 engine mounts.
@@ -214,7 +214,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvPatch(VaultKvPatchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvPatch(VaultKvPatchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes the data to the given path in the key-value store. The data can be of
@@ -223,7 +223,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvPut(VaultKvPutOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvPut(VaultKvPutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// *NOTE*: This is only supported for KV v2 engine mounts.
@@ -232,7 +232,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvRollback(VaultKvRollbackOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvRollback(VaultKvRollbackOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Undeletes the data for the provided version and path in the key-value store.
@@ -241,7 +241,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> KvUndelete(VaultKvUndeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> KvUndelete(VaultKvUndeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lookup the lease information of a secret.
@@ -250,7 +250,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LeaseLookup(VaultLeaseLookupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LeaseLookup(VaultLeaseLookupOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renews the lease on a secret, extending the time that it can be used before
@@ -259,7 +259,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LeaseRenew(VaultLeaseRenewOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LeaseRenew(VaultLeaseRenewOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes secrets by their lease ID. This command can revoke a single secret
@@ -268,7 +268,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> LeaseRevoke(VaultLeaseRevokeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> LeaseRevoke(VaultLeaseRevokeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists data from Vault at the given path. This can be used to list keys in a,
@@ -277,7 +277,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> List(VaultListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> List(VaultListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Authenticates users or machines to Vault using the provided arguments. A
@@ -286,7 +286,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Login(VaultLoginOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Login(VaultLoginOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stream log messages of a Vault server. The monitor command lets you listen
@@ -295,7 +295,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Monitor(VaultMonitorOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Monitor(VaultMonitorOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a child namespace. The namespace created will be relative to the
@@ -304,7 +304,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceCreate(VaultNamespaceCreateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceCreate(VaultNamespaceCreateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete an existing namespace. The namespace deleted will be relative to the
@@ -313,7 +313,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceDelete(VaultNamespaceDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceDelete(VaultNamespaceDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the enabled child namespaces.
@@ -322,7 +322,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceList(VaultNamespaceListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceList(VaultNamespaceListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// $ vault namespace lock
@@ -331,7 +331,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceLock(VaultNamespaceLockOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceLock(VaultNamespaceLockOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// $ vault namespace lookup
@@ -340,7 +340,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceLookup(VaultNamespaceLookupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceLookup(VaultNamespaceLookupOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Patch an existing namespace. The namespace patched will be relative to the
@@ -349,7 +349,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespacePatch(VaultNamespacePatchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespacePatch(VaultNamespacePatchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// $ vault namespace unlock -unlock-key=&lt;key&gt;
@@ -358,7 +358,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> NamespaceUnlock(VaultNamespaceUnlockOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> NamespaceUnlock(VaultNamespaceUnlockOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command troubleshoots Vault startup issues, such as TLS configuration or
@@ -367,7 +367,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorDiagnose(VaultOperatorDiagnoseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorDiagnose(VaultOperatorDiagnoseOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// vault operator generate-root [options] [-nonce=... KEY]
@@ -376,7 +376,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorGenerateRoot(VaultOperatorGenerateRootOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorGenerateRoot(VaultOperatorGenerateRootOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Initializes a Vault server. Initialization is the process by which Vault's
@@ -385,7 +385,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorInit(VaultOperatorInitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorInit(VaultOperatorInitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides information about the active encryption key. Specifically,
@@ -394,7 +394,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorKeyStatus(VaultOperatorKeyStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorKeyStatus(VaultOperatorKeyStatusOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the details of all the nodes in the cluster.
@@ -403,7 +403,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorMembers(VaultOperatorMembersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorMembers(VaultOperatorMembersOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command starts a storage backend migration process to copy all data
@@ -412,7 +412,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorMigrate(VaultOperatorMigrateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorMigrate(VaultOperatorMigrateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Returns the configuration of the autopilot subsystem under integrated storage.
@@ -421,7 +421,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftAutopilotGetConfig(VaultOperatorRaftAutopilotGetConfigOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftAutopilotGetConfig(VaultOperatorRaftAutopilotGetConfigOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify the configuration of the autopilot subsystem under integrated storage.
@@ -430,7 +430,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftAutopilotSetConfig(VaultOperatorRaftAutopilotSetConfigOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftAutopilotSetConfig(VaultOperatorRaftAutopilotSetConfigOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays the state of the raft cluster under integrated storage as seen by autopilot.
@@ -439,7 +439,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftAutopilotState(VaultOperatorRaftAutopilotStateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftAutopilotState(VaultOperatorRaftAutopilotStateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Join the current node as a peer to the Raft cluster by providing the address
@@ -448,7 +448,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftJoin(VaultOperatorRaftJoinOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftJoin(VaultOperatorRaftJoinOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides the details of all the peers in the Raft cluster.
@@ -457,7 +457,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftListPeers(VaultOperatorRaftListPeersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftListPeers(VaultOperatorRaftListPeersOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes a node from the Raft cluster.
@@ -466,7 +466,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftRemovePeer(VaultOperatorRaftRemovePeerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftRemovePeer(VaultOperatorRaftRemovePeerOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects a snapshot file.
@@ -475,7 +475,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftSnapshotInspect(VaultOperatorRaftSnapshotInspectOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftSnapshotInspect(VaultOperatorRaftSnapshotInspectOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Installs the provided snapshot, returning the cluster to the state defined in it.
@@ -484,7 +484,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftSnapshotRestore(VaultOperatorRaftSnapshotRestoreOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftSnapshotRestore(VaultOperatorRaftSnapshotRestoreOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Saves a snapshot of the current state of the Raft cluster into a file.
@@ -493,7 +493,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRaftSnapshotSave(VaultOperatorRaftSnapshotSaveOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRaftSnapshotSave(VaultOperatorRaftSnapshotSaveOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Generates a new set of unseal keys. This can optionally change the total
@@ -502,7 +502,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRekey(VaultOperatorRekeyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRekey(VaultOperatorRekeyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Rotates the underlying encryption key which is used to secure data written
@@ -511,7 +511,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorRotate(VaultOperatorRotateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorRotate(VaultOperatorRotateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Seals the Vault server. Sealing tells the Vault server to stop responding
@@ -520,7 +520,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorSeal(VaultOperatorSealOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorSeal(VaultOperatorSealOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Forces the Vault server at the given address to step down from active duty.
@@ -529,7 +529,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorStepDown(VaultOperatorStepDownOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorStepDown(VaultOperatorStepDownOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provide a portion of the root key to unseal a Vault server. Vault starts
@@ -538,7 +538,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorUnseal(VaultOperatorUnsealOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorUnseal(VaultOperatorUnsealOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List the client counts for the default reporting period.
@@ -547,7 +547,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorUsage(VaultOperatorUsageOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorUsage(VaultOperatorUsageOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Produces a bundle of snapshots that contains license utilization data. If no snapshots were persisted in the last 24 hrs, it takes a snapshot and includes it in the bundle to prevent stale data.
@@ -556,7 +556,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> OperatorUtilization(VaultOperatorUtilizationOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> OperatorUtilization(VaultOperatorUtilizationOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Patches data in Vault at the given path. The data can be credentials, secrets,
@@ -565,7 +565,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Patch(VaultPatchOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Patch(VaultPatchOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves API help for paths. All endpoints in Vault provide built-in help
@@ -574,7 +574,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PathHelp(VaultPathHelpOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PathHelp(VaultPathHelpOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reports status of the specified mount against best practices and pending
@@ -583,7 +583,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PkiHealthCheck(VaultPkiHealthCheckOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkiHealthCheck(VaultPkiHealthCheckOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// PARENT is the fully qualified path of the Certificate Authority in vault which will issue the new intermediate certificate.
@@ -592,7 +592,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PkiIssue(VaultPkiIssueOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkiIssue(VaultPkiIssueOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the set of intermediate CAs issued by this parent issuer.
@@ -601,7 +601,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PkiListIntermediates(VaultPkiListIntermediatesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkiListIntermediates(VaultPkiListIntermediatesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Verifies whether the listed issuer has signed the listed issued certificate.
@@ -610,7 +610,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PkiVerifySign(VaultPkiVerifySignOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PkiVerifySign(VaultPkiVerifySignOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregister an existing plugin in the catalog. If the plugin does not exist,
@@ -619,7 +619,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginDeregister(VaultPluginDeregisterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginDeregister(VaultPluginDeregisterOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays information about a plugin in the catalog with the given name. If
@@ -628,7 +628,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginInfo(VaultPluginInfoOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginInfo(VaultPluginInfoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available plugins registered in the catalog. This does not list whether
@@ -637,7 +637,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginList(VaultPluginListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginList(VaultPluginListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a new plugin in the catalog. The plugin binary must exist in Vault's
@@ -646,7 +646,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginRegister(VaultPluginRegisterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginRegister(VaultPluginRegisterOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reloads mounted plugins. Either the plugin name or the desired plugin
@@ -655,7 +655,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginReload(VaultPluginReloadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginReload(VaultPluginReloadOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the status of a recent cluster plugin reload.  The reload id must be provided.
@@ -664,7 +664,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginReloadStatus(VaultPluginReloadStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginReloadStatus(VaultPluginReloadStatusOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deregister an existing plugin runtime in the catalog with the given name. If
@@ -673,7 +673,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginRuntimeDeregister(VaultPluginRuntimeDeregisterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginRuntimeDeregister(VaultPluginRuntimeDeregisterOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays information about a plugin runtime in the catalog with the given name. If
@@ -682,7 +682,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginRuntimeInfo(VaultPluginRuntimeInfoOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginRuntimeInfo(VaultPluginRuntimeInfoOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists available plugin runtimes registered in the catalog. This does not list whether
@@ -691,7 +691,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginRuntimeList(VaultPluginRuntimeListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginRuntimeList(VaultPluginRuntimeListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a new plugin runtime in the catalog. Currently, Vault only supports registering runtimes of type "container".
@@ -700,7 +700,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PluginRuntimeRegister(VaultPluginRuntimeRegisterOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PluginRuntimeRegister(VaultPluginRuntimeRegisterOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes the policy named NAME in the Vault server. Once the policy is deleted,
@@ -709,7 +709,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PolicyDelete(VaultPolicyDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PolicyDelete(VaultPolicyDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Formats a local policy file to the policy specification. This command will
@@ -718,7 +718,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PolicyFmt(VaultPolicyFmtOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PolicyFmt(VaultPolicyFmtOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the names of the policies that are installed on the Vault server.
@@ -727,7 +727,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PolicyList(VaultPolicyListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PolicyList(VaultPolicyListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints the contents and metadata of the Vault policy named NAME. If the policy
@@ -736,7 +736,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PolicyRead(VaultPolicyReadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PolicyRead(VaultPolicyReadOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Uploads a policy with name NAME from the contents of a local file PATH or
@@ -745,7 +745,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PolicyWrite(VaultPolicyWriteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PolicyWrite(VaultPolicyWriteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command starts a Vault Proxy that can perform automatic authentication
@@ -754,7 +754,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Proxy(VaultProxyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Proxy(VaultProxyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Reads data from Vault at the given path. This can be used to read secrets,
@@ -763,7 +763,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Read(VaultReadOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Read(VaultReadOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Disables a secrets engine at the given PATH. The argument corresponds to
@@ -772,7 +772,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SecretsDisable(VaultSecretsDisableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SecretsDisable(VaultSecretsDisableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Enables a secrets engine. By default, secrets engines are enabled at the path
@@ -781,7 +781,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SecretsEnable(VaultSecretsEnableOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SecretsEnable(VaultSecretsEnableOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists the enabled secret engines on the Vault server. This command also
@@ -790,7 +790,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SecretsList(VaultSecretsListOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SecretsList(VaultSecretsListOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Moves an existing secrets engine to a new path. Any leases from the old
@@ -799,7 +799,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SecretsMove(VaultSecretsMoveOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SecretsMove(VaultSecretsMoveOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Tunes the configuration options for the secrets engine at the given PATH.
@@ -808,7 +808,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SecretsTune(VaultSecretsTuneOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SecretsTune(VaultSecretsTuneOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// This command starts a Vault server that responds to API requests. By default,
@@ -817,7 +817,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Server(VaultServerOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Server(VaultServerOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Establishes an SSH connection with the target machine.
@@ -826,7 +826,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ssh(VaultSshOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Ssh(VaultSshOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints the current state of Vault including whether it is sealed and if HA
@@ -835,7 +835,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Status(VaultStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Status(VaultStatusOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Fetches the capabilities of a token or accessor for a given path. If a TOKEN
@@ -844,7 +844,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TokenCapabilities(VaultTokenCapabilitiesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenCapabilities(VaultTokenCapabilitiesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new token that can be used for authentication. This token will be
@@ -853,7 +853,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TokenCreate(VaultTokenCreateOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenCreate(VaultTokenCreateOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Displays information about a token or accessor. If a TOKEN is not provided,
@@ -862,7 +862,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TokenLookup(VaultTokenLookupOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenLookup(VaultTokenLookupOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renews a token's lease, extending the amount of time it can be used. If a
@@ -871,7 +871,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TokenRenew(VaultTokenRenewOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenRenew(VaultTokenRenewOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revokes authentication tokens and their children. If a TOKEN is not provided,
@@ -880,7 +880,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TokenRevoke(VaultTokenRevokeOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TokenRevoke(VaultTokenRevokeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Using the Transform key wrapping system, imports key material from
@@ -889,7 +889,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TransformImport(VaultTransformImportOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TransformImport(VaultTransformImportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Using the Transform key wrapping system, imports new key material from
@@ -898,7 +898,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TransformImportVersion(VaultTransformImportVersionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TransformImportVersion(VaultTransformImportVersionOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Using the Transit key wrapping system, imports key material from
@@ -907,7 +907,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TransitImport(VaultTransitImportOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TransitImport(VaultTransitImportOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Using the Transit key wrapping system, imports key material from
@@ -916,7 +916,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> TransitImportVersion(VaultTransitImportVersionOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> TransitImportVersion(VaultTransitImportVersionOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unwraps a wrapped secret from Vault by the given token. The result is the
@@ -925,7 +925,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unwrap(VaultUnwrapOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Unwrap(VaultUnwrapOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Prints the version history of the target Vault server.
@@ -934,7 +934,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> VersionHistory(VaultVersionHistoryOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> VersionHistory(VaultVersionHistoryOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes data to Vault at the given path. The data can be credentials, secrets,
@@ -943,7 +943,7 @@ public partial interface IVault
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Write(VaultWriteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Write(VaultWriteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
