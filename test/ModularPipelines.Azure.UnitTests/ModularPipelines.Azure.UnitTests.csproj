@@ -11,6 +11,9 @@
         <ProjectReference Include="..\..\src\ModularPipelines.Azure\ModularPipelines.Azure.csproj" />
         <ProjectReference
             Include="..\ModularPipelines.TestHelpers\ModularPipelines.TestHelpers.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Testing.Extensions.HangDump" />
         <PackageReference Include="TUnit" />
     </ItemGroup>
 
