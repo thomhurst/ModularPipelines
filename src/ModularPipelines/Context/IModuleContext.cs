@@ -149,7 +149,7 @@ public interface IModuleContext : IPipelineContext
     /// <b>Example usage:</b>
     /// </para>
     /// <code>
-    /// [DependsOn&lt;BuildModule&gt;(IgnoreIfNotRegistered = true)]
+    /// [DependsOn&lt;BuildModule&gt;(Optional = true)]
     /// public class DeployModule : Module&lt;DeployResult&gt;
     /// {
     ///     protected override async Task&lt;DeployResult&gt; ExecuteAsync(
@@ -170,7 +170,7 @@ public interface IModuleContext : IPipelineContext
     /// </code>
     /// <para>
     /// <b>Important:</b> If you use this method with a module that may be registered, consider using
-    /// <see cref="Attributes.DependsOnAttribute.IgnoreIfNotRegistered"/> on your dependency attribute
+    /// <see cref="Attributes.DependsOnAttribute.Optional"/> on your dependency attribute
     /// to properly handle the optional dependency in the execution graph.
     /// </para>
     /// </remarks>

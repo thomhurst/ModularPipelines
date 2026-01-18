@@ -60,7 +60,7 @@ public static class ModuleDependencyValidator
     }
 
     /// <summary>
-    /// Validates that all dependencies are registered.
+    /// Validates that all required (non-optional) dependencies are registered.
     /// </summary>
     private static void ValidateMissingDependencies(HashSet<Type> moduleTypes)
     {
@@ -68,9 +68,10 @@ public static class ModuleDependencyValidator
         {
             var dependencies = ModuleDependencyResolver.GetDependencies(moduleType, moduleTypes);
 
-            foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+            foreach (var (dependencyType, optional) in dependencies)
             {
-                if (ignoreIfNotRegistered)
+                // Skip validation for optional dependencies
+                if (optional)
                 {
                     continue;
                 }
@@ -78,9 +79,9 @@ public static class ModuleDependencyValidator
                 if (!moduleTypes.Contains(dependencyType))
                 {
                     throw new ModuleNotRegisteredException(
-                        $"Module '{moduleType.Name}' depends on '{dependencyType.Name}', " +
-                        $"but '{dependencyType.Name}' is not registered. " +
-                        "Either register the dependency module or set IgnoreIfNotRegistered = true on the [DependsOn] attribute.", null);
+                        $"Module '{moduleType.Name}' requires '{dependencyType.Name}', " +
+                        $"but '{dependencyType.Name}' is not registered and could not be auto-registered. " +
+                        "Either register the dependency module or use [DependsOn<T>(Optional = true)] if the dependency is optional.", null);
                 }
             }
         }

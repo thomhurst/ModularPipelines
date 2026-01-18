@@ -26,7 +26,7 @@ internal class DependencyWaiter : IDependencyWaiter
         // Get both attribute-based and programmatic dependencies
         var dependencies = GetAllDependencies(moduleState);
 
-        foreach (var (dependencyType, ignoreIfNotRegistered) in dependencies)
+        foreach (var (dependencyType, optional) in dependencies)
         {
             var dependencyTask = scheduler.GetModuleCompletionTask(dependencyType);
 
@@ -46,15 +46,13 @@ internal class DependencyWaiter : IDependencyWaiter
                     depLogger.LogError(e, "Ignoring Exception due to 'AlwaysRun' set");
                 }
             }
-            else if (!ignoreIfNotRegistered)
+            else if (!optional)
             {
-                var message = $"Module '{moduleState.ModuleType.Name}' depends on '{dependencyType.Name}', " +
-                              $"but '{dependencyType.Name}' has not been registered in the pipeline.\n\n" +
+                var message = $"Module '{moduleState.ModuleType.Name}' requires '{dependencyType.Name}', " +
+                              $"but '{dependencyType.Name}' has not been registered and could not be auto-registered.\n\n" +
                               $"Suggestions:\n" +
-                              $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration before '.AddModule<{moduleState.ModuleType.Name}>()'\n" +
-                              $"  2. Use 'deps.DependsOnOptional<{dependencyType.Name}>()' or '[DependsOn<{dependencyType.Name}>(IgnoreIfNotRegistered = true)]' if this dependency is optional\n" +
-                              $"  3. Check for typos in the dependency type name\n" +
-                              $"  4. Verify that '{dependencyType.Name}' is in a project referenced by your pipeline project";
+                              $"  1. Add '.AddModule<{dependencyType.Name}>()' to your pipeline configuration\n" +
+                              $"  2. Use '[DependsOn<{dependencyType.Name}>(Optional = true)]' if this dependency is optional";
                 throw new ModuleNotRegisteredException(message, null);
             }
         }
@@ -63,7 +61,7 @@ internal class DependencyWaiter : IDependencyWaiter
     /// <summary>
     /// Gets all dependencies for a module, combining attribute-based and programmatic dependencies.
     /// </summary>
-    private static IEnumerable<(Type DependencyType, bool IgnoreIfNotRegistered)> GetAllDependencies(ModuleState moduleState)
+    private static IEnumerable<(Type DependencyType, bool Optional)> GetAllDependencies(ModuleState moduleState)
     {
         // Attribute-based dependencies
         foreach (var dep in ModuleDependencyResolver.GetDependencies(moduleState.ModuleType))

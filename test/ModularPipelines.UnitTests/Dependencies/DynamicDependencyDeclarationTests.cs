@@ -484,7 +484,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         await Assert.That(deps).HasCount().EqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Required);
-        await Assert.That(deps[0].IgnoreIfNotRegistered).IsEqualTo(false);
+        await Assert.That(deps[0].IsOptional).IsEqualTo(false);
     }
 
     [Test]
@@ -497,7 +497,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         await Assert.That(deps).HasCount().EqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Optional);
-        await Assert.That(deps[0].IgnoreIfNotRegistered).IsEqualTo(true);
+        await Assert.That(deps[0].IsOptional).IsEqualTo(true);
     }
 
     [Test]
@@ -510,7 +510,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         await Assert.That(deps).HasCount().EqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Lazy);
-        await Assert.That(deps[0].IgnoreIfNotRegistered).IsEqualTo(true);
+        await Assert.That(deps[0].IsOptional).IsEqualTo(true);
     }
 
     [Test]
@@ -523,7 +523,7 @@ public class DynamicDependencyDeclarationTests : TestBase
 
         await Assert.That(deps).HasCount().EqualTo(1);
         await Assert.That(deps[0].Kind).IsEqualTo(DependencyType.Conditional);
-        await Assert.That(deps[0].IgnoreIfNotRegistered).IsEqualTo(false);
+        await Assert.That(deps[0].IsOptional).IsEqualTo(false);
     }
 
     [Test]

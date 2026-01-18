@@ -84,15 +84,15 @@ internal static class DependencyGraphValidator
         foreach (var attribute in moduleType.GetCustomAttributesIncludingBaseInterfaces<DependsOnAttribute>())
         {
             // Only include if this dependency type is actually being registered
-            // Also handle IgnoreIfNotRegistered - if the dependency is not registered and
-            // IgnoreIfNotRegistered is true, we skip it for cycle detection
+            // Also handle Optional - if the dependency is not registered and
+            // Optional is true, we skip it for cycle detection
             if (availableModuleTypes.Contains(attribute.Type))
             {
                 yield return attribute.Type;
             }
-            else if (!attribute.IgnoreIfNotRegistered)
+            else if (!attribute.Optional)
             {
-                // If the dependency is not registered and IgnoreIfNotRegistered is false,
+                // If the dependency is not registered and Optional is false,
                 // we still yield it so the runtime can fail appropriately later.
                 // For cycle detection, we only care about registered modules.
             }

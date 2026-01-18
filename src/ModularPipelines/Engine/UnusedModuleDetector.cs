@@ -42,7 +42,7 @@ internal class UnusedModuleDetector : IUnusedModuleDetector
         var unregisteredDependencies = registeredModuleTypes
             .SelectMany(moduleType => moduleType.GetCustomAttributes(typeof(DependsOnAttribute), inherit: true)
                 .Cast<DependsOnAttribute>())
-            .Where(attr => !attr.IgnoreIfNotRegistered)
+            .Where(attr => !attr.Optional)
             .Select(attr => attr.Type)
             .Distinct()
             .Where(depType => !registeredServices.Contains(depType))

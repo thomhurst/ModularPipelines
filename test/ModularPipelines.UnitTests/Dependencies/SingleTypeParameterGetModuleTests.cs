@@ -89,7 +89,7 @@ public class SingleTypeParameterGetModuleTests : TestBase
     /// <summary>
     /// A module that uses GetModuleIfRegistered with single type parameter.
     /// </summary>
-    [ModularPipelines.Attributes.DependsOn<StringModule>(IgnoreIfNotRegistered = true)]
+    [ModularPipelines.Attributes.DependsOn<StringModule>(Optional = true)]
     private class OptionalConsumerModule : Module<string>
     {
         protected internal override async Task<string?> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)
