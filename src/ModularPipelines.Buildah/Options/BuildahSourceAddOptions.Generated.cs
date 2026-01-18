@@ -15,7 +15,7 @@ namespace ModularPipelines.Buildah.Options;
 /// <summary>
 /// Add add a source artifact to a source image.  The artifact will be added as a gzip-compressed tar ball.  Add attempts to auto-tar and auto-compress only if necessary.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("source", "add")]
 public record BuildahSourceAddOptions : BuildahOptions
