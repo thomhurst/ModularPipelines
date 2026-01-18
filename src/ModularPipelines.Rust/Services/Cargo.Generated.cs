@@ -14,7 +14,7 @@ namespace ModularPipelines.Rust.Services;
 /// <summary>
 /// Generated implementation for cargo CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Cargo : ICargo
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Add(
-        CargoAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoAddOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Bench(
-        CargoBenchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoBenchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoBenchOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        CargoBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoBuildOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Check(
-        CargoCheckOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoCheckOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoCheckOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Clean(
-        CargoCleanOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoCleanOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoCleanOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Doc(
-        CargoDocOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoDocOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoDocOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Init(
-        CargoInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoInitOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Install(
-        CargoInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoInstallOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> New(
-        CargoNewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoNewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoNewOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Publish(
-        CargoPublishOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoPublishOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoPublishOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Remove(
-        CargoRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoRemoveOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
-        CargoRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoRunOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Search(
-        CargoSearchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoSearchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoSearchOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
-        CargoTestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoTestOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Uninstall(
-        CargoUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoUninstallOptions(), executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ internal partial class Cargo : ICargo
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Update(
-        CargoUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        CargoUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new CargoUpdateOptions(), executionOptions, cancellationToken);
