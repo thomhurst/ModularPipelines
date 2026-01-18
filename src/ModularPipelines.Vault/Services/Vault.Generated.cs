@@ -14,7 +14,7 @@ namespace ModularPipelines.Vault.Services;
 /// <summary>
 /// Generated implementation for vault CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Vault : IVault
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AgentGenerateConfig(
-        VaultAgentGenerateConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAgentGenerateConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAgentGenerateConfigOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Agent(
-        VaultAgentOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAgentOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAgentOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuditDisable(
-        VaultAuditDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuditDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuditDisableOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuditEnable(
-        VaultAuditEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuditEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuditEnableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuditList(
-        VaultAuditListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuditListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuditListOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthDisable(
-        VaultAuthDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuthDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuthDisableOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthEnable(
-        VaultAuthEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuthEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuthEnableOptions(), executionOptions, cancellationToken);
@@ -94,8 +94,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthList(
-        VaultAuthListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuthListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuthListOptions(), executionOptions, cancellationToken);
@@ -103,8 +103,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthMove(
-        VaultAuthMoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuthMoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuthMoveOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> AuthTune(
-        VaultAuthTuneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultAuthTuneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultAuthTuneOptions(), executionOptions, cancellationToken);
@@ -121,8 +121,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Delete(
-        VaultDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultDeleteOptions(), executionOptions, cancellationToken);
@@ -130,8 +130,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> EventsSubscribe(
-        VaultEventsSubscribeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultEventsSubscribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultEventsSubscribeOptions(), executionOptions, cancellationToken);
@@ -139,8 +139,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvDelete(
-        VaultKvDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvDeleteOptions(), executionOptions, cancellationToken);
@@ -148,8 +148,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvDestroy(
-        VaultKvDestroyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvDestroyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvDestroyOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvEnableVersioning(
-        VaultKvEnableVersioningOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvEnableVersioningOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvEnableVersioningOptions(), executionOptions, cancellationToken);
@@ -166,8 +166,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvGet(
-        VaultKvGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvGetOptions(), executionOptions, cancellationToken);
@@ -175,8 +175,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvList(
-        VaultKvListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvListOptions(), executionOptions, cancellationToken);
@@ -184,8 +184,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvMetadataDelete(
-        VaultKvMetadataDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvMetadataDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvMetadataDeleteOptions(), executionOptions, cancellationToken);
@@ -193,8 +193,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvMetadataGet(
-        VaultKvMetadataGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvMetadataGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvMetadataGetOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvMetadataPatch(
-        VaultKvMetadataPatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvMetadataPatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvMetadataPatchOptions(), executionOptions, cancellationToken);
@@ -211,8 +211,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvMetadataPut(
-        VaultKvMetadataPutOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvMetadataPutOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvMetadataPutOptions(), executionOptions, cancellationToken);
@@ -220,8 +220,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvPatch(
-        VaultKvPatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvPatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvPatchOptions(), executionOptions, cancellationToken);
@@ -229,8 +229,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvPut(
-        VaultKvPutOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvPutOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvPutOptions(), executionOptions, cancellationToken);
@@ -238,8 +238,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvRollback(
-        VaultKvRollbackOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvRollbackOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvRollbackOptions(), executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> KvUndelete(
-        VaultKvUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultKvUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultKvUndeleteOptions(), executionOptions, cancellationToken);
@@ -256,8 +256,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LeaseLookup(
-        VaultLeaseLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultLeaseLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultLeaseLookupOptions(), executionOptions, cancellationToken);
@@ -265,8 +265,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LeaseRenew(
-        VaultLeaseRenewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultLeaseRenewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultLeaseRenewOptions(), executionOptions, cancellationToken);
@@ -274,8 +274,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> LeaseRevoke(
-        VaultLeaseRevokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultLeaseRevokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultLeaseRevokeOptions(), executionOptions, cancellationToken);
@@ -283,8 +283,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
-        VaultListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultListOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        VaultLoginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultLoginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultLoginOptions(), executionOptions, cancellationToken);
@@ -301,8 +301,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Monitor(
-        VaultMonitorOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultMonitorOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultMonitorOptions(), executionOptions, cancellationToken);
@@ -310,8 +310,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceCreate(
-        VaultNamespaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceCreateOptions(), executionOptions, cancellationToken);
@@ -319,8 +319,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceDelete(
-        VaultNamespaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -328,8 +328,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceList(
-        VaultNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceListOptions(), executionOptions, cancellationToken);
@@ -337,8 +337,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceLock(
-        VaultNamespaceLockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceLockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceLockOptions(), executionOptions, cancellationToken);
@@ -346,8 +346,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceLookup(
-        VaultNamespaceLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceLookupOptions(), executionOptions, cancellationToken);
@@ -355,8 +355,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespacePatch(
-        VaultNamespacePatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespacePatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespacePatchOptions(), executionOptions, cancellationToken);
@@ -364,8 +364,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> NamespaceUnlock(
-        VaultNamespaceUnlockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultNamespaceUnlockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultNamespaceUnlockOptions(), executionOptions, cancellationToken);
@@ -373,8 +373,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorDiagnose(
-        VaultOperatorDiagnoseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorDiagnoseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorDiagnoseOptions(), executionOptions, cancellationToken);
@@ -382,8 +382,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorGenerateRoot(
-        VaultOperatorGenerateRootOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorGenerateRootOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorGenerateRootOptions(), executionOptions, cancellationToken);
@@ -391,8 +391,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorInit(
-        VaultOperatorInitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorInitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorInitOptions(), executionOptions, cancellationToken);
@@ -400,8 +400,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorKeyStatus(
-        VaultOperatorKeyStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorKeyStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorKeyStatusOptions(), executionOptions, cancellationToken);
@@ -409,8 +409,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorMembers(
-        VaultOperatorMembersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorMembersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorMembersOptions(), executionOptions, cancellationToken);
@@ -418,8 +418,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorMigrate(
-        VaultOperatorMigrateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorMigrateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorMigrateOptions(), executionOptions, cancellationToken);
@@ -427,8 +427,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftAutopilotGetConfig(
-        VaultOperatorRaftAutopilotGetConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftAutopilotGetConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftAutopilotGetConfigOptions(), executionOptions, cancellationToken);
@@ -436,8 +436,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftAutopilotSetConfig(
-        VaultOperatorRaftAutopilotSetConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftAutopilotSetConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftAutopilotSetConfigOptions(), executionOptions, cancellationToken);
@@ -445,8 +445,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftAutopilotState(
-        VaultOperatorRaftAutopilotStateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftAutopilotStateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftAutopilotStateOptions(), executionOptions, cancellationToken);
@@ -454,8 +454,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftJoin(
-        VaultOperatorRaftJoinOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftJoinOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftJoinOptions(), executionOptions, cancellationToken);
@@ -463,8 +463,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftListPeers(
-        VaultOperatorRaftListPeersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftListPeersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftListPeersOptions(), executionOptions, cancellationToken);
@@ -472,8 +472,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftRemovePeer(
-        VaultOperatorRaftRemovePeerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftRemovePeerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftRemovePeerOptions(), executionOptions, cancellationToken);
@@ -481,8 +481,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftSnapshotInspect(
-        VaultOperatorRaftSnapshotInspectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftSnapshotInspectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftSnapshotInspectOptions(), executionOptions, cancellationToken);
@@ -490,8 +490,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftSnapshotRestore(
-        VaultOperatorRaftSnapshotRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftSnapshotRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftSnapshotRestoreOptions(), executionOptions, cancellationToken);
@@ -499,8 +499,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRaftSnapshotSave(
-        VaultOperatorRaftSnapshotSaveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRaftSnapshotSaveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRaftSnapshotSaveOptions(), executionOptions, cancellationToken);
@@ -508,8 +508,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRekey(
-        VaultOperatorRekeyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRekeyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRekeyOptions(), executionOptions, cancellationToken);
@@ -517,8 +517,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorRotate(
-        VaultOperatorRotateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorRotateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorRotateOptions(), executionOptions, cancellationToken);
@@ -526,8 +526,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorSeal(
-        VaultOperatorSealOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorSealOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorSealOptions(), executionOptions, cancellationToken);
@@ -535,8 +535,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorStepDown(
-        VaultOperatorStepDownOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorStepDownOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorStepDownOptions(), executionOptions, cancellationToken);
@@ -544,8 +544,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorUnseal(
-        VaultOperatorUnsealOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorUnsealOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorUnsealOptions(), executionOptions, cancellationToken);
@@ -553,8 +553,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorUsage(
-        VaultOperatorUsageOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorUsageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorUsageOptions(), executionOptions, cancellationToken);
@@ -562,8 +562,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> OperatorUtilization(
-        VaultOperatorUtilizationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultOperatorUtilizationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultOperatorUtilizationOptions(), executionOptions, cancellationToken);
@@ -571,8 +571,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Patch(
-        VaultPatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPatchOptions(), executionOptions, cancellationToken);
@@ -580,8 +580,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PathHelp(
-        VaultPathHelpOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPathHelpOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPathHelpOptions(), executionOptions, cancellationToken);
@@ -589,8 +589,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PkiHealthCheck(
-        VaultPkiHealthCheckOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPkiHealthCheckOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPkiHealthCheckOptions(), executionOptions, cancellationToken);
@@ -598,8 +598,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PkiIssue(
-        VaultPkiIssueOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPkiIssueOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPkiIssueOptions(), executionOptions, cancellationToken);
@@ -607,8 +607,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PkiListIntermediates(
-        VaultPkiListIntermediatesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPkiListIntermediatesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPkiListIntermediatesOptions(), executionOptions, cancellationToken);
@@ -616,8 +616,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PkiVerifySign(
-        VaultPkiVerifySignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPkiVerifySignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPkiVerifySignOptions(), executionOptions, cancellationToken);
@@ -625,8 +625,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginDeregister(
-        VaultPluginDeregisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginDeregisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginDeregisterOptions(), executionOptions, cancellationToken);
@@ -634,8 +634,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginInfo(
-        VaultPluginInfoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginInfoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginInfoOptions(), executionOptions, cancellationToken);
@@ -643,8 +643,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginList(
-        VaultPluginListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginListOptions(), executionOptions, cancellationToken);
@@ -652,8 +652,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRegister(
-        VaultPluginRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginRegisterOptions(), executionOptions, cancellationToken);
@@ -661,8 +661,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginReload(
-        VaultPluginReloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginReloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginReloadOptions(), executionOptions, cancellationToken);
@@ -670,8 +670,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginReloadStatus(
-        VaultPluginReloadStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginReloadStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginReloadStatusOptions(), executionOptions, cancellationToken);
@@ -679,8 +679,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRuntimeDeregister(
-        VaultPluginRuntimeDeregisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginRuntimeDeregisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginRuntimeDeregisterOptions(), executionOptions, cancellationToken);
@@ -688,8 +688,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRuntimeInfo(
-        VaultPluginRuntimeInfoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginRuntimeInfoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginRuntimeInfoOptions(), executionOptions, cancellationToken);
@@ -697,8 +697,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRuntimeList(
-        VaultPluginRuntimeListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginRuntimeListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginRuntimeListOptions(), executionOptions, cancellationToken);
@@ -706,8 +706,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PluginRuntimeRegister(
-        VaultPluginRuntimeRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPluginRuntimeRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPluginRuntimeRegisterOptions(), executionOptions, cancellationToken);
@@ -715,8 +715,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PolicyDelete(
-        VaultPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -724,8 +724,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PolicyFmt(
-        VaultPolicyFmtOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPolicyFmtOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPolicyFmtOptions(), executionOptions, cancellationToken);
@@ -733,8 +733,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PolicyList(
-        VaultPolicyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPolicyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPolicyListOptions(), executionOptions, cancellationToken);
@@ -742,8 +742,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PolicyRead(
-        VaultPolicyReadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPolicyReadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPolicyReadOptions(), executionOptions, cancellationToken);
@@ -751,8 +751,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> PolicyWrite(
-        VaultPolicyWriteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultPolicyWriteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultPolicyWriteOptions(), executionOptions, cancellationToken);
@@ -760,8 +760,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Proxy(
-        VaultProxyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultProxyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultProxyOptions(), executionOptions, cancellationToken);
@@ -769,8 +769,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Read(
-        VaultReadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultReadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultReadOptions(), executionOptions, cancellationToken);
@@ -778,8 +778,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SecretsDisable(
-        VaultSecretsDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSecretsDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSecretsDisableOptions(), executionOptions, cancellationToken);
@@ -787,8 +787,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SecretsEnable(
-        VaultSecretsEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSecretsEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSecretsEnableOptions(), executionOptions, cancellationToken);
@@ -796,8 +796,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SecretsList(
-        VaultSecretsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSecretsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSecretsListOptions(), executionOptions, cancellationToken);
@@ -805,8 +805,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SecretsMove(
-        VaultSecretsMoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSecretsMoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSecretsMoveOptions(), executionOptions, cancellationToken);
@@ -814,8 +814,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> SecretsTune(
-        VaultSecretsTuneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSecretsTuneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSecretsTuneOptions(), executionOptions, cancellationToken);
@@ -823,8 +823,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Server(
-        VaultServerOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultServerOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultServerOptions(), executionOptions, cancellationToken);
@@ -832,8 +832,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Ssh(
-        VaultSshOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultSshOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultSshOptions(), executionOptions, cancellationToken);
@@ -841,8 +841,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Status(
-        VaultStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultStatusOptions(), executionOptions, cancellationToken);
@@ -850,8 +850,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TokenCapabilities(
-        VaultTokenCapabilitiesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTokenCapabilitiesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTokenCapabilitiesOptions(), executionOptions, cancellationToken);
@@ -859,8 +859,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TokenCreate(
-        VaultTokenCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTokenCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTokenCreateOptions(), executionOptions, cancellationToken);
@@ -868,8 +868,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TokenLookup(
-        VaultTokenLookupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTokenLookupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTokenLookupOptions(), executionOptions, cancellationToken);
@@ -877,8 +877,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TokenRenew(
-        VaultTokenRenewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTokenRenewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTokenRenewOptions(), executionOptions, cancellationToken);
@@ -886,8 +886,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TokenRevoke(
-        VaultTokenRevokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTokenRevokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTokenRevokeOptions(), executionOptions, cancellationToken);
@@ -895,8 +895,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TransformImport(
-        VaultTransformImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTransformImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTransformImportOptions(), executionOptions, cancellationToken);
@@ -904,8 +904,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TransformImportVersion(
-        VaultTransformImportVersionOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTransformImportVersionOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTransformImportVersionOptions(), executionOptions, cancellationToken);
@@ -913,8 +913,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TransitImport(
-        VaultTransitImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTransitImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTransitImportOptions(), executionOptions, cancellationToken);
@@ -922,8 +922,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> TransitImportVersion(
-        VaultTransitImportVersionOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultTransitImportVersionOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultTransitImportVersionOptions(), executionOptions, cancellationToken);
@@ -931,8 +931,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Unwrap(
-        VaultUnwrapOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultUnwrapOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultUnwrapOptions(), executionOptions, cancellationToken);
@@ -940,8 +940,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> VersionHistory(
-        VaultVersionHistoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultVersionHistoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultVersionHistoryOptions(), executionOptions, cancellationToken);
@@ -949,8 +949,8 @@ internal partial class Vault : IVault
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Write(
-        VaultWriteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        VaultWriteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new VaultWriteOptions(), executionOptions, cancellationToken);
