@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Options;
 /// <summary>
 /// Disables an audit device. Once an audit device is disabled, no future audit
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("audit", "disable")]
 public record VaultAuditDisableOptions : VaultOptions

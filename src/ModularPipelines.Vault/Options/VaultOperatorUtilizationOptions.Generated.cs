@@ -16,7 +16,7 @@ namespace ModularPipelines.Vault.Options;
 /// <summary>
 /// Produces a bundle of snapshots that contains license utilization data. If no snapshots were persisted in the last 24 hrs, it takes a snapshot and includes it in the bundle to prevent stale data.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("operator", "utilization")]
 public record VaultOperatorUtilizationOptions : VaultOptions
