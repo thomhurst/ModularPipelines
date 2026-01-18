@@ -100,11 +100,4 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     /// Safe to call multiple times.
     /// </summary>
     void Uninstall();
-
-    /// <summary>
-    /// Sets whether output flushing is in progress.
-    /// When true, console writes bypass buffering and go directly to the real console.
-    /// </summary>
-    /// <param name="isFlushing">True if flushing is in progress.</param>
-    void SetFlushingOutput(bool isFlushing);
 }

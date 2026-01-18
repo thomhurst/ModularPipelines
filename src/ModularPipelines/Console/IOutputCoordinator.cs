@@ -7,6 +7,12 @@ namespace ModularPipelines.Console;
 internal interface IOutputCoordinator
 {
     /// <summary>
+    /// Gets whether output flushing is currently in progress.
+    /// When true, console writes should bypass buffering and go directly to the real console.
+    /// </summary>
+    bool IsFlushing { get; }
+
+    /// <summary>
     /// Sets the progress controller for pause/resume coordination.
     /// Must be called before any modules complete.
     /// </summary>

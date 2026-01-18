@@ -51,7 +51,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
     // Phase management
     private volatile bool _isProgressActive;
-    private volatile bool _isFlushingOutput;
     private readonly object _phaseLock = new();
     private bool _isInstalled;
     private IProgressSession? _activeSession;
@@ -129,13 +128,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
                 _coordinatedOut = new CoordinatedTextWriter(
                     this,
                     _originalConsoleOut,
-                    () => _isProgressActive && !_isFlushingOutput,
+                    () => _isProgressActive && !_outputCoordinator.IsFlushing,
                     _secretObfuscator);
 
                 _coordinatedError = new CoordinatedTextWriter(
                     this,
                     _originalConsoleError,
-                    () => _isProgressActive && !_isFlushingOutput,
+                    () => _isProgressActive && !_outputCoordinator.IsFlushing,
                     _secretObfuscator);
 
                 System.Console.SetOut(_coordinatedOut);
@@ -198,12 +197,6 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             _coordinatedError = null;
             _isInstalled = false;
         }
-    }
-
-    /// <inheritdoc />
-    public void SetFlushingOutput(bool isFlushing)
-    {
-        _isFlushingOutput = isFlushing;
     }
 
     /// <inheritdoc />

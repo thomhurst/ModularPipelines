@@ -13,7 +13,6 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
     private readonly IServiceProvider _serviceProvider;
-    private readonly IConsoleCoordinator _consoleCoordinator;
     private readonly ILogger _logger;
     private readonly TextWriter _console;
 
@@ -22,21 +21,23 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly SemaphoreSlim _writeLock = new(1, 1);
 
     private IProgressController _progressController = NoOpProgressController.Instance;
-    private bool _isFlushing;
+    private bool _isProcessingQueue;
+    private volatile bool _isFlushingOutput;
 
     public OutputCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
         ILoggerFactory loggerFactory,
-        IServiceProvider serviceProvider,
-        IConsoleCoordinator consoleCoordinator)
+        IServiceProvider serviceProvider)
     {
         _formatterProvider = formatterProvider ?? throw new ArgumentNullException(nameof(formatterProvider));
         _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-        _consoleCoordinator = consoleCoordinator ?? throw new ArgumentNullException(nameof(consoleCoordinator));
         _logger = loggerFactory.CreateLogger<OutputCoordinator>();
         _console = System.Console.Out;
     }
+
+    /// <inheritdoc />
+    public bool IsFlushing => _isFlushingOutput;
 
     /// <inheritdoc />
     public void SetProgressController(IProgressController controller)
@@ -58,10 +59,10 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         lock (_queueLock)
         {
             _pendingQueue.Enqueue(pending);
-            shouldProcess = !_isFlushing;
+            shouldProcess = !_isProcessingQueue;
             if (shouldProcess)
             {
-                _isFlushing = true;
+                _isProcessingQueue = true;
             }
         }
 
@@ -88,7 +89,7 @@ internal sealed class OutputCoordinator : IOutputCoordinator
             {
                 if (_pendingQueue.Count == 0)
                 {
-                    _isFlushing = false;
+                    _isProcessingQueue = false;
                     return;
                 }
 
@@ -107,14 +108,14 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                 try
                 {
                     await _progressController.PauseAsync().ConfigureAwait(false);
-                    _consoleCoordinator.SetFlushingOutput(true);
+                    _isFlushingOutput = true;
                     try
                     {
                         FlushBuffer(pending.Buffer, formatter);
                     }
                     finally
                     {
-                        _consoleCoordinator.SetFlushingOutput(false);
+                        _isFlushingOutput = false;
                         await _progressController.ResumeAsync().ConfigureAwait(false);
                     }
                 }
