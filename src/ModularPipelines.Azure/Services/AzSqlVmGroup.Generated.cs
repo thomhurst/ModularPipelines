@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlVmGroup
 {
     private readonly ICommand _command;
-    private AzSqlVmGroupAgListener? _agListener;
+    private AzSqlVmGroupAgListener _agListener;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlVmGroup"/> class.
@@ -47,8 +47,8 @@ public class AzSqlVmGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlVmGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzSqlVmGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlVmGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzSqlVmGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlVmGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzSqlVmGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlVmGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupUpdateOptions(), executionOptions, cancellationToken);

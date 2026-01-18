@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az custom-domain commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdnCustomDomain
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCdnCustomDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCdnCustomDomainCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnCustomDomainCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnCustomDomainCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCdnCustomDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCdnCustomDomainDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnCustomDomainDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnCustomDomainDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCdnCustomDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableHttps(
-        AzCdnCustomDomainEnableHttpsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnCustomDomainEnableHttpsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnCustomDomainEnableHttpsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzCdnCustomDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCdnCustomDomainUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnCustomDomainUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnCustomDomainUpdateOptions(), executionOptions, cancellationToken);

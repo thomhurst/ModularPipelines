@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deployment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzLogicappDeployment
 {
     private readonly ICommand _command;
-    private AzLogicappDeploymentSource? _source;
+    private AzLogicappDeploymentSource _source;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzLogicappDeployment"/> class.

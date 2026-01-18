@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az snapshot commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappConfigSnapshot
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappConfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappConfigSnapshotListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigSnapshotListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigSnapshotListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappConfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzWebappConfigSnapshotRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigSnapshotRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigSnapshotRestoreOptions(), executionOptions, cancellationToken);

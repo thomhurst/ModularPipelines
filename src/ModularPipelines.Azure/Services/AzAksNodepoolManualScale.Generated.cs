@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az manual-scale commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksNodepoolManualScale
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAksNodepoolManualScale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAksNodepoolManualScaleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolManualScaleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolManualScaleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAksNodepoolManualScale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksNodepoolManualScaleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolManualScaleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolManualScaleDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAksNodepoolManualScale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksNodepoolManualScaleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolManualScaleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolManualScaleUpdateOptions(), executionOptions, cancellationToken);

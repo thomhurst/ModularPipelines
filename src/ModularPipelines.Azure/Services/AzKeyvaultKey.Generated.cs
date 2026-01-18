@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az key commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultKey
 {
     private readonly ICommand _command;
-    private AzKeyvaultKeyRotationPolicy? _rotationPolicy;
+    private AzKeyvaultKeyRotationPolicy _rotationPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultKey"/> class.
@@ -47,8 +47,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzKeyvaultKeyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzKeyvaultKeyDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyDownloadOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAttestation(
-        AzKeyvaultKeyGetAttestationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyGetAttestationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyGetAttestationOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzKeyvaultKeyImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyImportOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeleted(
-        AzKeyvaultKeyListDeletedOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyListDeletedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyListDeletedOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultKeyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVersions(
-        AzKeyvaultKeyListVersionsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyListVersionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyListVersionsOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzKeyvaultKeyRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRestoreOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class AzKeyvaultKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAttributes(
-        AzKeyvaultKeySetAttributesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeySetAttributesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeySetAttributesOptions(), executionOptions, cancellationToken);

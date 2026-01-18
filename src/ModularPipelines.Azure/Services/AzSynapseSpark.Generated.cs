@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az spark commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseSpark
 {
     private readonly ICommand _command;
-    private AzSynapseSparkJob? _job;
-    private AzSynapseSparkPool? _pool;
-    private AzSynapseSparkSession? _session;
-    private AzSynapseSparkStatement? _statement;
+    private AzSynapseSparkJob _job;
+    private AzSynapseSparkPool _pool;
+    private AzSynapseSparkSession _session;
+    private AzSynapseSparkStatement _statement;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseSpark"/> class.

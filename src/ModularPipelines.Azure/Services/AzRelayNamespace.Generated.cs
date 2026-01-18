@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az namespace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelayNamespace
 {
     private readonly ICommand _command;
-    private AzRelayNamespaceAuthorizationRule? _authorizationRule;
+    private AzRelayNamespaceAuthorizationRule _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayNamespace"/> class.
@@ -47,8 +47,8 @@ public class AzRelayNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayNamespaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayNamespaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzRelayNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRelayNamespaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayNamespaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzRelayNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzRelayNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzRelayNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRelayNamespaceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayNamespaceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayNamespaceUpdateOptions(), executionOptions, cancellationToken);

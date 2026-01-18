@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzIotHub
 {
     private readonly ICommand _command;
-    private AzIotHubCertificate? _certificate;
-    private AzIotHubConsumerGroup? _consumerGroup;
-    private AzIotHubIdentity? _identity;
-    private AzIotHubMessageEnrichment? _messageEnrichment;
-    private AzIotHubPolicy? _policy;
+    private AzIotHubCertificate _certificate;
+    private AzIotHubConsumerGroup _consumerGroup;
+    private AzIotHubIdentity _identity;
+    private AzIotHubMessageEnrichment _messageEnrichment;
+    private AzIotHubPolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotHub"/> class.
@@ -71,8 +71,8 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotHubCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubCreateOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotHubDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubDeleteOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotHubListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubListOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ManualFailover(
-        AzIotHubManualFailoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubManualFailoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubManualFailoverOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ public class AzIotHub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotHubUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubUpdateOptions(), executionOptions, cancellationToken);

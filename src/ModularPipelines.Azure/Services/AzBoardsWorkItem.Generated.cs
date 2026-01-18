@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az work-item commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBoardsWorkItem
 {
     private readonly ICommand _command;
-    private AzBoardsWorkItemRelation? _relation;
+    private AzBoardsWorkItemRelation _relation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBoardsWorkItem"/> class.
@@ -47,8 +47,8 @@ public class AzBoardsWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBoardsWorkItemCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsWorkItemCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzBoardsWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBoardsWorkItemDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsWorkItemDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzBoardsWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBoardsWorkItemShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsWorkItemShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemShowOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzBoardsWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBoardsWorkItemUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsWorkItemUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsWorkItemUpdateOptions(), executionOptions, cancellationToken);

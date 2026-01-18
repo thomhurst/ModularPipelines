@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az channel commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridPartnerNamespaceChannel
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventgridPartnerNamespaceChannel
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridPartnerNamespaceChannelCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerNamespaceChannelCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzEventgridPartnerNamespaceChannel
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridPartnerNamespaceChannelDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerNamespaceChannelDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzEventgridPartnerNamespaceChannel
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridPartnerNamespaceChannelListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerNamespaceChannelListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzEventgridPartnerNamespaceChannel
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridPartnerNamespaceChannelUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerNamespaceChannelUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerNamespaceChannelUpdateOptions(), executionOptions, cancellationToken);

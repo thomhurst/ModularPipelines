@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rotation-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultKeyRotationPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzKeyvaultKeyRotationPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzKeyvaultKeyRotationPolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyRotationPolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRotationPolicyShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzKeyvaultKeyRotationPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzKeyvaultKeyRotationPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultKeyRotationPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultKeyRotationPolicyUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az gateway commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNatGateway
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkNatGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNatGatewayCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNatGatewayCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNatGatewayCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkNatGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNatGatewayDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNatGatewayDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNatGatewayDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkNatGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkNatGatewayListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNatGatewayListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNatGatewayListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkNatGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNatGatewayUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNatGatewayUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNatGatewayUpdateOptions(), executionOptions, cancellationToken);

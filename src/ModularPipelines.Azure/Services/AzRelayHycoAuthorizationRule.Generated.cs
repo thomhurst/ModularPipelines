@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az authorization-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelayHycoAuthorizationRule
 {
     private readonly ICommand _command;
-    private AzRelayHycoAuthorizationRuleKeys? _keys;
+    private AzRelayHycoAuthorizationRuleKeys _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayHycoAuthorizationRule"/> class.
@@ -47,8 +47,8 @@ public class AzRelayHycoAuthorizationRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayHycoAuthorizationRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayHycoAuthorizationRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoAuthorizationRuleCreateOptions(), executionOptions, cancellationToken);

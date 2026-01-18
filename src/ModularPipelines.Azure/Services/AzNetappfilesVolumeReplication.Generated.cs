@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az replication commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesVolumeReplication
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzNetappfilesVolumeReplicationApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AuthorizeExternalReplication(
-        AzNetappfilesVolumeReplicationAuthorizeExternalReplicationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationAuthorizeExternalReplicationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationAuthorizeExternalReplicationOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FinalizeExternalReplication(
-        AzNetappfilesVolumeReplicationFinalizeExternalReplicationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationFinalizeExternalReplicationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationFinalizeExternalReplicationOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PeerExternalCluster(
-        AzNetappfilesVolumeReplicationPeerExternalClusterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationPeerExternalClusterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationPeerExternalClusterOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformReplicationTransfer(
-        AzNetappfilesVolumeReplicationPerformReplicationTransferOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationPerformReplicationTransferOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationPerformReplicationTransferOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PopulateAvailabilityZone(
-        AzNetappfilesVolumeReplicationPopulateAvailabilityZoneOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationPopulateAvailabilityZoneOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationPopulateAvailabilityZoneOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reestablish(
-        AzNetappfilesVolumeReplicationReestablishOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationReestablishOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationReestablishOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReInitialize(
-        AzNetappfilesVolumeReplicationReInitializeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationReInitializeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationReInitializeOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetappfilesVolumeReplicationRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationRemoveOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resume(
-        AzNetappfilesVolumeReplicationResumeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationResumeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationResumeOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class AzNetappfilesVolumeReplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Suspend(
-        AzNetappfilesVolumeReplicationSuspendOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeReplicationSuspendOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeReplicationSuspendOptions(), executionOptions, cancellationToken);

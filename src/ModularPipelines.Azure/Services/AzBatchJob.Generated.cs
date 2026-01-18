@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az job commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchJob
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchJobCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchJobDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzBatchJobDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobDisableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchJobListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchJobResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobResetOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzBatchJobSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobSetOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzBatchJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzBatchJobStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchJobStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchJobStopOptions(), executionOptions, cancellationToken);

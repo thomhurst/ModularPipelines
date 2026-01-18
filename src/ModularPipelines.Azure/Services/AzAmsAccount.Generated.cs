@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsAccount
 {
     private readonly ICommand _command;
-    private AzAmsAccountEncryption? _encryption;
-    private AzAmsAccountIdentity? _identity;
-    private AzAmsAccountMru? _mru;
-    private AzAmsAccountSp? _sp;
-    private AzAmsAccountStorage? _storage;
+    private AzAmsAccountEncryption _encryption;
+    private AzAmsAccountIdentity _identity;
+    private AzAmsAccountMru _mru;
+    private AzAmsAccountSp _sp;
+    private AzAmsAccountStorage _storage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsAccount"/> class.
@@ -71,8 +71,8 @@ public class AzAmsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckName(
-        AzAmsAccountCheckNameOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountCheckNameOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountCheckNameOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzAmsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAccountCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountCreateOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ public class AzAmsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountListOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class AzAmsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsAccountUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountUpdateOptions(), executionOptions, cancellationToken);

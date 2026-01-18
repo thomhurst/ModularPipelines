@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az server-logs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlFlexibleServerServerLogs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlFlexibleServerServerLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMysqlFlexibleServerServerLogsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerServerLogsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerServerLogsListOptions(), executionOptions, cancellationToken);

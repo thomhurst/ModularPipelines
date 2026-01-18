@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az attestation commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicyAttestation
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPolicyAttestation
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyAttestationListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAttestationListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAttestationListOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az action-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorActionGroup
 {
     private readonly ICommand _command;
-    private AzMonitorActionGroupIdentity? _identity;
-    private AzMonitorActionGroupTestNotifications? _testNotifications;
+    private AzMonitorActionGroupIdentity _identity;
+    private AzMonitorActionGroupTestNotifications _testNotifications;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorActionGroup"/> class.
@@ -53,8 +53,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorActionGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorActionGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorActionGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorActionGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupListOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzMonitorActionGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorActionGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorActionGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az copy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageFileCopy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageFileCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzStorageFileCopyCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileCopyCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileCopyCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageFileCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBatch(
-        AzStorageFileCopyStartBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileCopyStartBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileCopyStartBatchOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageFileCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzStorageFileCopyStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileCopyStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileCopyStartOptions(), executionOptions, cancellationToken);

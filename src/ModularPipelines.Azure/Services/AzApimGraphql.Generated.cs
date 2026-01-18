@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az graphql commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzApimGraphql
 {
     private readonly ICommand _command;
-    private AzApimGraphqlResolver? _resolver;
+    private AzApimGraphqlResolver _resolver;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimGraphql"/> class.

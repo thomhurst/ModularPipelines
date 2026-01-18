@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az endpoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdnEndpoint
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCdnEndpointCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCdnEndpointDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Load(
-        AzCdnEndpointLoadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointLoadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointLoadOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Purge(
-        AzCdnEndpointPurgeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointPurgeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointPurgeOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzCdnEndpointStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointStartOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzCdnEndpointStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointStopOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzCdnEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCdnEndpointUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEndpointUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEndpointUpdateOptions(), executionOptions, cancellationToken);

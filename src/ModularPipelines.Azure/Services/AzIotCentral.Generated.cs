@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az central commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzIotCentral
 {
     private readonly ICommand _command;
-    private AzIotCentralApp? _app;
+    private AzIotCentralApp _app;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotCentral"/> class.

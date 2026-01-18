@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az system-topic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridSystemTopic
 {
     private readonly ICommand _command;
-    private AzEventgridSystemTopicEventSubscription? _eventSubscription;
+    private AzEventgridSystemTopicEventSubscription _eventSubscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridSystemTopic"/> class.
@@ -47,8 +47,8 @@ public class AzEventgridSystemTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridSystemTopicCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridSystemTopicCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzEventgridSystemTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridSystemTopicDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridSystemTopicDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzEventgridSystemTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridSystemTopicListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridSystemTopicListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzEventgridSystemTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridSystemTopicUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridSystemTopicUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridSystemTopicUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az immutability-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageContainerImmutabilityPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageContainerImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageContainerImmutabilityPolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerImmutabilityPolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerImmutabilityPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageContainerImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageContainerImmutabilityPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerImmutabilityPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerImmutabilityPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageContainerImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Extend(
-        AzStorageContainerImmutabilityPolicyExtendOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerImmutabilityPolicyExtendOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerImmutabilityPolicyExtendOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzStorageContainerImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lock(
-        AzStorageContainerImmutabilityPolicyLockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerImmutabilityPolicyLockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerImmutabilityPolicyLockOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzStorageContainerImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageContainerImmutabilityPolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerImmutabilityPolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerImmutabilityPolicyShowOptions(), executionOptions, cancellationToken);

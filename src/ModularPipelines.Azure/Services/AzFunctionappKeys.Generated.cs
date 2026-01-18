@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az keys commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappKeys
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzFunctionappKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappKeysDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappKeysDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappKeysDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzFunctionappKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFunctionappKeysListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappKeysListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappKeysListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzFunctionappKeys
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzFunctionappKeysSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappKeysSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappKeysSetOptions(), executionOptions, cancellationToken);

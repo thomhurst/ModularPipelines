@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sig commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSig
 {
     private readonly ICommand _command;
-    private AzSigGalleryApplication? _galleryApplication;
-    private AzSigImageDefinition? _imageDefinition;
-    private AzSigImageVersion? _imageVersion;
-    private AzSigInVmAccessControlProfile? _inVmAccessControlProfile;
-    private AzSigInVmAccessControlProfileVersion? _inVmAccessControlProfileVersion;
-    private AzSigShare? _share;
+    private AzSigGalleryApplication _galleryApplication;
+    private AzSigImageDefinition _imageDefinition;
+    private AzSigImageVersion _imageVersion;
+    private AzSigInVmAccessControlProfile _inVmAccessControlProfile;
+    private AzSigInVmAccessControlProfileVersion _inVmAccessControlProfileVersion;
+    private AzSigShare _share;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSig"/> class.
@@ -77,8 +77,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSigCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigCreateOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSigDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigDeleteOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListCommunity(
-        AzSigListCommunityOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigListCommunityOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigListCommunityOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSigListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListShared(
-        AzSigListSharedOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigListSharedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigListSharedOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSigShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigShowOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSigUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigUpdateOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class AzSig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzSigWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigWaitOptions(), executionOptions, cancellationToken);

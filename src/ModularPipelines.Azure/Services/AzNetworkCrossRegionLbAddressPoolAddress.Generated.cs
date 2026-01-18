@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az address commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkCrossRegionLbAddressPoolAddress
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkCrossRegionLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkCrossRegionLbAddressPoolAddressAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolAddressAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolAddressAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkCrossRegionLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolAddressRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkCrossRegionLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbAddressPoolAddressUpdateOptions(), executionOptions, cancellationToken);

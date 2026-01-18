@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMapsAccount
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMapsAccountCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMapsAccountCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMapsAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMapsAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMapsAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMapsAccountUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMapsAccountUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMapsAccountUpdateOptions(), executionOptions, cancellationToken);

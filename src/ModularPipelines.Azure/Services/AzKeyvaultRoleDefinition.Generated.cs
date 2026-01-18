@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az definition commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultRoleDefinition
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzKeyvaultRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzKeyvaultRoleDefinitionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRoleDefinitionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleDefinitionDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzKeyvaultRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultRoleDefinitionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRoleDefinitionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleDefinitionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzKeyvaultRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzKeyvaultRoleDefinitionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRoleDefinitionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRoleDefinitionShowOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az security-domain commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultSecurityDomain
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzKeyvaultSecurityDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzKeyvaultSecurityDomainDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultSecurityDomainDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecurityDomainDownloadOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzKeyvaultSecurityDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreBlob(
-        AzKeyvaultSecurityDomainRestoreBlobOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultSecurityDomainRestoreBlobOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecurityDomainRestoreBlobOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzKeyvaultSecurityDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzKeyvaultSecurityDomainUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultSecurityDomainUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecurityDomainUploadOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzKeyvaultSecurityDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzKeyvaultSecurityDomainWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultSecurityDomainWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultSecurityDomainWaitOptions(), executionOptions, cancellationToken);

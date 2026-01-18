@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az team commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBoardsAreaTeam
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBoardsAreaTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzBoardsAreaTeamAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsAreaTeamAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsAreaTeamAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBoardsAreaTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBoardsAreaTeamListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsAreaTeamListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsAreaTeamListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBoardsAreaTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzBoardsAreaTeamRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsAreaTeamRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsAreaTeamRemoveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBoardsAreaTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBoardsAreaTeamUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsAreaTeamUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsAreaTeamUpdateOptions(), executionOptions, cancellationToken);

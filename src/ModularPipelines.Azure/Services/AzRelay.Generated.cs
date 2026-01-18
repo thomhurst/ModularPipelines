@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az relay commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelay
 {
     private readonly ICommand _command;
-    private AzRelayHyco? _hyco;
-    private AzRelayNamespace? _namespace;
-    private AzRelayWcfrelay? _wcfrelay;
+    private AzRelayHyco _hyco;
+    private AzRelayNamespace _namespace;
+    private AzRelayWcfrelay _wcfrelay;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelay"/> class.

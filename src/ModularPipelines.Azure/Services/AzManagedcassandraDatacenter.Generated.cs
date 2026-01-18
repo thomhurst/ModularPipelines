@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az datacenter commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedcassandraDatacenter
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedCassandraDatacenterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraDatacenterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedCassandraDatacenterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraDatacenterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzManagedcassandraDatacenter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzManagedCassandraDatacenterUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraDatacenterUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraDatacenterUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az file-size commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPolicyFileSize
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPolicyFileSize
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposPolicyFileSizeCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyFileSizeCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyFileSizeCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPolicyFileSize
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzReposPolicyFileSizeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyFileSizeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyFileSizeUpdateOptions(), executionOptions, cancellationToken);

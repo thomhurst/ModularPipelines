@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az address-pool commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNicIpConfigAddressPool
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkNicIpConfigAddressPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkNicIpConfigAddressPoolAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicIpConfigAddressPoolAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigAddressPoolAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkNicIpConfigAddressPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkNicIpConfigAddressPoolRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicIpConfigAddressPoolRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigAddressPoolRemoveOptions(), executionOptions, cancellationToken);

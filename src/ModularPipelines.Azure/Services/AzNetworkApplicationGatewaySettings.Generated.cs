@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewaySettings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkApplicationGatewaySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewaySettingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewaySettingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySettingsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkApplicationGatewaySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewaySettingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewaySettingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkApplicationGatewaySettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewaySettingsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewaySettingsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewaySettingsUpdateOptions(), executionOptions, cancellationToken);

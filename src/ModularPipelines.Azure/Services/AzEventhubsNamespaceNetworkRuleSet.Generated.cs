@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network-rule-set commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubsNamespaceNetworkRuleSet
 {
     private readonly ICommand _command;
-    private AzEventhubsNamespaceNetworkRuleSetIpRule? _ipRule;
-    private AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule? _virtualNetworkRule;
+    private AzEventhubsNamespaceNetworkRuleSetIpRule _ipRule;
+    private AzEventhubsNamespaceNetworkRuleSetVirtualNetworkRule _virtualNetworkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespaceNetworkRuleSet"/> class.

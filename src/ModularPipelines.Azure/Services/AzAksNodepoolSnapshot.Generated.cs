@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az snapshot commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksNodepoolSnapshot
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAksNodepoolSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAksNodepoolSnapshotCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolSnapshotCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAksNodepoolSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksNodepoolSnapshotDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolSnapshotDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAksNodepoolSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAksNodepoolSnapshotListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNodepoolSnapshotListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNodepoolSnapshotListOptions(), executionOptions, cancellationToken);

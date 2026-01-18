@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az monitor commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzHdinsightMonitor
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzHdinsightMonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzHdinsightMonitorEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzHdinsightMonitorEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightMonitorEnableOptions(), executionOptions, cancellationToken);

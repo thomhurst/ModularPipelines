@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az virtual-endpoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPostgresFlexibleServerVirtualEndpoint
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPostgresFlexibleServerVirtualEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPostgresFlexibleServerVirtualEndpointDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerVirtualEndpointDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerVirtualEndpointDeleteOptions(), executionOptions, cancellationToken);

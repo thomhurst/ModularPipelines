@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedService
 {
     private readonly ICommand _command;
-    private AzSfManagedServiceLoadMetrics? _loadMetrics;
+    private AzSfManagedServiceLoadMetrics _loadMetrics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedService"/> class.
@@ -47,8 +47,8 @@ public class AzSfManagedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedServiceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedServiceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzSfManagedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedServiceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedServiceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceUpdateOptions(), executionOptions, cancellationToken);

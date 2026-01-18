@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az shared-key commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVpnConnectionSharedKey
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVpnConnectionSharedKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzNetworkVpnConnectionSharedKeyResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionSharedKeyResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyResetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVpnConnectionSharedKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVpnConnectionSharedKeyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionSharedKeyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionSharedKeyUpdateOptions(), executionOptions, cancellationToken);

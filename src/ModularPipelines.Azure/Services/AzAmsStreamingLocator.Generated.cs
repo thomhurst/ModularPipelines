@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az streaming-locator commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsStreamingLocator
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsStreamingLocator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsStreamingLocatorCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsStreamingLocatorCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsStreamingLocator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsStreamingLocatorListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsStreamingLocatorListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingLocatorListOptions(), executionOptions, cancellationToken);

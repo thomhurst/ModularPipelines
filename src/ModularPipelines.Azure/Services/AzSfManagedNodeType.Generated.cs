@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-node-type commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedNodeType
 {
     private readonly ICommand _command;
-    private AzSfManagedNodeTypeNode? _node;
-    private AzSfManagedNodeTypeVmExtension? _vmExtension;
+    private AzSfManagedNodeTypeNode _node;
+    private AzSfManagedNodeTypeVmExtension _vmExtension;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedNodeType"/> class.
@@ -53,8 +53,8 @@ public class AzSfManagedNodeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedNodeTypeCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedNodeTypeCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzSfManagedNodeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedNodeTypeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedNodeTypeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeUpdateOptions(), executionOptions, cancellationToken);

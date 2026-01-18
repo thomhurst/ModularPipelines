@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az non-compliance-message commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicyAssignmentNonComplianceMessage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyAssignmentNonComplianceMessageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyAssignmentNonComplianceMessageShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageShowOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPolicyAssignmentNonComplianceMessage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyAssignmentNonComplianceMessageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentNonComplianceMessageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentNonComplianceMessageUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az backup commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappConfigBackup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzWebappConfigBackupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzWebappConfigBackupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappConfigBackupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzWebappConfigBackupRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupRestoreOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappConfigBackupShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupShowOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzWebappConfigBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzWebappConfigBackupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigBackupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigBackupUpdateOptions(), executionOptions, cancellationToken);

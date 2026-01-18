@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az namespace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsSecurityPermissionNamespace
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsSecurityPermissionNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsSecurityPermissionNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionNamespaceListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsSecurityPermissionNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsSecurityPermissionNamespaceShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionNamespaceShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionNamespaceShowOptions(), executionOptions, cancellationToken);

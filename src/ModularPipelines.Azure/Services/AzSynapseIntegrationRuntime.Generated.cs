@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az integration-runtime commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseIntegrationRuntime
 {
     private readonly ICommand _command;
-    private AzSynapseIntegrationRuntimeManaged? _managed;
-    private AzSynapseIntegrationRuntimeSelfHosted? _selfHosted;
+    private AzSynapseIntegrationRuntimeManaged _managed;
+    private AzSynapseIntegrationRuntimeSelfHosted _selfHosted;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseIntegrationRuntime"/> class.
@@ -53,8 +53,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseIntegrationRuntimeDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeDeleteOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RegenerateAuthKey(
-        AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeRegenerateAuthKeyOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSynapseIntegrationRuntimeShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeShowOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSynapseIntegrationRuntimeStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeStartOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzSynapseIntegrationRuntimeStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeStopOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class AzSynapseIntegrationRuntime
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzSynapseIntegrationRuntimeWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeWaitOptions(), executionOptions, cancellationToken);

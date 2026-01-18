@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az live-event commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsLiveEvent
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsLiveEventCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzAmsLiveEventResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventResetOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Standby(
-        AzAmsLiveEventStandbyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventStandbyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStandbyOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzAmsLiveEventStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStartOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzAmsLiveEventStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventStopOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzAmsLiveEvent
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsLiveEventUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsLiveEventUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsLiveEventUpdateOptions(), executionOptions, cancellationToken);

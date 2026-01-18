@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az credential commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAcrCredential
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAcrCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Renew(
-        AzAcrCredentialRenewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialRenewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialRenewOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAcrCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrCredentialShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialShowOptions(), executionOptions, cancellationToken);

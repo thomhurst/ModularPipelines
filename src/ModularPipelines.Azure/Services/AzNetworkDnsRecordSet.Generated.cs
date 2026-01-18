@@ -14,20 +14,20 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az record-set commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkDnsRecordSet
 {
     private readonly ICommand _command;
-    private AzNetworkDnsRecordSetA? _a;
-    private AzNetworkDnsRecordSetAaaa? _aaaa;
-    private AzNetworkDnsRecordSetCaa? _caa;
-    private AzNetworkDnsRecordSetCname? _cname;
-    private AzNetworkDnsRecordSetMx? _mx;
-    private AzNetworkDnsRecordSetNs? _ns;
-    private AzNetworkDnsRecordSetPtr? _ptr;
-    private AzNetworkDnsRecordSetSoa? _soa;
-    private AzNetworkDnsRecordSetSrv? _srv;
-    private AzNetworkDnsRecordSetTxt? _txt;
+    private AzNetworkDnsRecordSetA _a;
+    private AzNetworkDnsRecordSetAaaa _aaaa;
+    private AzNetworkDnsRecordSetCaa _caa;
+    private AzNetworkDnsRecordSetCname _cname;
+    private AzNetworkDnsRecordSetMx _mx;
+    private AzNetworkDnsRecordSetNs _ns;
+    private AzNetworkDnsRecordSetPtr _ptr;
+    private AzNetworkDnsRecordSetSoa _soa;
+    private AzNetworkDnsRecordSetSrv _srv;
+    private AzNetworkDnsRecordSetTxt _txt;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkDnsRecordSet"/> class.

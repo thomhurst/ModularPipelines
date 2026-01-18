@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-endpoint-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPrivateEndpointConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzNetworkPrivateEndpointConnectionApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointConnectionApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPrivateEndpointConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkPrivateEndpointConnectionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointConnectionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointConnectionListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzNetworkPrivateEndpointConnectionRejectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointConnectionRejectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetworkPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkPrivateEndpointConnectionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointConnectionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az immutability-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageBlobImmutabilityPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageBlobImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageBlobImmutabilityPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobImmutabilityPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobImmutabilityPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageBlobImmutabilityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzStorageBlobImmutabilityPolicySetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobImmutabilityPolicySetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobImmutabilityPolicySetOptions(), executionOptions, cancellationToken);

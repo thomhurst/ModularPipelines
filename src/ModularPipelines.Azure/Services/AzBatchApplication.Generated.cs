@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az application commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchApplication
 {
     private readonly ICommand _command;
-    private AzBatchApplicationPackage? _package;
+    private AzBatchApplicationPackage _package;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchApplication"/> class.
@@ -47,8 +47,8 @@ public class AzBatchApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchApplicationCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchApplicationCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzBatchApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchApplicationDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchApplicationDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzBatchApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchApplicationListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchApplicationListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzBatchApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzBatchApplicationSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchApplicationSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchApplicationSetOptions(), executionOptions, cancellationToken);

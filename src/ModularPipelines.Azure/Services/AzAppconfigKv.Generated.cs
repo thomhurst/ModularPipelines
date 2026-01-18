@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az kv commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAppconfigKv
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAppconfigKvDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzAppconfigKvExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvExportOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzAppconfigKvImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvImportOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigKvListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lock(
-        AzAppconfigKvLockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvLockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvLockOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzAppconfigKvRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvRestoreOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetKeyvault(
-        AzAppconfigKvSetKeyvaultOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvSetKeyvaultOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvSetKeyvaultOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzAppconfigKvSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvSetOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAppconfigKvShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvShowOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class AzAppconfigKv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unlock(
-        AzAppconfigKvUnlockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigKvUnlockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigKvUnlockOptions(), executionOptions, cancellationToken);

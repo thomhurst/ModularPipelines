@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az watcher commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkWatcher
 {
     private readonly ICommand _command;
-    private AzNetworkWatcherConnectionMonitor? _connectionMonitor;
-    private AzNetworkWatcherFlowLog? _flowLog;
-    private AzNetworkWatcherPacketCapture? _packetCapture;
-    private AzNetworkWatcherTroubleshooting? _troubleshooting;
+    private AzNetworkWatcherConnectionMonitor _connectionMonitor;
+    private AzNetworkWatcherFlowLog _flowLog;
+    private AzNetworkWatcherPacketCapture _packetCapture;
+    private AzNetworkWatcherTroubleshooting _troubleshooting;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkWatcher"/> class.
@@ -65,8 +65,8 @@ public class AzNetworkWatcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RunConfigurationDiagnostic(
-        AzNetworkWatcherRunConfigurationDiagnosticOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherRunConfigurationDiagnosticOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherRunConfigurationDiagnosticOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzNetworkWatcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowNextHop(
-        AzNetworkWatcherShowNextHopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherShowNextHopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowNextHopOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzNetworkWatcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowSecurityGroupView(
-        AzNetworkWatcherShowSecurityGroupViewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherShowSecurityGroupViewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowSecurityGroupViewOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzNetworkWatcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowTopology(
-        AzNetworkWatcherShowTopologyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherShowTopologyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherShowTopologyOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzNetworkWatcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> TestIpFlow(
-        AzNetworkWatcherTestIpFlowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherTestIpFlowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherTestIpFlowOptions(), executionOptions, cancellationToken);

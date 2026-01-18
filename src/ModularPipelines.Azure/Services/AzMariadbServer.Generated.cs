@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az server commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMariadbServer
 {
     private readonly ICommand _command;
-    private AzMariadbServerConfiguration? _configuration;
-    private AzMariadbServerFirewallRule? _firewallRule;
-    private AzMariadbServerPrivateEndpointConnection? _privateEndpointConnection;
-    private AzMariadbServerReplica? _replica;
-    private AzMariadbServerVnetRule? _vnetRule;
+    private AzMariadbServerConfiguration _configuration;
+    private AzMariadbServerFirewallRule _firewallRule;
+    private AzMariadbServerPrivateEndpointConnection _privateEndpointConnection;
+    private AzMariadbServerReplica _replica;
+    private AzMariadbServerVnetRule _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMariadbServer"/> class.
@@ -71,8 +71,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMariadbServerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerCreateOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMariadbServerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerDeleteOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Georestore(
-        AzMariadbServerGeorestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerGeorestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerGeorestoreOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMariadbServerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerListOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzMariadbServerRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerRestoreOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowConnectionString(
-        AzMariadbServerShowConnectionStringOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerShowConnectionStringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerShowConnectionStringOptions(), executionOptions, cancellationToken);
@@ -161,8 +161,8 @@ public class AzMariadbServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMariadbServerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerUpdateOptions(), executionOptions, cancellationToken);

@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az devops commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevops
 {
     private readonly ICommand _command;
-    private AzDevopsAdmin? _admin;
-    private AzDevopsExtension? _extension;
-    private AzDevopsProject? _project;
-    private AzDevopsSecurity? _security;
-    private AzDevopsServiceEndpoint? _serviceEndpoint;
-    private AzDevopsTeam? _team;
-    private AzDevopsUser? _user;
-    private AzDevopsWiki? _wiki;
+    private AzDevopsAdmin _admin;
+    private AzDevopsExtension _extension;
+    private AzDevopsProject _project;
+    private AzDevopsSecurity _security;
+    private AzDevopsServiceEndpoint _serviceEndpoint;
+    private AzDevopsTeam _team;
+    private AzDevopsUser _user;
+    private AzDevopsWiki _wiki;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDevops"/> class.
@@ -89,8 +89,8 @@ public class AzDevops
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invoke(
-        AzDevopsInvokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsInvokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsInvokeOptions(), executionOptions, cancellationToken);

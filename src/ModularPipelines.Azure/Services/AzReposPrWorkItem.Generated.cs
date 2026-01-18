@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az work-item commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPrWorkItem
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPrWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzReposPrWorkItemAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrWorkItemAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrWorkItemAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPrWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzReposPrWorkItemListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrWorkItemListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrWorkItemListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzReposPrWorkItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzReposPrWorkItemRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrWorkItemRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrWorkItemRemoveOptions(), executionOptions, cancellationToken);

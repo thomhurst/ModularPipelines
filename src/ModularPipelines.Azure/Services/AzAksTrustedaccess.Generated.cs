@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az trustedaccess commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksTrustedaccess
 {
     private readonly ICommand _command;
-    private AzAksTrustedaccessRolebinding? _rolebinding;
+    private AzAksTrustedaccessRolebinding _rolebinding;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAksTrustedaccess"/> class.

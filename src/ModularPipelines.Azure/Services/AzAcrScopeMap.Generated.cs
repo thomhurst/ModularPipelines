@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az scope-map commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAcrScopeMap
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAcrScopeMap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAcrScopeMapCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrScopeMapCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrScopeMapCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAcrScopeMap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrScopeMapDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrScopeMapDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrScopeMapDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAcrScopeMap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrScopeMapListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrScopeMapListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrScopeMapListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAcrScopeMap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrScopeMapShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrScopeMapShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrScopeMapShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAcrScopeMap
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrScopeMapUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrScopeMapUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrScopeMapUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az usage commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservicesUsage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCognitiveservicesUsage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCognitiveservicesUsageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesUsageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesUsageListOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az collection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbMongodbCollection
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbCollectionThroughput? _throughput;
+    private AzCosmosdbMongodbCollectionThroughput _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodbCollection"/> class.
@@ -47,8 +47,8 @@ public class AzCosmosdbMongodbCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbMongodbCollectionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbMongodbCollectionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbCollectionCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCosmosdbMongodbCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbMongodbCollectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbMongodbCollectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbCollectionDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCosmosdbMongodbCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbMongodbCollectionRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbMongodbCollectionRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbCollectionRestoreOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzCosmosdbMongodbCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbMongodbCollectionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbMongodbCollectionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbCollectionUpdateOptions(), executionOptions, cancellationToken);

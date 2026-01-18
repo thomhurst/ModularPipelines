@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az task commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityTask
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSecurityTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSecurityTaskListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityTaskListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityTaskListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSecurityTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecurityTaskShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityTaskShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityTaskShowOptions(), executionOptions, cancellationToken);

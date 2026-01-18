@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az project commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDmsProject
 {
     private readonly ICommand _command;
-    private AzDmsProjectTask? _task;
+    private AzDmsProjectTask _task;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDmsProject"/> class.
@@ -47,8 +47,8 @@ public class AzDmsProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDmsProjectCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDmsProjectCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzDmsProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDmsProjectDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDmsProjectDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDmsProjectDeleteOptions(), executionOptions, cancellationToken);

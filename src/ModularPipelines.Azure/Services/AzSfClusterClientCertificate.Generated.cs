@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az client-certificate commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfClusterClientCertificate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfClusterClientCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSfClusterClientCertificateAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterClientCertificateAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterClientCertificateAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfClusterClientCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzSfClusterClientCertificateRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterClientCertificateRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterClientCertificateRemoveOptions(), executionOptions, cancellationToken);

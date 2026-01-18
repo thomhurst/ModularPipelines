@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az exclusion commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet? _ruleSet;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionRuleSet _ruleSet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyManagedRuleExclusionAddOptions(), executionOptions, cancellationToken);

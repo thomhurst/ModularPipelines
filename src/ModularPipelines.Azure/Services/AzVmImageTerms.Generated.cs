@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az terms commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmImageTerms
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmImageTerms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Accept(
-        AzVmImageTermsAcceptOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageTermsAcceptOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsAcceptOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmImageTerms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzVmImageTermsCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageTermsCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsCancelOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzVmImageTerms
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzVmImageTermsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageTermsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageTermsShowOptions(), executionOptions, cancellationToken);

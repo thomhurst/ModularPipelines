@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAccount
 {
     private readonly ICommand _command;
-    private AzAccountLock? _lock;
-    private AzAccountManagementGroup? _managementGroup;
+    private AzAccountLock _lock;
+    private AzAccountManagementGroup _managementGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccount"/> class.
@@ -53,8 +53,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetAccessToken(
-        AzAccountGetAccessTokenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountGetAccessTokenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountGetAccessTokenOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLocations(
-        AzAccountListLocationsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountListLocationsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountListLocationsOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountListOptions(), executionOptions, cancellationToken);

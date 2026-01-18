@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedCluster
 {
     private readonly ICommand _command;
-    private AzSfManagedClusterClientCertificate? _clientCertificate;
-    private AzSfManagedClusterNetworkSecurityRule? _networkSecurityRule;
+    private AzSfManagedClusterClientCertificate _clientCertificate;
+    private AzSfManagedClusterNetworkSecurityRule _networkSecurityRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfManagedCluster"/> class.
@@ -53,8 +53,8 @@ public class AzSfManagedCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzSfManagedCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSfManagedClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterListOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzSfManagedCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedClusterUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedClusterUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterUpdateOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az subscription commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebusTopicSubscription
 {
     private readonly ICommand _command;
-    private AzServicebusTopicSubscriptionRule? _rule;
+    private AzServicebusTopicSubscriptionRule _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusTopicSubscription"/> class.
@@ -47,8 +47,8 @@ public class AzServicebusTopicSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzServicebusTopicSubscriptionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusTopicSubscriptionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionListOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az log-replay commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlMidbLogReplay
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlMidbLogReplay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSqlMidbLogReplayStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbLogReplayStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayStartOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlMidbLogReplay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzSqlMidbLogReplayStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbLogReplayStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbLogReplayStopOptions(), executionOptions, cancellationToken);

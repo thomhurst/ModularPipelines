@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az security-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfdSecurityPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAfdSecurityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAfdSecurityPolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecurityPolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAfdSecurityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAfdSecurityPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecurityPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAfdSecurityPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAfdSecurityPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecurityPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecurityPolicyUpdateOptions(), executionOptions, cancellationToken);

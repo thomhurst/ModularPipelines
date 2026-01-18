@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNsgRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkNsgRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNsgRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNsgRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkNsgRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNsgRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNsgRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkNsgRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkNsgRuleListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNsgRuleListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkNsgRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNsgRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNsgRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNsgRuleUpdateOptions(), executionOptions, cancellationToken);

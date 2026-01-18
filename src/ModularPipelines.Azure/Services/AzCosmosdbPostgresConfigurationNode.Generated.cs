@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az node commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbPostgresConfigurationNode
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCosmosdbPostgresConfigurationNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbPostgresConfigurationNodeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbPostgresConfigurationNodeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbPostgresConfigurationNodeUpdateOptions(), executionOptions, cancellationToken);

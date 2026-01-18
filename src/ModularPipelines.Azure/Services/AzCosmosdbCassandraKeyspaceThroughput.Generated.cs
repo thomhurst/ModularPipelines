@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az throughput commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbCassandraKeyspaceThroughput
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCosmosdbCassandraKeyspaceThroughput
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbCassandraKeyspaceThroughputUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraKeyspaceThroughputUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraKeyspaceThroughputUpdateOptions(), executionOptions, cancellationToken);

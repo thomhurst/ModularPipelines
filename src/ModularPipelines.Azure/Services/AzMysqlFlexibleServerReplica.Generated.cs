@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az replica commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlFlexibleServerReplica
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlFlexibleServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlFlexibleServerReplicaCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerReplicaCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMysqlFlexibleServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopReplication(
-        AzMysqlFlexibleServerReplicaStopReplicationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerReplicaStopReplicationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerReplicaStopReplicationOptions(), executionOptions, cancellationToken);

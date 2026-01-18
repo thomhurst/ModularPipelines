@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deployment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDeployment
 {
     private readonly ICommand _command;
-    private AzDeploymentGroup? _group;
-    private AzDeploymentMg? _mg;
-    private AzDeploymentSub? _sub;
-    private AzDeploymentTenant? _tenant;
+    private AzDeploymentGroup _group;
+    private AzDeploymentMg _mg;
+    private AzDeploymentSub _sub;
+    private AzDeploymentTenant _tenant;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDeployment"/> class.

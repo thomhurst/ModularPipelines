@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az client-cert commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayClientCert
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkApplicationGatewayClientCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkApplicationGatewayClientCertAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayClientCertAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayClientCertAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkApplicationGatewayClientCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkApplicationGatewayClientCertRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayClientCertRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayClientCertRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkApplicationGatewayClientCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayClientCertUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayClientCertUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayClientCertUpdateOptions(), executionOptions, cancellationToken);

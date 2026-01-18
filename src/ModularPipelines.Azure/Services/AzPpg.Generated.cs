@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ppg commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPpg
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPpg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPpgCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPpgCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPpgCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPpg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPpgListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPpgListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPpgListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPpg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPpgShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPpgShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPpgShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzPpg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPpgUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPpgUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPpgUpdateOptions(), executionOptions, cancellationToken);

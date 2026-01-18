@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az application-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubsNamespaceApplicationGroup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventhubsNamespaceApplicationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventhubsNamespaceApplicationGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceApplicationGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceApplicationGroupCreateOptions(), executionOptions, cancellationToken);

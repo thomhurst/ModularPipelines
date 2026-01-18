@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vpn-client commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetGatewayVpnClient
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVnetGatewayVpnClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Generate(
-        AzNetworkVnetGatewayVpnClientGenerateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayVpnClientGenerateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientGenerateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVnetGatewayVpnClient
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowUrl(
-        AzNetworkVnetGatewayVpnClientShowUrlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayVpnClientShowUrlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayVpnClientShowUrlOptions(), executionOptions, cancellationToken);

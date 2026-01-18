@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az connection-string commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappConfigConnectionString
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzWebappConfigConnectionStringDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigConnectionStringDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappConfigConnectionStringListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigConnectionStringListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappConfigConnectionString
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzWebappConfigConnectionStringSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigConnectionStringSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigConnectionStringSetOptions(), executionOptions, cancellationToken);

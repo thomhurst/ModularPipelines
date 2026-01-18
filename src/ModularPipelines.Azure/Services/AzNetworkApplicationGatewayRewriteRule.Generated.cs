@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rewrite-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayRewriteRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayRewriteRuleCondition? _condition;
-    private AzNetworkApplicationGatewayRewriteRuleSet? _set;
+    private AzNetworkApplicationGatewayRewriteRuleCondition _condition;
+    private AzNetworkApplicationGatewayRewriteRuleSet _set;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayRewriteRule"/> class.
@@ -53,8 +53,8 @@ public class AzNetworkApplicationGatewayRewriteRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayRewriteRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzNetworkApplicationGatewayRewriteRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayRewriteRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzNetworkApplicationGatewayRewriteRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayRewriteRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayRewriteRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayRewriteRuleUpdateOptions(), executionOptions, cancellationToken);

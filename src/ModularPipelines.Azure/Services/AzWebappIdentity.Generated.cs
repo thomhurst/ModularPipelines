@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzWebappIdentityAssignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappIdentityAssignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappIdentityRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappIdentityShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappIdentityShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappIdentityShowOptions(), executionOptions, cancellationToken);

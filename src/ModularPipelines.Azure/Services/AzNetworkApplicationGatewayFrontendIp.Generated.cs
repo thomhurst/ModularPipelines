@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az frontend-ip commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayFrontendIp
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkApplicationGatewayFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayFrontendIpCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayFrontendIpCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayFrontendIpCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkApplicationGatewayFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayFrontendIpDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayFrontendIpDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayFrontendIpDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkApplicationGatewayFrontendIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayFrontendIpUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayFrontendIpUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayFrontendIpUpdateOptions(), executionOptions, cancellationToken);

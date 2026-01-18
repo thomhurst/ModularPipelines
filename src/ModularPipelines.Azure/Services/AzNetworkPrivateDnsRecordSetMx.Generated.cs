@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mx commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPrivateDnsRecordSetMx
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkPrivateDnsRecordSetMx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkPrivateDnsRecordSetMxCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateDnsRecordSetMxCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetMxCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkPrivateDnsRecordSetMx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPrivateDnsRecordSetMxDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateDnsRecordSetMxDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetMxDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkPrivateDnsRecordSetMx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RemoveRecord(
-        AzNetworkPrivateDnsRecordSetMxRemoveRecordOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateDnsRecordSetMxRemoveRecordOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetMxRemoveRecordOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkPrivateDnsRecordSetMx
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkPrivateDnsRecordSetMxUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateDnsRecordSetMxUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateDnsRecordSetMxUpdateOptions(), executionOptions, cancellationToken);

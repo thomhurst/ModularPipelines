@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az revision commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAppconfigRevision
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAppconfigRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigRevisionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigRevisionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigRevisionListOptions(), executionOptions, cancellationToken);

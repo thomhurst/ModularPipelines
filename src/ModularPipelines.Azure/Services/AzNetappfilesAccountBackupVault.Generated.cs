@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az backup-vault commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesAccountBackupVault
 {
     private readonly ICommand _command;
-    private AzNetappfilesAccountBackupVaultBackup? _backup;
+    private AzNetappfilesAccountBackupVaultBackup _backup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesAccountBackupVault"/> class.
@@ -47,8 +47,8 @@ public class AzNetappfilesAccountBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesAccountBackupVaultCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetappfilesAccountBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesAccountBackupVaultDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzNetappfilesAccountBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesAccountBackupVaultUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultUpdateOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cassandra commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbCassandra
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandraKeyspace? _keyspace;
-    private AzCosmosdbCassandraTable? _table;
+    private AzCosmosdbCassandraKeyspace _keyspace;
+    private AzCosmosdbCassandraTable _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbCassandra"/> class.

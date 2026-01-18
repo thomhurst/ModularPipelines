@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az command commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksCommand
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAksCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invoke(
-        AzAksCommandInvokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksCommandInvokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCommandInvokeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAksCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Result(
-        AzAksCommandResultOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksCommandResultOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCommandResultOptions(), executionOptions, cancellationToken);

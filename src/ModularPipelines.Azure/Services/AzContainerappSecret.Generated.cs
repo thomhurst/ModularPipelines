@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az secret commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappSecret
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappSecretListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappSecretListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappSecretListOptions(), executionOptions, cancellationToken);

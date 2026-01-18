@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az diskaccess commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDiskaccess
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDiskaccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDiskAccessCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDiskAccessCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskAccessCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDiskaccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDiskAccessDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDiskAccessDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskAccessDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDiskaccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDiskAccessListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDiskAccessListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskAccessListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDiskaccess
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDiskAccessUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDiskAccessUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDiskAccessUpdateOptions(), executionOptions, cancellationToken);

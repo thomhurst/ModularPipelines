@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cloud commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCloud
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCloud
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProfiles(
-        AzCloudListProfilesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCloudListProfilesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudListProfilesOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCloud
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        AzCloudRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCloudRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudRegisterOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCloud
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzCloudSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCloudSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudSetOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzCloud
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzCloudShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCloudShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzCloud
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCloudUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCloudUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCloudUpdateOptions(), executionOptions, cancellationToken);

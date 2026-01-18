@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vault commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupVault
 {
     private readonly ICommand _command;
-    private AzBackupVaultBackupProperties? _backupProperties;
-    private AzBackupVaultEncryption? _encryption;
-    private AzBackupVaultIdentity? _identity;
-    private AzBackupVaultResourceGuardMapping? _resourceGuardMapping;
+    private AzBackupVaultBackupProperties _backupProperties;
+    private AzBackupVaultEncryption _encryption;
+    private AzBackupVaultIdentity _identity;
+    private AzBackupVaultResourceGuardMapping _resourceGuardMapping;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBackupVault"/> class.
@@ -65,8 +65,8 @@ public class AzBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBackupVaultCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBackupVaultDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupVaultListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultListOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzBackupVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBackupVaultUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultUpdateOptions(), executionOptions, cancellationToken);

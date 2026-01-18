@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az case-enforcement commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPolicyCaseEnforcement
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPolicyCaseEnforcement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposPolicyCaseEnforcementCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyCaseEnforcementCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyCaseEnforcementCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPolicyCaseEnforcement
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzReposPolicyCaseEnforcementUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyCaseEnforcementUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyCaseEnforcementUpdateOptions(), executionOptions, cancellationToken);

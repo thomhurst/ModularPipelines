@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az banner commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsAdminBanner
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsAdminBanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzDevopsAdminBannerAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsAdminBannerAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsAdminBanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsAdminBannerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsAdminBannerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsAdminBanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzDevopsAdminBannerRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsAdminBannerRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerRemoveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDevopsAdminBanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsAdminBannerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsAdminBannerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzDevopsAdminBanner
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsAdminBannerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsAdminBannerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsAdminBannerUpdateOptions(), executionOptions, cancellationToken);

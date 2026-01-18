@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az site commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVirtualApplianceSite
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVirtualApplianceSiteCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVirtualApplianceSiteCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVirtualApplianceSiteDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVirtualApplianceSiteDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkVirtualApplianceSite
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVirtualApplianceSiteUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVirtualApplianceSiteUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceSiteUpdateOptions(), executionOptions, cancellationToken);

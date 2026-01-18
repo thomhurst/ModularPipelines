@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az topic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridTopic
 {
     private readonly ICommand _command;
-    private AzEventgridTopicEventSubscription? _eventSubscription;
+    private AzEventgridTopicEventSubscription _eventSubscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridTopic"/> class.
@@ -47,8 +47,8 @@ public class AzEventgridTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridTopicCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridTopicCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridTopicCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzEventgridTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridTopicListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridTopicListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridTopicListOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzEventgridTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridTopicUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridTopicUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridTopicUpdateOptions(), executionOptions, cancellationToken);

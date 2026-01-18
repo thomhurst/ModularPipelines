@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az profile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkProfile
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkProfileDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkProfileDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkProfileListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkProfileListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkProfileShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkProfileShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkProfileWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkProfileWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkProfileWaitOptions(), executionOptions, cancellationToken);

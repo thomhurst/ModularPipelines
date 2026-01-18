@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az recoverypoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupRecoverypoint
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupRecoverypointListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupRecoverypointListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Move(
-        AzBackupRecoverypointMoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupRecoverypointMoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointMoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowLogChain(
-        AzBackupRecoverypointShowLogChainOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupRecoverypointShowLogChainOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointShowLogChainOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBackupRecoverypoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBackupRecoverypointShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupRecoverypointShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupRecoverypointShowOptions(), executionOptions, cancellationToken);

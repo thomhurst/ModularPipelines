@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az custom-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayWafPolicyCustomRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition? _matchCondition;
+    private AzNetworkApplicationGatewayWafPolicyCustomRuleMatchCondition _matchCondition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicyCustomRule"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyCustomRuleCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkApplicationGatewayWafPolicyCustomRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayWafPolicyCustomRuleUpdateOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az log-analytics commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalytics
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsCluster? _cluster;
-    private AzMonitorLogAnalyticsWorkspace? _workspace;
+    private AzMonitorLogAnalyticsCluster _cluster;
+    private AzMonitorLogAnalyticsWorkspace _workspace;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalytics"/> class.

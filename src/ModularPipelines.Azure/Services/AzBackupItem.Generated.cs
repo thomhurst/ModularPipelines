@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az item commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupItem
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupItemListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupItemListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPolicy(
-        AzBackupItemSetPolicyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupItemSetPolicyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemSetPolicyOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBackupItem
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBackupItemShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupItemShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupItemShowOptions(), executionOptions, cancellationToken);

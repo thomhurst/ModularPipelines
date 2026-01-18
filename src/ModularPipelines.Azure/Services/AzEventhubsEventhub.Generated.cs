@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az eventhub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubsEventhub
 {
     private readonly ICommand _command;
-    private AzEventhubsEventhubConsumerGroup? _consumerGroup;
+    private AzEventhubsEventhubConsumerGroup _consumerGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsEventhub"/> class.
@@ -47,8 +47,8 @@ public class AzEventhubsEventhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventhubsEventhubCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsEventhubCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzEventhubsEventhub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventhubsEventhubListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsEventhubListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsEventhubListOptions(), executionOptions, cancellationToken);

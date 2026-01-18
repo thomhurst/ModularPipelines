@@ -14,17 +14,17 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az auth commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappAuth
 {
     private readonly ICommand _command;
-    private AzContainerappAuthApple? _apple;
-    private AzContainerappAuthFacebook? _facebook;
-    private AzContainerappAuthGithub? _github;
-    private AzContainerappAuthGoogle? _google;
-    private AzContainerappAuthMicrosoft? _microsoft;
-    private AzContainerappAuthOpenidConnect? _openidConnect;
-    private AzContainerappAuthTwitter? _twitter;
+    private AzContainerappAuthApple _apple;
+    private AzContainerappAuthFacebook _facebook;
+    private AzContainerappAuthGithub _github;
+    private AzContainerappAuthGoogle _google;
+    private AzContainerappAuthMicrosoft _microsoft;
+    private AzContainerappAuthOpenidConnect _openidConnect;
+    private AzContainerappAuthTwitter _twitter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappAuth"/> class.
@@ -83,8 +83,8 @@ public class AzContainerappAuth
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappAuthUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappAuthUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthUpdateOptions(), executionOptions, cancellationToken);

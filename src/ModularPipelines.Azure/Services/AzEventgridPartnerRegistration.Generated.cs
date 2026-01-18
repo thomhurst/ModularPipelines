@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az registration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridPartnerRegistration
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventgridPartnerRegistration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridPartnerRegistrationCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerRegistrationCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzEventgridPartnerRegistration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridPartnerRegistrationDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerRegistrationDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzEventgridPartnerRegistration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridPartnerRegistrationListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerRegistrationListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerRegistrationListOptions(), executionOptions, cancellationToken);

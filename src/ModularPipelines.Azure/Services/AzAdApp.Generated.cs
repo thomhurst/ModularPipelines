@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az app commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAdApp
 {
     private readonly ICommand _command;
-    private AzAdAppCredential? _credential;
-    private AzAdAppPermission? _permission;
+    private AzAdAppCredential _credential;
+    private AzAdAppPermission _permission;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdApp"/> class.
@@ -53,8 +53,8 @@ public class AzAdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAdAppCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzAdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAdAppListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppListOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzAdApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAdAppUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppUpdateOptions(), executionOptions, cancellationToken);

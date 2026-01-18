@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az users commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStaticwebappUsers
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStaticwebappUsers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invite(
-        AzStaticwebappUsersInviteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappUsersInviteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappUsersInviteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStaticwebappUsers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStaticwebappUsersListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappUsersListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappUsersListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStaticwebappUsers
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStaticwebappUsersUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappUsersUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappUsersUpdateOptions(), executionOptions, cancellationToken);

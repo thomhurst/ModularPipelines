@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az resolver commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzApimGraphqlResolver
 {
     private readonly ICommand _command;
-    private AzApimGraphqlResolverPolicy? _policy;
+    private AzApimGraphqlResolverPolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimGraphqlResolver"/> class.
@@ -47,8 +47,8 @@ public class AzApimGraphqlResolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimGraphqlResolverCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimGraphqlResolverCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimGraphqlResolverCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzApimGraphqlResolver
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimGraphqlResolverDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimGraphqlResolverDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimGraphqlResolverDeleteOptions(), executionOptions, cancellationToken);

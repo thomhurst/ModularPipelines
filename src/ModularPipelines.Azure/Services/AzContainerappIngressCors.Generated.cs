@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cors commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappIngressCors
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappIngressCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzContainerappIngressCorsEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappIngressCorsEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsEnableOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzContainerappIngressCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappIngressCorsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappIngressCorsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressCorsUpdateOptions(), executionOptions, cancellationToken);

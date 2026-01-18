@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az origin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdnOrigin
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCdnOrigin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCdnOriginCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnOriginCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCdnOrigin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCdnOriginDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnOriginDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCdnOrigin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCdnOriginUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnOriginUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnOriginUpdateOptions(), executionOptions, cancellationToken);

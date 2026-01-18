@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az in-vm-access-control-profile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSigInVmAccessControlProfile
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSigInVmAccessControlProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSigInVmAccessControlProfileCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigInVmAccessControlProfileCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigInVmAccessControlProfileCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSigInVmAccessControlProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSigInVmAccessControlProfileDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigInVmAccessControlProfileDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigInVmAccessControlProfileDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSigInVmAccessControlProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSigInVmAccessControlProfileUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSigInVmAccessControlProfileUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSigInVmAccessControlProfileUpdateOptions(), executionOptions, cancellationToken);

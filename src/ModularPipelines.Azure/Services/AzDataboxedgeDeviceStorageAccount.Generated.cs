@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az storage-account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDataboxedgeDeviceStorageAccount
 {
     private readonly ICommand _command;
-    private AzDataboxedgeDeviceStorageAccountContainer? _container;
+    private AzDataboxedgeDeviceStorageAccountContainer _container;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDataboxedgeDeviceStorageAccount"/> class.
@@ -47,8 +47,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeDeviceStorageAccountCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeDeviceStorageAccountDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzDataboxedgeDeviceStorageAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeDeviceStorageAccountUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeDeviceStorageAccountUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeDeviceStorageAccountUpdateOptions(), executionOptions, cancellationToken);

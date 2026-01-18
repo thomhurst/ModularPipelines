@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az netappfiles commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfiles
 {
     private readonly ICommand _command;
-    private AzNetappfilesAccount? _account;
-    private AzNetappfilesPool? _pool;
-    private AzNetappfilesSnapshot? _snapshot;
-    private AzNetappfilesSubvolume? _subvolume;
-    private AzNetappfilesVolume? _volume;
-    private AzNetappfilesVolumeGroup? _volumeGroup;
+    private AzNetappfilesAccount _account;
+    private AzNetappfilesPool _pool;
+    private AzNetappfilesSnapshot _snapshot;
+    private AzNetappfilesSubvolume _subvolume;
+    private AzNetappfilesVolume _volume;
+    private AzNetappfilesVolumeGroup _volumeGroup;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfiles"/> class.
@@ -77,8 +77,8 @@ public class AzNetappfiles
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateNetworkSiblingSet(
-        AzNetappfilesUpdateNetworkSiblingSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesUpdateNetworkSiblingSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesUpdateNetworkSiblingSetOptions(), executionOptions, cancellationToken);

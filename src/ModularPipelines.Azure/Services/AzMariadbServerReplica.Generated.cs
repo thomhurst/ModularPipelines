@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az replica commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMariadbServerReplica
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMariadbServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMariadbServerReplicaCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerReplicaCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMariadbServerReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzMariadbServerReplicaStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerReplicaStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerReplicaStopOptions(), executionOptions, cancellationToken);

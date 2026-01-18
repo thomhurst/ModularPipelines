@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az area commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBoardsArea
 {
     private readonly ICommand _command;
-    private AzBoardsAreaProject? _project;
-    private AzBoardsAreaTeam? _team;
+    private AzBoardsAreaProject _project;
+    private AzBoardsAreaTeam _team;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBoardsArea"/> class.

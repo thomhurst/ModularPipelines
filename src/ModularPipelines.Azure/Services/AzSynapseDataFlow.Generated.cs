@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az data-flow commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseDataFlow
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseDataFlowCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseDataFlowCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseDataFlowDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseDataFlowDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseDataFlow
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSynapseDataFlowSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseDataFlowSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseDataFlowSetOptions(), executionOptions, cancellationToken);

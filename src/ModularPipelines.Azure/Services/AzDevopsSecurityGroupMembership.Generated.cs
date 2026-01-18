@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az membership commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsSecurityGroupMembership
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsSecurityGroupMembership
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzDevopsSecurityGroupMembershipAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityGroupMembershipAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupMembershipAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsSecurityGroupMembership
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsSecurityGroupMembershipListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityGroupMembershipListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupMembershipListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsSecurityGroupMembership
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzDevopsSecurityGroupMembershipRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityGroupMembershipRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityGroupMembershipRemoveOptions(), executionOptions, cancellationToken);

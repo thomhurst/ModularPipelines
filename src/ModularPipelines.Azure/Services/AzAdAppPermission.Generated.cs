@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az permission commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAdAppPermission
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAdAppPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAdAppPermissionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppPermissionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppPermissionDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAdAppPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Grant(
-        AzAdAppPermissionGrantOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppPermissionGrantOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppPermissionGrantOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAdAppPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListGrants(
-        AzAdAppPermissionListGrantsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAdAppPermissionListGrantsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAdAppPermissionListGrantsOptions(), executionOptions, cancellationToken);

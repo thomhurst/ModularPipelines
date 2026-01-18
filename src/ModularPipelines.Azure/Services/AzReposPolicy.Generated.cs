@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPolicy
 {
     private readonly ICommand _command;
-    private AzReposPolicyApproverCount? _approverCount;
-    private AzReposPolicyBuild? _build;
-    private AzReposPolicyCaseEnforcement? _caseEnforcement;
-    private AzReposPolicyCommentRequired? _commentRequired;
-    private AzReposPolicyFileSize? _fileSize;
-    private AzReposPolicyMergeStrategy? _mergeStrategy;
-    private AzReposPolicyRequiredReviewer? _requiredReviewer;
-    private AzReposPolicyWorkItemLinking? _workItemLinking;
+    private AzReposPolicyApproverCount _approverCount;
+    private AzReposPolicyBuild _build;
+    private AzReposPolicyCaseEnforcement _caseEnforcement;
+    private AzReposPolicyCommentRequired _commentRequired;
+    private AzReposPolicyFileSize _fileSize;
+    private AzReposPolicyMergeStrategy _mergeStrategy;
+    private AzReposPolicyRequiredReviewer _requiredReviewer;
+    private AzReposPolicyWorkItemLinking _workItemLinking;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzReposPolicy"/> class.
@@ -89,8 +89,8 @@ public class AzReposPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposPolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzReposPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzReposPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzReposPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzReposPolicyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyListOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class AzReposPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzReposPolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyShowOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class AzReposPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzReposPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyUpdateOptions(), executionOptions, cancellationToken);

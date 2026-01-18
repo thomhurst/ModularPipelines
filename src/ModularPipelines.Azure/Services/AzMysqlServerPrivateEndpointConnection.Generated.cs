@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-endpoint-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlServerPrivateEndpointConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzMysqlServerPrivateEndpointConnectionApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerPrivateEndpointConnectionApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMysqlServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlServerPrivateEndpointConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerPrivateEndpointConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMysqlServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzMysqlServerPrivateEndpointConnectionRejectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerPrivateEndpointConnectionRejectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzMysqlServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzMysqlServerPrivateEndpointConnectionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerPrivateEndpointConnectionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

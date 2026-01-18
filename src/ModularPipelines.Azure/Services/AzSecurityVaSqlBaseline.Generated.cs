@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az baseline commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityVaSqlBaseline
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSecurityVaSqlBaseline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSecurityVaSqlBaselineDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlBaselineDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlBaselineDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSecurityVaSqlBaseline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSecurityVaSqlBaselineListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlBaselineListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlBaselineListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSecurityVaSqlBaseline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSecurityVaSqlBaselineSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlBaselineSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlBaselineSetOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSecurityVaSqlBaseline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecurityVaSqlBaselineShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlBaselineShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlBaselineShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSecurityVaSqlBaseline
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSecurityVaSqlBaselineUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlBaselineUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlBaselineUpdateOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az edge-action commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdnEdgeAction
 {
     private readonly ICommand _command;
-    private AzCdnEdgeActionExecutionFilter? _executionFilter;
+    private AzCdnEdgeActionExecutionFilter _executionFilter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCdnEdgeAction"/> class.
@@ -47,8 +47,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AddAttachment(
-        AzCdnEdgeActionAddAttachmentOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionAddAttachmentOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionAddAttachmentOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCdnEdgeActionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionCreateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteAttachment(
-        AzCdnEdgeActionDeleteAttachmentOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionDeleteAttachmentOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionDeleteAttachmentOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCdnEdgeActionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionDeleteOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCdnEdgeActionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionListOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzCdnEdgeAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCdnEdgeActionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnEdgeActionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnEdgeActionUpdateOptions(), executionOptions, cancellationToken);

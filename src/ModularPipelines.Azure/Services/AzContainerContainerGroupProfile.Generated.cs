@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az container-group-profile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerContainerGroupProfile
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerContainerGroupProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzContainerContainerGroupProfileCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerContainerGroupProfileCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerContainerGroupProfileCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzContainerContainerGroupProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerContainerGroupProfileDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerContainerGroupProfileDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerContainerGroupProfileDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzContainerContainerGroupProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerContainerGroupProfileListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerContainerGroupProfileListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerContainerGroupProfileListOptions(), executionOptions, cancellationToken);

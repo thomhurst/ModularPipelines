@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az firewall-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlServerFirewallRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlServerFirewallRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerFirewallRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMysqlServerFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMysqlServerFirewallRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerFirewallRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerFirewallRuleUpdateOptions(), executionOptions, cancellationToken);

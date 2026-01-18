@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az bicep commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBicep
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Build(
-        AzBicepBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepBuildOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> BuildParams(
-        AzBicepBuildParamsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepBuildParamsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepBuildParamsOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Decompile(
-        AzBicepDecompileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepDecompileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepDecompileOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DecompileParams(
-        AzBicepDecompileParamsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepDecompileParamsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepDecompileParamsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Format(
-        AzBicepFormatOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepFormatOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepFormatOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateParams(
-        AzBicepGenerateParamsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepGenerateParamsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepGenerateParamsOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        AzBicepInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepInstallOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lint(
-        AzBicepLintOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepLintOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepLintOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Publish(
-        AzBicepPublishOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepPublishOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepPublishOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class AzBicep
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzBicepRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBicepRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBicepRestoreOptions(), executionOptions, cancellationToken);

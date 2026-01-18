@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az db commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlDb
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlDbCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlDbCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDbCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMysqlDb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlDbDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlDbDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlDbDeleteOptions(), executionOptions, cancellationToken);

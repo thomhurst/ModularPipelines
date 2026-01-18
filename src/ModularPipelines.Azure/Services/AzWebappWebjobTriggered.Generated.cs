@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az triggered commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappWebjobTriggered
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappWebjobTriggered
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappWebjobTriggeredListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappWebjobTriggeredListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobTriggeredListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappWebjobTriggered
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Log(
-        AzWebappWebjobTriggeredLogOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappWebjobTriggeredLogOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobTriggeredLogOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappWebjobTriggered
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappWebjobTriggeredRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappWebjobTriggeredRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobTriggeredRemoveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzWebappWebjobTriggered
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        AzWebappWebjobTriggeredRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappWebjobTriggeredRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappWebjobTriggeredRunOptions(), executionOptions, cancellationToken);

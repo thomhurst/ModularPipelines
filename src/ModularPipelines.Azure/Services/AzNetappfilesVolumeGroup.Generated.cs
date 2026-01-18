@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az volume-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesVolumeGroup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetappfilesVolumeGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesVolumeGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeGroupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetappfilesVolumeGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesVolumeGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetappfilesVolumeGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesVolumeGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesVolumeGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesVolumeGroupUpdateOptions(), executionOptions, cancellationToken);

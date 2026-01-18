@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-endpoint-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchPrivateEndpointConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBatchPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBatchPrivateEndpointConnectionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPrivateEndpointConnectionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPrivateEndpointConnectionListOptions(), executionOptions, cancellationToken);

@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ingress commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappIngress
 {
     private readonly ICommand _command;
-    private AzContainerappIngressAccessRestriction? _accessRestriction;
-    private AzContainerappIngressCors? _cors;
-    private AzContainerappIngressTraffic? _traffic;
+    private AzContainerappIngressAccessRestriction _accessRestriction;
+    private AzContainerappIngressCors _cors;
+    private AzContainerappIngressTraffic _traffic;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappIngress"/> class.
@@ -59,8 +59,8 @@ public class AzContainerappIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzContainerappIngressEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappIngressEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressEnableOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzContainerappIngress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappIngressUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappIngressUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressUpdateOptions(), executionOptions, cancellationToken);

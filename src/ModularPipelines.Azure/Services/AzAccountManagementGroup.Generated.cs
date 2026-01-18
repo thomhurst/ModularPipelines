@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az management-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAccountManagementGroup
 {
     private readonly ICommand _command;
-    private AzAccountManagementGroupHierarchySettings? _hierarchySettings;
+    private AzAccountManagementGroupHierarchySettings _hierarchySettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAccountManagementGroup"/> class.
@@ -47,8 +47,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAccountManagementGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountManagementGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAccountManagementGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountManagementGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAccountManagementGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountManagementGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAccountManagementGroupShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountManagementGroupShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupShowOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzAccountManagementGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAccountManagementGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAccountManagementGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAccountManagementGroupUpdateOptions(), executionOptions, cancellationToken);

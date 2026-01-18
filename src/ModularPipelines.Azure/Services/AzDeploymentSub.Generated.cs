@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sub commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDeploymentSub
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDeploymentSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDeploymentSubCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentSubCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentSubCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDeploymentSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDeploymentSubDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentSubDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentSubDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDeploymentSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzDeploymentSubValidateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentSubValidateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentSubValidateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDeploymentSub
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> WhatIf(
-        AzDeploymentSubWhatIfOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentSubWhatIfOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentSubWhatIfOptions(), executionOptions, cancellationToken);

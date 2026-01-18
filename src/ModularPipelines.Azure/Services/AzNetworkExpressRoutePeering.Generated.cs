@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az peering commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkExpressRoutePeering
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRoutePeeringConnection? _connection;
+    private AzNetworkExpressRoutePeeringConnection _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoutePeering"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkExpressRoutePeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkExpressRoutePeeringCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkExpressRoutePeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkExpressRoutePeeringDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzNetworkExpressRoutePeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkExpressRoutePeeringUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringUpdateOptions(), executionOptions, cancellationToken);

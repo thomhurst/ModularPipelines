@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deleted-vault commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupDeletedVault
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupDeletedVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Get(
-        AzBackupDeletedVaultGetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupDeletedVaultGetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupDeletedVaultGetOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBackupDeletedVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListContainers(
-        AzBackupDeletedVaultListContainersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupDeletedVaultListContainersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupDeletedVaultListContainersOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBackupDeletedVault
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Undelete(
-        AzBackupDeletedVaultUndeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupDeletedVaultUndeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupDeletedVaultUndeleteOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az activity-run commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseActivityRun
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseActivityRun
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> QueryByPipelineRun(
-        AzSynapseActivityRunQueryByPipelineRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseActivityRunQueryByPipelineRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseActivityRunQueryByPipelineRunOptions(), executionOptions, cancellationToken);

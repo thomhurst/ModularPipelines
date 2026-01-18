@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-private-endpoints commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseManagedPrivateEndpoints
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseManagedPrivateEndpoints
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseManagedPrivateEndpointsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseManagedPrivateEndpointsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseManagedPrivateEndpointsDeleteOptions(), executionOptions, cancellationToken);

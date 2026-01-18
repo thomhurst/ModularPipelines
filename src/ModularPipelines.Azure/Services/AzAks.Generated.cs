@@ -14,19 +14,19 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az aks commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAks
 {
     private readonly ICommand _command;
-    private AzAksApprouting? _approuting;
-    private AzAksCommand? _commandSubGroup;
-    private AzAksMaintenanceconfiguration? _maintenanceconfiguration;
-    private AzAksMesh? _mesh;
-    private AzAksNamespace? _namespace;
-    private AzAksNodepool? _nodepool;
-    private AzAksOidcIssuer? _oidcIssuer;
-    private AzAksSafeguards? _safeguards;
-    private AzAksTrustedaccess? _trustedaccess;
+    private AzAksApprouting _approuting;
+    private AzAksCommand _commandSubGroup;
+    private AzAksMaintenanceconfiguration _maintenanceconfiguration;
+    private AzAksMesh _mesh;
+    private AzAksNamespace _namespace;
+    private AzAksNodepool _nodepool;
+    private AzAksOidcIssuer _oidcIssuer;
+    private AzAksSafeguards _safeguards;
+    private AzAksTrustedaccess _trustedaccess;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAks"/> class.
@@ -95,8 +95,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Browse(
-        AzAksBrowseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksBrowseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksBrowseOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CheckAcr(
-        AzAksCheckAcrOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksCheckAcrOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCheckAcrOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAksCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksCreateOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksDeleteOptions(), executionOptions, cancellationToken);
@@ -155,8 +155,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableAddons(
-        AzAksDisableAddonsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksDisableAddonsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksDisableAddonsOptions(), executionOptions, cancellationToken);
@@ -170,8 +170,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableAddons(
-        AzAksEnableAddonsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksEnableAddonsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksEnableAddonsOptions(), executionOptions, cancellationToken);
@@ -185,8 +185,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        AzAksGetCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksGetCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InstallCli(
-        AzAksInstallCliOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksInstallCliOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksInstallCliOptions(), executionOptions, cancellationToken);
@@ -215,8 +215,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAksListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksListOptions(), executionOptions, cancellationToken);
@@ -230,8 +230,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> OperationAbort(
-        AzAksOperationAbortOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksOperationAbortOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksOperationAbortOptions(), executionOptions, cancellationToken);
@@ -245,8 +245,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RotateCerts(
-        AzAksRotateCertsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksRotateCertsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksRotateCertsOptions(), executionOptions, cancellationToken);
@@ -260,8 +260,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scale(
-        AzAksScaleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksScaleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksScaleOptions(), executionOptions, cancellationToken);
@@ -275,8 +275,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzAksStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksStartOptions(), executionOptions, cancellationToken);
@@ -290,8 +290,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzAksStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksStopOptions(), executionOptions, cancellationToken);
@@ -305,8 +305,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateCredentials(
-        AzAksUpdateCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksUpdateCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksUpdateCredentialsOptions(), executionOptions, cancellationToken);
@@ -320,8 +320,8 @@ public class AzAks
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksUpdateOptions(), executionOptions, cancellationToken);

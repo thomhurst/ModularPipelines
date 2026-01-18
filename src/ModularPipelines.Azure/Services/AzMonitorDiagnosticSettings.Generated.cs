@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az diagnostic-settings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorDiagnosticSettings
 {
     private readonly ICommand _command;
-    private AzMonitorDiagnosticSettingsCategories? _categories;
-    private AzMonitorDiagnosticSettingsSubscription? _subscription;
+    private AzMonitorDiagnosticSettingsCategories _categories;
+    private AzMonitorDiagnosticSettingsSubscription _subscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorDiagnosticSettings"/> class.
@@ -53,8 +53,8 @@ public class AzMonitorDiagnosticSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorDiagnosticSettingsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorDiagnosticSettingsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzMonitorDiagnosticSettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorDiagnosticSettingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorDiagnosticSettingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorDiagnosticSettingsListOptions(), executionOptions, cancellationToken);

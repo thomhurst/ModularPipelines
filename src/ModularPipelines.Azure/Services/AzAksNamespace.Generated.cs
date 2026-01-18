@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az namespace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksNamespace
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAksNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAksNamespaceAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNamespaceAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNamespaceAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAksNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAksNamespaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNamespaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAksNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetCredentials(
-        AzAksNamespaceGetCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNamespaceGetCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNamespaceGetCredentialsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAksNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAksNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNamespaceListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAksNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksNamespaceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksNamespaceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksNamespaceUpdateOptions(), executionOptions, cancellationToken);

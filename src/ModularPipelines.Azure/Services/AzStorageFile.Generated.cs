@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az file commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageFile
 {
     private readonly ICommand _command;
-    private AzStorageFileCopy? _copy;
-    private AzStorageFileHardLink? _hardLink;
-    private AzStorageFileMetadata? _metadata;
-    private AzStorageFileSymbolicLink? _symbolicLink;
+    private AzStorageFileCopy _copy;
+    private AzStorageFileHardLink _hardLink;
+    private AzStorageFileMetadata _metadata;
+    private AzStorageFileSymbolicLink _symbolicLink;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageFile"/> class.
@@ -65,8 +65,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteBatch(
-        AzStorageFileDeleteBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileDeleteBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileDeleteBatchOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageFileDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DownloadBatch(
-        AzStorageFileDownloadBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileDownloadBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileDownloadBatchOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzStorageFileDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileDownloadOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        AzStorageFileExistsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileExistsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileExistsOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateSas(
-        AzStorageFileGenerateSasOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileGenerateSasOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileGenerateSasOptions(), executionOptions, cancellationToken);
@@ -155,8 +155,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageFileListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileListOptions(), executionOptions, cancellationToken);
@@ -170,8 +170,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resize(
-        AzStorageFileResizeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileResizeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileResizeOptions(), executionOptions, cancellationToken);
@@ -185,8 +185,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFileShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileShowOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageFileUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileUpdateOptions(), executionOptions, cancellationToken);
@@ -215,8 +215,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UploadBatch(
-        AzStorageFileUploadBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileUploadBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileUploadBatchOptions(), executionOptions, cancellationToken);
@@ -230,8 +230,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzStorageFileUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileUploadOptions(), executionOptions, cancellationToken);
@@ -245,8 +245,8 @@ public class AzStorageFile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Url(
-        AzStorageFileUrlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFileUrlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFileUrlOptions(), executionOptions, cancellationToken);

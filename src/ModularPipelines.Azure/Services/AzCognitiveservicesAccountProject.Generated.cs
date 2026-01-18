@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az project commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservicesAccountProject
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccountProjectConnection? _connection;
+    private AzCognitiveservicesAccountProjectConnection _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservicesAccountProject"/> class.
@@ -47,8 +47,8 @@ public class AzCognitiveservicesAccountProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCognitiveservicesAccountProjectCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountProjectCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountProjectCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCognitiveservicesAccountProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCognitiveservicesAccountProjectUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountProjectUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountProjectUpdateOptions(), executionOptions, cancellationToken);

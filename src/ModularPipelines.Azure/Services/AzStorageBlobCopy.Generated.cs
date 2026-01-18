@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az copy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageBlobCopy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageBlobCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzStorageBlobCopyCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobCopyCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageBlobCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartBatch(
-        AzStorageBlobCopyStartBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobCopyStartBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyStartBatchOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageBlobCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzStorageBlobCopyStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobCopyStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobCopyStartOptions(), executionOptions, cancellationToken);

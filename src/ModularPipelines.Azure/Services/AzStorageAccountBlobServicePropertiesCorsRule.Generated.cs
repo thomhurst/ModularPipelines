@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cors-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageAccountBlobServicePropertiesCorsRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageAccountBlobServicePropertiesCorsRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzStorageAccountBlobServicePropertiesCorsRuleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountBlobServicePropertiesCorsRuleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountBlobServicePropertiesCorsRuleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageAccountBlobServicePropertiesCorsRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzStorageAccountBlobServicePropertiesCorsRuleClearOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountBlobServicePropertiesCorsRuleClearOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountBlobServicePropertiesCorsRuleClearOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageAccountBlobServicePropertiesCorsRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountBlobServicePropertiesCorsRuleListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountBlobServicePropertiesCorsRuleListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountBlobServicePropertiesCorsRuleListOptions(), executionOptions, cancellationToken);

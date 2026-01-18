@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az configuration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridPartnerConfiguration
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Authorize(
-        AzEventgridPartnerConfigurationAuthorizeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationAuthorizeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationAuthorizeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridPartnerConfigurationCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridPartnerConfigurationDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridPartnerConfigurationListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unauthorize(
-        AzEventgridPartnerConfigurationUnauthorizeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationUnauthorizeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationUnauthorizeOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzEventgridPartnerConfiguration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridPartnerConfigurationUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridPartnerConfigurationUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridPartnerConfigurationUpdateOptions(), executionOptions, cancellationToken);

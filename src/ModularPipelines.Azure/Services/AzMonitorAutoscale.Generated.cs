@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az autoscale commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorAutoscale
 {
     private readonly ICommand _command;
-    private AzMonitorAutoscaleProfile? _profile;
-    private AzMonitorAutoscaleRule? _rule;
+    private AzMonitorAutoscaleProfile _profile;
+    private AzMonitorAutoscaleRule _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorAutoscale"/> class.
@@ -53,8 +53,8 @@ public class AzMonitorAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorAutoscaleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzMonitorAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorAutoscaleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleUpdateOptions(), executionOptions, cancellationToken);

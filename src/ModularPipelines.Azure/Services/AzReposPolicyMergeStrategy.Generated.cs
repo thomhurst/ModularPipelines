@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az merge-strategy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPolicyMergeStrategy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPolicyMergeStrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposPolicyMergeStrategyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyMergeStrategyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyMergeStrategyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPolicyMergeStrategy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzReposPolicyMergeStrategyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyMergeStrategyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyMergeStrategyUpdateOptions(), executionOptions, cancellationToken);

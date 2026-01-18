@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az key commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseWorkspaceKey
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseWorkspaceKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceKeyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceKeyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseWorkspaceKey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceKeyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceKeyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceKeyDeleteOptions(), executionOptions, cancellationToken);

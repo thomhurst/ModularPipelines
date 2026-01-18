@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az gremlin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbGremlin
 {
     private readonly ICommand _command;
-    private AzCosmosdbGremlinDatabase? _database;
-    private AzCosmosdbGremlinGraph? _graph;
-    private AzCosmosdbGremlinRestorableGraph? _restorableGraph;
+    private AzCosmosdbGremlinDatabase _database;
+    private AzCosmosdbGremlinGraph _graph;
+    private AzCosmosdbGremlinRestorableGraph _restorableGraph;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlin"/> class.

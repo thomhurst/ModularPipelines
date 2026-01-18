@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az troubleshooting commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkWatcherTroubleshooting
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkWatcherTroubleshooting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkWatcherTroubleshootingShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherTroubleshootingShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherTroubleshootingShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkWatcherTroubleshooting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzNetworkWatcherTroubleshootingStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkWatcherTroubleshootingStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkWatcherTroubleshootingStartOptions(), executionOptions, cancellationToken);

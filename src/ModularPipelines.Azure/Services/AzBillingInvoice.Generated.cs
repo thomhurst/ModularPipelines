@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az invoice commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBillingInvoice
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBillingInvoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBillingInvoiceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBillingInvoiceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBillingInvoice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBillingInvoiceShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBillingInvoiceShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBillingInvoiceShowOptions(), executionOptions, cancellationToken);

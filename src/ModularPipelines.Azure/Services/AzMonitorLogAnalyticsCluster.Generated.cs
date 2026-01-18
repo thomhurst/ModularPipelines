@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalyticsCluster
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsClusterIdentity? _identity;
+    private AzMonitorLogAnalyticsClusterIdentity _identity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsCluster"/> class.
@@ -47,8 +47,8 @@ public class AzMonitorLogAnalyticsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsClusterCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzMonitorLogAnalyticsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsClusterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsClusterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzMonitorLogAnalyticsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorLogAnalyticsClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsClusterListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzMonitorLogAnalyticsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsClusterUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsClusterUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsClusterUpdateOptions(), executionOptions, cancellationToken);

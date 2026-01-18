@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az namespace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubsNamespace
 {
     private readonly ICommand _command;
-    private AzEventhubsNamespaceApplicationGroup? _applicationGroup;
-    private AzEventhubsNamespaceEncryption? _encryption;
-    private AzEventhubsNamespaceIdentity? _identity;
-    private AzEventhubsNamespaceNetworkRuleSet? _networkRuleSet;
-    private AzEventhubsNamespacePrivateEndpointConnection? _privateEndpointConnection;
-    private AzEventhubsNamespaceSchemaRegistry? _schemaRegistry;
+    private AzEventhubsNamespaceApplicationGroup _applicationGroup;
+    private AzEventhubsNamespaceEncryption _encryption;
+    private AzEventhubsNamespaceIdentity _identity;
+    private AzEventhubsNamespaceNetworkRuleSet _networkRuleSet;
+    private AzEventhubsNamespacePrivateEndpointConnection _privateEndpointConnection;
+    private AzEventhubsNamespaceSchemaRegistry _schemaRegistry;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubsNamespace"/> class.
@@ -77,8 +77,8 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventhubsNamespaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceCreateOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventhubsNamespaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzEventhubsNamespaceFailoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceFailoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceFailoverOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventhubsNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzEventhubsNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventhubsNamespaceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsNamespaceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsNamespaceUpdateOptions(), executionOptions, cancellationToken);

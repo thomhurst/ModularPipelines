@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservicesAccountNetworkRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCognitiveservicesAccountNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzCognitiveservicesAccountNetworkRuleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountNetworkRuleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCognitiveservicesAccountNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzCognitiveservicesAccountNetworkRuleRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountNetworkRuleRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountNetworkRuleRemoveOptions(), executionOptions, cancellationToken);

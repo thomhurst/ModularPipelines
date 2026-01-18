@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az log commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappLog
 {
     private readonly ICommand _command;
-    private AzFunctionappLogDeployment? _deployment;
+    private AzFunctionappLogDeployment _deployment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappLog"/> class.

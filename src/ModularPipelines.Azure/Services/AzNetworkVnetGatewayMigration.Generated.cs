@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az migration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetGatewayMigration
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVnetGatewayMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Abort(
-        AzNetworkVnetGatewayMigrationAbortOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayMigrationAbortOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayMigrationAbortOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVnetGatewayMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Commit(
-        AzNetworkVnetGatewayMigrationCommitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayMigrationCommitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayMigrationCommitOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkVnetGatewayMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        AzNetworkVnetGatewayMigrationExecuteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayMigrationExecuteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayMigrationExecuteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkVnetGatewayMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Prepare(
-        AzNetworkVnetGatewayMigrationPrepareOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayMigrationPrepareOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayMigrationPrepareOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az source commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappDeploymentSource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigLocalGit(
-        AzFunctionappDeploymentSourceConfigLocalGitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceConfigLocalGitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceConfigLocalGitOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        AzFunctionappDeploymentSourceConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceConfigOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfigZip(
-        AzFunctionappDeploymentSourceConfigZipOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceConfigZipOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceConfigZipOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappDeploymentSourceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceDeleteOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzFunctionappDeploymentSourceShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceShowOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sync(
-        AzFunctionappDeploymentSourceSyncOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceSyncOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceSyncOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzFunctionappDeploymentSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateToken(
-        AzFunctionappDeploymentSourceUpdateTokenOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentSourceUpdateTokenOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentSourceUpdateTokenOptions(), executionOptions, cancellationToken);

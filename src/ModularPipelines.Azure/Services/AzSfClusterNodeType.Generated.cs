@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az node-type commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfClusterNodeType
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfClusterNodeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSfClusterNodeTypeAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterNodeTypeAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterNodeTypeAddOptions(), executionOptions, cancellationToken);

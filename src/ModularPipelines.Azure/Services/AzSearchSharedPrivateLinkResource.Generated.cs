@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az shared-private-link-resource commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSearchSharedPrivateLinkResource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSearchSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSearchSharedPrivateLinkResourceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchSharedPrivateLinkResourceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchSharedPrivateLinkResourceCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSearchSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSearchSharedPrivateLinkResourceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchSharedPrivateLinkResourceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchSharedPrivateLinkResourceDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSearchSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSearchSharedPrivateLinkResourceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchSharedPrivateLinkResourceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchSharedPrivateLinkResourceUpdateOptions(), executionOptions, cancellationToken);

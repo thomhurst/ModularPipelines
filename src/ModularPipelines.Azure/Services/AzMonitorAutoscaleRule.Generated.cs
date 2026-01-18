@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorAutoscaleRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorAutoscaleRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        AzMonitorAutoscaleRuleCopyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleRuleCopyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleRuleCopyOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMonitorAutoscaleRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorAutoscaleRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleRuleCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMonitorAutoscaleRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorAutoscaleRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzMonitorAutoscaleRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorAutoscaleRuleListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleRuleListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleRuleListOptions(), executionOptions, cancellationToken);

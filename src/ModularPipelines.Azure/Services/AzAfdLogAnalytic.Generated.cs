@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az log-analytic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfdLogAnalytic
 {
     private readonly ICommand _command;
-    private AzAfdLogAnalyticMetric? _metric;
-    private AzAfdLogAnalyticRanking? _ranking;
+    private AzAfdLogAnalyticMetric _metric;
+    private AzAfdLogAnalyticRanking _ranking;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAfdLogAnalytic"/> class.

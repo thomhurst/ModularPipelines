@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az shared-private-link-resource commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSearchServiceSharedPrivateLinkResource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSearchServiceSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSearchServiceSharedPrivateLinkResourceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceSharedPrivateLinkResourceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceSharedPrivateLinkResourceCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSearchServiceSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSearchServiceSharedPrivateLinkResourceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceSharedPrivateLinkResourceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceSharedPrivateLinkResourceDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSearchServiceSharedPrivateLinkResource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSearchServiceSharedPrivateLinkResourceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceSharedPrivateLinkResourceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceSharedPrivateLinkResourceUpdateOptions(), executionOptions, cancellationToken);

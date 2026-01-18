@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az access-restriction commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappIngressAccessRestriction
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappIngressAccessRestriction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzContainerappIngressAccessRestrictionSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappIngressAccessRestrictionSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappIngressAccessRestrictionSetOptions(), executionOptions, cancellationToken);

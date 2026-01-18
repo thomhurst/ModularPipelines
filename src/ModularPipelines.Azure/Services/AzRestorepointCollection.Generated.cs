@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az collection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRestorepointCollection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzRestorepointCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRestorePointCollectionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRestorePointCollectionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzRestorepointCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRestorePointCollectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRestorePointCollectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzRestorepointCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzRestorePointCollectionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRestorePointCollectionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzRestorepointCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRestorePointCollectionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRestorePointCollectionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionUpdateOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzRestorepointCollection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzRestorePointCollectionWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRestorePointCollectionWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRestorePointCollectionWaitOptions(), executionOptions, cancellationToken);

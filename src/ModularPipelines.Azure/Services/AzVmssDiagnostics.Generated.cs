@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az diagnostics commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmssDiagnostics
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmssDiagnostics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetDefaultConfig(
-        AzVmssDiagnosticsGetDefaultConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssDiagnosticsGetDefaultConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssDiagnosticsGetDefaultConfigOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmssDiagnostics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzVmssDiagnosticsSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssDiagnosticsSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssDiagnosticsSetOptions(), executionOptions, cancellationToken);

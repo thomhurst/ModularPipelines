@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az revoked-cert commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetGatewayRevokedCert
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVnetGatewayRevokedCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVnetGatewayRevokedCertCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayRevokedCertCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVnetGatewayRevokedCert
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVnetGatewayRevokedCertDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayRevokedCertDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayRevokedCertDeleteOptions(), executionOptions, cancellationToken);

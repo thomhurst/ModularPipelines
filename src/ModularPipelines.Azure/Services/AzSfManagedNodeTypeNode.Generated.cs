@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az node commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedNodeTypeNode
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSfManagedNodeTypeNodeDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedNodeTypeNodeDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reimage(
-        AzSfManagedNodeTypeNodeReimageOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedNodeTypeNodeReimageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeReimageOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSfManagedNodeTypeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzSfManagedNodeTypeNodeRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedNodeTypeNodeRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedNodeTypeNodeRestartOptions(), executionOptions, cancellationToken);

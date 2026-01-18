@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az queue commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesQueue
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPipelinesQueue
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesQueueListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesQueueListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesQueueListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPipelinesQueue
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPipelinesQueueShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesQueueShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesQueueShowOptions(), executionOptions, cancellationToken);

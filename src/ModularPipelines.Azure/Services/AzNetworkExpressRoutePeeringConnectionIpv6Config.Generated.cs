@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ipv6-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkExpressRoutePeeringConnectionIpv6Config
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigRemoveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkExpressRoutePeeringConnectionIpv6Config
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionIpv6ConfigSetOptions(), executionOptions, cancellationToken);

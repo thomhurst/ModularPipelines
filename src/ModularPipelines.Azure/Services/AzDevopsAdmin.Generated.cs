@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az admin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsAdmin
 {
     private readonly ICommand _command;
-    private AzDevopsAdminBanner? _banner;
+    private AzDevopsAdminBanner _banner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDevopsAdmin"/> class.

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az subnet commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetSubnet
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVnetSubnetCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVnetSubnetDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAvailableDelegations(
-        AzNetworkVnetSubnetListAvailableDelegationsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetListAvailableDelegationsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetListAvailableDelegationsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkVnetSubnetShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVnetSubnetUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetUpdateOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzNetworkVnetSubnet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkVnetSubnetWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetSubnetWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetSubnetWaitOptions(), executionOptions, cancellationToken);

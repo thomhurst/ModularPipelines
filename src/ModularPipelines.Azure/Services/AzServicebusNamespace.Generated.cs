@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az namespace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebusNamespace
 {
     private readonly ICommand _command;
-    private AzServicebusNamespaceEncryption? _encryption;
-    private AzServicebusNamespaceIdentity? _identity;
-    private AzServicebusNamespaceNetworkRuleSet? _networkRuleSet;
-    private AzServicebusNamespacePrivateEndpointConnection? _privateEndpointConnection;
+    private AzServicebusNamespaceEncryption _encryption;
+    private AzServicebusNamespaceIdentity _identity;
+    private AzServicebusNamespaceNetworkRuleSet _networkRuleSet;
+    private AzServicebusNamespacePrivateEndpointConnection _privateEndpointConnection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusNamespace"/> class.
@@ -65,8 +65,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzServicebusNamespaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzServicebusNamespaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzServicebusNamespaceFailoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceFailoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceFailoverOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzServicebusNamespaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceListOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzServicebusNamespace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzServicebusNamespaceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceUpdateOptions(), executionOptions, cancellationToken);

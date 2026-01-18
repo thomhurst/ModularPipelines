@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ag-listener commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlVmGroupAgListener
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlVmGroupAgListener
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlVmGroupAgListenerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupAgListenerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupAgListenerDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlVmGroupAgListener
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlVmGroupAgListenerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVmGroupAgListenerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVmGroupAgListenerShowOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deployment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservicesAccountDeployment
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCognitiveservicesAccountDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCognitiveservicesAccountDeploymentCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountDeploymentCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountDeploymentCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCognitiveservicesAccountDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCognitiveservicesAccountDeploymentDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountDeploymentDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountDeploymentDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCognitiveservicesAccountDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzCognitiveservicesAccountDeploymentShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountDeploymentShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountDeploymentShowOptions(), executionOptions, cancellationToken);

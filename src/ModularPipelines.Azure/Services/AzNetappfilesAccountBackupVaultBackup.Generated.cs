@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az backup commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesAccountBackupVaultBackup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetappfilesAccountBackupVaultBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesAccountBackupVaultBackupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultBackupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetappfilesAccountBackupVaultBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesAccountBackupVaultBackupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultBackupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetappfilesAccountBackupVaultBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetappfilesAccountBackupVaultBackupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultBackupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetappfilesAccountBackupVaultBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RestoreFile(
-        AzNetappfilesAccountBackupVaultBackupRestoreFileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultBackupRestoreFileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupRestoreFileOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetappfilesAccountBackupVaultBackup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesAccountBackupVaultBackupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountBackupVaultBackupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountBackupVaultBackupUpdateOptions(), executionOptions, cancellationToken);

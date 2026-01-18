@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az content-key-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsContentKeyPolicy
 {
     private readonly ICommand _command;
-    private AzAmsContentKeyPolicyOption? _option;
+    private AzAmsContentKeyPolicyOption _option;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsContentKeyPolicy"/> class.
@@ -47,8 +47,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsContentKeyPolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsContentKeyPolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsContentKeyPolicyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsContentKeyPolicyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyListOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAmsContentKeyPolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsContentKeyPolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyShowOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzAmsContentKeyPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsContentKeyPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsContentKeyPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsContentKeyPolicyUpdateOptions(), executionOptions, cancellationToken);

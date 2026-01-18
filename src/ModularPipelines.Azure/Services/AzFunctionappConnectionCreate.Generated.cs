@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az create commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappConnectionCreate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Appconfig(
-        AzFunctionappConnectionCreateAppconfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateAppconfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateAppconfigOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> AppInsights(
-        AzFunctionappConnectionCreateAppInsightsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateAppInsightsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateAppInsightsOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cognitiveservices(
-        AzFunctionappConnectionCreateCognitiveservicesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCognitiveservicesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCognitiveservicesOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ConfluentCloud(
-        AzFunctionappConnectionCreateConfluentCloudOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateConfluentCloudOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateConfluentCloudOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CosmosCassandra(
-        AzFunctionappConnectionCreateCosmosCassandraOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCosmosCassandraOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCosmosCassandraOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CosmosGremlin(
-        AzFunctionappConnectionCreateCosmosGremlinOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCosmosGremlinOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCosmosGremlinOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CosmosMongo(
-        AzFunctionappConnectionCreateCosmosMongoOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCosmosMongoOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCosmosMongoOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CosmosSql(
-        AzFunctionappConnectionCreateCosmosSqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCosmosSqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCosmosSqlOptions(), executionOptions, cancellationToken);
@@ -157,8 +157,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> CosmosTable(
-        AzFunctionappConnectionCreateCosmosTableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateCosmosTableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateCosmosTableOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Eventhub(
-        AzFunctionappConnectionCreateEventhubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateEventhubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateEventhubOptions(), executionOptions, cancellationToken);
@@ -187,8 +187,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> FabricSql(
-        AzFunctionappConnectionCreateFabricSqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateFabricSqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateFabricSqlOptions(), executionOptions, cancellationToken);
@@ -202,8 +202,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Keyvault(
-        AzFunctionappConnectionCreateKeyvaultOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateKeyvaultOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateKeyvaultOptions(), executionOptions, cancellationToken);
@@ -217,8 +217,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MongodbAtlas(
-        AzFunctionappConnectionCreateMongodbAtlasOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateMongodbAtlasOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMongodbAtlasOptions(), executionOptions, cancellationToken);
@@ -232,8 +232,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MysqlFlexible(
-        AzFunctionappConnectionCreateMysqlFlexibleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateMysqlFlexibleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateMysqlFlexibleOptions(), executionOptions, cancellationToken);
@@ -247,8 +247,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> NeonPostgres(
-        AzFunctionappConnectionCreateNeonPostgresOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateNeonPostgresOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateNeonPostgresOptions(), executionOptions, cancellationToken);
@@ -262,8 +262,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PostgresFlexible(
-        AzFunctionappConnectionCreatePostgresFlexibleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreatePostgresFlexibleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreatePostgresFlexibleOptions(), executionOptions, cancellationToken);
@@ -277,8 +277,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RedisEnterprise(
-        AzFunctionappConnectionCreateRedisEnterpriseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateRedisEnterpriseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateRedisEnterpriseOptions(), executionOptions, cancellationToken);
@@ -292,8 +292,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Redis(
-        AzFunctionappConnectionCreateRedisOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateRedisOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateRedisOptions(), executionOptions, cancellationToken);
@@ -307,8 +307,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Servicebus(
-        AzFunctionappConnectionCreateServicebusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateServicebusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateServicebusOptions(), executionOptions, cancellationToken);
@@ -322,8 +322,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Signalr(
-        AzFunctionappConnectionCreateSignalrOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateSignalrOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateSignalrOptions(), executionOptions, cancellationToken);
@@ -337,8 +337,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Sql(
-        AzFunctionappConnectionCreateSqlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateSqlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateSqlOptions(), executionOptions, cancellationToken);
@@ -352,8 +352,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StorageBlob(
-        AzFunctionappConnectionCreateStorageBlobOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateStorageBlobOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateStorageBlobOptions(), executionOptions, cancellationToken);
@@ -367,8 +367,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StorageFile(
-        AzFunctionappConnectionCreateStorageFileOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateStorageFileOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateStorageFileOptions(), executionOptions, cancellationToken);
@@ -382,8 +382,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StorageQueue(
-        AzFunctionappConnectionCreateStorageQueueOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateStorageQueueOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateStorageQueueOptions(), executionOptions, cancellationToken);
@@ -397,8 +397,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StorageTable(
-        AzFunctionappConnectionCreateStorageTableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateStorageTableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateStorageTableOptions(), executionOptions, cancellationToken);
@@ -412,8 +412,8 @@ public class AzFunctionappConnectionCreate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Webpubsub(
-        AzFunctionappConnectionCreateWebpubsubOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConnectionCreateWebpubsubOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConnectionCreateWebpubsubOptions(), executionOptions, cancellationToken);

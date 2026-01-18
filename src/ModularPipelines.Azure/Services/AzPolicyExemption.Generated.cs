@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az exemption commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicyExemption
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPolicyExemption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPolicyExemptionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyExemptionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyExemptionCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPolicyExemption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPolicyExemptionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyExemptionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyExemptionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPolicyExemption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyExemptionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyExemptionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyExemptionListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzPolicyExemption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyExemptionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyExemptionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyExemptionShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzPolicyExemption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyExemptionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyExemptionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyExemptionUpdateOptions(), executionOptions, cancellationToken);

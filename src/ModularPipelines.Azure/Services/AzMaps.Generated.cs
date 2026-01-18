@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az maps commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMaps
 {
     private readonly ICommand _command;
-    private AzMapsAccount? _account;
+    private AzMapsAccount _account;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMaps"/> class.

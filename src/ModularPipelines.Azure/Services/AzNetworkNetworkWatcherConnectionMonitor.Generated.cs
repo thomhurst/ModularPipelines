@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az connection-monitor commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNetworkWatcherConnectionMonitor
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkNetworkWatcherConnectionMonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNetworkWatcherConnectionMonitorCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNetworkWatcherConnectionMonitorCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherConnectionMonitorCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkNetworkWatcherConnectionMonitor
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNetworkWatcherConnectionMonitorDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNetworkWatcherConnectionMonitorDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNetworkWatcherConnectionMonitorDeleteOptions(), executionOptions, cancellationToken);

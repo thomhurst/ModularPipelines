@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az virtual-cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlVirtualCluster
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlVirtualCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlVirtualClusterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVirtualClusterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlVirtualCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlVirtualClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlVirtualClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlVirtualClusterListOptions(), executionOptions, cancellationToken);

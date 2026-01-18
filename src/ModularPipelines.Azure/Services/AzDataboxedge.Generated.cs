@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az databoxedge commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDataboxedge
 {
     private readonly ICommand _command;
-    private AzDataboxedgeBandwidthSchedule? _bandwidthSchedule;
-    private AzDataboxedgeDevice? _device;
-    private AzDataboxedgeOrder? _order;
+    private AzDataboxedgeBandwidthSchedule _bandwidthSchedule;
+    private AzDataboxedgeDevice _device;
+    private AzDataboxedgeOrder _order;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDataboxedge"/> class.

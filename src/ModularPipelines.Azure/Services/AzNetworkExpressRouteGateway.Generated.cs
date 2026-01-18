@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az gateway commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkExpressRouteGateway
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRouteGatewayConnection? _connection;
+    private AzNetworkExpressRouteGatewayConnection _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRouteGateway"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkExpressRouteGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkExpressRouteGatewayCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteGatewayCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkExpressRouteGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkExpressRouteGatewayDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteGatewayDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzNetworkExpressRouteGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkExpressRouteGatewayListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteGatewayListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzNetworkExpressRouteGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkExpressRouteGatewayUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteGatewayUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteGatewayUpdateOptions(), executionOptions, cancellationToken);

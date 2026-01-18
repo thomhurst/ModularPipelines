@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az definition commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbMongodbRoleDefinition
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCosmosdbMongodbRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbMongodbRoleDefinitionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbMongodbRoleDefinitionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbMongodbRoleDefinitionDeleteOptions(), executionOptions, cancellationToken);

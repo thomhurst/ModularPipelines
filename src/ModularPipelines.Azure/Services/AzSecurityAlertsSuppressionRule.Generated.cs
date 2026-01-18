@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az alerts-suppression-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityAlertsSuppressionRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSecurityAlertsSuppressionRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSecurityAlertsSuppressionRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityAlertsSuppressionRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleUpdateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSecurityAlertsSuppressionRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upsert_scope(
-        AzSecurityAlertsSuppressionRuleUpsertScopeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityAlertsSuppressionRuleUpsertScopeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAlertsSuppressionRuleUpsertScopeOptions(), executionOptions, cancellationToken);

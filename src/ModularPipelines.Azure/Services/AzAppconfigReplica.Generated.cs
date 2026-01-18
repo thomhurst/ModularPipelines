@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az replica commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAppconfigReplica
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAppconfigReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAppconfigReplicaCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigReplicaCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigReplicaCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAppconfigReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAppconfigReplicaDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigReplicaDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigReplicaDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAppconfigReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigReplicaListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigReplicaListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigReplicaListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAppconfigReplica
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAppconfigReplicaShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigReplicaShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigReplicaShowOptions(), executionOptions, cancellationToken);

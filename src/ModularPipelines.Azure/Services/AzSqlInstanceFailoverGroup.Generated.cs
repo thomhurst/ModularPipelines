@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az instance-failover-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlInstanceFailoverGroup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlInstanceFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlInstanceFailoverGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlInstanceFailoverGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstanceFailoverGroupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlInstanceFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetPrimary(
-        AzSqlInstanceFailoverGroupSetPrimaryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlInstanceFailoverGroupSetPrimaryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstanceFailoverGroupSetPrimaryOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSqlInstanceFailoverGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlInstanceFailoverGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlInstanceFailoverGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlInstanceFailoverGroupUpdateOptions(), executionOptions, cancellationToken);

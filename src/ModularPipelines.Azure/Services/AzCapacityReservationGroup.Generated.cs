@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCapacityReservationGroup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCapacityReservationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCapacityReservationGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCapacityReservationGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationGroupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCapacityReservationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCapacityReservationGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCapacityReservationGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCapacityReservationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCapacityReservationGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCapacityReservationGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationGroupListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzCapacityReservationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzCapacityReservationGroupShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCapacityReservationGroupShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationGroupShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzCapacityReservationGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCapacityReservationGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCapacityReservationGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCapacityReservationGroupUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sshkey commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSshkey
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSshkeyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSshkeyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSshkeyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSshkeyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSshkeyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSshkeyDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSshkeyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSshkeyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSshkeyListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSshkey
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSshkeyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSshkeyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSshkeyUpdateOptions(), executionOptions, cancellationToken);

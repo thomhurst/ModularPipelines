@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az release commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesRelease
 {
     private readonly ICommand _command;
-    private AzPipelinesReleaseDefinition? _definition;
+    private AzPipelinesReleaseDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPipelinesRelease"/> class.
@@ -47,8 +47,8 @@ public class AzPipelinesRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPipelinesReleaseCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesReleaseCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzPipelinesRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesReleaseListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesReleaseListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseListOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzPipelinesRelease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPipelinesReleaseShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesReleaseShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesReleaseShowOptions(), executionOptions, cancellationToken);

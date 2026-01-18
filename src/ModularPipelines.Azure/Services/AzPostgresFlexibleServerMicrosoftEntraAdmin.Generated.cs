@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az microsoft-entra-admin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPostgresFlexibleServerMicrosoftEntraAdmin
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPostgresFlexibleServerMicrosoftEntraAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerMicrosoftEntraAdminCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPostgresFlexibleServerMicrosoftEntraAdmin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerMicrosoftEntraAdminDeleteOptions(), executionOptions, cancellationToken);

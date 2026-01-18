@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az upgrade-type commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfClusterUpgradeType
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfClusterUpgradeType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSfClusterUpgradeTypeSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterUpgradeTypeSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterUpgradeTypeSetOptions(), executionOptions, cancellationToken);

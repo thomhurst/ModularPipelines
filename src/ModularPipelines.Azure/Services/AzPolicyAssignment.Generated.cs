@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az assignment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicyAssignment
 {
     private readonly ICommand _command;
-    private AzPolicyAssignmentIdentity? _identity;
-    private AzPolicyAssignmentNonComplianceMessage? _nonComplianceMessage;
+    private AzPolicyAssignmentIdentity _identity;
+    private AzPolicyAssignmentNonComplianceMessage _nonComplianceMessage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPolicyAssignment"/> class.
@@ -53,8 +53,8 @@ public class AzPolicyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPolicyAssignmentCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzPolicyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPolicyAssignmentDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzPolicyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyAssignmentListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentListOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzPolicyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyAssignmentShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentShowOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzPolicyAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyAssignmentUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyAssignmentUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyAssignmentUpdateOptions(), executionOptions, cancellationToken);

@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cdn commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdn
 {
     private readonly ICommand _command;
-    private AzCdnCustomDomain? _customDomain;
-    private AzCdnEdgeAction? _edgeAction;
-    private AzCdnEndpoint? _endpoint;
-    private AzCdnOrigin? _origin;
-    private AzCdnOriginGroup? _originGroup;
-    private AzCdnProfile? _profile;
+    private AzCdnCustomDomain _customDomain;
+    private AzCdnEdgeAction _edgeAction;
+    private AzCdnEndpoint _endpoint;
+    private AzCdnOrigin _origin;
+    private AzCdnOriginGroup _originGroup;
+    private AzCdnProfile _profile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCdn"/> class.

@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesAccount
 {
     private readonly ICommand _command;
-    private AzNetappfilesAccountAd? _ad;
-    private AzNetappfilesAccountBackupPolicy? _backupPolicy;
-    private AzNetappfilesAccountBackupVault? _backupVault;
+    private AzNetappfilesAccountAd _ad;
+    private AzNetappfilesAccountBackupPolicy _backupPolicy;
+    private AzNetappfilesAccountBackupVault _backupVault;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetappfilesAccount"/> class.
@@ -59,8 +59,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ChangeKeyVault(
-        AzNetappfilesAccountChangeKeyVaultOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountChangeKeyVaultOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountChangeKeyVaultOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesAccountCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountCreateOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesAccountDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountDeleteOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetKeyVaultStatus(
-        AzNetappfilesAccountGetKeyVaultStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountGetKeyVaultStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountGetKeyVaultStatusOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetappfilesAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountListOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> MigrateBackup(
-        AzNetappfilesAccountMigrateBackupOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountMigrateBackupOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountMigrateBackupOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RenewCredentials(
-        AzNetappfilesAccountRenewCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountRenewCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountRenewCredentialsOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Transitiontocmk(
-        AzNetappfilesAccountTransitiontocmkOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountTransitiontocmkOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountTransitiontocmkOptions(), executionOptions, cancellationToken);
@@ -179,8 +179,8 @@ public class AzNetappfilesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesAccountUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesAccountUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesAccountUpdateOptions(), executionOptions, cancellationToken);

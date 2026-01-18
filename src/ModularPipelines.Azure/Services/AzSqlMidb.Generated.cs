@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az midb commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlMidb
 {
     private readonly ICommand _command;
-    private AzSqlMidbAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
-    private AzSqlMidbCopy? _copy;
-    private AzSqlMidbLogReplay? _logReplay;
-    private AzSqlMidbMove? _move;
+    private AzSqlMidbAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
+    private AzSqlMidbCopy _copy;
+    private AzSqlMidbLogReplay _logReplay;
+    private AzSqlMidbMove _move;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMidb"/> class.
@@ -65,8 +65,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlMidbCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlMidbDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Recover(
-        AzSqlMidbRecoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbRecoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbRecoverOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzSqlMidbRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbRestoreOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzSqlMidb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlMidbUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbUpdateOptions(), executionOptions, cancellationToken);

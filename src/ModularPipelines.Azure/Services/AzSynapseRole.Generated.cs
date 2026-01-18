@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az role commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseRole
 {
     private readonly ICommand _command;
-    private AzSynapseRoleAssignment? _assignment;
-    private AzSynapseRoleDefinition? _definition;
+    private AzSynapseRoleAssignment _assignment;
+    private AzSynapseRoleDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseRole"/> class.

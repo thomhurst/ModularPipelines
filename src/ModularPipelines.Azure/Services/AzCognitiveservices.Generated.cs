@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cognitiveservices commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservices
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccount? _account;
-    private AzCognitiveservicesUsage? _usage;
+    private AzCognitiveservicesAccount _account;
+    private AzCognitiveservicesUsage _usage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservices"/> class.

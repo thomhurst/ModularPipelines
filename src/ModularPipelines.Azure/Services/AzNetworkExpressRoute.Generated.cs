@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az express-route commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkExpressRoute
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRouteAuth? _auth;
-    private AzNetworkExpressRouteGateway? _gateway;
-    private AzNetworkExpressRoutePeering? _peering;
-    private AzNetworkExpressRoutePort? _port;
+    private AzNetworkExpressRouteAuth _auth;
+    private AzNetworkExpressRouteGateway _gateway;
+    private AzNetworkExpressRoutePeering _peering;
+    private AzNetworkExpressRoutePort _port;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoute"/> class.
@@ -65,8 +65,8 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkExpressRouteCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkExpressRouteDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListArpTables(
-        AzNetworkExpressRouteListArpTablesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteListArpTablesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteListArpTablesOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkExpressRouteListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteListOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzNetworkExpressRoute
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkExpressRouteUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRouteUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRouteUpdateOptions(), executionOptions, cancellationToken);

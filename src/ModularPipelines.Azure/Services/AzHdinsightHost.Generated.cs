@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az host commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzHdinsightHost
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzHdinsightHost
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzHdinsightHostRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzHdinsightHostRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightHostRestartOptions(), executionOptions, cancellationToken);

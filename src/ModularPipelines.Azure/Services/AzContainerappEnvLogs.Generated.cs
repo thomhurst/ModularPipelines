@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az logs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappEnvLogs
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappEnvLogs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzContainerappEnvLogsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappEnvLogsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvLogsShowOptions(), executionOptions, cancellationToken);

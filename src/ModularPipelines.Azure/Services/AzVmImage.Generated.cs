@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmImage
 {
     private readonly ICommand _command;
-    private AzVmImageTerms? _terms;
+    private AzVmImageTerms _terms;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmImage"/> class.
@@ -47,8 +47,8 @@ public class AzVmImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListOffers(
-        AzVmImageListOffersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageListOffersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListOffersOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzVmImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmImageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzVmImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPublishers(
-        AzVmImageListPublishersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageListPublishersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListPublishersOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzVmImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSkus(
-        AzVmImageListSkusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageListSkusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageListSkusOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzVmImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzVmImageShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmImageShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmImageShowOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az dns commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkDns
 {
     private readonly ICommand _command;
-    private AzNetworkDnsRecordSet? _recordSet;
-    private AzNetworkDnsZone? _zone;
+    private AzNetworkDnsRecordSet _recordSet;
+    private AzNetworkDnsZone _zone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkDns"/> class.
@@ -53,8 +53,8 @@ public class AzNetworkDns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListReferences(
-        AzNetworkDnsListReferencesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkDnsListReferencesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkDnsListReferencesOptions(), executionOptions, cancellationToken);

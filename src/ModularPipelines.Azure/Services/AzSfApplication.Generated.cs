@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az application commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfApplication
 {
     private readonly ICommand _command;
-    private AzSfApplicationCertificate? _certificate;
+    private AzSfApplicationCertificate _certificate;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfApplication"/> class.
@@ -47,8 +47,8 @@ public class AzSfApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfApplicationCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfApplicationCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfApplicationCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzSfApplication
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfApplicationUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfApplicationUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfApplicationUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az linked-service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalyticsWorkspaceLinkedService
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedServiceUpdateOptions(), executionOptions, cancellationToken);

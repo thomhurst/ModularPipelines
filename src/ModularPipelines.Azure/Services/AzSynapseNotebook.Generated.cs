@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az notebook commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseNotebook
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseNotebook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseNotebookCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseNotebookCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseNotebookCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseNotebook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseNotebookDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseNotebookDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseNotebookDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseNotebook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzSynapseNotebookExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseNotebookExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseNotebookExportOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSynapseNotebook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzSynapseNotebookImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseNotebookImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseNotebookImportOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSynapseNotebook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSynapseNotebookSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseNotebookSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseNotebookSetOptions(), executionOptions, cancellationToken);

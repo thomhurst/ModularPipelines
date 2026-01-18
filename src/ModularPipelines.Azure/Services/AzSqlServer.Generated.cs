@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az server commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlServer
 {
     private readonly ICommand _command;
-    private AzSqlServerAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
-    private AzSqlServerAuditPolicy? _auditPolicy;
-    private AzSqlServerDnsAlias? _dnsAlias;
-    private AzSqlServerFirewallRule? _firewallRule;
-    private AzSqlServerIpv6FirewallRule? _ipv6FirewallRule;
-    private AzSqlServerMsSupport? _msSupport;
-    private AzSqlServerTdeKey? _tdeKey;
-    private AzSqlServerVnetRule? _vnetRule;
+    private AzSqlServerAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
+    private AzSqlServerAuditPolicy _auditPolicy;
+    private AzSqlServerDnsAlias _dnsAlias;
+    private AzSqlServerFirewallRule _firewallRule;
+    private AzSqlServerIpv6FirewallRule _ipv6FirewallRule;
+    private AzSqlServerMsSupport _msSupport;
+    private AzSqlServerTdeKey _tdeKey;
+    private AzSqlServerVnetRule _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlServer"/> class.
@@ -89,8 +89,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlServerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerCreateOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlServerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerDeleteOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlServerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerListOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlServerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerShowOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlServerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerUpdateOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class AzSqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzSqlServerWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlServerWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlServerWaitOptions(), executionOptions, cancellationToken);

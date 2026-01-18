@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deployment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappDeployment
 {
     private readonly ICommand _command;
-    private AzFunctionappDeploymentContainer? _container;
-    private AzFunctionappDeploymentGithubActions? _githubActions;
-    private AzFunctionappDeploymentSlot? _slot;
-    private AzFunctionappDeploymentSource? _source;
-    private AzFunctionappDeploymentUser? _user;
+    private AzFunctionappDeploymentContainer _container;
+    private AzFunctionappDeploymentGithubActions _githubActions;
+    private AzFunctionappDeploymentSlot _slot;
+    private AzFunctionappDeploymentSource _source;
+    private AzFunctionappDeploymentUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFunctionappDeployment"/> class.
@@ -71,8 +71,8 @@ public class AzFunctionappDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPublishingCredentials(
-        AzFunctionappDeploymentListPublishingCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentListPublishingCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingCredentialsOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzFunctionappDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListPublishingProfiles(
-        AzFunctionappDeploymentListPublishingProfilesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappDeploymentListPublishingProfilesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappDeploymentListPublishingProfilesOptions(), executionOptions, cancellationToken);

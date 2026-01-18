@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az table commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageTable
 {
     private readonly ICommand _command;
-    private AzStorageTablePolicy? _policy;
+    private AzStorageTablePolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageTable"/> class.
@@ -47,8 +47,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageTableCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageTableDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        AzStorageTableExistsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableExistsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableExistsOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GenerateSas(
-        AzStorageTableGenerateSasOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableGenerateSasOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableGenerateSasOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageTableListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableListOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzStorageTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stats(
-        AzStorageTableStatsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTableStatsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTableStatsOptions(), executionOptions, cancellationToken);

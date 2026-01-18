@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageContainer
 {
     private readonly ICommand _command;
-    private AzStorageContainerImmutabilityPolicy? _immutabilityPolicy;
-    private AzStorageContainerLease? _lease;
-    private AzStorageContainerLegalHold? _legalHold;
-    private AzStorageContainerMetadata? _metadata;
-    private AzStorageContainerPolicy? _policy;
+    private AzStorageContainerImmutabilityPolicy _immutabilityPolicy;
+    private AzStorageContainerLease _lease;
+    private AzStorageContainerLegalHold _legalHold;
+    private AzStorageContainerMetadata _metadata;
+    private AzStorageContainerPolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageContainer"/> class.

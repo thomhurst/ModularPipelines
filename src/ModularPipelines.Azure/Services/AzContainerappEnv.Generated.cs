@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az env commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappEnv
 {
     private readonly ICommand _command;
-    private AzContainerappEnvCertificate? _certificate;
-    private AzContainerappEnvHttpRouteConfig? _httpRouteConfig;
-    private AzContainerappEnvLogs? _logs;
-    private AzContainerappEnvPremiumIngress? _premiumIngress;
-    private AzContainerappEnvStorage? _storage;
-    private AzContainerappEnvWorkloadProfile? _workloadProfile;
+    private AzContainerappEnvCertificate _certificate;
+    private AzContainerappEnvHttpRouteConfig _httpRouteConfig;
+    private AzContainerappEnvLogs _logs;
+    private AzContainerappEnvPremiumIngress _premiumIngress;
+    private AzContainerappEnvStorage _storage;
+    private AzContainerappEnvWorkloadProfile _workloadProfile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappEnv"/> class.
@@ -77,8 +77,8 @@ public class AzContainerappEnv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzContainerappEnvCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappEnvCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvCreateOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzContainerappEnv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappEnvDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappEnvDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvDeleteOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzContainerappEnv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappEnvListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappEnvListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvListOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzContainerappEnv
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappEnvUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappEnvUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappEnvUpdateOptions(), executionOptions, cancellationToken);

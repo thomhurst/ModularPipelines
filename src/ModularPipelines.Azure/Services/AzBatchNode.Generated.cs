@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az node commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchNode
 {
     private readonly ICommand _command;
-    private AzBatchNodeFile? _file;
-    private AzBatchNodeScheduling? _scheduling;
-    private AzBatchNodeServiceLogs? _serviceLogs;
-    private AzBatchNodeUser? _user;
+    private AzBatchNodeFile _file;
+    private AzBatchNodeScheduling _scheduling;
+    private AzBatchNodeServiceLogs _serviceLogs;
+    private AzBatchNodeUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchNode"/> class.
@@ -65,8 +65,8 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchNodeDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchNodeDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeDeleteOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzBatchNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reboot(
-        AzBatchNodeRebootOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchNodeRebootOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeRebootOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az authorization-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelayWcfrelayAuthorizationRule
 {
     private readonly ICommand _command;
-    private AzRelayWcfrelayAuthorizationRuleKeys? _keys;
+    private AzRelayWcfrelayAuthorizationRuleKeys _keys;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayWcfrelayAuthorizationRule"/> class.
@@ -47,8 +47,8 @@ public class AzRelayWcfrelayAuthorizationRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayWcfrelayAuthorizationRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayWcfrelayAuthorizationRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayAuthorizationRuleCreateOptions(), executionOptions, cancellationToken);

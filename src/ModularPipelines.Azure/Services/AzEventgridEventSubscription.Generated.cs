@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az event-subscription commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridEventSubscription
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventgridEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridEventSubscriptionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridEventSubscriptionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzEventgridEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventgridEventSubscriptionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridEventSubscriptionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzEventgridEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridEventSubscriptionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridEventSubscriptionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzEventgridEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzEventgridEventSubscriptionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridEventSubscriptionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzEventgridEventSubscription
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridEventSubscriptionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridEventSubscriptionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridEventSubscriptionUpdateOptions(), executionOptions, cancellationToken);

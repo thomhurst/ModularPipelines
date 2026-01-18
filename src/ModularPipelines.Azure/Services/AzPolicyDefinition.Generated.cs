@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az definition commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicyDefinition
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPolicyDefinitionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyDefinitionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyDefinitionCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPolicyDefinitionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyDefinitionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyDefinitionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPolicyDefinitionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyDefinitionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyDefinitionShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzPolicyDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPolicyDefinitionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPolicyDefinitionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPolicyDefinitionUpdateOptions(), executionOptions, cancellationToken);

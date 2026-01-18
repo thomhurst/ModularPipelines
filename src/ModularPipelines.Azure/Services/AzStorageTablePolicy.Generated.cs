@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageTablePolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageTablePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageTablePolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTablePolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTablePolicyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageTablePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageTablePolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageTablePolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageTablePolicyUpdateOptions(), executionOptions, cancellationToken);

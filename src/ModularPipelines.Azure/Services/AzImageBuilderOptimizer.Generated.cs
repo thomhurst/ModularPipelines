@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az optimizer commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzImageBuilderOptimizer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzImageBuilderOptimizer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzImageBuilderOptimizerAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderOptimizerAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzImageBuilderOptimizer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzImageBuilderOptimizerRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderOptimizerRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzImageBuilderOptimizer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzImageBuilderOptimizerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderOptimizerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzImageBuilderOptimizer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzImageBuilderOptimizerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderOptimizerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderOptimizerUpdateOptions(), executionOptions, cancellationToken);

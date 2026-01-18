@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az assignment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbSqlRoleAssignment
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbSqlRoleAssignmentCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbSqlRoleAssignmentDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzCosmosdbSqlRoleAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbSqlRoleAssignmentUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlRoleAssignmentUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlRoleAssignmentUpdateOptions(), executionOptions, cancellationToken);

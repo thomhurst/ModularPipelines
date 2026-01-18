@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebusTopicSubscriptionRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzServicebusTopicSubscriptionRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzServicebusTopicSubscriptionRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusTopicSubscriptionRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzServicebusTopicSubscriptionRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzServicebusTopicSubscriptionRuleListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusTopicSubscriptionRuleListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusTopicSubscriptionRuleListOptions(), executionOptions, cancellationToken);

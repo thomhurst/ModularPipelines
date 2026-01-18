@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az table commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbCassandraTable
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandraTableThroughput? _throughput;
+    private AzCosmosdbCassandraTableThroughput _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbCassandraTable"/> class.
@@ -47,8 +47,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbCassandraTableCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraTableCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbCassandraTableDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraTableDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCosmosdbCassandraTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbCassandraTableUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraTableUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraTableUpdateOptions(), executionOptions, cancellationToken);

@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfCluster
 {
     private readonly ICommand _command;
-    private AzSfClusterClientCertificate? _clientCertificate;
-    private AzSfClusterNodeType? _nodeType;
-    private AzSfClusterReliability? _reliability;
-    private AzSfClusterSetting? _setting;
-    private AzSfClusterUpgradeType? _upgradeType;
+    private AzSfClusterClientCertificate _clientCertificate;
+    private AzSfClusterNodeType _nodeType;
+    private AzSfClusterReliability _reliability;
+    private AzSfClusterSetting _setting;
+    private AzSfClusterUpgradeType _upgradeType;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSfCluster"/> class.
@@ -71,8 +71,8 @@ public class AzSfCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterCreateOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzSfCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSfClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterListOptions(), executionOptions, cancellationToken);

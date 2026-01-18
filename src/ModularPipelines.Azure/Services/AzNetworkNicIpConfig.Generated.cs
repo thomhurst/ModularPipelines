@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ip-config commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNicIpConfig
 {
     private readonly ICommand _command;
-    private AzNetworkNicIpConfigAddressPool? _addressPool;
-    private AzNetworkNicIpConfigInboundNatRule? _inboundNatRule;
+    private AzNetworkNicIpConfigAddressPool _addressPool;
+    private AzNetworkNicIpConfigInboundNatRule _inboundNatRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNicIpConfig"/> class.
@@ -53,8 +53,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNicIpConfigCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicIpConfigCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNicIpConfigDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicIpConfigDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzNetworkNicIpConfig
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNicIpConfigUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicIpConfigUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicIpConfigUpdateOptions(), executionOptions, cancellationToken);
