@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmExtensionImage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmExtensionImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmExtensionImageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmExtensionImageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionImageListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmExtensionImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListVersions(
-        AzVmExtensionImageListVersionsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmExtensionImageListVersionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmExtensionImageListVersionsOptions(), executionOptions, cancellationToken);

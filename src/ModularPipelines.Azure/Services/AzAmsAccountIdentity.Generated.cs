@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsAccountIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzAmsAccountIdentityAssignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountIdentityAssignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsAccountIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzAmsAccountIdentityRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountIdentityRemoveOptions(), executionOptions, cancellationToken);

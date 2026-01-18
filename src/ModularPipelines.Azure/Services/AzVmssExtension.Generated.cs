@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az extension commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmssExtension
 {
     private readonly ICommand _command;
-    private AzVmssExtensionImage? _image;
+    private AzVmssExtensionImage _image;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmssExtension"/> class.
@@ -47,8 +47,8 @@ public class AzVmssExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmssExtensionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssExtensionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionDeleteOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzVmssExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzVmssExtensionSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssExtensionSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssExtensionSetOptions(), executionOptions, cancellationToken);

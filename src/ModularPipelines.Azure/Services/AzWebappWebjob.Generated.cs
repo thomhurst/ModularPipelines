@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az webjob commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappWebjob
 {
     private readonly ICommand _command;
-    private AzWebappWebjobContinuous? _continuous;
-    private AzWebappWebjobTriggered? _triggered;
+    private AzWebappWebjobContinuous _continuous;
+    private AzWebappWebjobTriggered _triggered;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzWebappWebjob"/> class.

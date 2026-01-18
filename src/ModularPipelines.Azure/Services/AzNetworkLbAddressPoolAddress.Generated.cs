@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az address commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkLbAddressPoolAddress
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkLbAddressPoolAddressAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbAddressPoolAddressAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkLbAddressPoolAddressRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbAddressPoolAddressRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkLbAddressPoolAddress
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbAddressPoolAddressUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbAddressPoolAddressUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbAddressPoolAddressUpdateOptions(), executionOptions, cancellationToken);

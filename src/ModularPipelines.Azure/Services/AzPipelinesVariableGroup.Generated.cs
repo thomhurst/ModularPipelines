@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az variable-group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesVariableGroup
 {
     private readonly ICommand _command;
-    private AzPipelinesVariableGroupVariable? _variable;
+    private AzPipelinesVariableGroupVariable _variable;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPipelinesVariableGroup"/> class.
@@ -47,8 +47,8 @@ public class AzPipelinesVariableGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPipelinesVariableGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesVariableGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableGroupCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzPipelinesVariableGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPipelinesVariableGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesVariableGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzPipelinesVariableGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesVariableGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesVariableGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableGroupListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzPipelinesVariableGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPipelinesVariableGroupShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesVariableGroupShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableGroupShowOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzPipelinesVariableGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPipelinesVariableGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesVariableGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesVariableGroupUpdateOptions(), executionOptions, cancellationToken);

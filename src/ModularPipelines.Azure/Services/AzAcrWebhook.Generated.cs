@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az webhook commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAcrWebhook
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAcrWebhookCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrWebhookDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetConfig(
-        AzAcrWebhookGetConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookGetConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookGetConfigOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEvents(
-        AzAcrWebhookListEventsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookListEventsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookListEventsOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrWebhookListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ping(
-        AzAcrWebhookPingOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookPingOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookPingOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrWebhookShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookShowOptions(), executionOptions, cancellationToken);
@@ -142,8 +142,8 @@ public class AzAcrWebhook
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrWebhookUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrWebhookUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrWebhookUpdateOptions(), executionOptions, cancellationToken);

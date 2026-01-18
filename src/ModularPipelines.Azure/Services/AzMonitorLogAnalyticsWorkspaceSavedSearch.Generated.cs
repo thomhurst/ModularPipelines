@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az saved-search commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalyticsWorkspaceSavedSearch
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMonitorLogAnalyticsWorkspaceSavedSearch
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceSavedSearchUpdateOptions(), executionOptions, cancellationToken);

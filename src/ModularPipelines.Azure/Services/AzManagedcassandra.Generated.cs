@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managedcassandra commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedcassandra
 {
     private readonly ICommand _command;
-    private AzManagedcassandraCluster? _cluster;
-    private AzManagedcassandraDatacenter? _datacenter;
+    private AzManagedcassandraCluster _cluster;
+    private AzManagedcassandraDatacenter _datacenter;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzManagedcassandra"/> class.

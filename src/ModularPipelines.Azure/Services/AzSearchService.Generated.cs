@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSearchService
 {
     private readonly ICommand _command;
-    private AzSearchServicePrivateEndpointConnection? _privateEndpointConnection;
-    private AzSearchServiceQueryKey? _queryKey;
-    private AzSearchServiceSharedPrivateLinkResource? _sharedPrivateLinkResource;
+    private AzSearchServicePrivateEndpointConnection _privateEndpointConnection;
+    private AzSearchServiceQueryKey _queryKey;
+    private AzSearchServiceSharedPrivateLinkResource _sharedPrivateLinkResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSearchService"/> class.
@@ -59,8 +59,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSearchServiceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSearchServiceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzSearchService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSearchServiceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSearchServiceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSearchServiceUpdateOptions(), executionOptions, cancellationToken);

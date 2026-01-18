@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubsCluster
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzEventhubsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventhubsClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzEventhubsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzEventhubsClusterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsClusterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzEventhubsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventhubsClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzEventhubsCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventhubsClusterUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventhubsClusterUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventhubsClusterUpdateOptions(), executionOptions, cancellationToken);

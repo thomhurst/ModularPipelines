@@ -14,22 +14,22 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az afd commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfd
 {
     private readonly ICommand _command;
-    private AzAfdCustomDomain? _customDomain;
-    private AzAfdEndpoint? _endpoint;
-    private AzAfdLogAnalytic? _logAnalytic;
-    private AzAfdOrigin? _origin;
-    private AzAfdOriginGroup? _originGroup;
-    private AzAfdProfile? _profile;
-    private AzAfdRoute? _route;
-    private AzAfdRule? _rule;
-    private AzAfdRuleSet? _ruleSet;
-    private AzAfdSecret? _secret;
-    private AzAfdSecurityPolicy? _securityPolicy;
-    private AzAfdWafLogAnalytic? _wafLogAnalytic;
+    private AzAfdCustomDomain _customDomain;
+    private AzAfdEndpoint _endpoint;
+    private AzAfdLogAnalytic _logAnalytic;
+    private AzAfdOrigin _origin;
+    private AzAfdOriginGroup _originGroup;
+    private AzAfdProfile _profile;
+    private AzAfdRoute _route;
+    private AzAfdRule _rule;
+    private AzAfdRuleSet _ruleSet;
+    private AzAfdSecret _secret;
+    private AzAfdSecurityPolicy _securityPolicy;
+    private AzAfdWafLogAnalytic _wafLogAnalytic;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAfd"/> class.

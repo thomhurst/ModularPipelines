@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az profile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCdnProfile
 {
     private readonly ICommand _command;
-    private AzCdnProfileDeploymentVersion? _deploymentVersion;
+    private AzCdnProfileDeploymentVersion _deploymentVersion;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCdnProfile"/> class.
@@ -47,8 +47,8 @@ public class AzCdnProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCdnProfileCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnProfileCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnProfileCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCdnProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCdnProfileDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnProfileDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnProfileDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCdnProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCdnProfileListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnProfileListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnProfileListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzCdnProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCdnProfileUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCdnProfileUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCdnProfileUpdateOptions(), executionOptions, cancellationToken);

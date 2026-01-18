@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mongodb commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbMongodb
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbCollection? _collection;
-    private AzCosmosdbMongodbDatabase? _database;
-    private AzCosmosdbMongodbRestorableCollection? _restorableCollection;
-    private AzCosmosdbMongodbRole? _role;
-    private AzCosmosdbMongodbUser? _user;
+    private AzCosmosdbMongodbCollection _collection;
+    private AzCosmosdbMongodbDatabase _database;
+    private AzCosmosdbMongodbRestorableCollection _restorableCollection;
+    private AzCosmosdbMongodbRole _role;
+    private AzCosmosdbMongodbUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodb"/> class.

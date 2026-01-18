@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az logicapp commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzLogicapp
 {
     private readonly ICommand _command;
-    private AzLogicappConfig? _config;
-    private AzLogicappDeployment? _deployment;
+    private AzLogicappConfig _config;
+    private AzLogicappDeployment _deployment;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzLogicapp"/> class.
@@ -53,8 +53,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzLogicappCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzLogicappDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzLogicappListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappListOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzLogicappRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappRestartOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scale(
-        AzLogicappScaleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappScaleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappScaleOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzLogicappStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappStartOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzLogicappStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappStopOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class AzLogicapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzLogicappUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogicappUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogicappUpdateOptions(), executionOptions, cancellationToken);

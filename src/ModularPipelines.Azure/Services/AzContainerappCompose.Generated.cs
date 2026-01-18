@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az compose commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappCompose
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappCompose
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzContainerappComposeCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappComposeCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappComposeCreateOptions(), executionOptions, cancellationToken);

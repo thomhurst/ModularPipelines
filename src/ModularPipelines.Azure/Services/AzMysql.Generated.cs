@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mysql commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysql
 {
     private readonly ICommand _command;
-    private AzMysqlDb? _db;
-    private AzMysqlFlexibleServer? _flexibleServer;
-    private AzMysqlServer? _server;
-    private AzMysqlServerLogs? _serverLogs;
+    private AzMysqlDb _db;
+    private AzMysqlFlexibleServer _flexibleServer;
+    private AzMysqlServer _server;
+    private AzMysqlServerLogs _serverLogs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysql"/> class.

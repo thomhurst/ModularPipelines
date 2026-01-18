@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az metadata commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageBlobMetadata
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageBlobMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageBlobMetadataShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobMetadataShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageBlobMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageBlobMetadataUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobMetadataUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobMetadataUpdateOptions(), executionOptions, cancellationToken);

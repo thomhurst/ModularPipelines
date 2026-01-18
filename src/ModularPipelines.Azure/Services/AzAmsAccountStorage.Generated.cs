@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az storage commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsAccountStorage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsAccountStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAmsAccountStorageAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountStorageAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountStorageAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsAccountStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetAuthentication(
-        AzAmsAccountStorageSetAuthenticationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountStorageSetAuthenticationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountStorageSetAuthenticationOptions(), executionOptions, cancellationToken);

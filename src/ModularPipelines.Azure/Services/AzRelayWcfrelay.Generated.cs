@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az wcfrelay commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelayWcfrelay
 {
     private readonly ICommand _command;
-    private AzRelayWcfrelayAuthorizationRule? _authorizationRule;
+    private AzRelayWcfrelayAuthorizationRule _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayWcfrelay"/> class.
@@ -47,8 +47,8 @@ public class AzRelayWcfrelay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayWcfrelayCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayWcfrelayCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzRelayWcfrelay
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRelayWcfrelayUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayWcfrelayUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayWcfrelayUpdateOptions(), executionOptions, cancellationToken);

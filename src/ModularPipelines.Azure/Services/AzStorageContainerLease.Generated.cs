@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az lease commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageContainerLease
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageContainerLease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Acquire(
-        AzStorageContainerLeaseAcquireOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerLeaseAcquireOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLeaseAcquireOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageContainerLease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Break(
-        AzStorageContainerLeaseBreakOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerLeaseBreakOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLeaseBreakOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageContainerLease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Change(
-        AzStorageContainerLeaseChangeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerLeaseChangeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLeaseChangeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzStorageContainerLease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Release(
-        AzStorageContainerLeaseReleaseOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerLeaseReleaseOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLeaseReleaseOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzStorageContainerLease
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Renew(
-        AzStorageContainerLeaseRenewOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerLeaseRenewOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerLeaseRenewOptions(), executionOptions, cancellationToken);

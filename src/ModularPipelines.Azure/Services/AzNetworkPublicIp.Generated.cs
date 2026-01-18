@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az public-ip commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPublicIp
 {
     private readonly ICommand _command;
-    private AzNetworkPublicIpDdosProtection? _ddosProtection;
-    private AzNetworkPublicIpPrefix? _prefix;
+    private AzNetworkPublicIpDdosProtection _ddosProtection;
+    private AzNetworkPublicIpPrefix _prefix;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPublicIp"/> class.
@@ -53,8 +53,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkPublicIpCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPublicIpDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkPublicIpListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpListOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkPublicIpShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpShowOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkPublicIpUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpUpdateOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class AzNetworkPublicIp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkPublicIpWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPublicIpWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPublicIpWaitOptions(), executionOptions, cancellationToken);

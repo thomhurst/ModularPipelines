@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageAccountNetworkRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageAccountNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzStorageAccountNetworkRuleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountNetworkRuleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageAccountNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountNetworkRuleListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountNetworkRuleListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountNetworkRuleListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageAccountNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzStorageAccountNetworkRuleRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountNetworkRuleRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountNetworkRuleRemoveOptions(), executionOptions, cancellationToken);

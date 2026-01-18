@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az linked-storage commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalyticsWorkspaceLinkedStorage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorLogAnalyticsWorkspaceLinkedStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceLinkedStorageDeleteOptions(), executionOptions, cancellationToken);

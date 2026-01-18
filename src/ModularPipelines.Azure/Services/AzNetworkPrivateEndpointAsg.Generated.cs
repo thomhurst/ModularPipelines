@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az asg commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPrivateEndpointAsg
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkPrivateEndpointAsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkPrivateEndpointAsgAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointAsgAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointAsgAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkPrivateEndpointAsg
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkPrivateEndpointAsgRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateEndpointAsgRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateEndpointAsgRemoveOptions(), executionOptions, cancellationToken);

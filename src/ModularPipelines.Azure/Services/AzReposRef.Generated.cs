@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ref commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposRef
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposRef
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposRefCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposRefCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposRefCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposRef
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzReposRefDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposRefDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposRefDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzReposRef
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzReposRefListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposRefListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposRefListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzReposRef
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Lock(
-        AzReposRefLockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposRefLockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposRefLockOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzReposRef
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unlock(
-        AzReposRefUnlockOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposRefUnlockOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposRefUnlockOptions(), executionOptions, cancellationToken);

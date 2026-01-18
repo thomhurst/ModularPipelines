@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az graph commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbGremlinGraph
 {
     private readonly ICommand _command;
-    private AzCosmosdbGremlinGraphThroughput? _throughput;
+    private AzCosmosdbGremlinGraphThroughput _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbGremlinGraph"/> class.
@@ -47,8 +47,8 @@ public class AzCosmosdbGremlinGraph
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbGremlinGraphCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbGremlinGraphCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinGraphCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCosmosdbGremlinGraph
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbGremlinGraphDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbGremlinGraphDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinGraphDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCosmosdbGremlinGraph
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbGremlinGraphRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbGremlinGraphRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinGraphRestoreOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzCosmosdbGremlinGraph
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCosmosdbGremlinGraphUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbGremlinGraphUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbGremlinGraphUpdateOptions(), executionOptions, cancellationToken);

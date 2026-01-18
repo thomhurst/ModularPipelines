@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az stack commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStack
 {
     private readonly ICommand _command;
-    private AzStackGroup? _group;
-    private AzStackMg? _mg;
-    private AzStackSub? _sub;
+    private AzStackGroup _group;
+    private AzStackMg _mg;
+    private AzStackSub _sub;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStack"/> class.

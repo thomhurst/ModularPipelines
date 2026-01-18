@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az secret commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfdSecret
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAfdSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAfdSecretCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecretCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecretCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAfdSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAfdSecretDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecretDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecretDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAfdSecret
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAfdSecretUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdSecretUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdSecretUpdateOptions(), executionOptions, cancellationToken);

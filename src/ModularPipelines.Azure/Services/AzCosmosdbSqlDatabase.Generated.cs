@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az database commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbSqlDatabase
 {
     private readonly ICommand _command;
-    private AzCosmosdbSqlDatabaseThroughput? _throughput;
+    private AzCosmosdbSqlDatabaseThroughput _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbSqlDatabase"/> class.
@@ -47,8 +47,8 @@ public class AzCosmosdbSqlDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbSqlDatabaseCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlDatabaseCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlDatabaseCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCosmosdbSqlDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbSqlDatabaseDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlDatabaseDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlDatabaseDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzCosmosdbSqlDatabase
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzCosmosdbSqlDatabaseRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbSqlDatabaseRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbSqlDatabaseRestoreOptions(), executionOptions, cancellationToken);

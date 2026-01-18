@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az results commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityVaSqlResults
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSecurityVaSqlResults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSecurityVaSqlResultsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlResultsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlResultsListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSecurityVaSqlResults
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecurityVaSqlResultsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityVaSqlResultsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityVaSqlResultsShowOptions(), executionOptions, cancellationToken);

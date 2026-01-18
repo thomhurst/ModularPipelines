@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az workspace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseWorkspace
 {
     private readonly ICommand _command;
-    private AzSynapseWorkspaceFirewallRule? _firewallRule;
-    private AzSynapseWorkspaceKey? _key;
-    private AzSynapseWorkspaceManagedIdentity? _managedIdentity;
+    private AzSynapseWorkspaceFirewallRule _firewallRule;
+    private AzSynapseWorkspaceKey _key;
+    private AzSynapseWorkspaceManagedIdentity _managedIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseWorkspace"/> class.
@@ -59,8 +59,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Activate(
-        AzSynapseWorkspaceActivateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceActivateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceActivateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceCreateOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceDeleteOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseWorkspaceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceListOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzSynapseWorkspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseWorkspaceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceUpdateOptions(), executionOptions, cancellationToken);

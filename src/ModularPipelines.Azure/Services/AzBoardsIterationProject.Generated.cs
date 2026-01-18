@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az project commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBoardsIterationProject
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBoardsIterationProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBoardsIterationProjectCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsIterationProjectCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBoardsIterationProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBoardsIterationProjectDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsIterationProjectDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBoardsIterationProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBoardsIterationProjectListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsIterationProjectListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBoardsIterationProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBoardsIterationProjectShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsIterationProjectShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzBoardsIterationProject
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBoardsIterationProjectUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsIterationProjectUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsIterationProjectUpdateOptions(), executionOptions, cancellationToken);

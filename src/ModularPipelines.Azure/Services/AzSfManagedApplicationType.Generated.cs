@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-application-type commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedApplicationType
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfManagedApplicationType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedApplicationTypeCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedApplicationTypeCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedApplicationTypeCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfManagedApplicationType
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedApplicationTypeUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedApplicationTypeUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedApplicationTypeUpdateOptions(), executionOptions, cancellationToken);

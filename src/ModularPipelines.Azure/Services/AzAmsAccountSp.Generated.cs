@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sp commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsAccountSp
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsAccountSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAccountSpCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountSpCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountSpCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsAccountSp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetCredentials(
-        AzAmsAccountSpResetCredentialsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAccountSpResetCredentialsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAccountSpResetCredentialsOptions(), executionOptions, cancellationToken);

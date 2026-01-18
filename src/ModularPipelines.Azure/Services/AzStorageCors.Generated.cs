@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cors commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageCors
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzStorageCorsAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageCorsAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzStorageCorsClearOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageCorsClearOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsClearOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageCors
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageCorsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageCorsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCorsListOptions(), executionOptions, cancellationToken);

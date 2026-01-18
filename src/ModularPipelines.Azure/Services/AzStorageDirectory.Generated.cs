@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az directory commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageDirectory
 {
     private readonly ICommand _command;
-    private AzStorageDirectoryMetadata? _metadata;
+    private AzStorageDirectoryMetadata _metadata;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageDirectory"/> class.
@@ -47,8 +47,8 @@ public class AzStorageDirectory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageDirectoryCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageDirectoryCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageDirectoryCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzStorageDirectory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageDirectoryDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageDirectoryDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageDirectoryDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzStorageDirectory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        AzStorageDirectoryExistsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageDirectoryExistsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageDirectoryExistsOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzStorageDirectory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageDirectoryListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageDirectoryListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageDirectoryListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzStorageDirectory
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageDirectoryShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageDirectoryShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageDirectoryShowOptions(), executionOptions, cancellationToken);

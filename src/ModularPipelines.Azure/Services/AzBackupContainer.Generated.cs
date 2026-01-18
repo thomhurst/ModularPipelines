@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupContainer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzBackupContainerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupContainerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBackupContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Register(
-        AzBackupContainerRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupContainerRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerRegisterOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBackupContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReRegister(
-        AzBackupContainerReRegisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupContainerReRegisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerReRegisterOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzBackupContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBackupContainerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupContainerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzBackupContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unregister(
-        AzBackupContainerUnregisterOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupContainerUnregisterOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupContainerUnregisterOptions(), executionOptions, cancellationToken);

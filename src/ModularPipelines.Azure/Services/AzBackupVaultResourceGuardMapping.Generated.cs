@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az resource-guard-mapping commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupVaultResourceGuardMapping
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupVaultResourceGuardMapping
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBackupVaultResourceGuardMappingDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultResourceGuardMappingDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultResourceGuardMappingDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBackupVaultResourceGuardMapping
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBackupVaultResourceGuardMappingUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultResourceGuardMappingUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultResourceGuardMappingUpdateOptions(), executionOptions, cancellationToken);

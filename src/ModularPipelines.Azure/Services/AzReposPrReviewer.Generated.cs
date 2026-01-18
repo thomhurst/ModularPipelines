@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az reviewer commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPrReviewer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPrReviewer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzReposPrReviewerAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrReviewerAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrReviewerAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPrReviewer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzReposPrReviewerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrReviewerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrReviewerListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzReposPrReviewer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzReposPrReviewerRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPrReviewerRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPrReviewerRemoveOptions(), executionOptions, cancellationToken);

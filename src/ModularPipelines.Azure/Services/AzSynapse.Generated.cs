@@ -14,32 +14,32 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az synapse commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapse
 {
     private readonly ICommand _command;
-    private AzSynapseActivityRun? _activityRun;
-    private AzSynapseDataFlow? _dataFlow;
-    private AzSynapseDataset? _dataset;
-    private AzSynapseIntegrationRuntime? _integrationRuntime;
-    private AzSynapseIntegrationRuntimeNode? _integrationRuntimeNode;
-    private AzSynapseKqlScript? _kqlScript;
-    private AzSynapseKusto? _kusto;
-    private AzSynapseLinkConnection? _linkConnection;
-    private AzSynapseLinkedService? _linkedService;
-    private AzSynapseManagedPrivateEndpoints? _managedPrivateEndpoints;
-    private AzSynapseNotebook? _notebook;
-    private AzSynapsePipeline? _pipeline;
-    private AzSynapsePipelineRun? _pipelineRun;
-    private AzSynapseRole? _role;
-    private AzSynapseSpark? _spark;
-    private AzSynapseSparkJobDefinition? _sparkJobDefinition;
-    private AzSynapseSql? _sql;
-    private AzSynapseSqlScript? _sqlScript;
-    private AzSynapseTrigger? _trigger;
-    private AzSynapseTriggerRun? _triggerRun;
-    private AzSynapseWorkspace? _workspace;
-    private AzSynapseWorkspacePackage? _workspacePackage;
+    private AzSynapseActivityRun _activityRun;
+    private AzSynapseDataFlow _dataFlow;
+    private AzSynapseDataset _dataset;
+    private AzSynapseIntegrationRuntime _integrationRuntime;
+    private AzSynapseIntegrationRuntimeNode _integrationRuntimeNode;
+    private AzSynapseKqlScript _kqlScript;
+    private AzSynapseKusto _kusto;
+    private AzSynapseLinkConnection _linkConnection;
+    private AzSynapseLinkedService _linkedService;
+    private AzSynapseManagedPrivateEndpoints _managedPrivateEndpoints;
+    private AzSynapseNotebook _notebook;
+    private AzSynapsePipeline _pipeline;
+    private AzSynapsePipelineRun _pipelineRun;
+    private AzSynapseRole _role;
+    private AzSynapseSpark _spark;
+    private AzSynapseSparkJobDefinition _sparkJobDefinition;
+    private AzSynapseSql _sql;
+    private AzSynapseSqlScript _sqlScript;
+    private AzSynapseTrigger _trigger;
+    private AzSynapseTriggerRun _triggerRun;
+    private AzSynapseWorkspace _workspace;
+    private AzSynapseWorkspacePackage _workspacePackage;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapse"/> class.

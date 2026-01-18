@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az definition commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRoleDefinition
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzRoleDefinitionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRoleDefinitionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzRoleDefinitionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRoleDefinitionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzRoleDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzRoleDefinitionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRoleDefinitionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRoleDefinitionShowOptions(), executionOptions, cancellationToken);

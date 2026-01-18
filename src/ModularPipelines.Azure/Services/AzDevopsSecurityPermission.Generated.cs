@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az permission commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsSecurityPermission
 {
     private readonly ICommand _command;
-    private AzDevopsSecurityPermissionNamespace? _namespace;
+    private AzDevopsSecurityPermissionNamespace _namespace;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDevopsSecurityPermission"/> class.
@@ -47,8 +47,8 @@ public class AzDevopsSecurityPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsSecurityPermissionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionListOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzDevopsSecurityPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ResetAll(
-        AzDevopsSecurityPermissionResetAllOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionResetAllOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionResetAllOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzDevopsSecurityPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzDevopsSecurityPermissionResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionResetOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzDevopsSecurityPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsSecurityPermissionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionShowOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzDevopsSecurityPermission
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsSecurityPermissionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsSecurityPermissionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsSecurityPermissionUpdateOptions(), executionOptions, cancellationToken);

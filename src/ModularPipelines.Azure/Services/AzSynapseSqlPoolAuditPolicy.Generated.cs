@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az audit-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseSqlPoolAuditPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseSqlPoolAuditPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSqlPoolAuditPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSqlPoolAuditPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolAuditPolicyUpdateOptions(), executionOptions, cancellationToken);

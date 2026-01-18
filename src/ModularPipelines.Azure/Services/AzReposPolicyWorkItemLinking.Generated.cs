@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az work-item-linking commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzReposPolicyWorkItemLinking
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzReposPolicyWorkItemLinking
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzReposPolicyWorkItemLinkingCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyWorkItemLinkingCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyWorkItemLinkingCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzReposPolicyWorkItemLinking
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzReposPolicyWorkItemLinkingUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzReposPolicyWorkItemLinkingUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzReposPolicyWorkItemLinkingUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az inbound-nat-pool commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkLbInboundNatPool
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkLbInboundNatPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkLbInboundNatPoolCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbInboundNatPoolCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbInboundNatPoolCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkLbInboundNatPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkLbInboundNatPoolDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbInboundNatPoolDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbInboundNatPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkLbInboundNatPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkLbInboundNatPoolUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkLbInboundNatPoolUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkLbInboundNatPoolUpdateOptions(), executionOptions, cancellationToken);

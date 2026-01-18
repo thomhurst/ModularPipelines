@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az validator commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzImageBuilderValidator
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzImageBuilderValidator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzImageBuilderValidatorAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderValidatorAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzImageBuilderValidator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzImageBuilderValidatorRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderValidatorRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzImageBuilderValidator
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzImageBuilderValidatorShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderValidatorShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderValidatorShowOptions(), executionOptions, cancellationToken);

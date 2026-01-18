@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az feature commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFeature
 {
     private readonly ICommand _command;
-    private AzFeatureRegistration? _registration;
+    private AzFeatureRegistration _registration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzFeature"/> class.
@@ -47,8 +47,8 @@ public class AzFeature
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzFeatureListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFeatureListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFeatureListOptions(), executionOptions, cancellationToken);

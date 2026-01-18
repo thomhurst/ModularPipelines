@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az table commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorLogAnalyticsWorkspaceTable
 {
     private readonly ICommand _command;
-    private AzMonitorLogAnalyticsWorkspaceTableRestore? _restore;
-    private AzMonitorLogAnalyticsWorkspaceTableSearchJob? _searchJob;
+    private AzMonitorLogAnalyticsWorkspaceTableRestore _restore;
+    private AzMonitorLogAnalyticsWorkspaceTableSearchJob _searchJob;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMonitorLogAnalyticsWorkspaceTable"/> class.
@@ -53,8 +53,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorLogAnalyticsWorkspaceTableCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorLogAnalyticsWorkspaceTableDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzMonitorLogAnalyticsWorkspaceTable
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMonitorLogAnalyticsWorkspaceTableUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorLogAnalyticsWorkspaceTableUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorLogAnalyticsWorkspaceTableUpdateOptions(), executionOptions, cancellationToken);

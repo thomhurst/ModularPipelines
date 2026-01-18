@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az assignment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedservicesAssignment
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzManagedservicesAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedservicesAssignmentCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesAssignmentCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzManagedservicesAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedservicesAssignmentDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesAssignmentDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzManagedservicesAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzManagedservicesAssignmentListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesAssignmentListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzManagedservicesAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzManagedservicesAssignmentShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesAssignmentShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzManagedservicesAssignment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzManagedservicesAssignmentWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesAssignmentWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesAssignmentWaitOptions(), executionOptions, cancellationToken);

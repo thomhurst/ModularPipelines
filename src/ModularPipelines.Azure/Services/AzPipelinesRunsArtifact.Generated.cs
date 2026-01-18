@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az artifact commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesRunsArtifact
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPipelinesRunsArtifact
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Download(
-        AzPipelinesRunsArtifactDownloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesRunsArtifactDownloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsArtifactDownloadOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPipelinesRunsArtifact
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesRunsArtifactListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesRunsArtifactListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsArtifactListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPipelinesRunsArtifact
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzPipelinesRunsArtifactUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesRunsArtifactUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsArtifactUploadOptions(), executionOptions, cancellationToken);

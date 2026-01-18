@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az domain commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridDomain
 {
     private readonly ICommand _command;
-    private AzEventgridDomainEventSubscription? _eventSubscription;
-    private AzEventgridDomainTopic? _topic;
+    private AzEventgridDomainEventSubscription _eventSubscription;
+    private AzEventgridDomainTopic _topic;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridDomain"/> class.
@@ -53,8 +53,8 @@ public class AzEventgridDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzEventgridDomainCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridDomainCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzEventgridDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridDomainListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridDomainListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainListOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzEventgridDomain
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzEventgridDomainUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridDomainUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainUpdateOptions(), executionOptions, cancellationToken);

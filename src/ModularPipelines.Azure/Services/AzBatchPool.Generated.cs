@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az pool commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchPool
 {
     private readonly ICommand _command;
-    private AzBatchPoolAutoscale? _autoscale;
+    private AzBatchPoolAutoscale _autoscale;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchPool"/> class.
@@ -47,8 +47,8 @@ public class AzBatchPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchPoolCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPoolCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzBatchPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchPoolDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPoolDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzBatchPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchPoolResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPoolResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolResetOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzBatchPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Resize(
-        AzBatchPoolResizeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPoolResizeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolResizeOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzBatchPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzBatchPoolSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchPoolSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchPoolSetOptions(), executionOptions, cancellationToken);

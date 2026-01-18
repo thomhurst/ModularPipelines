@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseWorkspaceManagedIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseWorkspaceManagedIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GrantSqlAccess(
-        AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityGrantSqlAccessOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseWorkspaceManagedIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RevokeSqlAccess(
-        AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceManagedIdentityRevokeSqlAccessOptions(), executionOptions, cancellationToken);

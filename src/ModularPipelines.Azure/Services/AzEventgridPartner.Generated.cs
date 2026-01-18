@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az partner commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridPartner
 {
     private readonly ICommand _command;
-    private AzEventgridPartnerConfiguration? _configuration;
-    private AzEventgridPartnerDestination? _destination;
-    private AzEventgridPartnerNamespace? _namespace;
-    private AzEventgridPartnerRegistration? _registration;
-    private AzEventgridPartnerTopic? _topic;
-    private AzEventgridPartnerVerifiedPartner? _verifiedPartner;
+    private AzEventgridPartnerConfiguration _configuration;
+    private AzEventgridPartnerDestination _destination;
+    private AzEventgridPartnerNamespace _namespace;
+    private AzEventgridPartnerRegistration _registration;
+    private AzEventgridPartnerTopic _topic;
+    private AzEventgridPartnerVerifiedPartner _verifiedPartner;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridPartner"/> class.

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkExpressRoutePeeringConnection
 {
     private readonly ICommand _command;
-    private AzNetworkExpressRoutePeeringConnectionIpv6Config? _ipv6Config;
+    private AzNetworkExpressRoutePeeringConnectionIpv6Config _ipv6Config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkExpressRoutePeeringConnection"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkExpressRoutePeeringConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkExpressRoutePeeringConnectionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkExpressRoutePeeringConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkExpressRoutePeeringConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkExpressRoutePeeringConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkExpressRoutePeeringConnectionDeleteOptions(), executionOptions, cancellationToken);

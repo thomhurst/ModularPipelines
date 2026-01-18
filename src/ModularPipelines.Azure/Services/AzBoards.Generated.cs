@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az boards commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBoards
 {
     private readonly ICommand _command;
-    private AzBoardsArea? _area;
-    private AzBoardsIteration? _iteration;
-    private AzBoardsWorkItem? _workItem;
+    private AzBoardsArea _area;
+    private AzBoardsIteration _iteration;
+    private AzBoardsWorkItem _workItem;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBoards"/> class.
@@ -59,8 +59,8 @@ public class AzBoards
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Query(
-        AzBoardsQueryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBoardsQueryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBoardsQueryOptions(), executionOptions, cancellationToken);

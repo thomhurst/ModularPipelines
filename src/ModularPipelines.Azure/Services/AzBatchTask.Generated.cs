@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az task commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchTask
 {
     private readonly ICommand _command;
-    private AzBatchTaskFile? _file;
+    private AzBatchTaskFile _file;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBatchTask"/> class.
@@ -47,8 +47,8 @@ public class AzBatchTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchTaskCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchTaskCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchTaskCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzBatchTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchTaskDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchTaskDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchTaskDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzBatchTask
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchTaskResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchTaskResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchTaskResetOptions(), executionOptions, cancellationToken);

@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sf commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSf
 {
     private readonly ICommand _command;
-    private AzSfApplication? _application;
-    private AzSfCluster? _cluster;
-    private AzSfManagedApplication? _managedApplication;
-    private AzSfManagedApplicationType? _managedApplicationType;
-    private AzSfManagedCluster? _managedCluster;
-    private AzSfManagedNodeType? _managedNodeType;
-    private AzSfManagedService? _managedService;
-    private AzSfService? _service;
+    private AzSfApplication _application;
+    private AzSfCluster _cluster;
+    private AzSfManagedApplication _managedApplication;
+    private AzSfManagedApplicationType _managedApplicationType;
+    private AzSfManagedCluster _managedCluster;
+    private AzSfManagedNodeType _managedNodeType;
+    private AzSfManagedService _managedService;
+    private AzSfService _service;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSf"/> class.

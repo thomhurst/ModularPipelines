@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az endpoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkTrafficManagerEndpoint
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkTrafficManagerEndpointCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkTrafficManagerEndpointCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkTrafficManagerEndpointListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkTrafficManagerEndpointListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkTrafficManagerEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkTrafficManagerEndpointUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkTrafficManagerEndpointUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkTrafficManagerEndpointUpdateOptions(), executionOptions, cancellationToken);

@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az nic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkNic
 {
     private readonly ICommand _command;
-    private AzNetworkNicIpConfig? _ipConfig;
+    private AzNetworkNicIpConfig _ipConfig;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkNic"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkNicCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkNicDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEffectiveNsg(
-        AzNetworkNicListEffectiveNsgOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicListEffectiveNsgOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListEffectiveNsgOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkNicListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowEffectiveRouteTable(
-        AzNetworkNicShowEffectiveRouteTableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicShowEffectiveRouteTableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowEffectiveRouteTableOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkNicShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicShowOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkNicUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicUpdateOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class AzNetworkNic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkNicWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkNicWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkNicWaitOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deployment commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappLogDeployment
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappLogDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappLogDeploymentListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappLogDeploymentListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogDeploymentListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappLogDeployment
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzWebappLogDeploymentShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappLogDeploymentShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappLogDeploymentShowOptions(), executionOptions, cancellationToken);

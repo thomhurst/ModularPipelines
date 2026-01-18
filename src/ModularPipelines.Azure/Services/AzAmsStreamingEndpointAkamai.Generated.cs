@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az akamai commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsStreamingEndpointAkamai
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsStreamingEndpointAkamai
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzAmsStreamingEndpointAkamaiAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsStreamingEndpointAkamaiAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsStreamingEndpointAkamaiAddOptions(), executionOptions, cancellationToken);

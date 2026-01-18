@@ -14,39 +14,39 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetwork
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGateway? _applicationGateway;
-    private AzNetworkAsg? _asg;
-    private AzNetworkCrossRegionLb? _crossRegionLb;
-    private AzNetworkCustomIp? _customIp;
-    private AzNetworkDdosProtection? _ddosProtection;
-    private AzNetworkDns? _dns;
-    private AzNetworkExpressRoute? _expressRoute;
-    private AzNetworkLb? _lb;
-    private AzNetworkLocalGateway? _localGateway;
-    private AzNetworkNat? _nat;
-    private AzNetworkNetworkWatcher? _networkWatcher;
-    private AzNetworkNic? _nic;
-    private AzNetworkNsg? _nsg;
-    private AzNetworkPrivateDns? _privateDns;
-    private AzNetworkPrivateEndpoint? _privateEndpoint;
-    private AzNetworkPrivateEndpointConnection? _privateEndpointConnection;
-    private AzNetworkPrivateLinkResource? _privateLinkResource;
-    private AzNetworkPrivateLinkService? _privateLinkService;
-    private AzNetworkProfile? _profile;
-    private AzNetworkPublicIp? _publicIp;
-    private AzNetworkRouteserver? _routeserver;
-    private AzNetworkRouteTable? _routeTable;
-    private AzNetworkServiceEndpoint? _serviceEndpoint;
-    private AzNetworkTrafficManager? _trafficManager;
-    private AzNetworkVirtualAppliance? _virtualAppliance;
-    private AzNetworkVnet? _vnet;
-    private AzNetworkVnetGateway? _vnetGateway;
-    private AzNetworkVpnConnection? _vpnConnection;
-    private AzNetworkWatcher? _watcher;
+    private AzNetworkApplicationGateway _applicationGateway;
+    private AzNetworkAsg _asg;
+    private AzNetworkCrossRegionLb _crossRegionLb;
+    private AzNetworkCustomIp _customIp;
+    private AzNetworkDdosProtection _ddosProtection;
+    private AzNetworkDns _dns;
+    private AzNetworkExpressRoute _expressRoute;
+    private AzNetworkLb _lb;
+    private AzNetworkLocalGateway _localGateway;
+    private AzNetworkNat _nat;
+    private AzNetworkNetworkWatcher _networkWatcher;
+    private AzNetworkNic _nic;
+    private AzNetworkNsg _nsg;
+    private AzNetworkPrivateDns _privateDns;
+    private AzNetworkPrivateEndpoint _privateEndpoint;
+    private AzNetworkPrivateEndpointConnection _privateEndpointConnection;
+    private AzNetworkPrivateLinkResource _privateLinkResource;
+    private AzNetworkPrivateLinkService _privateLinkService;
+    private AzNetworkProfile _profile;
+    private AzNetworkPublicIp _publicIp;
+    private AzNetworkRouteserver _routeserver;
+    private AzNetworkRouteTable _routeTable;
+    private AzNetworkServiceEndpoint _serviceEndpoint;
+    private AzNetworkTrafficManager _trafficManager;
+    private AzNetworkVirtualAppliance _virtualAppliance;
+    private AzNetworkVnet _vnet;
+    private AzNetworkVnetGateway _vnetGateway;
+    private AzNetworkVpnConnection _vpnConnection;
+    private AzNetworkWatcher _watcher;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetwork"/> class.
@@ -215,8 +215,8 @@ public class AzNetwork
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListServiceAliases(
-        AzNetworkListServiceAliasesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkListServiceAliasesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkListServiceAliasesOptions(), executionOptions, cancellationToken);

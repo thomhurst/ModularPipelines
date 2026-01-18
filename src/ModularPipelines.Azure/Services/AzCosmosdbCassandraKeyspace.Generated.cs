@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az keyspace commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbCassandraKeyspace
 {
     private readonly ICommand _command;
-    private AzCosmosdbCassandraKeyspaceThroughput? _throughput;
+    private AzCosmosdbCassandraKeyspaceThroughput _throughput;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbCassandraKeyspace"/> class.
@@ -47,8 +47,8 @@ public class AzCosmosdbCassandraKeyspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCosmosdbCassandraKeyspaceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraKeyspaceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraKeyspaceCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzCosmosdbCassandraKeyspace
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzCosmosdbCassandraKeyspaceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbCassandraKeyspaceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbCassandraKeyspaceDeleteOptions(), executionOptions, cancellationToken);

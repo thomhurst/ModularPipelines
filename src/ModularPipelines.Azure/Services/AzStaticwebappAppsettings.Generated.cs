@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az appsettings commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStaticwebappAppsettings
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStaticwebappAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStaticwebappAppsettingsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappAppsettingsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappAppsettingsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStaticwebappAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStaticwebappAppsettingsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappAppsettingsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappAppsettingsListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStaticwebappAppsettings
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzStaticwebappAppsettingsSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStaticwebappAppsettingsSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStaticwebappAppsettingsSetOptions(), executionOptions, cancellationToken);

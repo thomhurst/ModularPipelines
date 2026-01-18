@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az federated-credential commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzIdentityFederatedCredential
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzIdentityFederatedCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIdentityFederatedCredentialDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIdentityFederatedCredentialDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityFederatedCredentialDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzIdentityFederatedCredential
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIdentityFederatedCredentialListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIdentityFederatedCredentialListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIdentityFederatedCredentialListOptions(), executionOptions, cancellationToken);

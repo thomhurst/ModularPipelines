@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az local-user commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageAccountLocalUser
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageAccountLocalUserCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountLocalUserCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageAccountLocalUserListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountLocalUserListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageAccountLocalUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountLocalUserUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountLocalUserUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountLocalUserUpdateOptions(), executionOptions, cancellationToken);

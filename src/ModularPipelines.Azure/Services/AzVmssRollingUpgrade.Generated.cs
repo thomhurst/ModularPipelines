@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rolling-upgrade commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmssRollingUpgrade
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmssRollingUpgrade
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzVmssRollingUpgradeCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssRollingUpgradeCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmssRollingUpgrade
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzVmssRollingUpgradeStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssRollingUpgradeStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssRollingUpgradeStartOptions(), executionOptions, cancellationToken);

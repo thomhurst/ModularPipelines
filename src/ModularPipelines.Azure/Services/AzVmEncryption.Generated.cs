@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az encryption commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmEncryption
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmEncryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzVmEncryptionDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmEncryptionDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionDisableOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmEncryption
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzVmEncryptionEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmEncryptionEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmEncryptionEnableOptions(), executionOptions, cancellationToken);

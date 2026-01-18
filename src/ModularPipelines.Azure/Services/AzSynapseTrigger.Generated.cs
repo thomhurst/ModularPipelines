@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az trigger commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseTrigger
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseTriggerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseTriggerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSynapseTriggerStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerStartOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzSynapseTriggerStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerStopOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SubscribeToEvent(
-        AzSynapseTriggerSubscribeToEventOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerSubscribeToEventOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerSubscribeToEventOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UnsubscribeFromEvent(
-        AzSynapseTriggerUnsubscribeFromEventOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerUnsubscribeFromEventOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerUnsubscribeFromEventOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzSynapseTrigger
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseTriggerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseTriggerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseTriggerUpdateOptions(), executionOptions, cancellationToken);

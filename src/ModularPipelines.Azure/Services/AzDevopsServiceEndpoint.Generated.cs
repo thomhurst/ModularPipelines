@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az service-endpoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsServiceEndpoint
 {
     private readonly ICommand _command;
-    private AzDevopsServiceEndpointAzurerm? _azurerm;
-    private AzDevopsServiceEndpointGithub? _github;
+    private AzDevopsServiceEndpointAzurerm _azurerm;
+    private AzDevopsServiceEndpointGithub _github;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDevopsServiceEndpoint"/> class.
@@ -53,8 +53,8 @@ public class AzDevopsServiceEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDevopsServiceEndpointCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsServiceEndpointCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzDevopsServiceEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDevopsServiceEndpointDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsServiceEndpointDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointDeleteOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzDevopsServiceEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsServiceEndpointListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsServiceEndpointListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointListOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzDevopsServiceEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsServiceEndpointShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsServiceEndpointShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointShowOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzDevopsServiceEndpoint
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsServiceEndpointUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsServiceEndpointUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsServiceEndpointUpdateOptions(), executionOptions, cancellationToken);

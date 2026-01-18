@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az pool commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetappfilesPool
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetappfilesPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetappfilesPoolCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesPoolCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetappfilesPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetappfilesPoolDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesPoolDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetappfilesPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetappfilesPoolUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetappfilesPoolUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetappfilesPoolUpdateOptions(), executionOptions, cancellationToken);

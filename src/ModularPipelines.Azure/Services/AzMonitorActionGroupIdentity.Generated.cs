@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorActionGroupIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorActionGroupIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzMonitorActionGroupIdentityRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorActionGroupIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorActionGroupIdentityRemoveOptions(), executionOptions, cancellationToken);

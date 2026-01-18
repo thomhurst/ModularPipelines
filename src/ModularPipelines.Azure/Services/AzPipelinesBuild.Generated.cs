@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az build commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesBuild
 {
     private readonly ICommand _command;
-    private AzPipelinesBuildDefinition? _definition;
-    private AzPipelinesBuildTag? _tag;
+    private AzPipelinesBuildDefinition _definition;
+    private AzPipelinesBuildTag _tag;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPipelinesBuild"/> class.
@@ -53,8 +53,8 @@ public class AzPipelinesBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzPipelinesBuildCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildCancelOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzPipelinesBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesBuildListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildListOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzPipelinesBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Queue(
-        AzPipelinesBuildQueueOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildQueueOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildQueueOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzPipelinesBuild
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPipelinesBuildShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildShowOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az peering commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkRouteserverPeering
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkRouteserverPeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkRouteserverPeeringCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkRouteserverPeeringCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverPeeringCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkRouteserverPeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkRouteserverPeeringDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkRouteserverPeeringDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverPeeringDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzNetworkRouteserverPeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAdvertisedRoutes(
-        AzNetworkRouteserverPeeringListAdvertisedRoutesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkRouteserverPeeringListAdvertisedRoutesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverPeeringListAdvertisedRoutesOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzNetworkRouteserverPeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLearnedRoutes(
-        AzNetworkRouteserverPeeringListLearnedRoutesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkRouteserverPeeringListLearnedRoutesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverPeeringListLearnedRoutesOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzNetworkRouteserverPeering
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkRouteserverPeeringUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkRouteserverPeeringUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkRouteserverPeeringUpdateOptions(), executionOptions, cancellationToken);

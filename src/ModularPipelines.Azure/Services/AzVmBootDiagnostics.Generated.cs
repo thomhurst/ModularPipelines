@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az boot-diagnostics commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmBootDiagnostics
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmBootDiagnostics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzVmBootDiagnosticsEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmBootDiagnosticsEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsEnableOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmBootDiagnostics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetBootLogUris(
-        AzVmBootDiagnosticsGetBootLogUrisOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmBootDiagnosticsGetBootLogUrisOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmBootDiagnosticsGetBootLogUrisOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az threat-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseSqlPoolThreatPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseSqlPoolThreatPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseSqlPoolThreatPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSqlPoolThreatPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSqlPoolThreatPolicyUpdateOptions(), executionOptions, cancellationToken);

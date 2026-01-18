@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az app commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzIotCentralApp
 {
     private readonly ICommand _command;
-    private AzIotCentralAppIdentity? _identity;
-    private AzIotCentralAppPrivateEndpointConnection? _privateEndpointConnection;
-    private AzIotCentralAppPrivateLinkResource? _privateLinkResource;
+    private AzIotCentralAppIdentity _identity;
+    private AzIotCentralAppPrivateEndpointConnection _privateEndpointConnection;
+    private AzIotCentralAppPrivateLinkResource _privateLinkResource;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzIotCentralApp"/> class.
@@ -59,8 +59,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotCentralAppCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotCentralAppCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzIotCentralAppDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotCentralAppDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppDeleteOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzIotCentralAppListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotCentralAppListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppListOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzIotCentralApp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzIotCentralAppShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotCentralAppShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotCentralAppShowOptions(), executionOptions, cancellationToken);

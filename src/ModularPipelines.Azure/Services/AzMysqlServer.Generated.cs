@@ -14,17 +14,17 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az server commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlServer
 {
     private readonly ICommand _command;
-    private AzMysqlServerAdAdmin? _adAdmin;
-    private AzMysqlServerConfiguration? _configuration;
-    private AzMysqlServerFirewallRule? _firewallRule;
-    private AzMysqlServerKey? _key;
-    private AzMysqlServerPrivateEndpointConnection? _privateEndpointConnection;
-    private AzMysqlServerReplica? _replica;
-    private AzMysqlServerVnetRule? _vnetRule;
+    private AzMysqlServerAdAdmin _adAdmin;
+    private AzMysqlServerConfiguration _configuration;
+    private AzMysqlServerFirewallRule _firewallRule;
+    private AzMysqlServerKey _key;
+    private AzMysqlServerPrivateEndpointConnection _privateEndpointConnection;
+    private AzMysqlServerReplica _replica;
+    private AzMysqlServerVnetRule _vnetRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMysqlServer"/> class.
@@ -83,8 +83,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMysqlServerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerCreateOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMysqlServerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerDeleteOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Georestore(
-        AzMysqlServerGeorestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerGeorestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerGeorestoreOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMysqlServerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerListOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzMysqlServerRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerRestoreOptions(), executionOptions, cancellationToken);
@@ -158,8 +158,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowConnectionString(
-        AzMysqlServerShowConnectionStringOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerShowConnectionStringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerShowConnectionStringOptions(), executionOptions, cancellationToken);
@@ -173,8 +173,8 @@ public class AzMysqlServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzMysqlServerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlServerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlServerUpdateOptions(), executionOptions, cancellationToken);

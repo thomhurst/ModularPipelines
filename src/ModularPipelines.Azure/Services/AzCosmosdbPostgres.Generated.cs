@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az postgres commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbPostgres
 {
     private readonly ICommand _command;
-    private AzCosmosdbPostgresCluster? _cluster;
-    private AzCosmosdbPostgresConfiguration? _configuration;
-    private AzCosmosdbPostgresFirewallRule? _firewallRule;
-    private AzCosmosdbPostgresRole? _role;
+    private AzCosmosdbPostgresCluster _cluster;
+    private AzCosmosdbPostgresConfiguration _configuration;
+    private AzCosmosdbPostgresFirewallRule _firewallRule;
+    private AzCosmosdbPostgresRole _role;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbPostgres"/> class.

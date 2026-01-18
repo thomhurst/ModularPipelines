@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az logging commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageLogging
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageLoggingShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageLoggingShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageLoggingShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageLogging
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageLoggingUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageLoggingUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageLoggingUpdateOptions(), executionOptions, cancellationToken);

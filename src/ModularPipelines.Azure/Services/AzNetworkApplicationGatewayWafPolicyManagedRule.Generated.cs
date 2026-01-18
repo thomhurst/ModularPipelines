@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managed-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGatewayWafPolicyManagedRule
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleException? _exception;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion? _exclusion;
-    private AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSet? _ruleSet;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleException _exception;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleExclusion _exclusion;
+    private AzNetworkApplicationGatewayWafPolicyManagedRuleRuleSet _ruleSet;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGatewayWafPolicyManagedRule"/> class.

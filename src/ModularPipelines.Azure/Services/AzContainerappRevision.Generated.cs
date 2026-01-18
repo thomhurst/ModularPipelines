@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az revision commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappRevision
 {
     private readonly ICommand _command;
-    private AzContainerappRevisionLabel? _label;
+    private AzContainerappRevisionLabel _label;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzContainerappRevision"/> class.
@@ -47,8 +47,8 @@ public class AzContainerappRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        AzContainerappRevisionCopyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappRevisionCopyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappRevisionCopyOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzContainerappRevision
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzContainerappRevisionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappRevisionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappRevisionListOptions(), executionOptions, cancellationToken);

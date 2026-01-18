@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az role commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultRole
 {
     private readonly ICommand _command;
-    private AzKeyvaultRoleAssignment? _assignment;
-    private AzKeyvaultRoleDefinition? _definition;
+    private AzKeyvaultRoleAssignment _assignment;
+    private AzKeyvaultRoleDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultRole"/> class.

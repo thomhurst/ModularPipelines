@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVirtualApplianceIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVirtualApplianceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzNetworkVirtualApplianceIdentityAssignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVirtualApplianceIdentityAssignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVirtualApplianceIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzNetworkVirtualApplianceIdentityRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVirtualApplianceIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVirtualApplianceIdentityRemoveOptions(), executionOptions, cancellationToken);

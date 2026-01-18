@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-endpoint-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMariadbServerPrivateEndpointConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMariadbServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzMariadbServerPrivateEndpointConnectionApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerPrivateEndpointConnectionApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMariadbServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMariadbServerPrivateEndpointConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerPrivateEndpointConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMariadbServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzMariadbServerPrivateEndpointConnectionRejectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerPrivateEndpointConnectionRejectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzMariadbServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzMariadbServerPrivateEndpointConnectionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMariadbServerPrivateEndpointConnectionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMariadbServerPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

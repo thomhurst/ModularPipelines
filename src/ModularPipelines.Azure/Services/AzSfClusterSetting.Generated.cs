@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az setting commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfClusterSetting
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfClusterSetting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzSfClusterSettingRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterSettingRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterSettingRemoveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfClusterSetting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzSfClusterSettingSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfClusterSettingSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfClusterSettingSetOptions(), executionOptions, cancellationToken);

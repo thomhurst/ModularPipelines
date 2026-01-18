@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ssl commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappConfigSsl
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzFunctionappConfigSsl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Bind(
-        AzFunctionappConfigSslBindOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigSslBindOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSslBindOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzFunctionappConfigSsl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzFunctionappConfigSslImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigSslImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSslImportOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzFunctionappConfigSsl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Unbind(
-        AzFunctionappConfigSslUnbindOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigSslUnbindOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSslUnbindOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzFunctionappConfigSsl
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Upload(
-        AzFunctionappConfigSslUploadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigSslUploadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigSslUploadOptions(), executionOptions, cancellationToken);

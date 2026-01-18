@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az run-command commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmRunCommand
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzVmRunCommandCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmRunCommandDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Invoke(
-        AzVmRunCommandInvokeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandInvokeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandInvokeOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmRunCommandListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzVmRunCommandShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandShowOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzVmRunCommandUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandUpdateOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzVmRunCommand
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzVmRunCommandWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmRunCommandWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmRunCommandWaitOptions(), executionOptions, cancellationToken);

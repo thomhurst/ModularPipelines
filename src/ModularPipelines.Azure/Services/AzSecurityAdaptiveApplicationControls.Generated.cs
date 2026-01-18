@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az adaptive-application-controls commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityAdaptiveApplicationControls
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSecurityAdaptiveApplicationControls
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSecurityAdaptiveApplicationControlsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSecurityAdaptiveApplicationControlsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSecurityAdaptiveApplicationControlsShowOptions(), executionOptions, cancellationToken);

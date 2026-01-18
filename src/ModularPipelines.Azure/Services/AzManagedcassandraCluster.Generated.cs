@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cluster commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedcassandraCluster
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedCassandraClusterCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deallocate(
-        AzManagedCassandraClusterDeallocateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterDeallocateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterDeallocateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedCassandraClusterDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterDeleteOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> InvokeCommand(
-        AzManagedCassandraClusterInvokeCommandOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterInvokeCommandOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterInvokeCommandOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzManagedCassandraClusterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzManagedCassandraClusterStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterStartOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class AzManagedcassandraCluster
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzManagedCassandraClusterUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedCassandraClusterUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedCassandraClusterUpdateOptions(), executionOptions, cancellationToken);

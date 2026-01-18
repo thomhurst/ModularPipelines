@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az user commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsUser
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzDevopsUserAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsUserAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsUserListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsUserListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzDevopsUserRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsUserRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserRemoveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDevopsUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsUserShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsUserShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzDevopsUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsUserUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsUserUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsUserUpdateOptions(), executionOptions, cancellationToken);

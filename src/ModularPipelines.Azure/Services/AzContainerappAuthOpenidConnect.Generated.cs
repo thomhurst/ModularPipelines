@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az openid-connect commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappAuthOpenidConnect
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappAuthOpenidConnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzContainerappAuthOpenidConnectAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappAuthOpenidConnectAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthOpenidConnectAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzContainerappAuthOpenidConnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzContainerappAuthOpenidConnectRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappAuthOpenidConnectRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthOpenidConnectRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzContainerappAuthOpenidConnect
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzContainerappAuthOpenidConnectUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappAuthOpenidConnectUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappAuthOpenidConnectUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-endpoint-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPostgresFlexibleServerPrivateEndpointConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPostgresFlexibleServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Approve(
-        AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerPrivateEndpointConnectionApproveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPostgresFlexibleServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPostgresFlexibleServerPrivateEndpointConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerPrivateEndpointConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerPrivateEndpointConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPostgresFlexibleServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reject(
-        AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerPrivateEndpointConnectionRejectOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzPostgresFlexibleServerPrivateEndpointConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPostgresFlexibleServerPrivateEndpointConnectionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerPrivateEndpointConnectionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerPrivateEndpointConnectionShowOptions(), executionOptions, cancellationToken);

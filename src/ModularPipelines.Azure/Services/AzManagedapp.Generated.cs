@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az managedapp commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedapp
 {
     private readonly ICommand _command;
-    private AzManagedappDefinition? _definition;
+    private AzManagedappDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzManagedapp"/> class.
@@ -47,8 +47,8 @@ public class AzManagedapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedappCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedappCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedappCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzManagedapp
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzManagedappListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedappListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedappListOptions(), executionOptions, cancellationToken);

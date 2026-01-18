@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az firewall-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseWorkspaceFirewallRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseWorkspaceFirewallRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseWorkspaceFirewallRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseWorkspaceFirewallRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSynapseWorkspaceFirewallRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseWorkspaceFirewallRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseWorkspaceFirewallRuleUpdateOptions(), executionOptions, cancellationToken);

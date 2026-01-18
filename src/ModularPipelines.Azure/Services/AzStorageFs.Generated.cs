@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az fs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageFs
 {
     private readonly ICommand _command;
-    private AzStorageFsAccess? _access;
-    private AzStorageFsDirectory? _directory;
-    private AzStorageFsFile? _file;
-    private AzStorageFsMetadata? _metadata;
-    private AzStorageFsServiceProperties? _serviceProperties;
+    private AzStorageFsAccess _access;
+    private AzStorageFsDirectory _directory;
+    private AzStorageFsFile _file;
+    private AzStorageFsMetadata _metadata;
+    private AzStorageFsServiceProperties _serviceProperties;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorageFs"/> class.
@@ -71,8 +71,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageFsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsCreateOptions(), executionOptions, cancellationToken);
@@ -86,8 +86,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageFsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsDeleteOptions(), executionOptions, cancellationToken);
@@ -101,8 +101,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Exists(
-        AzStorageFsExistsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsExistsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsExistsOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListDeletedPath(
-        AzStorageFsListDeletedPathOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsListDeletedPathOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsListDeletedPathOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageFsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsListOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsShowOptions(), executionOptions, cancellationToken);
@@ -161,8 +161,8 @@ public class AzStorageFs
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UndeletePath(
-        AzStorageFsUndeletePathOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsUndeletePathOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsUndeletePathOptions(), executionOptions, cancellationToken);

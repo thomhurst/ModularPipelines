@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az servicebus commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebus
 {
     private readonly ICommand _command;
-    private AzServicebusGeorecoveryAlias? _georecoveryAlias;
-    private AzServicebusMigration? _migration;
-    private AzServicebusNamespace? _namespace;
-    private AzServicebusQueue? _queue;
-    private AzServicebusTopic? _topic;
+    private AzServicebusGeorecoveryAlias _georecoveryAlias;
+    private AzServicebusMigration _migration;
+    private AzServicebusNamespace _namespace;
+    private AzServicebusQueue _queue;
+    private AzServicebusTopic _topic;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebus"/> class.

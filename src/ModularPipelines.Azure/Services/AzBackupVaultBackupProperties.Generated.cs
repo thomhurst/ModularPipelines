@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az backup-properties commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBackupVaultBackupProperties
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBackupVaultBackupProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzBackupVaultBackupPropertiesSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBackupVaultBackupPropertiesSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBackupVaultBackupPropertiesSetOptions(), executionOptions, cancellationToken);

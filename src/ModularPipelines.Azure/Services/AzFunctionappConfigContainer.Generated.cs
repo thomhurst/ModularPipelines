@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzFunctionappConfigContainer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzFunctionappConfigContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzFunctionappConfigContainerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigContainerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzFunctionappConfigContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzFunctionappConfigContainerSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigContainerSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerSetOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzFunctionappConfigContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzFunctionappConfigContainerShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzFunctionappConfigContainerShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzFunctionappConfigContainerShowOptions(), executionOptions, cancellationToken);

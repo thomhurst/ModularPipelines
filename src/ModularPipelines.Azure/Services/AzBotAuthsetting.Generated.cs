@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az authsetting commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBotAuthsetting
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBotAuthsetting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBotAuthsettingCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotAuthsettingCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotAuthsettingCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBotAuthsetting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListProviders(
-        AzBotAuthsettingListProvidersOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotAuthsettingListProvidersOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotAuthsettingListProvidersOptions(), executionOptions, cancellationToken);

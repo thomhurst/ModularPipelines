@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mi commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlMi
 {
     private readonly ICommand _command;
-    private AzSqlMiAdvancedThreatProtectionSetting? _advancedThreatProtectionSetting;
-    private AzSqlMiDtc? _dtc;
-    private AzSqlMiKey? _key;
-    private AzSqlMiLink? _link;
-    private AzSqlMiPartnerCert? _partnerCert;
-    private AzSqlMiServerConfigurationOption? _serverConfigurationOption;
-    private AzSqlMiStartStopSchedule? _startStopSchedule;
-    private AzSqlMiTdeKey? _tdeKey;
+    private AzSqlMiAdvancedThreatProtectionSetting _advancedThreatProtectionSetting;
+    private AzSqlMiDtc _dtc;
+    private AzSqlMiKey _key;
+    private AzSqlMiLink _link;
+    private AzSqlMiPartnerCert _partnerCert;
+    private AzSqlMiServerConfigurationOption _serverConfigurationOption;
+    private AzSqlMiStartStopSchedule _startStopSchedule;
+    private AzSqlMiTdeKey _tdeKey;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSqlMi"/> class.
@@ -89,8 +89,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlMiCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiCreateOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlMiDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiDeleteOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzSqlMiFailoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiFailoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiFailoverOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlMiListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiListOptions(), executionOptions, cancellationToken);
@@ -149,8 +149,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> RefreshExternalGovernanceStatus(
-        AzSqlMiRefreshExternalGovernanceStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiRefreshExternalGovernanceStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiRefreshExternalGovernanceStatusOptions(), executionOptions, cancellationToken);
@@ -164,8 +164,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlMiShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiShowOptions(), executionOptions, cancellationToken);
@@ -179,8 +179,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSqlMiStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStartOptions(), executionOptions, cancellationToken);
@@ -194,8 +194,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzSqlMiStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiStopOptions(), executionOptions, cancellationToken);
@@ -209,8 +209,8 @@ public class AzSqlMi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlMiUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiUpdateOptions(), executionOptions, cancellationToken);

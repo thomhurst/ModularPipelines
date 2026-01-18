@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hyco commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzRelayHyco
 {
     private readonly ICommand _command;
-    private AzRelayHycoAuthorizationRule? _authorizationRule;
+    private AzRelayHycoAuthorizationRule _authorizationRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzRelayHyco"/> class.
@@ -47,8 +47,8 @@ public class AzRelayHyco
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzRelayHycoCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayHycoCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzRelayHyco
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzRelayHycoUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzRelayHycoUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzRelayHycoUpdateOptions(), executionOptions, cancellationToken);

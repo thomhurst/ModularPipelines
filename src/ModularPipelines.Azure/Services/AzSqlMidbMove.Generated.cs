@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az move commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlMidbMove
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlMidbMove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzSqlMidbMoveCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbMoveCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbMoveCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlMidbMove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Complete(
-        AzSqlMidbMoveCompleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbMoveCompleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbMoveCompleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSqlMidbMove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlMidbMoveListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbMoveListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbMoveListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSqlMidbMove
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzSqlMidbMoveStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMidbMoveStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMidbMoveStartOptions(), executionOptions, cancellationToken);

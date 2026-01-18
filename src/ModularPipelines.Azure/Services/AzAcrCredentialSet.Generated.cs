@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az credential-set commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAcrCredentialSet
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAcrCredentialSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAcrCredentialSetCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialSetCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialSetCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAcrCredentialSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrCredentialSetDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialSetDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialSetDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAcrCredentialSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrCredentialSetListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialSetListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialSetListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAcrCredentialSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrCredentialSetShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialSetShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialSetShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAcrCredentialSet
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrCredentialSetUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrCredentialSetUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrCredentialSetUpdateOptions(), executionOptions, cancellationToken);

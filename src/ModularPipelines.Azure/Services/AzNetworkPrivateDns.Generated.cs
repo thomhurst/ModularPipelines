@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-dns commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPrivateDns
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateDnsLink? _link;
-    private AzNetworkPrivateDnsRecordSet? _recordSet;
-    private AzNetworkPrivateDnsZone? _zone;
+    private AzNetworkPrivateDnsLink _link;
+    private AzNetworkPrivateDnsRecordSet _recordSet;
+    private AzNetworkPrivateDnsZone _zone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateDns"/> class.

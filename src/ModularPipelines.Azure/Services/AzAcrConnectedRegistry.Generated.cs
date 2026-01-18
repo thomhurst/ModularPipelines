@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az connected-registry commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAcrConnectedRegistry
 {
     private readonly ICommand _command;
-    private AzAcrConnectedRegistryPermissions? _permissions;
+    private AzAcrConnectedRegistryPermissions _permissions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAcrConnectedRegistry"/> class.
@@ -47,8 +47,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAcrConnectedRegistryCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deactivate(
-        AzAcrConnectedRegistryDeactivateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryDeactivateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryDeactivateOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAcrConnectedRegistryDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryDeleteOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetSettings(
-        AzAcrConnectedRegistryGetSettingsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryGetSettingsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryGetSettingsOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListClientTokens(
-        AzAcrConnectedRegistryListClientTokensOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryListClientTokensOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryListClientTokensOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAcrConnectedRegistryListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryListOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAcrConnectedRegistryShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryShowOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class AzAcrConnectedRegistry
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAcrConnectedRegistryUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAcrConnectedRegistryUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAcrConnectedRegistryUpdateOptions(), executionOptions, cancellationToken);

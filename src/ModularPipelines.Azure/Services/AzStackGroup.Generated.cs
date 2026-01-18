@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStackGroup
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStackGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStackGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStackGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStackGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStackGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStackGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStackGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzStackGroupExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStackGroupExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupExportOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzStackGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStackGroupShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStackGroupShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzStackGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Validate(
-        AzStackGroupValidateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStackGroupValidateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStackGroupValidateOptions(), executionOptions, cancellationToken);

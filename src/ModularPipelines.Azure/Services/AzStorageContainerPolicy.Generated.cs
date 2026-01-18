@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageContainerPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageContainerPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzStorageContainerPolicyCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerPolicyCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerPolicyCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageContainerPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzStorageContainerPolicyDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerPolicyDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerPolicyDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzStorageContainerPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzStorageContainerPolicyListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerPolicyListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerPolicyListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzStorageContainerPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageContainerPolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerPolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerPolicyShowOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzStorageContainerPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageContainerPolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageContainerPolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageContainerPolicyUpdateOptions(), executionOptions, cancellationToken);

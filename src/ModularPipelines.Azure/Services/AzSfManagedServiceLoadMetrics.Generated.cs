@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az load-metrics commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedServiceLoadMetrics
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfManagedServiceLoadMetrics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSfManagedServiceLoadMetricsCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedServiceLoadMetricsCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceLoadMetricsCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfManagedServiceLoadMetrics
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedServiceLoadMetricsUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedServiceLoadMetricsUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedServiceLoadMetricsUpdateOptions(), executionOptions, cancellationToken);

@@ -16,7 +16,7 @@ namespace ModularPipelines.Azure.Extensions;
 /// <summary>
 /// Generated extensions for registering az services.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public static class AzExtensions
 {
 #pragma warning disable CA2255

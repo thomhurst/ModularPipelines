@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az profile commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorAutoscaleProfile
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorAutoscaleProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzMonitorAutoscaleProfileCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleProfileCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleProfileCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMonitorAutoscaleProfile
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListTimezones(
-        AzMonitorAutoscaleProfileListTimezonesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAutoscaleProfileListTimezonesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAutoscaleProfileListTimezonesOptions(), executionOptions, cancellationToken);

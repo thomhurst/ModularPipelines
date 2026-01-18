@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az cross-region-lb commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkCrossRegionLb
 {
     private readonly ICommand _command;
-    private AzNetworkCrossRegionLbAddressPool? _addressPool;
-    private AzNetworkCrossRegionLbFrontendIp? _frontendIp;
-    private AzNetworkCrossRegionLbRule? _rule;
+    private AzNetworkCrossRegionLbAddressPool _addressPool;
+    private AzNetworkCrossRegionLbFrontendIp _frontendIp;
+    private AzNetworkCrossRegionLbRule _rule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkCrossRegionLb"/> class.
@@ -59,8 +59,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkCrossRegionLbCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkCrossRegionLbDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbDeleteOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkCrossRegionLbListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbListOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkCrossRegionLbShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbShowOptions(), executionOptions, cancellationToken);
@@ -119,8 +119,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkCrossRegionLbUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbUpdateOptions(), executionOptions, cancellationToken);
@@ -134,8 +134,8 @@ public class AzNetworkCrossRegionLb
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkCrossRegionLbWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkCrossRegionLbWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkCrossRegionLbWaitOptions(), executionOptions, cancellationToken);

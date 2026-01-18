@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCognitiveservicesAccount
 {
     private readonly ICommand _command;
-    private AzCognitiveservicesAccountConnection? _connection;
-    private AzCognitiveservicesAccountDeployment? _deployment;
-    private AzCognitiveservicesAccountNetworkRule? _networkRule;
-    private AzCognitiveservicesAccountProject? _project;
+    private AzCognitiveservicesAccountConnection _connection;
+    private AzCognitiveservicesAccountDeployment _deployment;
+    private AzCognitiveservicesAccountNetworkRule _networkRule;
+    private AzCognitiveservicesAccountProject _project;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCognitiveservicesAccount"/> class.
@@ -65,8 +65,8 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzCognitiveservicesAccountCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCognitiveservicesAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListSkus(
-        AzCognitiveservicesAccountListSkusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountListSkusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountListSkusOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzCognitiveservicesAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzCognitiveservicesAccountUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCognitiveservicesAccountUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCognitiveservicesAccountUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az elastic-pool commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlElasticPool
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlElasticPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlElasticPoolCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlElasticPoolCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlElasticPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlElasticPoolDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlElasticPoolDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSqlElasticPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListEditions(
-        AzSqlElasticPoolListEditionsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlElasticPoolListEditionsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListEditionsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSqlElasticPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSqlElasticPoolListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlElasticPoolListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzSqlElasticPool
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlElasticPoolUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlElasticPoolUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlElasticPoolUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az asset-track commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsAssetTrack
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsAssetTrack
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsAssetTrackCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAssetTrackCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetTrackCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsAssetTrack
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateData(
-        AzAmsAssetTrackUpdateDataOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAssetTrackUpdateDataOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetTrackUpdateDataOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAmsAssetTrack
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsAssetTrackUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsAssetTrackUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsAssetTrackUpdateOptions(), executionOptions, cancellationToken);

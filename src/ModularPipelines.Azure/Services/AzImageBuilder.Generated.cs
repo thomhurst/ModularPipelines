@@ -14,17 +14,17 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az builder commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzImageBuilder
 {
     private readonly ICommand _command;
-    private AzImageBuilderCustomizer? _customizer;
-    private AzImageBuilderErrorHandler? _errorHandler;
-    private AzImageBuilderIdentity? _identity;
-    private AzImageBuilderOptimizer? _optimizer;
-    private AzImageBuilderOutput? _output;
-    private AzImageBuilderTrigger? _trigger;
-    private AzImageBuilderValidator? _validator;
+    private AzImageBuilderCustomizer _customizer;
+    private AzImageBuilderErrorHandler _errorHandler;
+    private AzImageBuilderIdentity _identity;
+    private AzImageBuilderOptimizer _optimizer;
+    private AzImageBuilderOutput _output;
+    private AzImageBuilderTrigger _trigger;
+    private AzImageBuilderValidator _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzImageBuilder"/> class.
@@ -83,8 +83,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzImageBuilderCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderCreateOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzImageBuilderListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderListOptions(), executionOptions, cancellationToken);
@@ -113,8 +113,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Run(
-        AzImageBuilderRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderRunOptions(), executionOptions, cancellationToken);
@@ -128,8 +128,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowRuns(
-        AzImageBuilderShowRunsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderShowRunsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderShowRunsOptions(), executionOptions, cancellationToken);
@@ -143,8 +143,8 @@ public class AzImageBuilder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzImageBuilderUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderUpdateOptions(), executionOptions, cancellationToken);

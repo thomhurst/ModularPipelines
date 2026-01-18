@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-link commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzResourcemanagementPrivateLink
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzResourcemanagementPrivateLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzResourcemanagementPrivateLinkDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzResourcemanagementPrivateLinkDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzResourcemanagementPrivateLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzResourcemanagementPrivateLinkListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzResourcemanagementPrivateLinkListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzResourcemanagementPrivateLinkListOptions(), executionOptions, cancellationToken);

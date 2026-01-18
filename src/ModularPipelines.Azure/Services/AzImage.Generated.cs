@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az image commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzImage
 {
     private readonly ICommand _command;
-    private AzImageBuilder? _builder;
+    private AzImageBuilder _builder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzImage"/> class.
@@ -47,8 +47,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzImageCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzImageDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzImageListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageListOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzImageShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageShowOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzImageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageUpdateOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzImage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzImageWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageWaitOptions(), executionOptions, cancellationToken);

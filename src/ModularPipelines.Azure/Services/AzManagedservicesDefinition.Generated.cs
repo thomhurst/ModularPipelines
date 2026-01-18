@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az definition commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzManagedservicesDefinition
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzManagedservicesDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzManagedservicesDefinitionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesDefinitionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesDefinitionCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzManagedservicesDefinition
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzManagedservicesDefinitionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzManagedservicesDefinitionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzManagedservicesDefinitionDeleteOptions(), executionOptions, cancellationToken);

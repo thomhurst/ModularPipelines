@@ -14,19 +14,19 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vmss commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzVmss
 {
     private readonly ICommand _command;
-    private AzVmssApplication? _application;
-    private AzVmssDiagnostics? _diagnostics;
-    private AzVmssDisk? _disk;
-    private AzVmssEncryption? _encryption;
-    private AzVmssExtension? _extension;
-    private AzVmssIdentity? _identity;
-    private AzVmssNic? _nic;
-    private AzVmssRollingUpgrade? _rollingUpgrade;
-    private AzVmssRunCommand? _runCommand;
+    private AzVmssApplication _application;
+    private AzVmssDiagnostics _diagnostics;
+    private AzVmssDisk _disk;
+    private AzVmssEncryption _encryption;
+    private AzVmssExtension _extension;
+    private AzVmssIdentity _identity;
+    private AzVmssNic _nic;
+    private AzVmssRollingUpgrade _rollingUpgrade;
+    private AzVmssRunCommand _runCommand;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzVmss"/> class.
@@ -95,8 +95,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzVmssCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssCreateOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Deallocate(
-        AzVmssDeallocateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssDeallocateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssDeallocateOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DeleteInstances(
-        AzVmssDeleteInstancesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssDeleteInstancesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssDeleteInstancesOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzVmssDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssDeleteOptions(), executionOptions, cancellationToken);
@@ -155,8 +155,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListInstances(
-        AzVmssListInstancesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssListInstancesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssListInstancesOptions(), executionOptions, cancellationToken);
@@ -170,8 +170,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzVmssListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssListOptions(), executionOptions, cancellationToken);
@@ -185,8 +185,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PerformMaintenance(
-        AzVmssPerformMaintenanceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssPerformMaintenanceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssPerformMaintenanceOptions(), executionOptions, cancellationToken);
@@ -200,8 +200,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reimage(
-        AzVmssReimageOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssReimageOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssReimageOptions(), executionOptions, cancellationToken);
@@ -215,8 +215,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzVmssRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssRestartOptions(), executionOptions, cancellationToken);
@@ -230,8 +230,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Scale(
-        AzVmssScaleOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssScaleOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssScaleOptions(), executionOptions, cancellationToken);
@@ -245,8 +245,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetOrchestrationServiceState(
-        AzVmssSetOrchestrationServiceStateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssSetOrchestrationServiceStateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssSetOrchestrationServiceStateOptions(), executionOptions, cancellationToken);
@@ -260,8 +260,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzVmssShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssShowOptions(), executionOptions, cancellationToken);
@@ -275,8 +275,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzVmssStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssStartOptions(), executionOptions, cancellationToken);
@@ -290,8 +290,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzVmssStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssStopOptions(), executionOptions, cancellationToken);
@@ -305,8 +305,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateDomainWalk(
-        AzVmssUpdateDomainWalkOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssUpdateDomainWalkOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssUpdateDomainWalkOptions(), executionOptions, cancellationToken);
@@ -320,8 +320,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> UpdateInstances(
-        AzVmssUpdateInstancesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssUpdateInstancesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssUpdateInstancesOptions(), executionOptions, cancellationToken);
@@ -335,8 +335,8 @@ public class AzVmss
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzVmssUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzVmssUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzVmssUpdateOptions(), executionOptions, cancellationToken);

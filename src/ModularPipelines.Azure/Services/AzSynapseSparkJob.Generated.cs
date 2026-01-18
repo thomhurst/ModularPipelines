@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az job commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseSparkJob
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseSparkJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzSynapseSparkJobCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkJobCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseSparkJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseSparkJobListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkJobListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseSparkJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Submit(
-        AzSynapseSparkJobSubmitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkJobSubmitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkJobSubmitOptions(), executionOptions, cancellationToken);

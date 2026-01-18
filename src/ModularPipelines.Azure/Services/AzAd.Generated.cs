@@ -14,15 +14,15 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ad commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAd
 {
     private readonly ICommand _command;
-    private AzAdApp? _app;
-    private AzAdGroup? _group;
-    private AzAdSignedInUser? _signedInUser;
-    private AzAdSp? _sp;
-    private AzAdUser? _user;
+    private AzAdApp _app;
+    private AzAdGroup _group;
+    private AzAdSignedInUser _signedInUser;
+    private AzAdSp _sp;
+    private AzAdUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAd"/> class.

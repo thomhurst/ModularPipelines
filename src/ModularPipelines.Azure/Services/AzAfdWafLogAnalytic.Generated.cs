@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az waf-log-analytic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfdWafLogAnalytic
 {
     private readonly ICommand _command;
-    private AzAfdWafLogAnalyticMetric? _metric;
-    private AzAfdWafLogAnalyticRanking? _ranking;
+    private AzAfdWafLogAnalyticMetric _metric;
+    private AzAfdWafLogAnalyticRanking _ranking;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAfdWafLogAnalytic"/> class.

@@ -14,24 +14,24 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az storage commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorage
 {
     private readonly ICommand _command;
-    private AzStorageAccount? _account;
-    private AzStorageBlob? _blob;
-    private AzStorageContainer? _container;
-    private AzStorageContainerRm? _containerRm;
-    private AzStorageCors? _cors;
-    private AzStorageDirectory? _directory;
-    private AzStorageEntity? _entity;
-    private AzStorageFile? _file;
-    private AzStorageFs? _fs;
-    private AzStorageLogging? _logging;
-    private AzStorageMetrics? _metrics;
-    private AzStorageShare? _share;
-    private AzStorageShareRm? _shareRm;
-    private AzStorageTable? _table;
+    private AzStorageAccount _account;
+    private AzStorageBlob _blob;
+    private AzStorageContainer _container;
+    private AzStorageContainerRm _containerRm;
+    private AzStorageCors _cors;
+    private AzStorageDirectory _directory;
+    private AzStorageEntity _entity;
+    private AzStorageFile _file;
+    private AzStorageFs _fs;
+    private AzStorageLogging _logging;
+    private AzStorageMetrics _metrics;
+    private AzStorageShare _share;
+    private AzStorageShareRm _shareRm;
+    private AzStorageTable _table;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzStorage"/> class.
@@ -125,8 +125,8 @@ public class AzStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Copy(
-        AzStorageCopyOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageCopyOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageCopyOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class AzStorage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzStorageRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageRemoveOptions(), executionOptions, cancellationToken);

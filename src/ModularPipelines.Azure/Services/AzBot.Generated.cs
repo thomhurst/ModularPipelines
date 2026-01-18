@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az bot commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBot
 {
     private readonly ICommand _command;
-    private AzBotAuthsetting? _authsetting;
-    private AzBotWebchat? _webchat;
+    private AzBotAuthsetting _authsetting;
+    private AzBotWebchat _webchat;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBot"/> class.
@@ -53,8 +53,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBotCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotCreateOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> PrepareDeploy(
-        AzBotPrepareDeployOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotPrepareDeployOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotPrepareDeployOptions(), executionOptions, cancellationToken);
@@ -83,8 +83,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzBotShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotShowOptions(), executionOptions, cancellationToken);
@@ -98,8 +98,8 @@ public class AzBot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzBotUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBotUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBotUpdateOptions(), executionOptions, cancellationToken);

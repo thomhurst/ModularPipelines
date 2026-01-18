@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az capacity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCapacity
 {
     private readonly ICommand _command;
-    private AzCapacityReservation? _reservation;
+    private AzCapacityReservation _reservation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCapacity"/> class.

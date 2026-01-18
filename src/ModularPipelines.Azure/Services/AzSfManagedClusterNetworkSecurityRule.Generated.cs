@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network-security-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSfManagedClusterNetworkSecurityRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSfManagedClusterNetworkSecurityRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzSfManagedClusterNetworkSecurityRuleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedClusterNetworkSecurityRuleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterNetworkSecurityRuleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSfManagedClusterNetworkSecurityRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSfManagedClusterNetworkSecurityRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSfManagedClusterNetworkSecurityRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSfManagedClusterNetworkSecurityRuleUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az region commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultRegion
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzKeyvaultRegionAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRegionAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzKeyvaultRegionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRegionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzKeyvaultRegionRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRegionRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionRemoveOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzKeyvaultRegion
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzKeyvaultRegionWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultRegionWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultRegionWaitOptions(), executionOptions, cancellationToken);

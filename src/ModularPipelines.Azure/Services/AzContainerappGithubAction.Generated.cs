@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az github-action commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzContainerappGithubAction
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzContainerappGithubAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzContainerappGithubActionAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappGithubActionAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappGithubActionAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzContainerappGithubAction
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzContainerappGithubActionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzContainerappGithubActionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzContainerappGithubActionDeleteOptions(), executionOptions, cancellationToken);

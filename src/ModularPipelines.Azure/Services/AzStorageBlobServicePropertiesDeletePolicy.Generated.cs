@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az delete-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageBlobServicePropertiesDeletePolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageBlobServicePropertiesDeletePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageBlobServicePropertiesDeletePolicyShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobServicePropertiesDeletePolicyShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesDeletePolicyShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageBlobServicePropertiesDeletePolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageBlobServicePropertiesDeletePolicyUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobServicePropertiesDeletePolicyUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobServicePropertiesDeletePolicyUpdateOptions(), executionOptions, cancellationToken);

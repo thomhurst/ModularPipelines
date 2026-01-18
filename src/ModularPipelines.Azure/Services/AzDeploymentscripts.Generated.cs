@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az deploymentscripts commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDeploymentscripts
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDeploymentscripts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDeploymentScriptsDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentScriptsDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentScriptsDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDeploymentscripts
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDeploymentScriptsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDeploymentScriptsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDeploymentScriptsListOptions(), executionOptions, cancellationToken);

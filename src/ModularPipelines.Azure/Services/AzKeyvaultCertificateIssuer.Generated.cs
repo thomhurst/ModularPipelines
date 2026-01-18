@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az issuer commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzKeyvaultCertificateIssuer
 {
     private readonly ICommand _command;
-    private AzKeyvaultCertificateIssuerAdmin? _admin;
+    private AzKeyvaultCertificateIssuerAdmin _admin;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzKeyvaultCertificateIssuer"/> class.
@@ -47,8 +47,8 @@ public class AzKeyvaultCertificateIssuer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzKeyvaultCertificateIssuerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultCertificateIssuerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateIssuerCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzKeyvaultCertificateIssuer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzKeyvaultCertificateIssuerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzKeyvaultCertificateIssuerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzKeyvaultCertificateIssuerUpdateOptions(), executionOptions, cancellationToken);

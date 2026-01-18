@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az container commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappDeploymentContainer
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappDeploymentContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        AzWebappDeploymentContainerConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappDeploymentContainerConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerConfigOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappDeploymentContainer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowCdUrl(
-        AzWebappDeploymentContainerShowCdUrlOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappDeploymentContainerShowCdUrlOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappDeploymentContainerShowCdUrlOptions(), executionOptions, cancellationToken);

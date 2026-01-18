@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mesh commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksMesh
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableEgressGateway(
-        AzAksMeshDisableEgressGatewayOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshDisableEgressGatewayOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshDisableEgressGatewayOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> DisableIngressGateway(
-        AzAksMeshDisableIngressGatewayOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshDisableIngressGatewayOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshDisableIngressGatewayOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzAksMeshDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshDisableOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableEgressGateway(
-        AzAksMeshEnableEgressGatewayOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshEnableEgressGatewayOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshEnableEgressGatewayOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> EnableIngressGateway(
-        AzAksMeshEnableIngressGatewayOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshEnableIngressGatewayOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshEnableIngressGatewayOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzAksMesh
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzAksMeshEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksMeshEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksMeshEnableOptions(), executionOptions, cancellationToken);

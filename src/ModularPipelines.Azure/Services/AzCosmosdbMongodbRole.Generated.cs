@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az role commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbMongodbRole
 {
     private readonly ICommand _command;
-    private AzCosmosdbMongodbRoleDefinition? _definition;
+    private AzCosmosdbMongodbRoleDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbMongodbRole"/> class.

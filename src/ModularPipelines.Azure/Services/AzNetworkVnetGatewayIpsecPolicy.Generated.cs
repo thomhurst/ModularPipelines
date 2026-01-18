@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az ipsec-policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetGatewayIpsecPolicy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzNetworkVnetGatewayIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzNetworkVnetGatewayIpsecPolicyAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayIpsecPolicyAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIpsecPolicyAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzNetworkVnetGatewayIpsecPolicy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clear(
-        AzNetworkVnetGatewayIpsecPolicyClearOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayIpsecPolicyClearOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayIpsecPolicyClearOptions(), executionOptions, cancellationToken);

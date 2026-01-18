@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az eventhubs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventhubs
 {
     private readonly ICommand _command;
-    private AzEventhubsCluster? _cluster;
-    private AzEventhubsEventhub? _eventhub;
-    private AzEventhubsGeorecoveryAlias? _georecoveryAlias;
-    private AzEventhubsNamespace? _namespace;
+    private AzEventhubsCluster _cluster;
+    private AzEventhubsEventhub _eventhub;
+    private AzEventhubsGeorecoveryAlias _georecoveryAlias;
+    private AzEventhubsNamespace _namespace;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventhubs"/> class.

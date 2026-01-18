@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMonitorAccount
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMonitorAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzMonitorAccountDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAccountDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountDeleteOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMonitorAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMonitorAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMonitorAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMonitorAccountListOptions(), executionOptions, cancellationToken);

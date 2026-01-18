@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az user commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBatchNodeUser
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzBatchNodeUserCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchNodeUserCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzBatchNodeUserDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchNodeUserDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzBatchNodeUser
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzBatchNodeUserResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzBatchNodeUserResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzBatchNodeUserResetOptions(), executionOptions, cancellationToken);

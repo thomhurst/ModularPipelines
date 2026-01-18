@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az restorable-database-account commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbRestorableDatabaseAccount
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzCosmosdbRestorableDatabaseAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzCosmosdbRestorableDatabaseAccountListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbRestorableDatabaseAccountListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzCosmosdbRestorableDatabaseAccount
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzCosmosdbRestorableDatabaseAccountShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzCosmosdbRestorableDatabaseAccountShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzCosmosdbRestorableDatabaseAccountShowOptions(), executionOptions, cancellationToken);

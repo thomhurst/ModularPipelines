@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hybrid-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappHybridConnection
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzWebappHybridConnectionAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappHybridConnectionAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappHybridConnectionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappHybridConnectionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappHybridConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappHybridConnectionRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappHybridConnectionRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappHybridConnectionRemoveOptions(), executionOptions, cancellationToken);

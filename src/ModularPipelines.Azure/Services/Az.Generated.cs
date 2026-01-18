@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// Generated implementation for az CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Az : IAz
 {
     private readonly ICommand _command;
@@ -472,8 +472,8 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        AzLoginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLoginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLoginOptions(), executionOptions, cancellationToken);
@@ -481,8 +481,8 @@ internal partial class Az : IAz
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Logout(
-        AzLogoutOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzLogoutOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzLogoutOptions(), executionOptions, cancellationToken);

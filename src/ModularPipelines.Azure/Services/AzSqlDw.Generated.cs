@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az dw commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlDw
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlDw
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlDwCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlDwCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlDw
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlDwDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlDwDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSqlDw
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzSqlDwShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlDwShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSqlDw
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlDwUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlDwUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlDwUpdateOptions(), executionOptions, cancellationToken);

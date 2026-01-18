@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az security commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsSecurity
 {
     private readonly ICommand _command;
-    private AzDevopsSecurityGroup? _group;
-    private AzDevopsSecurityPermission? _permission;
+    private AzDevopsSecurityGroup _group;
+    private AzDevopsSecurityPermission _permission;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzDevopsSecurity"/> class.

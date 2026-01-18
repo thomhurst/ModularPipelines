@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAfdRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAfdRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAfdRuleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdRuleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAfdRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzAfdRuleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdRuleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAfdRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAfdRuleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAfdRuleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAfdRuleUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az identity commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzImageBuilderIdentity
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzImageBuilderIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Assign(
-        AzImageBuilderIdentityAssignOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderIdentityAssignOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityAssignOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzImageBuilderIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzImageBuilderIdentityRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderIdentityRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzImageBuilderIdentity
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzImageBuilderIdentityShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzImageBuilderIdentityShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzImageBuilderIdentityShowOptions(), executionOptions, cancellationToken);

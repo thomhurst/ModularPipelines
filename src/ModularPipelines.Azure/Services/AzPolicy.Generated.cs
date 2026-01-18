@@ -14,18 +14,18 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az policy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPolicy
 {
     private readonly ICommand _command;
-    private AzPolicyAssignment? _assignment;
-    private AzPolicyAttestation? _attestation;
-    private AzPolicyDefinition? _definition;
-    private AzPolicyExemption? _exemption;
-    private AzPolicyMetadata? _metadata;
-    private AzPolicyRemediation? _remediation;
-    private AzPolicySetDefinition? _setDefinition;
-    private AzPolicyState? _state;
+    private AzPolicyAssignment _assignment;
+    private AzPolicyAttestation _attestation;
+    private AzPolicyDefinition _definition;
+    private AzPolicyExemption _exemption;
+    private AzPolicyMetadata _metadata;
+    private AzPolicyRemediation _remediation;
+    private AzPolicySetDefinition _setDefinition;
+    private AzPolicyState _state;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPolicy"/> class.

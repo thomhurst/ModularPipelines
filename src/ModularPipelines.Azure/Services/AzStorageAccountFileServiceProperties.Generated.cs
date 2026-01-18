@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az file-service-properties commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageAccountFileServiceProperties
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageAccountFileServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageAccountFileServicePropertiesShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountFileServicePropertiesShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountFileServicePropertiesShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageAccountFileServiceProperties
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageAccountFileServicePropertiesUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountFileServicePropertiesUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountFileServicePropertiesUpdateOptions(), executionOptions, cancellationToken);

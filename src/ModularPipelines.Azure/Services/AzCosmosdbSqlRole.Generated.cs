@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az role commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzCosmosdbSqlRole
 {
     private readonly ICommand _command;
-    private AzCosmosdbSqlRoleAssignment? _assignment;
-    private AzCosmosdbSqlRoleDefinition? _definition;
+    private AzCosmosdbSqlRoleAssignment _assignment;
+    private AzCosmosdbSqlRoleDefinition _definition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzCosmosdbSqlRole"/> class.

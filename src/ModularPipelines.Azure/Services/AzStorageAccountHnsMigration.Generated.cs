@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hns-migration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageAccountHnsMigration
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageAccountHnsMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzStorageAccountHnsMigrationStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountHnsMigrationStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountHnsMigrationStartOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageAccountHnsMigration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzStorageAccountHnsMigrationStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageAccountHnsMigrationStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountHnsMigrationStopOptions(), executionOptions, cancellationToken);

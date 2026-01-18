@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az custom-ip commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkCustomIp
 {
     private readonly ICommand _command;
-    private AzNetworkCustomIpPrefix? _prefix;
+    private AzNetworkCustomIpPrefix _prefix;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkCustomIp"/> class.

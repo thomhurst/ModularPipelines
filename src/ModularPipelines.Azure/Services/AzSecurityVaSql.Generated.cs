@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az sql commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSecurityVaSql
 {
     private readonly ICommand _command;
-    private AzSecurityVaSqlBaseline? _baseline;
-    private AzSecurityVaSqlResults? _results;
-    private AzSecurityVaSqlScans? _scans;
+    private AzSecurityVaSqlBaseline _baseline;
+    private AzSecurityVaSqlResults _results;
+    private AzSecurityVaSqlScans _scans;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSecurityVaSql"/> class.

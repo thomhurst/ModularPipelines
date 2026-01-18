@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az parameter commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMysqlFlexibleServerParameter
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzMysqlFlexibleServerParameter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzMysqlFlexibleServerParameterListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerParameterListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterListOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzMysqlFlexibleServerParameter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> SetBatch(
-        AzMysqlFlexibleServerParameterSetBatchOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerParameterSetBatchOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterSetBatchOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzMysqlFlexibleServerParameter
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Set(
-        AzMysqlFlexibleServerParameterSetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzMysqlFlexibleServerParameterSetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzMysqlFlexibleServerParameterSetOptions(), executionOptions, cancellationToken);

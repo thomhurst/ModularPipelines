@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az private-link-service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkPrivateLinkService
 {
     private readonly ICommand _command;
-    private AzNetworkPrivateLinkServiceConnection? _connection;
+    private AzNetworkPrivateLinkServiceConnection _connection;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkPrivateLinkService"/> class.
@@ -47,8 +47,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkPrivateLinkServiceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkPrivateLinkServiceDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAutoApproved(
-        AzNetworkPrivateLinkServiceListAutoApprovedOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceListAutoApprovedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceListAutoApprovedOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkPrivateLinkServiceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzNetworkPrivateLinkServiceShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceShowOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkPrivateLinkServiceUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceUpdateOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzNetworkPrivateLinkService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Wait(
-        AzNetworkPrivateLinkServiceWaitOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkPrivateLinkServiceWaitOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkPrivateLinkServiceWaitOptions(), executionOptions, cancellationToken);

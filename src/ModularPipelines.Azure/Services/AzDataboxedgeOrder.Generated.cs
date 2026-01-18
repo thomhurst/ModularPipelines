@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az order commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDataboxedgeOrder
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDataboxedgeOrderCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeOrderCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDataboxedgeOrderDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeOrderDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDataboxedgeOrder
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDataboxedgeOrderUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDataboxedgeOrderUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDataboxedgeOrderUpdateOptions(), executionOptions, cancellationToken);

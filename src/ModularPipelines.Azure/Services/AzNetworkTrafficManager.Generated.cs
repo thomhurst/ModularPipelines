@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az traffic-manager commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkTrafficManager
 {
     private readonly ICommand _command;
-    private AzNetworkTrafficManagerEndpoint? _endpoint;
-    private AzNetworkTrafficManagerProfile? _profile;
+    private AzNetworkTrafficManagerEndpoint _endpoint;
+    private AzNetworkTrafficManagerProfile _profile;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkTrafficManager"/> class.

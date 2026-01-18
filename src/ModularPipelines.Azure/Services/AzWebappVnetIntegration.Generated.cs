@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vnet-integration commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappVnetIntegration
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzWebappVnetIntegrationAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappVnetIntegrationAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappVnetIntegrationAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappVnetIntegrationListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappVnetIntegrationListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappVnetIntegrationListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappVnetIntegration
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzWebappVnetIntegrationRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappVnetIntegrationRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappVnetIntegrationRemoveOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az integration-runtime-node commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseIntegrationRuntimeNode
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseIntegrationRuntimeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSynapseIntegrationRuntimeNodeDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeNodeDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeNodeDeleteOptions(), executionOptions, cancellationToken);

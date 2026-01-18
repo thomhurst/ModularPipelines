@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az kusto commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseKusto
 {
     private readonly ICommand _command;
-    private AzSynapseKustoPool? _pool;
+    private AzSynapseKustoPool _pool;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSynapseKusto"/> class.

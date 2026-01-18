@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az link commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSqlMiLink
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSqlMiLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSqlMiLinkCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiLinkCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSqlMiLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzSqlMiLinkDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiLinkDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSqlMiLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Failover(
-        AzSqlMiLinkFailoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiLinkFailoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkFailoverOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzSqlMiLink
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSqlMiLinkUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSqlMiLinkUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSqlMiLinkUpdateOptions(), executionOptions, cancellationToken);

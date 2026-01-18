@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az incremental-copy commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageBlobIncrementalCopy
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageBlobIncrementalCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzStorageBlobIncrementalCopyCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobIncrementalCopyCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobIncrementalCopyCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageBlobIncrementalCopy
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzStorageBlobIncrementalCopyStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageBlobIncrementalCopyStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageBlobIncrementalCopyStartOptions(), executionOptions, cancellationToken);

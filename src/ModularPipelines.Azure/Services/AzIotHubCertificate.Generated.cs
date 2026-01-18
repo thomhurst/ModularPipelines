@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az certificate commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzIotHubCertificate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzIotHubCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzIotHubCertificateCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubCertificateCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubCertificateCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzIotHubCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzIotHubCertificateUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzIotHubCertificateUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzIotHubCertificateUpdateOptions(), executionOptions, cancellationToken);

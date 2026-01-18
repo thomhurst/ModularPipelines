@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az page commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsWikiPage
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsWikiPage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDevopsWikiPageCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsWikiPageCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiPageCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsWikiPage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDevopsWikiPageDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsWikiPageDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiPageDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsWikiPage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsWikiPageShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsWikiPageShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiPageShowOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDevopsWikiPage
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsWikiPageUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsWikiPageUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsWikiPageUpdateOptions(), executionOptions, cancellationToken);

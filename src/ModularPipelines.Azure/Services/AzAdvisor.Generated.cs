@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az advisor commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAdvisor
 {
     private readonly ICommand _command;
-    private AzAdvisorConfiguration? _configuration;
-    private AzAdvisorRecommendation? _recommendation;
+    private AzAdvisorConfiguration _configuration;
+    private AzAdvisorRecommendation _recommendation;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAdvisor"/> class.

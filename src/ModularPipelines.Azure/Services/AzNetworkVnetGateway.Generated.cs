@@ -14,16 +14,16 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vnet-gateway commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVnetGateway
 {
     private readonly ICommand _command;
-    private AzNetworkVnetGatewayAad? _aad;
-    private AzNetworkVnetGatewayIpsecPolicy? _ipsecPolicy;
-    private AzNetworkVnetGatewayMigration? _migration;
-    private AzNetworkVnetGatewayRevokedCert? _revokedCert;
-    private AzNetworkVnetGatewayRootCert? _rootCert;
-    private AzNetworkVnetGatewayVpnClient? _vpnClient;
+    private AzNetworkVnetGatewayAad _aad;
+    private AzNetworkVnetGatewayIpsecPolicy _ipsecPolicy;
+    private AzNetworkVnetGatewayMigration _migration;
+    private AzNetworkVnetGatewayRevokedCert _revokedCert;
+    private AzNetworkVnetGatewayRootCert _rootCert;
+    private AzNetworkVnetGatewayVpnClient _vpnClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVnetGateway"/> class.
@@ -77,8 +77,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVnetGatewayCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayCreateOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVnetGatewayDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayDeleteOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFailoverAllTestsDetail(
-        AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayGetFailoverAllTestsDetailOptions(), executionOptions, cancellationToken);
@@ -122,8 +122,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetFailoverSingleTestDetail(
-        AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayGetFailoverSingleTestDetailOptions(), executionOptions, cancellationToken);
@@ -137,8 +137,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetResiliencyInformation(
-        AzNetworkVnetGatewayGetResiliencyInformationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayGetResiliencyInformationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayGetResiliencyInformationOptions(), executionOptions, cancellationToken);
@@ -152,8 +152,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GetRoutesInformation(
-        AzNetworkVnetGatewayGetRoutesInformationOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayGetRoutesInformationOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayGetRoutesInformationOptions(), executionOptions, cancellationToken);
@@ -167,8 +167,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListAdvertisedRoutes(
-        AzNetworkVnetGatewayListAdvertisedRoutesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayListAdvertisedRoutesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListAdvertisedRoutesOptions(), executionOptions, cancellationToken);
@@ -182,8 +182,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListBgpPeerStatus(
-        AzNetworkVnetGatewayListBgpPeerStatusOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayListBgpPeerStatusOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListBgpPeerStatusOptions(), executionOptions, cancellationToken);
@@ -197,8 +197,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLearnedRoutes(
-        AzNetworkVnetGatewayListLearnedRoutesOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayListLearnedRoutesOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayListLearnedRoutesOptions(), executionOptions, cancellationToken);
@@ -212,8 +212,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Reset(
-        AzNetworkVnetGatewayResetOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayResetOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayResetOptions(), executionOptions, cancellationToken);
@@ -227,8 +227,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StartSiteFailoverTest(
-        AzNetworkVnetGatewayStartSiteFailoverTestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayStartSiteFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayStartSiteFailoverTestOptions(), executionOptions, cancellationToken);
@@ -242,8 +242,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> StopSiteFailoverTest(
-        AzNetworkVnetGatewayStopSiteFailoverTestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayStopSiteFailoverTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayStopSiteFailoverTestOptions(), executionOptions, cancellationToken);
@@ -257,8 +257,8 @@ public class AzNetworkVnetGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVnetGatewayUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVnetGatewayUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVnetGatewayUpdateOptions(), executionOptions, cancellationToken);

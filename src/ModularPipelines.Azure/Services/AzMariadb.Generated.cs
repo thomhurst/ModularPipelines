@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az mariadb commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzMariadb
 {
     private readonly ICommand _command;
-    private AzMariadbDb? _db;
-    private AzMariadbServer? _server;
-    private AzMariadbServerLogs? _serverLogs;
+    private AzMariadbDb _db;
+    private AzMariadbServer _server;
+    private AzMariadbServerLogs _serverLogs;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzMariadb"/> class.

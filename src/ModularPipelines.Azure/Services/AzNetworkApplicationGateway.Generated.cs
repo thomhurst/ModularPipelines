@@ -14,32 +14,32 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az application-gateway commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkApplicationGateway
 {
     private readonly ICommand _command;
-    private AzNetworkApplicationGatewayAddressPool? _addressPool;
-    private AzNetworkApplicationGatewayAuthCert? _authCert;
-    private AzNetworkApplicationGatewayClientCert? _clientCert;
-    private AzNetworkApplicationGatewayFrontendIp? _frontendIp;
-    private AzNetworkApplicationGatewayFrontendPort? _frontendPort;
-    private AzNetworkApplicationGatewayHttpListener? _httpListener;
-    private AzNetworkApplicationGatewayHttpSettings? _httpSettings;
-    private AzNetworkApplicationGatewayIdentity? _identity;
-    private AzNetworkApplicationGatewayListener? _listener;
-    private AzNetworkApplicationGatewayProbe? _probe;
-    private AzNetworkApplicationGatewayRedirectConfig? _redirectConfig;
-    private AzNetworkApplicationGatewayRewriteRule? _rewriteRule;
-    private AzNetworkApplicationGatewayRootCert? _rootCert;
-    private AzNetworkApplicationGatewayRoutingRule? _routingRule;
-    private AzNetworkApplicationGatewayRule? _rule;
-    private AzNetworkApplicationGatewaySettings? _settings;
-    private AzNetworkApplicationGatewaySslCert? _sslCert;
-    private AzNetworkApplicationGatewaySslPolicy? _sslPolicy;
-    private AzNetworkApplicationGatewaySslProfile? _sslProfile;
-    private AzNetworkApplicationGatewayUrlPathMap? _urlPathMap;
-    private AzNetworkApplicationGatewayWafConfig? _wafConfig;
-    private AzNetworkApplicationGatewayWafPolicy? _wafPolicy;
+    private AzNetworkApplicationGatewayAddressPool _addressPool;
+    private AzNetworkApplicationGatewayAuthCert _authCert;
+    private AzNetworkApplicationGatewayClientCert _clientCert;
+    private AzNetworkApplicationGatewayFrontendIp _frontendIp;
+    private AzNetworkApplicationGatewayFrontendPort _frontendPort;
+    private AzNetworkApplicationGatewayHttpListener _httpListener;
+    private AzNetworkApplicationGatewayHttpSettings _httpSettings;
+    private AzNetworkApplicationGatewayIdentity _identity;
+    private AzNetworkApplicationGatewayListener _listener;
+    private AzNetworkApplicationGatewayProbe _probe;
+    private AzNetworkApplicationGatewayRedirectConfig _redirectConfig;
+    private AzNetworkApplicationGatewayRewriteRule _rewriteRule;
+    private AzNetworkApplicationGatewayRootCert _rootCert;
+    private AzNetworkApplicationGatewayRoutingRule _routingRule;
+    private AzNetworkApplicationGatewayRule _rule;
+    private AzNetworkApplicationGatewaySettings _settings;
+    private AzNetworkApplicationGatewaySslCert _sslCert;
+    private AzNetworkApplicationGatewaySslPolicy _sslPolicy;
+    private AzNetworkApplicationGatewaySslProfile _sslProfile;
+    private AzNetworkApplicationGatewayUrlPathMap _urlPathMap;
+    private AzNetworkApplicationGatewayWafConfig _wafConfig;
+    private AzNetworkApplicationGatewayWafPolicy _wafPolicy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkApplicationGateway"/> class.
@@ -173,8 +173,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkApplicationGatewayCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayCreateOptions(), executionOptions, cancellationToken);
@@ -188,8 +188,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkApplicationGatewayDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayDeleteOptions(), executionOptions, cancellationToken);
@@ -203,8 +203,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkApplicationGatewayListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayListOptions(), executionOptions, cancellationToken);
@@ -218,8 +218,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowBackendHealth(
-        AzNetworkApplicationGatewayShowBackendHealthOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayShowBackendHealthOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayShowBackendHealthOptions(), executionOptions, cancellationToken);
@@ -233,8 +233,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzNetworkApplicationGatewayStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayStartOptions(), executionOptions, cancellationToken);
@@ -248,8 +248,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzNetworkApplicationGatewayStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayStopOptions(), executionOptions, cancellationToken);
@@ -263,8 +263,8 @@ public class AzNetworkApplicationGateway
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkApplicationGatewayUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkApplicationGatewayUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkApplicationGatewayUpdateOptions(), executionOptions, cancellationToken);

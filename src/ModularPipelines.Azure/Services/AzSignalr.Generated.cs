@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az signalr commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSignalr
 {
     private readonly ICommand _command;
-    private AzSignalrCustomCertificate? _customCertificate;
-    private AzSignalrCustomDomain? _customDomain;
-    private AzSignalrNetworkRule? _networkRule;
-    private AzSignalrReplica? _replica;
+    private AzSignalrCustomCertificate _customCertificate;
+    private AzSignalrCustomDomain _customDomain;
+    private AzSignalrNetworkRule _networkRule;
+    private AzSignalrReplica _replica;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzSignalr"/> class.
@@ -65,8 +65,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSignalrCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSignalrCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSignalrListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSignalrListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrListOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzSignalr
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSignalrUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSignalrUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrUpdateOptions(), executionOptions, cancellationToken);

@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az virtual-network-rule commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Remove(
-        AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzServicebusNamespaceNetworkRuleSetVirtualNetworkRuleRemoveOptions(), executionOptions, cancellationToken);

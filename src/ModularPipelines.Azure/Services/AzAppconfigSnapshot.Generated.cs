@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az snapshot commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAppconfigSnapshot
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAppconfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Archive(
-        AzAppconfigSnapshotArchiveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigSnapshotArchiveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotArchiveOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAppconfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAppconfigSnapshotCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigSnapshotCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAppconfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAppconfigSnapshotListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigSnapshotListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotListOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAppconfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Recover(
-        AzAppconfigSnapshotRecoverOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigSnapshotRecoverOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotRecoverOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzAppconfigSnapshot
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzAppconfigSnapshotShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppconfigSnapshotShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppconfigSnapshotShowOptions(), executionOptions, cancellationToken);

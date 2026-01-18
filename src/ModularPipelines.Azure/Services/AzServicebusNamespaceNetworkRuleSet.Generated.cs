@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az network-rule-set commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzServicebusNamespaceNetworkRuleSet
 {
     private readonly ICommand _command;
-    private AzServicebusNamespaceNetworkRuleSetIpRule? _ipRule;
-    private AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule? _virtualNetworkRule;
+    private AzServicebusNamespaceNetworkRuleSetIpRule _ipRule;
+    private AzServicebusNamespaceNetworkRuleSetVirtualNetworkRule _virtualNetworkRule;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzServicebusNamespaceNetworkRuleSet"/> class.

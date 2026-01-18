@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az team commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsTeam
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzDevopsTeamCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzDevopsTeamDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListMember(
-        AzDevopsTeamListMemberOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamListMemberOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamListMemberOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsTeamListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsTeamShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamShowOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzDevopsTeam
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzDevopsTeamUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsTeamUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsTeamUpdateOptions(), executionOptions, cancellationToken);

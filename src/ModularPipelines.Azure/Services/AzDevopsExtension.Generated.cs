@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az extension commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzDevopsExtension
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzDevopsExtensionDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionDisableOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzDevopsExtensionEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionEnableOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        AzDevopsExtensionInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionInstallOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzDevopsExtensionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionListOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzDevopsExtensionShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionShowOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class AzDevopsExtension
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Uninstall(
-        AzDevopsExtensionUninstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzDevopsExtensionUninstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzDevopsExtensionUninstallOptions(), executionOptions, cancellationToken);

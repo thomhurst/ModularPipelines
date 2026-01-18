@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az self-hosted commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseIntegrationRuntimeSelfHosted
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseIntegrationRuntimeSelfHosted
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseIntegrationRuntimeSelfHostedCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseIntegrationRuntimeSelfHostedCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseIntegrationRuntimeSelfHostedCreateOptions(), executionOptions, cancellationToken);

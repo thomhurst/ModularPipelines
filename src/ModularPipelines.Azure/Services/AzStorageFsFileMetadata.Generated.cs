@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az metadata commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzStorageFsFileMetadata
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzStorageFsFileMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzStorageFsFileMetadataShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsFileMetadataShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsFileMetadataShowOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzStorageFsFileMetadata
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzStorageFsFileMetadataUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzStorageFsFileMetadataUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageFsFileMetadataUpdateOptions(), executionOptions, cancellationToken);

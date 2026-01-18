@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az tag commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesBuildTag
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzPipelinesBuildTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzPipelinesBuildTagAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildTagAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildTagAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzPipelinesBuildTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPipelinesBuildTagDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildTagDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildTagDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzPipelinesBuildTag
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesBuildTagListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesBuildTagListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesBuildTagListOptions(), executionOptions, cancellationToken);

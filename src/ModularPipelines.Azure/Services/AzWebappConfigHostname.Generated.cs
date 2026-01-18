@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az hostname commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzWebappConfigHostname
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzWebappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        AzWebappConfigHostnameAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigHostnameAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigHostnameAddOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzWebappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzWebappConfigHostnameDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigHostnameDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigHostnameDeleteOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzWebappConfigHostname
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzWebappConfigHostnameListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzWebappConfigHostnameListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzWebappConfigHostnameListOptions(), executionOptions, cancellationToken);

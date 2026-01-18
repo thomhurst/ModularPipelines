@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az appservice commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAppservice
 {
     private readonly ICommand _command;
-    private AzAppserviceAse? _ase;
-    private AzAppservicePlan? _plan;
+    private AzAppserviceAse _ase;
+    private AzAppservicePlan _plan;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAppservice"/> class.
@@ -53,8 +53,8 @@ public class AzAppservice
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ListLocations(
-        AzAppserviceListLocationsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAppserviceListLocationsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAppserviceListLocationsOptions(), executionOptions, cancellationToken);

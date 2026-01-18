@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az topic commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzEventgridDomainTopic
 {
     private readonly ICommand _command;
-    private AzEventgridDomainTopicEventSubscription? _eventSubscription;
+    private AzEventgridDomainTopicEventSubscription _eventSubscription;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzEventgridDomainTopic"/> class.
@@ -47,8 +47,8 @@ public class AzEventgridDomainTopic
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzEventgridDomainTopicListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzEventgridDomainTopicListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzEventgridDomainTopicListOptions(), executionOptions, cancellationToken);

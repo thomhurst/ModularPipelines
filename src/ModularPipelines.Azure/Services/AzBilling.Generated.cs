@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az billing commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzBilling
 {
     private readonly ICommand _command;
-    private AzBillingInvoice? _invoice;
-    private AzBillingPeriod? _period;
+    private AzBillingInvoice _invoice;
+    private AzBillingPeriod _period;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzBilling"/> class.

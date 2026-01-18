@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az group commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzGroup
 {
     private readonly ICommand _command;
-    private AzGroupLock? _lock;
+    private AzGroupLock _lock;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzGroup"/> class.
@@ -47,8 +47,8 @@ public class AzGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzGroupCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzGroupCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzGroupDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzGroupDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzGroupExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzGroupExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupExportOptions(), executionOptions, cancellationToken);
@@ -92,8 +92,8 @@ public class AzGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzGroupListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzGroupListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupListOptions(), executionOptions, cancellationToken);
@@ -107,8 +107,8 @@ public class AzGroup
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzGroupUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzGroupUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzGroupUpdateOptions(), executionOptions, cancellationToken);

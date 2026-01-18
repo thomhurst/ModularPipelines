@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az autoscale commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzHdinsightAutoscale
 {
     private readonly ICommand _command;
-    private AzHdinsightAutoscaleCondition? _condition;
+    private AzHdinsightAutoscaleCondition _condition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzHdinsightAutoscale"/> class.
@@ -47,8 +47,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzHdinsightAutoscaleCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzHdinsightAutoscaleCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzHdinsightAutoscaleDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzHdinsightAutoscaleDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleDeleteOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzHdinsightAutoscale
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzHdinsightAutoscaleUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzHdinsightAutoscaleUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzHdinsightAutoscaleUpdateOptions(), executionOptions, cancellationToken);

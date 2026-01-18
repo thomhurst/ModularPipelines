@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az job commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsJob
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzAmsJobCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsJobCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsJobListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsJobListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobListOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzAmsJobStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsJobStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobStartOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class AzAmsJob
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsJobUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsJobUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsJobUpdateOptions(), executionOptions, cancellationToken);

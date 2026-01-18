@@ -14,13 +14,13 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az vpn-connection commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkVpnConnection
 {
     private readonly ICommand _command;
-    private AzNetworkVpnConnectionIpsecPolicy? _ipsecPolicy;
-    private AzNetworkVpnConnectionPacketCapture? _packetCapture;
-    private AzNetworkVpnConnectionSharedKey? _sharedKey;
+    private AzNetworkVpnConnectionIpsecPolicy _ipsecPolicy;
+    private AzNetworkVpnConnectionPacketCapture _packetCapture;
+    private AzNetworkVpnConnectionSharedKey _sharedKey;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkVpnConnection"/> class.
@@ -59,8 +59,8 @@ public class AzNetworkVpnConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzNetworkVpnConnectionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionCreateOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ public class AzNetworkVpnConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzNetworkVpnConnectionDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionDeleteOptions(), executionOptions, cancellationToken);
@@ -89,8 +89,8 @@ public class AzNetworkVpnConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzNetworkVpnConnectionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionListOptions(), executionOptions, cancellationToken);
@@ -104,8 +104,8 @@ public class AzNetworkVpnConnection
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzNetworkVpnConnectionUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzNetworkVpnConnectionUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzNetworkVpnConnectionUpdateOptions(), executionOptions, cancellationToken);

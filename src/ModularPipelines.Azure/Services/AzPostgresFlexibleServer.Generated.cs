@@ -14,20 +14,20 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az flexible-server commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPostgresFlexibleServer
 {
     private readonly ICommand _command;
-    private AzPostgresFlexibleServerAutonomousTuning? _autonomousTuning;
-    private AzPostgresFlexibleServerDeploy? _deploy;
-    private AzPostgresFlexibleServerFabricMirroring? _fabricMirroring;
-    private AzPostgresFlexibleServerIdentity? _identity;
-    private AzPostgresFlexibleServerMicrosoftEntraAdmin? _microsoftEntraAdmin;
-    private AzPostgresFlexibleServerParameter? _parameter;
-    private AzPostgresFlexibleServerPrivateEndpointConnection? _privateEndpointConnection;
-    private AzPostgresFlexibleServerReplica? _replica;
-    private AzPostgresFlexibleServerServerLogs? _serverLogs;
-    private AzPostgresFlexibleServerVirtualEndpoint? _virtualEndpoint;
+    private AzPostgresFlexibleServerAutonomousTuning _autonomousTuning;
+    private AzPostgresFlexibleServerDeploy _deploy;
+    private AzPostgresFlexibleServerFabricMirroring _fabricMirroring;
+    private AzPostgresFlexibleServerIdentity _identity;
+    private AzPostgresFlexibleServerMicrosoftEntraAdmin _microsoftEntraAdmin;
+    private AzPostgresFlexibleServerParameter _parameter;
+    private AzPostgresFlexibleServerPrivateEndpointConnection _privateEndpointConnection;
+    private AzPostgresFlexibleServerReplica _replica;
+    private AzPostgresFlexibleServerServerLogs _serverLogs;
+    private AzPostgresFlexibleServerVirtualEndpoint _virtualEndpoint;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPostgresFlexibleServer"/> class.
@@ -101,8 +101,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzPostgresFlexibleServerCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerCreateOptions(), executionOptions, cancellationToken);
@@ -116,8 +116,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzPostgresFlexibleServerDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerDeleteOptions(), executionOptions, cancellationToken);
@@ -131,8 +131,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> GeoRestore(
-        AzPostgresFlexibleServerGeoRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerGeoRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerGeoRestoreOptions(), executionOptions, cancellationToken);
@@ -146,8 +146,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPostgresFlexibleServerListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerListOptions(), executionOptions, cancellationToken);
@@ -161,8 +161,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restart(
-        AzPostgresFlexibleServerRestartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerRestartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerRestartOptions(), executionOptions, cancellationToken);
@@ -176,8 +176,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Restore(
-        AzPostgresFlexibleServerRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerRestoreOptions(), executionOptions, cancellationToken);
@@ -191,8 +191,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ReviveDropped(
-        AzPostgresFlexibleServerReviveDroppedOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerReviveDroppedOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerReviveDroppedOptions(), executionOptions, cancellationToken);
@@ -206,8 +206,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> ShowConnectionString(
-        AzPostgresFlexibleServerShowConnectionStringOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerShowConnectionStringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerShowConnectionStringOptions(), executionOptions, cancellationToken);
@@ -221,8 +221,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        AzPostgresFlexibleServerStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerStartOptions(), executionOptions, cancellationToken);
@@ -236,8 +236,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Stop(
-        AzPostgresFlexibleServerStopOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerStopOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerStopOptions(), executionOptions, cancellationToken);
@@ -251,8 +251,8 @@ public class AzPostgresFlexibleServer
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzPostgresFlexibleServerUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPostgresFlexibleServerUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPostgresFlexibleServerUpdateOptions(), executionOptions, cancellationToken);

@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az service-endpoint commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzNetworkServiceEndpoint
 {
     private readonly ICommand _command;
-    private AzNetworkServiceEndpointPolicy? _policy;
-    private AzNetworkServiceEndpointPolicyDefinition? _policyDefinition;
+    private AzNetworkServiceEndpointPolicy _policy;
+    private AzNetworkServiceEndpointPolicyDefinition _policyDefinition;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzNetworkServiceEndpoint"/> class.

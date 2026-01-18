@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az session commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSynapseSparkSession
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Cancel(
-        AzSynapseSparkSessionCancelOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkSessionCancelOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionCancelOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSynapseSparkSessionCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkSessionCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionCreateOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class AzSynapseSparkSession
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzSynapseSparkSessionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSynapseSparkSessionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSynapseSparkSessionListOptions(), executionOptions, cancellationToken);

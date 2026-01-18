@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az transform commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAmsTransform
 {
     private readonly ICommand _command;
-    private AzAmsTransformOutput? _output;
+    private AzAmsTransformOutput _output;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAmsTransform"/> class.
@@ -47,8 +47,8 @@ public class AzAmsTransform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzAmsTransformCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsTransformCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformCreateOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzAmsTransform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzAmsTransformListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsTransformListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformListOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzAmsTransform
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAmsTransformUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAmsTransformUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAmsTransformUpdateOptions(), executionOptions, cancellationToken);

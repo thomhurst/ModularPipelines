@@ -14,12 +14,12 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az runs commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPipelinesRuns
 {
     private readonly ICommand _command;
-    private AzPipelinesRunsArtifact? _artifact;
-    private AzPipelinesRunsTag? _tag;
+    private AzPipelinesRunsArtifact _artifact;
+    private AzPipelinesRunsTag _tag;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPipelinesRuns"/> class.
@@ -53,8 +53,8 @@ public class AzPipelinesRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzPipelinesRunsListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesRunsListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsListOptions(), executionOptions, cancellationToken);
@@ -68,8 +68,8 @@ public class AzPipelinesRuns
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Show(
-        AzPipelinesRunsShowOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzPipelinesRunsShowOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzPipelinesRunsShowOptions(), executionOptions, cancellationToken);

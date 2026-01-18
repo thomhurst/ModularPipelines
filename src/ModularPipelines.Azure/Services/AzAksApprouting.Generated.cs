@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az approuting commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzAksApprouting
 {
     private readonly ICommand _command;
-    private AzAksApproutingZone? _zone;
+    private AzAksApproutingZone _zone;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzAksApprouting"/> class.
@@ -47,8 +47,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Disable(
-        AzAksApproutingDisableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksApproutingDisableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingDisableOptions(), executionOptions, cancellationToken);
@@ -62,8 +62,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Enable(
-        AzAksApproutingEnableOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksApproutingEnableOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingEnableOptions(), executionOptions, cancellationToken);
@@ -77,8 +77,8 @@ public class AzAksApprouting
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzAksApproutingUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzAksApproutingUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzAksApproutingUpdateOptions(), executionOptions, cancellationToken);

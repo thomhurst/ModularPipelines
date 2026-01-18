@@ -14,11 +14,11 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az postgres commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzPostgres
 {
     private readonly ICommand _command;
-    private AzPostgresFlexibleServer? _flexibleServer;
+    private AzPostgresFlexibleServer _flexibleServer;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzPostgres"/> class.

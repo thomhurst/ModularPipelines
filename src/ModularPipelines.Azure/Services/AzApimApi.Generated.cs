@@ -14,14 +14,14 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az api commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzApimApi
 {
     private readonly ICommand _command;
-    private AzApimApiOperation? _operation;
-    private AzApimApiRelease? _release;
-    private AzApimApiSchema? _schema;
-    private AzApimApiVersionset? _versionset;
+    private AzApimApiOperation _operation;
+    private AzApimApiRelease _release;
+    private AzApimApiSchema _schema;
+    private AzApimApiVersionset _versionset;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AzApimApi"/> class.
@@ -65,8 +65,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzApimApiCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiCreateOptions(), executionOptions, cancellationToken);
@@ -80,8 +80,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Delete(
-        AzApimApiDeleteOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiDeleteOptions(), executionOptions, cancellationToken);
@@ -95,8 +95,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Export(
-        AzApimApiExportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiExportOptions(), executionOptions, cancellationToken);
@@ -110,8 +110,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Import(
-        AzApimApiImportOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiImportOptions(), executionOptions, cancellationToken);
@@ -125,8 +125,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        AzApimApiListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiListOptions(), executionOptions, cancellationToken);
@@ -140,8 +140,8 @@ public class AzApimApi
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzApimApiUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzApimApiUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzApimApiUpdateOptions(), executionOptions, cancellationToken);

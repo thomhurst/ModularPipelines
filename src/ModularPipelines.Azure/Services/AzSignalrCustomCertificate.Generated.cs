@@ -14,7 +14,7 @@ namespace ModularPipelines.Azure.Services;
 /// <summary>
 /// az custom-certificate commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "1.0.0")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class AzSignalrCustomCertificate
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class AzSignalrCustomCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        AzSignalrCustomCertificateCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSignalrCustomCertificateCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrCustomCertificateCreateOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class AzSignalrCustomCertificate
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        AzSignalrCustomCertificateUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        AzSignalrCustomCertificateUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzSignalrCustomCertificateUpdateOptions(), executionOptions, cancellationToken);
