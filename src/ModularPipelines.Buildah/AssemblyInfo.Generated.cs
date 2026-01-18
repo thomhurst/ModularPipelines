@@ -6,4 +6,4 @@
 using System.Reflection;
 
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "buildah")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-01-18T02:54:43.2414897Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-01-18T13:53:37.9565729Z")]

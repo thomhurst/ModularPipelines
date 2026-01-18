@@ -13,7 +13,7 @@ namespace ModularPipelines.Buildah.Services;
 /// <summary>
 /// Generated interface for buildah CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IBuildah
 {
     #region Sub-domain Services
@@ -39,7 +39,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Add(BuildahAddOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Add(BuildahAddOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Builds an OCI image using instructions in one or more Containerfiles.
@@ -48,7 +48,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Build(BuildahBuildOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Build(BuildahBuildOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Writes a new image using the container's read-write layer and, if it is based
@@ -57,7 +57,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Commit(BuildahCommitOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Commit(BuildahCommitOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modifies the configuration values which will be saved to the image.
@@ -66,7 +66,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Config(BuildahConfigOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Config(BuildahConfigOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists containers which appear to be buildah working containers, their
@@ -75,7 +75,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Containers(BuildahContainersOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Containers(BuildahContainersOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Copies the contents of a file, URL, or directory into a container's working
@@ -84,7 +84,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Copy(BuildahCopyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Copy(BuildahCopyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new working container, either from scratch or using a specified
@@ -93,7 +93,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> From(BuildahFromOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> From(BuildahFromOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Lists locally stored images.
@@ -102,7 +102,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Images(BuildahImagesOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Images(BuildahImagesOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inspects a build container's or built image's configuration.
@@ -111,7 +111,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Inspect(BuildahInspectOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Inspect(BuildahInspectOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Login to a container registry on a specified server.
@@ -120,7 +120,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Login(BuildahLoginOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Login(BuildahLoginOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Remove the cached username and password for the registry.
@@ -129,7 +129,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Logout(BuildahLogoutOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Logout(BuildahLogoutOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Convert a conventional image to a confidential workload image.
@@ -138,7 +138,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Mkcw(BuildahMkcwOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Mkcw(BuildahMkcwOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// buildah mount
@@ -147,7 +147,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Mount(BuildahMountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Mount(BuildahMountOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cleanup intermediate images as well as build and mount cache.
@@ -156,7 +156,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Prune(BuildahPruneOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Prune(BuildahPruneOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pulls an image from a registry and stores it locally.
@@ -165,7 +165,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pull(BuildahPullOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pull(BuildahPullOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Pushes an image to a specified location.
@@ -174,7 +174,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Push(BuildahPushOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Push(BuildahPushOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Renames a local container.
@@ -183,7 +183,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rename(BuildahRenameOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rename(BuildahRenameOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more locally stored images.
@@ -192,7 +192,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rmi(BuildahRmiOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rmi(BuildahRmiOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes one or more working containers, unmounting them if necessary.
@@ -201,7 +201,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Rm(BuildahRmOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Rm(BuildahRmOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs a specified command using the container's root filesystem as a root
@@ -210,7 +210,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Run(BuildahRunOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Run(BuildahRunOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Adds one or more additional names to locally-stored image.
@@ -219,7 +219,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tag(BuildahTagOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Tag(BuildahTagOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unmounts the root file system of the specified working containers.
@@ -228,7 +228,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Umount(BuildahUmountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Umount(BuildahUmountOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Runs a command in a modified user namespace.
@@ -237,7 +237,7 @@ public partial interface IBuildah
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unshare(BuildahUnshareOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Unshare(BuildahUnshareOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

@@ -14,7 +14,7 @@ namespace ModularPipelines.Buildah.Services;
 /// <summary>
 /// buildah source commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class BuildahSource
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        BuildahSourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        BuildahSourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        BuildahSourceAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        BuildahSourceAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceAddOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Create(
-        BuildahSourceCreateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        BuildahSourceCreateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourceCreateOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Pull(
-        BuildahSourcePullOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        BuildahSourcePullOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourcePullOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class BuildahSource
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Push(
-        BuildahSourcePushOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        BuildahSourcePushOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new BuildahSourcePushOptions(), executionOptions, cancellationToken);
