@@ -14,7 +14,7 @@ namespace ModularPipelines.Pulumi.Services;
 /// <summary>
 /// pulumi plugin commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class PulumiPlugin
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class PulumiPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        PulumiPluginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiPluginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPluginOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class PulumiPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Install(
-        PulumiPluginInstallOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiPluginInstallOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPluginInstallOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class PulumiPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Ls(
-        PulumiPluginLsOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiPluginLsOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPluginLsOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class PulumiPlugin
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Rm(
-        PulumiPluginRmOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        PulumiPluginRmOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new PulumiPluginRmOptions(), executionOptions, cancellationToken);
