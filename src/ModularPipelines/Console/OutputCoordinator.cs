@@ -8,7 +8,7 @@ namespace ModularPipelines.Console;
 /// Coordinates immediate flushing of module output with FIFO ordering and synchronization.
 /// </summary>
 [ExcludeFromCodeCoverage]
-internal sealed class OutputCoordinator : IOutputCoordinator
+internal sealed class OutputCoordinator : IOutputCoordinator, IAsyncDisposable
 {
     private readonly IBuildSystemFormatterProvider _formatterProvider;
     private readonly ILoggerFactory _loggerFactory;
@@ -244,6 +244,21 @@ internal sealed class OutputCoordinator : IOutputCoordinator
         public PendingFlush(IModuleOutputBuffer buffer)
         {
             Buffer = buffer;
+        }
+    }
+
+    /// <summary>
+    /// Safety net: flushes any remaining deferred output on disposal.
+    /// </summary>
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            await FlushDeferredAsync(CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to flush deferred output during disposal");
         }
     }
 }
