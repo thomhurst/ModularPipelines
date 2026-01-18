@@ -62,8 +62,8 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services)
         where TModule : class, IModule
     {
-        // Track module type for auto-registration to find later
-        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
         services.AddSingleton<IModule>(sp =>
             sp.GetRequiredService<IModuleActivator>().CreateModule(typeof(TModule), sp));
@@ -98,8 +98,8 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, TModule tModule)
         where TModule : class, IModule
     {
-        // Track module type for auto-registration to find later
-        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
         services.AddSingleton<IModule>(tModule);
         return new ModuleRegistrationBuilder(services, typeof(TModule));
@@ -130,8 +130,8 @@ public static class ServiceCollectionExtensions
     public static IModuleRegistrationBuilder AddModule<TModule>(this IServiceCollection services, Func<IServiceProvider, TModule> tModuleFactory)
         where TModule : class, IModule
     {
-        // Track module type for auto-registration to find later
-        services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(typeof(TModule)));
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(typeof(TModule));
 
         services.AddSingleton<IModule>(sp =>
         {
@@ -149,6 +149,27 @@ public static class ServiceCollectionExtensions
             }
         });
         return new ModuleRegistrationBuilder(services, typeof(TModule));
+    }
+
+    /// <summary>
+    /// Adds a Module to the pipeline using a runtime type.
+    /// </summary>
+    /// <param name="services">The pipeline's service collection.</param>
+    /// <param name="moduleType">The type of Module to add.</param>
+    /// <returns>The pipeline's same service collection.</returns>
+    /// <remarks>
+    /// This is an internal overload used by ModuleAutoRegistrar for auto-registration
+    /// of required dependencies discovered at runtime.
+    /// </remarks>
+    internal static IServiceCollection AddModule(this IServiceCollection services, Type moduleType)
+    {
+        // Track module type for auto-registration and unused module detection
+        GetOrCreateModuleTypesHolder(services).Add(moduleType);
+
+        services.AddSingleton(typeof(IModule), sp =>
+            sp.GetRequiredService<IModuleActivator>().CreateModule(moduleType, sp));
+
+        return services;
     }
 
     /// <summary>
@@ -269,7 +290,7 @@ public static class ServiceCollectionExtensions
             .Where(type => !type.IsGenericTypeDefinition) // Skip open generic types - DI cannot instantiate them
             .ToList();
 
-        // Get already registered module types from ModuleRegistrationOptions
+        // Get already registered module types
         var existingModuleTypes = GetRegisteredModuleTypes(services);
 
         // Combine existing modules with new modules for cycle detection
@@ -278,12 +299,14 @@ public static class ServiceCollectionExtensions
         // Validate for circular dependencies before registration
         DependencyGraphValidator.ValidateNoCycles(allModuleTypes);
 
+        var holder = GetOrCreateModuleTypesHolder(services);
         foreach (var moduleType in modules)
         {
-            // Track module type for auto-registration to find later
-            var capturedType = moduleType;
-            services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(capturedType));
+            // Track module type for auto-registration and unused module detection
+            holder.Add(moduleType);
 
+            // Capture moduleType in closure to avoid closure over loop variable
+            var capturedType = moduleType;
             services.AddSingleton(typeof(IModule), sp =>
                 sp.GetRequiredService<IModuleActivator>().CreateModule(capturedType, sp));
         }
@@ -293,46 +316,31 @@ public static class ServiceCollectionExtensions
 
     /// <summary>
     /// Gets all module types that have been registered via AddModule methods.
-    /// This reads from ModuleRegistrationOptions which tracks module types
-    /// even when factory delegates are used for registration.
     /// </summary>
     internal static HashSet<Type> GetRegisteredModuleTypes(IServiceCollection services)
     {
-        var result = new HashSet<Type>();
+        return GetOrCreateModuleTypesHolder(services).GetAll();
+    }
 
-        // Find all Configure<ModuleRegistrationOptions> registrations and extract module types
-        foreach (var descriptor in services)
+    /// <summary>
+    /// Gets or creates the RegisteredModuleTypesHolder singleton in the service collection.
+    /// </summary>
+    private static RegisteredModuleTypesHolder GetOrCreateModuleTypesHolder(IServiceCollection services)
+    {
+        // Look for existing holder in service collection
+        var existingDescriptor = services.FirstOrDefault(d =>
+            d.ServiceType == typeof(RegisteredModuleTypesHolder) &&
+            d.ImplementationInstance != null);
+
+        if (existingDescriptor?.ImplementationInstance is RegisteredModuleTypesHolder existingHolder)
         {
-            if (descriptor.ServiceType != typeof(Microsoft.Extensions.Options.IConfigureOptions<Options.ModuleRegistrationOptions>))
-            {
-                continue;
-            }
-
-            // The descriptor uses a factory, so we can't directly read the module types here.
-            // Instead, we need to build a temporary options instance to extract types.
+            return existingHolder;
         }
 
-        // Alternative approach: Look at ModuleRegistrationOptions directly if already registered
-        // This is a simpler approach - build a temporary service provider to get the options
-        IServiceCollection tempServices = new ServiceCollection();
-        foreach (var descriptor in services.Where(d =>
-            d.ServiceType == typeof(Microsoft.Extensions.Options.IConfigureOptions<Options.ModuleRegistrationOptions>)))
-        {
-            tempServices.Add(descriptor);
-        }
-
-        if (tempServices.Count > 0)
-        {
-            tempServices.AddOptions<Options.ModuleRegistrationOptions>();
-            using var tempProvider = tempServices.BuildServiceProvider();
-            var options = tempProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<Options.ModuleRegistrationOptions>>().Value;
-            foreach (var moduleType in options.RegisteredModuleTypes.Keys)
-            {
-                result.Add(moduleType);
-            }
-        }
-
-        return result;
+        // Create new holder and register it
+        var holder = new RegisteredModuleTypesHolder();
+        services.AddSingleton(holder);
+        return holder;
     }
 
     /// <summary>

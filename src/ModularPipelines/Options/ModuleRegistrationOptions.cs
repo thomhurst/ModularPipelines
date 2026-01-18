@@ -8,12 +8,6 @@ namespace ModularPipelines.Options;
 public class ModuleRegistrationOptions
 {
     /// <summary>
-    /// All module types that have been explicitly registered.
-    /// Used by ModuleAutoRegistrar to find registered modules when factory delegates are used.
-    /// </summary>
-    internal ConcurrentDictionary<Type, byte> RegisteredModuleTypes { get; } = new();
-
-    /// <summary>
     /// Tags configured for modules during registration.
     /// Key is the module type, value is the collection of tags.
     /// </summary>
@@ -24,15 +18,6 @@ public class ModuleRegistrationOptions
     /// Key is the module type, value is the category.
     /// </summary>
     internal ConcurrentDictionary<Type, string> Categories { get; } = new();
-
-    /// <summary>
-    /// Registers a module type as being explicitly registered.
-    /// </summary>
-    /// <param name="moduleType">The module type being registered.</param>
-    internal void RegisterModuleType(Type moduleType)
-    {
-        RegisteredModuleTypes.TryAdd(moduleType, 0);
-    }
 
     /// <summary>
     /// Adds tags to a module type.

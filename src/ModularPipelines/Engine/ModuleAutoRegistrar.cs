@@ -60,15 +60,11 @@ internal static class ModuleAutoRegistrar
         }
         while (addedAny);
 
-        // Register all discovered missing dependencies using the proper registration method
+        // Register all discovered missing dependencies
         foreach (var moduleType in modulesToAdd)
         {
-            // Track module type for consistency
-            services.Configure<Options.ModuleRegistrationOptions>(opts => opts.RegisterModuleType(moduleType));
-
-            // Use IModuleActivator for proper AsyncLocal context
-            services.AddSingleton(typeof(IModule), sp =>
-                sp.GetRequiredService<IModuleActivator>().CreateModule(moduleType, sp));
+            // Use the standard AddModule pattern which handles tracking
+            services.AddModule(moduleType);
         }
     }
 
