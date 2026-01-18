@@ -207,9 +207,13 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         if (!_options.Value.ShowProgressInConsole)
         {
             // Return a no-op session if progress is disabled
+            // Explicitly ensure deferred output is disabled for consistency
+            _outputCoordinator.SetProgressActive(false);
             _activeSession = new NoOpProgressSession();
             return _activeSession;
         }
+
+        ProgressSession session;
 
         lock (_phaseLock)
         {
@@ -219,19 +223,24 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
             }
 
             _isProgressActive = true;
+
+            // CRITICAL: Set OutputCoordinator's progress state inside the lock
+            // to prevent race conditions where a module completes between
+            // _isProgressActive = true and OutputCoordinator being notified
+            _outputCoordinator.SetProgressActive(true);
+
+            session = new ProgressSession(
+                this,
+                modules,
+                _options,
+                _loggerFactory,
+                cancellationToken);
+
+            // Wire up the progress controller for output coordination
+            _outputCoordinator.SetProgressController(session);
+
+            _activeSession = session;
         }
-
-        var session = new ProgressSession(
-            this,
-            modules,
-            _options,
-            _loggerFactory,
-            cancellationToken);
-
-        // Wire up the progress controller for output coordination
-        _outputCoordinator.SetProgressController(session);
-
-        _activeSession = session;
 
         // Start the progress display
         session.Start();
@@ -247,6 +256,7 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
         lock (_phaseLock)
         {
             _outputCoordinator.SetProgressController(NoOpProgressController.Instance);
+            _outputCoordinator.SetProgressActive(false);
             _isProgressActive = false;
             _activeSession = null;
         }

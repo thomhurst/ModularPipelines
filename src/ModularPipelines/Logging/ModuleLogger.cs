@@ -173,13 +173,13 @@ internal class ModuleLogger<T> : ModuleLogger, IInternalModuleLogger, IConsoleWr
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-                await _outputCoordinator.EnqueueAndFlushAsync(_buffer, cts.Token).ConfigureAwait(false);
+                await _outputCoordinator.OnModuleCompletedAsync(_buffer, typeof(T), cts.Token).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
                 // Timeout occurred - log warning, output may be lost
                 _defaultLogger.LogWarning(
-                    "Module output flush timed out after 30 seconds for {ModuleType}. Some output may be lost.",
+                    "Module output handling timed out after 30 seconds for {ModuleType}. Some output may be lost.",
                     typeof(T).Name);
             }
             catch (Exception ex)

@@ -20,9 +20,21 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     private readonly Queue<PendingFlush> _pendingQueue = new();
     private readonly SemaphoreSlim _writeLock = new(1, 1);
 
+    // Separate lock for deferred output operations to reduce contention
+    // with immediate flush operations that use _queueLock
+    private readonly object _deferredLock = new();
+
     private IProgressController _progressController = NoOpProgressController.Instance;
     private bool _isProcessingQueue;
     private volatile bool _isFlushingOutput;
+    private volatile bool _isProgressActive;
+    private readonly List<DeferredModuleOutput> _deferredOutputs = new();
+
+    private readonly record struct DeferredModuleOutput(
+        IModuleOutputBuffer Buffer,
+        Type ModuleType,
+        DateTimeOffset CompletedAt
+    );
 
     public OutputCoordinator(
         IBuildSystemFormatterProvider formatterProvider,
@@ -43,6 +55,119 @@ internal sealed class OutputCoordinator : IOutputCoordinator
     public void SetProgressController(IProgressController controller)
     {
         _progressController = controller;
+    }
+
+    /// <inheritdoc />
+    public void SetProgressActive(bool isActive)
+    {
+        lock (_deferredLock)
+        {
+            if (isActive)
+            {
+                // Starting a new progress session - check for stale deferred outputs
+                // from a previous run that crashed before FlushDeferredAsync was called
+                if (_deferredOutputs.Count > 0)
+                {
+                    _logger.LogWarning(
+                        "Found {Count} stale deferred outputs from a previous pipeline run. " +
+                        "This indicates FlushDeferredAsync was not called. Clearing to prevent memory leak.",
+                        _deferredOutputs.Count);
+                    _deferredOutputs.Clear();
+                }
+            }
+            else
+            {
+                // Progress ending - clean up any remaining deferred outputs that weren't flushed
+                // This handles cancellation scenarios where FlushDeferredAsync wasn't called
+                if (_deferredOutputs.Count > 0)
+                {
+                    _logger.LogWarning(
+                        "Progress ended with {Count} unflushed deferred outputs. " +
+                        "This indicates FlushDeferredAsync was not called (possibly due to cancellation). " +
+                        "Clearing to prevent memory leak.",
+                        _deferredOutputs.Count);
+                    _deferredOutputs.Clear();
+                }
+            }
+        }
+
+        _isProgressActive = isActive;
+    }
+
+    /// <inheritdoc />
+    public async Task OnModuleCompletedAsync(IModuleOutputBuffer buffer, Type moduleType, CancellationToken cancellationToken = default)
+    {
+        if (!buffer.HasOutput)
+        {
+            return;
+        }
+
+        if (_isProgressActive)
+        {
+            // Progress is active - defer output until pipeline end
+            // Uses separate lock to avoid contention with immediate flush operations
+            lock (_deferredLock)
+            {
+                _deferredOutputs.Add(new DeferredModuleOutput(
+                    buffer,
+                    moduleType,
+                    DateTimeOffset.UtcNow
+                ));
+            }
+        }
+        else
+        {
+            // No progress - flush immediately (existing behavior)
+            await EnqueueAndFlushAsync(buffer, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task FlushDeferredAsync(CancellationToken cancellationToken = default)
+    {
+        List<DeferredModuleOutput> toFlush;
+
+        lock (_deferredLock)
+        {
+            if (_deferredOutputs.Count == 0)
+            {
+                return;
+            }
+
+            // Order by completion time to maintain consistent output ordering
+            toFlush = _deferredOutputs
+                .OrderBy(x => x.CompletedAt)
+                .ToList();
+            _deferredOutputs.Clear();
+        }
+
+        var formatter = _formatterProvider.GetFormatter();
+
+        await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            _isFlushingOutput = true;
+            try
+            {
+                foreach (var output in toFlush)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    FlushBuffer(output.Buffer, formatter);
+                }
+            }
+            finally
+            {
+                _isFlushingOutput = false;
+            }
+        }
+        finally
+        {
+            _writeLock.Release();
+        }
     }
 
     /// <inheritdoc />

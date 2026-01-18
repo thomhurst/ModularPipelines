@@ -26,19 +26,22 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     private readonly IInternalSummaryLogger _summaryLogger;
     private readonly IExceptionBuffer _exceptionBuffer;
     private readonly IConsoleCoordinator _consoleCoordinator;
+    private readonly IOutputCoordinator _outputCoordinator;
 
     public PipelineOutputCoordinator(
         IPrintProgressExecutor printProgressExecutor,
         IConsolePrinter consolePrinter,
         IInternalSummaryLogger summaryLogger,
         IExceptionBuffer exceptionBuffer,
-        IConsoleCoordinator consoleCoordinator)
+        IConsoleCoordinator consoleCoordinator,
+        IOutputCoordinator outputCoordinator)
     {
         _printProgressExecutor = printProgressExecutor;
         _consolePrinter = consolePrinter;
         _summaryLogger = summaryLogger;
         _exceptionBuffer = exceptionBuffer;
         _consoleCoordinator = consoleCoordinator;
+        _outputCoordinator = outputCoordinator;
     }
 
     /// <inheritdoc />
@@ -48,7 +51,7 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         _consoleCoordinator.Install();
 
         var printProgressExecutor = await _printProgressExecutor.InitializeAsync().ConfigureAwait(false);
-        return new PipelineOutputScope(printProgressExecutor, _consoleCoordinator);
+        return new PipelineOutputScope(printProgressExecutor, _consoleCoordinator, _outputCoordinator);
     }
 
     /// <inheritdoc />
@@ -77,13 +80,16 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
     {
         private readonly IPrintProgressExecutor _printProgressExecutor;
         private readonly IConsoleCoordinator _consoleCoordinator;
+        private readonly IOutputCoordinator _outputCoordinator;
 
         public PipelineOutputScope(
             IPrintProgressExecutor printProgressExecutor,
-            IConsoleCoordinator consoleCoordinator)
+            IConsoleCoordinator consoleCoordinator,
+            IOutputCoordinator outputCoordinator)
         {
             _printProgressExecutor = printProgressExecutor;
             _consoleCoordinator = consoleCoordinator;
+            _outputCoordinator = outputCoordinator;
         }
 
         public async ValueTask DisposeAsync()
@@ -92,7 +98,10 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
             // 1. Stop progress display FIRST (ends buffering phase)
             await _printProgressExecutor.DisposeAsync().ConfigureAwait(false);
 
-            // 2. Flush buffered module output from coordinator
+            // 2. Flush deferred module output (in completion order)
+            await _outputCoordinator.FlushDeferredAsync().ConfigureAwait(false);
+
+            // 3. Flush any unattributed output from coordinator
             _consoleCoordinator.FlushModuleOutput();
         }
     }
