@@ -14,7 +14,7 @@ namespace ModularPipelines.Syft.Services;
 /// <summary>
 /// Generated implementation for syft CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Syft : ISyft
 {
     private readonly ICommand _command;
@@ -48,7 +48,7 @@ internal partial class Syft : ISyft
     /// <inheritdoc />
     public virtual async Task<CommandResult> Attest(
         SyftAttestOptions options,
-        CommandExecutionOptions? executionOptions = null,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
@@ -56,8 +56,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Convert(
-        SyftConvertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        SyftConvertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftConvertOptions(), executionOptions, cancellationToken);
@@ -65,8 +65,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Login(
-        SyftLoginOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        SyftLoginOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftLoginOptions(), executionOptions, cancellationToken);
@@ -74,8 +74,8 @@ internal partial class Syft : ISyft
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Scan(
-        SyftScanOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        SyftScanOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new SyftScanOptions(), executionOptions, cancellationToken);
