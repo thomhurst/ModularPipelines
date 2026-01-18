@@ -18,18 +18,9 @@ public static partial class GeneratorUtils
     public const string GeneratorName = "ModularPipelines.OptionsGenerator";
 
     /// <summary>
-    /// The version of this generator tool, used in [GeneratedCode] attributes.
-    /// Populated at build time by MinVer from git tags.
-    /// </summary>
-    public static string GeneratorVersion =>
-        typeof(GeneratorUtils).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-        ?? typeof(GeneratorUtils).Assembly.GetName().Version?.ToString(3)
-        ?? "0.0.0";
-
-    /// <summary>
     /// The full [GeneratedCode] attribute string for use in generated types.
     /// </summary>
-    public static string GeneratedCodeAttribute => $"[GeneratedCode(\"{GeneratorName}\", \"{GeneratorVersion}\")]";
+    public const string GeneratedCodeAttribute = $"[GeneratedCode(\"{GeneratorName}\", \"\")]";
 
     /// <summary>
     /// Escapes text for use in XML documentation comments.
