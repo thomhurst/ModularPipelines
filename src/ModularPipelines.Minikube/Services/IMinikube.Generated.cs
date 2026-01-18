@@ -13,7 +13,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// Generated interface for minikube CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public partial interface IMinikube
 {
     #region Sub-domain Services
@@ -64,7 +64,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Dashboard(MinikubeDashboardOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Dashboard(MinikubeDashboardOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a local Kubernetes cluster. This command deletes the VM, and removes all
@@ -73,7 +73,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Delete(MinikubeDeleteOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Delete(MinikubeDeleteOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Provides instructions to point your terminal's docker-cli to the Docker Engine inside minikube. (Useful for building docker images directly inside minikube)
@@ -82,7 +82,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> DockerEnv(MinikubeDockerEnvOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> DockerEnv(MinikubeDockerEnvOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieves the IP address of the specified node, and writes it to STDOUT.
@@ -91,7 +91,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ip(MinikubeIpOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Ip(MinikubeIpOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Run the Kubernetes client, download it if necessary. Remember -- after kubectl!
@@ -100,7 +100,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Kubectl(MinikubeKubectlOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Kubectl(MinikubeKubectlOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Outputs the licenses of dependencies to a directory
@@ -109,7 +109,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> License(MinikubeLicenseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> License(MinikubeLicenseOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the logs of the running instance, used for debugging minikube, not user code.
@@ -118,7 +118,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Logs(MinikubeLogsOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Logs(MinikubeLogsOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Mounts the specified directory into minikube.
@@ -127,7 +127,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Mount(MinikubeMountOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Mount(MinikubeMountOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// pause Kubernetes
@@ -136,7 +136,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Pause(MinikubePauseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Pause(MinikubePauseOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sets up podman env variables; similar to '$(podman-machine env)'.
@@ -145,7 +145,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> PodmanEnv(MinikubePodmanEnvOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> PodmanEnv(MinikubePodmanEnvOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the ssh host key of the specified node.
@@ -154,7 +154,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SshHost(MinikubeSshHostOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SshHost(MinikubeSshHostOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Retrieve the ssh identity key path of the specified node, and writes it to STDOUT.
@@ -163,7 +163,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> SshKey(MinikubeSshKeyOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> SshKey(MinikubeSshKeyOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Log into or run a command on a machine with SSH; similar to 'docker-machine ssh'.
@@ -172,7 +172,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Ssh(MinikubeSshOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Ssh(MinikubeSshOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Starts a local Kubernetes cluster
@@ -181,7 +181,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Start(MinikubeStartOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Start(MinikubeStartOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the status of a local Kubernetes cluster.
@@ -190,7 +190,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Status(MinikubeStatusOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Status(MinikubeStatusOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops a local Kubernetes cluster. This command stops the underlying VM or container, but keeps user data intact. The cluster can be started again with the "start" command.
@@ -199,7 +199,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Stop(MinikubeStopOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Stop(MinikubeStopOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// tunnel creates a route to services deployed with type LoadBalancer and sets their Ingress to their ClusterIP. for a detailed example see https://minikube.sigs.k8s.io/docs/tasks/loadbalancer
@@ -208,7 +208,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Tunnel(MinikubeTunnelOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Tunnel(MinikubeTunnelOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// unpause Kubernetes
@@ -217,7 +217,7 @@ public partial interface IMinikube
     /// <param name="executionOptions">The execution configuration options.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
-    Task<CommandResult> Unpause(MinikubeUnpauseOptions? options = default, CommandExecutionOptions? executionOptions = null, CancellationToken cancellationToken = default);
+    Task<CommandResult> Unpause(MinikubeUnpauseOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }

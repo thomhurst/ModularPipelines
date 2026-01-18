@@ -14,7 +14,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// minikube node commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class MinikubeNode
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        MinikubeNodeOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeNodeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Add(
-        MinikubeNodeAddOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeNodeAddOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeAddOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class MinikubeNode
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Start(
-        MinikubeNodeStartOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeNodeStartOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeNodeStartOptions(), executionOptions, cancellationToken);

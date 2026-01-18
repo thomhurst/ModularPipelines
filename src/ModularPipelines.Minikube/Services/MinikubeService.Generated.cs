@@ -14,7 +14,7 @@ namespace ModularPipelines.Minikube.Services;
 /// <summary>
 /// minikube service commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class MinikubeService
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class MinikubeService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        MinikubeServiceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeServiceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeServiceOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class MinikubeService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        MinikubeServiceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        MinikubeServiceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new MinikubeServiceListOptions(), executionOptions, cancellationToken);
