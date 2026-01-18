@@ -86,7 +86,7 @@ jobs:
 
       - name: Upload Hang Dumps
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: hang-dumps-${{ matrix.os }}
           path: |
