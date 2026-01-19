@@ -231,6 +231,14 @@ internal class ProgressSession : IProgressSession, IProgressController
             // Check if module was pre-registered (normal case)
             if (_moduleTasks.TryGetValue(state.Module, out var task))
             {
+                // Check if task was already stopped (e.g., if progress session was disposed
+                // but module is still running - shouldn't happen with proper lifecycle management)
+                if (task.IsFinished)
+                {
+                    // Task already stopped - nothing we can do, module runs without progress display
+                    return;
+                }
+
                 // Update to running status with cyan color
                 task.Description = $"[cyan]◉ {name}[/]";
                 task.Value = 0;
@@ -484,16 +492,22 @@ internal class ProgressSession : IProgressSession, IProgressController
             _refreshCompleted = null;
         }
 
-        // Signal all tasks to stop
+        // Signal tasks to stop, but preserve AlwaysRun module tasks
+        // AlwaysRun modules may still execute after pipeline failure, so we need to keep
+        // their progress tasks available for updates
         lock (_progressLock)
         {
             _totalTask?.StopTask();
 
-            foreach (var task in _moduleTasks.Values)
+            foreach (var (module, task) in _moduleTasks)
             {
                 if (!task.IsFinished)
                 {
-                    task.StopTask();
+                    // Don't stop AlwaysRun module tasks - they may still need to run
+                    if (module.ModuleRunType != ModuleRunType.AlwaysRun)
+                    {
+                        task.StopTask();
+                    }
                 }
             }
 
