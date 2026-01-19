@@ -50,6 +50,13 @@ internal class PipelineOutputCoordinator : IPipelineOutputCoordinator
         // Install console coordination before starting progress
         _consoleCoordinator.Install();
 
+        // CRITICAL: Enable output buffering BEFORE starting the progress display task.
+        // This prevents a race condition where modules could start executing and logging
+        // before the progress display has fully initialized and set the buffering flags.
+        // Without this, early module output would be written directly to console instead
+        // of being deferred until the progress display ends.
+        _consoleCoordinator.EnableOutputBuffering();
+
         var printProgressExecutor = await _printProgressExecutor.InitializeAsync().ConfigureAwait(false);
         return new PipelineOutputScope(printProgressExecutor, _consoleCoordinator, _outputCoordinator);
     }

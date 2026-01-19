@@ -100,4 +100,16 @@ internal interface IConsoleCoordinator : IAsyncDisposable
     /// Safe to call multiple times.
     /// </summary>
     void Uninstall();
+
+    /// <summary>
+    /// Enables output buffering without starting the progress display.
+    /// Call this before starting the progress display task to prevent race conditions
+    /// where modules start executing before progress is fully active.
+    /// </summary>
+    /// <remarks>
+    /// This method sets the internal buffering flags synchronously, ensuring that any
+    /// module output that occurs before the progress display is fully initialized
+    /// will be properly buffered instead of written directly to console.
+    /// </remarks>
+    void EnableOutputBuffering();
 }
