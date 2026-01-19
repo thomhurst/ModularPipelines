@@ -90,14 +90,14 @@ internal class ProgressSession : IProgressSession, IProgressController
                 .Columns(
                     new TaskDescriptionColumn(),
                     new ProgressBarColumn(),
-                    new PercentageColumn(),
                     new ElapsedTimeColumn(),
-                    new RemainingTimeColumn(),
                     new SpinnerColumn())
                 .StartAsync(async ctx =>
                 {
                     _progressContext = ctx;
-                    _totalTask = ctx.AddTask("[green]Total[/]");
+
+                    // Total row with bold styling to stand out
+                    _totalTask = ctx.AddTask("[bold green]Pipeline[/]");
 
                     // Register ignored modules immediately
                     RegisterIgnoredModules(ctx);
@@ -193,8 +193,8 @@ internal class ProgressSession : IProgressSession, IProgressController
     {
         foreach (var ignored in _modules.IgnoredModules)
         {
-            var name = SpectreMarkupEscaper.Escape(ignored.Module.GetType().Name);
-            ctx.AddTask($"[yellow][[Ignored]] {name}[/]").StopTask();
+            var name = FormatModuleName(ignored.Module.GetType().Name);
+            ctx.AddTask($"[yellow]⊘ {name}[/]").StopTask();
         }
     }
 
@@ -204,11 +204,11 @@ internal class ProgressSession : IProgressSession, IProgressController
         {
             foreach (var runnableModule in _modules.RunnableModules)
             {
-                var name = SpectreMarkupEscaper.Escape(runnableModule.Module.GetType().Name);
+                var name = FormatModuleName(runnableModule.Module.GetType().Name);
 
-                // Create task in paused state with dim "Waiting" status
+                // Create task in paused state with dim waiting status
                 // autoStart: false means task is paused, NOT stopped (stopped tasks can't restart)
-                var task = ctx.AddTask($"[dim][[Waiting]] {name}[/]", autoStart: false);
+                var task = ctx.AddTask($"[dim]○ {name}[/]", autoStart: false);
 
                 // Store for lookup when module actually starts
                 _moduleTasks[runnableModule.Module] = task;
@@ -226,20 +226,20 @@ internal class ProgressSession : IProgressSession, IProgressController
 
         lock (_progressLock)
         {
-            var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
+            var name = FormatModuleName(state.ModuleType.Name);
 
             // Check if module was pre-registered (normal case)
             if (_moduleTasks.TryGetValue(state.Module, out var task))
             {
-                // Update description to remove "Waiting" status and restart the task
-                task.Description = name;
+                // Update to running status with cyan color
+                task.Description = $"[cyan]◉ {name}[/]";
                 task.Value = 0;
                 task.StartTask();
             }
             else
             {
                 // Fallback: create new task if not pre-registered
-                task = _progressContext.AddTask(name, autoStart: true);
+                task = _progressContext.AddTask($"[cyan]◉ {name}[/]", autoStart: true);
                 _moduleTasks[state.Module] = task;
             }
 
@@ -265,10 +265,10 @@ internal class ProgressSession : IProgressSession, IProgressController
                 {
                     task.Increment(100 - task.Value);
 
-                    var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
+                    var name = FormatModuleName(state.ModuleType.Name);
                     task.Description = isSuccessful
-                        ? $"[green]{name}[/]"
-                        : $"[red][[Failed]] {name}[/]";
+                        ? $"[green]✓ {name}[/]"
+                        : $"[red]✗ {name}[/]";
 
                     task.StopTask();
                 }
@@ -297,11 +297,11 @@ internal class ProgressSession : IProgressSession, IProgressController
 
         lock (_progressLock)
         {
-            var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
+            var name = FormatModuleName(state.ModuleType.Name);
 
             if (_moduleTasks.TryGetValue(state.Module, out var task))
             {
-                task.Description = $"[yellow][[Skipped]] {name}[/]";
+                task.Description = $"[yellow]⊘ {name}[/]";
                 if (!task.IsFinished)
                 {
                     task.StopTask();
@@ -309,7 +309,7 @@ internal class ProgressSession : IProgressSession, IProgressController
             }
             else
             {
-                var newTask = _progressContext.AddTask($"[yellow][[Skipped]] {name}[/]");
+                var newTask = _progressContext.AddTask($"[yellow]⊘ {name}[/]");
                 newTask.StopTask();
             }
 
@@ -341,7 +341,7 @@ internal class ProgressSession : IProgressSession, IProgressController
 
             var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
             var task = _progressContext.AddTaskAfter(
-                $"  - {subModuleName}",
+                $"[cyan]  ◉ {subModuleName}[/]",
                 new ProgressTaskSettings { AutoStart = true },
                 parentTask);
 
@@ -373,8 +373,8 @@ internal class ProgressSession : IProgressSession, IProgressController
 
                     var subModuleName = SpectreMarkupEscaper.Escape(subModule.Name);
                     task.Description = isSuccessful
-                        ? $"[green]  - {subModuleName}[/]"
-                        : $"[red][[Failed]]   - {subModuleName}[/]";
+                        ? $"[green]  ✓ {subModuleName}[/]"
+                        : $"[red]  ✗ {subModuleName}[/]";
 
                     task.StopTask();
                 }
@@ -512,6 +512,17 @@ internal class ProgressSession : IProgressSession, IProgressController
 
         // NOW it's safe to end the progress phase
         _coordinator.EndProgressPhase();
+    }
+
+    /// <summary>
+    /// Formats a module name for display by stripping the "Module" suffix.
+    /// </summary>
+    private static string FormatModuleName(string typeName)
+    {
+        var escaped = SpectreMarkupEscaper.Escape(typeName);
+        return escaped.EndsWith("Module", StringComparison.Ordinal)
+            ? escaped[..^6]
+            : escaped;
     }
 }
 
