@@ -102,6 +102,9 @@ internal class ProgressSession : IProgressSession, IProgressController
                     // Register ignored modules immediately
                     RegisterIgnoredModules(ctx);
 
+                    // Register all pending modules upfront so users can see what's coming
+                    RegisterPendingModules(ctx);
+
                     // Keep alive until all modules complete or cancellation
                     while (!ctx.IsFinished && !_cancellationToken.IsCancellationRequested)
                     {
@@ -195,6 +198,24 @@ internal class ProgressSession : IProgressSession, IProgressController
         }
     }
 
+    private void RegisterPendingModules(ProgressContext ctx)
+    {
+        lock (_progressLock)
+        {
+            foreach (var runnableModule in _modules.RunnableModules)
+            {
+                var name = SpectreMarkupEscaper.Escape(runnableModule.Module.GetType().Name);
+
+                // Create task in paused state with dim "Waiting" status
+                // autoStart: false means task is paused, NOT stopped (stopped tasks can't restart)
+                var task = ctx.AddTask($"[dim][[Waiting]] {name}[/]", autoStart: false);
+
+                // Store for lookup when module actually starts
+                _moduleTasks[runnableModule.Module] = task;
+            }
+        }
+    }
+
     /// <inheritdoc />
     public void OnModuleStarted(ModuleState state, TimeSpan estimatedDuration)
     {
@@ -206,8 +227,21 @@ internal class ProgressSession : IProgressSession, IProgressController
         lock (_progressLock)
         {
             var name = SpectreMarkupEscaper.Escape(state.ModuleType.Name);
-            var task = _progressContext.AddTask(name, autoStart: true);
-            _moduleTasks[state.Module] = task;
+
+            // Check if module was pre-registered (normal case)
+            if (_moduleTasks.TryGetValue(state.Module, out var task))
+            {
+                // Update description to remove "Waiting" status and restart the task
+                task.Description = name;
+                task.Value = 0;
+                task.StartTask();
+            }
+            else
+            {
+                // Fallback: create new task if not pre-registered
+                task = _progressContext.AddTask(name, autoStart: true);
+                _moduleTasks[state.Module] = task;
+            }
 
             // Start background ticker for progress animation
             StartProgressTicker(task, estimatedDuration);
