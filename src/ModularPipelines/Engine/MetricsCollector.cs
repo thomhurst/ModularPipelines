@@ -96,10 +96,12 @@ internal class MetricsCollector : IMetricsCollector
         var peakConcurrency = snapshots.Count > 0 ? snapshots.Max(s => s.Concurrency) : 1;
         var averageConcurrency = snapshots.Count > 0 ? snapshots.Average(s => s.Concurrency) : 1.0;
 
-        // Calculate efficiency (actual parallelism vs theoretical max)
-        var theoreticalMaxParallelism = Math.Min(maxParallelism, moduleData.Count);
+        // Calculate efficiency (average concurrency vs peak achievable given dependencies)
+        // Peak concurrency represents the actual maximum parallelism the dependency graph allows,
+        // which is more meaningful than comparing against total module count
+        var theoreticalMaxParallelism = Math.Min(maxParallelism, peakConcurrency);
         var efficiency = theoreticalMaxParallelism > 0
-            ? parallelismFactor / theoreticalMaxParallelism
+            ? averageConcurrency / theoreticalMaxParallelism
             : 1.0;
 
         return new PipelineMetrics

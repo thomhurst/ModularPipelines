@@ -200,6 +200,25 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
     }
 
     /// <inheritdoc />
+    public void EnableOutputBuffering()
+    {
+        lock (_phaseLock)
+        {
+            if (_isProgressActive)
+            {
+                return; // Already enabled
+            }
+
+            _isProgressActive = true;
+
+            // CRITICAL: Set OutputCoordinator's progress state inside the lock
+            // to prevent race conditions where a module completes between
+            // _isProgressActive = true and OutputCoordinator being notified
+            _outputCoordinator.SetProgressActive(true);
+        }
+    }
+
+    /// <inheritdoc />
     public async Task<IProgressSession> BeginProgressAsync(
         OrganizedModules modules,
         CancellationToken cancellationToken)
@@ -217,17 +236,18 @@ internal class ConsoleCoordinator : IConsoleCoordinator, IProgressDisplay
 
         lock (_phaseLock)
         {
-            if (_isProgressActive)
+            // Check if a session is already active (not just buffering enabled)
+            if (_activeSession != null)
             {
                 throw new InvalidOperationException("Progress session is already active.");
             }
 
-            _isProgressActive = true;
-
-            // CRITICAL: Set OutputCoordinator's progress state inside the lock
-            // to prevent race conditions where a module completes between
-            // _isProgressActive = true and OutputCoordinator being notified
-            _outputCoordinator.SetProgressActive(true);
+            // Enable buffering if not already enabled via EnableOutputBuffering()
+            if (!_isProgressActive)
+            {
+                _isProgressActive = true;
+                _outputCoordinator.SetProgressActive(true);
+            }
 
             session = new ProgressSession(
                 this,

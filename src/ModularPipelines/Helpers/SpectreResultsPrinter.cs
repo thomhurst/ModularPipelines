@@ -280,7 +280,6 @@ internal class SpectreResultsPrinter : IResultsPrinter
             new Markup(
                 $"[dim]Parallelism:[/] [bold]{metrics.ParallelismFactor:F1}x[/]  " +
                 $"[dim]Peak:[/] [bold]{metrics.PeakConcurrency}[/]  " +
-                $"[dim]Efficiency:[/] [bold]{metrics.Efficiency * 100:F0}%[/]  " +
                 $"[dim]Saved:[/] [bold]{(metrics.TotalModuleExecutionTime - metrics.WallClockDuration).ToDisplayString()}[/]"))
         {
             Border = BoxBorder.None,
