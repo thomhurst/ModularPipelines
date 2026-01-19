@@ -121,7 +121,7 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         var startCommand = formatter.GetStartBlockCommand(header);
         if (startCommand != null)
         {
-            console.WriteLine(startCommand);
+            WriteWithMarkup(startCommand);
         }
 
         // Write all buffered output
@@ -149,6 +149,9 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             console.WriteLine(endCommand);
         }
+
+        // Add blank line between module sections for visual separation
+        console.WriteLine();
     }
 
     private string FormatHeader(Exception? exception)
@@ -177,9 +180,10 @@ internal class ModuleOutputBuffer : IModuleOutputBuffer
         {
             AnsiConsole.MarkupLine(value);
         }
-        catch (InvalidOperationException)
+        catch (Exception)
         {
             // Fall back to plain console output if markup parsing fails
+            // This handles CI formatters that use brackets in their syntax (e.g., ##[group])
             System.Console.WriteLine(value);
         }
     }

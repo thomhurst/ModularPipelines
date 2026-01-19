@@ -75,20 +75,11 @@ internal sealed class OutputCoordinator : IOutputCoordinator
                     _deferredOutputs.Clear();
                 }
             }
-            else
-            {
-                // Progress ending - clean up any remaining deferred outputs that weren't flushed
-                // This handles cancellation scenarios where FlushDeferredAsync wasn't called
-                if (_deferredOutputs.Count > 0)
-                {
-                    _logger.LogWarning(
-                        "Progress ended with {Count} unflushed deferred outputs. " +
-                        "This indicates FlushDeferredAsync was not called (possibly due to cancellation). " +
-                        "Clearing to prevent memory leak.",
-                        _deferredOutputs.Count);
-                    _deferredOutputs.Clear();
-                }
-            }
+
+            // Note: We do NOT clear deferred outputs when progress ends.
+            // FlushDeferredAsync() is called separately after progress ends and will
+            // properly flush any remaining outputs. Clearing here would lose outputs
+            // because the disposal order is: DisposeProgress -> FlushDeferred
         }
 
         _isProgressActive = isActive;
