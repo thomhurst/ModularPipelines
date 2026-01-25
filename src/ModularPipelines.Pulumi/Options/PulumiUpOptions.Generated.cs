@@ -200,6 +200,12 @@ public record PulumiUpOptions : PulumiOptions
     public string? Stack { get; set; }
 
     /// <summary>
+    /// [EXPERIMENTAL] Enable strict plan behavior: generate a plan during preview and constrain the update to that plan (opt-in). Cannot be used with --skip-preview.
+    /// </summary>
+    [CliFlag("--strict")]
+    public bool? Strict { get; set; }
+
+    /// <summary>
     /// Suppress display of stack outputs (in case they contain sensitive values)
     /// </summary>
     [CliFlag("--suppress-outputs")]
