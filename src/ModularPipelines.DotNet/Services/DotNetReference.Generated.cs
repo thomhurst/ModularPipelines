@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet reference commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetReference
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DotNetReference
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DotNetReferenceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetReferenceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetReferenceOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DotNetReference
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        DotNetReferenceListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetReferenceListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetReferenceListOptions(), executionOptions, cancellationToken);
