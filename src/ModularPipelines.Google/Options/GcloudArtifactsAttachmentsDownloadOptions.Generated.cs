@@ -17,6 +17,8 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("artifacts", "attachments", "download")]
-public record GcloudArtifactsAttachmentsDownloadOptions : GcloudOptions
+public record GcloudArtifactsAttachmentsDownloadOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Attachment
+) : GcloudOptions
 {
 }

@@ -20,6 +20,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudEventarcProvidersListOptions : GcloudOptions
 {
     /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property eventarc/location;     ◆ use '-' location to aggregate results for all Eventarc locations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// A provider name (e.g. storage.googleapis.com) List results will be     filtered on this provider. Only exact match of the provider name is     supported.
     /// </summary>
     [CliOption("--name", Format = OptionFormat.EqualsSeparated)]

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("scheduler", "jobs", "list")]
 public record GcloudSchedulerJobsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ defaults to App Engine's app location if not provided &amp; an app      exists.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

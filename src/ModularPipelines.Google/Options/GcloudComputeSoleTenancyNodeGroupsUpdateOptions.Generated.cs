@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -28,9 +29,39 @@ public record GcloudComputeSoleTenancyNodeGroupsUpdateOptions(
     public string? NodeTemplate { get; set; }
 
     /// <summary>
-    /// Zone of the node group to operate on. If not specified and the     compute/zone property isn't set, you might be prompted to select a zone     (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --add-nodes=ADD_NODES      The number of nodes to add to the node group.     --delete-nodes=[NODE,...]      The names of the nodes to remove from the group.    Autoscaling policy for node groups.     --autoscaler-mode=AUTOSCALER_MODE      Set the mode of an autoscaler for a node group. AUTOSCALER_MODE must      be one of:       off        to turn off autoscaling.      on        to permit autoscaling to scale in and out.      only-scale-out        to permit autoscaling to scale only out and not in.     --max-nodes=MAX_NODES      The maximum size of the node group. Must be smaller or equal to 100      and larger than or equal to --min-nodes. Must be specified if      --autoscaler-mode is not off.     --min-nodes=MIN_NODES      The minimum size of the node group. Default is 0 and must be an      integer value smaller than or equal to --max-nodes.    Manage the properties of a shared setting     --share-setting=SHARE_SETTING      Specify if this node group is shared; and if so, the type of sharing:      share with specific projects or folders. SHARE_SETTING must be one      of: projects, organization, local.      This flag argument must be specified if any of the other arguments in      this group are specified.     --share-with=PROJECT,[PROJECT,...]      A list of specific projects this node group should be shared with.
+    /// Zone of the node group to operate on. If not specified and the     compute/zone property isn't set, you might be prompted to select a zone     (interactive mode only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    At most one of these can be specified:     --add-nodes=ADD_NODES      The number of nodes to add to the node group.     --delete-nodes=[NODE,...]      The names of the nodes to remove from the group.    Autoscaling policy for node groups.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Set the mode of an autoscaler for a node group. AUTOSCALER_MODE must be     one of:      off       to turn off autoscaling.     on       to permit autoscaling to scale in and out.     only-scale-out       to permit autoscaling to scale only out and not in.
+    /// </summary>
+    [CliOption("--autoscaler-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? AutoscalerMode { get; set; }
+
+    /// <summary>
+    /// The maximum size of the node group. Must be smaller or equal to 100 and     larger than or equal to --min-nodes. Must be specified if     --autoscaler-mode is not off.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// The minimum size of the node group. Default is 0 and must be an integer     value smaller than or equal to --max-nodes.    Manage the properties of a shared setting
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
+
+    /// <summary>
+    /// Specify if this node group is shared; and if so, the type of sharing:     share with specific projects or folders. SHARE_SETTING must be one of:     projects, organization, local.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--share-setting", Format = OptionFormat.EqualsSeparated)]
+    public GcloudShareSetting? ShareSetting { get; set; }
+
+    /// <summary>
+    /// A list of specific projects this node group should be shared with.
+    /// </summary>
+    [CliOption("--share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ShareWith { get; set; }
 
 }

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("certificate-manager", "issuance-configs", "list")]
 public record GcloudCertificateManagerIssuanceConfigsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ if left empty, will use the wildcard '-' to list all locations.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

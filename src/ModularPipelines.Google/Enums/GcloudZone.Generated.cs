@@ -14,9 +14,9 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudZone
 {
-    [Description("private-service-connect")]
-    PrivateServiceConnect,
+    [Description("local")]
+    Local,
 
-    [Description("vpc-peering")]
-    VpcPeering
+    [Description("projects")]
+    Projects
 }

@@ -27,9 +27,81 @@ public record GcloudWorkbenchInstancesUpdateOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance     --machine-type=MACHINE_TYPE      The Compute Engine machine type      (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)      of this instance.     --metadata=[KEY=VALUE,...]      Custom metadata to apply to this instance.     --tags=[TAGS,...]      Tags to apply to this instance.     Accelerator configurations.      --accelerator-core-count=ACCELERATOR_CORE_COUNT       Count of cores of this accelerator.      --accelerator-type=ACCELERATOR_TYPE       Type of this accelerator. ACCELERATOR_TYPE must be one of:       NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,       NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100,       NVIDIA_A100_80GB, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS,       NVIDIA_TESLA_P4_VWS, NVIDIA_L4, NVIDIA_H100_80GB,       NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB, NVIDIA_B200.     Container image configurations.      --container-repository=CONTAINER_REPOSITORY       The path to the container image repository. For example:       gcr.io/{project_id}/{image_name}.       This flag argument must be specified if any of the other arguments       in this group are specified.      --container-tag=CONTAINER_TAG       The tag of the container image. If not specified, this defaults to       the latest tag.     GPU driver configurations.      --custom-gpu-driver-path=CUSTOM_GPU_DRIVER_PATH       custom gpu driver path      --install-gpu-driver       Install gpu driver     Shielded VM configurations.      --shielded-integrity-monitoring=SHIELDED_INTEGRITY_MONITORING       Boolean. Enable monitoring of the boot integrity of the instance.       Supported values: true, false.      --shielded-secure-boot=SHIELDED_SECURE_BOOT       Boolean. Boot instance with secure boot enabled. Supported values:       true, false.      --shielded-vtpm=SHIELDED_VTPM       Boolean. Boot instance with TPM (Trusted Platform Module) enabled.       Supported values: true, false.
+    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// The Compute Engine machine type     (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)     of this instance.
+    /// </summary>
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Custom metadata to apply to this instance.
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? Metadata { get; set; }
+
+    /// <summary>
+    /// Tags to apply to this instance.    Accelerator configurations.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Count of cores of this accelerator.
+    /// </summary>
+    [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCoreCount { get; set; }
+
+    /// <summary>
+    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,     NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB,     NVIDIA_B200.    Container image configurations.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// The path to the container image repository. For example:     gcr.io/{project_id}/{image_name}.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--container-repository", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerRepository { get; set; }
+
+    /// <summary>
+    /// The tag of the container image. If not specified, this defaults to the     latest tag.    GPU driver configurations.
+    /// </summary>
+    [CliOption("--container-tag", Format = OptionFormat.EqualsSeparated)]
+    public string? ContainerTag { get; set; }
+
+    /// <summary>
+    /// custom gpu driver path
+    /// </summary>
+    [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomGpuDriverPath { get; set; }
+
+    /// <summary>
+    /// Install gpu driver    Shielded VM configurations.
+    /// </summary>
+    [CliFlag("--install-gpu-driver")]
+    public bool? InstallGpuDriver { get; set; }
+
+    /// <summary>
+    /// Boolean. Enable monitoring of the boot integrity of the instance.     Supported values: true, false.
+    /// </summary>
+    [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// Boolean. Boot instance with secure boot enabled. Supported values:     true, false.
+    /// </summary>
+    [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// Boolean. Boot instance with TPM (Trusted Platform Module) enabled.     Supported values: true, false.
+    /// </summary>
+    [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedVtpm { get; set; }
 
 }

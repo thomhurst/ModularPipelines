@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apigee", "applications", "list")]
 public record GcloudApigeeApplicationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the developer or fully qualified identifier for the developer.     To set the developer attribute:     ◆ provide the argument --developer on the command line;     ◆ leave the argument unspecified for it to be chosen automatically.
+    /// </summary>
+    [CliOption("--developer", Format = OptionFormat.EqualsSeparated)]
+    public string? Developer { get; set; }
+
+    /// <summary>
+    /// Apigee organization containing the developer. If unspecified, the Cloud     Platform project's associated organization will be used.     To set the organization attribute:     ◆ provide the argument --developer on the command line with a fully      specified name;     ◆ leave the argument unspecified for it to be chosen automatically      with a fully specified name;     ◆ provide the argument --organization on the command line;     ◆ set the property [project] or provide the argument [--project] on      the command line, using a Cloud Platform project with an associated      Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

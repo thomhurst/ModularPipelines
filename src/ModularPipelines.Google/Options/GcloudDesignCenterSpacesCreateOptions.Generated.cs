@@ -26,10 +26,16 @@ public record GcloudDesignCenterSpacesCreateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Display name for the space.    Arguments for the enable gcp shared templates.     --enable-gcp-shared-templates      Flag to enable Google opinionated shared templates.
+    /// Display name for the space.    Arguments for the enable gcp shared templates.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// Flag to enable Google opinionated shared templates.
+    /// </summary>
+    [CliFlag("--enable-gcp-shared-templates")]
+    public bool? EnableGcpSharedTemplates { get; set; }
 
     /// <summary>
     /// An existing Google Cloud Storage bucket that you want to use instead of     creating a new bucket during ADC setup. If not provided, a default     bucket is created during setup. The bucket must exist in the same     project as the space. If the bucket name does not exist in the same     project as the space, the request fails with an INVALID_ARGUMENT error.     If you do not have access to the bucket, the request fails with a     PERMISSION_DENIED error. Format: {$bucket_name} For example, if the     Cloud Storage bucket URI is gs:\/\/{$bucket_name}, the format is     {$bucket_name}.

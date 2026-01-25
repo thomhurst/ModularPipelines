@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -78,9 +79,132 @@ public record GcloudNotebooksInstancesCreateOptions : GcloudOptions
     public bool? ShieldedVtpm { get; set; }
 
     /// <summary>
-    /// Tags to apply to this instance.    The hardware accelerator used on this instance. If you use accelerators,   make sure that your configuration has enough vCPUs and memory to support   the `machine_type` you have selected.     --accelerator-core-count=ACCELERATOR_CORE_COUNT      Count of cores of this accelerator.     --accelerator-type=ACCELERATOR_TYPE      Type of this accelerator. ACCELERATOR_TYPE must be one of:      NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100,      NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4,      NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,      TPU_V2, TPU_V3, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.    Boot disk configurations.     --boot-disk-size=BOOT_DISK_SIZE      Size of boot disk in GB attached to this instance, up to a maximum of      64000 GB (64 TB). The minimum recommended value is 100 GB. If not      specified, this defaults to 100.     --boot-disk-type=BOOT_DISK_TYPE      Type of boot disk attached to this instance, defaults to standard      persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of:      PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    At most one of these can be specified:     --container-repository=CONTAINER_REPOSITORY      The path to the container image repository. For example:      gcr.io/{project_id}/{image_name}.      This flag argument must be specified if any of the other arguments in      this group are specified.     --container-tag=CONTAINER_TAG      The tag of the container image. If not specified, this defaults to      the latest tag.     Environment resource - User-defined unique name of this environment. The    environment name must be 1 to 63 characters long and contain only    lowercase letters, numeric characters, and dashes. The first character    must be a lowercase letter and the last character cannot be a dash. The    arguments in this group can be used to specify the attributes of this    resource. (NOTE) Some attributes are not given arguments in this group    but can be set in other ways.     To set the project attribute:     ▸ provide the argument --environment on the command line with a fully      specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.      --environment=ENVIRONMENT       ID of the environment or fully qualified identifier for the       environment.       To set the environment attribute:       ▫ provide the argument --environment on the command line.       This flag argument must be specified if any of the other arguments       in this group are specified.      --environment-location=ENVIRONMENT_LOCATION       Google Cloud location of this environment       https://cloud.google.com/compute/docs/regions-zones/#locations.       To set the environment-location attribute:       ▫ provide the argument --environment on the command line with a        fully specified name;       ▫ provide the argument --environment-location on the command        line;       ▫ provide the argument --location on the command line;       ▫ set the property notebooks/location.     --vm-image-project=VM_IMAGE_PROJECT; default="deeplearning-platform-release"      The ID of the Google Cloud project that this VM image belongs to.      Format: projects/{project_id}.     At most one of these can be specified:      --vm-image-family=VM_IMAGE_FAMILY; default="common-cpu"       Use this VM image family to find the image; the newest image in       this family will be used.      --vm-image-name=VM_IMAGE_NAME       Use this VM image name to find the image.    GPU driver configurations.     --custom-gpu-driver-path=CUSTOM_GPU_DRIVER_PATH      Specify a custom Cloud Storage path where the GPU driver is stored.      If not specified, we'll automatically choose from official GPU      drivers.     --install-gpu-driver      Whether the end user authorizes Google Cloud to install a GPU driver      on this instance. If this field is empty or set to false, the GPU      driver won't be installed. Only applicable to instances with GPUs.    Data disk configurations.     --data-disk-size=DATA_DISK_SIZE      Size of data disk in GB attached to this instance, up to a maximum of      64000 GB (64 TB). The minimum recommended value is 100 GB. If not      specified, this defaults to 100.     --data-disk-type=DATA_DISK_TYPE      Type of data disk attached to this instance, defaults to standard      persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of:      PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.     --no-remove-data-disk      If true, the data disk will not be auto deleted when deleting the      instance.    Disk encryption configurations.     --disk-encryption=DISK_ENCRYPTION      Disk encryption method used on the boot disk, defaults to GMEK.      DISK_ENCRYPTION must be one of: GMEK, CMEK.     Key resource - The Cloud KMS (Key Management Service) cryptokey that    will be used to protect the instance. The 'Compute Engine Service Agent'    service account must hold permission 'Cloud KMS CryptoKey    Encrypter/Decrypter'. The arguments in this group can be used to specify    the attributes of this resource.      --kms-key=KMS_KEY       ID of the key or fully qualified identifier for the key.       To set the kms-key attribute:       ▫ provide the argument --kms-key on the command line.       This flag argument must be specified if any of the other arguments       in this group are specified.      --kms-keyring=KMS_KEYRING       The KMS keyring of the key.       To set the kms-keyring attribute:       ▫ provide the argument --kms-key on the command line with a fully        specified name;       ▫ provide the argument --kms-keyring on the command line.      --kms-location=KMS_LOCATION       The Google Cloud location for the key.       To set the kms-location attribute:       ▫ provide the argument --kms-key on the command line with a fully        specified name;       ▫ provide the argument --kms-location on the command line.      --kms-project=KMS_PROJECT       The Google Cloud project for the key.       To set the kms-project attribute:       ▫ provide the argument --kms-key on the command line with a fully        specified name;       ▫ provide the argument --kms-project on the command line;       ▫ set the property core/project.    Network configs.     Network resource - The name of the VPC that this instance is in. Format:    projects/{project_id}/global/networks/{network_id}. This represents a    Cloud resource. (NOTE) Some attributes are not given arguments in this    group but can be set in other ways.     To set the project attribute:     ▸ provide the argument --network on the command line with a fully      specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.      --network=NETWORK       ID of the network or fully qualified identifier for the network.       To set the network attribute:       ▫ provide the argument --network on the command line.     --no-proxy-access      If true, the notebook instance will not register with the proxy.     --no-public-ip      If specified, no public IP will be assigned to this instance.     Subnetwork resource - The name of the subnet that this instance is in.    Format:    projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The    arguments in this group can be used to specify the attributes of this    resource. (NOTE) Some attributes are not given arguments in this group    but can be set in other ways.     To set the project attribute:     ▸ provide the argument --subnet on the command line with a fully      specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.      --subnet=SUBNET       ID of the subnetwork or fully qualified identifier for the       subnetwork.       To set the subnet attribute:       ▫ provide the argument --subnet on the command line.       This flag argument must be specified if any of the other arguments       in this group are specified.      --subnet-region=SUBNET_REGION       Google Cloud region of this subnetwork       https://cloud.google.com/compute/docs/regions-zones/#locations.       To set the subnet-region attribute:       ▫ provide the argument --subnet on the command line with a fully        specified name;       ▫ provide the argument --subnet-region on the command line.    Specifies the reservation for the instance.     --reservation=RESERVATION      The name of the reservation, required when      --reservation-affinity=SPECIFIC_RESERVATION.     --reservation-affinity=RESERVATION_AFFINITY; default="TYPE_UNSPECIFIED"      The type of reservation for the instance. RESERVATION_AFFINITY must      be one of: TYPE_UNSPECIFIED, NO_RESERVATION, ANY_RESERVATION,      SPECIFIC_RESERVATION.
+    /// Tags to apply to this instance.    The hardware accelerator used on this instance. If you use accelerators,   make sure that your configuration has enough vCPUs and memory to support   the `machine_type` you have selected.
     /// </summary>
     [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Count of cores of this accelerator.
+    /// </summary>
+    [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCoreCount { get; set; }
+
+    /// <summary>
+    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_A100, NVIDIA_TESLA_K80, NVIDIA_TESLA_P100,     NVIDIA_TESLA_V100, NVIDIA_TESLA_P4, NVIDIA_TESLA_T4,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     TPU_V2, TPU_V3, NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB.    Boot disk configurations.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Size of boot disk in GB attached to this instance, up to a maximum of     64000 GB (64 TB). The minimum recommended value is 100 GB. If not     specified, this defaults to 100.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Type of boot disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    At most one of these can be specified:     --container-repository=CONTAINER_REPOSITORY      The path to the container image repository. For example:      gcr.io/{project_id}/{image_name}.      This flag argument must be specified if any of the other arguments in      this group are specified.     --container-tag=CONTAINER_TAG      The tag of the container image. If not specified, this defaults to      the latest tag.     Environment resource - User-defined unique name of this environment. The    environment name must be 1 to 63 characters long and contain only    lowercase letters, numeric characters, and dashes. The first character    must be a lowercase letter and the last character cannot be a dash. The    arguments in this group can be used to specify the attributes of this    resource. (NOTE) Some attributes are not given arguments in this group    but can be set in other ways.     To set the project attribute:     ▸ provide the argument --environment on the command line with a fully      specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     --environment=ENVIRONMENT      ID of the environment or fully qualified identifier for the      environment.      To set the environment attribute:      ▸ provide the argument --environment on the command line.      This flag argument must be specified if any of the other arguments in      this group are specified.     --environment-location=ENVIRONMENT_LOCATION      Google Cloud location of this environment      https://cloud.google.com/compute/docs/regions-zones/#locations.      To set the environment-location attribute:      ▸ provide the argument --environment on the command line with a       fully specified name;      ▸ provide the argument --environment-location on the command line;      ▸ provide the argument --location on the command line;      ▸ set the property notebooks/location.     --vm-image-project=VM_IMAGE_PROJECT; default="deeplearning-platform-release"      The ID of the Google Cloud project that this VM image belongs to.      Format: projects/{project_id}.     At most one of these can be specified:      --vm-image-family=VM_IMAGE_FAMILY; default="common-cpu"       Use this VM image family to find the image; the newest image in       this family will be used.      --vm-image-name=VM_IMAGE_NAME       Use this VM image name to find the image.    GPU driver configurations.
+    /// </summary>
+    [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBootDiskType? BootDiskType { get; set; }
+
+    /// <summary>
+    /// Specify a custom Cloud Storage path where the GPU driver is stored. If     not specified, we'll automatically choose from official GPU drivers.
+    /// </summary>
+    [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomGpuDriverPath { get; set; }
+
+    /// <summary>
+    /// Whether the end user authorizes Google Cloud to install a GPU driver on     this instance. If this field is empty or set to false, the GPU driver     won't be installed. Only applicable to instances with GPUs.    Data disk configurations.
+    /// </summary>
+    [CliFlag("--install-gpu-driver")]
+    public bool? InstallGpuDriver { get; set; }
+
+    /// <summary>
+    /// Size of data disk in GB attached to this instance, up to a maximum of     64000 GB (64 TB). The minimum recommended value is 100 GB. If not     specified, this defaults to 100.
+    /// </summary>
+    [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Type of data disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.
+    /// </summary>
+    [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDataDiskType? DataDiskType { get; set; }
+
+    /// <summary>
+    /// If true, the data disk will not be auto deleted when deleting the     instance.    Disk encryption configurations.
+    /// </summary>
+    [CliFlag("--no-remove-data-disk")]
+    public bool? NoRemoveDataDisk { get; set; }
+
+    /// <summary>
+    /// Disk encryption method used on the boot disk, defaults to GMEK.     DISK_ENCRYPTION must be one of: GMEK, CMEK.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the instance. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// </summary>
+    [CliOption("--disk-encryption", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDiskEncryption? DiskEncryption { get; set; }
+
+    /// <summary>
+    /// ID of the key or fully qualified identifier for the key.     To set the kms-key attribute:     ◆ provide the argument --kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the key.     To set the kms-keyring attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// The Google Cloud location for the key.     To set the kms-location attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.    Network configs.    Network resource - The name of the VPC that this instance is in. Format:   projects/{project_id}/global/networks/{network_id}. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// ID of the network or fully qualified identifier for the network.     To set the network attribute:     ◆ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// If true, the notebook instance will not register with the proxy.
+    /// </summary>
+    [CliFlag("--no-proxy-access")]
+    public bool? NoProxyAccess { get; set; }
+
+    /// <summary>
+    /// If specified, no public IP will be assigned to this instance.    Subnetwork resource - The name of the subnet that this instance is in.   Format:   projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --subnet on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliFlag("--no-public-ip")]
+    public bool? NoPublicIp { get; set; }
+
+    /// <summary>
+    /// ID of the subnetwork or fully qualified identifier for the subnetwork.     To set the subnet attribute:     ◆ provide the argument --subnet on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Google Cloud region of this subnetwork     https://cloud.google.com/compute/docs/regions-zones/#locations.     To set the subnet-region attribute:     ◆ provide the argument --subnet on the command line with a fully      specified name;     ◆ provide the argument --subnet-region on the command line.    Specifies the reservation for the instance.
+    /// </summary>
+    [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetRegion { get; set; }
+
+    /// <summary>
+    /// The name of the reservation, required when     --reservation-affinity=SPECIFIC_RESERVATION.
+    /// </summary>
+    [CliOption("--reservation", Format = OptionFormat.EqualsSeparated)]
+    public string? Reservation { get; set; }
+
+    [CliOption("--reservation-affinity", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationAffinity { get; set; }
 
 }

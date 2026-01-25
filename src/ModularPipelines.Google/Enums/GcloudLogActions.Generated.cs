@@ -9,29 +9,17 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --tags.
+/// Allowed values for --logactions.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudTags
+public enum GcloudLogActions
 {
-    [Description("fri")]
-    Fri,
+    [Description("copy")]
+    Copy,
 
-    [Description("mon")]
-    Mon,
+    [Description("delete")]
+    Delete,
 
-    [Description("sat")]
-    Sat,
-
-    [Description("sun")]
-    Sun,
-
-    [Description("thu")]
-    Thu,
-
-    [Description("tue")]
-    Tue,
-
-    [Description("wed")]
-    Wed
+    [Description("find")]
+    Find
 }

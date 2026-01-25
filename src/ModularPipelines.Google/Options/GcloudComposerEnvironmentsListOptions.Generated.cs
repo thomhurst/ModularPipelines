@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("composer", "environments", "list")]
 public record GcloudComposerEnvironmentsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// IDs of the locations or fully qualified identifiers for the locations.     To set the location attribute:     ◆ provide the argument --locations on the command line.
+    /// </summary>
+    [CliOption("--locations", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Locations { get; set; }
+
 }

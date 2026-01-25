@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "intercept-endpoint-groups", "list")]
 public record GcloudNetworkSecurityInterceptEndpointGroupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ Location of the Intercept Endpoint Group. Defaults to global.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

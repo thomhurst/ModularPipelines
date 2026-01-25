@@ -20,9 +20,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudMonitoringSnoozesCreateOptions : GcloudOptions
 {
     /// <summary>
-    /// The path to a JSON or YAML file containing the snooze. Use a full or     relative path to a local file containing the value of snooze.    Snooze Settings. If any of these are specified, they will overwrite fields   in the --snooze-from-file flags if specified.     --criteria-filter=CRITERIA_FILTER      Optional. When you define a Snooze, you can also define a filter for      that snooze. The filter is a string containing one or more key-value      pairs. The string uses the standard https://google.aip.dev/160 filter      syntax. If you define a filter for a snooze, then the snooze can only      apply to one alert policy. When the snooze is active, incidents won't      be created when the incident would have key-value pairs (labels) that      match those specified by the filter in the snooze. Snooze filters      support resource, metric, and metadata labels. If multiple labels are      used, then they must be connected with an AND operator. For example:      resource.labels.instance_id="1234567890" AND      resource.labels.zone="us-central1-a" AND      metric.labels.instance_name="test_group" AND      metadata.user_labels.foo="bar" AND      metadata.system_labels.region="us-central1"     --criteria-policies=CRITERIA_POLICIES,[...]      The policies that the Snooze applies to. Exactly 1 alert policy is      required if criteria-filter is specified at the same time.     --display-name=DISPLAY_NAME      The display name for the Snooze.     --end-time=END_TIME      The end time for the Snooze.     --start-time=START_TIME      The start time for the Snooze.
+    /// The path to a JSON or YAML file containing the snooze. Use a full or     relative path to a local file containing the value of snooze.    Snooze Settings. If any of these are specified, they will overwrite fields   in the --snooze-from-file flags if specified.
     /// </summary>
     [CliOption("--snooze-from-file", Format = OptionFormat.EqualsSeparated)]
     public string? SnoozeFromFile { get; set; }
+
+    /// <summary>
+    /// Optional. When you define a Snooze, you can also define a filter for     that snooze. The filter is a string containing one or more key-value     pairs. The string uses the standard https://google.aip.dev/160 filter     syntax. If you define a filter for a snooze, then the snooze can only     apply to one alert policy. When the snooze is active, incidents won't     be created when the incident would have key-value pairs (labels) that     match those specified by the filter in the snooze. Snooze filters     support resource, metric, and metadata labels. If multiple labels are     used, then they must be connected with an AND operator. For example:     resource.labels.instance_id="1234567890" AND     resource.labels.zone="us-central1-a" AND     metric.labels.instance_name="test_group" AND     metadata.user_labels.foo="bar" AND     metadata.system_labels.region="us-central1"
+    /// </summary>
+    [CliOption("--criteria-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? CriteriaFilter { get; set; }
+
+    /// <summary>
+    /// The policies that the Snooze applies to. Exactly 1 alert policy is     required if criteria-filter is specified at the same time.
+    /// </summary>
+    [CliOption("--criteria-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? CriteriaPolicies { get; set; }
+
+    /// <summary>
+    /// The display name for the Snooze.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The end time for the Snooze.
+    /// </summary>
+    [CliOption("--end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EndTime { get; set; }
+
+    /// <summary>
+    /// The start time for the Snooze.
+    /// </summary>
+    [CliOption("--start-time", Format = OptionFormat.EqualsSeparated)]
+    public string? StartTime { get; set; }
 
 }

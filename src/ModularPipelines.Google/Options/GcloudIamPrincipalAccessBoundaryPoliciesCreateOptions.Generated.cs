@@ -38,9 +38,21 @@ public record GcloudIamPrincipalAccessBoundaryPoliciesCreateOptions : GcloudOpti
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The etag for the principal access boundary. If this is provided on     update, it must match the server's etag.    Principal access boundary policy details     --details-rules=[description=DESCRIPTION],[effect=EFFECT],[resources=RESOURCES]      Required, A list of principal access boundary policy rules. The      number of rules in a policy is limited to 500.       description        The description of the principal access boundary policy rule.        Must be less than or equal to 256 characters.       effect        The access relationship of principals to the resources in this        rule.       resources        A list of Resource Manager resources. If a resource is listed in        the rule, then the rule applies for that resource and its        descendants. The number of resources in a policy is limited to        500 across all rules in the policy.        The following resource types are supported:        ▫ Organizations, such as         //cloudresourcemanager.googleapis.com/organizations/123.        ▫ Folders, such as         //cloudresourcemanager.googleapis.com/folders/123.        ▫ Projects, such as         //cloudresourcemanager.googleapis.com/projects/123 or         //cloudresourcemanager.googleapis.com/projects/my-project-id.      Shorthand Example:        --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string]      JSON Example:        --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]'      File Example:        --details-rules=path_to_file.(yaml|json)      This flag argument must be specified if any of the other arguments in      this group are specified.     --details-enforcement-version=DETAILS_ENFORCEMENT_VERSION      The version number (for example, 1 or latest) that indicates which      permissions are able to be blocked by the policy. If empty, the PAB      policy version will be set to the most recent version number at the      time of the policy's creation.
+    /// The etag for the principal access boundary. If this is provided on     update, it must match the server's etag.    Principal access boundary policy details
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Required, A list of principal access boundary policy rules. The number     of rules in a policy is limited to 500.      description       The description of the principal access boundary policy rule. Must       be less than or equal to 256 characters.      effect       The access relationship of principals to the resources in this       rule.      resources       A list of Resource Manager resources. If a resource is listed in       the rule, then the rule applies for that resource and its       descendants. The number of resources in a policy is limited to 500       across all rules in the policy.       The following resource types are supported:       ▸ Organizations, such as        //cloudresourcemanager.googleapis.com/organizations/123.       ▸ Folders, such as        //cloudresourcemanager.googleapis.com/folders/123.       ▸ Projects, such as        //cloudresourcemanager.googleapis.com/projects/123 or        //cloudresourcemanager.googleapis.com/projects/my-project-id.     Shorthand Example:       --details-rules=description=string,effect=string,resources=[string] --details-rules=description=string,effect=string,resources=[string]     JSON Example:       --details-rules='[{"description": "string", "effect": "string", "resources": ["string"]}]'     File Example:       --details-rules=path_to_file.(yaml|json)     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--details-rules", Format = OptionFormat.EqualsSeparated)]
+    public string? DetailsRules { get; set; }
+
+    /// <summary>
+    /// The version number (for example, 1 or latest) that indicates which     permissions are able to be blocked by the policy. If empty, the PAB     policy version will be set to the most recent version number at the     time of the policy's creation.
+    /// </summary>
+    [CliOption("--details-enforcement-version", Format = OptionFormat.EqualsSeparated)]
+    public string? DetailsEnforcementVersion { get; set; }
 
 }

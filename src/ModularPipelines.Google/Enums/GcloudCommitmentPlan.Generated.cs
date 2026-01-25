@@ -9,23 +9,14 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --inlinetrustconfigfile.
+/// Allowed values for --commitmentplan.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudInlineTrustConfigFile
+public enum GcloudCommitmentPlan
 {
-    [Description("ecdsa-p256")]
-    EcdsaP256,
+    [Description("TWELVE_MONTH")]
+    TwelveMonth,
 
-    [Description("ecdsa-p384")]
-    EcdsaP384,
-
-    [Description("rsa-2048")]
-    Rsa_2048,
-
-    [Description("rsa-3072")]
-    Rsa_3072,
-
-    [Description("rsa-4096")]
-    Rsa_4096
+    [Description("THIRTY_SIX_MONTH")]
+    ThirtySixMonth
 }

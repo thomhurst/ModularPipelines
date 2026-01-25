@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("artifacts", "rules", "list")]
 public record GcloudArtifactsRulesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Location of the repository. Overrides the default artifacts/location     property value for this command invocation. To configure the default     location, use the command: gcloud config set artifacts/location.     To set the location attribute:     ◆ provide the argument --repository on the command line with a fully      specified name;     ◆ set the property artifacts/repository with a fully specified name;     ◆ provide the argument --location on the command line;     ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ID of the repository or fully qualified identifier for the repository.     To set the repository attribute:     ◆ provide the argument --repository on the command line;     ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
+
 }

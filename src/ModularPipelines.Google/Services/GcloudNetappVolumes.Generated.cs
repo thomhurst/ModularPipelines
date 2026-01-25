@@ -97,6 +97,21 @@ public class GcloudNetappVolumes
     }
 
     /// <summary>
+    /// establish peering for Cache     Volumes
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> EstablishPeering(
+        GcloudNetappVolumesEstablishPeeringOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetappVolumesEstablishPeeringOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list Cloud NetApp Volumes
     /// </summary>
     /// <param name="options">The command options.</param>

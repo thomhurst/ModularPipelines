@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,4 +20,67 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "policies", "create")]
 public record GcloudMonitoringPoliciesCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// IDs of the Notification Channels or fully qualified identifiers for the     Notification Channels.     To set the notification_channels attribute:     ◆ provide the argument --notification-channels on the command line.    Condition Settings. This will add a condition to the created policy. If   any conditions are already specified, this condition will be appended.
+    /// </summary>
+    [CliOption("--notification-channels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NotificationChannels { get; set; }
+
+    /// <summary>
+    /// Specifies an Aggregation message as a JSON/YAML value to be applied to     the condition. For more information about the format:     https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies
+    /// </summary>
+    [CliOption("--aggregation", Format = OptionFormat.EqualsSeparated)]
+    public string? Aggregation { get; set; }
+
+    /// <summary>
+    /// The display name for the condition.
+    /// </summary>
+    [CliOption("--condition-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies the "filter" in a metric absence or metric threshold     condition.
+    /// </summary>
+    [CliOption("--condition-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionFilter { get; set; }
+
+    /// <summary>
+    /// The duration (e.g. "60s", "2min", etc.) that the condition must hold in     order to trigger as true.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// One of "absent", "&lt; THRESHOLD", "&gt; THRESHOLD" where "THRESHOLD" is an     integer or float.    At most one of these can be specified:     --trigger-count=TRIGGER_COUNT      The absolute number of time series that must fail the predicate for      the condition to be triggered.     --trigger-percent=TRIGGER_PERCENT      The percentage of time series that must fail the predicate for the      condition to be triggered.    Policy Settings. If any of these are specified, they will overwrite fields   in the --policy or --policy-from-file flags if specified.
+    /// </summary>
+    [CliOption("--if", Format = OptionFormat.EqualsSeparated)]
+    public string? If { get; set; }
+
+    /// <summary>
+    /// The combiner for the Alert Policy. COMBINER must be one of:      AND       An incident is created only if all conditions are met       simultaneously. This combiner is satisfied if all conditions are       met, even if they are met on completely different resources.     AND_WITH_MATCHING_RESOURCE       Combine conditions using logical AND operator, but unlike the       regular AND option, an incident is created only if all conditions       are met simultaneously on at least one resource.     COMBINE_UNSPECIFIED       An unspecified combiner     OR       An incident is created if any of the listed conditions is met.
+    /// </summary>
+    [CliOption("--combiner", Format = OptionFormat.EqualsSeparated)]
+    public string? Combiner { get; set; }
+
+    /// <summary>
+    /// The display name for the Alert Policy.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// If the policy is enabled. Enabled by default, use --no-enabled to     disable.
+    /// </summary>
+    [CliFlag("--enabled")]
+    public bool? Enabled { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.     If the policy was given as a JSON/YAML object from a string or file,     this flag will replace the labels value in the given policy.    Documentation
+    /// </summary>
+    [CliOption("--user-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? UserLabels { get; set; }
+
+    [CliOption("--documentation-format", Format = OptionFormat.EqualsSeparated)]
+    public string? DocumentationFormat { get; set; }
+
 }

@@ -40,4 +40,22 @@ public record GcloudSourceManagerInstancesCreateOptions : GcloudOptions
     [CliOption("--max-wait", Format = OptionFormat.EqualsSeparated)]
     public string? MaxWait { get; set; }
 
+    /// <summary>
+    /// Bool indicator for private instance.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliFlag("--is-private")]
+    public bool? IsPrivate { get; set; }
+
+    /// <summary>
+    /// CA Pool path for private instance.
+    /// </summary>
+    [CliOption("--ca-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? CaPool { get; set; }
+
+    /// <summary>
+    /// List of additional projects allowed to connect to the instance via     private service connect.
+    /// </summary>
+    [CliOption("--psc-allowed-projects", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? PscAllowedProjects { get; set; }
+
 }

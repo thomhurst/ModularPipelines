@@ -39,15 +39,63 @@ public record GcloudDataplexAssetsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Specification of the resource that is referenced by this asset.     --resource-read-access-mode=RESOURCE_READ_ACCESS_MODE      Read access mode. RESOURCE_READ_ACCESS_MODE must be one of:       DIRECT        Data is accessed directly using storage APIs      MANAGED        Data is accessed through a managed interface using BigQuery APIs.
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Specification of the resource that is referenced by this asset.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
-    /// Validate the update action, but don't actually perform it.    Settings to manage the metadata discovery and publishing.     --[no-]discovery-enabled      Whether discovery is enabled. Use --discovery-enabled to enable and      --no-discovery-enabled to disable.     --discovery-exclude-patterns=[EXCLUDE_PATTERNS,...]      The list of patterns to apply for selecting data to exclude during      discovery. For Cloud Storage bucket assets, these are interpreted as      glob patterns used to match object names. For BigQuery dataset      assets, these are interpreted as patterns to match table names.     --discovery-include-patterns=[INCLUDE_PATTERNS,...]      The list of patterns to apply for selecting data to include during      discovery if only a subset of the data should considered. For Cloud      Storage bucket assets, these are interpreted as glob patterns used to      match object names. For BigQuery dataset assets, these are      interpreted as patterns to match table names.     Determines when discovery jobs are triggered.      --discovery-schedule=DISCOVERY_SCHEDULE       Cron schedule (https://en.wikipedia.org/wiki/Cron) for running       discovery jobs periodically. Discovery jobs must be scheduled at       least 30 minutes apart.     Describe data formats.      Describe CSV and similar semi-structured data formats.       --csv-delimiter=CSV_DELIMITER        The delimiter being used to separate values. This defaults to        ','.       --[no-]csv-disable-type-inference        Whether to disable the inference of data type for CSV data. If        true, all columns will be registered as strings. Use        --csv-disable-type-inference to enable and        --no-csv-disable-type-inference to disable.       --csv-encoding=CSV_ENCODING        The character encoding of the data. The default is UTF-8.       --csv-header-rows=CSV_HEADER_ROWS        The number of rows to interpret as header rows that should be        skipped when reading data rows.      Describe JSON data format.       --[no-]json-disable-type-inference        Whether to disable the inference of data type for Json data. If        true, all columns will be registered as their primitive types        (strings, number or boolean). Use --json-disable-type-inference        to enable and --no-json-disable-type-inference to disable.       --json-encoding=JSON_ENCODING        The character encoding of the data. The default is UTF-8.
+    /// Read access mode. RESOURCE_READ_ACCESS_MODE must be one of:      DIRECT       Data is accessed directly using storage APIs     MANAGED       Data is accessed through a managed interface using BigQuery APIs.
+    /// </summary>
+    [CliOption("--resource-read-access-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ResourceReadAccessMode { get; set; }
+
+    /// <summary>
+    /// Validate the update action, but don't actually perform it.    Settings to manage the metadata discovery and publishing.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// The list of patterns to apply for selecting data to exclude during     discovery. For Cloud Storage bucket assets, these are interpreted as     glob patterns used to match object names. For BigQuery dataset assets,     these are interpreted as patterns to match table names.
+    /// </summary>
+    [CliOption("--discovery-exclude-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DiscoveryExcludePatterns { get; set; }
+
+    /// <summary>
+    /// The list of patterns to apply for selecting data to include during     discovery if only a subset of the data should considered. For Cloud     Storage bucket assets, these are interpreted as glob patterns used to     match object names. For BigQuery dataset assets, these are interpreted     as patterns to match table names.    Determines when discovery jobs are triggered.
+    /// </summary>
+    [CliOption("--discovery-include-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DiscoveryIncludePatterns { get; set; }
+
+    /// <summary>
+    /// Cron schedule (https://en.wikipedia.org/wiki/Cron) for running     discovery jobs periodically. Discovery jobs must be scheduled at least     30 minutes apart.    Describe data formats.    Describe CSV and similar semi-structured data formats.
+    /// </summary>
+    [CliOption("--discovery-schedule", Format = OptionFormat.EqualsSeparated)]
+    public string? DiscoverySchedule { get; set; }
+
+    /// <summary>
+    /// The delimiter being used to separate values. This defaults to ','.
+    /// </summary>
+    [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDelimiter { get; set; }
+
+    /// <summary>
+    /// The character encoding of the data. The default is UTF-8.
+    /// </summary>
+    [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvEncoding { get; set; }
+
+    /// <summary>
+    /// The number of rows to interpret as header rows that should be skipped     when reading data rows.    Describe JSON data format.
+    /// </summary>
+    [CliOption("--csv-header-rows", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvHeaderRows { get; set; }
+
+    /// <summary>
+    /// The character encoding of the data. The default is UTF-8.
+    /// </summary>
+    [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonEncoding { get; set; }
 
 }

@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappBackupVaultsBackupsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Backup vault resource - The Backup Vault that the Backup is stored in This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --backup-vault on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --backup-vault on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.     --backup-vault=BACKUP_VAULT      ID of the backup_vault or fully qualified identifier for the      backup_vault.      To set the backup_vault attribute:      ▸ provide the argument --backup-vault on the command line.
+    /// Return immediately, without waiting for the operation in progress to     complete.    Backup vault resource - The Backup Vault that the Backup is stored in This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --backup-vault on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --backup-vault on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// ID of the backup_vault or fully qualified identifier for the     backup_vault.     To set the backup_vault attribute:     ◆ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
 
 }

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "internal-ranges", "list")]
 public record GcloudNetworkConnectivityInternalRangesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ use default global location .
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

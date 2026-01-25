@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("edge-cloud", "container", "clusters", "node-pools", "list")]
 public record GcloudEdgeCloudContainerClustersNodePoolsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the cluster or fully qualified identifier for the cluster.     To set the cluster attribute:     ◆ provide the argument --cluster on the command line;     ◆ provide the argument --cluster on the command line.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// The global location name.     To set the location attribute:     ◆ provide the argument --cluster on the command line with a fully      specified name;     ◆ provide the argument --cluster on the command line with a fully      specified name;     ◆ provide the argument --location on the command line;     ◆ set the property edge_container/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

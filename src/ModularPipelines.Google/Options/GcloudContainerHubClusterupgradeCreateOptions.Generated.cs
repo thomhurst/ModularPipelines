@@ -26,9 +26,21 @@ public record GcloudContainerHubClusterupgradeCreateOptions : GcloudOptions
     public string? DefaultUpgradeSoaking { get; set; }
 
     /// <summary>
-    /// The upstream fleet. GKE will finish upgrades on the upstream fleet     before applying the same upgrades to the current fleet.     To configure the upstream fleet, run:       $ gcloud container hub clusterupgrade create       \         --upstream-fleet={upstream_fleet}    Upgrade soaking override.    Defines a specific soaking time override for a particular upgrade   propagating through the current fleet that supercedes the default soaking   duration configured by --default-upgrade-soaking.    To set an upgrade soaking override of 12 hours for the upgrade with name,   k8s_control_plane, and version, 1.23.1-gke.1000, run:      $ gcloud container hub clusterupgrade create        \       --add-upgrade-soaking-override=12h        \       --upgrade-selector=name="k8s_control_plane",\     version="1.23.1-gke.1000"     --add-upgrade-soaking-override=ADD_UPGRADE_SOAKING_OVERRIDE      Overrides the soaking time for a particular upgrade name and version      propagating through the current fleet. Set soaking to 0 days to      bypass soaking and fast-forward the upgrade to the downstream fleet.      See $ gcloud topic datetimes for information on duration formats.      This flag argument must be specified if any of the other arguments in      this group are specified.     --upgrade-selector=[name=NAME],[version=VERSION]      Name and version of the upgrade to be overridden where version is a      full GKE version. Currently, name can be either k8s_control_plane or      k8s_node.      This flag argument must be specified if any of the other arguments in      this group are specified.
+    /// The upstream fleet. GKE will finish upgrades on the upstream fleet     before applying the same upgrades to the current fleet.     To configure the upstream fleet, run:       $ gcloud container hub clusterupgrade create       \         --upstream-fleet={upstream_fleet}    Upgrade soaking override.    Defines a specific soaking time override for a particular upgrade   propagating through the current fleet that supercedes the default soaking   duration configured by --default-upgrade-soaking.    To set an upgrade soaking override of 12 hours for the upgrade with name,   k8s_control_plane, and version, 1.23.1-gke.1000, run:      $ gcloud container hub clusterupgrade create        \       --add-upgrade-soaking-override=12h        \       --upgrade-selector=name="k8s_control_plane",\     version="1.23.1-gke.1000"
     /// </summary>
     [CliOption("--upstream-fleet", Format = OptionFormat.EqualsSeparated)]
     public string? UpstreamFleet { get; set; }
+
+    /// <summary>
+    /// Overrides the soaking time for a particular upgrade name and version     propagating through the current fleet. Set soaking to 0 days to bypass     soaking and fast-forward the upgrade to the downstream fleet.     See $ gcloud topic datetimes for information on duration formats.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--add-upgrade-soaking-override", Format = OptionFormat.EqualsSeparated)]
+    public string? AddUpgradeSoakingOverride { get; set; }
+
+    /// <summary>
+    /// Name and version of the upgrade to be overridden where version is a     full GKE version. Currently, name can be either k8s_control_plane or     k8s_node.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--upgrade-selector", Format = OptionFormat.EqualsSeparated)]
+    public string? UpgradeSelector { get; set; }
 
 }

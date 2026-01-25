@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "backup-vaults", "backups", "list")]
 public record GcloudNetappBackupVaultsBackupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the backup_vault or fully qualified identifier for the     backup_vault.     To set the backup_vault attribute:     ◆ provide the argument --backup-vault on the command line.    Location resource - The location in which to list Backups. This represents   a Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ uses all locations by default. with a fully specified name;    ◆ set the property netapp/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ uses all locations by default.;     ◆ set the property netapp/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

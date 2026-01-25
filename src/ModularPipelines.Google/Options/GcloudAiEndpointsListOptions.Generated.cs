@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudAiEndpointsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Whether to only list endpoints related to Model Garden.    Region resource - Cloud region to list endpoints. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property ai/region with a fully specified name;    ◆ choose one from the prompted list of available regions with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --region=REGION      ID of the region or fully qualified identifier for the region.      To set the region attribute:      ▸ provide the argument --region on the command line;      ▸ set the property ai/region;      ▸ choose one from the prompted list of available regions.
+    /// Whether to only list endpoints related to Model Garden.    Region resource - Cloud region to list endpoints. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property ai/region with a fully specified name;    ◆ choose one from the prompted list of available regions with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliFlag("--list-model-garden-endpoints-only")]
     public bool? ListModelGardenEndpointsOnly { get; set; }
+
+    /// <summary>
+    /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ set the property ai/region;     ◆ choose one from the prompted list of available regions.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
 }

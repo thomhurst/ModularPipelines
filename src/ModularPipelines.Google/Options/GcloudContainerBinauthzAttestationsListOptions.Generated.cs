@@ -20,9 +20,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerBinauthzAttestationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Container URL. May be in the gcr.io/repository/image format, or may     optionally contain the http or https scheme    Attestor resource - The Attestor whose Container Analysis Note will be   queried for attestations. Note that the caller must have the   containeranalysis.notes.listOccurrences permission on the note being   queried. The arguments in this group can be used to specify the attributes   of this resource.     --attestor=ATTESTOR      ID of the attestor or fully qualified identifier for the attestor.      To set the name attribute:      ▸ provide the argument --attestor on the command line.      This flag argument must be specified if any of the other arguments in      this group are specified.     --attestor-project=ATTESTOR_PROJECT      Project ID of the Google Cloud project for the attestor.      To set the project attribute:      ▸ provide the argument --attestor on the command line with a fully       specified name;      ▸ provide the argument --attestor-project on the command line;      ▸ provide the argument --project on the command line;      ▸ set the property core/project.
+    /// Container URL. May be in the gcr.io/repository/image format, or may     optionally contain the http or https scheme    Attestor resource - The Attestor whose Container Analysis Note will be   queried for attestations. Note that the caller must have the   containeranalysis.notes.listOccurrences permission on the note being   queried. The arguments in this group can be used to specify the attributes   of this resource.
     /// </summary>
     [CliOption("--artifact-url", Format = OptionFormat.EqualsSeparated)]
     public string? ArtifactUrl { get; set; }
+
+    /// <summary>
+    /// ID of the attestor or fully qualified identifier for the attestor.     To set the name attribute:     ◆ provide the argument --attestor on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--attestor", Format = OptionFormat.EqualsSeparated)]
+    public string? Attestor { get; set; }
+
+    /// <summary>
+    /// Project ID of the Google Cloud project for the attestor.     To set the project attribute:     ◆ provide the argument --attestor on the command line with a fully      specified name;     ◆ provide the argument --attestor-project on the command line;     ◆ provide the argument --project on the command line;     ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--attestor-project", Format = OptionFormat.EqualsSeparated)]
+    public string? AttestorProject { get; set; }
 
 }

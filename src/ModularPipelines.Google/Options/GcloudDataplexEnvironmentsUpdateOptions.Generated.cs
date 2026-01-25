@@ -33,9 +33,63 @@ public record GcloudDataplexEnvironmentsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the create action, but don't actually perform it.    Configuration for the underlying infrastructure used to run workloads.     Compute resources associated with the analyze interactive workloads.      --compute-disk-size-gb=COMPUTE_DISK_SIZE_GB       Size in GB of the disk. Default is 100 GB.      --compute-max-node-count=COMPUTE_MAX_NODE_COUNT       Maximum number of configurable nodes.      --compute-node-count=COMPUTE_NODE_COUNT       Total number of worker nodes in the cluster.     Software Runtime Configuration to run Analyze.      --os-image-java-libraries=[OS_IMAGE_JAVA_LIBRARIES,...]       List of Java jars to be included in the runtime environment. Valid       input includes Cloud Storage URIs to Jar binaries. For example,       gs://bucket-name/my/path/to/file.jar      --os-image-properties=[OS_IMAGE_PROPERTIES,...]       Override to common configuration of open source components       installed on the Dataproc cluster. The properties to set on daemon       config files. Property keys are specified in prefix:property       format.      --os-image-python-packages=[OS_IMAGE_PYTHON_PACKAGES,...]       A list of python packages to be installed. Valid formats include       Cloud Storage URI to a PIP installable library. For example,       gs://bucket-name/my/path/to/lib.tar.gz      --os-image-version=OS_IMAGE_VERSION       Dataplex Image version.    Configuration for sessions created for the environment to be updated.     --session-enable-fast-startup      Enables fast startup. This causes sessions to be pre-created and      available for faster startup to enable interactive exploration      use-cases.     --session-max-idle-duration=SESSION_MAX_IDLE_DURATION      The idle time configuration of the session. The session will be      auto-terminated at the end of this period.
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the create action, but don't actually perform it.    Configuration for the underlying infrastructure used to run workloads.    Compute resources associated with the analyze interactive workloads.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// Size in GB of the disk. Default is 100 GB.
+    /// </summary>
+    [CliOption("--compute-disk-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? ComputeDiskSizeGb { get; set; }
+
+    /// <summary>
+    /// Maximum number of configurable nodes.
+    /// </summary>
+    [CliOption("--compute-max-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ComputeMaxNodeCount { get; set; }
+
+    /// <summary>
+    /// Total number of worker nodes in the cluster.    Software Runtime Configuration to run Analyze.
+    /// </summary>
+    [CliOption("--compute-node-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ComputeNodeCount { get; set; }
+
+    /// <summary>
+    /// List of Java jars to be included in the runtime environment. Valid     input includes Cloud Storage URIs to Jar binaries. For example,     gs://bucket-name/my/path/to/file.jar
+    /// </summary>
+    [CliOption("--os-image-java-libraries", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OsImageJavaLibraries { get; set; }
+
+    /// <summary>
+    /// Override to common configuration of open source components installed on     the Dataproc cluster. The properties to set on daemon config files.     Property keys are specified in prefix:property format.
+    /// </summary>
+    [CliOption("--os-image-properties", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OsImageProperties { get; set; }
+
+    /// <summary>
+    /// A list of python packages to be installed. Valid formats include Cloud     Storage URI to a PIP installable library. For example,     gs://bucket-name/my/path/to/lib.tar.gz
+    /// </summary>
+    [CliOption("--os-image-python-packages", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? OsImagePythonPackages { get; set; }
+
+    /// <summary>
+    /// Dataplex Image version.    Configuration for sessions created for the environment to be updated.
+    /// </summary>
+    [CliOption("--os-image-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OsImageVersion { get; set; }
+
+    /// <summary>
+    /// Enables fast startup. This causes sessions to be pre-created and     available for faster startup to enable interactive exploration     use-cases.
+    /// </summary>
+    [CliFlag("--session-enable-fast-startup")]
+    public bool? SessionEnableFastStartup { get; set; }
+
+    /// <summary>
+    /// The idle time configuration of the session. The session will be     auto-terminated at the end of this period.
+    /// </summary>
+    [CliOption("--session-max-idle-duration", Format = OptionFormat.EqualsSeparated)]
+    public string? SessionMaxIdleDuration { get; set; }
 
 }

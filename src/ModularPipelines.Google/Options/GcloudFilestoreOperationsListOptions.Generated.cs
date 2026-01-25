@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudFilestoreOperationsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Location of the Cloud Filestore instance/operation.    Zone resource - The location in which to list operations. This represents   a Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --zone on the command line with a fully     specified name;    ◆ uses all locations by default. with a fully specified name;    ◆ provide the argument region on the command line with a fully     specified name;    ◆ provide the argument location on the command line with a fully     specified name;    ◆ set the property filestore/zone with a fully specified name;    ◆ set the property filestore/region with a fully specified name;    ◆ set the property filestore/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --zone=ZONE      ID of the zone or fully qualified identifier for the zone.      To set the zone attribute:      ▸ provide the argument --zone on the command line;      ▸ uses all locations by default.;      ▸ provide the argument region on the command line;      ▸ provide the argument location on the command line;      ▸ set the property filestore/zone;      ▸ set the property filestore/region;      ▸ set the property filestore/location.
+    /// Location of the Cloud Filestore instance/operation.    Zone resource - The location in which to list operations. This represents   a Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --zone on the command line with a fully     specified name;    ◆ uses all locations by default. with a fully specified name;    ◆ provide the argument region on the command line with a fully     specified name;    ◆ provide the argument location on the command line with a fully     specified name;    ◆ set the property filestore/zone with a fully specified name;    ◆ set the property filestore/region with a fully specified name;    ◆ set the property filestore/location with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// ID of the zone or fully qualified identifier for the zone.     To set the zone attribute:     ◆ provide the argument --zone on the command line;     ◆ uses all locations by default.;     ◆ provide the argument region on the command line;     ◆ provide the argument location on the command line;     ◆ set the property filestore/zone;     ◆ set the property filestore/region;     ◆ set the property filestore/location.
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
 
 }

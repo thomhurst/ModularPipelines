@@ -20,9 +20,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsAttachmentsListOptions : GcloudOptions
 {
     /// <summary>
-    /// Target for the list of attachments.    Repository resource - Parent repository for the list of attachments. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --repository on the command line with a fully     specified name;    ◆ set the property artifacts/repository with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --location=LOCATION      Location of the repository. Overrides the default artifacts/location      property value for this command invocation. To configure the default      location, use the command: gcloud config set artifacts/location.      To set the location attribute:      ▸ provide the argument --repository on the command line with a       fully specified name;      ▸ set the property artifacts/repository with a fully specified       name;      ▸ provide the argument --location on the command line;      ▸ set the property artifacts/location.     --repository=REPOSITORY      ID of the repository or fully qualified identifier for the      repository.      To set the repository attribute:      ▸ provide the argument --repository on the command line;      ▸ set the property artifacts/repository.
+    /// Target for the list of attachments.    Repository resource - Parent repository for the list of attachments. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --repository on the command line with a fully     specified name;    ◆ set the property artifacts/repository with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--target", Format = OptionFormat.EqualsSeparated)]
     public string? Target { get; set; }
+
+    /// <summary>
+    /// Location of the repository. Overrides the default artifacts/location     property value for this command invocation. To configure the default     location, use the command: gcloud config set artifacts/location.     To set the location attribute:     ◆ provide the argument --repository on the command line with a fully      specified name;     ◆ set the property artifacts/repository with a fully specified name;     ◆ provide the argument --location on the command line;     ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ID of the repository or fully qualified identifier for the repository.     To set the repository attribute:     ◆ provide the argument --repository on the command line;     ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
 
 }

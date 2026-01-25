@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("container", "fleet", "ingress", "update")]
 public record GcloudContainerFleetIngressUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the membership or fully qualified identifier for the membership.     To set the membership attribute:     ◆ provide the argument --config-membership on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--config-membership", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfigMembership { get; set; }
+
+    /// <summary>
+    /// Location for the membership.     To set the location attribute:     ◆ provide the argument --config-membership on the command line with a      fully specified name;     ◆ provide the argument --location on the command line;     ◆ set the property gkehub/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

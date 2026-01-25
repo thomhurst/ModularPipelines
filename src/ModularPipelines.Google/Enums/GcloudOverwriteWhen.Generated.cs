@@ -9,14 +9,17 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --servicedirectoryservice.
+/// Allowed values for --overwritewhen.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudServiceDirectoryService
+public enum GcloudOverwriteWhen
 {
-    [Description("manual")]
-    Manual,
+    [Description("always")]
+    Always,
 
-    [Description("cloud-kms")]
-    CloudKms
+    [Description("different")]
+    Different,
+
+    [Description("never")]
+    Never
 }

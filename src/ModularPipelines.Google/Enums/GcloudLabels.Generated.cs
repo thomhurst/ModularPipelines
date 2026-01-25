@@ -14,9 +14,12 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudLabels
 {
-    [Description("disabled")]
-    Disabled,
+    [Description("balance")]
+    Balance,
 
-    [Description("policy-bindings")]
-    PolicyBindings
+    [Description("security")]
+    Security,
+
+    [Description("usability")]
+    Usability
 }

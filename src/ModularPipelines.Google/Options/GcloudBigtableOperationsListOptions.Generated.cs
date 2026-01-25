@@ -19,6 +19,12 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "operations", "list")]
 public record GcloudBigtableOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the instance or fully qualified identifier for the instance.     To set the instance attribute:     ◆ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
     [CliOption("--return-partial-success", Format = OptionFormat.EqualsSeparated)]
     public string? ReturnPartialSuccess { get; set; }
 

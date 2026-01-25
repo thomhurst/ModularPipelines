@@ -9,17 +9,14 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --enableinsecurebindingsystemunauthenticated.
+/// Allowed values for --sourcelistapi.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudEnableInsecureBindingSystemUnauthenticated
+public enum GcloudSourceListApi
 {
-    [Description("any")]
-    Any,
+    [Description("LIST_OBJECTS")]
+    ListObjects,
 
-    [Description("none")]
-    None,
-
-    [Description("specific")]
-    Specific
+    [Description("LIST_OBJECTS_V2")]
+    ListObjectsV2
 }

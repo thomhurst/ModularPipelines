@@ -57,9 +57,15 @@ public record GcloudNetworkConnectivityServiceConnectionPoliciesUpdateOptions : 
     public string? PscConnectionLimit { get; set; }
 
     /// <summary>
-    /// For resources [service_connection_policy, subnets], provides fallback     value for resource region attribute. When the resource's full URI path     is not provided, region will fallback to this flag value.    Subnetwork resource - Subnetwork to use for IP address management. This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --subnets on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the region attribute:    ◆ provide the argument --subnets on the command line with a fully     specified name;    ◆ provide the argument --region on the command line.     --subnets=[SUBNETS,...]      IDs of the subnetworks or fully qualified identifiers for the      subnetworks.      To set the subnetwork attribute:      ▸ provide the argument --subnets on the command line.
+    /// For resources [service_connection_policy, subnets], provides fallback     value for resource region attribute. When the resource's full URI path     is not provided, region will fallback to this flag value.    Subnetwork resource - Subnetwork to use for IP address management. This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --subnets on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the region attribute:    ◆ provide the argument --subnets on the command line with a fully     specified name;    ◆ provide the argument --region on the command line.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// IDs of the subnetworks or fully qualified identifiers for the     subnetworks.     To set the subnetwork attribute:     ◆ provide the argument --subnets on the command line.
+    /// </summary>
+    [CliOption("--subnets", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Subnets { get; set; }
 
 }

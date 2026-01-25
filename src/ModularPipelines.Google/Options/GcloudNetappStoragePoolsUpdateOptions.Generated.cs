@@ -21,6 +21,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappStoragePoolsUpdateOptions : GcloudOptions
 {
     /// <summary>
+    /// ID of the active_directory or fully qualified identifier for the     active_directory.     To set the active_directory attribute:     ◆ provide the argument --active-directory on the command line.
+    /// </summary>
+    [CliOption("--active-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? ActiveDirectory { get; set; }
+
+    /// <summary>
     /// Boolean flag indicating whether Storage Pool is allowed to use     auto-tiering
     /// </summary>
     [CliOption("--allow-auto-tiering", Format = OptionFormat.EqualsSeparated)]

@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "backup-plan-revisions", "list")]
 public record GcloudBackupDrBackupPlanRevisionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the backup_plan or fully qualified identifier for the     backup_plan.     To set the backup-plan attribute:     ◆ provide the argument --backup-plan on the command line;     ◆ default is all backup plans .
+    /// </summary>
+    [CliOption("--backup-plan", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupPlan { get; set; }
+
+    /// <summary>
+    /// Location ID of the resource.     To set the location attribute:     ◆ provide the argument --backup-plan on the command line with a fully      specified name;     ◆ default is all backup plans with a fully specified name;     ◆ provide the argument --location on the command line;     ◆ default is all locations .
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

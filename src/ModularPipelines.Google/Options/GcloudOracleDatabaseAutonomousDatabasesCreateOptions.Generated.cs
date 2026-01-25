@@ -57,21 +57,190 @@ public record GcloudOracleDatabaseAutonomousDatabasesCreateOptions : GcloudOptio
     public IEnumerable<string>? Labels { get; set; }
 
     /// <summary>
-    /// For resources [autonomous_database, encryption-key-kms, odb-network,     odb-subnet, source-config-autonomous-database], provides fallback value     for resource location attribute. When the resource's full URI path is     not provided, location will fallback to this flag value.    Network resource - The name of the VPC network used by the Autonomous   Database in the following format:   projects/{project}/global/networks/{network} This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --network=NETWORK      ID of the network or fully qualified identifier for the network.      To set the network attribute:      ▸ provide the argument --network on the command line.
+    /// For resources [autonomous_database, encryption-key-kms, odb-network,     odb-subnet, source-config-autonomous-database], provides fallback value     for resource location attribute. When the resource's full URI path is     not provided, location will fallback to this flag value.    Network resource - The name of the VPC network used by the Autonomous   Database in the following format:   projects/{project}/global/networks/{network} This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
     public string? Location { get; set; }
 
     /// <summary>
-    /// For resources [odb-network, odb-subnet], provides fallback value for     resource odb-network attribute. When the resource's full URI path is     not provided, odb-network will fallback to this flag value.    OdbSubnet resource - The name of the OdbSubnet associated with the   Autonomous Database. Format:   projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}   This represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --location on the command line.    To set the odb-network attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --odb-network on the command line.     --odb-subnet=ODB_SUBNET      ID of the odbSubnet or fully qualified identifier for the odbSubnet.      To set the odb-subnet attribute:      ▸ provide the argument --odb-subnet on the command line.
+    /// ID of the network or fully qualified identifier for the network.     To set the network attribute:     ◆ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// For resources [odb-network, odb-subnet], provides fallback value for     resource odb-network attribute. When the resource's full URI path is     not provided, odb-network will fallback to this flag value.    OdbSubnet resource - The name of the OdbSubnet associated with the   Autonomous Database. Format:   projects/{project}/locations/{location}/odbNetworks/{odb_network}/odbSubnets/{odb_subnet}   This represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --location on the command line.    To set the odb-network attribute:    ◆ provide the argument --odb-subnet on the command line with a fully     specified name;    ◆ provide the argument --odb-network on the command line.
     /// </summary>
     [CliOption("--odb-network", Format = OptionFormat.EqualsSeparated)]
     public string? OdbNetwork { get; set; }
 
     /// <summary>
-    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    The properties of an Autonomous Database.     --properties-db-workload=PROPERTIES_DB_WORKLOAD      The workload type of the Autonomous Database. PROPERTIES_DB_WORKLOAD      must be one of:       ajd        Autonomous JSON Database.      apex        Autonomous Database with the Oracle APEX Application Development        workload type.      dw        Autonomous Data Warehouse database.      oltp        Autonomous Transaction Processing database.      This flag argument must be specified if any of the other arguments in      this group are specified.     --properties-license-type=PROPERTIES_LICENSE_TYPE      The license type used for the Autonomous Database.      PROPERTIES_LICENSE_TYPE must be one of:       bring-your-own-license        Bring your own license      license-included        License included part of offer      This flag argument must be specified if any of the other arguments in      this group are specified.     --properties-allowlisted-ips=[PROPERTIES_ALLOWLISTED_IPS,...]      The list of allowlisted IP addresses for the Autonomous Database.     --properties-backup-retention-period-days=PROPERTIES_BACKUP_RETENTION_PERIOD_DAYS      The retention period for the Autonomous Database. This field is      specified in days, can range from 1 day to 60 days, and has a default      value of 60 days.     --properties-character-set=PROPERTIES_CHARACTER_SET      The character set for the Autonomous Database. The default is      AL32UTF8.     --properties-compute-count=PROPERTIES_COMPUTE_COUNT      The number of compute servers for the Autonomous Database.     --properties-cpu-core-count=PROPERTIES_CPU_CORE_COUNT      The number of CPU cores to be made available to the database.     --properties-customer-contacts=[email=EMAIL]      The list of customer contacts.       email        The email address used by Oracle to send notifications regarding        databases and infrastructure.      Shorthand Example:        --properties-customer-contacts=email=string --properties-customer-contacts=email=string      JSON Example:        --properties-customer-contacts='[{"email": "string"}]'      File Example:        --properties-customer-contacts=path_to_file.(yaml|json)     --properties-data-storage-size-gb=PROPERTIES_DATA_STORAGE_SIZE_GB      The size of the data stored in the database, in gigabytes.     --properties-data-storage-size-tb=PROPERTIES_DATA_STORAGE_SIZE_TB      The size of the data stored in the database, in terabytes.     --properties-db-edition=PROPERTIES_DB_EDITION      The edition of the Autonomous Databases. PROPERTIES_DB_EDITION must      be one of:       enterprise-edition        Enterprise Database Edition      standard-edition        Standard Database Edition     --properties-db-version=PROPERTIES_DB_VERSION      The Oracle Database version for the Autonomous Database.     --properties-is-auto-scaling-enabled      This field indicates if auto scaling is enabled for the Autonomous      Database CPU core count.     --properties-is-storage-auto-scaling-enabled      This field indicates if auto scaling is enabled for the Autonomous      Database storage.     --properties-maintenance-schedule-type=PROPERTIES_MAINTENANCE_SCHEDULE_TYPE      The maintenance schedule of the Autonomous Database.      PROPERTIES_MAINTENANCE_SCHEDULE_TYPE must be one of:       early        An EARLY maintenance schedule patches the database before the        regular scheduled maintenance.      regular        A REGULAR maintenance schedule follows the normal maintenance        cycle.     --properties-mtls-connection-required      This field specifies if the Autonomous Database requires mTLS      connections.     --properties-n-character-set=PROPERTIES_N_CHARACTER_SET      The national character set for the Autonomous Database. The default      is AL16UTF16.     --properties-private-endpoint-ip=PROPERTIES_PRIVATE_ENDPOINT_IP      The private endpoint IP address for the Autonomous Database.     --properties-private-endpoint-label=PROPERTIES_PRIVATE_ENDPOINT_LABEL      The private endpoint label for the Autonomous Database.     --properties-secret-id=PROPERTIES_SECRET_ID      The ID of the Oracle Cloud Infrastructure vault secret.     --properties-vault-id=PROPERTIES_VAULT_ID      The ID of the Oracle Cloud Infrastructure vault.     The encryption key used to encrypt the Autonomous Database.      --encryption-key-provider=ENCRYPTION_KEY_PROVIDER       The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be       one of:        google-managed         Google Managed KMS key, if selected, please provide the KMS key         name.       oracle-managed         Oracle Managed.      CryptoKey resource - The KMS key used to encrypt the Autonomous     Database. This field is required if the provider is GOOGLE_MANAGED.     The name of the KMS key resource in the following format:     projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.     The arguments in this group can be used to specify the attributes of     this resource. (NOTE) Some attributes are not given arguments in this     group but can be set in other ways.      To set the project attribute:      ▫ provide the argument --encryption-key-kms on the command line       with a fully specified name;      ▫ provide the argument --project on the command line;      ▫ set the property core/project.      To set the location attribute:      ▫ provide the argument --encryption-key-kms on the command line       with a fully specified name;      ▫ provide the argument --location on the command line.       --encryption-key-kms=ENCRYPTION_KEY_KMS        ID of the cryptoKey or fully qualified identifier for the        cryptoKey.        To set the crypto-key attribute:        ◇ provide the argument --encryption-key-kms on the command         line.        This flag argument must be specified if any of the other        arguments in this group are specified.       --key-ring=KEY_RING        The keyRing id of the cryptoKey resource.        To set the key-ring attribute:        ◇ provide the argument --encryption-key-kms on the command line         with a fully specified name;        ◇ provide the argument --key-ring on the command line.    The source configuration for the standby Autonomous Database.     --source-config-automatic-backups-replication-enabled      This field specifies if the replication of automatic backups is      enabled when creating a Data Guard.     AutonomousDatabase resource - The name of the primary Autonomous    Database that is used to create a Peer Autonomous Database from a    source. This represents a Cloud resource. (NOTE) Some attributes are not    given arguments in this group but can be set in other ways.     To set the project attribute:     ▸ provide the argument --source-config-autonomous-database on the      command line with a fully specified name;     ▸ provide the argument --project on the command line;     ▸ set the property core/project.     To set the location attribute:     ▸ provide the argument --source-config-autonomous-database on the      command line with a fully specified name;     ▸ provide the argument --location on the command line.      --source-config-autonomous-database=SOURCE_CONFIG_AUTONOMOUS_DATABASE       ID of the autonomousDatabase or fully qualified identifier for the       autonomousDatabase.       To set the autonomous-database attribute:       ▫ provide the argument --source-config-autonomous-database on the        command line.
+    /// ID of the odbSubnet or fully qualified identifier for the odbSubnet.     To set the odb-subnet attribute:     ◆ provide the argument --odb-subnet on the command line.
+    /// </summary>
+    [CliOption("--odb-subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? OdbSubnet { get; set; }
+
+    /// <summary>
+    /// An optional ID to identify the request. This value is used to identify     duplicate requests. If you make a request with the same request ID and     the original request is still in progress or completed, the server     ignores the second request. This prevents clients from accidentally     creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    The properties of an Autonomous Database.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// The workload type of the Autonomous Database. PROPERTIES_DB_WORKLOAD     must be one of:      ajd       Autonomous JSON Database.     apex       Autonomous Database with the Oracle APEX Application Development       workload type.     dw       Autonomous Data Warehouse database.     oltp       Autonomous Transaction Processing database.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--properties-db-workload", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDbWorkload { get; set; }
+
+    /// <summary>
+    /// The license type used for the Autonomous Database.     PROPERTIES_LICENSE_TYPE must be one of:      bring-your-own-license       Bring your own license     license-included       License included part of offer     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--properties-license-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesLicenseType { get; set; }
+
+    /// <summary>
+    /// The list of allowlisted IP addresses for the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-allowlisted-ips", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? PropertiesAllowlistedIps { get; set; }
+
+    /// <summary>
+    /// The retention period for the Autonomous Database. This field is     specified in days, can range from 1 day to 60 days, and has a default     value of 60 days.
+    /// </summary>
+    [CliOption("--properties-backup-retention-period-days", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesBackupRetentionPeriodDays { get; set; }
+
+    /// <summary>
+    /// The character set for the Autonomous Database. The default is AL32UTF8.
+    /// </summary>
+    [CliOption("--properties-character-set", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesCharacterSet { get; set; }
+
+    /// <summary>
+    /// The number of compute servers for the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-compute-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesComputeCount { get; set; }
+
+    /// <summary>
+    /// The number of CPU cores to be made available to the database.
+    /// </summary>
+    [CliOption("--properties-cpu-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesCpuCoreCount { get; set; }
+
+    /// <summary>
+    /// The list of customer contacts.      email       The email address used by Oracle to send notifications regarding       databases and infrastructure.     Shorthand Example:       --properties-customer-contacts=email=string --properties-customer-contacts=email=string     JSON Example:       --properties-customer-contacts='[{"email": "string"}]'     File Example:       --properties-customer-contacts=path_to_file.(yaml|json)
+    /// </summary>
+    [CliOption("--properties-customer-contacts", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesCustomerContacts { get; set; }
+
+    /// <summary>
+    /// The size of the data stored in the database, in gigabytes.
+    /// </summary>
+    [CliOption("--properties-data-storage-size-gb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesDataStorageSizeGb { get; set; }
+
+    /// <summary>
+    /// The size of the data stored in the database, in terabytes.
+    /// </summary>
+    [CliOption("--properties-data-storage-size-tb", Format = OptionFormat.EqualsSeparated)]
+    public int? PropertiesDataStorageSizeTb { get; set; }
+
+    /// <summary>
+    /// The edition of the Autonomous Databases. PROPERTIES_DB_EDITION must be     one of:      enterprise-edition       Enterprise Database Edition     standard-edition       Standard Database Edition
+    /// </summary>
+    [CliOption("--properties-db-edition", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDbEdition { get; set; }
+
+    /// <summary>
+    /// The Oracle Database version for the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-db-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesDbVersion { get; set; }
+
+    /// <summary>
+    /// This field indicates if auto scaling is enabled for the Autonomous     Database CPU core count.
+    /// </summary>
+    [CliFlag("--properties-is-auto-scaling-enabled")]
+    public bool? PropertiesIsAutoScalingEnabled { get; set; }
+
+    /// <summary>
+    /// This field indicates if auto scaling is enabled for the Autonomous     Database storage.
+    /// </summary>
+    [CliFlag("--properties-is-storage-auto-scaling-enabled")]
+    public bool? PropertiesIsStorageAutoScalingEnabled { get; set; }
+
+    /// <summary>
+    /// The maintenance schedule of the Autonomous Database.     PROPERTIES_MAINTENANCE_SCHEDULE_TYPE must be one of:      early       An EARLY maintenance schedule patches the database before the       regular scheduled maintenance.     regular       A REGULAR maintenance schedule follows the normal maintenance       cycle.
+    /// </summary>
+    [CliOption("--properties-maintenance-schedule-type", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesMaintenanceScheduleType { get; set; }
+
+    /// <summary>
+    /// This field specifies if the Autonomous Database requires mTLS     connections.
+    /// </summary>
+    [CliFlag("--properties-mtls-connection-required")]
+    public bool? PropertiesMtlsConnectionRequired { get; set; }
+
+    /// <summary>
+    /// The national character set for the Autonomous Database. The default is     AL16UTF16.
+    /// </summary>
+    [CliOption("--properties-n-character-set", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesNCharacterSet { get; set; }
+
+    /// <summary>
+    /// The private endpoint IP address for the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-private-endpoint-ip", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesPrivateEndpointIp { get; set; }
+
+    /// <summary>
+    /// The private endpoint label for the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-private-endpoint-label", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesPrivateEndpointLabel { get; set; }
+
+    /// <summary>
+    /// The ID of the Oracle Cloud Infrastructure vault secret.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--properties-secret-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesSecretId { get; set; }
+
+    /// <summary>
+    /// The ID of the Oracle Cloud Infrastructure vault.    The encryption key used to encrypt the Autonomous Database.
+    /// </summary>
+    [CliOption("--properties-vault-id", Format = OptionFormat.EqualsSeparated)]
+    public string? PropertiesVaultId { get; set; }
+
+    /// <summary>
+    /// The provider of the encryption key. ENCRYPTION_KEY_PROVIDER must be one     of:      google-managed       Google Managed KMS key, if selected, please provide the KMS key       name.     oracle-managed       Oracle Managed.    CryptoKey resource - The KMS key used to encrypt the Autonomous Database.   This field is required if the provider is GOOGLE_MANAGED. The name of the   KMS key resource in the following format:   projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}.   The arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --encryption-key-kms on the command line with a     fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --encryption-key-kms on the command line with a     fully specified name;    ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--encryption-key-provider", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKeyProvider { get; set; }
+
+    /// <summary>
+    /// ID of the cryptoKey or fully qualified identifier for the cryptoKey.     To set the crypto-key attribute:     ◆ provide the argument --encryption-key-kms on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--encryption-key-kms", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionKeyKms { get; set; }
+
+    /// <summary>
+    /// The keyRing id of the cryptoKey resource.     To set the key-ring attribute:     ◆ provide the argument --encryption-key-kms on the command line with      a fully specified name;     ◆ provide the argument --key-ring on the command line.    The source configuration for the standby Autonomous Database.
+    /// </summary>
+    [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyRing { get; set; }
+
+    /// <summary>
+    /// This field specifies if the replication of automatic backups is enabled     when creating a Data Guard.    AutonomousDatabase resource - The name of the primary Autonomous Database   that is used to create a Peer Autonomous Database from a source. This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --source-config-autonomous-database on the     command line with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --source-config-autonomous-database on the     command line with a fully specified name;    ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliFlag("--source-config-automatic-backups-replication-enabled")]
+    public bool? SourceConfigAutomaticBackupsReplicationEnabled { get; set; }
+
+    /// <summary>
+    /// ID of the autonomousDatabase or fully qualified identifier for the     autonomousDatabase.     To set the autonomous-database attribute:     ◆ provide the argument --source-config-autonomous-database on the      command line.
+    /// </summary>
+    [CliOption("--source-config-autonomous-database", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceConfigAutonomousDatabase { get; set; }
 
 }

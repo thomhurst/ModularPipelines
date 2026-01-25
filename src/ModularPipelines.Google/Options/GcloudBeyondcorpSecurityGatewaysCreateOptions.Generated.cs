@@ -38,9 +38,57 @@ public record GcloudBeyondcorpSecurityGatewaysCreateOptions : GcloudOptions
     public IEnumerable<string>? Hubs { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    Settings related to the Service Discovery.     If Service Discovery is done through API, defines its settings.     This must be specified.      API operation descriptor.      This must be specified.       --resource-override-path=RESOURCE_OVERRIDE_PATH        Contains the URI path fragment where HTTP request is sent.    The configuration for the proxy.     --proxy-protocol-config-allowed-client-headers=[PROXY_PROTOCOL_CONFIG_ALLOWED_CLIENT_HEADERS,...]      List of the allowed client header names.     --proxy-protocol-config-client-ip      Client IP configuration. The client IP address is included if true.     --proxy-protocol-config-gateway-identity=PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY      The security gateway identity configuration.      PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is      supported):       resource-name        Resource name for gateway identity, in the format:        projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}     --proxy-protocol-config-metadata-headers=[PROXY_PROTOCOL_CONFIG_METADATA_HEADERS,...]      Custom resource specific headers along with the values. The names      should conform to RFC 9110: &gt;Field names can contain alphanumeric      characters, hyphens, and periods, can contain only ASCII-printable      characters and tabs, and must start with a letter.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --proxy-protocol-config-metadata-headers=string=string      JSON Example:        --proxy-protocol-config-metadata-headers='{"string": "string"}'      File Example:        --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)     Contextual headers configuration.      --contextual-headers-output-type=CONTEXTUAL_HEADERS_OUTPUT_TYPE       Default output type for all enabled headers.       CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of:        json         JSON output type.       none         Explicitly disable header output.       protobuf         Protobuf output type.      The delegated device information configuration.       --device-info-output-type=DEVICE_INFO_OUTPUT_TYPE        The output type details for the delegated device.        DEVICE_INFO_OUTPUT_TYPE must be one of:         json          JSON output type.        none          Explicitly disable header output.        protobuf          Protobuf output type.      The delegated group configuration details.       --group-info-output-type=GROUP_INFO_OUTPUT_TYPE        The output type of the delegated group information.        GROUP_INFO_OUTPUT_TYPE must be one of:         json          JSON output type.        none          Explicitly disable header output.        protobuf          Protobuf output type.      The configuration information for the delegated user.       --user-info-output-type=USER_INFO_OUTPUT_TYPE        The delegated user's information. USER_INFO_OUTPUT_TYPE must be        one of:         json          JSON output type.        none          Explicitly disable header output.        protobuf          Protobuf output type.
+    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.    Settings related to the Service Discovery.    If Service Discovery is done through API, defines its settings.    This must be specified.     API operation descriptor.     This must be specified.      --resource-override-path=RESOURCE_OVERRIDE_PATH       Contains the URI path fragment where HTTP request is sent.    The configuration for the proxy.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// List of the allowed client header names.
+    /// </summary>
+    [CliOption("--proxy-protocol-config-allowed-client-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ProxyProtocolConfigAllowedClientHeaders { get; set; }
+
+    /// <summary>
+    /// Client IP configuration. The client IP address is included if true.
+    /// </summary>
+    [CliFlag("--proxy-protocol-config-client-ip")]
+    public bool? ProxyProtocolConfigClientIp { get; set; }
+
+    /// <summary>
+    /// The security gateway identity configuration.     PROXY_PROTOCOL_CONFIG_GATEWAY_IDENTITY must be (only one value is     supported):      resource-name       Resource name for gateway identity, in the format:       projects/{project_id}/locations/{location_id}/securityGateways/{security_gateway_id}
+    /// </summary>
+    [CliOption("--proxy-protocol-config-gateway-identity", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxyProtocolConfigGatewayIdentity { get; set; }
+
+    /// <summary>
+    /// Custom resource specific headers along with the values. The names     should conform to RFC 9110: &gt;Field names can contain alphanumeric     characters, hyphens, and periods, can contain only ASCII-printable     characters and tabs, and must start with a letter.      KEY       Sets KEY value.      VALUE       Sets VALUE value.     Shorthand Example:       --proxy-protocol-config-metadata-headers=string=string     JSON Example:       --proxy-protocol-config-metadata-headers='{"string": "string"}'     File Example:       --proxy-protocol-config-metadata-headers=path_to_file.(yaml|json)    Contextual headers configuration.
+    /// </summary>
+    [CliOption("--proxy-protocol-config-metadata-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ProxyProtocolConfigMetadataHeaders { get; set; }
+
+    /// <summary>
+    /// Default output type for all enabled headers.     CONTEXTUAL_HEADERS_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The delegated device information configuration.
+    /// </summary>
+    [CliOption("--contextual-headers-output-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ContextualHeadersOutputType { get; set; }
+
+    /// <summary>
+    /// The output type details for the delegated device.     DEVICE_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The delegated group configuration details.
+    /// </summary>
+    [CliOption("--device-info-output-type", Format = OptionFormat.EqualsSeparated)]
+    public string? DeviceInfoOutputType { get; set; }
+
+    /// <summary>
+    /// The output type of the delegated group information.     GROUP_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.    The configuration information for the delegated user.
+    /// </summary>
+    [CliOption("--group-info-output-type", Format = OptionFormat.EqualsSeparated)]
+    public string? GroupInfoOutputType { get; set; }
+
+    /// <summary>
+    /// The delegated user's information. USER_INFO_OUTPUT_TYPE must be one of:      json       JSON output type.     none       Explicitly disable header output.     protobuf       Protobuf output type.
+    /// </summary>
+    [CliOption("--user-info-output-type", Format = OptionFormat.EqualsSeparated)]
+    public string? UserInfoOutputType { get; set; }
 
 }

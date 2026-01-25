@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("compute", "os-config", "policy-orchestrators", "list")]
 public record GcloudComputeOsConfigPolicyOrchestratorsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the project_folder_organization or fully qualified identifier for     the project_folder_organization.     To set the folder attribute:     ◆ provide the argument --folder on the command line. Must be      specified for resource of type [folder_a].
+    /// </summary>
+    [CliOption("--folder", Format = OptionFormat.EqualsSeparated)]
+    public string? Folder { get; set; }
+
+    /// <summary>
+    /// ID of the project_folder_organization or fully qualified identifier for     the project_folder_organization.     To set the organization attribute:     ◆ provide the argument --organization on the command line. Must be      specified for resource of type [organization_a].
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

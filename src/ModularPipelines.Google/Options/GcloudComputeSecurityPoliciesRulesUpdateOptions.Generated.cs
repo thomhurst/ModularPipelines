@@ -143,9 +143,69 @@ public record GcloudComputeSecurityPoliciesRulesUpdateOptions(
     public IEnumerable<string>? RequestHeadersToAdd { get; set; }
 
     /// <summary>
-    /// The security policy that this rule belongs to.    Security policy rule matcher.     --expression=EXPRESSION      The Cloud Armor rules language expression to match for this rule.     --network-dest-ip-ranges=[DEST_IP_RANGE,...]      The destination IPs/IP ranges to match for this rule. To match all      IPs specify *.     --network-dest-ports=[DEST_PORT,...]      The destination ports to match for this rule. Each element can be an      16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"),      To match all destination ports specify *.     --network-ip-protocols=[IP_PROTOCOL,...]      The IP protocols to match for this rule. Each element can be an 8-bit      unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of      the following protocol names: "tcp", "udp", "icmp", "esp", "ah",      "ipip", or "sctp". To match all protocols specify *.     --network-src-asns=[SRC_ASN,...]      BGP Autonomous System Number associated with the source IP address to      match for this rule.     --network-src-ip-ranges=[SRC_IP_RANGE,...]      The source IPs/IP ranges to match for this rule. To match all IPs      specify *.     --network-src-ports=[SRC_PORT,...]      The source ports to match for this rule. Each element can be an      16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"),      To match all source ports specify *.     --network-src-region-codes=[SRC_REGION_CODE,...]      The two letter ISO 3166-1 alpha-2 country code associated with the      source IP address to match for this rule. To match all region codes      specify *.     --network-user-defined-fields=[NAME;VALUE:VALUE:...,...]      Each element names a defined field and lists the matching values for      that field.     --src-ip-ranges=[SRC_IP_RANGE,...]      The source IPs/IP ranges to match for this rule. To match all IPs      specify *.
+    /// The security policy that this rule belongs to.    Security policy rule matcher.
     /// </summary>
     [CliOption("--security-policy", Format = OptionFormat.EqualsSeparated)]
     public string? SecurityPolicy { get; set; }
+
+    /// <summary>
+    /// The Cloud Armor rules language expression to match for this rule.
+    /// </summary>
+    [CliOption("--expression", Format = OptionFormat.EqualsSeparated)]
+    public string? Expression { get; set; }
+
+    /// <summary>
+    /// The destination IPs/IP ranges to match for this rule. To match all IPs     specify *.
+    /// </summary>
+    [CliOption("--network-dest-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkDestIpRanges { get; set; }
+
+    /// <summary>
+    /// The destination ports to match for this rule. Each element can be an     16-bit unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To     match all destination ports specify *.
+    /// </summary>
+    [CliOption("--network-dest-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkDestPorts { get; set; }
+
+    /// <summary>
+    /// The IP protocols to match for this rule. Each element can be an 8-bit     unsigned decimal number (e.g. "6"), range (e.g."253-254"), or one of     the following protocol names: "tcp", "udp", "icmp", "esp", "ah",     "ipip", or "sctp". To match all protocols specify *.
+    /// </summary>
+    [CliOption("--network-ip-protocols", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkIpProtocols { get; set; }
+
+    /// <summary>
+    /// BGP Autonomous System Number associated with the source IP address to     match for this rule.
+    /// </summary>
+    [CliOption("--network-src-asns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkSrcAsns { get; set; }
+
+    /// <summary>
+    /// The source IPs/IP ranges to match for this rule. To match all IPs     specify *.
+    /// </summary>
+    [CliOption("--network-src-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkSrcIpRanges { get; set; }
+
+    /// <summary>
+    /// The source ports to match for this rule. Each element can be an 16-bit     unsigned decimal number (e.g. "80") or range (e.g."0-1023"), To match     all source ports specify *.
+    /// </summary>
+    [CliOption("--network-src-ports", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkSrcPorts { get; set; }
+
+    /// <summary>
+    /// The two letter ISO 3166-1 alpha-2 country code associated with the     source IP address to match for this rule. To match all region codes     specify *.
+    /// </summary>
+    [CliOption("--network-src-region-codes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkSrcRegionCodes { get; set; }
+
+    /// <summary>
+    /// Each element names a defined field and lists the matching values for     that field.
+    /// </summary>
+    [CliOption("--network-user-defined-fields", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NetworkUserDefinedFields { get; set; }
+
+    /// <summary>
+    /// The source IPs/IP ranges to match for this rule. To match all IPs     specify *.
+    /// </summary>
+    [CliOption("--src-ip-ranges", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? SrcIpRanges { get; set; }
 
 }

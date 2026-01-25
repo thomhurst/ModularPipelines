@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "volumes", "quota-rules", "describe")]
 public record GcloudNetappVolumesQuotaRulesDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the volume or fully qualified identifier for the volume.     To set the volume attribute:     ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
+
 }

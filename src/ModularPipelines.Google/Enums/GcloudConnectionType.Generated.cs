@@ -9,20 +9,14 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --oauthscopes.
+/// Allowed values for --connectiontype.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudOauthScopes
+public enum GcloudConnectionType
 {
-    [Description("minute")]
-    Minute,
+    [Description("private-service-connect")]
+    PrivateServiceConnect,
 
-    [Description("hour")]
-    Hour,
-
-    [Description("day")]
-    Day,
-
-    [Description("month")]
-    Month
+    [Description("vpc-peering")]
+    VpcPeering
 }

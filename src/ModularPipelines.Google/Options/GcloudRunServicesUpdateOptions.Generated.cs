@@ -162,9 +162,87 @@ public record GcloudRunServicesUpdateOptions : GcloudOptions
     public bool? ClearVolumes { get; set; }
 
     /// <summary>
-    /// Removes volumes from the Cloud Run resource.   Container Flags     If the --container or --remove-containers flag is specified the following     arguments may only be specified after a --container flag.      --add-volume-mount=[volume=NAME,mount-path=MOUNT_PATH,...]       Adds a mount to the current container. Must contain the keys       volume=NAME and mount-path=/PATH where NAME is the name of a volume       on this resource and PATH is the path within the container's       filesystem to mount this volume.      --args=[ARG,...]       Comma-separated arguments passed to the command run by the       container image. If not specified and no '--command' is provided,       the container image's default Cmd is used. Otherwise, if not       specified, no arguments are passed. To reset this field to its       default, pass an empty string.      --clear-volume-mounts       Remove all existing mounts from the current container.      --command=[COMMAND,...]       Entrypoint for the container image. If not specified, the container       image's default Entrypoint is run. To reset this field to its       default, pass an empty string.      --cpu=CPU       Set a CPU limit in Kubernetes cpu units.       Cloud Run supports values fractional values below 1, 1, 2, 4, and       8. Some CPU values requires a minimum Memory --memory value.      --depends-on=[CONTAINER,...]       List of container dependencies to add to the current container.      --gpu=GPU       Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4       --cpu value and a minimum 16Gi --memory value.      --image=IMAGE       Name of the container image to deploy (e.g.       us-docker.pkg.dev/cloudrun/container/hello:latest).      --liveness-probe=[KEY=VALUE,...]       Comma separated settings for liveness probe in the form KEY=VALUE.       Each key stands for a field of the probe described in       https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.       Currently supported keys are: initialDelaySeconds, timeoutSeconds,       periodSeconds, failureThreshold, httpGet.port, httpGet.path,       grpc.port, grpc.service.       For example, to set a probe with 10s timeout and HTTP probe       requests sent to 8080 port of the container:         $ --liveness-probe=timeoutSeconds=10,httpGet.port=8080       To remove existing probe:         $ --liveness-probe=""      --memory=MEMORY       Set a memory limit. Ex: 1024Mi, 4Gi.      --port=PORT       Container port to receive requests at. Also sets the $PORT       environment variable. Must be a number between 1 and 65535,       inclusive. To unset this field, pass the special value "default".       If updating an existing service with a TCP startup probe pointing       to the previous container port, this will also update the probe       port.      --remove-volume-mount=[MOUNT_PATH,...]       Removes the volume mounted at the specified path from the current       container.      --startup-probe=[KEY=VALUE,...]       Comma separated settings for startup probe in the form KEY=VALUE.       Each key stands for a field of the probe described in       https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.       Currently supported keys are: initialDelaySeconds, timeoutSeconds,       periodSeconds, failureThreshold, httpGet.port, httpGet.path,       grpc.port, grpc.service, tcpSocket.port.       For example, to set a probe with 10s timeout and HTTP probe       requests sent to 8080 port of the container:         $ --startup-probe=timeoutSeconds=10,httpGet.port=8080       To remove existing probe:         $ --startup-probe=""      --[no-]use-http2       Whether to use HTTP/2 for connections to the service. Use       --use-http2 to enable and --no-use-http2 to disable.      At most one of these can be specified:       --clear-env-vars        Remove all environment variables.       --env-vars-file=FILE_PATH        Path to a local YAML or ENV file with definitions for all        environment variables. All existing environment variables will be        removed before the new environment variables are added. Example        YAML content:          KEY_1: "value1"          KEY_2: "value 2"        Example ENV content:          KEY_1="value1"          KEY_2="value 2"       --set-env-vars=[KEY=VALUE,...]        List of key-value pairs to set as environment variables. All        existing environment variables will be removed first.       Only --update-env-vars and --remove-env-vars can be used together.      If both are specified, --remove-env-vars will be applied first.        --remove-env-vars=[KEY,...]         List of environment variables to be removed.        --update-env-vars=[KEY=VALUE,...]         List of key-value pairs to set as environment variables.      Specify secrets to mount or provide as environment variables. Keys     starting with a forward slash '/' are mount paths. All other keys     correspond to environment variables. Values should be in the form     SECRET_NAME:SECRET_VERSION. For example:     '--update-secrets=/secrets/api/key=mysecret:latest,ENV=othersecret:1'     will mount a volume at '/secrets/api' containing a file 'key' with the     latest version of secret 'mysecret'. An environment variable named ENV     will also be created whose value is version 1 of secret 'othersecret'.      At most one of these can be specified:       --clear-secrets        Remove all secrets.       --set-secrets=[KEY=VALUE,...]        List of key-value pairs to set as secrets. All existing secrets        will be removed first.       Only --update-secrets and --remove-secrets can be used together. If      both are specified, --remove-secrets will be applied first.        --remove-secrets=[KEY,...]         List of secrets to be removed.        --update-secrets=[KEY=VALUE,...]         List of key-value pairs to set as secrets.    At most one of these can be specified:     --binary-authorization=POLICY      Binary Authorization policy to check against. This must be set to      "default".     --clear-binary-authorization      Remove any previously set Binary Authorization policy.    At most one of these can be specified:     --clear-encryption-key-shutdown-hours      Remove any previously set CMEK key shutdown hours setting.     --encryption-key-shutdown-hours=ENCRYPTION_KEY_SHUTDOWN_HOURS      The number of hours to wait before an automatic shutdown server after      CMEK key revocation is detected.    At most one of these can be specified:     --clear-key      Remove any previously set CMEK key reference.     --key=KEY      CMEK key reference to encrypt the container with.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud run services update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud run services update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    At most one of these can be specified:     --labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to add.      An alias to --update-labels.     --update-labels=[KEY=VALUE,...]      List of label KEY=VALUE pairs to update. If a label exists, its value      is modified. Otherwise, a new label is created.    At most one of these can be specified:     --clear-network      Disconnect this Cloud Run service from the VPC network it is      connected to.     Direct VPC egress setting flags group.      --network=NETWORK       The VPC network that the Cloud Run service will be able to send       traffic to. If --subnet is also specified, subnet must be a       subnetwork of the network specified by this --network flag. To       clear existing VPC network settings, use --clear-network.      --subnet=SUBNET       The VPC subnetwork that the Cloud Run service will get IPs from.       The subnetwork must be /26 or larger. If --network is also       specified, subnet must be a subnetwork of the network specified by       the --network flag. If --network is not specified, network will be       looked up from this subnetwork. To clear existing VPC network       settings, use --clear-network.      At most one of these can be specified:       --clear-network-tags        Clears all existing network tags from the Cloud Run service.       --network-tags=[TAG,...]        Applies the given network tags (comma separated) to the Cloud Run        service. To clear existing tags, use --clear-network-tags.    At most one of these can be specified:     --clear-post-key-revocation-action-type      Remove any previously set post CMEK key revocation action type.     --post-key-revocation-action-type=POST_KEY_REVOCATION_ACTION_TYPE      Action type after CMEK key revocation.      POST_KEY_REVOCATION_ACTION_TYPE must be one of:       prevent-new        No new instances will be started after CMEK key revocation.      shut-down        No new instances will be started and the existing instances will        be shut down after CMEK key revocation.
+    /// Removes volumes from the Cloud Run resource.   Container Flags     If the --container or --remove-containers flag is specified the following     arguments may only be specified after a --container flag.
     /// </summary>
     [CliOption("--remove-volume", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? RemoveVolume { get; set; }
+
+    /// <summary>
+    /// Adds a mount to the current container. Must contain the keys     volume=NAME and mount-path=/PATH where NAME is the name of a volume on     this resource and PATH is the path within the container's filesystem to     mount this volume.
+    /// </summary>
+    [CliOption("--add-volume-mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AddVolumeMount { get; set; }
+
+    /// <summary>
+    /// Comma-separated arguments passed to the command run by the container     image. If not specified and no '--command' is provided, the container     image's default Cmd is used. Otherwise, if not specified, no arguments     are passed. To reset this field to its default, pass an empty string.
+    /// </summary>
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// Remove all existing mounts from the current container.
+    /// </summary>
+    [CliFlag("--clear-volume-mounts")]
+    public bool? ClearVolumeMounts { get; set; }
+
+    /// <summary>
+    /// Entrypoint for the container image. If not specified, the container     image's default Entrypoint is run. To reset this field to its default,     pass an empty string.
+    /// </summary>
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Command { get; set; }
+
+    /// <summary>
+    /// Set a CPU limit in Kubernetes cpu units.     Cloud Run supports values fractional values below 1, 1, 2, 4, and 8.     Some CPU values requires a minimum Memory --memory value.
+    /// </summary>
+    [CliOption("--cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpu { get; set; }
+
+    /// <summary>
+    /// List of container dependencies to add to the current container.
+    /// </summary>
+    [CliOption("--depends-on", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DependsOn { get; set; }
+
+    /// <summary>
+    /// Cloud Run supports values 0 or 1. 1 gpu also requires a minimum 4 --cpu     value and a minimum 16Gi --memory value.
+    /// </summary>
+    [CliOption("--gpu", Format = OptionFormat.EqualsSeparated)]
+    public string? Gpu { get; set; }
+
+    /// <summary>
+    /// Name of the container image to deploy (e.g.     us-docker.pkg.dev/cloudrun/container/hello:latest).
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// Comma separated settings for liveness probe in the form KEY=VALUE. Each     key stands for a field of the probe described in     https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.     Currently supported keys are: initialDelaySeconds, timeoutSeconds,     periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port,     grpc.service.     For example, to set a probe with 10s timeout and HTTP probe requests     sent to 8080 port of the container:       $ --liveness-probe=timeoutSeconds=10,httpGet.port=8080     To remove existing probe:       $ --liveness-probe=""
+    /// </summary>
+    [CliOption("--liveness-probe", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? LivenessProbe { get; set; }
+
+    /// <summary>
+    /// Set a memory limit. Ex: 1024Mi, 4Gi.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// Container port to receive requests at. Also sets the $PORT environment     variable. Must be a number between 1 and 65535, inclusive. To unset     this field, pass the special value "default". If updating an existing     service with a TCP startup probe pointing to the previous container     port, this will also update the probe port.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// Removes the volume mounted at the specified path from the current     container.
+    /// </summary>
+    [CliOption("--remove-volume-mount", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? RemoveVolumeMount { get; set; }
+
+    /// <summary>
+    /// Comma separated settings for startup probe in the form KEY=VALUE. Each     key stands for a field of the probe described in     https://cloud.google.com/run/docs/reference/rest/v1/Container#Probe.     Currently supported keys are: initialDelaySeconds, timeoutSeconds,     periodSeconds, failureThreshold, httpGet.port, httpGet.path, grpc.port,     grpc.service, tcpSocket.port.     For example, to set a probe with 10s timeout and HTTP probe requests     sent to 8080 port of the container:       $ --startup-probe=timeoutSeconds=10,httpGet.port=8080     To remove existing probe:       $ --startup-probe=""
+    /// </summary>
+    [CliOption("--startup-probe", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? StartupProbe { get; set; }
 
 }

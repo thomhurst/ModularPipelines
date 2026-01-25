@@ -58,9 +58,21 @@ public record GcloudComputeHealthChecksUpdateGrpcWithTlsOptions(
     public int? Timeout { get; set; }
 
     /// <summary>
-    /// The number of consecutive health check failures before a healthy     instance is marked as unhealthy.    At most one of these can be specified:     --global      If set, the gRPC with TLS health check is global.     --region=REGION      Region of the gRPC with TLS health check to update. If not specified,      you might be prompted to select a region (interactive mode only).      To avoid prompting when this flag is omitted, you can set the      compute/region property:        $ gcloud config set compute/region REGION      A list of regions can be fetched by running:        $ gcloud compute regions list      To unset the property, run:        $ gcloud config unset compute/region      Alternatively, the region can be stored in the environment variable      CLOUDSDK_COMPUTE_REGION.    These flags configure the port that the health check monitors.     --port=PORT      The TCP port number that this health check monitors.     --use-serving-port      If given, use the "serving port" for health checks:      ▸ When health checking network endpoints in a Network Endpoint       Group, use the port specified with each endpoint.       --use-serving-port must be used when using a Network Endpoint Group       as a backend as this flag specifies the portSpecification option       for a Health Check object.      ▸ When health checking other backends, use the port of the backend       service.
+    /// The number of consecutive health check failures before a healthy     instance is marked as unhealthy.    At most one of these can be specified:     --global      If set, the gRPC with TLS health check is global.     --region=REGION      Region of the gRPC with TLS health check to update. If not specified,      you might be prompted to select a region (interactive mode only).      To avoid prompting when this flag is omitted, you can set the      compute/region property:        $ gcloud config set compute/region REGION      A list of regions can be fetched by running:        $ gcloud compute regions list      To unset the property, run:        $ gcloud config unset compute/region      Alternatively, the region can be stored in the environment variable      CLOUDSDK_COMPUTE_REGION.    These flags configure the port that the health check monitors.
     /// </summary>
     [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? UnhealthyThreshold { get; set; }
+
+    /// <summary>
+    /// The TCP port number that this health check monitors.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// If given, use the "serving port" for health checks:     ◆ When health checking network endpoints in a Network Endpoint Group,      use the port specified with each endpoint. --use-serving-port must be      used when using a Network Endpoint Group as a backend as this flag      specifies the portSpecification option for a Health Check object.     ◆ When health checking other backends, use the port of the backend      service.
+    /// </summary>
+    [CliFlag("--use-serving-port")]
+    public bool? UseServingPort { get; set; }
 
 }

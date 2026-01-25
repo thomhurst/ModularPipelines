@@ -9,14 +9,17 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --workloadmetadata.
+/// Allowed values for --notificationeventtypes.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudWorkloadMetadata
+public enum GcloudNotificationEventTypes
 {
-    [Description("BALANCED")]
-    Balanced,
+    [Description("success")]
+    Success,
 
-    [Description("ANY")]
-    Any
+    [Description("failed")]
+    Failed,
+
+    [Description("aborted")]
+    Aborted
 }

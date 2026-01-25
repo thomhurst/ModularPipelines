@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "backups", "list")]
 public record GcloudBigtableBackupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the cluster or fully qualified identifier for the cluster.     To set the cluster attribute:     ◆ provide the argument --cluster on the command line.    Instance resource - The instance to list backups for. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --instance on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// ID of the instance or fully qualified identifier for the instance.     To set the instance attribute:     ◆ provide the argument --instance on the command line.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
 }

@@ -20,6 +20,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsVersionsAccessOptions : GcloudOptions
 {
     /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
     /// File path to which secret data is written. If this flag is not provided     secret data will be written to stdout in UTF-8 format.
     /// </summary>
     [CliOption("--out-file", Format = OptionFormat.EqualsSeparated)]

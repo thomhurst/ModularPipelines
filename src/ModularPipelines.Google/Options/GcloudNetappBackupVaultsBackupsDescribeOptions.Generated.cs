@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("netapp", "backup-vaults", "backups", "describe")]
 public record GcloudNetappBackupVaultsBackupsDescribeOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the backup_vault or fully qualified identifier for the     backup_vault.     To set the backup_vault attribute:     ◆ provide the argument --backup-vault on the command line.
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
 }

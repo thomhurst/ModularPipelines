@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -19,4 +20,131 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "uptime", "update")]
 public record GcloudMonitoringUptimeUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// The request body associated with the HTTP POST request. Can only be set     if --protocol is http or https.
+    /// </summary>
+    [CliOption("--body", Format = OptionFormat.EqualsSeparated)]
+    public string? Body { get; set; }
+
+    /// <summary>
+    /// The content type header to use for the check, defaults to unspecified.     Can only be set if --protocol is http or https.     CONTENT_TYPE must be one of:      unspecified       Not specified     url-encoded       URL encoded     user-provided       User provided
+    /// </summary>
+    [CliOption("--content-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ContentType { get; set; }
+
+    /// <summary>
+    /// A user-provided content type header to use for the check. Can only be     set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--custom-content-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomContentType { get; set; }
+
+    /// <summary>
+    /// Whether to encrypt the header information, defaults to false. Can only     be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--mask-headers", Format = OptionFormat.EqualsSeparated)]
+    public string? MaskHeaders { get; set; }
+
+    /// <summary>
+    /// The password to use when authenticating with the HTTP server. Can only     be set if --protocol is http or https.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--password", Format = OptionFormat.EqualsSeparated)]
+    public string? Password { get; set; }
+
+    /// <summary>
+    /// The path to the page against which to run the check, defaults to /. Can     only be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--path", Format = OptionFormat.EqualsSeparated)]
+    public string? Path { get; set; }
+
+    /// <summary>
+    /// Number of ICMP pings to send alongside the request.
+    /// </summary>
+    [CliOption("--pings-count", Format = OptionFormat.EqualsSeparated)]
+    public int? PingsCount { get; set; }
+
+    /// <summary>
+    /// The port on the server against which to run the check. Defaults to 80     when --protocol is http. Defaults to 443 when --protocol is https.     Required if --protocol is tcp.
+    /// </summary>
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The HTTP request method to use, defaults to get. Can only be set if     --protocol is http or https.     REQUEST_METHOD must be one of:      get       HTTP GET method     post       HTTP POST method    Uptime check service agent authorization.
+    /// </summary>
+    [CliOption("--request-method", Format = OptionFormat.EqualsSeparated)]
+    public string? RequestMethod { get; set; }
+
+    /// <summary>
+    /// The type of authentication to use for the HTTP request. Can only be set     if --protocol is https.     SERVICE_AGENT_AUTH must be (only one value is supported):      oidc-token       OIDC Token authentication
+    /// </summary>
+    [CliOption("--service-agent-auth", Format = OptionFormat.EqualsSeparated)]
+    public string? ServiceAgentAuth { get; set; }
+
+    /// <summary>
+    /// The username to use when authenticating with the HTTP server. Can only     be set if --protocol is http or https.
+    /// </summary>
+    [CliOption("--username", Format = OptionFormat.EqualsSeparated)]
+    public string? Username { get; set; }
+
+    /// <summary>
+    /// Whether to include SSL certificate validation as a part of the uptime     check, defaults to false. Can only be set if --protocol is http or     https.    Uptime check status.    At most one of these can be specified:     Uptime check status classes.     At most one of these can be specified:      --add-status-classes=[status-class,...]       The list of HTTP status classes to add to the uptime check.       status-class must be one of:        1xx         Any response code from 100-199 inclusive       2xx         Any response code from 200-299 inclusive       3xx         Any response code from 300-399 inclusive       4xx         Any response code from 400-499 inclusive       5xx         Any response code from 500-599 inclusive       any         Any response code      --clear-status-classes=CLEAR_STATUS_CLASSES       Clear all HTTP status classes on the uptime check. Setting this       flag is the same as selecting only the 2xx status class.      --remove-status-classes=[status-class,...]       The list of HTTP status classes to remove from the uptime check.       status-class must be one of:        1xx         Any response code from 100-199 inclusive       2xx         Any response code from 200-299 inclusive       3xx         Any response code from 300-399 inclusive       4xx         Any response code from 400-499 inclusive       5xx         Any response code from 500-599 inclusive       any         Any response code      --set-status-classes=[status-class,...]       List of HTTP status classes. The uptime check will only pass if the       response code is contained in this list.       status-class must be one of:        1xx         Any response code from 100-199 inclusive       2xx         Any response code from 200-299 inclusive       3xx         Any response code from 300-399 inclusive       4xx         Any response code from 400-499 inclusive       5xx         Any response code from 500-599 inclusive       any         Any response code     Uptime check status codes.     At most one of these can be specified:      --add-status-codes=[status-code,...]       The list of HTTP status codes to add to the uptime check.      --clear-status-codes=CLEAR_STATUS_CODES       Clear all HTTP status codes on the uptime check. Setting this flag       is the same as selecting only the 2xx status class.      --remove-status-codes=[status-code,...]       The list of HTTP status codes to remove from the uptime check.      --set-status-codes=[status-code,...]       List of HTTP status codes. The uptime check will only pass if the       response code is present in this list.    Uptime check headers.
+    /// </summary>
+    [CliOption("--validate-ssl", Format = OptionFormat.EqualsSeparated)]
+    public string? ValidateSsl { get; set; }
+
+    /// <summary>
+    /// The list of headers to add to the uptime check. Any existing headers     with matching "key" are overridden by the provided values.    Uptime check remove headers.    At most one of these can be specified:     --clear-headers=CLEAR_HEADERS      Clear all headers on the uptime check.     --remove-headers=[KEY,...]      The list of header keys to remove from the uptime check.    Settings.
+    /// </summary>
+    [CliOption("--update-headers", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? UpdateHeaders { get; set; }
+
+    /// <summary>
+    /// The display name for the uptime check or synthetic monitor.
+    /// </summary>
+    [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? DisplayName { get; set; }
+
+    /// <summary>
+    /// The time between uptime check or synthetic monitor executions in     minutes, defaults to 1. Can be set for synthetic monitors.     PERIOD must be one of:      1       One minute     10       Ten minutes     15       Fifteen minutes     5       Five minutes
+    /// </summary>
+    [CliOption("--period", Format = OptionFormat.EqualsSeparated)]
+    public string? Period { get; set; }
+
+    /// <summary>
+    /// The maximum amount of time in seconds to wait for the request to     complete, defaults to 60. Can be set for synthetic monitors.    Uptime check selected regions.    At most one of these can be specified:     --add-regions=[region,...]      The list of regions to add to the uptime check. region must be one      of:       asia-pacific        asia-southeast1      europe        europe-west1      south-america        southamerica-east1      usa-iowa        us-central1      usa-oregon        us-west1      usa-virginia        us-east4     --clear-regions=CLEAR_REGIONS      Clear all regions on the uptime check. This setting acts the same as      if all available regions were selected.     --remove-regions=[region,...]      The list of regions to remove from the uptime check. region must be      one of:       asia-pacific        asia-southeast1      europe        europe-west1      south-america        southamerica-east1      usa-iowa        us-central1      usa-oregon        us-west1      usa-virginia        us-east4     --set-regions=[region,...]      The list of regions from which the check is run. At least 3 regions      must be selected.      region must be one of:       asia-pacific        asia-southeast1      europe        europe-west1      south-america        southamerica-east1      usa-iowa        us-central1      usa-oregon        us-west1      usa-virginia        us-east4    User labels. Can be set for synthetic monitors.
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public int? Timeout { get; set; }
+
+    /// <summary>
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-user-labels      Remove all labels. If --update-user-labels is also specified then      --clear-user-labels is applied first.      For example, to remove all labels:        $ gcloud monitoring uptime update --clear-user-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud monitoring uptime update --clear-user-labels \         --update-user-labels foo=bar,baz=qux     --remove-user-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-user-labels is also specified then      --update-user-labels is applied first.    Uptime check matcher settings.
+    /// </summary>
+    [CliOption("--update-user-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? UpdateUserLabels { get; set; }
+
+    /// <summary>
+    /// String, regex or JSON content to match.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--matcher-content", Format = OptionFormat.EqualsSeparated)]
+    public string? MatcherContent { get; set; }
+
+    /// <summary>
+    /// The type of content matcher that is applied to the server output,     defaults to contains-string.     MATCHER_TYPE must be one of:      contains-string       Response contains string     matches-json-path       Response matches at JSONPath     matches-regex       Response matches regex     not-contains-string       Response does not contain string     not-matches-json-path       Response does not match at JSONPath     not-matches-regex       Response does not match regex    Uptime check matcher settings for JSON responses.
+    /// </summary>
+    [CliOption("--matcher-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MatcherType { get; set; }
+
+    /// <summary>
+    /// JSONPath within the response output pointing to the expected content to     match. Only used if --matcher-type is matches-json-path or     not-matches-json-path.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--json-path", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonPath { get; set; }
+
+    /// <summary>
+    /// The type of JSONPath match that is applied to the JSON output, defaults     to exact-match. Only used if --matcher-type is matches-json-path or     not-matches-json-path.     JSON_PATH_MATCHER_TYPE must be one of:      exact-match       Response matches exact string at JSONPath     regex-match       Response matches regex at JSONPath
+    /// </summary>
+    [CliOption("--json-path-matcher-type", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonPathMatcherType { get; set; }
+
 }

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("colab", "runtimes", "list")]
 public record GcloudColabRuntimesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ set the property colab/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }
