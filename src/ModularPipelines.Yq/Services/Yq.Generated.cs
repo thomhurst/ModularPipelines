@@ -14,7 +14,7 @@ namespace ModularPipelines.Yq.Services;
 /// <summary>
 /// Generated implementation for yq CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class Yq : IYq
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ internal partial class Yq : IYq
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> EvalAll(
-        YqEvalAllOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        YqEvalAllOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new YqEvalAllOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ internal partial class Yq : IYq
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Eval(
-        YqEvalOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        YqEvalOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new YqEvalOptions(), executionOptions, cancellationToken);
