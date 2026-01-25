@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAmsAssetGetSasUrlsOptions : AzOptions
 {
     /// <summary>
-    /// Specifies the UTC datetime (Y-m-d'T'H:M:S'Z') at which the SAS becomes invalid. This must be less than 24 hours from the current time.  Default: 2026-01-19 13:36:58.234711.
+    /// Specifies the UTC datetime (Y-m-d'T'H:M:S'Z') at which the SAS becomes invalid. This must be less than 24 hours from the current time.  Default: 2026-01-26 02:02:02.203651.
     /// </summary>
     [CliFlag("--expiry")]
     public bool? Expiry { get; set; }
