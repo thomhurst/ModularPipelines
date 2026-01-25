@@ -32,9 +32,39 @@ public record GcloudIamPolicyBindingsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// The etag for the policy binding. If this is provided on update, it must     match the server's etag.    Update annotations.    At most one of these can be specified:     --annotations=[ANNOTATIONS,...]      Set annotations to new value. User-defined annotations. See      https://google.aip.dev/148#annotations for more details such as      format and size limitations.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --annotations=string=string      JSON Example:        --annotations='{"string": "string"}'      File Example:        --annotations=path_to_file.(yaml|json)     --update-annotations=[UPDATE_ANNOTATIONS,...]      Update annotations value or add key value pair. User-defined      annotations. See https://google.aip.dev/148#annotations for more      details such as format and size limitations.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --update-annotations=string=string      JSON Example:        --update-annotations='{"string": "string"}'      File Example:        --update-annotations=path_to_file.(yaml|json)     At most one of these can be specified:      --clear-annotations       Clear annotations value and set to empty map.      --remove-annotations=REMOVE_ANNOTATIONS       Remove existing value from map annotations. Sets remove_annotations       value.       Shorthand Example:         --remove-annotations=string,string       JSON Example:         --remove-annotations=["string"]       File Example:         --remove-annotations=path_to_file.(yaml|json)    Represents a textual expression in the Common Expression Language (CEL)   syntax. CEL is a C-like expression language. The syntax and semantics of   CEL are documented at https://github.com/google/cel-spec.    Example (Comparison):      title: "Summary size limit"     description: "Determines if a summary is less than 100 chars"     expression: "document.summary.size() &lt; 100"    Example (Equality):      title: "Requestor is owner"     description: "Determines if requestor is the document owner"     expression: "document.owner == request.auth.claims.email"    Example (Logic):      title: "Public documents"     description: "Determine whether the document should be publicly visible"     expression: "document.type != 'private' &amp;&amp; document.type != 'internal'"    Example (Data Manipulation):      title: "Notification string"     description: "Create a notification string with a timestamp."     expression: "'New message received at ' + string(document.create_time)"    The exact variables and functions that may be referenced within an   expression are determined by the service that evaluates it. See the   service documentation for additional information.     --clear-condition      Set googleIamV3PolicyBinding.condition back to default value.     --condition-description=CONDITION_DESCRIPTION      Description of the expression. This is a longer text which describes      the expression, e.g. when hovered over it in a UI.     --condition-expression=CONDITION_EXPRESSION      Textual representation of an expression in Common Expression Language      syntax.     --condition-location=CONDITION_LOCATION      String indicating the location of the expression for error reporting,      e.g. a file name and a position in the file.     --condition-title=CONDITION_TITLE      Title for the expression, i.e. a short string describing its purpose.      This can be used e.g. in UIs which allow to enter the expression.
+    /// The etag for the policy binding. If this is provided on update, it must     match the server's etag.    Update annotations.    At most one of these can be specified:     --annotations=[ANNOTATIONS,...]      Set annotations to new value. User-defined annotations. See      https://google.aip.dev/148#annotations for more details such as      format and size limitations.       KEY        Sets KEY value.       VALUE        Sets VALUE value.      Shorthand Example:        --annotations=string=string      JSON Example:        --annotations='{"string": "string"}'      File Example:        --annotations=path_to_file.(yaml|json)     Or at least one of these can be specified:      --update-annotations=[UPDATE_ANNOTATIONS,...]       Update annotations value or add key value pair. User-defined       annotations. See https://google.aip.dev/148#annotations for more       details such as format and size limitations.        KEY         Sets KEY value.        VALUE         Sets VALUE value.       Shorthand Example:         --update-annotations=string=string       JSON Example:         --update-annotations='{"string": "string"}'       File Example:         --update-annotations=path_to_file.(yaml|json)      At most one of these can be specified:       --clear-annotations        Clear annotations value and set to empty map.       --remove-annotations=REMOVE_ANNOTATIONS        Remove existing value from map annotations. Sets        remove_annotations value.        Shorthand Example:          --remove-annotations=string,string        JSON Example:          --remove-annotations=["string"]        File Example:          --remove-annotations=path_to_file.(yaml|json)    Represents a textual expression in the Common Expression Language (CEL)   syntax. CEL is a C-like expression language. The syntax and semantics of   CEL are documented at https://github.com/google/cel-spec.    Example (Comparison):      title: "Summary size limit"     description: "Determines if a summary is less than 100 chars"     expression: "document.summary.size() &lt; 100"    Example (Equality):      title: "Requestor is owner"     description: "Determines if requestor is the document owner"     expression: "document.owner == request.auth.claims.email"    Example (Logic):      title: "Public documents"     description: "Determine whether the document should be publicly visible"     expression: "document.type != 'private' &amp;&amp; document.type != 'internal'"    Example (Data Manipulation):      title: "Notification string"     description: "Create a notification string with a timestamp."     expression: "'New message received at ' + string(document.create_time)"    The exact variables and functions that may be referenced within an   expression are determined by the service that evaluates it. See the   service documentation for additional information.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// Set googleIamV3PolicyBinding.condition back to default value.
+    /// </summary>
+    [CliFlag("--clear-condition")]
+    public bool? ClearCondition { get; set; }
+
+    /// <summary>
+    /// Description of the expression. This is a longer text which describes     the expression, e.g. when hovered over it in a UI.
+    /// </summary>
+    [CliOption("--condition-description", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDescription { get; set; }
+
+    /// <summary>
+    /// Textual representation of an expression in Common Expression Language     syntax.
+    /// </summary>
+    [CliOption("--condition-expression", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionExpression { get; set; }
+
+    /// <summary>
+    /// String indicating the location of the expression for error reporting,     e.g. a file name and a position in the file.
+    /// </summary>
+    [CliOption("--condition-location", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionLocation { get; set; }
+
+    /// <summary>
+    /// Title for the expression, i.e. a short string describing its purpose.     This can be used e.g. in UIs which allow to enter the expression.
+    /// </summary>
+    [CliOption("--condition-title", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionTitle { get; set; }
 
 }

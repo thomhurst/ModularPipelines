@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "data-sources", "list")]
 public record GcloudBackupDrDataSourcesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the backup_vault or fully qualified identifier for the     backup_vault.     To set the backup-vault attribute:     ◆ provide the argument --backup-vault on the command line;     ◆ default is all backup vaults .
+    /// </summary>
+    [CliOption("--backup-vault", Format = OptionFormat.EqualsSeparated)]
+    public string? BackupVault { get; set; }
+
+    /// <summary>
+    /// Location ID of the resource.     To set the location attribute:     ◆ provide the argument --backup-vault on the command line with a      fully specified name;     ◆ default is all backup vaults with a fully specified name;     ◆ provide the argument --location on the command line;     ◆ default is all locations .
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("spanner", "databases", "list")]
 public record GcloudSpannerDatabasesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the instance or fully qualified identifier for the instance.     To set the instance attribute:     ◆ provide the argument --instance on the command line;     ◆ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
+
 }

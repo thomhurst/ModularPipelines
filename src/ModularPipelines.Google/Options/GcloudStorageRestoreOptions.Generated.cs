@@ -19,6 +19,9 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("storage", "restore")]
 public record GcloudStorageRestoreOptions : GcloudOptions
 {
+    [CliFlag("--all-versions")]
+    public bool? AllVersions { get; set; }
+
     /// <summary>
     /// Initiates an asynchronous bulk restore operation on the specified     bucket.
     /// </summary>
@@ -27,5 +30,35 @@ public record GcloudStorageRestoreOptions : GcloudOptions
 
     [CliFlag("--read-paths-from-stdin")]
     public bool? ReadPathsFromStdin { get; set; }
+
+    /// <summary>
+    /// If included, live objects will be overwritten. If versioning is     enabled, this will result in a noncurrent object. If versioning is not     enabled, this will result in a soft-deleted object.
+    /// </summary>
+    [CliFlag("--allow-overwrite")]
+    public bool? AllowOverwrite { get; set; }
+
+    /// <summary>
+    /// Restores only the objects that were created after this time.
+    /// </summary>
+    [CliOption("--created-after-time", Format = OptionFormat.EqualsSeparated)]
+    public string? CreatedAfterTime { get; set; }
+
+    /// <summary>
+    /// Restores only the objects that were created before this time.
+    /// </summary>
+    [CliOption("--created-before-time", Format = OptionFormat.EqualsSeparated)]
+    public string? CreatedBeforeTime { get; set; }
+
+    /// <summary>
+    /// Restores only the objects that were soft-deleted after this time.
+    /// </summary>
+    [CliOption("--deleted-after-time", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletedAfterTime { get; set; }
+
+    /// <summary>
+    /// Restores only the objects that were soft-deleted before this time.
+    /// </summary>
+    [CliOption("--deleted-before-time", Format = OptionFormat.EqualsSeparated)]
+    public string? DeletedBeforeTime { get; set; }
 
 }

@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("firestore", "indexes", "composite", "list")]
 public record GcloudFirestoreIndexesCompositeListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Database of the collection group.     To set the database attribute:     ◆ provide the argument [--collection-group] on the command line with      a fully specified name;     ◆ provide the argument --database on the command line;     ◆ the default value of argument [--database] is (default).
+    /// </summary>
+    [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
+    public string? Database { get; set; }
+
 }

@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSecretsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Current entity tag (ETag) of the secret. If specified, the secret is     deleted only if the ETag provided matches the current secret's ETag.    Location resource - The location to delete secret. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --location=LOCATION      ID of the location or fully qualified identifier for the location.      To set the location attribute:      ▸ provide the argument --location on the command line.
+    /// Current entity tag (ETag) of the secret. If specified, the secret is     deleted only if the ETag provided matches the current secret's ETag.    Location resource - The location to delete secret. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --location on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--etag", Format = OptionFormat.EqualsSeparated)]
     public string? Etag { get; set; }
+
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
 
 }

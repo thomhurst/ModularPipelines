@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("bigtable", "clusters", "list")]
 public record GcloudBigtableClustersListOptions : GcloudOptions
 {
+    /// <summary>
+    /// IDs of the instances or fully qualified identifiers for the instances.     To set the instance attribute:     ◆ provide the argument --instances on the command line.
+    /// </summary>
+    [CliOption("--instances", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Instances { get; set; }
+
 }

@@ -17,7 +17,9 @@ namespace ModularPipelines.Google.Options;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
 [CliSubCommand("data-catalog", "entries", "update")]
-public record GcloudDataCatalogEntriesUpdateOptions : GcloudOptions
+public record GcloudDataCatalogEntriesUpdateOptions(
+    [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Entry
+) : GcloudOptions
 {
     /// <summary>
     /// Textual description of the entry.

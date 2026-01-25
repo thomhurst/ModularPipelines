@@ -54,10 +54,16 @@ public record GcloudContainerClustersCreateAutoOptions(
     public IEnumerable<string>? AutoprovisioningNetworkTags { get; set; }
 
     /// <summary>
-    /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.    Flags for Binary Authorization:     --binauthz-evaluation-mode=BINAUTHZ_EVALUATION_MODE      Enable Binary Authorization for this cluster.      BINAUTHZ_EVALUATION_MODE must be one of: disabled,      project-singleton-policy-enforce.
+    /// Applies the specified comma-separated resource manager tags that has     the GCE_FIREWALL purpose to all nodes in the new Autopilot cluster or     all auto-provisioned nodes in the new Standard cluster.     Examples:       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=tagKeys/\       1234=tagValues/2345       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=my-project/key1=value1       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=12345/key1=value1,\       23456/key2=value2       $ gcloud container clusters create-auto example-cluster \         --autoprovisioning-resource-manager-tags=     All nodes in an Autopilot cluster or all auto-provisioned nodes in a     Standard cluster, including nodes that are resized or re-created, will     have the specified tags on the corresponding Instance object in the     Compute Engine API. You can reference these tags in network firewall     policy rules. For instructions, see     https://cloud.google.com/firewall/docs/use-tags-for-firewalls.    Flags for Binary Authorization:
     /// </summary>
     [CliOption("--autoprovisioning-resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? AutoprovisioningResourceManagerTags { get; set; }
+
+    /// <summary>
+    /// Enable Binary Authorization for this cluster. BINAUTHZ_EVALUATION_MODE     must be one of: disabled, project-singleton-policy-enforce.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
     /// The Customer Managed Encryption Key used to encrypt the boot disk     attached to each node in the node pool. This should be of the form     projects/[KEY_PROJECT_ID]/locations/[LOCATION]/keyRings/[RING_NAME]/cryptoKeys/[KEY_NAME].     For more information about protecting resources with Cloud KMS Keys     please see:     https://cloud.google.com/compute/docs/disks/customer-managed-encryption
@@ -330,10 +336,58 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? WorkloadPolicies { get; set; }
 
     /// <summary>
-    /// Sets the mode of the Kubernetes security posture API's workload     vulnerability scanning.     To enable Advanced vulnerability insights mode explicitly set the flag     to --workload-vulnerability-scanning=enterprise.     To enable in standard mode explicitly set the flag to     --workload-vulnerability-scanning=standard.     To disable in an existing cluster, explicitly set the flag to     --workload-vulnerability-scanning=disabled.     For more information on enablement, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement.     WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,     enterprise.    At most one of these can be specified:     --additive-vpc-scope-dns-domain=ADDITIVE_VPC_SCOPE_DNS_DOMAIN      The domain used in Additive VPC scope. Only works with Cluster Scope.     --disable-additive-vpc-scope      Disables Additive VPC Scope.    Control Plane Keys     --aggregation-ca=CA_POOL_PATH      The Certificate Authority Service caPool that will back the      aggregation CA     --cluster-ca=CA_POOL_PATH      The Certificate Authority Service caPool that will back the cluster      CA     --control-plane-disk-encryption-key=KEY      The Cloud KMS symmetric encryption cryptoKey that will be used to      encrypt the control plane disks     --etcd-api-ca=CA_POOL_PATH      The Certificate Authority Service caPool that will back the etcd API      CA     --etcd-peer-ca=CA_POOL_PATH      The Certificate Authority Service caPool that will back the etcd peer      CA     --gkeops-etcd-backup-encryption-key=KEY      The Cloud KMS symmetric encryption cryptoKey that will be used to      encrypt the disaster recovery etcd backups for the cluster     --service-account-signing-keys=KEY_VERSION,[KEY_VERSION,...]      A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to      sign service account tokens     --service-account-verification-keys=KEY_VERSION,[KEY_VERSION,...]      A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to      verify service account tokens. Maybe specified multiple times.    At most one of these can be specified:     --dataplane-v2-observability-mode=DATAPLANE_V2_OBSERVABILITY_MODE      (REMOVED) Select Advanced Datapath Observability mode for the      cluster. Defaults to DISABLED.      Advanced Datapath Observability allows for a real-time view into      pod-to-pod traffic within your cluster.      Examples:        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=DISABLED        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=INTERNAL_VPC_LB        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=EXTERNAL_LB      Flag --dataplane-v2-observability-mode has been removed.      DATAPLANE_V2_OBSERVABILITY_MODE must be one of:       DISABLED        Disables Advanced Datapath Observability.      EXTERNAL_LB        Makes Advanced Datapath Observability available to the external        network.      INTERNAL_VPC_LB        Makes Advanced Datapath Observability available from the VPC        network.     --disable-dataplane-v2-flow-observability      Disables Advanced Datapath Observability.     --enable-dataplane-v2-flow-observability      Enables Advanced Datapath Observability which allows for a real-time      view into pod-to-pod traffic within your cluster.
+    /// Sets the mode of the Kubernetes security posture API's workload     vulnerability scanning.     To enable Advanced vulnerability insights mode explicitly set the flag     to --workload-vulnerability-scanning=enterprise.     To enable in standard mode explicitly set the flag to     --workload-vulnerability-scanning=standard.     To disable in an existing cluster, explicitly set the flag to     --workload-vulnerability-scanning=disabled.     For more information on enablement, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-security-posture-dashboard#feature-enablement.     WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,     enterprise.    At most one of these can be specified:     --additive-vpc-scope-dns-domain=ADDITIVE_VPC_SCOPE_DNS_DOMAIN      The domain used in Additive VPC scope. Only works with Cluster Scope.     --disable-additive-vpc-scope      Disables Additive VPC Scope.    Control Plane Keys
     /// </summary>
     [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
     public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
+
+    /// <summary>
+    /// The Certificate Authority Service caPool that will back the aggregation     CA
+    /// </summary>
+    [CliOption("--aggregation-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? AggregationCa { get; set; }
+
+    /// <summary>
+    /// The Certificate Authority Service caPool that will back the cluster CA
+    /// </summary>
+    [CliOption("--cluster-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? ClusterCa { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS symmetric encryption cryptoKey that will be used to     encrypt the control plane disks
+    /// </summary>
+    [CliOption("--control-plane-disk-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ControlPlaneDiskEncryptionKey { get; set; }
+
+    /// <summary>
+    /// The Certificate Authority Service caPool that will back the etcd API CA
+    /// </summary>
+    [CliOption("--etcd-api-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? EtcdApiCa { get; set; }
+
+    /// <summary>
+    /// The Certificate Authority Service caPool that will back the etcd peer     CA
+    /// </summary>
+    [CliOption("--etcd-peer-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? EtcdPeerCa { get; set; }
+
+    /// <summary>
+    /// The Cloud KMS symmetric encryption cryptoKey that will be used to     encrypt the disaster recovery etcd backups for the cluster
+    /// </summary>
+    [CliOption("--gkeops-etcd-backup-encryption-key", Format = OptionFormat.EqualsSeparated)]
+    public string? GkeopsEtcdBackupEncryptionKey { get; set; }
+
+    /// <summary>
+    /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     sign service account tokens
+    /// </summary>
+    [CliOption("--service-account-signing-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ServiceAccountSigningKeys { get; set; }
+
+    /// <summary>
+    /// A Cloud KMS asymmetric signing cryptoKeyVersion that will be used to     verify service account tokens. Maybe specified multiple times.    At most one of these can be specified:     --dataplane-v2-observability-mode=DATAPLANE_V2_OBSERVABILITY_MODE      (REMOVED) Select Advanced Datapath Observability mode for the      cluster. Defaults to DISABLED.      Advanced Datapath Observability allows for a real-time view into      pod-to-pod traffic within your cluster.      Examples:        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=DISABLED        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=INTERNAL_VPC_LB        $ gcloud container clusters create-auto \          --dataplane-v2-observability-mode=EXTERNAL_LB      Flag --dataplane-v2-observability-mode has been removed.      DATAPLANE_V2_OBSERVABILITY_MODE must be one of:       DISABLED        Disables Advanced Datapath Observability.      EXTERNAL_LB        Makes Advanced Datapath Observability available to the external        network.      INTERNAL_VPC_LB        Makes Advanced Datapath Observability available from the VPC        network.     --disable-dataplane-v2-flow-observability      Disables Advanced Datapath Observability.     --enable-dataplane-v2-flow-observability      Enables Advanced Datapath Observability which allows for a real-time      view into pod-to-pod traffic within your cluster.
+    /// </summary>
+    [CliOption("--service-account-verification-keys", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ServiceAccountVerificationKeys { get; set; }
 
     /// <summary>
     /// Allow using system:authenticated as a subject in ClusterRoleBindings     and RoleBindings. Allowing bindings that reference system:authenticated     is a security risk and is not recommended.     To disallow binding system:authenticated in a cluster, explicitly set     the --no-enable-insecure-binding-system-authenticated flag instead.
@@ -342,9 +396,67 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableInsecureBindingSystemAuthenticated { get; set; }
 
     /// <summary>
-    /// Allow using system:unauthenticated and system:anonymous as subjects in     ClusterRoleBindings and RoleBindings. Allowing bindings that reference     system:unauthenticated and system:anonymous are a security risk and is     not recommended.     To disallow binding system:authenticated in a cluster, explicitly set     the --no-enable-insecure-binding-system-unauthenticated flag instead.    Master Authorized Networks     --enable-master-authorized-networks      Allow only specified set of CIDR blocks (specified by the      --master-authorized-networks flag) to connect to Kubernetes master      through HTTPS. Besides these blocks, the following have access as      well:        1) The private network the cluster connects to if        `--enable-private-nodes` is specified.        2) Google Compute Engine Public IPs if `--enable-private-nodes` is not        specified.      Use --no-enable-master-authorized-networks to disable. When disabled,      public internet (0.0.0.0/0) is allowed to connect to Kubernetes      master through HTTPS.     --master-authorized-networks=NETWORK,[NETWORK,...]      The list of CIDR blocks (up to 100 for private cluster, 50 for public      cluster) that are allowed to connect to Kubernetes master through      HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be      specified unless --enable-master-authorized-networks is also      specified.    Private Clusters     --enable-private-endpoint      Cluster is managed using the private IP address of the master API      endpoint.     --enable-private-nodes      Cluster is created with no public IP addresses on the cluster nodes.     --master-ipv4-cidr=MASTER_IPV4_CIDR      IPv4 CIDR range to use for the master network. This should have a      netmask of size /28 and should be used in conjunction with the      --enable-private-nodes flag.    Flags for Secret Manager configuration:     --enable-secret-manager      Enables the Secret Manager CSI driver provider component. See      https://secrets-store-csi-driver.sigs.k8s.io/introduction      https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp     --enable-secret-manager-rotation      Enables the rotation of secrets in the Secret Manager CSI driver      provider component.     --secret-manager-rotation-interval=SECRET_MANAGER_ROTATION_INTERVAL      Set the rotation period for secrets in the Secret Manager CSI driver      provider component. If you don't specify a time interval for the      rotation, it will default to a rotation period of two minutes.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Options to specify the node identity.     Scopes options.      --scopes=[SCOPE,...]; default="gke-default"       Specifies scopes for the node instances.       Examples:         $ gcloud container clusters create-auto example-cluster \           --scopes=https://www.googleapis.com/auth/devstorage.read_only         $ gcloud container clusters create-auto example-cluster \           --scopes=bigquery,storage-rw,compute-ro       Multiple scopes can be specified, separated by commas. Various       scopes are automatically added based on feature usage. Such scopes       are not added if an equivalent scope already exists.       ▫ monitoring-write: always added to ensure metrics can be written       ▫ logging-write: added if Cloud Logging is enabled        (--enable-cloud-logging/--logging)       ▫ monitoring: added if Cloud Monitoring is enabled        (--enable-cloud-monitoring/--monitoring)       ▫ gke-default: added for Autopilot clusters that use the default        service account       ▫ cloud-platform: added for Autopilot clusters that use any other        service account       SCOPE can be either the full URI of the scope or an alias. Default       scopes are assigned to all instances. Available aliases are:        Alias         URI        bigquery        https://www.googleapis.com/auth/bigquery        cloud-platform     https://www.googleapis.com/auth/cloud-platform        cloud-source-repos   https://www.googleapis.com/auth/source.full_control        cloud-source-repos-ro https://www.googleapis.com/auth/source.read_only        compute-ro       https://www.googleapis.com/auth/compute.readonly        compute-rw       https://www.googleapis.com/auth/compute        datastore       https://www.googleapis.com/auth/datastore        default        https://www.googleapis.com/auth/devstorage.read_only                   https://www.googleapis.com/auth/logging.write                   https://www.googleapis.com/auth/monitoring.write                   https://www.googleapis.com/auth/pubsub                   https://www.googleapis.com/auth/service.management.readonly                   https://www.googleapis.com/auth/servicecontrol                   https://www.googleapis.com/auth/trace.append        gke-default      https://www.googleapis.com/auth/devstorage.read_only                   https://www.googleapis.com/auth/logging.write                   https://www.googleapis.com/auth/monitoring                   https://www.googleapis.com/auth/service.management.readonly                   https://www.googleapis.com/auth/servicecontrol                   https://www.googleapis.com/auth/trace.append        logging-write     https://www.googleapis.com/auth/logging.write        monitoring       https://www.googleapis.com/auth/monitoring        monitoring-read    https://www.googleapis.com/auth/monitoring.read        monitoring-write    https://www.googleapis.com/auth/monitoring.write        pubsub         https://www.googleapis.com/auth/pubsub        service-control    https://www.googleapis.com/auth/servicecontrol        service-management   https://www.googleapis.com/auth/service.management.readonly        sql (deprecated)    https://www.googleapis.com/auth/sqlservice        sql-admin       https://www.googleapis.com/auth/sqlservice.admin        storage-full      https://www.googleapis.com/auth/devstorage.full_control        storage-ro       https://www.googleapis.com/auth/devstorage.read_only        storage-rw       https://www.googleapis.com/auth/devstorage.read_write        taskqueue       https://www.googleapis.com/auth/taskqueue        trace         https://www.googleapis.com/auth/trace.append        userinfo-email     https://www.googleapis.com/auth/userinfo.email       DEPRECATION WARNING: https://www.googleapis.com/auth/sqlservice       account scope and sql alias do not provide SQL instance management       capabilities and have been deprecated. Please, use       https://www.googleapis.com/auth/sqlservice.admin or sql-admin to       manage your Google SQL Service instances.     --service-account=SERVICE_ACCOUNT      The Google Cloud Platform Service Account to be used by the node VMs.      If a service account is specified, the cloud-platform and      userinfo.email scopes are used. If no Service Account is specified,      the project default service account is used.
+    /// Allow using system:unauthenticated and system:anonymous as subjects in     ClusterRoleBindings and RoleBindings. Allowing bindings that reference     system:unauthenticated and system:anonymous are a security risk and is     not recommended.     To disallow binding system:authenticated in a cluster, explicitly set     the --no-enable-insecure-binding-system-unauthenticated flag instead.    Master Authorized Networks
     /// </summary>
     [CliFlag("--enable-insecure-binding-system-unauthenticated")]
     public bool? EnableInsecureBindingSystemUnauthenticated { get; set; }
+
+    /// <summary>
+    /// Allow only specified set of CIDR blocks (specified by the     --master-authorized-networks flag) to connect to Kubernetes master     through HTTPS. Besides these blocks, the following have access as well:       1) The private network the cluster connects to if       `--enable-private-nodes` is specified.       2) Google Compute Engine Public IPs if `--enable-private-nodes` is not       specified.     Use --no-enable-master-authorized-networks to disable. When disabled,     public internet (0.0.0.0/0) is allowed to connect to Kubernetes master     through HTTPS.
+    /// </summary>
+    [CliFlag("--enable-master-authorized-networks")]
+    public bool? EnableMasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// The list of CIDR blocks (up to 100 for private cluster, 50 for public     cluster) that are allowed to connect to Kubernetes master through     HTTPS. Specified in CIDR notation (e.g. 1.2.3.4/30). Cannot be     specified unless --enable-master-authorized-networks is also specified.    Private Clusters
+    /// </summary>
+    [CliOption("--master-authorized-networks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? MasterAuthorizedNetworks { get; set; }
+
+    /// <summary>
+    /// Cluster is managed using the private IP address of the master API     endpoint.
+    /// </summary>
+    [CliFlag("--enable-private-endpoint")]
+    public bool? EnablePrivateEndpoint { get; set; }
+
+    /// <summary>
+    /// Cluster is created with no public IP addresses on the cluster nodes.
+    /// </summary>
+    [CliFlag("--enable-private-nodes")]
+    public bool? EnablePrivateNodes { get; set; }
+
+    /// <summary>
+    /// IPv4 CIDR range to use for the master network. This should have a     netmask of size /28 and should be used in conjunction with the     --enable-private-nodes flag.    Flags for Secret Manager configuration:
+    /// </summary>
+    [CliOption("--master-ipv4-cidr", Format = OptionFormat.EqualsSeparated)]
+    public string? MasterIpv4Cidr { get; set; }
+
+    /// <summary>
+    /// Enables the Secret Manager CSI driver provider component. See     https://secrets-store-csi-driver.sigs.k8s.io/introduction     https://github.com/GoogleCloudPlatform/secrets-store-csi-driver-provider-gcp
+    /// </summary>
+    [CliFlag("--enable-secret-manager")]
+    public bool? EnableSecretManager { get; set; }
+
+    /// <summary>
+    /// Enables the rotation of secrets in the Secret Manager CSI driver     provider component.
+    /// </summary>
+    [CliFlag("--enable-secret-manager-rotation")]
+    public bool? EnableSecretManagerRotation { get; set; }
+
+    /// <summary>
+    /// Set the rotation period for secrets in the Secret Manager CSI driver     provider component. If you don't specify a time interval for the     rotation, it will default to a rotation period of two minutes.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Options to specify the node identity.    Scopes options.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? SecretManagerRotationInterval { get; set; }
+
+    [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>
+    /// The Google Cloud Platform Service Account to be used by the node VMs.     If a service account is specified, the cloud-platform and     userinfo.email scopes are used. If no Service Account is specified, the     project default service account is used.
+    /// </summary>
+    [CliOption("--service-account", Format = OptionFormat.EqualsSeparated)]
+    public int? ServiceAccount { get; set; }
 
 }

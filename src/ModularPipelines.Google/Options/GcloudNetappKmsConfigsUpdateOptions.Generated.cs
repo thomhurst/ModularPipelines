@@ -33,9 +33,33 @@ public record GcloudNetappKmsConfigsUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp kms-configs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp kms-configs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that   will be used The arguments in this group can be used to specify the   attributes of this resource.     --kms-key=KMS_KEY      ID of the kms_key or fully qualified identifier for the kms_key.      To set the kms-key attribute:      ▸ provide the argument --kms-key on the command line.      This flag argument must be specified if any of the other arguments in      this group are specified.     --kms-keyring=KMS_KEYRING      The KMS keyring of the kms_key      To set the kms-keyring attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-keyring on the command line.     --kms-location=KMS_LOCATION      The Cloud location for the kms_key.      To set the kms-location attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-location on the command line;      ▸ provide the argument --location on the command line;      ▸ set the property netapp/location.     --kms-project=KMS_PROJECT      The Cloud project for the kms_key.      To set the kms-project attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-project on the command line;      ▸ set the property core/project.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp kms-configs update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp kms-configs update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Kms key resource - The Cloud KMS (Key Management Service) Crypto Key that   will be used The arguments in this group can be used to specify the   attributes of this resource.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// ID of the kms_key or fully qualified identifier for the kms_key.     To set the kms-key attribute:     ◆ provide the argument --kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the kms_key     To set the kms-keyring attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// The Cloud location for the kms_key.     To set the kms-location attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-location on the command line;     ◆ provide the argument --location on the command line;     ◆ set the property netapp/location.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// The Cloud project for the kms_key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
 
 }

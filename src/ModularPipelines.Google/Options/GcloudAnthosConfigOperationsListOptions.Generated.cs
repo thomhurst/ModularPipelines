@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("anthos", "config", "operations", "list")]
 public record GcloudAnthosConfigOperationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the operation-list or fully qualified identifier for the     operation-list.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ use global location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

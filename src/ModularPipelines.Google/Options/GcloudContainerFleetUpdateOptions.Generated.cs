@@ -34,9 +34,33 @@ public record GcloudContainerFleetUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.     Binary Authorization config.      --binauthz-evaluation-mode=BINAUTHZ_EVALUATION_MODE       Configure binary authorization mode for clusters to onboard the       fleet,         $ gcloud container fleet update \           --binauthz-evaluation-mode=policy-bindings       BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.      --binauthz-policy-bindings=[name=BINAUTHZ_POLICY]       The relative resource name of the Binary Authorization policy to       audit and/or enforce. GKE policies have the following format:       projects/{project_number}/platforms/gke/policies/{policy_id}.     Security posture config.      --security-posture=SECURITY_POSTURE       To apply standard security posture to clusters in the fleet,         $ gcloud container fleet update --security-posture=standard       SECURITY_POSTURE must be one of: disabled, standard, enterprise.      --workload-vulnerability-scanning=WORKLOAD_VULNERABILITY_SCANNING       To apply standard vulnerability scanning to clusters in the fleet,         $ gcloud container fleet update \           --workload-vulnerability-scanning=standard       WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,       enterprise.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud container fleet update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud container fleet update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.    Binary Authorization config.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public GcloudUpdateLabels? UpdateLabels { get; set; }
+    public KeyValue[]? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Configure binary authorization mode for clusters to onboard the fleet,       $ gcloud container fleet update \         --binauthz-evaluation-mode=policy-bindings     BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBinauthzEvaluationMode? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// The relative resource name of the Binary Authorization policy to audit     and/or enforce. GKE policies have the following format:     projects/{project_number}/platforms/gke/policies/{policy_id}.    Security posture config.
+    /// </summary>
+    [CliOption("--binauthz-policy-bindings", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzPolicyBindings { get; set; }
+
+    /// <summary>
+    /// To apply standard security posture to clusters in the fleet,       $ gcloud container fleet update --security-posture=standard     SECURITY_POSTURE must be one of: disabled, standard, enterprise.
+    /// </summary>
+    [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSecurityPosture? SecurityPosture { get; set; }
+
+    /// <summary>
+    /// To apply standard vulnerability scanning to clusters in the fleet,       $ gcloud container fleet update \         --workload-vulnerability-scanning=standard     WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,     enterprise.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud container fleet update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud container fleet update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.
+    /// </summary>
+    [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
 }

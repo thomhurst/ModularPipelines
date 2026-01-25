@@ -63,9 +63,23 @@ public record GcloudContainerAttachedClustersUpdateOptions : GcloudOptions
     public string? PlatformVersion { get; set; }
 
     /// <summary>
-    /// Validate the update of the cluster, but don't actually perform it.    Admin groups    At most one of these can be specified:     --admin-groups=[GROUP,...]      Groups of users that can perform operations as a cluster      administrator.     --clear-admin-groups      Clear the admin groups associated with the cluster    Admin users    At most one of these can be specified:     --admin-users=[USER,...]      Users that can perform operations as a cluster administrator.     --clear-admin-users      Clear the admin users associated with the cluster    Cloud Monitoring Config    At most one of these can be specified:     --disable-cloud-monitoring      Disable managed collection for Cloud Monitoring.     --enable-cloud-monitoring      Enable managed collection for Cloud Monitoring.    Monitoring Config    At most one of these can be specified:     --disable-managed-prometheus      Disable managed collection for Managed Service for Prometheus.     --enable-managed-prometheus      Enable managed collection for Managed Service for Prometheus.    Proxy config     --proxy-secret-name=PROXY_SECRET_NAME      Name of the Kubernetes secret that contains the HTTP/HTTPS proxy      configuration.      This flag argument must be specified if any of the other arguments in      this group are specified.     --proxy-secret-namespace=PROXY_SECRET_NAMESPACE      Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy      configuration.      This flag argument must be specified if any of the other arguments in      this group are specified.
+    /// Validate the update of the cluster, but don't actually perform it.    Admin groups    At most one of these can be specified:     --admin-groups=[GROUP,...]      Groups of users that can perform operations as a cluster      administrator.     --clear-admin-groups      Clear the admin groups associated with the cluster    Admin users    At most one of these can be specified:     --admin-users=[USER,...]      Users that can perform operations as a cluster administrator.     --clear-admin-users      Clear the admin users associated with the cluster    Cloud Monitoring Config    At most one of these can be specified:     --disable-cloud-monitoring      Disable managed collection for Cloud Monitoring.     --enable-cloud-monitoring      Enable managed collection for Cloud Monitoring.    Monitoring Config    At most one of these can be specified:     --disable-managed-prometheus      Disable managed collection for Managed Service for Prometheus.     --enable-managed-prometheus      Enable managed collection for Managed Service for Prometheus.    Proxy config
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Name of the Kubernetes secret that contains the HTTP/HTTPS proxy     configuration.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretName { get; set; }
+
+    /// <summary>
+    /// Namespace of the Kubernetes secret that contains the HTTP/HTTPS proxy     configuration.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--proxy-secret-namespace", Format = OptionFormat.EqualsSeparated)]
+    public string? ProxySecretNamespace { get; set; }
 
 }

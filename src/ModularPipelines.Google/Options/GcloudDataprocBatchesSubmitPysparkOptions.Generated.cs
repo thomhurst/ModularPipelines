@@ -95,10 +95,16 @@ public record GcloudDataprocBatchesSubmitPysparkOptions(
     public KeyValue[]? Properties { get; set; }
 
     /// <summary>
-    /// Comma-separated list of Python scripts to be passed to the PySpark     framework. Supported file types: .py, .egg and .zip.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --region=REGION      ID of the region or fully qualified identifier for the region.      To set the region attribute:      ▸ provide the argument --region on the command line;      ▸ set the property dataproc/region.
+    /// Comma-separated list of Python scripts to be passed to the PySpark     framework. Supported file types: .py, .egg and .zip.    Region resource - Dataproc region to use. Each Dataproc region constitutes   an independent resource namespace constrained to deploying instances into   Compute Engine zones inside the region. This represents a Cloud resource.   (NOTE) Some attributes are not given arguments in this group but can be   set in other ways.    To set the project attribute:    ◆ provide the argument --region on the command line with a fully     specified name;    ◆ set the property dataproc/region with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--py-files", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? PyFiles { get; set; }
+
+    /// <summary>
+    /// ID of the region or fully qualified identifier for the region.     To set the region attribute:     ◆ provide the argument --region on the command line;     ◆ set the property dataproc/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
 
     /// <summary>
     /// A unique ID that identifies the request. If the service receives two     batch create requests with the same request_id, the second request is     ignored and the operation that corresponds to the first batch created     and stored in the backend is returned. Recommendation: Always set this     value to a UUID. The value must contain only letters (a-z, A-Z),     numbers (0-9), underscores (), and hyphens (-). The maximum length is     40 characters.

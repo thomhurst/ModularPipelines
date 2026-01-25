@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetappVolumesSnapshotsDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Volume resource - The Volume to take a Snapshot of. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.     --volume=VOLUME      ID of the volume or fully qualified identifier for the volume.      To set the volume attribute:      ▸ provide the argument --volume on the command line.
+    /// Return immediately, without waiting for the operation in progress to     complete.    Volume resource - The Volume to take a Snapshot of. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// ID of the volume or fully qualified identifier for the volume.     To set the volume attribute:     ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
 
 }

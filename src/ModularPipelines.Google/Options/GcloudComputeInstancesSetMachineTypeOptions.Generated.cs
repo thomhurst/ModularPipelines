@@ -28,9 +28,33 @@ public record GcloudComputeInstancesSetMachineTypeOptions(
     public string? MachineType { get; set; }
 
     /// <summary>
-    /// Zone of the instance to operate on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    Custom machine type extensions.     --custom-cpu=CUSTOM_CPU      A whole number value specifying the number of cores that are needed      in the custom machine type.      For some machine types, shared-core values can also be used. For      example, for E2 machine types, you can specify micro, small, or      medium.      This flag argument must be specified if any of the other arguments in      this group are specified.     --custom-memory=CUSTOM_MEMORY      A whole number value indicating how much memory is desired in the      custom machine type. A size unit should be provided (eg. 3072MB or      9GB) - if no units are specified, GB is assumed.      This flag argument must be specified if any of the other arguments in      this group are specified.     --custom-extensions      Use the extended custom machine type.     --custom-vm-type=CUSTOM_VM_TYPE      Specifies a custom machine type. The default is n1. For more      information about custom machine types, see:      https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// Zone of the instance to operate on. If not specified, you might be     prompted to select a zone (interactive mode only). gcloud attempts to     identify the appropriate zone by searching for resources in your     currently active project. If the zone cannot be determined, gcloud     prompts you for a selection with all available Google Cloud Platform     zones.     To avoid prompting when this flag is omitted, the user can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    Custom machine type extensions.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// A whole number value specifying the number of cores that are needed in     the custom machine type.     For some machine types, shared-core values can also be used. For     example, for E2 machine types, you can specify micro, small, or medium.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-cpu", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomCpu { get; set; }
+
+    /// <summary>
+    /// A whole number value indicating how much memory is desired in the     custom machine type. A size unit should be provided (eg. 3072MB or 9GB)     - if no units are specified, GB is assumed.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--custom-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomMemory { get; set; }
+
+    /// <summary>
+    /// Use the extended custom machine type.
+    /// </summary>
+    [CliFlag("--custom-extensions")]
+    public bool? CustomExtensions { get; set; }
+
+    /// <summary>
+    /// Specifies a custom machine type. The default is n1. For more     information about custom machine types, see:     https://cloud.google.com/compute/docs/general-purpose-machines#custom_machine_types
+    /// </summary>
+    [CliOption("--custom-vm-type", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomVmType { get; set; }
 
 }

@@ -19,4 +19,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("backup-dr", "backups", "update")]
 public record GcloudBackupDrBackupsUpdateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Return immediately, without waiting for the operation in progress to     complete. The default is True. Enabled by default, use --no-async to     disable.    At most one of these can be specified:     --clear-labels      Remove all labels from the backup.      If the backup has no labels, this operation is a no-op.     --remove-labels=KEY,[KEY,...]      A list of label keys to remove from the backup.      If a label does not exist, it is silently ignored.     --update-labels=[KEY=VALUE,...]      A list of labels to apply to the backup.      Keys must start with a lowercase letter and contain only lowercase      letters, numbers, and hyphens, and must be between 1 and 63      characters long. Values must contain only lowercase letters, numbers,      and hyphens, and must be between 0 and 63 characters long.      For example: --update-labels=env=prod,team=storage    Update Backup Flags
+    /// </summary>
+    [CliFlag("--async")]
+    public bool? Async { get; set; }
+
+    /// <summary>
+    /// Backups cannot be deleted until this time or later. This period can be     extended, but not shortened. It should be specified in the format of     "YYYY-MM-DD".     ◆ For backup configured with a backup appliance, there are additional      restrictions: 1. Enforced retention cannot be extended past the      expiry time. 2. Enforced retention can only be updated for finalized      backups.
+    /// </summary>
+    [CliOption("--enforced-retention-end-time", Format = OptionFormat.EqualsSeparated)]
+    public string? EnforcedRetentionEndTime { get; set; }
+
+    /// <summary>
+    /// The date when this backup is automatically expired. This date can be     extended, but not shortened. It should be specified in the format of     "YYYY-MM-DD".
+    /// </summary>
+    [CliOption("--expire-time", Format = OptionFormat.EqualsSeparated)]
+    public string? ExpireTime { get; set; }
+
 }

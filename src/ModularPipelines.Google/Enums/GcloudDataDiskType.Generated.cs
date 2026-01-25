@@ -9,14 +9,20 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --includeemail.
+/// Allowed values for --datadisktype.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudIncludeEmail
+public enum GcloudDataDiskType
 {
-    [Description("standard")]
-    Standard,
+    [Description("PD_STANDARD")]
+    PdStandard,
 
-    [Description("full")]
-    Full
+    [Description("PD_SSD")]
+    PdSsd,
+
+    [Description("PD_BALANCED")]
+    PdBalanced,
+
+    [Description("PD_EXTREME")]
+    PdExtreme
 }

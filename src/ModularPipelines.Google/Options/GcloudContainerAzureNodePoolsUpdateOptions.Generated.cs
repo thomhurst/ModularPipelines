@@ -44,9 +44,21 @@ public record GcloudContainerAzureNodePoolsUpdateOptions : GcloudOptions
     public string? SshPublicKey { get; set; }
 
     /// <summary>
-    /// Validate the update of the node pool, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the node pool.     --clear-annotations      Clear the annotations for the node pool.    Node pool autoscaling     --max-nodes=MAX_NODES      Maximum number of nodes in the node pool.     --min-nodes=MIN_NODES      Minimum number of nodes in the node pool.
+    /// Validate the update of the node pool, but don't actually perform it.    Annotations    At most one of these can be specified:     --annotations=ANNOTATION,[ANNOTATION,...]      Annotations for the node pool.     --clear-annotations      Clear the annotations for the node pool.    Node pool autoscaling
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Maximum number of nodes in the node pool.
+    /// </summary>
+    [CliOption("--max-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxNodes { get; set; }
+
+    /// <summary>
+    /// Minimum number of nodes in the node pool.
+    /// </summary>
+    [CliOption("--min-nodes", Format = OptionFormat.EqualsSeparated)]
+    public string? MinNodes { get; set; }
 
 }

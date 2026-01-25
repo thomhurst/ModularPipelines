@@ -56,4 +56,28 @@ public record GcloudDeveloperConnectConnectionsUpdateOptions : GcloudOptions
     [CliOption("--secret", Format = OptionFormat.EqualsSeparated)]
     public string? Secret { get; set; }
 
+    /// <summary>
+    /// Set connection.cryptoKeyConfig back to default value.    CryptoKey resource - The name of the key which is used to encrypt/decrypt   customer data. For key in Cloud KMS, the key should be in the format of   projects/*/locations/*/keyRings/*/cryptoKeys/*. The arguments in this   group can be used to specify the attributes of this resource. (NOTE) Some   attributes are not given arguments in this group but can be set in other   ways.    To set the project attribute:    ◆ provide the argument --crypto-key-config-reference on the command     line with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --crypto-key-config-reference on the command     line with a fully specified name;    ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliFlag("--clear-crypto-key-config")]
+    public bool? ClearCryptoKeyConfig { get; set; }
+
+    /// <summary>
+    /// ID of the cryptoKey or fully qualified identifier for the cryptoKey.     To set the crypto-key attribute:     ◆ provide the argument --crypto-key-config-reference on the command      line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--crypto-key-config-reference", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoKeyConfigReference { get; set; }
+
+    /// <summary>
+    /// The keyRing id of the cryptoKey resource.     To set the key-ring attribute:     ◆ provide the argument --crypto-key-config-reference on the command      line with a fully specified name;     ◆ provide the argument --key-ring on the command line.    The git proxy configuration.
+    /// </summary>
+    [CliOption("--key-ring", Format = OptionFormat.EqualsSeparated)]
+    public string? KeyRing { get; set; }
+
+    /// <summary>
+    /// Set connection.gitProxyConfig back to default value.
+    /// </summary>
+    [CliFlag("--clear-git-proxy-config")]
+    public bool? ClearGitProxyConfig { get; set; }
+
 }

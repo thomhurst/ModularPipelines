@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("api-gateway", "api-configs", "list")]
 public record GcloudApiGatewayApiConfigsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the api or fully qualified identifier for the api.     To set the api attribute:     ◆ provide the argument --api on the command line;     ◆ Defaults to wildcard for all APIs.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
 }

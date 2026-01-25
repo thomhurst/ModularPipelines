@@ -19,4 +19,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("logging", "logs", "list")]
 public record GcloudLoggingLogsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// Id of the log bucket.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--bucket", Format = OptionFormat.EqualsSeparated)]
+    public string? Bucket { get; set; }
+
+    /// <summary>
+    /// Location of the log bucket.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// Id of the view.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public string? View { get; set; }
+
 }

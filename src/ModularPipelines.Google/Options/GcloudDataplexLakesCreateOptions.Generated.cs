@@ -39,10 +39,16 @@ public record GcloudDataplexLakesCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Settings to manage metadata publishing to a Hive Metastore from a lake.     --metastore-service=METASTORE_SERVICE      A relative reference to the Dataproc Metastore      (https://cloud.google.com/dataproc-metastore/docs) service instance      into which metadata will be published. This is of the form:      projects/{project_number}/locations/{location_id}/services/{service_id}      where the location matches the location of the lake.
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Settings to manage metadata publishing to a Hive Metastore from a lake.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// A relative reference to the Dataproc Metastore     (https://cloud.google.com/dataproc-metastore/docs) service instance     into which metadata will be published. This is of the form:     projects/{project_number}/locations/{location_id}/services/{service_id}     where the location matches the location of the lake.
+    /// </summary>
+    [CliOption("--metastore-service", Format = OptionFormat.EqualsSeparated)]
+    public string? MetastoreService { get; set; }
 
     /// <summary>
     /// Validate the create action, but don't actually perform it.

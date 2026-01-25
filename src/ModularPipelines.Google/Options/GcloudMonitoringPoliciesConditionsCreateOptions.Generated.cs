@@ -19,4 +19,34 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("monitoring", "policies", "conditions", "create")]
 public record GcloudMonitoringPoliciesConditionsCreateOptions : GcloudOptions
 {
+    /// <summary>
+    /// Specifies an Aggregation message as a JSON/YAML value to be applied to     the condition. For more information about the format:     https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.alertPolicies
+    /// </summary>
+    [CliOption("--aggregation", Format = OptionFormat.EqualsSeparated)]
+    public string? Aggregation { get; set; }
+
+    /// <summary>
+    /// The display name for the condition.
+    /// </summary>
+    [CliOption("--condition-display-name", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionDisplayName { get; set; }
+
+    /// <summary>
+    /// Specifies the "filter" in a metric absence or metric threshold     condition.
+    /// </summary>
+    [CliOption("--condition-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? ConditionFilter { get; set; }
+
+    /// <summary>
+    /// The duration (e.g. "60s", "2min", etc.) that the condition must hold in     order to trigger as true.
+    /// </summary>
+    [CliOption("--duration", Format = OptionFormat.EqualsSeparated)]
+    public string? Duration { get; set; }
+
+    /// <summary>
+    /// One of "absent", "&lt; THRESHOLD", "&gt; THRESHOLD" where "THRESHOLD" is an     integer or float.    At most one of these can be specified:     --trigger-count=TRIGGER_COUNT      The absolute number of time series that must fail the predicate for      the condition to be triggered.     --trigger-percent=TRIGGER_PERCENT      The percentage of time series that must fail the predicate for the      condition to be triggered.    At most one of these can be specified:     --condition=CONDITION      The condition as a string. In either JSON or YAML format.     --condition-from-file=PATH_TO_FILE      The path to a JSON or YAML file containing the condition. Use a full      or relative path to a local file containing the value of condition.
+    /// </summary>
+    [CliOption("--if", Format = OptionFormat.EqualsSeparated)]
+    public string? If { get; set; }
+
 }

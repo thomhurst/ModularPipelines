@@ -60,4 +60,19 @@ public record GcloudComputeHealthChecksCreateSslOptions(
     [CliOption("--unhealthy-threshold", Format = OptionFormat.EqualsSeparated)]
     public string? UnhealthyThreshold { get; set; }
 
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// The port name that this health check monitors. By default, this is     empty.
+    /// </summary>
+    [CliOption("--port-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PortName { get; set; }
+
+    /// <summary>
+    /// If given, use the "serving port" for health checks:     ◆ When health checking network endpoints in a Network Endpoint Group,      use the port specified with each endpoint. --use-serving-port must be      used when using a Network Endpoint Group as a backend as this flag      specifies the portSpecification option for a Health Check object.     ◆ When health checking other backends, use the port or named port of      the backend service.
+    /// </summary>
+    [CliFlag("--use-serving-port")]
+    public bool? UseServingPort { get; set; }
+
 }

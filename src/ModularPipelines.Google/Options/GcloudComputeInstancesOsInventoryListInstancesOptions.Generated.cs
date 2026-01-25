@@ -20,9 +20,39 @@ namespace ModularPipelines.Google.Options;
 public record GcloudComputeInstancesOsInventoryListInstancesOptions : GcloudOptions
 {
     /// <summary>
-    /// Filter expression for matching against OS inventory criteria    Exact match values for OS inventory data:     --kernel-version=KERNEL_VERSION      If specified, only instances with this kernel version in their      inventory data will be displayed.     --os-shortname=OS_SHORTNAME      If specified, only instances with this OS shortname in their      inventory data will be displayed.     --os-version=OS_VERSION      If specified, only instances with this OS version in their inventory      data will be displayed.     --package-name=PACKAGE_NAME      If specified, only instances with an installed package of this name      in their inventory data will be displayed.     --package-version=PACKAGE_VERSION      If specified with a package name, only instances with the installed      package of this version in their inventory data will be displayed.
+    /// Filter expression for matching against OS inventory criteria    Exact match values for OS inventory data:
     /// </summary>
     [CliOption("--inventory-filter", Format = OptionFormat.EqualsSeparated)]
     public string? InventoryFilter { get; set; }
+
+    /// <summary>
+    /// If specified, only instances with this kernel version in their     inventory data will be displayed.
+    /// </summary>
+    [CliOption("--kernel-version", Format = OptionFormat.EqualsSeparated)]
+    public string? KernelVersion { get; set; }
+
+    /// <summary>
+    /// If specified, only instances with this OS shortname in their inventory     data will be displayed.
+    /// </summary>
+    [CliOption("--os-shortname", Format = OptionFormat.EqualsSeparated)]
+    public string? OsShortname { get; set; }
+
+    /// <summary>
+    /// If specified, only instances with this OS version in their inventory     data will be displayed.
+    /// </summary>
+    [CliOption("--os-version", Format = OptionFormat.EqualsSeparated)]
+    public string? OsVersion { get; set; }
+
+    /// <summary>
+    /// If specified, only instances with an installed package of this name in     their inventory data will be displayed.
+    /// </summary>
+    [CliOption("--package-name", Format = OptionFormat.EqualsSeparated)]
+    public string? PackageName { get; set; }
+
+    /// <summary>
+    /// If specified with a package name, only instances with the installed     package of this version in their inventory data will be displayed.
+    /// </summary>
+    [CliOption("--package-version", Format = OptionFormat.EqualsSeparated)]
+    public string? PackageVersion { get; set; }
 
 }

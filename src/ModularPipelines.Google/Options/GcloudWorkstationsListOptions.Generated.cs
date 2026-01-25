@@ -19,4 +19,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("workstations", "list")]
 public record GcloudWorkstationsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// The name of the cluster containing the config.     To set the cluster attribute:     ◆ provide the argument --config on the command line with a fully      specified name;     ◆ set the property workstations/config with a fully specified name;     ◆ default is all configs with a fully specified name;     ◆ provide the argument --cluster on the command line;     ◆ set the property workstations/cluster;     ◆ default is all clusters .
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// ID of the config or fully qualified identifier for the config.     To set the config attribute:     ◆ provide the argument --config on the command line;     ◆ set the property workstations/config;     ◆ default is all configs .
+    /// </summary>
+    [CliOption("--config", Format = OptionFormat.EqualsSeparated)]
+    public string? Config { get; set; }
+
+    /// <summary>
+    /// The name of the region of the config.     To set the region attribute:     ◆ provide the argument --config on the command line with a fully      specified name;     ◆ set the property workstations/config with a fully specified name;     ◆ default is all configs with a fully specified name;     ◆ provide the argument --region on the command line;     ◆ set the property workstations/region;     ◆ default is all regions .
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

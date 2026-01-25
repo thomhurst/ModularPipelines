@@ -143,9 +143,57 @@ public record GcloudAiPlatformJobsSubmitTrainingOptions(
     public int? WorkerAccelerator { get; set; }
 
     /// <summary>
-    /// Docker image to run on each worker node. This image must be in     Container Registry. If not specified, the value of --master-image-uri     is used.    At most one of these can be specified:     --async      (DEPRECATED) Display information about the operation in progress      without waiting for the operation to complete. Enabled by default and      can be omitted; use --stream-logs to run synchronously.     --stream-logs      Block until job completion and stream the logs while the job runs.      Note that even if command execution is halted, the job will still run      until cancelled with        $ gcloud ai-platform jobs cancel JOB_ID    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the job. The 'AI Platform Service Agent' service   account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'.   The arguments in this group can be used to specify the attributes of this   resource.     --kms-key=KMS_KEY      ID of the key or fully qualified identifier for the key.      To set the kms-key attribute:      ▸ provide the argument --kms-key on the command line.      This flag argument must be specified if any of the other arguments in      this group are specified.     --kms-keyring=KMS_KEYRING      The KMS keyring of the key.      To set the kms-keyring attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-keyring on the command line.     --kms-location=KMS_LOCATION      The Google Cloud location for the key.      To set the kms-location attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-location on the command line.     --kms-project=KMS_PROJECT      The Google Cloud project for the key.      To set the kms-project attribute:      ▸ provide the argument --kms-key on the command line with a fully       specified name;      ▸ provide the argument --kms-project on the command line;      ▸ set the property core/project.    Configure parameter server machine type settings.     --parameter-server-count=PARAMETER_SERVER_COUNT      Number of parameter servers to use for the training job.      This flag argument must be specified if any of the other arguments in      this group are specified.     --parameter-server-machine-type=PARAMETER_SERVER_MACHINE_TYPE      Type of virtual machine to use for training job's parameter servers.      This flag must be specified if any of the other arguments in this      group are specified machine to use for training job's parameter      servers.      This flag argument must be specified if any of the other arguments in      this group are specified.    Configure worker node machine type settings.     --worker-count=WORKER_COUNT      Number of worker nodes to use for the training job.      This flag argument must be specified if any of the other arguments in      this group are specified.     --worker-machine-type=WORKER_MACHINE_TYPE      Type of virtual machine to use for training job's worker nodes.      This flag argument must be specified if any of the other arguments in      this group are specified.
+    /// Docker image to run on each worker node. This image must be in     Container Registry. If not specified, the value of --master-image-uri     is used.    At most one of these can be specified:     --async      (DEPRECATED) Display information about the operation in progress      without waiting for the operation to complete. Enabled by default and      can be omitted; use --stream-logs to run synchronously.     --stream-logs      Block until job completion and stream the logs while the job runs.      Note that even if command execution is halted, the job will still run      until cancelled with        $ gcloud ai-platform jobs cancel JOB_ID    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the job. The 'AI Platform Service Agent' service   account must hold permission 'Cloud KMS CryptoKey Encrypter/Decrypter'.   The arguments in this group can be used to specify the attributes of this   resource.
     /// </summary>
     [CliOption("--worker-image-uri", Format = OptionFormat.EqualsSeparated)]
     public string? WorkerImageUri { get; set; }
+
+    /// <summary>
+    /// ID of the key or fully qualified identifier for the key.     To set the kms-key attribute:     ◆ provide the argument --kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the key.     To set the kms-keyring attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-keyring on the command line.
+    /// </summary>
+    [CliOption("--kms-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsKeyring { get; set; }
+
+    /// <summary>
+    /// The Google Cloud location for the key.     To set the kms-location attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-location on the command line.
+    /// </summary>
+    [CliOption("--kms-location", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsLocation { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --kms-key on the command line with a fully      specified name;     ◆ provide the argument --kms-project on the command line;     ◆ set the property core/project.    Configure parameter server machine type settings.
+    /// </summary>
+    [CliOption("--kms-project", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsProject { get; set; }
+
+    /// <summary>
+    /// Number of parameter servers to use for the training job.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--parameter-server-count", Format = OptionFormat.EqualsSeparated)]
+    public int? ParameterServerCount { get; set; }
+
+    /// <summary>
+    /// Type of virtual machine to use for training job's parameter servers.     This flag must be specified if any of the other arguments in this group     are specified machine to use for training job's parameter servers.     This flag argument must be specified if any of the other arguments in     this group are specified.    Configure worker node machine type settings.
+    /// </summary>
+    [CliOption("--parameter-server-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ParameterServerMachineType { get; set; }
+
+    /// <summary>
+    /// Number of worker nodes to use for the training job.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--worker-count", Format = OptionFormat.EqualsSeparated)]
+    public int? WorkerCount { get; set; }
+
+    /// <summary>
+    /// Type of virtual machine to use for training job's worker nodes.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--worker-machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? WorkerMachineType { get; set; }
 
 }

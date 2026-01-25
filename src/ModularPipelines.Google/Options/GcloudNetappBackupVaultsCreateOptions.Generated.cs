@@ -33,10 +33,16 @@ public record GcloudNetappBackupVaultsCreateOptions : GcloudOptions
     public string? BackupRetentionPolicy { get; set; }
 
     /// <summary>
-    /// A description of the Cloud NetApp Backup Vault    Kms config resource - The resource name of the KMS Config to use for   encrypting backups within this backup vault. Format:   projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --kms-config on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --kms-config on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.     --kms-config=KMS_CONFIG      ID of the kms_config or fully qualified identifier for the      kms_config.      To set the kms_config attribute:      ▸ provide the argument --kms-config on the command line.
+    /// A description of the Cloud NetApp Backup Vault    Kms config resource - The resource name of the KMS Config to use for   encrypting backups within this backup vault. Format:   projects/{project_id}/locations/{location}/kmsConfigs/{kms_config_id} This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --kms-config on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --kms-config on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// ID of the kms_config or fully qualified identifier for the kms_config.     To set the kms_config attribute:     ◆ provide the argument --kms-config on the command line.
+    /// </summary>
+    [CliOption("--kms-config", Format = OptionFormat.EqualsSeparated)]
+    public string? KmsConfig { get; set; }
 
     /// <summary>
     /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.

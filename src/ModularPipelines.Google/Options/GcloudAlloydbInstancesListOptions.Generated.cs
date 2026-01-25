@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("alloydb", "instances", "list")]
 public record GcloudAlloydbInstancesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// AlloyDB cluster ID     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? Cluster { get; set; }
+
+    /// <summary>
+    /// Regional location (e.g. asia-east1, us-east1) of CLUSTER. See the full     list of regions at     https://cloud.google.com/sql/docs/instance-locations. Default: list     clusters in all regions.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

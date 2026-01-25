@@ -19,4 +19,28 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apigee", "deployments", "list")]
 public record GcloudApigeeDeploymentsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// The API proxy whose deployments should be listed. If not provided, all     proxies will be listed. To get a list of existing API proxies, run     gcloud apigee apis list.     To set the api attribute:     ◆ provide the argument --revision on the command line with a fully      specified name;     ◆ leave the argument unspecified for it to be chosen automatically      with a fully specified name;     ◆ provide the argument --api on the command line;     ◆ leave the argument unspecified for it to be chosen automatically.
+    /// </summary>
+    [CliOption("--api", Format = OptionFormat.EqualsSeparated)]
+    public string? Api { get; set; }
+
+    /// <summary>
+    /// The environment whose deployments should be listed. If not provided,     all environments will be listed. To get a list of available     environments, run gcloud apigee environments list.     To set the environment attribute:     ◆ provide the argument --revision on the command line with a fully      specified name;     ◆ leave the argument unspecified for it to be chosen automatically      with a fully specified name;     ◆ provide the argument --environment on the command line;     ◆ leave the argument unspecified for it to be chosen automatically.
+    /// </summary>
+    [CliOption("--environment", Format = OptionFormat.EqualsSeparated)]
+    public string? Environment { get; set; }
+
+    /// <summary>
+    /// The organization whose deployments should be listed.If unspecified, the     Cloud Platform project's associated organization will be used.     To set the organization attribute:     ◆ provide the argument --revision on the command line with a fully      specified name;     ◆ leave the argument unspecified for it to be chosen automatically      with a fully specified name;     ◆ provide the argument --organization on the command line;     ◆ set the property [project] or provide the argument [--project] on      the command line, using a Cloud Platform project with an associated      Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// ID of the revision or fully qualified identifier for the revision.     To set the revision attribute:     ◆ provide the argument --revision on the command line;     ◆ leave the argument unspecified for it to be chosen automatically.
+    /// </summary>
+    [CliOption("--revision", Format = OptionFormat.EqualsSeparated)]
+    public string? Revision { get; set; }
+
 }

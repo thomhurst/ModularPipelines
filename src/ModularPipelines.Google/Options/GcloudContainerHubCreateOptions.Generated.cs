@@ -34,9 +34,33 @@ public record GcloudContainerHubCreateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.     Binary Authorization config.      --binauthz-evaluation-mode=BINAUTHZ_EVALUATION_MODE       Configure binary authorization mode for clusters to onboard the       fleet,         $ gcloud container hub create \           --binauthz-evaluation-mode=policy-bindings       BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.      --binauthz-policy-bindings=[name=BINAUTHZ_POLICY]       The relative resource name of the Binary Authorization policy to       audit and/or enforce. GKE policies have the following format:       projects/{project_number}/platforms/gke/policies/{policy_id}.     Security posture config.      --security-posture=SECURITY_POSTURE       To apply standard security posture to clusters in the fleet,         $ gcloud container hub create --security-posture=standard       SECURITY_POSTURE must be one of: disabled, standard, enterprise.      --workload-vulnerability-scanning=WORKLOAD_VULNERABILITY_SCANNING       To apply standard vulnerability scanning to clusters in the fleet,         $ gcloud container hub create \           --workload-vulnerability-scanning=standard       WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,       enterprise.
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Default cluster configurations to apply across the fleet.    Binary Authorization config.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public GcloudLabels? Labels { get; set; }
+    public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// Configure binary authorization mode for clusters to onboard the fleet,       $ gcloud container hub create \         --binauthz-evaluation-mode=policy-bindings     BINAUTHZ_EVALUATION_MODE must be one of: disabled, policy-bindings.
+    /// </summary>
+    [CliOption("--binauthz-evaluation-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBinauthzEvaluationMode? BinauthzEvaluationMode { get; set; }
+
+    /// <summary>
+    /// The relative resource name of the Binary Authorization policy to audit     and/or enforce. GKE policies have the following format:     projects/{project_number}/platforms/gke/policies/{policy_id}.    Security posture config.
+    /// </summary>
+    [CliOption("--binauthz-policy-bindings", Format = OptionFormat.EqualsSeparated)]
+    public string? BinauthzPolicyBindings { get; set; }
+
+    /// <summary>
+    /// To apply standard security posture to clusters in the fleet,       $ gcloud container hub create --security-posture=standard     SECURITY_POSTURE must be one of: disabled, standard, enterprise.
+    /// </summary>
+    [CliOption("--security-posture", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSecurityPosture? SecurityPosture { get; set; }
+
+    /// <summary>
+    /// To apply standard vulnerability scanning to clusters in the fleet,       $ gcloud container hub create \         --workload-vulnerability-scanning=standard     WORKLOAD_VULNERABILITY_SCANNING must be one of: disabled, standard,     enterprise.
+    /// </summary>
+    [CliOption("--workload-vulnerability-scanning", Format = OptionFormat.EqualsSeparated)]
+    public GcloudWorkloadVulnerabilityScanning? WorkloadVulnerabilityScanning { get; set; }
 
 }

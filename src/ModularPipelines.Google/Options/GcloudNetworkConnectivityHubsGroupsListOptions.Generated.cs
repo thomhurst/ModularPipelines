@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-connectivity", "hubs", "groups", "list")]
 public record GcloudNetworkConnectivityHubsGroupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the hub or fully qualified identifier for the hub.     To set the hub attribute:     ◆ provide the argument --hub on the command line;     ◆ if hub is empty, will use the wildcard '-' to indicate all hubs.
+    /// </summary>
+    [CliOption("--hub", Format = OptionFormat.EqualsSeparated)]
+    public string? Hub { get; set; }
+
 }

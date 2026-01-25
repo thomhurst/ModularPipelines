@@ -20,9 +20,22 @@ namespace ModularPipelines.Google.Options;
 public record GcloudBuildsConnectionsCreateGithubOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.    Group of arguments for configuring a complete connnection.     --authorizer-token-secret-version=AUTHORIZER_TOKEN_SECRET_VERSION      Secret containing the authorizer user's token.      This flag argument must be specified if any of the other arguments in      this group are specified.     --app-installation-id=APP_INSTALLATION_ID      Installation ID of the Cloud Build GitHub App.
+    /// Return immediately, without waiting for the operation in progress to     complete.    Group of arguments for configuring a complete connnection.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
+
+    /// <summary>
+    /// Secret containing the authorizer user's token.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [SecretValue]
+    [CliOption("--authorizer-token-secret-version", Format = OptionFormat.EqualsSeparated)]
+    public string? AuthorizerTokenSecretVersion { get; set; }
+
+    /// <summary>
+    /// Installation ID of the Cloud Build GitHub App.
+    /// </summary>
+    [CliOption("--app-installation-id", Format = OptionFormat.EqualsSeparated)]
+    public string? AppInstallationId { get; set; }
 
 }

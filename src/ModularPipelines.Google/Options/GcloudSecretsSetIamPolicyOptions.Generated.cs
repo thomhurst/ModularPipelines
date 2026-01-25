@@ -21,4 +21,10 @@ public record GcloudSecretsSetIamPolicyOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string PolicyFile
 ) : GcloudOptions
 {
+    /// <summary>
+    /// ID of the location or fully qualified identifier for the location.     To set the location attribute:     ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

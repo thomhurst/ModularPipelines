@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -38,9 +39,33 @@ public record GcloudContainerBareMetalNodePoolsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.    Anthos on bare metal node pool configuration.     Populate Bare Metal Node Pool node config.     At most one of these can be specified:      --node-configs=[labels=LABELS],[node-ip=NODE-IP]       Bare Metal Node Pool node configuration.     --node-labels=[KEY=VALUE,...]      Labels assigned to nodes of a node pool.     --node-taints=[KEY=VALUE:EFFECT,...]      Node taint applied to every Kubernetes node in a node pool.     Modifiable kubelet configurations for bare metal machines.      --registry-burst=REGISTRY_BURST       Maximum size of bursty pulls, temporarily allow pulls to burst to       this number, while still not exceeding registry_pull_qps.      --registry-pull-qps=REGISTRY_PULL_QPS       Limit of registry pulls per second.      At most one of these can be specified:       --disable-serialize-image-pulls        If set, prevent the Kubelet from pulling multiple images at a        time.       --enable-serialize-image-pulls        If set, enable the Kubelet to pull multiple images at a time.
+    /// If set, only validate the request, but do not actually perform the     operation.    Anthos on bare metal node pool configuration.    Populate Bare Metal Node Pool node config.    At most one of these can be specified:     --node-configs=[labels=LABELS],[node-ip=NODE-IP]      Bare Metal Node Pool node configuration.
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Labels assigned to nodes of a node pool.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Node taint applied to every Kubernetes node in a node pool.    Modifiable kubelet configurations for bare metal machines.
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Maximum size of bursty pulls, temporarily allow pulls to burst to this     number, while still not exceeding registry_pull_qps.
+    /// </summary>
+    [CliOption("--registry-burst", Format = OptionFormat.EqualsSeparated)]
+    public string? RegistryBurst { get; set; }
+
+    /// <summary>
+    /// Limit of registry pulls per second.    At most one of these can be specified:     --disable-serialize-image-pulls      If set, prevent the Kubelet from pulling multiple images at a time.     --enable-serialize-image-pulls      If set, enable the Kubelet to pull multiple images at a time.
+    /// </summary>
+    [CliOption("--registry-pull-qps", Format = OptionFormat.EqualsSeparated)]
+    public string? RegistryPullQps { get; set; }
 
 }

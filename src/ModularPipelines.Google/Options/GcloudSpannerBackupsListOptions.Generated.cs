@@ -20,9 +20,15 @@ namespace ModularPipelines.Google.Options;
 public record GcloudSpannerBackupsListOptions : GcloudOptions
 {
     /// <summary>
-    /// ID of the source database. The database flag will take precedence over     filters added for database.    Instance resource - Cloud Spanner instance ID. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --instance on the command line with a fully     specified name;    ◆ set the property spanner/instance with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --instance=INSTANCE      ID of the instance or fully qualified identifier for the instance.      To set the instance attribute:      ▸ provide the argument --instance on the command line;      ▸ set the property spanner/instance.
+    /// ID of the source database. The database flag will take precedence over     filters added for database.    Instance resource - Cloud Spanner instance ID. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --instance on the command line with a fully     specified name;    ◆ set the property spanner/instance with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
+
+    /// <summary>
+    /// ID of the instance or fully qualified identifier for the instance.     To set the instance attribute:     ◆ provide the argument --instance on the command line;     ◆ set the property spanner/instance.
+    /// </summary>
+    [CliOption("--instance", Format = OptionFormat.EqualsSeparated)]
+    public string? Instance { get; set; }
 
 }

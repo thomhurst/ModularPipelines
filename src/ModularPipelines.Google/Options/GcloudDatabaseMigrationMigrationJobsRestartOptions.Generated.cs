@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDatabaseMigrationMigrationJobsRestartOptions : GcloudOptions
 {
     /// <summary>
-    /// Restart the failed objects in the migration job. This flag is used only     for Postgres to AlloyDB migrations and Postgres to Cloud SQL Postgres     migrations.
+    /// Restart the failed objects in the migration job. This flag is used only     for Postgres to AlloyDB, and Postgres to Cloud SQL Postgres and MySQL     to Cloud SQL MySQL migrations.
     /// </summary>
     [CliFlag("--restart-failed-objects")]
     public bool? RestartFailedObjects { get; set; }

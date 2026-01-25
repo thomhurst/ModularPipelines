@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -32,9 +33,69 @@ public record GcloudContainerVmwareNodePoolsUpdateOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// If set, only validate the request, but do not actually perform the     operation.    Configuration of the node pool     --boot-disk-size=BOOT_DISK_SIZE      Size of VMware disk to be used during creation in GB.     --cpus=CPUS      Number of CPUs for each node in the node pool.     --image=IMAGE      OS image name in vCenter.     --image-type=IMAGE_TYPE      OS image type to use on node pool instances.     --memory=MEMORY      Size of memory for each node in the node pool in MB.     --node-labels=[KEY=VALUE,...]      Kubernetes labels (key/value pairs) to be applied to each node.     --node-taints=[KEY=VALUE:EFFECT,...]      Applies the given kubernetes taints on all nodes in the new node      pool, which can be used with tolerations for pod scheduling.      Taint effect must be one of the following: NoSchedule,      PreferNoSchedule, or NoExecute.      Examples:        $ gcloud container vmware node-pools update node-pool-1 \          --cluster=example-cluster \          --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule     --replicas=REPLICAS      Number of replicas to use on node pool instances.     At most one of these can be specified:      --disable-load-balancer       If set, disable the use of load balancer on the node pool       instances.      --enable-load-balancer       If set, enable the use of load balancer on the node pool instances.    Node pool autoscaling     --max-replicas=MAX_REPLICAS      Maximum number of replicas in the node pool.     --min-replicas=MIN_REPLICAS      Minimum number of replicas in the node pool.
+    /// If set, only validate the request, but do not actually perform the     operation.    Configuration of the node pool
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }
+
+    /// <summary>
+    /// Size of VMware disk to be used during creation in GB.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Number of CPUs for each node in the node pool.
+    /// </summary>
+    [CliOption("--cpus", Format = OptionFormat.EqualsSeparated)]
+    public string? Cpus { get; set; }
+
+    /// <summary>
+    /// OS image name in vCenter.
+    /// </summary>
+    [CliOption("--image", Format = OptionFormat.EqualsSeparated)]
+    public string? Image { get; set; }
+
+    /// <summary>
+    /// OS image type to use on node pool instances.
+    /// </summary>
+    [CliOption("--image-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ImageType { get; set; }
+
+    /// <summary>
+    /// Size of memory for each node in the node pool in MB.
+    /// </summary>
+    [CliOption("--memory", Format = OptionFormat.EqualsSeparated)]
+    public string? Memory { get; set; }
+
+    /// <summary>
+    /// Kubernetes labels (key/value pairs) to be applied to each node.
+    /// </summary>
+    [CliOption("--node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? NodeLabels { get; set; }
+
+    /// <summary>
+    /// Applies the given kubernetes taints on all nodes in the new node pool,     which can be used with tolerations for pod scheduling.     Taint effect must be one of the following: NoSchedule,     PreferNoSchedule, or NoExecute.     Examples:       $ gcloud container vmware node-pools update node-pool-1 \         --cluster=example-cluster \         --node-taints=key1=val1:NoSchedule,key2=val2:PreferNoSchedule
+    /// </summary>
+    [CliOption("--node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? NodeTaints { get; set; }
+
+    /// <summary>
+    /// Number of replicas to use on node pool instances.    At most one of these can be specified:     --disable-load-balancer      If set, disable the use of load balancer on the node pool instances.     --enable-load-balancer      If set, enable the use of load balancer on the node pool instances.    Node pool autoscaling
+    /// </summary>
+    [CliOption("--replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? Replicas { get; set; }
+
+    /// <summary>
+    /// Maximum number of replicas in the node pool.
+    /// </summary>
+    [CliOption("--max-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxReplicas { get; set; }
+
+    /// <summary>
+    /// Minimum number of replicas in the node pool.
+    /// </summary>
+    [CliOption("--min-replicas", Format = OptionFormat.EqualsSeparated)]
+    public string? MinReplicas { get; set; }
 
 }

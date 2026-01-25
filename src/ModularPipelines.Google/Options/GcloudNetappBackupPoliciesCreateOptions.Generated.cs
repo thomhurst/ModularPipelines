@@ -39,9 +39,27 @@ public record GcloudNetappBackupPoliciesCreateOptions : GcloudOptions
     public string? Enabled { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Add backup limit arguments.     --daily-backup-limit=DAILY_BACKUP_LIMIT      Maximum number of daily backups to keep. Note that the minimum daily      backup limit is 2.     --monthly-backup-limit=MONTHLY_BACKUP_LIMIT      Number of monthly backups to keep. Note that the sum of daily, weekly      and monthly backups should be greater than 1     --weekly-backup-limit=WEEKLY_BACKUP_LIMIT      Number of weekly backups to keep. Note that the sum of daily, weekly      and monthly backups should be greater than 1
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    Add backup limit arguments.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// Maximum number of daily backups to keep. Note that the minimum daily     backup limit is 2.
+    /// </summary>
+    [CliOption("--daily-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? DailyBackupLimit { get; set; }
+
+    /// <summary>
+    /// Number of monthly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// </summary>
+    [CliOption("--monthly-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? MonthlyBackupLimit { get; set; }
+
+    /// <summary>
+    /// Number of weekly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// </summary>
+    [CliOption("--weekly-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? WeeklyBackupLimit { get; set; }
 
 }

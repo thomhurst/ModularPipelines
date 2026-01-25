@@ -66,9 +66,21 @@ public record GcloudComputeTpusTpuVmSshOptions : GcloudOptions
     public string? Worker { get; set; }
 
     /// <summary>
-    /// Zone of the tpu to ssh. If not specified and the compute/zone property     isn't set, you might be prompted to select a zone (interactive mode     only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    These arguments are used to run commands using SSH.     --command=COMMAND      Command to run on the Cloud TPU VM.      Runs the command on the target Cloud TPU VM and then exits.      Note: in the case of a TPU Pod, it will only run the command in the      workers specified with the --worker flag (defaults to worker 0 if not      set).     --output-directory=OUTPUT_DIRECTORY      Path to the directory to output the logs of the commands.      The path can be relative or absolute. The directory must already      exist.      If not specified, standard output will be used.      The logs will be written in files named {WORKER_ID}.log. For example:      "2.log".    At most one of these can be specified:     --ssh-key-expiration=SSH_KEY_EXPIRATION      The time when the ssh key will be valid until, such as      "2017-08-29T18:52:51.142Z." This is only valid if the instance is not      using OS Login. See $ gcloud topic datetimes for information on time      formats.     --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER      The maximum length of time an SSH key is valid for once created and      installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for      information on duration formats.
+    /// Zone of the tpu to ssh. If not specified and the compute/zone property     isn't set, you might be prompted to select a zone (interactive mode     only).     To avoid prompting when this flag is omitted, you can set the     compute/zone property:       $ gcloud config set compute/zone ZONE     A list of zones can be fetched by running:       $ gcloud compute zones list     To unset the property, run:       $ gcloud config unset compute/zone     Alternatively, the zone can be stored in the environment variable     CLOUDSDK_COMPUTE_ZONE.    These arguments are used to run commands using SSH.
     /// </summary>
     [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
     public string? Zone { get; set; }
+
+    /// <summary>
+    /// Command to run on the Cloud TPU VM.     Runs the command on the target Cloud TPU VM and then exits.     Note: in the case of a TPU Pod, it will only run the command in the     workers specified with the --worker flag (defaults to worker 0 if not     set).
+    /// </summary>
+    [CliOption("--command", Format = OptionFormat.EqualsSeparated)]
+    public string? Command { get; set; }
+
+    /// <summary>
+    /// Path to the directory to output the logs of the commands.     The path can be relative or absolute. The directory must already exist.     If not specified, standard output will be used.     The logs will be written in files named {WORKER_ID}.log. For example:     "2.log".    At most one of these can be specified:     --ssh-key-expiration=SSH_KEY_EXPIRATION      The time when the ssh key will be valid until, such as      "2017-08-29T18:52:51.142Z." This is only valid if the instance is not      using OS Login. See $ gcloud topic datetimes for information on time      formats.     --ssh-key-expire-after=SSH_KEY_EXPIRE_AFTER      The maximum length of time an SSH key is valid for once created and      installed, e.g. 2m for 2 minutes. See $ gcloud topic datetimes for      information on duration formats.
+    /// </summary>
+    [CliOption("--output-directory", Format = OptionFormat.EqualsSeparated)]
+    public string? OutputDirectory { get; set; }
 
 }

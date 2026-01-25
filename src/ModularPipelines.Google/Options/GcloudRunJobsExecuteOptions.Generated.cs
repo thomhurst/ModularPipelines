@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -38,9 +39,21 @@ public record GcloudRunJobsExecuteOptions : GcloudOptions
     public int? TaskTimeout { get; set; }
 
     /// <summary>
-    /// Number of tasks that must run to completion for the execution to be     considered done. If provided, an execution will be created with this     value. Otherwise the existing task count of the job is used.   Container Flags     If the --container is specified the following arguments may only be specified after a --container flag.      --args=[ARG,...]       Comma-separated arguments passed to the command run by the       container image. If provided, an execution will be created with the       input values. Otherwise, the existing arguments of the job are       used.      --update-env-vars=[KEY=VALUE,...]       List of key-value pairs to set as environment variables overrides       for an execution of a job. If provided, an execution will be       created with the merge result of the input values and the existing       environment variables. New value overrides existing value if they       have the same key. If not provided, existing environment variables       are used.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --wait      Wait until the execution has completed running before exiting. If not      set, gcloud exits successfully when the execution has started.
+    /// Number of tasks that must run to completion for the execution to be     considered done. If provided, an execution will be created with this     value. Otherwise the existing task count of the job is used.   Container Flags     If the --container is specified the following arguments may only be specified after a --container flag.
     /// </summary>
     [CliOption("--tasks", Format = OptionFormat.EqualsSeparated)]
     public string? Tasks { get; set; }
+
+    /// <summary>
+    /// Comma-separated arguments passed to the command run by the container     image. If provided, an execution will be created with the input values.     Otherwise, the existing arguments of the job are used.
+    /// </summary>
+    [CliOption("--args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Args { get; set; }
+
+    /// <summary>
+    /// List of key-value pairs to set as environment variables overrides for     an execution of a job. If provided, an execution will be created with     the merge result of the input values and the existing environment     variables. New value overrides existing value if they have the same     key. If not provided, existing environment variables are used.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --wait      Wait until the execution has completed running before exiting. If not      set, gcloud exits successfully when the execution has started.
+    /// </summary>
+    [CliOption("--update-env-vars", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? UpdateEnvVars { get; set; }
 
 }

@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
 using ModularPipelines.Models;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -51,9 +52,225 @@ public record GcloudWorkbenchInstancesCreateOptions : GcloudOptions
     public string? InstanceOwners { get; set; }
 
     /// <summary>
-    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance     --confidential-compute-type=CONFIDENTIAL_COMPUTE_TYPE      String. VM instance with CC (Confidential Compute) of type. Supported      values: SEV.     --disable-public-ip      If specified, no public IP will be assigned to this instance.     --enable-ip-forwarding      If specified, IP forwarding will be enabled for this instance.     --machine-type=MACHINE_TYPE; default="n1-standard-4"      The Compute Engine machine type      (https://cloud.google.com/sdk/gcloud/reference/compute/machine-types)      of this instance.     --metadata=[KEY=VALUE,...]      Custom metadata to apply to this instance.     --min-cpu-platform=MIN_CPU_PLATFORM      The minimum CPU platform to use for this instance. The list of valid      values can be found in      https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones     The service account on this instance, giving access to other Google    Cloud services. You can use any service account within the same project,    but you must grant the service account user permission to use the    instance. If not specified, the Compute Engine default service account    is used.      --service-account-email=SERVICE_ACCOUNT_EMAIL       The service account on this instance, giving access to other Google       Cloud services. You can use any service account within the same       project, but you must grant the service account user permission to       use the instance. If not specified, the Compute Engine default       service account is used.     --tags=[TAGS,...]      Tags to apply to this instance.     The hardware accelerator used on this instance. If you use accelerators,    make sure that your configuration has enough vCPUs and memory to support    the `machine_type` you have selected.      --accelerator-core-count=ACCELERATOR_CORE_COUNT       Count of cores of this accelerator.      --accelerator-type=ACCELERATOR_TYPE       Type of this accelerator. ACCELERATOR_TYPE must be one of:       NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,       NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100,       NVIDIA_A100_80GB, NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS,       NVIDIA_TESLA_P4_VWS, NVIDIA_L4, NVIDIA_H100_80GB,       NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB, NVIDIA_B200.     Boot disk configurations.      --boot-disk-encryption=BOOT_DISK_ENCRYPTION       Disk encryption method used on the boot disk, defaults to GMEK.       BOOT_DISK_ENCRYPTION must be one of: GMEK, CMEK.      --boot-disk-size=BOOT_DISK_SIZE       Size of boot disk in GB attached to this instance, up to a maximum       of 64000 GB (64 TB). The minimum recommended value is 100 GB. If       not specified, this defaults to 100.      --boot-disk-type=BOOT_DISK_TYPE       Type of boot disk attached to this instance, defaults to standard       persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of:       PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.      Key resource - The Cloud KMS (Key Management Service) cryptokey that     will be used to protect the boot_disk. The 'Compute Engine Service     Agent' service account must hold permission 'Cloud KMS CryptoKey     Encrypter/Decrypter'. The arguments in this group can be used to     specify the attributes of this resource.       --boot-disk-kms-key=BOOT_DISK_KMS_KEY        ID of the key or fully qualified identifier for the key.        To set the kms-key attribute:        ◇ provide the argument --boot-disk-kms-key on the command line.        This flag argument must be specified if any of the other        arguments in this group are specified.       --boot-disk-encryption-key-keyring=BOOT_DISK_ENCRYPTION_KEY_KEYRING        The KMS keyring of the key.        To set the kms-keyring attribute:        ◇ provide the argument --boot-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --boot-disk-encryption-key-keyring on         the command line.       --boot-disk-encryption-key-location=BOOT_DISK_ENCRYPTION_KEY_LOCATION        The Google Cloud location for the key.        To set the kms-location attribute:        ◇ provide the argument --boot-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --boot-disk-encryption-key-location on         the command line.       --boot-disk-encryption-key-project=BOOT_DISK_ENCRYPTION_KEY_PROJECT        The Google Cloud project for the key.        To set the kms-project attribute:        ◇ provide the argument --boot-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --boot-disk-encryption-key-project on         the command line;        ◇ set the property core/project.     At most one of these can be specified:      --container-repository=CONTAINER_REPOSITORY       The path to the container image repository. For example:       gcr.io/{project_id}/{image_name}.       This flag argument must be specified if any of the other arguments       in this group are specified.      --container-tag=CONTAINER_TAG       The tag of the container image. If not specified, this defaults to       the latest tag.      --vm-image-project=VM_IMAGE_PROJECT; default="cloud-notebooks-managed"       The ID of the Google Cloud project that this VM image belongs to.       Format: projects/{project_id}.      Exactly one of these must be specified:       --vm-image-family=VM_IMAGE_FAMILY        Use this VM image family to find the image; the newest image in        this family will be used.       --vm-image-name=VM_IMAGE_NAME        Use this VM image name to find the image.     GPU driver configurations.      --custom-gpu-driver-path=CUSTOM_GPU_DRIVER_PATH       Specify a custom Cloud Storage path where the GPU driver is stored.       If not specified, we'll automatically choose from official GPU       drivers.      --install-gpu-driver       Whether the end user authorizes Google Cloud to install a GPU       driver on this instance. If this field is empty or set to false,       the GPU driver won't be installed. Only applicable to instances       with GPUs.     Data disk configurations.      --data-disk-encryption=DATA_DISK_ENCRYPTION       Disk encryption method used on the data disk, defaults to GMEK.       DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.      --data-disk-resource-policies=[RESOURCE_POLICIES,...]       Resource policies to apply to the data disk. Format:       projects/{project}/regions/{region}/resourcePolicies/{policy}.      --data-disk-size=DATA_DISK_SIZE       Size of data disk in GB attached to this instance, up to a maximum       of 64000 GB (64 TB). The minimum recommended value is 100 GB. If       not specified, this defaults to 100.      --data-disk-type=DATA_DISK_TYPE       Type of data disk attached to this instance, defaults to standard       persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of:       PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.      Key resource - The Cloud KMS (Key Management Service) cryptokey that     will be used to protect the data_disk. The 'Compute Engine Service     Agent' service account must hold permission 'Cloud KMS CryptoKey     Encrypter/Decrypter'. The arguments in this group can be used to     specify the attributes of this resource.       --data-disk-kms-key=DATA_DISK_KMS_KEY        ID of the key or fully qualified identifier for the key.        To set the kms-key attribute:        ◇ provide the argument --data-disk-kms-key on the command line.        This flag argument must be specified if any of the other        arguments in this group are specified.       --data-disk-encryption-key-keyring=DATA_DISK_ENCRYPTION_KEY_KEYRING        The KMS keyring of the key.        To set the kms-keyring attribute:        ◇ provide the argument --data-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --data-disk-encryption-key-keyring on         the command line.       --data-disk-encryption-key-location=DATA_DISK_ENCRYPTION_KEY_LOCATION        The Google Cloud location for the key.        To set the kms-location attribute:        ◇ provide the argument --data-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --data-disk-encryption-key-location on         the command line.       --data-disk-encryption-key-project=DATA_DISK_ENCRYPTION_KEY_PROJECT        The Google Cloud project for the key.        To set the kms-project attribute:        ◇ provide the argument --data-disk-kms-key on the command line         with a fully specified name;        ◇ provide the argument --data-disk-encryption-key-project on         the command line;        ◇ set the property core/project.     Network configs.      Network resource - The name of the VPC that this instance is in.     Format: projects/{project_id}/global/networks/{network_id}. This     represents a Cloud resource. (NOTE) Some attributes are not given     arguments in this group but can be set in other ways.      To set the project attribute:      ▫ provide the argument --network on the command line with a fully       specified name;      ▫ provide the argument --project on the command line;      ▫ set the property core/project.       --network=NETWORK        ID of the network or fully qualified identifier for the network.        To set the network attribute:        ◇ provide the argument --network on the command line.      --nic-type=NIC_TYPE       Type of the network interface card. NIC_TYPE must be one of:       VIRTIGO_NET, GVNIC.      Subnetwork resource - The name of the subnet that this instance is in.     Format:     projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}.     The arguments in this group can be used to specify the attributes of     this resource. (NOTE) Some attributes are not given arguments in this     group but can be set in other ways.      To set the project attribute:      ▫ provide the argument --subnet on the command line with a fully       specified name;      ▫ provide the argument --project on the command line;      ▫ set the property core/project.       --subnet=SUBNET        ID of the subnetwork or fully qualified identifier for the        subnetwork.        To set the subnet attribute:        ◇ provide the argument --subnet on the command line.        This flag argument must be specified if any of the other        arguments in this group are specified.       --subnet-region=SUBNET_REGION        Google Cloud region of this subnetwork        https://cloud.google.com/compute/docs/regions-zones/#locations.        To set the subnet-region attribute:        ◇ provide the argument --subnet on the command line with a         fully specified name;        ◇ provide the argument --subnet-region on the command line.     Reservation configs.      --reservation-key=RESERVATION_KEY       The label key of a reservation resource. To target a specific       reservation by name, use compute.googleapis.com/reservation-name as       the key and specify the name of your reservation as its value.      --reservation-type=RESERVATION_TYPE; default="any"       Type of the reservation. RESERVATION_TYPE must be one of: none,       any, specific.      --reservation-values=[VALUES,...]       The label value of a reservation resource. To target a specific       reservation by name, use compute.googleapis.com/reservation-name as       the key and specify the name of your reservation as its value.     Shielded VM configurations.      --shielded-integrity-monitoring=SHIELDED_INTEGRITY_MONITORING       Boolean. Enable monitoring of the boot integrity of the instance.       Supported values: true, false.      --shielded-secure-boot=SHIELDED_SECURE_BOOT       Boolean. Boot instance with secure boot enabled. Supported values:       true, false.      --shielded-vtpm=SHIELDED_VTPM       Boolean. Boot instance with TPM (Trusted Platform Module) enabled.       Supported values: true, false.
+    /// Labels to apply to this instance. These can be later modified by the     setLabels method.    Gce Setup for the instance
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// String. VM instance with CC (Confidential Compute) of type. Supported     values: SEV.
+    /// </summary>
+    [CliOption("--confidential-compute-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ConfidentialComputeType { get; set; }
+
+    /// <summary>
+    /// If specified, no public IP will be assigned to this instance.
+    /// </summary>
+    [CliFlag("--disable-public-ip")]
+    public bool? DisablePublicIp { get; set; }
+
+    /// <summary>
+    /// If specified, IP forwarding will be enabled for this instance.
+    /// </summary>
+    [CliFlag("--enable-ip-forwarding")]
+    public bool? EnableIpForwarding { get; set; }
+
+    [CliOption("--machine-type", Format = OptionFormat.EqualsSeparated)]
+    public string? MachineType { get; set; }
+
+    /// <summary>
+    /// Custom metadata to apply to this instance.
+    /// </summary>
+    [CliOption("--metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? Metadata { get; set; }
+
+    /// <summary>
+    /// The minimum CPU platform to use for this instance. The list of valid     values can be found in     https://cloud.google.com/compute/docs/instances/specify-min-cpu-platform#availablezones    The service account on this instance, giving access to other Google Cloud   services. You can use any service account within the same project, but you   must grant the service account user permission to use the instance. If not   specified, the Compute Engine default service account is used.
+    /// </summary>
+    [CliOption("--min-cpu-platform", Format = OptionFormat.EqualsSeparated)]
+    public string? MinCpuPlatform { get; set; }
+
+    /// <summary>
+    /// The service account on this instance, giving access to other Google     Cloud services. You can use any service account within the same     project, but you must grant the service account user permission to use     the instance. If not specified, the Compute Engine default service     account is used.
+    /// </summary>
+    [CliOption("--service-account-email", Format = OptionFormat.EqualsSeparated)]
+    public int? ServiceAccountEmail { get; set; }
+
+    /// <summary>
+    /// Tags to apply to this instance.    The hardware accelerator used on this instance. If you use accelerators,   make sure that your configuration has enough vCPUs and memory to support   the `machine_type` you have selected.
+    /// </summary>
+    [CliOption("--tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Tags { get; set; }
+
+    /// <summary>
+    /// Count of cores of this accelerator.
+    /// </summary>
+    [CliOption("--accelerator-core-count", Format = OptionFormat.EqualsSeparated)]
+    public int? AcceleratorCoreCount { get; set; }
+
+    /// <summary>
+    /// Type of this accelerator. ACCELERATOR_TYPE must be one of:     NVIDIA_TESLA_K80, NVIDIA_TESLA_P100, NVIDIA_TESLA_V100,     NVIDIA_TESLA_P4, NVIDIA_TESLA_T4, NVIDIA_TESLA_A100, NVIDIA_A100_80GB,     NVIDIA_TESLA_T4_VWS, NVIDIA_TESLA_P100_VWS, NVIDIA_TESLA_P4_VWS,     NVIDIA_L4, NVIDIA_H100_80GB, NVIDIA_H100_MEGA_80GB, NVIDIA_H200_141GB,     NVIDIA_B200.    Boot disk configurations.
+    /// </summary>
+    [CliOption("--accelerator-type", Format = OptionFormat.EqualsSeparated)]
+    public string? AcceleratorType { get; set; }
+
+    /// <summary>
+    /// Disk encryption method used on the boot disk, defaults to GMEK.     BOOT_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// </summary>
+    [CliOption("--boot-disk-encryption", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBootDiskEncryption? BootDiskEncryption { get; set; }
+
+    /// <summary>
+    /// Size of boot disk in GB attached to this instance, up to a maximum of     64000 GB (64 TB). The minimum recommended value is 100 GB. If not     specified, this defaults to 100.
+    /// </summary>
+    [CliOption("--boot-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? BootDiskSize { get; set; }
+
+    /// <summary>
+    /// Type of boot disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). BOOT_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the boot_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// </summary>
+    [CliOption("--boot-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudBootDiskType? BootDiskType { get; set; }
+
+    /// <summary>
+    /// ID of the key or fully qualified identifier for the key.     To set the kms-key attribute:     ◆ provide the argument --boot-disk-kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--boot-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskKmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the key.     To set the kms-keyring attribute:     ◆ provide the argument --boot-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --boot-disk-encryption-key-keyring on the      command line.
+    /// </summary>
+    [CliOption("--boot-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// The Google Cloud location for the key.     To set the kms-location attribute:     ◆ provide the argument --boot-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --boot-disk-encryption-key-location on the      command line.
+    /// </summary>
+    [CliOption("--boot-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --boot-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --boot-disk-encryption-key-project on the      command line;     ◆ set the property core/project.    At most one of these can be specified:     --container-repository=CONTAINER_REPOSITORY      The path to the container image repository. For example:      gcr.io/{project_id}/{image_name}.      This flag argument must be specified if any of the other arguments in      this group are specified.     --container-tag=CONTAINER_TAG      The tag of the container image. If not specified, this defaults to      the latest tag.     --vm-image-project=VM_IMAGE_PROJECT; default="cloud-notebooks-managed"      The ID of the Google Cloud project that this VM image belongs to.      Format: projects/{project_id}.     Exactly one of these must be specified:      --vm-image-family=VM_IMAGE_FAMILY       Use this VM image family to find the image; the newest image in       this family will be used.      --vm-image-name=VM_IMAGE_NAME       Use this VM image name to find the image.    GPU driver configurations.
+    /// </summary>
+    [CliOption("--boot-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BootDiskEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// Specify a custom Cloud Storage path where the GPU driver is stored. If     not specified, we'll automatically choose from official GPU drivers.
+    /// </summary>
+    [CliOption("--custom-gpu-driver-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomGpuDriverPath { get; set; }
+
+    /// <summary>
+    /// Whether the end user authorizes Google Cloud to install a GPU driver on     this instance. If this field is empty or set to false, the GPU driver     won't be installed. Only applicable to instances with GPUs.    Data disk configurations.
+    /// </summary>
+    [CliFlag("--install-gpu-driver")]
+    public bool? InstallGpuDriver { get; set; }
+
+    /// <summary>
+    /// Disk encryption method used on the data disk, defaults to GMEK.     DATA_DISK_ENCRYPTION must be one of: GMEK, CMEK.
+    /// </summary>
+    [CliOption("--data-disk-encryption", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDataDiskEncryption? DataDiskEncryption { get; set; }
+
+    /// <summary>
+    /// Resource policies to apply to the data disk. Format:     projects/{project}/regions/{region}/resourcePolicies/{policy}.
+    /// </summary>
+    [CliOption("--data-disk-resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? DataDiskResourcePolicies { get; set; }
+
+    /// <summary>
+    /// Size of data disk in GB attached to this instance, up to a maximum of     64000 GB (64 TB). The minimum recommended value is 100 GB. If not     specified, this defaults to 100.
+    /// </summary>
+    [CliOption("--data-disk-size", Format = OptionFormat.EqualsSeparated)]
+    public int? DataDiskSize { get; set; }
+
+    /// <summary>
+    /// Type of data disk attached to this instance, defaults to standard     persistent disk (PD_STANDARD). DATA_DISK_TYPE must be one of:     PD_STANDARD, PD_SSD, PD_BALANCED, PD_EXTREME.    Key resource - The Cloud KMS (Key Management Service) cryptokey that will   be used to protect the data_disk. The 'Compute Engine Service Agent'   service account must hold permission 'Cloud KMS CryptoKey   Encrypter/Decrypter'. The arguments in this group can be used to specify   the attributes of this resource.
+    /// </summary>
+    [CliOption("--data-disk-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDataDiskType? DataDiskType { get; set; }
+
+    /// <summary>
+    /// ID of the key or fully qualified identifier for the key.     To set the kms-key attribute:     ◆ provide the argument --data-disk-kms-key on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--data-disk-kms-key", Format = OptionFormat.EqualsSeparated)]
+    public string? DataDiskKmsKey { get; set; }
+
+    /// <summary>
+    /// The KMS keyring of the key.     To set the kms-keyring attribute:     ◆ provide the argument --data-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --data-disk-encryption-key-keyring on the      command line.
+    /// </summary>
+    [CliOption("--data-disk-encryption-key-keyring", Format = OptionFormat.EqualsSeparated)]
+    public string? DataDiskEncryptionKeyKeyring { get; set; }
+
+    /// <summary>
+    /// The Google Cloud location for the key.     To set the kms-location attribute:     ◆ provide the argument --data-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --data-disk-encryption-key-location on the      command line.
+    /// </summary>
+    [CliOption("--data-disk-encryption-key-location", Format = OptionFormat.EqualsSeparated)]
+    public string? DataDiskEncryptionKeyLocation { get; set; }
+
+    /// <summary>
+    /// The Google Cloud project for the key.     To set the kms-project attribute:     ◆ provide the argument --data-disk-kms-key on the command line with a      fully specified name;     ◆ provide the argument --data-disk-encryption-key-project on the      command line;     ◆ set the property core/project.    Network configs.    Network resource - The name of the VPC that this instance is in. Format:   projects/{project_id}/global/networks/{network_id}. This represents a   Cloud resource. (NOTE) Some attributes are not given arguments in this   group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --network on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--data-disk-encryption-key-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DataDiskEncryptionKeyProject { get; set; }
+
+    /// <summary>
+    /// ID of the network or fully qualified identifier for the network.     To set the network attribute:     ◆ provide the argument --network on the command line.
+    /// </summary>
+    [CliOption("--network", Format = OptionFormat.EqualsSeparated)]
+    public string? Network { get; set; }
+
+    /// <summary>
+    /// Type of the network interface card. NIC_TYPE must be one of:     VIRTIGO_NET, GVNIC.    Subnetwork resource - The name of the subnet that this instance is in.   Format:   projects/{project_id}/regions/{region}/subnetworks/{subnetwork_id}. The   arguments in this group can be used to specify the attributes of this   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --subnet on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
+    /// </summary>
+    [CliOption("--nic-type", Format = OptionFormat.EqualsSeparated)]
+    public GcloudNicType? NicType { get; set; }
+
+    /// <summary>
+    /// ID of the subnetwork or fully qualified identifier for the subnetwork.     To set the subnet attribute:     ◆ provide the argument --subnet on the command line.     This flag argument must be specified if any of the other arguments in     this group are specified.
+    /// </summary>
+    [CliOption("--subnet", Format = OptionFormat.EqualsSeparated)]
+    public string? Subnet { get; set; }
+
+    /// <summary>
+    /// Google Cloud region of this subnetwork     https://cloud.google.com/compute/docs/regions-zones/#locations.     To set the subnet-region attribute:     ◆ provide the argument --subnet on the command line with a fully      specified name;     ◆ provide the argument --subnet-region on the command line.    Reservation configs.
+    /// </summary>
+    [CliOption("--subnet-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SubnetRegion { get; set; }
+
+    /// <summary>
+    /// The label key of a reservation resource. To target a specific     reservation by name, use compute.googleapis.com/reservation-name as the     key and specify the name of your reservation as its value.
+    /// </summary>
+    [CliOption("--reservation-key", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationKey { get; set; }
+
+    [CliOption("--reservation-type", Format = OptionFormat.EqualsSeparated)]
+    public string? ReservationType { get; set; }
+
+    /// <summary>
+    /// The label value of a reservation resource. To target a specific     reservation by name, use compute.googleapis.com/reservation-name as the     key and specify the name of your reservation as its value.    Shielded VM configurations.
+    /// </summary>
+    [CliOption("--reservation-values", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ReservationValues { get; set; }
+
+    /// <summary>
+    /// Boolean. Enable monitoring of the boot integrity of the instance.     Supported values: true, false.
+    /// </summary>
+    [CliOption("--shielded-integrity-monitoring", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedIntegrityMonitoring { get; set; }
+
+    /// <summary>
+    /// Boolean. Boot instance with secure boot enabled. Supported values:     true, false.
+    /// </summary>
+    [CliOption("--shielded-secure-boot", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedSecureBoot { get; set; }
+
+    /// <summary>
+    /// Boolean. Boot instance with TPM (Trusted Platform Module) enabled.     Supported values: true, false.
+    /// </summary>
+    [CliOption("--shielded-vtpm", Format = OptionFormat.EqualsSeparated)]
+    public string? ShieldedVtpm { get; set; }
 
 }

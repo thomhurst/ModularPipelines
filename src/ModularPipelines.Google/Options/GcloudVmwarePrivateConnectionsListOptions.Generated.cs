@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("vmware", "private-connections", "list")]
 public record GcloudVmwarePrivateConnectionsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the regional location or fully qualified identifier for the     regional location.     To set the location attribute:     ◆ provide the argument --location on the command line;     ◆ set the property compute/region.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

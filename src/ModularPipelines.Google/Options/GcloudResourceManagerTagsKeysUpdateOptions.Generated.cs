@@ -22,6 +22,12 @@ public record GcloudResourceManagerTagsKeysUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
+    /// User-assigned regex of allowed short names of TagValues under a TagKey.
+    /// </summary>
+    [CliOption("--allowed-values-regex", Format = OptionFormat.EqualsSeparated)]
+    public string? AllowedValuesRegex { get; set; }
+
+    /// <summary>
     /// Return immediately, without waiting for the operation in progress to     complete.
     /// </summary>
     [CliFlag("--async")]

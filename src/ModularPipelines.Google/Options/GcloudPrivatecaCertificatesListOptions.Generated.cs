@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("privateca", "certificates", "list")]
 public record GcloudPrivatecaCertificatesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the CA_POOL or fully qualified identifier for the CA_POOL.     To set the pool attribute:     ◆ provide the argument --issuer-pool on the command line;     ◆ defaults to all CA pools in the given location.
+    /// </summary>
+    [CliOption("--issuer-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? IssuerPool { get; set; }
+
+    /// <summary>
+    /// The location of the CA_POOL.     To set the location attribute:     ◆ provide the argument --issuer-pool on the command line with a fully      specified name;     ◆ defaults to all CA pools in the given location with a fully      specified name;     ◆ provide the argument --location on the command line;     ◆ set the property privateca/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("deploy", "automation-runs", "list")]
 public record GcloudDeployAutomationRunsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the delivery_pipeline or fully qualified identifier for the     delivery_pipeline.     To set the delivery-pipeline attribute:     ◆ provide the argument --delivery-pipeline on the command line;     ◆ set the property deploy/delivery_pipeline.
+    /// </summary>
+    [CliOption("--delivery-pipeline", Format = OptionFormat.EqualsSeparated)]
+    public string? DeliveryPipeline { get; set; }
+
+    /// <summary>
+    /// Location of the delivery_pipeline.     To set the region attribute:     ◆ provide the argument --delivery-pipeline on the command line with a      fully specified name;     ◆ set the property deploy/delivery_pipeline with a fully specified      name;     ◆ provide the argument --region on the command line;     ◆ set the property deploy/region.
+    /// </summary>
+    [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
+    public string? Region { get; set; }
+
 }

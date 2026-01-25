@@ -45,7 +45,7 @@ public record GcloudDataplexContentUpdateOptions : GcloudOptions
     public string? Path { get; set; }
 
     /// <summary>
-    /// Validate the update action, but don't actually perform it.    Sql script or notebook related configurations.    At most one of these can be specified:     Notebook related configurations.      --kernel-type=KERNEL_TYPE       Kernel Type of the notebook. KERNEL_TYPE must be (only one value is       supported):        PYTHON3         python3     Sql script related configurations.      --query-engine=QUERY_ENGINE       Query Engine to be used for the Sql Query. QUERY_ENGINE must be       (only one value is supported):        SPARK         spark
+    /// Validate the update action, but don't actually perform it.    Sql script or notebook related configurations.    At most one of these can be specified:     Notebook related configurations.     --kernel-type=KERNEL_TYPE      Kernel Type of the notebook. KERNEL_TYPE must be (only one value is      supported):       PYTHON3        python3     Sql script related configurations.     --query-engine=QUERY_ENGINE      Query Engine to be used for the Sql Query. QUERY_ENGINE must be (only      one value is supported):       SPARK        spark
     /// </summary>
     [CliFlag("--validate-only")]
     public bool? ValidateOnly { get; set; }

@@ -39,9 +39,27 @@ public record GcloudNetappBackupPoliciesUpdateOptions : GcloudOptions
     public string? Enabled { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp backup-policies update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp backup-policies update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Add backup limit arguments.     --daily-backup-limit=DAILY_BACKUP_LIMIT      Maximum number of daily backups to keep. Note that the minimum daily      backup limit is 2.     --monthly-backup-limit=MONTHLY_BACKUP_LIMIT      Number of monthly backups to keep. Note that the sum of daily, weekly      and monthly backups should be greater than 1     --weekly-backup-limit=WEEKLY_BACKUP_LIMIT      Number of weekly backups to keep. Note that the sum of daily, weekly      and monthly backups should be greater than 1
+    /// List of label KEY=VALUE pairs to update. If a label exists, its value     is modified. Otherwise, a new label is created.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of these can be specified:     --clear-labels      Remove all labels. If --update-labels is also specified then      --clear-labels is applied first.      For example, to remove all labels:        $ gcloud netapp backup-policies update --clear-labels      To remove all existing labels and create two new labels, foo and baz:        $ gcloud netapp backup-policies update --clear-labels \         --update-labels foo=bar,baz=qux     --remove-labels=[KEY,...]      List of label keys to remove. If a label does not exist it is      silently ignored. If --update-labels is also specified then      --update-labels is applied first.    Add backup limit arguments.
     /// </summary>
     [CliOption("--update-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? UpdateLabels { get; set; }
+
+    /// <summary>
+    /// Maximum number of daily backups to keep. Note that the minimum daily     backup limit is 2.
+    /// </summary>
+    [CliOption("--daily-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? DailyBackupLimit { get; set; }
+
+    /// <summary>
+    /// Number of monthly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// </summary>
+    [CliOption("--monthly-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? MonthlyBackupLimit { get; set; }
+
+    /// <summary>
+    /// Number of weekly backups to keep. Note that the sum of daily, weekly     and monthly backups should be greater than 1
+    /// </summary>
+    [CliOption("--weekly-backup-limit", Format = OptionFormat.EqualsSeparated)]
+    public string? WeeklyBackupLimit { get; set; }
 
 }

@@ -14,24 +14,24 @@ namespace ModularPipelines.Google.Enums;
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public enum GcloudMaintenanceWindowDay
 {
-    [Description("SUNDAY")]
-    Sunday,
-
-    [Description("MONDAY")]
-    Monday,
-
-    [Description("TUESDAY")]
-    Tuesday,
-
-    [Description("WEDNESDAY")]
-    Wednesday,
-
-    [Description("THURSDAY")]
-    Thursday,
-
-    [Description("FRIDAY")]
+    [Description("friday")]
     Friday,
 
-    [Description("SATURDAY")]
-    Saturday
+    [Description("monday")]
+    Monday,
+
+    [Description("saturday")]
+    Saturday,
+
+    [Description("sunday")]
+    Sunday,
+
+    [Description("thursday")]
+    Thursday,
+
+    [Description("tuesday")]
+    Tuesday,
+
+    [Description("wednesday")]
+    Wednesday
 }

@@ -33,9 +33,87 @@ public record GcloudDataplexDatascansUpdateDataDiscoveryOptions : GcloudOptions
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the update action, but don't actually perform it.    Data spec for the data discovery scan.     BigQuery publishing config arguments for the data discovery scan.      --bigquery-publishing-connection=BIGQUERY_PUBLISHING_CONNECTION       BigQuery connection to use for auto discovering cloud resource       bucket to BigLake tables. Connection is required for       BIGLAKE`BigQuery publishing table type.      --bigquery-publishing-dataset-location=BIGQUERY_PUBLISHING_DATASET_LOCATION       The location of the BigQuery dataset to publish BigLake external or       non-BigLake external tables to. If not specified, the dataset       location will be set to the location of the data source resource.       Refer to       https://cloud.google.com/bigquery/docs/locations#supportedLocations       for supported locations.      --bigquery-publishing-dataset-project=BIGQUERY_PUBLISHING_DATASET_PROJECT       The project of the BigQuery dataset to publish BigLake external or       non-BigLake external tables to. If not specified, the cloud       resource bucket project will be used to create the dataset. The       format is "projects/{project_id_or_number}.      --bigquery-publishing-table-type=BIGQUERY_PUBLISHING_TABLE_TYPE       BigQuery table type to discover the cloud resource bucket. Can be       either EXTERNAL or BIGLAKE. If not specified, the table type will       be set to EXTERNAL.     Storage config arguments for the data discovery scan.      --storage-exclude-patterns=[PATTERN,...]       List of patterns that identify the data to exclude during       discovery. These patterns are interpreted as glob patterns used to       match object names in the Cloud Storage bucket. Exclude patterns       will be applied before include patterns.      --storage-include-patterns=[PATTERN,...]       List of patterns that identify the data to include during discovery       when only a subset of the data should be considered. These patterns       are interpreted as glob patterns used to match object names in the       Cloud Storage bucket.      CSV options arguments for the data discovery scan.       --csv-delimiter=CSV_DELIMITER        Delimiter used to separate values in the CSV file. If not        specified, the delimiter will be set to comma (",").       --csv-disable-type-inference=CSV_DISABLE_TYPE_INFERENCE        Whether to disable the inference of data types for CSV data. If        true, all columns are registered as strings.       --csv-encoding=CSV_ENCODING        Character encoding of the CSV file. If not specified, the        encoding will be set to UTF-8.       --csv-header-row-count=CSV_HEADER_ROW_COUNT        The number of rows to interpret as header rows that should be        skipped when reading data rows. The default value is 1.       --csv-quote-character=CSV_QUOTE_CHARACTER        The character used to quote column values. Accepts " (double        quotation mark) or ' (single quotation mark). If unspecified,        defaults to " (double quotation mark).      JSON options arguments for the data discovery scan.       --json-disable-type-inference=JSON_DISABLE_TYPE_INFERENCE        Whether to disable the inference of data types for JSON data. If        true, all columns are registered as strings.       --json-encoding=JSON_ENCODING        Character encoding of the JSON file. If not specified, the        encoding will be set to UTF-8.    Data discovery scan execution settings.     Data discovery scan scheduling and trigger settings     At most one of these can be specified:      --on-demand=ON_DEMAND       If set, the scan runs one-time shortly after data discovery scan       updation.      --schedule=SCHEDULE       Cron schedule (https://en.wikipedia.org/wiki/Cron) for running       scans periodically. To explicitly set a timezone to the cron tab,       apply a prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or       "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid       string from IANA time zone database. For example,       CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * *       *. This field is required for RECURRING scans.
+    /// List of label KEY=VALUE pairs to add.     Keys must start with a lowercase character and contain only hyphens     (-), underscores (_), lowercase characters, and numbers. Values must     contain only hyphens (-), underscores (_), lowercase characters, and     numbers.    At most one of --async | --validate-only can be specified.    At most one of these can be specified:     --async      Return immediately, without waiting for the operation in progress to      complete.     --validate-only      Validate the update action, but don't actually perform it.    Data spec for the data discovery scan.    BigQuery publishing config arguments for the data discovery scan.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
+
+    /// <summary>
+    /// BigQuery connection to use for auto discovering cloud resource bucket     to BigLake tables. Connection is required for BIGLAKE`BigQuery     publishing table type.
+    /// </summary>
+    [CliOption("--bigquery-publishing-connection", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingConnection { get; set; }
+
+    /// <summary>
+    /// The location of the BigQuery dataset to publish BigLake external or     non-BigLake external tables to. If not specified, the dataset location     will be set to the location of the data source resource. Refer to     https://cloud.google.com/bigquery/docs/locations#supportedLocations for     supported locations.
+    /// </summary>
+    [CliOption("--bigquery-publishing-dataset-location", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingDatasetLocation { get; set; }
+
+    /// <summary>
+    /// The project of the BigQuery dataset to publish BigLake external or     non-BigLake external tables to. If not specified, the cloud resource     bucket project will be used to create the dataset. The format is     "projects/{project_id_or_number}.
+    /// </summary>
+    [CliOption("--bigquery-publishing-dataset-project", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingDatasetProject { get; set; }
+
+    /// <summary>
+    /// BigQuery table type to discover the cloud resource bucket. Can be     either EXTERNAL or BIGLAKE. If not specified, the table type will be     set to EXTERNAL.    Storage config arguments for the data discovery scan.
+    /// </summary>
+    [CliOption("--bigquery-publishing-table-type", Format = OptionFormat.EqualsSeparated)]
+    public string? BigqueryPublishingTableType { get; set; }
+
+    /// <summary>
+    /// List of patterns that identify the data to exclude during discovery.     These patterns are interpreted as glob patterns used to match object     names in the Cloud Storage bucket. Exclude patterns will be applied     before include patterns.
+    /// </summary>
+    [CliOption("--storage-exclude-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? StorageExcludePatterns { get; set; }
+
+    /// <summary>
+    /// List of patterns that identify the data to include during discovery     when only a subset of the data should be considered. These patterns are     interpreted as glob patterns used to match object names in the Cloud     Storage bucket.    CSV options arguments for the data discovery scan.
+    /// </summary>
+    [CliOption("--storage-include-patterns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? StorageIncludePatterns { get; set; }
+
+    /// <summary>
+    /// Delimiter used to separate values in the CSV file. If not specified,     the delimiter will be set to comma (",").
+    /// </summary>
+    [CliOption("--csv-delimiter", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDelimiter { get; set; }
+
+    /// <summary>
+    /// Whether to disable the inference of data types for CSV data. If true,     all columns are registered as strings.
+    /// </summary>
+    [CliOption("--csv-disable-type-inference", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// Character encoding of the CSV file. If not specified, the encoding will     be set to UTF-8.
+    /// </summary>
+    [CliOption("--csv-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvEncoding { get; set; }
+
+    /// <summary>
+    /// The number of rows to interpret as header rows that should be skipped     when reading data rows. The default value is 1.
+    /// </summary>
+    [CliOption("--csv-header-row-count", Format = OptionFormat.EqualsSeparated)]
+    public int? CsvHeaderRowCount { get; set; }
+
+    /// <summary>
+    /// The character used to quote column values. Accepts " (double quotation     mark) or ' (single quotation mark). If unspecified, defaults to "     (double quotation mark).    JSON options arguments for the data discovery scan.
+    /// </summary>
+    [CliOption("--csv-quote-character", Format = OptionFormat.EqualsSeparated)]
+    public string? CsvQuoteCharacter { get; set; }
+
+    /// <summary>
+    /// Whether to disable the inference of data types for JSON data. If true,     all columns are registered as strings.
+    /// </summary>
+    [CliOption("--json-disable-type-inference", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonDisableTypeInference { get; set; }
+
+    /// <summary>
+    /// Character encoding of the JSON file. If not specified, the encoding     will be set to UTF-8.    Data discovery scan execution settings.    Data discovery scan scheduling and trigger settings    At most one of these can be specified:     --on-demand=ON_DEMAND      If set, the scan runs one-time shortly after data discovery scan      updation.     --schedule=SCHEDULE      Cron schedule (https://en.wikipedia.org/wiki/Cron) for running scans      periodically. To explicitly set a timezone to the cron tab, apply a      prefix in the cron tab: "CRON_TZ=${IANA_TIME_ZONE}" or      "TZ=${IANA_TIME_ZONE}". The ${IANA_TIME_ZONE} may only be a valid      string from IANA time zone database. For example,      CRON_TZ=America/New_York 1 * * * * or TZ=America/New_York 1 * * * *.      This field is required for RECURRING scans.
+    /// </summary>
+    [CliOption("--json-encoding", Format = OptionFormat.EqualsSeparated)]
+    public string? JsonEncoding { get; set; }
 
 }

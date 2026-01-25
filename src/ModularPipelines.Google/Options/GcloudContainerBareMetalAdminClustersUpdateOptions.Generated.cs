@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Models;
 
 namespace ModularPipelines.Google.Options;
 
@@ -32,10 +33,40 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public string? BinauthzEvaluationMode { get; set; }
 
     /// <summary>
-    /// Description for the resource.    Anthos on bare metal cluster operations configuration.     --enable-application-logs      Whether collection of application logs/metrics should be enabled (in      addition to system logs/metrics).    Populate one of the network configs.     Island mode CIDR network configuration.      --island-mode-service-address-cidr-blocks=SERVICE_ADDRESS,[...]       IPv4 address range for all services in the cluster.    Anthos on bare metal node access related settings for the admin cluster.     --login-user=LOGIN_USER      User name used to access node machines.    Anthos on bare metal cluster maintenance configuration.     --maintenance-address-cidr-blocks=[MAINTENANCE_ADDRESS_CIDR_BLOCKS,...]      IPv4 addresses to be placed into maintenance mode.    Anthos on bare metal admin cluster workload node configuration.     --max-pods-per-node=MAX_PODS_PER_NODE      Maximum number of pods a node can run.
+    /// Description for the resource.    Anthos on bare metal cluster operations configuration.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Whether collection of application logs/metrics should be enabled (in     addition to system logs/metrics).    Populate one of the network configs.    Island mode CIDR network configuration.
+    /// </summary>
+    [CliFlag("--enable-application-logs")]
+    public bool? EnableApplicationLogs { get; set; }
+
+    /// <summary>
+    /// IPv4 address range for all services in the cluster.    Anthos on bare metal node access related settings for the admin cluster.
+    /// </summary>
+    [CliOption("--island-mode-service-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? IslandModeServiceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// User name used to access node machines.    Anthos on bare metal cluster maintenance configuration.
+    /// </summary>
+    [CliOption("--login-user", Format = OptionFormat.EqualsSeparated)]
+    public string? LoginUser { get; set; }
+
+    /// <summary>
+    /// IPv4 addresses to be placed into maintenance mode.    Anthos on bare metal admin cluster workload node configuration.
+    /// </summary>
+    [CliOption("--maintenance-address-cidr-blocks", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? MaintenanceAddressCidrBlocks { get; set; }
+
+    /// <summary>
+    /// Maximum number of pods a node can run.
+    /// </summary>
+    [CliOption("--max-pods-per-node", Format = OptionFormat.EqualsSeparated)]
+    public string? MaxPodsPerNode { get; set; }
 
     /// <summary>
     /// If set, only validate the request, but do not actually perform the     operation.
@@ -44,9 +75,39 @@ public record GcloudContainerBareMetalAdminClustersUpdateOptions : GcloudOptions
     public bool? ValidateOnly { get; set; }
 
     /// <summary>
-    /// Anthos cluster on bare metal version for the admin cluster resource.    Anthos on bare metal cluster control plane configuration.     --api-server-args=[KEY=VALUE,...]      API Server argument configuration.     Anthos on bare metal cluster control plane node pool configuration.      Anthos on bare metal node pool configuration for control plane nodes.       Anthos on bare metal node configuration for control plane nodes.        Populate control plane node config.        At most one of these can be specified:         --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]          Control plane node configuration.        --control-plane-node-labels=[KEY=VALUE,...]         Labels assigned to nodes of a node pool.        --control-plane-node-taints=[KEY=VALUE:EFFECT,...]         Node taint applied to every Kubernetes node in a node pool.    Anthos on bare metal cluster proxy configuration.     --no-proxy=[NO_PROXY,...]      List of IPs, hostnames, and domains that should skip the proxy.     --uri=URI      Address of the proxy server.
+    /// Anthos cluster on bare metal version for the admin cluster resource.    Anthos on bare metal cluster control plane configuration.
     /// </summary>
     [CliOption("--version", Format = OptionFormat.EqualsSeparated)]
     public string? Version { get; set; }
+
+    /// <summary>
+    /// API Server argument configuration.    Anthos on bare metal cluster control plane node pool configuration.    Anthos on bare metal node pool configuration for control plane nodes.    Anthos on bare metal node configuration for control plane nodes.    Populate control plane node config.    At most one of these can be specified:     --control-plane-node-configs=[labels=LABELS],[node-ip=NODE-IP]      Control plane node configuration.
+    /// </summary>
+    [CliOption("--api-server-args", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ApiServerArgs { get; set; }
+
+    /// <summary>
+    /// Labels assigned to nodes of a node pool.
+    /// </summary>
+    [CliOption("--control-plane-node-labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ControlPlaneNodeLabels { get; set; }
+
+    /// <summary>
+    /// Node taint applied to every Kubernetes node in a node pool.    Anthos on bare metal cluster proxy configuration.
+    /// </summary>
+    [CliOption("--control-plane-node-taints", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ControlPlaneNodeTaints { get; set; }
+
+    /// <summary>
+    /// List of IPs, hostnames, and domains that should skip the proxy.
+    /// </summary>
+    [CliOption("--no-proxy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? NoProxy { get; set; }
+
+    /// <summary>
+    /// Address of the proxy server.
+    /// </summary>
+    [CliOption("--uri", Format = OptionFormat.EqualsSeparated)]
+    public string? Uri { get; set; }
 
 }

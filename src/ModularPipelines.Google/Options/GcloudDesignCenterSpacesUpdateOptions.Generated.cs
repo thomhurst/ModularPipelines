@@ -26,7 +26,7 @@ public record GcloudDesignCenterSpacesUpdateOptions : GcloudOptions
     public string? Description { get; set; }
 
     /// <summary>
-    /// Display name for the space.    Arguments for the enable gcp shared templates.     --[no-]enable-gcp-shared-templates      Flag to enable Google opinionated shared templates. Use      --enable-gcp-shared-templates to enable and      --no-enable-gcp-shared-templates to disable.
+    /// Display name for the space.    Arguments for the enable gcp shared templates.
     /// </summary>
     [CliOption("--display-name", Format = OptionFormat.EqualsSeparated)]
     public string? DisplayName { get; set; }

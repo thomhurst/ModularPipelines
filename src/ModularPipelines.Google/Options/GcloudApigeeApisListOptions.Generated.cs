@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("apigee", "apis", "list")]
 public record GcloudApigeeApisListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the organization or fully qualified identifier for the     organization.     To set the organization attribute:     ◆ provide the argument --organization on the command line;     ◆ set the property [project] or provide the argument [--project] on      the command line, using a Cloud Platform project with an associated      Apigee organization.
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
 }

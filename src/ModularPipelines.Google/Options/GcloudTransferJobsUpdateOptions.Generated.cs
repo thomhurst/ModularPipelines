@@ -8,6 +8,7 @@ using System.CodeDom.Compiler;
 using System.Diagnostics.CodeAnalysis;
 using ModularPipelines.Attributes;
 using ModularPipelines.Google.Options;
+using ModularPipelines.Google.Enums;
 
 namespace ModularPipelines.Google.Options;
 
@@ -21,4 +22,400 @@ public record GcloudTransferJobsUpdateOptions(
     [property: CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)] string Name
 ) : GcloudOptions
 {
+    /// <summary>
+    /// Specify this flag to change the status of the job. Options include     'enabled', 'disabled', 'deleted'. STATUS must be one of: deleted,     disabled, enabled.
+    /// </summary>
+    [CliOption("--status", Format = OptionFormat.EqualsSeparated)]
+    public GcloudStatus? Status { get; set; }
+
+    /// <summary>
+    /// The source of your data. Available sources and formatting information:     Public clouds -     ◆ [Google Cloud Storage] gs://example-bucket/example-folder/     ◆ [Amazon S3] s3://examplebucket/example-folder     ◆ [Azure Blob Storage or Data Lake Storage]      http://examplestorageaccount.blob.core.windows.net/examplecontainer/examplefolder     POSIX filesystem - Specify the posix:// scheme followed by the absolute     path to the desired directory, starting from the root of the host     machine (denoted by a leading slash). For example:     ◆ posix:///path/directory/     A file transfer agent must be installed on the POSIX filesystem, and     you need an agent pool flag on this jobs command to activate the agent.     Hadoop Distributed File System (HDFS) - Specify the hdfs:// scheme     followed by the absolute path to the desired directory, starting from     the root of the file system (denoted by a leading slash). For example:     ◆ hdfs:///path/directory/     Namenode details should not be included in the path specification, as     they are required separately during the agent installation process.     A file transfer agent must be installed, and you need an agent pool     flag on this jobs command to activate the agent.     Publicly-accessible objects - Specify the URL of a TSV file containing     a list of URLs of publicly-accessible objects. For example:     ◆ http://example.com/tsvfile
+    /// </summary>
+    [CliOption("--source", Format = OptionFormat.EqualsSeparated)]
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// The destination of your transferred data. Available destinations and     formatting information:     Google Cloud Storage - Specify the gs:// scheme; name of the bucket;     and, if transferring to a folder, the path to the folder. For example:     ◆ gs://example-bucket/example-folder/     POSIX filesystem - Specify the posix:// scheme followed by the absolute     path to the desired directory, starting from the root of the host     machine (denoted by a leading slash). For example:     ◆ posix:///path/directory/     A file transfer agent must be installed on the POSIX filesystem, and     you need an agent pool flag on this jobs command to activate the agent.
+    /// </summary>
+    [CliOption("--destination", Format = OptionFormat.EqualsSeparated)]
+    public string? Destination { get; set; }
+
+    /// <summary>
+    /// Remove the description from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-description")]
+    public bool? ClearDescription { get; set; }
+
+    /// <summary>
+    /// Remove the source creds file from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-source-creds-file")]
+    public bool? ClearSourceCredsFile { get; set; }
+
+    /// <summary>
+    /// Remove the source agent pool from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-source-agent-pool")]
+    public bool? ClearSourceAgentPool { get; set; }
+
+    /// <summary>
+    /// Remove the destination agent pool from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-destination-agent-pool")]
+    public bool? ClearDestinationAgentPool { get; set; }
+
+    /// <summary>
+    /// Remove the intermediate storage path from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-intermediate-storage-path")]
+    public bool? ClearIntermediateStoragePath { get; set; }
+
+    /// <summary>
+    /// Remove the manifest file from the transfer job.
+    /// </summary>
+    [CliFlag("--clear-manifest-file")]
+    public bool? ClearManifestFile { get; set; }
+
+    /// <summary>
+    /// An optional description to help identify the job using details that     don't fit in its name.
+    /// </summary>
+    [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Path to a local file on your machine that includes credentials for an     Amazon S3 or Azure Blob Storage source (not required for Google Cloud     Storage sources). If not specified for an S3 source, gcloud will check     your system for an AWS config file. However, this flag must be     specified to use AWS's "role_arn" auth service. For formatting, see:     S3:     https://cloud.google.com/storage-transfer/docs/reference/rest/v1/TransferSpec#AwsAccessKey     Note: Be sure to put quotations around the JSON value strings.     Azure:     https://cloud.google.com/storage-transfer/docs/reference/rest/v1/TransferSpec#AzureCredentials
+    /// </summary>
+    [CliOption("--source-creds-file", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceCredsFile { get; set; }
+
+    /// <summary>
+    /// If using a POSIX filesystem source, specify the ID of the agent pool     associated with source filesystem.
+    /// </summary>
+    [CliOption("--source-agent-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceAgentPool { get; set; }
+
+    /// <summary>
+    /// If using a POSIX filesystem destination, specify the ID of the agent     pool associated with destination filesystem.
+    /// </summary>
+    [CliOption("--destination-agent-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationAgentPool { get; set; }
+
+    /// <summary>
+    /// If transferring between filesystems, specify the path to a folder in a     Google Cloud Storage bucket (gs://example-bucket/example-folder) to use     as intermediary storage. Recommended: Use an empty folder reserved for     this transfer job to ensure transferred data doesn't interact with any     of your existing Cloud Storage data.
+    /// </summary>
+    [CliOption("--intermediate-storage-path", Format = OptionFormat.EqualsSeparated)]
+    public string? IntermediateStoragePath { get; set; }
+
+    /// <summary>
+    /// Path to a .csv file containing a list of files to transfer from your     source. For manifest files in Cloud Storage, specify the absolute path     (e.g., gs://mybucket/manifest.csv). For manifest files stored in a     source or destination POSIX file system, provide the relative path     (e.g., source://path/to/manfest.csv or     destination://path/to/manifest.csv). For manifest file formatting, see     https://cloud.google.com/storage-transfer/docs/manifest.    EVENT STREAM    Configure an event stream to transfer data whenever it is added or changed   at your source, enabling you to act on the data in near real time. This   event-driven transfer execution mode is available for transfers from   Google Cloud Storage and Amazon S3. For formatting information, see   https://cloud.google.com/sdk/gcloud/reference/topic/datetimes.
+    /// </summary>
+    [CliOption("--manifest-file", Format = OptionFormat.EqualsSeparated)]
+    public string? ManifestFile { get; set; }
+
+    /// <summary>
+    /// Specify an event stream that Storage Transfer Service can use to listen     for when objects are created or updated. For Google Cloud Storage     sources, specify a Cloud Pub/Sub subscription, using format     "projects/yourproject/subscriptions/yoursubscription". For Amazon S3     sources, specify the Amazon Resource Name (ARN) of an Amazon Simple     Queue Service (SQS) queue using format     "arn:aws:sqs:region:account_id:queue_name".
+    /// </summary>
+    [CliOption("--event-stream-name", Format = OptionFormat.EqualsSeparated)]
+    public string? EventStreamName { get; set; }
+
+    /// <summary>
+    /// Set when to start listening for events UTC using the     %Y-%m-%dT%H:%M:%S%z datetime format (e.g., 2020-04-12T06:42:12+04:00).     If not set, the job will start running and listening for events upon     the successful submission of the create job command.
+    /// </summary>
+    [CliOption("--event-stream-starts", Format = OptionFormat.EqualsSeparated)]
+    public string? EventStreamStarts { get; set; }
+
+    /// <summary>
+    /// Set when to stop listening for events UTC using the %Y-%m-%dT%H:%M:%S%z     datetime format (e.g., 2020-04-12T06:42:12+04:00). If not set, the job     will continue running and listening for events indefinitely.
+    /// </summary>
+    [CliOption("--event-stream-expires", Format = OptionFormat.EqualsSeparated)]
+    public string? EventStreamExpires { get; set; }
+
+    /// <summary>
+    /// Remove the job's entire event stream configuration by clearing all     scheduling all event stream flags. The job will no longer listen for     events unless a new configuratin is specified.    SCHEDULE    A job's schedule determines when and how often the job will run. For   formatting information, see   https://cloud.google.com/sdk/gcloud/reference/topic/datetimes.
+    /// </summary>
+    [CliFlag("--clear-event-stream")]
+    public bool? ClearEventStream { get; set; }
+
+    /// <summary>
+    /// Remove the job's entire schedule by clearing all scheduling flags. The     job will no longer run unless an operation is manually started or a new     schedule is specified.
+    /// </summary>
+    [CliFlag("--clear-schedule")]
+    public bool? ClearSchedule { get; set; }
+
+    /// <summary>
+    /// Set when the job will start using the %Y-%m-%dT%H:%M:%S%z datetime     format (e.g., 2020-04-12T06:42:12+04:00). If not set, the job will run     upon the successful submission of the create job command unless the     --do-not-run flag is included.
+    /// </summary>
+    [CliOption("--schedule-starts", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleStarts { get; set; }
+
+    /// <summary>
+    /// Set the frequency of the job using the absolute duration format (e.g.,     1 month is p1m; 1 hour 30 minutes is 1h30m). If not set, the job will     run once.
+    /// </summary>
+    [CliOption("--schedule-repeats-every", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleRepeatsEvery { get; set; }
+
+    /// <summary>
+    /// Set when the job will stop recurring using the %Y-%m-%dT%H:%M:%S%z     datetime format (e.g., 2020-04-12T06:42:12+04:00). If specified, you     must also include a value for the --schedule-repeats-every flag. If not     specified, the job will continue to repeat as specified in its     repeat-every field unless the job is manually disabled or you add this     field later.    OBJECT CONDITIONS    A set of conditions to determine which objects are transferred. For   time-based object condition formatting tips, see   https://cloud.google.com/sdk/gcloud/reference/topic/datetimes. Note: If   you specify multiple conditions, objects must have at least one of the   specified 'include' prefixes and all of the specified time conditions. If   an object has an 'exclude' prefix, it will be excluded even if it matches   other conditions.
+    /// </summary>
+    [CliOption("--schedule-repeats-until", Format = OptionFormat.EqualsSeparated)]
+    public string? ScheduleRepeatsUntil { get; set; }
+
+    /// <summary>
+    /// Remove the list of object prefixes to include from the object     conditions.
+    /// </summary>
+    [CliFlag("--clear-include-prefixes")]
+    public bool? ClearIncludePrefixes { get; set; }
+
+    /// <summary>
+    /// Remove the list of object prefixes to exclude from the object     conditions.
+    /// </summary>
+    [CliFlag("--clear-exclude-prefixes")]
+    public bool? ClearExcludePrefixes { get; set; }
+
+    /// <summary>
+    /// Remove the glob pattern from the object conditions.
+    /// </summary>
+    [CliFlag("--clear-match-glob")]
+    public bool? ClearMatchGlob { get; set; }
+
+    /// <summary>
+    /// Remove the maximum modification datetime from the object conditions.
+    /// </summary>
+    [CliFlag("--clear-include-modified-before-absolute")]
+    public bool? ClearIncludeModifiedBeforeAbsolute { get; set; }
+
+    /// <summary>
+    /// Remove the minimum modification datetime from the object conditions.
+    /// </summary>
+    [CliFlag("--clear-include-modified-after-absolute")]
+    public bool? ClearIncludeModifiedAfterAbsolute { get; set; }
+
+    /// <summary>
+    /// Remove the maximum duration since modification from the object     conditions.
+    /// </summary>
+    [CliFlag("--clear-include-modified-before-relative")]
+    public bool? ClearIncludeModifiedBeforeRelative { get; set; }
+
+    /// <summary>
+    /// Remove the minimum duration since modification from the object     conditions.
+    /// </summary>
+    [CliFlag("--clear-include-modified-after-relative")]
+    public bool? ClearIncludeModifiedAfterRelative { get; set; }
+
+    /// <summary>
+    /// Include only objects that start with the specified prefix(es). Separate     multiple prefixes with commas, omitting spaces after the commas (e.g.,     --include-prefixes=foo,bar).
+    /// </summary>
+    [CliOption("--include-prefixes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? IncludePrefixes { get; set; }
+
+    /// <summary>
+    /// Exclude any objects that start with the prefix(es) entered. Separate     multiple prefixes with commas, omitting spaces after the commas (e.g.,     --exclude-prefixes=foo,bar).
+    /// </summary>
+    [CliOption("--exclude-prefixes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? ExcludePrefixes { get; set; }
+
+    /// <summary>
+    /// Include only objects that match the specified glob pattern. For more     information about glob patterns, see     https://docs.cloud.google.com/storage-transfer/docs/filter-by-glob-pattern
+    /// </summary>
+    [CliOption("--match-glob", Format = OptionFormat.EqualsSeparated)]
+    public string? MatchGlob { get; set; }
+
+    /// <summary>
+    /// Include objects last modified before an absolute date/time. Ex. by     specifying '2020-01-01', the transfer would include objects last     modified before January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime     format.
+    /// </summary>
+    [CliOption("--include-modified-before-absolute", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeModifiedBeforeAbsolute { get; set; }
+
+    /// <summary>
+    /// Include objects last modified after an absolute date/time. Ex. by     specifying '2020-01-01', the transfer would include objects last     modified after January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime     format.
+    /// </summary>
+    [CliOption("--include-modified-after-absolute", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeModifiedAfterAbsolute { get; set; }
+
+    /// <summary>
+    /// Include objects that were modified before a relative date/time in the     past. Ex. by specifying a duration of '10d', the transfer would include     objects last modified more than 10 days before its start time. Use the     absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30     minutes).
+    /// </summary>
+    [CliOption("--include-modified-before-relative", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeModifiedBeforeRelative { get; set; }
+
+    /// <summary>
+    /// Include objects that were modified after a relative date/time in the     past. Ex. by specifying a duration of '10d', the transfer would include     objects last modified less than 10 days before its start time. Use the     absolute duration format (ex. 1m for 1 month; 1h30m for 1 hour 30     minutes).    TRANSFER OPTIONS
+    /// </summary>
+    [CliOption("--include-modified-after-relative", Format = OptionFormat.EqualsSeparated)]
+    public string? IncludeModifiedAfterRelative { get; set; }
+
+    /// <summary>
+    /// Remove a specified deletion option from the transfer job. If this flag     is specified, the transfer job won't delete any data from your source     or destination.
+    /// </summary>
+    [CliFlag("--clear-delete-from")]
+    public bool? ClearDeleteFrom { get; set; }
+
+    /// <summary>
+    /// Skips preserving optional metadata fields of objects being transferred.
+    /// </summary>
+    [CliFlag("--clear-preserve-metadata")]
+    public bool? ClearPreserveMetadata { get; set; }
+
+    /// <summary>
+    /// Reverts to using destination default storage class.
+    /// </summary>
+    [CliFlag("--clear-custom-storage-class")]
+    public bool? ClearCustomStorageClass { get; set; }
+
+    /// <summary>
+    /// Determine when destination objects are overwritten by source objects.     Options include:     ◆ 'different' - Overwrites files with the same name if the contents      are different (e.g., if etags or checksums don't match)     ◆ 'always' - Overwrite destination file whenever source file has the      same name -- even if they're identical     ◆ 'never' - Never overwrite destination file when source file has the      same name     OVERWRITE_WHEN must be one of: always, different, never.
+    /// </summary>
+    [CliOption("--overwrite-when", Format = OptionFormat.EqualsSeparated)]
+    public GcloudOverwriteWhen? OverwriteWhen { get; set; }
+
+    /// <summary>
+    /// By default, transfer jobs won't delete any data from your source or     destination. These options enable you to delete data if needed for your     use case. Options include:     ◆ 'destination-if-unique' - Delete files from destination if they're      not also at source. Use to sync destination to source (i.e., make      destination match source exactly)     ◆ 'source-after-transfer' - Delete files from source after they're      transferred     DELETE_FROM must be one of: destination-if-unique,     source-after-transfer.
+    /// </summary>
+    [CliOption("--delete-from", Format = OptionFormat.EqualsSeparated)]
+    public GcloudDeleteFrom? DeleteFrom { get; set; }
+
+    /// <summary>
+    /// Specify object metadata values that can optionally be preserved.     Example: --preserve-metadata=storage-class,uid     For more info, see:     https://cloud.google.com/storage-transfer/docs/metadata-preservation.     METADATA_FIELDS must be one of: acl, gid, kms-key, mode, storage-class,     symlink, temporary-hold, time-created, uid.
+    /// </summary>
+    [CliOption("--preserve-metadata", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public GcloudPreserveMetadata? PreserveMetadata { get; set; }
+
+    /// <summary>
+    /// Specifies the storage class to set on objects being transferred to     Cloud Storage buckets. If unspecified, the objects' storage class is     set to the destination bucket default. Valid values are:     ◆ Any of the values listed in the Cloud Storage documentation:      Available storage classes      (https://cloud.google.com/storage/docs/storage-classes#classes).     ◆ preserve - Preserves each object's original storage class. Only      supported for transfers between Cloud Storage buckets.     Custom storage class settings are ignored if the destination bucket is     Autoclass-enabled (https://cloud.google.com/storage/docs/autoclass).     Objects transferred into Autoclass-enabled buckets are initially set to     the STANDARD storage class.    NOTIFICATION CONFIG    A configuration for receiving notifications oftransfer operation status   changes via Cloud Pub/Sub.
+    /// </summary>
+    [CliOption("--custom-storage-class", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomStorageClass { get; set; }
+
+    /// <summary>
+    /// Remove the job's full notification configuration to no longer receive     notifications via Cloud Pub/Sub.
+    /// </summary>
+    [CliFlag("--clear-notification-config")]
+    public bool? ClearNotificationConfig { get; set; }
+
+    /// <summary>
+    /// Remove the event types from the notification config.
+    /// </summary>
+    [CliFlag("--clear-notification-event-types")]
+    public bool? ClearNotificationEventTypes { get; set; }
+
+    /// <summary>
+    /// Pub/Sub topic used for notifications.
+    /// </summary>
+    [CliOption("--notification-pubsub-topic", Format = OptionFormat.EqualsSeparated)]
+    public string? NotificationPubsubTopic { get; set; }
+
+    /// <summary>
+    /// Define which change of transfer operation status will trigger Pub/Sub     notifications. Choices include 'success', 'failed', 'aborted'. To     trigger notifications for all three status changes, you can leave this     flag unspecified as long as you've specified a topic for the     --notification-pubsub-topic flag. EVENT_TYPES must be one of: success,     failed, aborted.
+    /// </summary>
+    [CliOption("--notification-event-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public GcloudNotificationEventTypes? NotificationEventTypes { get; set; }
+
+    /// <summary>
+    /// If 'none', no transfer operation details are included with     notifications. If 'json', a json representation of the relevant     transfer operation is included in notification messages (e.g., to see     errors after an operation fails). NOTIFICATION_PAYLOAD_FORMAT must be     one of: json, none.    LOGGING CONFIG    Configure which transfer actions and action states are reported when logs   are generated for this job. Logs can be viewed by running the following   command: gcloud logging read "resource.type=storage_transfer_job"
+    /// </summary>
+    [CliOption("--notification-payload-format", Format = OptionFormat.EqualsSeparated)]
+    public string? NotificationPayloadFormat { get; set; }
+
+    /// <summary>
+    /// Remove the job's full logging config.
+    /// </summary>
+    [CliFlag("--clear-log-config")]
+    public bool? ClearLogConfig { get; set; }
+
+    /// <summary>
+    /// Define the transfer operation actions to report in logs. Separate     multiple actions with commas, omitting spaces after the commas (e.g.,     --log-actions=find,copy). LOG_ACTIONS must be one of: copy, delete,     find.
+    /// </summary>
+    [CliOption("--log-actions", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public GcloudLogActions? LogActions { get; set; }
+
+    /// <summary>
+    /// The states in which the actions specified in --log-actions are logged.     Separate multiple states with a comma, omitting the space after the     comma (e.g., --log-action-states=succeeded,failed). LOG_ACTION_STATES     must be one of: failed, skipped, succeeded.    ADDITIONAL OPTIONS
+    /// </summary>
+    [CliOption("--log-action-states", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public GcloudLogActionStates? LogActionStates { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, specify your storage system's     endpoint. Check with your provider for formatting (ex.     s3.us-east-1.amazonaws.com for Amazon S3).
+    /// </summary>
+    [CliOption("--source-endpoint", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceEndpoint { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, specify a region for signing     requests. You can leave this unspecified if your storage provider     doesn't require a signing region.
+    /// </summary>
+    [CliOption("--source-signing-region", Format = OptionFormat.EqualsSeparated)]
+    public string? SourceSigningRegion { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, choose a process for adding     authentication information to S3 API requests. Refer to AWS's SigV4     (https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html)     and SigV2     (https://docs.aws.amazon.com/general/latest/gr/signature-version-2.html)     documentation for more information. SOURCE_AUTH_METHOD must be one of:     AWS_SIGNATURE_V2, AWS_SIGNATURE_V4.
+    /// </summary>
+    [CliOption("--source-auth-method", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSourceAuthMethod? SourceAuthMethod { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, choose the version of the S3     listing API for returning objects from the bucket. Refer to AWS's     ListObjectsV2     (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)     and ListObjects     (https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)     documentation for more information. SOURCE_LIST_API must be one of:     LIST_OBJECTS, LIST_OBJECTS_V2.
+    /// </summary>
+    [CliOption("--source-list-api", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSourceListApi? SourceListApi { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, choose the network protocol     agents should use for this job. SOURCE_NETWORK_PROTOCOL must be one of:     HTTP, HTTPS.
+    /// </summary>
+    [CliOption("--source-network-protocol", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSourceNetworkProtocol? SourceNetworkProtocol { get; set; }
+
+    /// <summary>
+    /// For transfers from S3-compatible sources, choose which addressing style     to use. Determines if the bucket name is in the hostname or part of the     URL. For example, https://s3.region.amazonaws.com/bucket-name/key-name     for path style and Ex.     https://bucket-name.s3.region.amazonaws.com/key-name for virtual-hosted     style. SOURCE_REQUEST_MODEL must be one of: PATH_STYLE,     VIRTUAL_HOSTED_STYLE.
+    /// </summary>
+    [CliOption("--source-request-model", Format = OptionFormat.EqualsSeparated)]
+    public GcloudSourceRequestModel? SourceRequestModel { get; set; }
+
+    /// <summary>
+    /// For transfers from S3, optionally route egress traffic through a     CloudFront instance. Supply the endpoint of the CloudFront instance:     https://example.cloudfront.net. See documentation     (https://cloud.google.com/storage-transfer/docs/s3-cloudfront) for more     information.
+    /// </summary>
+    [CliOption("--s3-cloudfront-domain", Format = OptionFormat.EqualsSeparated)]
+    public string? S3CloudfrontDomain { get; set; }
+
+    /// <summary>
+    /// Removes source endpoint.
+    /// </summary>
+    [CliFlag("--clear-source-endpoint")]
+    public bool? ClearSourceEndpoint { get; set; }
+
+    /// <summary>
+    /// Removes source signing region.
+    /// </summary>
+    [CliFlag("--clear-source-signing-region")]
+    public bool? ClearSourceSigningRegion { get; set; }
+
+    /// <summary>
+    /// Removes source auth method.
+    /// </summary>
+    [CliFlag("--clear-source-auth-method")]
+    public bool? ClearSourceAuthMethod { get; set; }
+
+    /// <summary>
+    /// Removes source list API.
+    /// </summary>
+    [CliFlag("--clear-source-list-api")]
+    public bool? ClearSourceListApi { get; set; }
+
+    /// <summary>
+    /// Removes source network protocol.
+    /// </summary>
+    [CliFlag("--clear-source-network-protocol")]
+    public bool? ClearSourceNetworkProtocol { get; set; }
+
+    /// <summary>
+    /// Removes source request model.
+    /// </summary>
+    [CliFlag("--clear-source-request-model")]
+    public bool? ClearSourceRequestModel { get; set; }
+
+    /// <summary>
+    /// Removes S3 CloudFront domain.
+    /// </summary>
+    [CliFlag("--clear-s3-cloudfront-domain")]
+    public bool? ClearS3CloudfrontDomain { get; set; }
+
 }

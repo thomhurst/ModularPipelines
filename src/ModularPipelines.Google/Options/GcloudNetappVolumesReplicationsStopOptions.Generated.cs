@@ -26,9 +26,15 @@ public record GcloudNetappVolumesReplicationsStopOptions : GcloudOptions
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Indicates whether to stop replication forcefully while data transfer is     in progress. Warning! if force is true, this will abort any current     transfers and can lead to data loss due to partial transfer. If force     is false, stop replication will fail while data transfer is in progress     and you will need to retry later.    Volume resource - The Volume that the Replication is based on This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.     --volume=VOLUME      ID of the volume or fully qualified identifier for the volume.      To set the volume attribute:      ▸ provide the argument --volume on the command line.
+    /// Indicates whether to stop replication forcefully while data transfer is     in progress. Warning! if force is true, this will abort any current     transfers and can lead to data loss due to partial transfer. If force     is false, stop replication will fail while data transfer is in progress     and you will need to retry later.    Volume resource - The Volume that the Replication is based on This   represents a Cloud resource. (NOTE) Some attributes are not given   arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --volume on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property netapp/location.
     /// </summary>
     [CliFlag("--force")]
     public bool? Force { get; set; }
+
+    /// <summary>
+    /// ID of the volume or fully qualified identifier for the volume.     To set the volume attribute:     ◆ provide the argument --volume on the command line.
+    /// </summary>
+    [CliOption("--volume", Format = OptionFormat.EqualsSeparated)]
+    public string? Volume { get; set; }
 
 }

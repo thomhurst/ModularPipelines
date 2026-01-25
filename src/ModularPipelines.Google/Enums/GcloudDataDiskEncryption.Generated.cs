@@ -9,20 +9,14 @@ using System.ComponentModel;
 namespace ModularPipelines.Google.Enums;
 
 /// <summary>
-/// Allowed values for --vmtags.
+/// Allowed values for --datadiskencryption.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
-public enum GcloudVmTags
+public enum GcloudDataDiskEncryption
 {
-    [Description("pd-standard")]
-    PdStandard,
+    [Description("GMEK")]
+    Gmek,
 
-    [Description("pd-balanced")]
-    PdBalanced,
-
-    [Description("pd-ssd")]
-    PdSsd,
-
-    [Description("hyperdisk-balanced-ha")]
-    HyperdiskBalancedHa
+    [Description("CMEK")]
+    Cmek
 }

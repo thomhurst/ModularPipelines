@@ -39,9 +39,21 @@ public record GcloudKmsEkmConnectionsUpdateOptions : GcloudOptions
     public IEnumerable<string>? ServerCertificatesFiles { get; set; }
 
     /// <summary>
-    /// The resource name of the Service Directory service pointing to an EKM     replica.    Specifies the key management mode for the EkmConnection and associated   fields.     --crypto-space-path=CRYPTO_SPACE_PATH      Crypto space path for the EkmConnection. Required during      EkmConnection creation if --key-management-mode=cloud-kms.     --key-management-mode=KEY_MANAGEMENT_MODE      Key management mode of the ekm connection. An EkmConnection in      cloud-kms mode means Cloud KMS will attempt to create and manage the      key material that resides on the EKM for crypto keys created with      this EkmConnection. An EkmConnection in manual mode means the      external key material will not be managed by Cloud KMS. Omitting the      flag defaults to manual. KEY_MANAGEMENT_MODE must be one of: manual,      cloud-kms.
+    /// The resource name of the Service Directory service pointing to an EKM     replica.    Specifies the key management mode for the EkmConnection and associated   fields.
     /// </summary>
     [CliOption("--service-directory-service", Format = OptionFormat.EqualsSeparated)]
-    public GcloudServiceDirectoryService? ServiceDirectoryService { get; set; }
+    public string? ServiceDirectoryService { get; set; }
+
+    /// <summary>
+    /// Crypto space path for the EkmConnection. Required during EkmConnection     creation if --key-management-mode=cloud-kms.
+    /// </summary>
+    [CliOption("--crypto-space-path", Format = OptionFormat.EqualsSeparated)]
+    public string? CryptoSpacePath { get; set; }
+
+    /// <summary>
+    /// Key management mode of the ekm connection. An EkmConnection in     cloud-kms mode means Cloud KMS will attempt to create and manage the     key material that resides on the EKM for crypto keys created with this     EkmConnection. An EkmConnection in manual mode means the external key     material will not be managed by Cloud KMS. Omitting the flag defaults     to manual. KEY_MANAGEMENT_MODE must be one of: manual, cloud-kms.
+    /// </summary>
+    [CliOption("--key-management-mode", Format = OptionFormat.EqualsSeparated)]
+    public GcloudKeyManagementMode? KeyManagementMode { get; set; }
 
 }

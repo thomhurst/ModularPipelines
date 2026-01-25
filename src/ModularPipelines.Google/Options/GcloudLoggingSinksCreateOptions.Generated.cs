@@ -58,9 +58,15 @@ public record GcloudLoggingSinksCreateOptions(
     public bool? InterceptChildren { get; set; }
 
     /// <summary>
-    /// A filter expression for the sink. If present, the filter specifies     which log entries to export.    Settings for sink exporting data to BigQuery.     --use-partitioned-tables      If specified, use BigQuery's partitioned tables. By default, Logging      creates dated tables based on the log entries' timestamps, e.g.      'syslog_20170523'. Partitioned tables remove the suffix and special      query syntax      (https://cloud.google.com/bigquery/docs/querying-partitioned-tables)      must be used.    At most one of these can be specified:     --billing-account=BILLING_ACCOUNT_ID      Billing account of the sink to create.     --folder=FOLDER_ID      Folder of the sink to create.     --organization=ORGANIZATION_ID      Organization of the sink to create.     --project=PROJECT_ID      Project of the sink to create.      The Google Cloud project ID to use for this invocation. If omitted,      then the current project is assumed; the current project can be      listed using gcloud config list --format='text(core.project)' and can      be set using gcloud config set project PROJECTID.      --project and its fallback core/project property play two roles in      the invocation. It specifies the project of the resource to operate      on. It also specifies the project for API enablement check, quota,      and billing. To specify a different project for quota and billing,      use --billing-project or billing/quota_project property.
+    /// A filter expression for the sink. If present, the filter specifies     which log entries to export.    Settings for sink exporting data to BigQuery.
     /// </summary>
     [CliOption("--log-filter", Format = OptionFormat.EqualsSeparated)]
     public string? LogFilter { get; set; }
+
+    /// <summary>
+    /// If specified, use BigQuery's partitioned tables. By default, Logging     creates dated tables based on the log entries' timestamps, e.g.     'syslog_20170523'. Partitioned tables remove the suffix and special     query syntax     (https://cloud.google.com/bigquery/docs/querying-partitioned-tables)     must be used.    At most one of these can be specified:     --billing-account=BILLING_ACCOUNT_ID      Billing account of the sink to create.     --folder=FOLDER_ID      Folder of the sink to create.     --organization=ORGANIZATION_ID      Organization of the sink to create.     --project=PROJECT_ID      Project of the sink to create.      The Google Cloud project ID to use for this invocation. If omitted,      then the current project is assumed; the current project can be      listed using gcloud config list --format='text(core.project)' and can      be set using gcloud config set project PROJECTID.      --project and its fallback core/project property play two roles in      the invocation. It specifies the project of the resource to operate      on. It also specifies the project for API enablement check, quota,      and billing. To specify a different project for quota and billing,      use --billing-project or billing/quota_project property.
+    /// </summary>
+    [CliFlag("--use-partitioned-tables")]
+    public bool? UsePartitionedTables { get; set; }
 
 }

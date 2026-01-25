@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("access-context-manager", "authorized-orgs", "list")]
 public record GcloudAccessContextManagerAuthorizedOrgsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the policy or fully qualified identifier for the policy.     To set the policy attribute:     ◆ provide the argument --policy on the command line;     ◆ set the property access_context_manager/policy;     ◆ automatically, if the current account belongs to an organization      with exactly one access policy..
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated)]
+    public string? Policy { get; set; }
+
 }

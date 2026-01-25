@@ -20,9 +20,21 @@ namespace ModularPipelines.Google.Options;
 public record GcloudArtifactsPrintSettingsGradleOptions : GcloudOptions
 {
     /// <summary>
-    /// Path to service account JSON key. If not specified, current active     service account credentials or a placeholder for gcloud credentials is     used.    Repository resource - The Artifact Registry repository. If not specified,   the current artifacts/repository is used. The arguments in this group can   be used to specify the attributes of this resource. (NOTE) Some attributes   are not given arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --repository on the command line with a fully     specified name;    ◆ set the property artifacts/repository with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.     --location=LOCATION      Location of the repository.      To set the location attribute:      ▸ provide the argument --repository on the command line with a       fully specified name;      ▸ set the property artifacts/repository with a fully specified       name;      ▸ provide the argument --location on the command line;      ▸ set the property artifacts/location.     --repository=REPOSITORY      ID of the repository or fully qualified identifier for the      repository.      To set the repository attribute:      ▸ provide the argument --repository on the command line;      ▸ set the property artifacts/repository.
+    /// Path to service account JSON key. If not specified, current active     service account credentials or a placeholder for gcloud credentials is     used.    Repository resource - The Artifact Registry repository. If not specified,   the current artifacts/repository is used. The arguments in this group can   be used to specify the attributes of this resource. (NOTE) Some attributes   are not given arguments in this group but can be set in other ways.    To set the project attribute:    ◆ provide the argument --repository on the command line with a fully     specified name;    ◆ set the property artifacts/repository with a fully specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.
     /// </summary>
     [CliOption("--json-key", Format = OptionFormat.EqualsSeparated)]
     public string? JsonKey { get; set; }
+
+    /// <summary>
+    /// Location of the repository.     To set the location attribute:     ◆ provide the argument --repository on the command line with a fully      specified name;     ◆ set the property artifacts/repository with a fully specified name;     ◆ provide the argument --location on the command line;     ◆ set the property artifacts/location.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
+    /// <summary>
+    /// ID of the repository or fully qualified identifier for the repository.     To set the repository attribute:     ◆ provide the argument --repository on the command line;     ◆ set the property artifacts/repository.
+    /// </summary>
+    [CliOption("--repository", Format = OptionFormat.EqualsSeparated)]
+    public string? Repository { get; set; }
 
 }

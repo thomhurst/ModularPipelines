@@ -19,4 +19,22 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("oracle-database", "cloud-vm-clusters", "db-nodes", "list")]
 public record GcloudOracleDatabaseCloudVmClustersDbNodesListOptions : GcloudOptions
 {
+    /// <summary>
+    /// ID of the cloudVmClusterOrExadbVmCluster or fully qualified identifier     for the cloudVmClusterOrExadbVmCluster.     To set the cloud_vm_cluster attribute:     ◆ provide the argument --cloud-vm-cluster on the command line. Must      be specified for resource of type [cloudVmCluster].
+    /// </summary>
+    [CliOption("--cloud-vm-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? CloudVmCluster { get; set; }
+
+    /// <summary>
+    /// ID of the cloudVmClusterOrExadbVmCluster or fully qualified identifier     for the cloudVmClusterOrExadbVmCluster.     To set the exadb_vm_cluster attribute:     ◆ provide the argument --exadb-vm-cluster on the command line. Must      be specified for resource of type [exadbVmCluster].
+    /// </summary>
+    [CliOption("--exadb-vm-cluster", Format = OptionFormat.EqualsSeparated)]
+    public string? ExadbVmCluster { get; set; }
+
+    /// <summary>
+    /// The location id of the cloudVmClusterOrExadbVmCluster resource.     To set the location attribute:     ◆ provide the argument --exadb-vm-cluster on the command line with a      fully specified name;     ◆ provide the argument --cloud-vm-cluster on the command line with a      fully specified name;     ◆ provide the argument --location on the command line.
+    /// </summary>
+    [CliOption("--location", Format = OptionFormat.EqualsSeparated)]
+    public string? Location { get; set; }
+
 }

@@ -51,10 +51,16 @@ public record GcloudPrivatecaRootsCreateOptions : GcloudOptions
     public IEnumerable<string>? DnsSan { get; set; }
 
     /// <summary>
-    /// One or more comma-separated email Subject Alternative Names.    Source CA resource - An existing CA from which to copy configuration   values for the new CA. You can still override any of those values by   explicitly providing the appropriate flags. The specified existing CA must   be part of the same pool as the one being created. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property privateca/location.    To set the pool attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --pool on the command line.     --from-ca=FROM_CA      ID of the source CA or fully qualified identifier for the source CA.      To set the certificate_authority attribute:      ▸ provide the argument --from-ca on the command line.
+    /// One or more comma-separated email Subject Alternative Names.    Source CA resource - An existing CA from which to copy configuration   values for the new CA. You can still override any of those values by   explicitly providing the appropriate flags. The specified existing CA must   be part of the same pool as the one being created. This represents a Cloud   resource. (NOTE) Some attributes are not given arguments in this group but   can be set in other ways.    To set the project attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --project on the command line;    ◆ set the property core/project.    To set the location attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --location on the command line;    ◆ set the property privateca/location.    To set the pool attribute:    ◆ provide the argument --from-ca on the command line with a fully     specified name;    ◆ provide the argument --pool on the command line.
     /// </summary>
     [CliOption("--email-san", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? EmailSan { get; set; }
+
+    /// <summary>
+    /// ID of the source CA or fully qualified identifier for the source CA.     To set the certificate_authority attribute:     ◆ provide the argument --from-ca on the command line.
+    /// </summary>
+    [CliOption("--from-ca", Format = OptionFormat.EqualsSeparated)]
+    public string? FromCa { get; set; }
 
     /// <summary>
     /// One or more comma-separated IP Subject Alternative Names.
