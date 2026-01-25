@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet disable commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNugetDisable
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ public class DotNetNugetDisable
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Source(
-        DotNetNugetDisableSourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetDisableSourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetDisableSourceOptions(), executionOptions, cancellationToken);
