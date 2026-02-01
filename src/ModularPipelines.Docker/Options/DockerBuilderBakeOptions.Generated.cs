@@ -120,6 +120,12 @@ public record DockerBuilderBakeOptions : DockerOptions
     [CliOption("--set", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Set { get; set; }
 
+    /// <summary>
+    /// Set a variable value (e.g., "name=value")
+    /// </summary>
+    [CliOption("--var", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Var { get; set; }
+
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 

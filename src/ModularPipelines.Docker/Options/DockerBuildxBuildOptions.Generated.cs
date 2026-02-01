@@ -157,6 +157,12 @@ public record DockerBuildxBuildOptions : DockerOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
+    /// Policy configuration (format: "filename=path[,filename=path][,reset=true|false][,disabled=true|false][,strict=true|false][,log-level=level]")
+    /// </summary>
+    [CliOption("--policy", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Policy { get; set; }
+
+    /// <summary>
     /// Set type of progress output ("auto", "none",  "plain", "quiet", "rawjson", "tty"). Use plain to show container output (default "auto")
     /// </summary>
     [CliOption("--progress", Format = OptionFormat.EqualsSeparated)]
@@ -175,7 +181,7 @@ public record DockerBuildxBuildOptions : DockerOptions
     public bool? Pull { get; set; }
 
     /// <summary>
-    /// Shorthand for "--output=type=registry"
+    /// Shorthand for "--output=type=registry,unpack=false"
     /// </summary>
     [CliFlag("--push")]
     public bool? Push { get; set; }
