@@ -92,7 +92,7 @@ public record YqEvalOptions : YqOptions
     public bool? Inplace { get; set; }
 
     /// <summary>
-    /// [auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|hcl|h|lua|l|ini|i] parse format for input. (default "auto")
+    /// [auto|a|yaml|y|kyaml|ky|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|hcl|h|lua|l|ini|i] parse format for input. (default "auto")
     /// </summary>
     [CliOption("--input-format", ShortForm = "-p", Format = OptionFormat.EqualsSeparated)]
     public string? InputFormat { get; set; }
@@ -146,7 +146,7 @@ public record YqEvalOptions : YqOptions
     public bool? NullInput { get; set; }
 
     /// <summary>
-    /// [auto|a|yaml|y|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|hcl|h|shell|s|lua|l|ini|i] output format type. (default "auto")
+    /// [auto|a|yaml|y|kyaml|ky|json|j|props|p|csv|c|tsv|t|xml|x|base64|uri|toml|hcl|h|shell|s|lua|l|ini|i] output format type. (default "auto")
     /// </summary>
     [CliOption("--output-format", ShortForm = "-o", Format = OptionFormat.EqualsSeparated)]
     public string? OutputFormat { get; set; }
@@ -212,7 +212,7 @@ public record YqEvalOptions : YqOptions
     public bool? TsvAutoParse { get; set; }
 
     /// <summary>
-    /// unwrap scalar, print the value with no quotes, colors or comments. Defaults to true for yaml (default true)
+    /// unwrap scalar, print the value with no quotes, colours or comments. Defaults to true for yaml (default true)
     /// </summary>
     [CliFlag("--unwrapScalar", ShortForm = "-r")]
     public bool? Unwrapscalar { get; set; }
@@ -276,6 +276,12 @@ public record YqEvalOptions : YqOptions
     /// </summary>
     [CliFlag("--xml-strict-mode")]
     public bool? XmlStrictMode { get; set; }
+
+    /// <summary>
+    /// Use compact sequence indentation where '- ' is considered part of the indentation.
+    /// </summary>
+    [CliFlag("--yaml-compact-seq-indent", ShortForm = "-c")]
+    public bool? YamlCompactSeqIndent { get; set; }
 
     /// <summary>
     /// Fix merge anchor to match YAML spec. Will default to true in late 2025
