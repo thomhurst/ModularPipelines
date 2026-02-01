@@ -22,7 +22,7 @@ public record GcloudComputeInterconnectsAttachmentsDedicatedUpdateOptions(
 ) : GcloudOptions
 {
     /// <summary>
-    /// Provisioned capacity of the attachment. BANDWIDTH must be one of:      50m       50 Mbit/s     100m       100 Mbit/s     200m       200 Mbit/s     300m       300 Mbit/s     400m       400 Mbit/s     500m       500 Mbit/s     1g       1 Gbit/s     2g       2 Gbit/s     5g       5 Gbit/s     10g       10 Gbit/s     20g       20 Gbit/s     50g       50 Gbit/s     100g       100 Gbit/s
+    /// Provisioned capacity of the attachment. BANDWIDTH must be one of:      50m       50 Mbit/s     100m       100 Mbit/s     200m       200 Mbit/s     300m       300 Mbit/s     400m       400 Mbit/s     500m       500 Mbit/s     1g       1 Gbit/s     2g       2 Gbit/s     5g       5 Gbit/s     10g       10 Gbit/s     20g       20 Gbit/s     50g       50 Gbit/s     100g       100 Gbit/s     400g       400 Gbit/s
     /// </summary>
     [CliOption("--bandwidth", Format = OptionFormat.EqualsSeparated)]
     public string? Bandwidth { get; set; }

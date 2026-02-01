@@ -19,4 +19,16 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("network-security", "firewall-endpoints", "list")]
 public record GcloudNetworkSecurityFirewallEndpointsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// The organization for a list operation
+    /// </summary>
+    [CliOption("--organization", Format = OptionFormat.EqualsSeparated)]
+    public string? Organization { get; set; }
+
+    /// <summary>
+    /// The zone for a list operation
+    /// </summary>
+    [CliOption("--zone", Format = OptionFormat.EqualsSeparated)]
+    public string? Zone { get; set; }
+
 }

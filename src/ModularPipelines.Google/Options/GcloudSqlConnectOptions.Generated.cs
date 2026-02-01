@@ -24,7 +24,25 @@ public record GcloudSqlConnectOptions(
     [CliOption("--database", Format = OptionFormat.EqualsSeparated)]
     public string? Database { get; set; }
 
-    [CliOption("--user", Format = OptionFormat.EqualsSeparated)]
-    public string? User { get; set; }
+    /// <summary>
+    /// Enable verbose debug logs for Cloud SQL Proxy.
+    /// </summary>
+    [CliFlag("--debug-logs")]
+    public bool? DebugLogs { get; set; }
+
+    [CliOption("--port", Format = OptionFormat.EqualsSeparated)]
+    public string? Port { get; set; }
+
+    /// <summary>
+    /// Run connection test for Cloud SQL Proxy.
+    /// </summary>
+    [CliFlag("--run-connection-test")]
+    public bool? RunConnectionTest { get; set; }
+
+    /// <summary>
+    /// Skip SSL certificate verification for MySQL instances.    User selection settings for Cloud SQL Proxy connection.    At most one of these can be specified:     --auto-iam-authn      Enables IAM database authentication for connections to MySQL and      Postgres instances.     --user=USER, -u USER      Cloud SQL instance user to connect as.    IP address selection settings for Cloud SQL Proxy connection.    At most one of these can be specified:     --auto-ip      Connect to the Cloud SQL instance with auto IP detection.     --private-ip      Connect to the Cloud SQL instance using private IP.     --psc      Connect to the Cloud SQL instance using Private Service Connect.
+    /// </summary>
+    [CliFlag("--skip-ssl")]
+    public bool? SkipSsl { get; set; }
 
 }

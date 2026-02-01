@@ -19,4 +19,10 @@ namespace ModularPipelines.Google.Options;
 [CliSubCommand("managed-kafka", "consumer-groups", "list")]
 public record GcloudManagedKafkaConsumerGroupsListOptions : GcloudOptions
 {
+    /// <summary>
+    /// The level of detail to return for consumer groups. VIEW must be one of:      basic       Include only the names of consumer groups.     full       Include all available fields (topics, partitions).
+    /// </summary>
+    [CliOption("--view", Format = OptionFormat.EqualsSeparated)]
+    public string? View { get; set; }
+
 }
