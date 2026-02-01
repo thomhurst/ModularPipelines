@@ -126,7 +126,4 @@ public record PulumiPluginInstallOptions : PulumiOptions
     [CliOption("--verbose", ShortForm = "-v", Format = OptionFormat.EqualsSeparated)]
     public int? Verbose { get; set; }
 
-    [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Version { get; set; }
-
 }
