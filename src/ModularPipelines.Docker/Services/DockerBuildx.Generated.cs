@@ -20,6 +20,7 @@ public class DockerBuildx
     private readonly ICommand _command;
     private DockerBuildxHistory _history;
     private DockerBuildxImagetools _imagetools;
+    private DockerBuildxPolicy _policy;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DockerBuildx"/> class.
@@ -40,6 +41,11 @@ public class DockerBuildx
     /// docker imagetools sub-commands.
     /// </summary>
     public DockerBuildxImagetools Imagetools => _imagetools ??= new DockerBuildxImagetools(_command);
+
+    /// <summary>
+    /// docker policy sub-commands.
+    /// </summary>
+    public DockerBuildxPolicy Policy => _policy ??= new DockerBuildxPolicy(_command);
 
     #endregion
 
