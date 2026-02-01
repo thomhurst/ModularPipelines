@@ -320,7 +320,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public string? KeepContext { get; set; }
 
     /// <summary>
-    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.34.0, 'latest' for v1.34.0). Defaults to 'stable'.
+    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.35.0, 'latest' for v1.35.0). Defaults to 'stable'.
     /// </summary>
     [CliOption("--kubernetes-version", Format = OptionFormat.EqualsSeparated)]
     public string? KubernetesVersion { get; set; }
@@ -500,6 +500,12 @@ public record MinikubeStartOptions : MinikubeOptions
     public string? Preload { get; set; }
 
     /// <summary>
+    /// Which source to download the preload from (valid options: gcs, github, auto). Defaults to auto (try both).
+    /// </summary>
+    [CliOption("--preload-source", Format = OptionFormat.EqualsSeparated)]
+    public string? PreloadSource { get; set; }
+
+    /// <summary>
     /// Path to the qemu firmware file. Defaults: For Linux, the default firmware location. For macOS, the brew installation location. For Windows, C:\Program Files\qemu\share
     /// </summary>
     [CliOption("--qemu-firmware-path", Format = OptionFormat.EqualsSeparated)]
@@ -510,6 +516,12 @@ public record MinikubeStartOptions : MinikubeOptions
     /// </summary>
     [CliOption("--registry-mirror", Format = OptionFormat.EqualsSeparated)]
     public string? RegistryMirror { get; set; }
+
+    /// <summary>
+    /// Enable Rosetta to support apps built for Intel processor on a Mac with Apple silicon (vfkit driver only)
+    /// </summary>
+    [CliOption("--rosetta", Format = OptionFormat.EqualsSeparated)]
+    public string? Rosetta { get; set; }
 
     /// <summary>
     /// The CIDR to be used for service cluster IPs.
