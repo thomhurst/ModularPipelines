@@ -20,12 +20,6 @@ namespace ModularPipelines.Google.Options;
 public record GcloudDesignCenterSpacesApplicationTemplatesUpdateOptions : GcloudOptions
 {
     /// <summary>
-    /// The composition type of the applicationTemplate: STANDARD OR COMPOSITE.     This is a create time only param. In future, we may support conversion     from STANDARD to COMPOSITE. COMPOSITION_TYPE must be one of:      composite       ApplicationCompositionType is COMPOSITE. The template is composed       of STANDARD applicationTemplate(s) and might be having multiple       root modules in terraform code.     standard       ApplicationCompositionType is STANDARD. The applicationTemplate or       application is composed of components only of type       service/workload/asset and has a single root module in terraform       code.
-    /// </summary>
-    [CliOption("--composition-type", Format = OptionFormat.EqualsSeparated)]
-    public string? CompositionType { get; set; }
-
-    /// <summary>
     /// Application template description.
     /// </summary>
     [CliOption("--description", Format = OptionFormat.EqualsSeparated)]
