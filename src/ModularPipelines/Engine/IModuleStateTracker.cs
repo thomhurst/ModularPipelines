@@ -1,3 +1,4 @@
+using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -26,9 +27,10 @@ internal interface IModuleStateTracker
     /// Marks a module as completed and notifies dependents.
     /// </summary>
     /// <param name="moduleType">The type of the module to mark as completed.</param>
-    /// <param name="success">True if execution succeeded, false otherwise.</param>
+    /// <param name="success">True if execution succeeded (or failure was ignored), false otherwise.</param>
     /// <param name="exception">Optional exception if execution failed.</param>
-    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null);
+    /// <param name="statusOverride">Optional status override. When provided, this status is used instead of computing from the success parameter.</param>
+    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null);
 
     /// <summary>
     /// Cancels all modules that are queued or pending (not yet executing).

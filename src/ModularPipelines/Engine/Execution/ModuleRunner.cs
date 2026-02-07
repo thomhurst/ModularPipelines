@@ -113,7 +113,7 @@ internal class ModuleRunner : IModuleRunner
 
                 await ExecuteModuleWithPipeline(moduleState, scope.ServiceProvider, cancellationToken).ConfigureAwait(false);
 
-                scheduler.MarkModuleCompleted(moduleType, true);
+                scheduler.MarkModuleCompleted(moduleType, true, statusOverride: moduleState.Result?.ModuleStatus);
             }
             catch (Exception ex)
             {
@@ -157,10 +157,15 @@ internal class ModuleRunner : IModuleRunner
         {
             await ExecuteModuleLifecycle(moduleState, scopedServiceProvider, pipelineContext, executionContext, moduleContext, cancellationToken).ConfigureAwait(false);
 
-            // Record success or skip status on the Activity
+            // Record success, skip, or ignored failure status on the Activity
             if (executionContext.Status == Enums.Status.Skipped)
             {
                 ModuleActivityTracing.RecordSkipped(activity);
+            }
+            else if (executionContext.Status == Enums.Status.IgnoredFailure)
+            {
+                activity?.SetTag("module.status", "IgnoredFailure");
+                activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
             else
             {

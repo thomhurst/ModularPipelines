@@ -427,9 +427,9 @@ internal class ModuleScheduler : IModuleScheduler
     /// <summary>
     /// Marks a module as completed and notifies dependents.
     /// </summary>
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null)
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null)
     {
-        _stateTracker.MarkModuleCompleted(moduleType, success, exception);
+        _stateTracker.MarkModuleCompleted(moduleType, success, exception, statusOverride);
     }
 
     /// <summary>

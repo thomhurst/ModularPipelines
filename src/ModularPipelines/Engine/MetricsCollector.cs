@@ -44,7 +44,7 @@ internal class MetricsCollector : IMetricsCollector
     {
         var data = _moduleMetrics.GetOrAdd(moduleType, _ => new ModuleMetricsData { ModuleType = moduleType });
         data.EndTime = time;
-        data.WasSuccessful = success;
+        data.WasSuccessful = status is Status.Successful or Status.UsedHistory;
         data.WasSkipped = skipped;
         data.Status = status;
     }
@@ -75,6 +75,10 @@ internal class MetricsCollector : IMetricsCollector
             if (data.WasSkipped)
             {
                 skippedCount++;
+            }
+            else if (data.Status == Status.IgnoredFailure)
+            {
+                // Ignored failures don't count as passed or failed
             }
             else if (data.WasSuccessful)
             {
