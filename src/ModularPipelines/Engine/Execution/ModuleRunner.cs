@@ -164,7 +164,8 @@ internal class ModuleRunner : IModuleRunner
             }
             else if (executionContext.Status == Enums.Status.IgnoredFailure)
             {
-                ModuleActivityTracing.RecordSkipped(activity);
+                activity?.SetTag("module.status", "IgnoredFailure");
+                activity?.SetStatus(System.Diagnostics.ActivityStatusCode.Ok, "Module failed but failure was ignored");
             }
             else
             {
