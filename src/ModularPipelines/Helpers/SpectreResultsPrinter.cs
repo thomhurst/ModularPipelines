@@ -73,6 +73,12 @@ internal class SpectreResultsPrinter : IResultsPrinter
             return timeline?.WasSkipped == true;
         });
 
+        var ignoredCount = pipelineSummary.Modules.Count(m =>
+        {
+            var timeline = pipelineSummary.ModuleTimelines?.FirstOrDefault(t => t.ModuleName == m.GetType().Name);
+            return timeline?.Status == ModuleStatus.IgnoredFailure;
+        });
+
         var totalCount = metrics?.TotalModules ?? pipelineSummary.Modules.Count;
 
         // Build the summary line
@@ -86,6 +92,11 @@ internal class SpectreResultsPrinter : IResultsPrinter
         if (failedCount > 0)
         {
             parts.Add($"[red]{failedCount} failed[/]");
+        }
+
+        if (ignoredCount > 0)
+        {
+            parts.Add($"[yellow]{ignoredCount} ignored[/]");
         }
 
         if (skippedCount > 0)

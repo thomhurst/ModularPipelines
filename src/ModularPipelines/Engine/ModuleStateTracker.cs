@@ -143,7 +143,7 @@ internal class ModuleStateTracker : IModuleStateTracker
     }
 
     /// <inheritdoc />
-    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null)
+    public void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Enums.Status? statusOverride = null)
     {
         if (!_moduleStates.TryGetValue(moduleType, out var state))
         {
@@ -171,7 +171,7 @@ internal class ModuleStateTracker : IModuleStateTracker
             // Capture data for metrics recording outside lock
             completionTime = state.CompletionTime.Value;
             wasSkipped = state.SkipResult != null && state.SkipResult != Models.SkipDecision.DoNotSkip;
-            status = wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed);
+            status = statusOverride ?? (wasSkipped ? Enums.Status.Skipped : (success ? Enums.Status.Successful : Enums.Status.Failed));
 
             // Capture counts for logging outside lock
             queuedCount = _queuedModules.Count;

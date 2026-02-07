@@ -169,7 +169,8 @@ public record PipelineSummary
                 var result = _resultRegistry.GetResult(module.GetType());
                 if (result != null)
                 {
-                    if (result.ModuleResultType == ModuleResultType.Failure)
+                    if (result.ModuleResultType == ModuleResultType.Failure
+                        && result.ModuleStatus != Status.IgnoredFailure)
                     {
                         return Status.Failed;
                     }

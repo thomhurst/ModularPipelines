@@ -1,4 +1,5 @@
 using System.Threading.Channels;
+using ModularPipelines.Enums;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Engine;
@@ -33,7 +34,7 @@ internal interface IModuleScheduler : IDisposable
     /// <summary>
     /// Marks a module as completed and notifies dependents.
     /// </summary>
-    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null);
+    void MarkModuleCompleted(Type moduleType, bool success, Exception? exception = null, Status? statusOverride = null);
 
     /// <summary>
     /// Gets the completion task for a specific module.
