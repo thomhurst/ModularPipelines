@@ -125,12 +125,6 @@ public record GcloudTransferJobsCreateOptions(
     public IEnumerable<string>? ExcludePrefixes { get; set; }
 
     /// <summary>
-    /// Include only objects that match the specified glob pattern. For more     information about glob patterns, see     https://docs.cloud.google.com/storage-transfer/docs/filter-by-glob-pattern
-    /// </summary>
-    [CliOption("--match-glob", Format = OptionFormat.EqualsSeparated)]
-    public string? MatchGlob { get; set; }
-
-    /// <summary>
     /// Include objects last modified before an absolute date/time. Ex. by     specifying '2020-01-01', the transfer would include objects last     modified before January 1, 2020. Use the %Y-%m-%dT%H:%M:%S%z datetime     format.
     /// </summary>
     [CliOption("--include-modified-before-absolute", Format = OptionFormat.EqualsSeparated)]

@@ -45,7 +45,7 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     }
 
     /// <summary>
-    /// delete     a Security Profile
+    /// delete     a Custom Intercept Profile
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -60,7 +60,7 @@ public class GcloudNetworksecuritySecurityProfilesCustomIntercept
     }
 
     /// <summary>
-    /// describe a Custom InterceptSecurity Profile
+    /// describe a Custom Intercept Profile
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

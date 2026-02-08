@@ -32,13 +32,13 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     public string? Model { get; set; }
 
     /// <summary>
-    /// The model server version. Default is latest. Other options include the     model server version of a profile, all which returns all versions.
+    /// The model server.
     /// </summary>
     [CliOption("--model-server", Format = OptionFormat.EqualsSeparated)]
     public string? ModelServer { get; set; }
 
     /// <summary>
-    /// The model server version. If not specified, this defaults to the latest     version.
+    /// The model server version. Default is latest. Other options include the     model server version of a profile, all which returns all versions.
     /// </summary>
     [CliOption("--model-server-version", Format = OptionFormat.EqualsSeparated)]
     public string? ModelServerVersion { get; set; }

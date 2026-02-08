@@ -60,7 +60,7 @@ public class GcloudNetworksecuritySecurityProfilesThreatPrevention
     }
 
     /// <summary>
-    /// delete     a Security Profile
+    /// delete     a Threat Prevention Profile
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

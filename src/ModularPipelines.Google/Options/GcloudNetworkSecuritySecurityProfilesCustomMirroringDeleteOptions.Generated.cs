@@ -12,7 +12,7 @@ using ModularPipelines.Google.Options;
 namespace ModularPipelines.Google.Options;
 
 /// <summary>
-/// delete     a Security Profile
+/// delete     a Custom Mirroring Profile
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
@@ -20,7 +20,7 @@ namespace ModularPipelines.Google.Options;
 public record GcloudNetworkSecuritySecurityProfilesCustomMirroringDeleteOptions : GcloudOptions
 {
     /// <summary>
-    /// Return immediately, without waiting for the operation in progress to     complete.
+    /// Return immediately, without waiting for the operation in progress to     complete. The default is False.
     /// </summary>
     [CliFlag("--async")]
     public bool? Async { get; set; }
