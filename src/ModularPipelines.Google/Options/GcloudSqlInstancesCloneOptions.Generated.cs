@@ -28,6 +28,18 @@ public record GcloudSqlInstancesCloneOptions(
     public bool? Async { get; set; }
 
     /// <summary>
+    /// The fully qualified URI of the VPC network to which the cloned instance     will be connected via Private Services Access for private IP. For     example: projects/my-network-project/global/networks/my-network. This     field is required only for cross-project cloning.
+    /// </summary>
+    [CliOption("--destination-network", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationNetwork { get; set; }
+
+    /// <summary>
+    /// The project ID of the destination project where the cloned instance     will be created. To perform a cross-project clone, this field is     required. If not specified, the clone is created in the same project as     the source instance.
+    /// </summary>
+    [CliOption("--destination-project", Format = OptionFormat.EqualsSeparated)]
+    public string? DestinationProject { get; set; }
+
+    /// <summary>
     /// The preferred secondary zone for the cloned regional instance. If you     specify a value for this flag, then the destination instance uses the     value as the secondary zone. The secondary zone can't be the same as     the primary zone.
     /// </summary>
     [CliOption("--preferred-secondary-zone", Format = OptionFormat.EqualsSeparated)]

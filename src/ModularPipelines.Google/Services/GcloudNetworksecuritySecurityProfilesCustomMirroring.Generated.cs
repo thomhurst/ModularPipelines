@@ -45,7 +45,7 @@ public class GcloudNetworksecuritySecurityProfilesCustomMirroring
     }
 
     /// <summary>
-    /// delete     a Security Profile
+    /// delete     a Custom Mirroring Profile
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
@@ -60,7 +60,7 @@ public class GcloudNetworksecuritySecurityProfilesCustomMirroring
     }
 
     /// <summary>
-    /// describe a Custom MirroringSecurity Profile
+    /// describe a Custom Mirroring Profile
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

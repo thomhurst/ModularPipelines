@@ -19,6 +19,7 @@ public class GcloudComputeReservations
 {
     private readonly ICommand _command;
     private GcloudComputeReservationsBlocks _blocks;
+    private GcloudComputeReservationsSlots _slots;
     private GcloudComputeReservationsSubBlocks _subBlocks;
 
     /// <summary>
@@ -35,6 +36,11 @@ public class GcloudComputeReservations
     /// gcloud blocks sub-commands.
     /// </summary>
     public GcloudComputeReservationsBlocks Blocks => _blocks ??= new GcloudComputeReservationsBlocks(_command);
+
+    /// <summary>
+    /// gcloud slots sub-commands.
+    /// </summary>
+    public GcloudComputeReservationsSlots Slots => _slots ??= new GcloudComputeReservationsSlots(_command);
 
     /// <summary>
     /// gcloud sub-blocks sub-commands.

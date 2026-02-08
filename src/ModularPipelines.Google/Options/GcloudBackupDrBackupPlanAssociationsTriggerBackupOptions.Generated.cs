@@ -27,7 +27,7 @@ public record GcloudBackupDrBackupPlanAssociationsTriggerBackupOptions : GcloudO
     public bool? Async { get; set; }
 
     /// <summary>
-    /// Labels to be applied to the backup.    At most one of these can be specified:     --backup-rule-id=BACKUP_RULE_ID      Name of an existing backup rule to use for creating an on-demand      backup.     --custom-retention-days=CUSTOM_RETENTION_DAYS      Duration for which backup data will be retained. If not specified,      the default retention period will be used.
+    /// Labels to be applied to the backup.    At most one of these can be specified:     --backup-rule-id=BACKUP_RULE_ID      Name of an existing backup rule to use for creating an on-demand      backup.     --custom-retention-days=CUSTOM_RETENTION_DAYS      Duration for which backup data will be retained.
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public KeyValue[]? Labels { get; set; }
