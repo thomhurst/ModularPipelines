@@ -139,21 +139,6 @@ public class AzAcr
     }
 
     /// <summary>
-    /// Gets health information on the environment and optionally a target
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> CheckHealth(
-        AzAcrCheckHealthOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzAcrCheckHealthOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Checks if an Azure Container Registry name is valid and available for use.
     /// </summary>
     /// <param name="options">The command options.</param>
