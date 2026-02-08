@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAppconfigKvSetKeyvaultOptions : AzOptions
 {
     /// <summary>
-    /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: key, login.
+    /// This parameter can be used for indicating how a data operation is to be authorized. If the auth mode is "key", provide connection string or store name and your account access keys will be retrieved for authorization. If the auth mode is "login", provide the `--endpoint` or `--name` and your "az login" credentials will be used for authorization. If the auth mode is "anonymous", provide the --endpoint that will be used for authorization. Anonymous mode is intended for custom endpoints only, such as the App Configuration emulator. You can configure the default auth mode using `az configure --defaults appconfig_auth_mode=&lt;auth_mode&gt;`. For more information, see https://learn.microsoft.com/azure/azure-app- configuration/concept-enable-rbac.  Allowed values: anonymous, key, login.  Default: key.
     /// </summary>
     [CliFlag("--auth-mode")]
     public bool? AuthMode { get; set; }
@@ -31,7 +31,7 @@ public record AzAppconfigKvSetKeyvaultOptions : AzOptions
     public bool? ConnectionString { get; set; }
 
     /// <summary>
-    /// If auth mode is "login", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
+    /// If auth mode is "login" or "anonymous", provide endpoint URL of the App Configuration store. The endpoint can be retrieved using "az appconfig show" command. You can configure the default endpoint using `az configure --defaults appconfig_endpoint=&lt;endpoint&gt;`.
     /// </summary>
     [CliFlag("--endpoint")]
     public bool? Endpoint { get; set; }

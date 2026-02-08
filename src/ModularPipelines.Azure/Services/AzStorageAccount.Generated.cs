@@ -94,21 +94,6 @@ public class AzStorageAccount
     #region Commands
 
     /// <summary>
-    /// Create a storage account.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Create(
-        AzStorageAccountCreateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountCreateOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Delete a storage account.
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -196,21 +181,6 @@ public class AzStorageAccount
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountShowOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
-    /// Update the properties of a storage account.
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Update(
-        AzStorageAccountUpdateOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new AzStorageAccountUpdateOptions(), executionOptions, cancellationToken);
     }
 
     #endregion

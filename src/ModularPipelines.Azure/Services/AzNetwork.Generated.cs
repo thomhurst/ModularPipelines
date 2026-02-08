@@ -22,6 +22,7 @@ public class AzNetwork
     private AzNetworkAsg _asg;
     private AzNetworkCrossRegionLb _crossRegionLb;
     private AzNetworkCustomIp _customIp;
+    private AzNetworkDdosCustomPolicy _ddosCustomPolicy;
     private AzNetworkDdosProtection _ddosProtection;
     private AzNetworkDns _dns;
     private AzNetworkExpressRoute _expressRoute;
@@ -43,6 +44,7 @@ public class AzNetwork
     private AzNetworkServiceEndpoint _serviceEndpoint;
     private AzNetworkTrafficManager _trafficManager;
     private AzNetworkVirtualAppliance _virtualAppliance;
+    private AzNetworkVirtualNetworkAppliance _virtualNetworkAppliance;
     private AzNetworkVnet _vnet;
     private AzNetworkVnetGateway _vnetGateway;
     private AzNetworkVpnConnection _vpnConnection;
@@ -77,6 +79,11 @@ public class AzNetwork
     /// az custom-ip sub-commands.
     /// </summary>
     public AzNetworkCustomIp CustomIp => _customIp ??= new AzNetworkCustomIp(_command);
+
+    /// <summary>
+    /// az ddos-custom-policy sub-commands.
+    /// </summary>
+    public AzNetworkDdosCustomPolicy DdosCustomPolicy => _ddosCustomPolicy ??= new AzNetworkDdosCustomPolicy(_command);
 
     /// <summary>
     /// az ddos-protection sub-commands.
@@ -182,6 +189,11 @@ public class AzNetwork
     /// az virtual-appliance sub-commands.
     /// </summary>
     public AzNetworkVirtualAppliance VirtualAppliance => _virtualAppliance ??= new AzNetworkVirtualAppliance(_command);
+
+    /// <summary>
+    /// az virtual-network-appliance sub-commands.
+    /// </summary>
+    public AzNetworkVirtualNetworkAppliance VirtualNetworkAppliance => _virtualNetworkAppliance ??= new AzNetworkVirtualNetworkAppliance(_command);
 
     /// <summary>
     /// az vnet sub-commands.

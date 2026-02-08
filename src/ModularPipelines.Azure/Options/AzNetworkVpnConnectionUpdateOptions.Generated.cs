@@ -25,7 +25,7 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     public bool? EnableBgp { get; set; }
 
     /// <summary>
-    /// Bypass ExpressRoute gateway for data forwarding.  Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
+    /// Bypass ExpressRoute gateway for data forwarding. Allowed values: 0, 1, f, false, n, no, t, true, y, yes.
     /// </summary>
     [CliFlag("--express-route-gateway-bypass")]
     public bool? ExpressRouteGatewayBypass { get; set; }
@@ -49,7 +49,7 @@ public record AzNetworkVpnConnectionUpdateOptions : AzOptions
     public bool? SharedKey { get; set; }
 
     /// <summary>
-    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand-syntax, json-file and yaml-file. Try "??" to show more.
+    /// Space-separated tags: key[=value] [key[=value] ...]. Use "" to clear existing tags.  Support shorthand- syntax, json-file and yaml-file. Try "??" to show more.
     /// </summary>
     [CliFlag("--tags")]
     public bool? Tags { get; set; }

@@ -19,6 +19,7 @@ public class AzNetworkVnetGateway
 {
     private readonly ICommand _command;
     private AzNetworkVnetGatewayAad _aad;
+    private AzNetworkVnetGatewayIdentity _identity;
     private AzNetworkVnetGatewayIpsecPolicy _ipsecPolicy;
     private AzNetworkVnetGatewayMigration _migration;
     private AzNetworkVnetGatewayRevokedCert _revokedCert;
@@ -39,6 +40,11 @@ public class AzNetworkVnetGateway
     /// az aad sub-commands.
     /// </summary>
     public AzNetworkVnetGatewayAad Aad => _aad ??= new AzNetworkVnetGatewayAad(_command);
+
+    /// <summary>
+    /// az identity sub-commands.
+    /// </summary>
+    public AzNetworkVnetGatewayIdentity Identity => _identity ??= new AzNetworkVnetGatewayIdentity(_command);
 
     /// <summary>
     /// az ipsec-policy sub-commands.
