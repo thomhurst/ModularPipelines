@@ -326,6 +326,12 @@ public record GcloudSqlInstancesPatchOptions(
     public string? ServerCaPool { get; set; }
 
     /// <summary>
+    /// Set the server certificate rotation mode of the instance.     SERVER_CERTIFICATE_ROTATION_MODE must be one of:      AUTOMATIC_ROTATION_DURING_MAINTENANCE       Automatic server certificate rotation during Cloud SQL scheduled       maintenance or self-service maintenance updates. Requires       server_ca_mode to be GOOGLE_MANAGED_CAS_CA or       CUSTOMER_MANAGED_CAS_CA.     NO_AUTOMATIC_ROTATION       No automatic server certificate rotation. Server certificates must       be rotated manually.
+    /// </summary>
+    [CliOption("--server-certificate-rotation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCertificateRotationMode { get; set; }
+
+    /// <summary>
     /// Simulate a maintenance event without changing the version. Only     applicable to instances that support near-zero downtime planned     maintenance.
     /// </summary>
     [CliFlag("--simulate-maintenance-event")]

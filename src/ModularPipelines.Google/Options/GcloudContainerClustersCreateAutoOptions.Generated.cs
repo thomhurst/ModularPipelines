@@ -42,6 +42,12 @@ public record GcloudContainerClustersCreateAutoOptions(
     public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
 
     /// <summary>
+    /// Sets the Autopilot general profile for the cluster; possible values are     none and no-performance. If none is used, the cluster will use the     Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one     of: none, no-performance.
+    /// </summary>
+    [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? AutopilotGeneralProfile { get; set; }
+
+    /// <summary>
     /// Enables the Kubelet's insecure read only port for Autoprovisioned Node     Pools.     If not set, the value from nodePoolDefaults.nodeConfigDefaults will be     used.     To disable the readonly port     --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]

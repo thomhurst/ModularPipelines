@@ -75,7 +75,7 @@ public class GcloudNetworksecuritySecurityProfileGroups
     }
 
     /// <summary>
-    /// list Security     Profile groups
+    /// list Security     Profile Groups
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>
