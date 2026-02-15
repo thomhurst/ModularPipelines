@@ -30,6 +30,12 @@ public record DockerImageRmOptions : DockerOptions
     [CliFlag("--no-prune")]
     public bool? NoPrune { get; set; }
 
+    /// <summary>
+    /// Remove only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
+    /// </summary>
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Platform { get; set; }
+
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 

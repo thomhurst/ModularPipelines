@@ -74,11 +74,6 @@ public partial interface IDocker
     DockerSystem System { get; }
 
     /// <summary>
-    /// Gets the trust sub-domain service.
-    /// </summary>
-    DockerTrust Trust { get; }
-
-    /// <summary>
     /// Gets the volume sub-domain service.
     /// </summary>
     DockerVolume Volume { get; }
@@ -95,6 +90,15 @@ public partial interface IDocker
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> Attach(DockerAttachOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Build from a file
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Bake(DockerBakeOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Start a build

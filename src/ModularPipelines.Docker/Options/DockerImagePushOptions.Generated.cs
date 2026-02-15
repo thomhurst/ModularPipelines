@@ -25,12 +25,6 @@ public record DockerImagePushOptions : DockerOptions
     public bool? AllTags { get; set; }
 
     /// <summary>
-    /// Skip image signing (default true)
-    /// </summary>
-    [CliFlag("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
-
-    /// <summary>
     /// Push a platform-specific manifest as a single-platform image to the registry. Image index won't be pushed, meaning that other manifests, including attestations won't be preserved. 'os[/arch[/variant]]': Explicit platform (eg. linux/amd64)
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]

@@ -25,12 +25,6 @@ public record DockerImagePullOptions : DockerOptions
     public bool? AllTags { get; set; }
 
     /// <summary>
-    /// Skip image verification (default true)
-    /// </summary>
-    [CliFlag("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
-
-    /// <summary>
     /// Set platform if server is multi-platform capable
     /// </summary>
     [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]

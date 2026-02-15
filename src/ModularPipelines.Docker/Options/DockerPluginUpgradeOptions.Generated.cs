@@ -19,12 +19,6 @@ namespace ModularPipelines.Docker.Options;
 public record DockerPluginUpgradeOptions : DockerOptions
 {
     /// <summary>
-    /// Skip image verification (default true)
-    /// </summary>
-    [CliFlag("--disable-content-trust")]
-    public bool? DisableContentTrust { get; set; }
-
-    /// <summary>
     /// Grant all permissions necessary to run the plugin
     /// </summary>
     [CliFlag("--grant-all-permissions")]
