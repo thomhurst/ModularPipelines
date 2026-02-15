@@ -25,10 +25,10 @@ public record DockerImageSaveOptions : DockerOptions
     public string? Output { get; set; }
 
     /// <summary>
-    /// Save only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
+    /// Save only the given platform(s). Formatted as a comma-separated list of "os[/arch[/variant]]" (e.g., "linux/amd64,linux/arm64/v8")
     /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Platform { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }

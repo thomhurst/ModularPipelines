@@ -135,21 +135,6 @@ public class DockerPlugin
     }
 
     /// <summary>
-    /// Push a plugin to a registry
-    /// </summary>
-    /// <param name="options">The command options.</param>
-    /// <param name="executionOptions">The execution configuration options.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The command result.</returns>
-    public virtual async Task<CommandResult> Push(
-        DockerPluginPushOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerPluginPushOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <summary>
     /// Remove one or more plugins
     /// </summary>
     /// <param name="options">The command options.</param>

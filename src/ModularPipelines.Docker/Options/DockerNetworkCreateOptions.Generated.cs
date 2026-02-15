@@ -50,10 +50,10 @@ public record DockerNetworkCreateOptions : DockerOptions
     public string? Driver { get; set; }
 
     /// <summary>
-    /// IPv4 or IPv6 Gateway for the master subnet
+    /// IPv4 or IPv6 Gateway for the master subnet (default [])
     /// </summary>
-    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Gateway { get; set; }
+    [CliOption("--gateway", Format = OptionFormat.EqualsSeparated)]
+    public string? Gateway { get; set; }
 
     /// <summary>
     /// Create swarm routing-mesh network
@@ -68,10 +68,10 @@ public record DockerNetworkCreateOptions : DockerOptions
     public bool? Internal { get; set; }
 
     /// <summary>
-    /// Allocate container ip from a sub-range
+    /// Allocate container ip from a sub-range (default [])
     /// </summary>
-    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? IpRange { get; set; }
+    [CliOption("--ip-range", Format = OptionFormat.EqualsSeparated)]
+    public string? IpRange { get; set; }
 
     /// <summary>
     /// IP Address Management Driver (default "default")
