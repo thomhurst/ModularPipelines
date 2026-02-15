@@ -43,6 +43,12 @@ public record PodmanComposeExecOptions : PodmanOptions
     public int? Index { get; set; }
 
     /// <summary>
+    /// Disable pseudo-TTY allocation. By default 'docker compose exec' allocates a TTY. (default true)
+    /// </summary>
+    [CliFlag("--no-tty", ShortForm = "-T")]
+    public bool? NoTty { get; set; }
+
+    /// <summary>
     /// Give extended privileges to the process
     /// </summary>
     [CliFlag("--privileged")]
