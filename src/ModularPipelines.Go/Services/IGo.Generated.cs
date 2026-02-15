@@ -28,6 +28,15 @@ public partial interface IGo
     Task<CommandResult> Build(GoBuildOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Fix runs the Go fix tool (cmd/fix) on the named packages
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Fix(GoFixOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Generate runs commands described by directives within existing
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -44,6 +53,15 @@ public partial interface IGo
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     Task<CommandResult> Test(GoTestOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Vet runs the Go vet tool (cmd/vet) on the named packages
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    Task<CommandResult> Vet(GoVetOptions options = default, CommandExecutionOptions executionOptions = null, CancellationToken cancellationToken = default);
 
     #endregion
 }
