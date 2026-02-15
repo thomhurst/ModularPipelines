@@ -46,7 +46,7 @@ public record GcloudComputeInstanceGroupsManagedUpdateOptions(
     public IEnumerable<string>? InstanceSelection { get; set; }
 
     /// <summary>
-    /// Machine types that are used to create VMs in the managed instance     group. If not provided, the machine type specified in the instance     template is used.
+    /// Machine types that are used to create VMs. If not provided, the machine     type specified in the instance template is used.
     /// </summary>
     [CliOption("--instance-selection-machine-types", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? InstanceSelectionMachineTypes { get; set; }

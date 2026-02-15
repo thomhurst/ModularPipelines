@@ -150,7 +150,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     public bool? EnableGvnic { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable image streaming on node pool.
+    /// Enable Image Streaming for the node pool, allowing nodes to stream     container image data from Artifact Registry on demand to reduce     container start times. This setting overrides the cluster-level Image     Streaming default for this specific node pool.     See Image Streaming documentation     (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming)     for full requirements (including version, API enablement and Artifact     Registry usage). To disable Image Streaming for the node pool, use     --no-enable-image-streaming.
     /// </summary>
     [CliFlag("--enable-image-streaming")]
     public bool? EnableImageStreaming { get; set; }
@@ -348,7 +348,7 @@ public record GcloudContainerNodePoolsCreateOptions(
     public string? Sandbox { get; set; }
 
     /// <summary>
-    /// Attaches secondary boot disks to all nodes.      disk-image       (Required) The full resource path to the source disk image to       create the secondary boot disks from.      mode       (Optional) The configuration mode for the secondary boot disks. The       default value is "CONTAINER_IMAGE_CACHE".
+    /// Attaches secondary boot disks to all nodes in the node pool. Secondary     Boot Disks (SBD) can accelerate container startup times by preloading     container images or data onto disks attached to the nodes. Learn more     about Using Secondary Boot Disks     (https://cloud.google.com/kubernetes-engine/docs/how-to/data-container-image-preloading)     for full requirements (including version, API enablement and source     disk images).     The value for this flag is a list of key=value pairs. Available keys     are:      disk-image       (Required) The full resource path to the source disk image to       create the secondary boot disks from (e.g.,       projects/my-project/global/images/my-disk-image).      mode       (Optional) The mode of the secondary boot disk. Supported values       are:       ▸ CONTAINER_IMAGE_CACHE: The disk is used to cache container        images. This is the default if not specified.       ▸ DATA: The disk is used to preload arbitrary data, accessible        via hostPath volume mounts.
     /// </summary>
     [CliOption("--secondary-boot-disk", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? SecondaryBootDisk { get; set; }

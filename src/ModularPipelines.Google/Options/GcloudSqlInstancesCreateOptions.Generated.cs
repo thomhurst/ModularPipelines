@@ -381,6 +381,12 @@ public record GcloudSqlInstancesCreateOptions(
     public string? ServerCaPool { get; set; }
 
     /// <summary>
+    /// Set the server certificate rotation mode of the instance.     SERVER_CERTIFICATE_ROTATION_MODE must be one of:      AUTOMATIC_ROTATION_DURING_MAINTENANCE       Automatic server certificate rotation during Cloud SQL scheduled       maintenance or self-service maintenance updates. Requires       server_ca_mode to be GOOGLE_MANAGED_CAS_CA or       CUSTOMER_MANAGED_CAS_CA.     NO_AUTOMATIC_ROTATION       No automatic server certificate rotation. Server certificates must       be rotated manually.
+    /// </summary>
+    [CliOption("--server-certificate-rotation-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCertificateRotationMode { get; set; }
+
+    /// <summary>
     /// Set the SSL mode of the instance. SSL_MODE must be one of:      ALLOW_UNENCRYPTED_AND_ENCRYPTED       Allow non-SSL and SSL connections. For SSL connections, client       certificate will not be verified.     ENCRYPTED_ONLY       Only allow connections encrypted with SSL/TLS.     TRUSTED_CLIENT_CERTIFICATE_REQUIRED       Only allow connections encrypted with SSL/TLS and with valid client       certificates.
     /// </summary>
     [CliOption("--ssl-mode", Format = OptionFormat.EqualsSeparated)]

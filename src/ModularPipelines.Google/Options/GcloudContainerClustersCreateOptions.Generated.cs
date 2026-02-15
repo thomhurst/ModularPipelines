@@ -66,6 +66,12 @@ public record GcloudContainerClustersCreateOptions(
     public GcloudAutoMonitoringScope? AutoMonitoringScope { get; set; }
 
     /// <summary>
+    /// Sets the Autopilot general profile for the cluster; possible values are     none and no-performance. If none is used, the cluster will use the     Autopilot default configuration. AUTOPILOT_GENERAL_PROFILE must be one     of: none, no-performance.
+    /// </summary>
+    [CliOption("--autopilot-general-profile", Format = OptionFormat.EqualsSeparated)]
+    public string? AutopilotGeneralProfile { get; set; }
+
+    /// <summary>
     /// Add Autopilot workload policies to the cluster.     Examples:       $ gcloud container clusters create example-cluster \         --autopilot-workload-policies=allow-net-admin     The only supported workload policy is 'allow-net-admin'.
     /// </summary>
     [CliOption("--autopilot-workload-policies", Format = OptionFormat.EqualsSeparated)]
@@ -300,7 +306,7 @@ public record GcloudContainerClustersCreateOptions(
     public bool? EnableIdentityService { get; set; }
 
     /// <summary>
-    /// Specifies whether to enable image streaming on cluster.
+    /// Enable Image Streaming for the cluster, allowing nodes to stream     container image data from Artifact Registry on demand to reduce     container start times. This flag sets the default for new node pools.     It is enabled by default on Autopilot clusters.     See Image Streaming documentation     (https://cloud.google.com/kubernetes-engine/docs/how-to/image-streaming)     for full requirements (including version, API enablement and Artifact     Registry usage). To disable Image Streaming for the cluster, use     --no-enable-image-streaming.
     /// </summary>
     [CliFlag("--enable-image-streaming")]
     public bool? EnableImageStreaming { get; set; }
