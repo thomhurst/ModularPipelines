@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet update commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNugetUpdate
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ public class DotNetNugetUpdate
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ClientCert(
-        DotNetNugetUpdateClientCertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetUpdateClientCertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetUpdateClientCertOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ public class DotNetNugetUpdate
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Source(
-        DotNetNugetUpdateSourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetUpdateSourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetUpdateSourceOptions(), executionOptions, cancellationToken);

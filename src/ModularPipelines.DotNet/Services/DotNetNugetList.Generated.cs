@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet list commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNugetList
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ public class DotNetNugetList
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> ClientCert(
-        DotNetNugetListClientCertOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetListClientCertOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetListClientCertOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ public class DotNetNugetList
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Source(
-        DotNetNugetListSourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetListSourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetListSourceOptions(), executionOptions, cancellationToken);
