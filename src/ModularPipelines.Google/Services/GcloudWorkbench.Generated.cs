@@ -18,7 +18,9 @@ namespace ModularPipelines.Google.Services;
 public class GcloudWorkbench
 {
     private readonly ICommand _command;
+    private GcloudWorkbenchExecutions _executions;
     private GcloudWorkbenchInstances _instances;
+    private GcloudWorkbenchSchedules _schedules;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudWorkbench"/> class.
@@ -31,9 +33,19 @@ public class GcloudWorkbench
     #region Sub-command Groups
 
     /// <summary>
+    /// gcloud executions sub-commands.
+    /// </summary>
+    public GcloudWorkbenchExecutions Executions => _executions ??= new GcloudWorkbenchExecutions(_command);
+
+    /// <summary>
     /// gcloud instances sub-commands.
     /// </summary>
     public GcloudWorkbenchInstances Instances => _instances ??= new GcloudWorkbenchInstances(_command);
+
+    /// <summary>
+    /// gcloud schedules sub-commands.
+    /// </summary>
+    public GcloudWorkbenchSchedules Schedules => _schedules ??= new GcloudWorkbenchSchedules(_command);
 
     #endregion
 
