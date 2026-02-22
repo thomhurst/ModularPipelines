@@ -34,6 +34,7 @@ internal partial class Docker : IDocker
         DockerPlugin plugin,
         DockerSwarm swarm,
         DockerSystem system,
+        DockerTrust trust,
         DockerVolume volume,
         ICommand command
     )
@@ -49,6 +50,7 @@ internal partial class Docker : IDocker
         Plugin = plugin;
         Swarm = swarm;
         System = system;
+        Trust = trust;
         Volume = volume;
         _command = command;
     }
@@ -89,6 +91,9 @@ internal partial class Docker : IDocker
     public DockerSystem System { get; }
 
     /// <inheritdoc />
+    public DockerTrust Trust { get; }
+
+    /// <inheritdoc />
     public DockerVolume Volume { get; }
 
     #endregion
@@ -102,15 +107,6 @@ internal partial class Docker : IDocker
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DockerAttachOptions(), executionOptions, cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public virtual async Task<CommandResult> Bake(
-        DockerBakeOptions options = default,
-        CommandExecutionOptions executionOptions = null,
-        CancellationToken cancellationToken = default)
-    {
-        return await _command.ExecuteCommandLineTool(options ?? new DockerBakeOptions(), executionOptions, cancellationToken);
     }
 
     /// <inheritdoc />

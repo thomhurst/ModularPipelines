@@ -24,12 +24,6 @@ public record DockerImageInspectOptions : DockerOptions
     [CliOption("--format", ShortForm = "-f", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
-    /// <summary>
-    /// Inspect a specific platform of the multi-platform image. If the image or the server is not multi-platform capable, the command will error out if the platform does not match. 'os[/arch[/variant]]': Explicit platform (eg. linux/amd64)
-    /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
-    public string? Platform { get; set; }
-
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 

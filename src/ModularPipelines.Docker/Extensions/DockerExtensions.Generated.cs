@@ -46,6 +46,7 @@ public static class DockerExtensions
         services.TryAddScoped<DockerPlugin>();
         services.TryAddScoped<DockerSwarm>();
         services.TryAddScoped<DockerSystem>();
+        services.TryAddScoped<DockerTrust>();
         services.TryAddScoped<DockerVolume>();
         return services;
     }

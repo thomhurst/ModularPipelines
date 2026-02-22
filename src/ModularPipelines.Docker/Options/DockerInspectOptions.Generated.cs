@@ -31,7 +31,7 @@ public record DockerInspectOptions : DockerOptions
     public bool? Size { get; set; }
 
     /// <summary>
-    /// Only inspect objects of the given type
+    /// Return JSON for specified type
     /// </summary>
     [CliOption("--type", Format = OptionFormat.EqualsSeparated)]
     public string? Type { get; set; }

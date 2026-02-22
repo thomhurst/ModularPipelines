@@ -165,6 +165,12 @@ public record DockerContainerCreateOptions : DockerOptions
     public IEnumerable<string>? DeviceWriteIops { get; set; }
 
     /// <summary>
+    /// Skip image verification (default true)
+    /// </summary>
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
+
+    /// <summary>
     /// Set custom DNS servers
     /// </summary>
     [CliOption("--dns", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
@@ -307,6 +313,12 @@ public record DockerContainerCreateOptions : DockerOptions
     /// </summary>
     [CliOption("--isolation", Format = OptionFormat.EqualsSeparated)]
     public string? Isolation { get; set; }
+
+    /// <summary>
+    /// Kernel memory limit
+    /// </summary>
+    [CliOption("--kernel-memory", Format = OptionFormat.EqualsSeparated)]
+    public string? KernelMemory { get; set; }
 
     /// <summary>
     /// Set meta data on a container
@@ -541,12 +553,6 @@ public record DockerContainerCreateOptions : DockerOptions
     /// </summary>
     [CliOption("--ulimit", Format = OptionFormat.EqualsSeparated)]
     public string? Ulimit { get; set; }
-
-    /// <summary>
-    /// Bind mount Docker API socket and required auth
-    /// </summary>
-    [CliFlag("--use-api-socket")]
-    public bool? UseApiSocket { get; set; }
 
     /// <summary>
     /// Username or UID (format: &lt;name|uid&gt;[:&lt;group|gid&gt;])
