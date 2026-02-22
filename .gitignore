@@ -405,3 +405,6 @@ requirements
 # Git worktrees directory
 .worktrees/
 docs/plans/
+
+# Build staging directory for distributed artifact sharing
+_build-staging/

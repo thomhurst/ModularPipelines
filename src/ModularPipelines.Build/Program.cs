@@ -30,6 +30,7 @@ builder.Services.Configure<CodacySettings>(builder.Configuration.GetSection("Cod
 builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("CodeCov"));
 
 builder.Services
+    .AddModule<BuildSolutionsModule>()
     .AddModule<RunUnitTestsModule>()
     .AddModule<NugetVersionGeneratorModule>()
     .AddModule<FindProjectsModule>()

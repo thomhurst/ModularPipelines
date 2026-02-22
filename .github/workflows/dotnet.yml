@@ -16,9 +16,6 @@ on:
         required: true
         default: true
 
-env:
-  SOLUTIONS: ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
-
 jobs:
   pipeline:
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
@@ -31,6 +28,10 @@ jobs:
             instance: 1
           - os: macos-latest
             instance: 2
+          - os: ubuntu-latest
+            instance: 3
+          - os: ubuntu-latest
+            instance: 4
       fail-fast: false
     runs-on: ${{ matrix.os }}
     env:
@@ -67,12 +68,12 @@ jobs:
             ${{ runner.os }}-nuget- }}
       - name: Build ModularPipelines.Analyzers.sln
         run: dotnet build ModularPipelines.Analyzers.sln -c Release
-      - name: Build
+      - name: Restore
         shell: bash
         run: |
-          for SOLUTION in ${{ env.SOLUTIONS }}
+          for SOLUTION in ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
           do
-            dotnet build $SOLUTION -c Release
+            dotnet restore $SOLUTION
           done
 
       - name: Run Pipeline
@@ -92,7 +93,7 @@ jobs:
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           INSTANCE_INDEX: ${{ matrix.instance }}
-          TOTAL_INSTANCES: 3
+          TOTAL_INSTANCES: 5
           UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
           UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
           R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
@@ -103,7 +104,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: hang-dumps-${{ matrix.os }}
+          name: hang-dumps-${{ matrix.os }}-${{ matrix.instance }}
           path: |
             **/*.dmp
           if-no-files-found: ignore
