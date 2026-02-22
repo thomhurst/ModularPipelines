@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
-    <ProjectReference Include="..\ModularPipelines.Distributed\ModularPipelines.Distributed.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ModularPipelines\ModularPipelines.csproj" />
-    <ProjectReference Include="..\..\src\ModularPipelines.Distributed\ModularPipelines.Distributed.csproj" />
     <ProjectReference Include="..\..\src\ModularPipelines.Distributed.Redis\ModularPipelines.Distributed.Redis.csproj" />
   </ItemGroup>
 
