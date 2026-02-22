@@ -14,7 +14,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
     private readonly ISubscriber _subscriber;
     private readonly RedisKeyBuilder _keys;
     private readonly TimeSpan _keyExpiration;
-    private readonly int _dequeuePollDelay;
     private readonly JsonSerializerOptions _jsonOptions;
 
     public RedisDistributedCoordinator(
@@ -27,7 +26,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         _subscriber = subscriber;
         _keys = keys;
         _keyExpiration = TimeSpan.FromSeconds(options.KeyExpirationSeconds);
-        _dequeuePollDelay = options.DequeuePollDelayMilliseconds;
         _jsonOptions = new JsonSerializerOptions
         {
             Converters = { new ReadOnlySetJsonConverter() },
@@ -39,49 +37,86 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         var json = JsonSerializer.Serialize(assignment, _jsonOptions);
         await _database.ListLeftPushAsync(_keys.WorkQueue, json);
         await _database.KeyExpireAsync(_keys.WorkQueue, _keyExpiration);
+
+        // Notify waiting workers that work is available
+        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.WorkAvailableChannel), "1");
     }
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
-        while (!cancellationToken.IsCancellationRequested)
+        // Check if completion was already signalled before subscribing
+        var completionFlag = await _database.StringGetAsync(_keys.CompletionFlag);
+        if (!completionFlag.IsNullOrEmpty)
         {
-            // Scan existing items for a capability match without consuming non-matching items
-            var items = await _database.ListRangeAsync(_keys.WorkQueue);
-            foreach (var item in items)
+            return null;
+        }
+
+        // Subscribe to work-available and completion notifications
+        using var signal = new SemaphoreSlim(0);
+        var completed = false;
+        var workChannel = RedisChannel.Literal(_keys.WorkAvailableChannel);
+        var completionChannel = RedisChannel.Literal(_keys.CompletionChannel);
+
+        await _subscriber.SubscribeAsync(workChannel, (_, _) => signal.Release());
+        await _subscriber.SubscribeAsync(completionChannel, (_, _) =>
+        {
+            completed = true;
+            signal.Release();
+        });
+
+        try
+        {
+            // Check for items already in the queue before we subscribed
+            var found = await TryScanAndClaimAsync(workerCapabilities);
+            if (found is not null)
             {
-                if (item.IsNullOrEmpty)
-                {
-                    continue;
-                }
-
-                var candidate = JsonSerializer.Deserialize<ModuleAssignment>(item.ToString(), _jsonOptions)!;
-
-                if (candidate.RequiredCapabilities.Count == 0 ||
-                    candidate.RequiredCapabilities.IsSubsetOf(workerCapabilities))
-                {
-                    // Atomically remove this specific item (first occurrence)
-                    var removed = await _database.ListRemoveAsync(_keys.WorkQueue, item, count: 1);
-                    if (removed > 0)
-                    {
-                        return candidate;
-                    }
-
-                    // Another worker took it; continue scanning
-                }
+                return found;
             }
 
-            // No matching item found — wait before polling again
-            try
-            {
-                await Task.Delay(_dequeuePollDelay, cancellationToken);
-            }
-            catch (OperationCanceledException)
+            // Re-check completion flag after subscribing (close race condition)
+            completionFlag = await _database.StringGetAsync(_keys.CompletionFlag);
+            if (!completionFlag.IsNullOrEmpty)
             {
                 return null;
             }
-        }
 
-        return null;
+            // Wait for notifications — only LRANGE when a publish says work is available
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    await signal.WaitAsync(cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return null;
+                }
+
+                if (completed)
+                {
+                    return null;
+                }
+
+                // Drain any extra notifications that arrived while we were scanning
+                while (signal.CurrentCount > 0)
+                {
+                    signal.Wait(0);
+                }
+
+                found = await TryScanAndClaimAsync(workerCapabilities);
+                if (found is not null)
+                {
+                    return found;
+                }
+            }
+
+            return null;
+        }
+        finally
+        {
+            await _subscriber.UnsubscribeAsync(workChannel);
+            await _subscriber.UnsubscribeAsync(completionChannel);
+        }
     }
 
     public async Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
@@ -137,26 +172,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         await _database.KeyExpireAsync(_keys.Workers, _keyExpiration);
     }
 
-    public async Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
-    {
-        var heartbeat = new WorkerHeartbeat(workerIndex, DateTimeOffset.UtcNow, null);
-        var heartbeatJson = JsonSerializer.Serialize(heartbeat, _jsonOptions);
-        await _database.HashSetAsync(_keys.Heartbeats, workerIndex.ToString(), heartbeatJson);
-        await _database.KeyExpireAsync(_keys.Heartbeats, _keyExpiration);
-
-        // Update worker status from Connected to Active
-        var workerJson = await _database.HashGetAsync(_keys.Workers, workerIndex.ToString());
-        if (!workerJson.IsNullOrEmpty)
-        {
-            var worker = JsonSerializer.Deserialize<WorkerRegistration>(workerJson.ToString(), _jsonOptions)!;
-            if (worker.Status == WorkerStatus.Connected)
-            {
-                var updated = worker with { Status = WorkerStatus.Active };
-                await _database.HashSetAsync(_keys.Workers, workerIndex.ToString(), JsonSerializer.Serialize(updated, _jsonOptions));
-            }
-        }
-    }
-
     public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
         var entries = await _database.HashGetAllAsync(_keys.Workers);
@@ -169,44 +184,39 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         return workers;
     }
 
-    public async Task<WorkerHeartbeat?> GetLastHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    public async Task SignalCompletionAsync(CancellationToken cancellationToken)
     {
-        var value = await _database.HashGetAsync(_keys.Heartbeats, workerIndex.ToString());
-        if (value.IsNullOrEmpty)
-        {
-            return null;
-        }
-
-        return JsonSerializer.Deserialize<WorkerHeartbeat>(value.ToString(), _jsonOptions);
+        await _database.StringSetAsync(_keys.CompletionFlag, "1");
+        await _database.KeyExpireAsync(_keys.CompletionFlag, _keyExpiration);
+        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.CompletionChannel), "1");
     }
 
-    public async Task UpdateWorkerStatusAsync(int workerIndex, WorkerStatus status, CancellationToken cancellationToken)
+    private async Task<ModuleAssignment?> TryScanAndClaimAsync(IReadOnlySet<string> workerCapabilities)
     {
-        var workerJson = await _database.HashGetAsync(_keys.Workers, workerIndex.ToString());
-        if (!workerJson.IsNullOrEmpty)
+        var items = await _database.ListRangeAsync(_keys.WorkQueue);
+        foreach (var item in items)
         {
-            var worker = JsonSerializer.Deserialize<WorkerRegistration>(workerJson.ToString(), _jsonOptions)!;
-            var updated = worker with { Status = status };
-            await _database.HashSetAsync(_keys.Workers, workerIndex.ToString(), JsonSerializer.Serialize(updated, _jsonOptions));
+            if (item.IsNullOrEmpty)
+            {
+                continue;
+            }
+
+            var candidate = JsonSerializer.Deserialize<ModuleAssignment>(item.ToString(), _jsonOptions)!;
+
+            if (candidate.RequiredCapabilities.Count == 0 ||
+                candidate.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+            {
+                // Atomically remove this specific item (first occurrence)
+                var removed = await _database.ListRemoveAsync(_keys.WorkQueue, item, count: 1);
+                if (removed > 0)
+                {
+                    return candidate;
+                }
+
+                // Another worker took it; continue scanning
+            }
         }
-    }
 
-    public async Task BroadcastCancellationAsync(string reason, CancellationToken cancellationToken)
-    {
-        var signal = new CancellationSignal(reason, DateTimeOffset.UtcNow);
-        var json = JsonSerializer.Serialize(signal, _jsonOptions);
-        await _database.StringSetAsync(_keys.Cancellation, json, _keyExpiration);
-        await _subscriber.PublishAsync(RedisChannel.Literal(_keys.CancellationChannel), json);
-    }
-
-    public async Task<CancellationSignal?> IsCancellationRequestedAsync(CancellationToken cancellationToken)
-    {
-        var value = await _database.StringGetAsync(_keys.Cancellation);
-        if (value.IsNullOrEmpty)
-        {
-            return null;
-        }
-
-        return JsonSerializer.Deserialize<CancellationSignal>(value.ToString(), _jsonOptions);
+        return null;
     }
 }

@@ -389,14 +389,11 @@ public sealed class PipelineBuilder
             services.AddSingleton<DistributedWorkPublisher>();
             services.AddSingleton<DistributedResultCollector>();
             services.AddSingleton<DistributedSummaryAggregator>();
-            services.AddHostedService<WorkerHealthMonitor>();
             RemoveService<IModuleExecutor>(services);
             services.AddSingleton<IModuleExecutor, DistributedModuleExecutor>();
         }
         else
         {
-            services.AddHostedService<WorkerHeartbeatService>();
-            services.AddHostedService<WorkerCancellationMonitor>();
             RemoveService<IModuleExecutor>(services);
             services.AddSingleton<IModuleExecutor, WorkerModuleExecutor>();
         }

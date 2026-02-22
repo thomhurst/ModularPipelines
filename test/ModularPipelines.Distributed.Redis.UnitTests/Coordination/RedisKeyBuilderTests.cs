@@ -37,27 +37,27 @@ public class RedisKeyBuilderTests
     }
 
     [Test]
-    public async Task Heartbeats_ReturnsExpectedFormat()
+    public async Task WorkAvailableChannel_ReturnsExpectedFormat()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.Heartbeats).IsEqualTo("modpipe:abc123:heartbeats");
+        await Assert.That(builder.WorkAvailableChannel).IsEqualTo("modpipe:abc123:work:available");
     }
 
     [Test]
-    public async Task Cancellation_ReturnsExpectedFormat()
+    public async Task CompletionFlag_ReturnsExpectedFormat()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.Cancellation).IsEqualTo("modpipe:abc123:cancellation");
+        await Assert.That(builder.CompletionFlag).IsEqualTo("modpipe:abc123:completion");
     }
 
     [Test]
-    public async Task CancellationChannel_ReturnsExpectedFormat()
+    public async Task CompletionChannel_ReturnsExpectedFormat()
     {
         var builder = new RedisKeyBuilder("modpipe", "abc123");
 
-        await Assert.That(builder.CancellationChannel).IsEqualTo("modpipe:abc123:cancellation:signal");
+        await Assert.That(builder.CompletionChannel).IsEqualTo("modpipe:abc123:completion:signal");
     }
 
     [Test]
@@ -68,9 +68,6 @@ public class RedisKeyBuilderTests
         await Assert.That(builder.WorkQueue).StartsWith("custom:");
         await Assert.That(builder.Results).StartsWith("custom:");
         await Assert.That(builder.Workers).StartsWith("custom:");
-        await Assert.That(builder.Heartbeats).StartsWith("custom:");
-        await Assert.That(builder.Cancellation).StartsWith("custom:");
-        await Assert.That(builder.CancellationChannel).StartsWith("custom:");
     }
 
     [Test]
@@ -83,8 +80,7 @@ public class RedisKeyBuilderTests
         await Assert.That(allKeys).Contains(builder.WorkQueue);
         await Assert.That(allKeys).Contains(builder.Results);
         await Assert.That(allKeys).Contains(builder.Workers);
-        await Assert.That(allKeys).Contains(builder.Heartbeats);
-        await Assert.That(allKeys).Contains(builder.Cancellation);
+        await Assert.That(allKeys).Contains(builder.CompletionFlag);
     }
 
     [Test]
@@ -94,6 +90,6 @@ public class RedisKeyBuilderTests
 
         var allKeys = builder.AllStorageKeys.ToList();
 
-        await Assert.That(allKeys).Count().IsEqualTo(5);
+        await Assert.That(allKeys).Count().IsEqualTo(4);
     }
 }

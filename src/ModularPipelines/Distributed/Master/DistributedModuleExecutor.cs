@@ -89,6 +89,9 @@ internal class DistributedModuleExecutor(
 
             await Task.WhenAll(resultTasks).ConfigureAwait(false);
 
+            // Signal workers that all work is done so they exit cleanly
+            await _coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+
             if (!cts.IsCancellationRequested)
             {
                 cts.Cancel();

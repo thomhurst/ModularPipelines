@@ -18,9 +18,7 @@ public class CapabilityMatcherTests
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string> { "linux" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
 
@@ -41,9 +39,7 @@ public class CapabilityMatcherTests
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string> { "docker", "linux", "high-memory" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
 
@@ -64,9 +60,7 @@ public class CapabilityMatcherTests
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string> { "linux" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
 
@@ -87,9 +81,7 @@ public class CapabilityMatcherTests
         var worker = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "docker" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var result = CapabilityMatcher.CanExecute(assignment, worker);
 

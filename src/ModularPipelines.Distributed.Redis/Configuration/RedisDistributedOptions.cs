@@ -25,9 +25,4 @@ public class RedisDistributedOptions
     /// Gets or sets the TTL in seconds for Redis keys. Default: 3600 (1 hour).
     /// </summary>
     public int KeyExpirationSeconds { get; set; } = 3600;
-
-    /// <summary>
-    /// Gets or sets the delay in milliseconds between dequeue poll attempts. Default: 100.
-    /// </summary>
-    public int DequeuePollDelayMilliseconds { get; set; } = 100;
 }

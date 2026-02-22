@@ -57,16 +57,12 @@ public class CapabilityRoutingIntegrationTests
         var dockerWorker = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string> { "linux", "docker" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var plainWorker = new WorkerRegistration(
             WorkerIndex: 2,
             Capabilities: new HashSet<string> { "linux" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Active,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         var dockerAssignment = new ModuleAssignment(
             ModuleTypeName: "Docker.Module",
