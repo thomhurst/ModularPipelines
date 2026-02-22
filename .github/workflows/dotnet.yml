@@ -66,12 +66,10 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget- }}
-      - name: Build ModularPipelines.Analyzers.sln
-        run: dotnet build ModularPipelines.Analyzers.sln -c Release
       - name: Restore
         shell: bash
         run: |
-          for SOLUTION in ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
+          for SOLUTION in ModularPipelines.Analyzers.sln ModularPipelines.sln ModularPipelines.Examples.sln src/ModularPipelines.Azure/ModularPipelines.Azure.sln src/ModularPipelines.AmazonWebServices/ModularPipelines.AmazonWebServices.sln src/ModularPipelines.Google/ModularPipelines.Google.sln
           do
             dotnet restore $SOLUTION
           done

@@ -12,7 +12,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [PinToMaster]
-[DependsOn<BuildSolutionsModule>]
+[DependsOn<BuildSolutionsModule>(Optional = true)]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
 [DependsOn<FindProjectDependenciesModule>]
