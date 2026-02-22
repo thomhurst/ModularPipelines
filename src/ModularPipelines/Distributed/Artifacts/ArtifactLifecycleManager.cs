@@ -168,13 +168,20 @@ internal class ArtifactLifecycleManager
         var normalizedPath = Path.GetFullPath(restorePath);
         var restoreKey = $"{producerTypeName}:{artifactName}:{normalizedPath}";
 
+        // Use CancellationToken.None for the shared download so one caller's cancellation
+        // doesn't abort the download for other modules consuming the same artifact.
         var lazyTask = _completedRestores.GetOrAdd(
             restoreKey,
-            _ => new Lazy<Task>(() => RestoreArtifactAsync(producerTypeName, artifactName, restorePath, consumerModuleType, cancellationToken)));
+            _ => new Lazy<Task>(() => RestoreArtifactAsync(producerTypeName, artifactName, restorePath, consumerModuleType, CancellationToken.None)));
 
         try
         {
-            await lazyTask.Value;
+            // WaitAsync respects the caller's token without affecting the shared download
+            await lazyTask.Value.WaitAsync(cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
         }
         catch (Exception ex)
         {

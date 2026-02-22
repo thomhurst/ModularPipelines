@@ -93,7 +93,7 @@ internal sealed class S3DistributedArtifactStoreFactory : IDistributedArtifactSt
 
             await s3.PutLifecycleConfigurationAsync(request, cancellationToken);
         }
-        catch
+        catch (Exception ex) when (ex is not OperationCanceledException)
         {
             // Lifecycle configuration may not be supported by all S3-compatible providers
         }
