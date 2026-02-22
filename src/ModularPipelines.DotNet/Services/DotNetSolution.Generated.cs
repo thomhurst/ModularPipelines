@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet solution commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetSolution
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DotNetSolution
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DotNetSolutionOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetSolutionOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetSolutionOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DotNetSolution
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        DotNetSolutionListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetSolutionListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetSolutionListOptions(), executionOptions, cancellationToken);

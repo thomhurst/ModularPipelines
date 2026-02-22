@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// Generated implementation for dotnet CLI commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 internal partial class DotNet : IDotNet
 {
     private readonly ICommand _command;
@@ -82,8 +82,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Build(
-        DotNetBuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetBuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetBuildOptions(), executionOptions, cancellationToken);
@@ -91,8 +91,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Clean(
-        DotNetCleanOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetCleanOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetCleanOptions(), executionOptions, cancellationToken);
@@ -100,8 +100,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Format(
-        DotNetFormatOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetFormatOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetFormatOptions(), executionOptions, cancellationToken);
@@ -109,8 +109,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Msbuild(
-        DotNetMsbuildOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetMsbuildOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetMsbuildOptions(), executionOptions, cancellationToken);
@@ -118,8 +118,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Pack(
-        DotNetPackOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetPackOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetPackOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Publish(
-        DotNetPublishOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetPublishOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetPublishOptions(), executionOptions, cancellationToken);
@@ -136,8 +136,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Restore(
-        DotNetRestoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetRestoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetRestoreOptions(), executionOptions, cancellationToken);
@@ -145,8 +145,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Run(
-        DotNetRunOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetRunOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetRunOptions(), executionOptions, cancellationToken);
@@ -154,8 +154,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Store(
-        DotNetStoreOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetStoreOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetStoreOptions(), executionOptions, cancellationToken);
@@ -163,8 +163,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Test(
-        DotNetTestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetTestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetTestOptions(), executionOptions, cancellationToken);
@@ -172,8 +172,8 @@ internal partial class DotNet : IDotNet
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Vstest(
-        DotNetVstestOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetVstestOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetVstestOptions(), executionOptions, cancellationToken);
