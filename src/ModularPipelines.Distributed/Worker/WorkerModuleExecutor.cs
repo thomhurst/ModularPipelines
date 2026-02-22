@@ -1,4 +1,4 @@
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.Artifacts;
@@ -11,7 +11,7 @@ using ModularPipelines.Modules;
 namespace ModularPipelines.Distributed.Worker;
 
 internal class WorkerModuleExecutor(
-    IServiceProvider serviceProvider,
+    IHostApplicationLifetime lifetime,
     IDistributedCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
@@ -19,7 +19,7 @@ internal class WorkerModuleExecutor(
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger) : IModuleExecutor
 {
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
@@ -30,6 +30,7 @@ internal class WorkerModuleExecutor(
     public async Task<IEnumerable<IModule>> ExecuteAsync(IReadOnlyList<IModule> modules)
     {
         var options = _options.Value;
+        var cancellationToken = _lifetime.ApplicationStopping;
 
         // Register all module types for deserialization
         foreach (var module in modules)
@@ -56,18 +57,18 @@ internal class WorkerModuleExecutor(
             Status: WorkerStatus.Connected,
             CurrentModule: null
         );
-        await _coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
+        await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
             options.InstanceIndex, string.Join(", ", capabilities));
 
         var executedModules = new List<IModule>();
 
         // Worker execution loop
-        while (true)
+        while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
-                var assignment = await _coordinator.DequeueModuleAsync(capabilities, CancellationToken.None);
+                var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
                 if (assignment is null)
                 {
                     // No more work available
@@ -97,7 +98,7 @@ internal class WorkerModuleExecutor(
                 {
                     try
                     {
-                        await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), CancellationToken.None);
+                        await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
                     }
                     catch (Exception ex)
                     {
@@ -108,21 +109,8 @@ internal class WorkerModuleExecutor(
                 // Execute the module
                 try
                 {
-                    // Access the internal CompletionSource.Task via reflection to await the module result.
-                    // CompletionSource is internal but accessible via InternalsVisibleTo.
-                    // The actual execution is triggered through the normal pipeline;
-                    // this placeholder awaits completion and retrieves the result.
-                    var completionSourceProp = module.GetType().GetProperty(
-                        "CompletionSource",
-                        System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
-                    var completionSource = completionSourceProp.GetValue(module)!;
-                    var taskProp = completionSource.GetType().GetProperty("Task")!;
-                    var task = (Task) taskProp.GetValue(completionSource)!;
-                    await task;
-
-                    // Get the Result property from the completed task
-                    var resultProp = task.GetType().GetProperty("Result")!;
-                    var result = resultProp.GetValue(task) as IModuleResult;
+                    // Await the module's result via the public IModule.ResultTask property
+                    var result = await module.ResultTask;
 
                     // Upload produced artifacts before publishing result
                     IReadOnlyList<ArtifactReference>? artifactRefs = null;
@@ -130,7 +118,7 @@ internal class WorkerModuleExecutor(
                     {
                         try
                         {
-                            artifactRefs = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), CancellationToken.None);
+                            artifactRefs = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
                             if (artifactRefs.Count == 0)
                             {
                                 artifactRefs = null;
@@ -155,7 +143,7 @@ internal class WorkerModuleExecutor(
                             serialized = serialized with { Artifacts = artifactRefs };
                         }
 
-                        await _coordinator.PublishResultAsync(serialized, CancellationToken.None);
+                        await _coordinator.PublishResultAsync(serialized, cancellationToken);
                     }
 
                     executedModules.Add(module);
@@ -174,7 +162,7 @@ internal class WorkerModuleExecutor(
                         assignment.ModuleTypeName,
                         assignment.ResultTypeName,
                         options.InstanceIndex);
-                    await _coordinator.PublishResultAsync(serialized, CancellationToken.None);
+                    await _coordinator.PublishResultAsync(serialized, cancellationToken);
                 }
             }
             catch (OperationCanceledException)

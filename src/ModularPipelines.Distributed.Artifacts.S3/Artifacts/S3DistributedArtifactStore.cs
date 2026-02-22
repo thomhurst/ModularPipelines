@@ -98,11 +98,22 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
         var objectKey = BuildObjectKey(reference.ModuleTypeName, reference.Name, reference.ArtifactId);
         var response = await _s3.GetObjectAsync(_bucketName, objectKey, cancellationToken);
 
-        // Copy to MemoryStream so the S3 response stream isn't held open
-        var ms = new MemoryStream();
-        await response.ResponseStream.CopyToAsync(ms, cancellationToken);
-        ms.Position = 0;
-        return ms;
+        // Stream to a temp file instead of MemoryStream to avoid OOM on large artifacts
+        var tempFile = Path.GetTempFileName();
+        var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.ReadWrite, FileShare.None,
+            bufferSize: 81920, FileOptions.DeleteOnClose);
+
+        try
+        {
+            await response.ResponseStream.CopyToAsync(fileStream, cancellationToken);
+            fileStream.Position = 0;
+            return fileStream;
+        }
+        catch
+        {
+            await fileStream.DisposeAsync();
+            throw;
+        }
     }
 
     public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string moduleTypeName, CancellationToken cancellationToken)

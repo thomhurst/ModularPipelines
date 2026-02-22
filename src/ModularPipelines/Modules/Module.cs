@@ -52,6 +52,10 @@ public abstract class Module<T> : IModule, ITaggedModule
     internal TaskCompletionSource<ModuleResult<T?>> CompletionSource { get; } = new();
 
     /// <inheritdoc />
+    Task<IModuleResult> IModule.ResultTask => CompletionSource.Task.ContinueWith(
+        static t => (IModuleResult)t.Result, TaskContinuationOptions.ExecuteSynchronously);
+
+    /// <inheritdoc />
     Type IModule.ResultType => typeof(T);
 
     /// <summary>

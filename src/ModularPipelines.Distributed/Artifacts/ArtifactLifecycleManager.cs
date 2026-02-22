@@ -51,8 +51,8 @@ internal class ArtifactLifecycleManager
         {
             try
             {
-                var resolvedPath = ResolvePathPattern(attr.PathPattern);
-                if (resolvedPath is null)
+                var resolvedPaths = ResolvePathPattern(attr.PathPattern);
+                if (resolvedPaths.Count == 0)
                 {
                     _logger.LogWarning(
                         "No files matched pattern '{Pattern}' for artifact '{Name}' on module {Module}",
@@ -65,25 +65,43 @@ internal class ArtifactLifecycleManager
                     ModuleTypeName: moduleType.FullName!);
 
                 ArtifactReference reference;
-                if (Directory.Exists(resolvedPath))
+                if (resolvedPaths.Count == 1 && Directory.Exists(resolvedPaths[0]))
                 {
+                    // Single directory — zip it
                     descriptor = descriptor with { ContentType = "application/zip" };
                     using var ms = new MemoryStream();
-                    ZipFile.CreateFromDirectory(resolvedPath, ms, _options.CompressionLevel, includeBaseDirectory: false);
+                    ZipFile.CreateFromDirectory(resolvedPaths[0], ms, _options.CompressionLevel, includeBaseDirectory: false);
                     ms.Position = 0;
                     reference = await _store.UploadAsync(descriptor, ms, cancellationToken);
                 }
+                else if (resolvedPaths.Count == 1 && File.Exists(resolvedPaths[0]))
+                {
+                    // Single file — upload directly
+                    descriptor = descriptor with { ContentType = "application/octet-stream" };
+                    await using var stream = File.OpenRead(resolvedPaths[0]);
+                    reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
+                }
                 else
                 {
-                    descriptor = descriptor with { ContentType = "application/octet-stream" };
-                    await using var stream = File.OpenRead(resolvedPath);
-                    reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
+                    // Multiple files — zip them together preserving relative paths
+                    descriptor = descriptor with { ContentType = "application/zip" };
+                    using var ms = new MemoryStream();
+                    using (var archive = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+                    {
+                        foreach (var filePath in resolvedPaths)
+                        {
+                            archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath), _options.CompressionLevel);
+                        }
+                    }
+
+                    ms.Position = 0;
+                    reference = await _store.UploadAsync(descriptor, ms, cancellationToken);
                 }
 
                 references.Add(reference);
                 _logger.LogInformation(
-                    "Uploaded artifact '{Name}' ({Size} bytes) for module {Module}",
-                    attr.Name, reference.SizeBytes, moduleType.Name);
+                    "Uploaded artifact '{Name}' ({Size} bytes, {FileCount} files) for module {Module}",
+                    attr.Name, reference.SizeBytes, resolvedPaths.Count, moduleType.Name);
             }
             catch (Exception ex)
             {
@@ -195,22 +213,22 @@ internal class ArtifactLifecycleManager
     }
 
     /// <summary>
-    /// Resolves a path pattern to a concrete path. Supports simple glob patterns
-    /// by finding the first matching directory or file.
+    /// Resolves a path pattern to concrete paths. Supports simple glob patterns.
+    /// Returns a list of matched files/directories.
     /// </summary>
-    internal static string? ResolvePathPattern(string pathPattern)
+    internal static IReadOnlyList<string> ResolvePathPattern(string pathPattern)
     {
         // If the path exists directly, return it
         if (Directory.Exists(pathPattern) || File.Exists(pathPattern))
         {
-            return pathPattern;
+            return [pathPattern];
         }
 
         // Handle simple glob patterns by splitting at the first wildcard
         var wildcardIndex = pathPattern.IndexOfAny(['*', '?']);
         if (wildcardIndex < 0)
         {
-            return null;
+            return [];
         }
 
         var baseDir = Path.GetDirectoryName(pathPattern[..wildcardIndex]);
@@ -221,7 +239,7 @@ internal class ArtifactLifecycleManager
 
         if (!Directory.Exists(baseDir))
         {
-            return null;
+            return [];
         }
 
         // Convert glob to search pattern
@@ -235,37 +253,11 @@ internal class ArtifactLifecycleManager
         var matches = Directory.GetFiles(baseDir, searchPattern, SearchOption.AllDirectories);
         if (matches.Length > 0)
         {
-            // Return the common parent directory if multiple matches
-            if (matches.Length > 1)
-            {
-                return GetCommonParentDirectory(matches) ?? baseDir;
-            }
-
-            return matches[0];
+            return matches;
         }
 
         // Try directories
         var dirMatches = Directory.GetDirectories(baseDir, searchPattern, SearchOption.AllDirectories);
-        return dirMatches.Length > 0 ? dirMatches[0] : null;
-    }
-
-    private static string? GetCommonParentDirectory(string[] paths)
-    {
-        if (paths.Length == 0)
-        {
-            return null;
-        }
-
-        var commonDir = Path.GetDirectoryName(paths[0]);
-        foreach (var path in paths.Skip(1))
-        {
-            var dir = Path.GetDirectoryName(path);
-            while (commonDir is not null && dir is not null && !dir.StartsWith(commonDir, StringComparison.OrdinalIgnoreCase))
-            {
-                commonDir = Path.GetDirectoryName(commonDir);
-            }
-        }
-
-        return commonDir;
+        return dirMatches;
     }
 }

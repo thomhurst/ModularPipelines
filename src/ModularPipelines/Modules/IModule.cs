@@ -24,4 +24,11 @@ public interface IModule
     /// Gets the configuration for this module's execution behaviors.
     /// </summary>
     ModuleConfiguration Configuration { get; }
+
+    /// <summary>
+    /// Gets a task that completes when the module finishes execution, producing the module result.
+    /// The result can be cast to <see cref="IModuleResult"/> on success.
+    /// </summary>
+    [JsonIgnore]
+    Task<IModuleResult> ResultTask { get; }
 }
