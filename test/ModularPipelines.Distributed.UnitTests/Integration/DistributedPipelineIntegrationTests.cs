@@ -55,7 +55,8 @@ public class DistributedPipelineIntegrationTests
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Master publishes work
-        var assignment = publisher.CreateAssignment(typeof(ModuleA));
+        var moduleA = new ModuleA();
+        var assignment = publisher.CreateAssignment(moduleA);
         await publisher.PublishAsync(assignment, CancellationToken.None);
 
         // Simulate worker: dequeue the assignment
@@ -130,9 +131,12 @@ public class DistributedPipelineIntegrationTests
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Publish all 3 modules
-        await publisher.PublishAsync(publisher.CreateAssignment(typeof(ModuleA)), CancellationToken.None);
-        await publisher.PublishAsync(publisher.CreateAssignment(typeof(ModuleB)), CancellationToken.None);
-        await publisher.PublishAsync(publisher.CreateAssignment(typeof(ModuleC)), CancellationToken.None);
+        var moduleA = new ModuleA();
+        var moduleB = new ModuleB();
+        var moduleC = new ModuleC();
+        await publisher.PublishAsync(publisher.CreateAssignment(moduleA), CancellationToken.None);
+        await publisher.PublishAsync(publisher.CreateAssignment(moduleB), CancellationToken.None);
+        await publisher.PublishAsync(publisher.CreateAssignment(moduleC), CancellationToken.None);
 
         // Simulate worker results for each
         var now = DateTimeOffset.UtcNow;

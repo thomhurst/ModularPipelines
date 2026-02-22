@@ -1,3 +1,5 @@
+using System.Reflection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
@@ -5,11 +7,13 @@ using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Execution;
+using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed.Master;
 
 internal class DistributedModuleExecutor(
+    IHostApplicationLifetime lifetime,
     IModuleSchedulerFactory schedulerFactory,
     IModuleRunner moduleRunner,
     IRegistrationEventExecutor registrationEventExecutor,
@@ -20,6 +24,7 @@ internal class DistributedModuleExecutor(
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
 {
+    private readonly IHostApplicationLifetime _lifetime = lifetime;
     private readonly IModuleSchedulerFactory _schedulerFactory = schedulerFactory;
     private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IRegistrationEventExecutor _registrationEventExecutor = registrationEventExecutor;
@@ -52,7 +57,7 @@ internal class DistributedModuleExecutor(
             scheduler = _schedulerFactory.Create();
             scheduler.InitializeModules(modules);
 
-            using var cts = new CancellationTokenSource();
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.ApplicationStopping);
             cts.Token.Register(() => scheduler.CancelPendingModules());
 
             var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
@@ -73,11 +78,13 @@ internal class DistributedModuleExecutor(
                     }
                     else
                     {
+                        // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
+                        // Modules with [MatrixTarget] will run once, not N times.
                         _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-                        var assignment = _publisher.CreateAssignment(moduleType);
+                        var assignment = _publisher.CreateAssignment(moduleState.Module);
                         await _publisher.PublishAsync(assignment, cts.Token);
 
-                        var collectTask = CollectDistributedResultAsync(moduleType, scheduler, cts.Token);
+                        var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts.Token);
                         resultTasks.Add(collectTask);
                     }
                 }
@@ -132,13 +139,21 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task CollectDistributedResultAsync(Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
     {
         try
         {
             scheduler.MarkModuleStarted(moduleType);
             var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
             var success = result is not null && !result.IsFailure;
+
+            // Apply the deserialized result to the module's CompletionSource so that
+            // DependsOn<T> result access works across the master/worker boundary
+            if (result is not null)
+            {
+                ApplyResultToModule(module, result);
+            }
+
             scheduler.MarkModuleCompleted(moduleType, success);
         }
         catch (Exception ex)
@@ -146,5 +161,20 @@ internal class DistributedModuleExecutor(
             _logger.LogError(ex, "Failed to collect result for distributed module {Module}", moduleType.Name);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
         }
+    }
+
+    /// <summary>
+    /// Sets the deserialized result on the module's internal <c>CompletionSource</c> via reflection,
+    /// since the generic type parameter T is not known at compile time.
+    /// </summary>
+    private static void ApplyResultToModule(IModule module, IModuleResult result)
+    {
+        var completionSource = module.GetType()
+            .GetProperty("CompletionSource", BindingFlags.Instance | BindingFlags.NonPublic)?
+            .GetValue(module);
+
+        completionSource?.GetType()
+            .GetMethod("TrySetResult")?
+            .Invoke(completionSource, [result]);
     }
 }

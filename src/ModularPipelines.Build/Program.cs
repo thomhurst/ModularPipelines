@@ -55,7 +55,7 @@ var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("TOTAL_INST
 if (!string.IsNullOrEmpty(redisUrl) && !string.IsNullOrEmpty(redisToken) && totalInstances > 1)
 {
     var host = new Uri(redisUrl).Host;
-    var connectionString = $"{host}:6379,password={redisToken},ssl=True,abortConnect=False";
+    var connectionString = $"{host}:6380,password={redisToken},ssl=True,abortConnect=False";
 
     builder.AddDistributedMode(o =>
     {

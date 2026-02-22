@@ -67,12 +67,19 @@ internal class ArtifactLifecycleManager
                 ArtifactReference reference;
                 if (resolvedPaths.Count == 1 && Directory.Exists(resolvedPaths[0]))
                 {
-                    // Single directory — zip it
+                    // Single directory — zip to temp file to avoid OOM on large directories
                     descriptor = descriptor with { ContentType = "application/zip" };
-                    using var ms = new MemoryStream();
-                    ZipFile.CreateFromDirectory(resolvedPaths[0], ms, _options.CompressionLevel, includeBaseDirectory: false);
-                    ms.Position = 0;
-                    reference = await _store.UploadAsync(descriptor, ms, cancellationToken);
+                    var tempFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.zip");
+                    try
+                    {
+                        ZipFile.CreateFromDirectory(resolvedPaths[0], tempFile, _options.CompressionLevel, includeBaseDirectory: false);
+                        await using var stream = File.OpenRead(tempFile);
+                        reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
+                    }
+                    finally
+                    {
+                        File.Delete(tempFile);
+                    }
                 }
                 else if (resolvedPaths.Count == 1 && File.Exists(resolvedPaths[0]))
                 {
@@ -83,19 +90,26 @@ internal class ArtifactLifecycleManager
                 }
                 else
                 {
-                    // Multiple files — zip them together preserving relative paths
+                    // Multiple files — zip to temp file to avoid OOM
                     descriptor = descriptor with { ContentType = "application/zip" };
-                    using var ms = new MemoryStream();
-                    using (var archive = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+                    var tempFile = Path.GetTempFileName();
+                    try
                     {
-                        foreach (var filePath in resolvedPaths)
+                        using (var archive = ZipFile.Open(tempFile, ZipArchiveMode.Create))
                         {
-                            archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath), _options.CompressionLevel);
+                            foreach (var filePath in resolvedPaths)
+                            {
+                                archive.CreateEntryFromFile(filePath, Path.GetFileName(filePath), _options.CompressionLevel);
+                            }
                         }
-                    }
 
-                    ms.Position = 0;
-                    reference = await _store.UploadAsync(descriptor, ms, cancellationToken);
+                        await using var stream = File.OpenRead(tempFile);
+                        reference = await _store.UploadAsync(descriptor, stream, cancellationToken);
+                    }
+                    finally
+                    {
+                        File.Delete(tempFile);
+                    }
                 }
 
                 references.Add(reference);
