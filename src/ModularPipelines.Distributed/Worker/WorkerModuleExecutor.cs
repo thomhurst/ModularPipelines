@@ -5,6 +5,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
+using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
@@ -15,6 +16,7 @@ internal class WorkerModuleExecutor(
     IDistributedCoordinator coordinator,
     ModuleTypeRegistry typeRegistry,
     ModuleResultSerializer serializer,
+    IModuleRunner moduleRunner,
     IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<WorkerModuleExecutor> logger) : IModuleExecutor
@@ -23,6 +25,7 @@ internal class WorkerModuleExecutor(
     private readonly IDistributedCoordinator _coordinator = coordinator;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly ModuleResultSerializer _serializer = serializer;
+    private readonly IModuleRunner _moduleRunner = moduleRunner;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<WorkerModuleExecutor> _logger = logger;
@@ -62,6 +65,7 @@ internal class WorkerModuleExecutor(
             options.InstanceIndex, string.Join(", ", capabilities));
 
         var executedModules = new List<IModule>();
+        using var workerScheduler = new WorkerModuleScheduler();
 
         // Worker execution loop
         while (!cancellationToken.IsCancellationRequested)
@@ -106,10 +110,13 @@ internal class WorkerModuleExecutor(
                     }
                 }
 
-                // Execute the module
+                // Execute the module through the framework's execution pipeline
                 try
                 {
-                    // Await the module's result via the public IModule.ResultTask property
+                    var moduleState = new ModuleState(module, module.GetType());
+                    await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+
+                    // CompletionSource is set by ModuleExecutionPipeline — get the result
                     var result = await module.ResultTask;
 
                     // Upload produced artifacts before publishing result

@@ -10,7 +10,7 @@ namespace ModularPipelines.Distributed.Extensions;
 /// </summary>
 public static class DistributedPipelineBuilderExtensions
 {
-    private static bool _pluginRegistered;
+    private static int _pluginRegistered;
 
     /// <summary>
     /// Enables distributed execution mode and registers the distributed plugin.
@@ -66,10 +66,9 @@ public static class DistributedPipelineBuilderExtensions
 
     private static void EnsurePluginRegistered()
     {
-        if (!_pluginRegistered)
+        if (Interlocked.CompareExchange(ref _pluginRegistered, 1, 0) == 0)
         {
             PluginRegistry.Register(new DistributedPipelinePlugin());
-            _pluginRegistered = true;
         }
     }
 }
