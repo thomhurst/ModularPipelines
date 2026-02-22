@@ -75,7 +75,7 @@ public record GcloudNetappVolumesUpdateOptions : GcloudOptions
     public string? ExportPolicy { get; set; }
 
     /// <summary>
-    /// Type of File System protocols for the Cloud NetApp Files Volume. Valid     component values are: NFSV3, NFSV4, SMB.
+    /// Type of File System protocols for the Cloud NetApp Volume. Valid     component values are: NFSV3, NFSV4, SMB, ISCSI.
     /// </summary>
     [CliOption("--protocols", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Protocols { get; set; }
