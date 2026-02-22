@@ -6,12 +6,12 @@ on:
   workflow_dispatch:
     inputs:
       publish-packages:
-        description: Publish packages?    
+        description: Publish packages?
         type: boolean
         required: true
         default: false
       is-alpha:
-        description: Alpha version?    
+        description: Alpha version?
         type: boolean
         required: true
         default: true
@@ -22,21 +22,29 @@ env:
 jobs:
   pipeline:
     environment: ${{ github.ref == 'refs/heads/main' && 'Production' || 'Pull Requests' }}
-    strategy: 
+    strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            instance: 0
+          - os: windows-latest
+            instance: 1
+          - os: macos-latest
+            instance: 2
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    env: 
+    env:
       NUGET_PACKAGES: ${{ matrix.os == 'windows-latest' && 'E:\nuget' || null }}
-      
+
     steps:
       - name: Add mask
         run: |
-          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}" 
+          echo "::add-mask::${{ secrets.DOTNET_FORMAT_PUSH_TOKEN }}"
           echo "::add-mask::${{ secrets.NuGet__ApiKey }}"
           echo "::add-mask::${{ secrets.ADMIN_TOKEN }}"
           echo "::add-mask::${{ secrets.CODACY_APIKEY }}"
+          echo "::add-mask::${{ secrets.R2_ACCESS_KEY }}"
+          echo "::add-mask::${{ secrets.R2_SECRET_KEY }}"
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
@@ -66,7 +74,7 @@ jobs:
           do
             dotnet build $SOLUTION -c Release
           done
-      
+
       - name: Run Pipeline
         run: dotnet run -c Release --framework net10.0
         working-directory: "src/ModularPipelines.Build"
@@ -83,6 +91,13 @@ jobs:
           Codacy__ApiKey: ${{ secrets.CODACY_APIKEY }}
           CodeCov__Token: ${{ secrets.CODECOV_TOKEN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          INSTANCE_INDEX: ${{ matrix.instance }}
+          TOTAL_INSTANCES: 3
+          UPSTASH_REDIS_REST_URL: ${{ secrets.UPSTASH_REDIS_REST_URL }}
+          UPSTASH_REDIS_REST_TOKEN: ${{ secrets.UPSTASH_REDIS_REST_TOKEN }}
+          R2_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_ACCESS_KEY: ${{ secrets.R2_ACCESS_KEY }}
+          R2_SECRET_KEY: ${{ secrets.R2_SECRET_KEY }}
 
       - name: Upload Hang Dumps
         if: always()

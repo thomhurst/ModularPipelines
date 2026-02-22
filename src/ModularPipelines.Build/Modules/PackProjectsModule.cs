@@ -1,4 +1,5 @@
 using EnumerableAsyncProcessor.Extensions;
+using Microsoft.Build.Construction;
 using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.DotNet.Extensions;
@@ -10,6 +11,7 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
+[PinToMaster]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
 [DependsOn<FindProjectDependenciesModule>]
@@ -39,6 +41,8 @@ public class PackProjectsModule : Module<CommandResult[]>
 
     private static async Task<CommandResult> Pack(IModuleContext context, CancellationToken cancellationToken, File projectFile, string packageVersion)
     {
+        var effectiveVersion = GetEffectiveVersion(projectFile, packageVersion);
+
         return await context.DotNet().Pack(new DotNetPackOptions
         {
             ProjectSolution = projectFile.Path,
@@ -48,9 +52,23 @@ public class PackProjectsModule : Module<CommandResult[]>
             NoRestore = true,
             Properties = new List<KeyValue>
             {
-                ("PackageVersion", packageVersion),
-                ("Version", packageVersion),
+                ("PackageVersion", effectiveVersion),
+                ("Version", effectiveVersion),
             },
         }, cancellationToken: cancellationToken);
+    }
+
+    private static string GetEffectiveVersion(File projectFile, string baseVersion)
+    {
+        var projectRoot = ProjectRootElement.Open(projectFile.Path);
+        var versionSuffix = projectRoot?.Properties
+            .FirstOrDefault(p => p.Name == "VersionSuffix")?.Value;
+
+        if (!string.IsNullOrWhiteSpace(versionSuffix) && !baseVersion.Contains('-'))
+        {
+            return $"{baseVersion}-{versionSuffix}";
+        }
+
+        return baseVersion;
     }
 }

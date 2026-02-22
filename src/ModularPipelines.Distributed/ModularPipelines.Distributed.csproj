@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Distributed worker mode for ModularPipelines. Execute modules across multiple instances with a master/worker architecture.</Description>
+    <VersionSuffix>beta</VersionSuffix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ModularPipelines\ModularPipelines.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>

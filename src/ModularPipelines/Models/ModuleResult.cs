@@ -47,6 +47,13 @@ public abstract record ModuleResult : IModuleResult
     [JsonInclude]
     public required Status ModuleStatus { get; init; }
 
+    /// <summary>
+    /// Gets the fully qualified type name of the module that produced this result.
+    /// Used for cross-process module identification in distributed mode.
+    /// </summary>
+    [JsonInclude]
+    public string? ModuleTypeName { get; init; }
+
     // === Quick checks ===
 
     /// <inheritdoc />
@@ -160,6 +167,7 @@ public abstract record ModuleResult : IModuleResult
         return new(exception)
         {
             ModuleName = ctx.ModuleType.Name,
+            ModuleTypeName = ctx.ModuleType.FullName,
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
@@ -174,6 +182,7 @@ public abstract record ModuleResult : IModuleResult
         return new(decision)
         {
             ModuleName = ctx.ModuleType.Name,
+            ModuleTypeName = ctx.ModuleType.FullName,
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
@@ -411,6 +420,7 @@ public abstract record ModuleResult<T> : ModuleResult
         return new(value)
         {
             ModuleName = ctx.ModuleType.Name,
+            ModuleTypeName = ctx.ModuleType.FullName,
             ModuleDuration = duration,
             ModuleStart = start,
             ModuleEnd = end,
@@ -630,6 +640,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
 
         string? discriminator = null;
         string? moduleName = null;
+        string? moduleTypeName = null;
         TimeSpan moduleDuration = TimeSpan.Zero;
         DateTimeOffset moduleStart = DateTimeOffset.MinValue;
         DateTimeOffset moduleEnd = DateTimeOffset.MinValue;
@@ -661,6 +672,9 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                         break;
                     case "ModuleName":
                         moduleName = reader.GetString();
+                        break;
+                    case "ModuleTypeName":
+                        moduleTypeName = reader.GetString();
                         break;
                     case "ModuleDuration":
                         moduleDuration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
@@ -695,6 +709,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                 ? new ModuleResult.Failure(exception)
                 {
                     ModuleName = moduleName,
+                    ModuleTypeName = moduleTypeName,
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
@@ -705,6 +720,7 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
                 ? new ModuleResult.Skipped(skipDecision)
                 {
                     ModuleName = moduleName,
+                    ModuleTypeName = moduleTypeName,
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
@@ -730,6 +746,11 @@ internal sealed class ModuleResultNonGenericJsonConverter : JsonConverter<Module
 
         // Write common properties
         writer.WriteString("ModuleName", value.ModuleName);
+        if (value.ModuleTypeName is not null)
+        {
+            writer.WriteString("ModuleTypeName", value.ModuleTypeName);
+        }
+
         writer.WritePropertyName("ModuleDuration");
         JsonSerializer.Serialize(writer, value.ModuleDuration, options);
         writer.WriteString("ModuleStart", value.ModuleStart);
@@ -770,6 +791,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         string? discriminator = null;
         string? moduleName = null;
+        string? moduleTypeName = null;
         TimeSpan moduleDuration = TimeSpan.Zero;
         DateTimeOffset moduleStart = DateTimeOffset.MinValue;
         DateTimeOffset moduleEnd = DateTimeOffset.MinValue;
@@ -803,6 +825,9 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                     case "ModuleName":
                         moduleName = reader.GetString();
                         break;
+                    case "ModuleTypeName":
+                        moduleTypeName = reader.GetString();
+                        break;
                     case "ModuleDuration":
                         moduleDuration = JsonSerializer.Deserialize<TimeSpan>(ref reader, options);
                         break;
@@ -835,20 +860,20 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         return discriminator switch
         {
-            "Success" => value is not null
-                ? new ModuleResult<T>.Success(value)
+            "Success" => new ModuleResult<T>.Success(value!)
                 {
                     ModuleName = moduleName,
+                    ModuleTypeName = moduleTypeName,
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
                     ModuleStatus = moduleStatus
-                }
-                : throw new JsonException("Success result requires a Value property in the JSON."),
+                },
             "Failure" => exception is not null
                 ? new ModuleResult<T>.FailureWrapper(new ModuleResult.Failure(exception)
                 {
                     ModuleName = moduleName,
+                    ModuleTypeName = moduleTypeName,
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
@@ -859,6 +884,7 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
                 ? new ModuleResult<T>.SkippedWrapper(new ModuleResult.Skipped(skipDecision)
                 {
                     ModuleName = moduleName,
+                    ModuleTypeName = moduleTypeName,
                     ModuleDuration = moduleDuration,
                     ModuleStart = moduleStart,
                     ModuleEnd = moduleEnd,
@@ -887,6 +913,11 @@ internal sealed class ModuleResultJsonConverter<T> : JsonConverter<ModuleResult<
 
         // Write common properties
         writer.WriteString("ModuleName", value.ModuleName);
+        if (value.ModuleTypeName is not null)
+        {
+            writer.WriteString("ModuleTypeName", value.ModuleTypeName);
+        }
+
         writer.WritePropertyName("ModuleDuration");
         JsonSerializer.Serialize(writer, value.ModuleDuration, options);
         writer.WriteString("ModuleStart", value.ModuleStart);
