@@ -59,13 +59,11 @@ public class RedisDistributedCoordinatorTests
         var assignment = CreateAssignment("Test.Module");
         var json = JsonSerializer.Serialize(assignment, JsonOptions);
 
-        var callCount = 0;
-        _dbMock.Setup(db => db.ListRightPopAsync(_keys.WorkQueue, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(() =>
-            {
-                callCount++;
-                return callCount == 1 ? (RedisValue)json : RedisValue.Null;
-            });
+        _dbMock.Setup(db => db.ListRangeAsync(_keys.WorkQueue, It.IsAny<long>(), It.IsAny<long>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync([json]);
+
+        _dbMock.Setup(db => db.ListRemoveAsync(_keys.WorkQueue, (RedisValue)json, 1, It.IsAny<CommandFlags>()))
+            .ReturnsAsync(1);
 
         var result = await _coordinator.DequeueModuleAsync(
             new HashSet<string>(), CancellationToken.None);
@@ -75,13 +73,13 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task DequeueModuleAsync_ReEnqueues_WhenCapabilitiesDontMatch()
+    public async Task DequeueModuleAsync_SkipsItem_WhenCapabilitiesDontMatch()
     {
         var assignment = CreateAssignment("Docker.Module", requiredCapabilities: new HashSet<string> { "docker" });
         var json = JsonSerializer.Serialize(assignment, JsonOptions);
 
-        _dbMock.Setup(db => db.ListRightPopAsync(_keys.WorkQueue, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(json);
+        _dbMock.Setup(db => db.ListRangeAsync(_keys.WorkQueue, It.IsAny<long>(), It.IsAny<long>(), It.IsAny<CommandFlags>()))
+            .ReturnsAsync([json]);
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
         var result = await _coordinator.DequeueModuleAsync(
@@ -89,19 +87,18 @@ public class RedisDistributedCoordinatorTests
 
         await Assert.That(result).IsNull();
 
-        // Verify re-enqueue happened
-        _dbMock.Verify(db => db.ListLeftPushAsync(
+        // Verify item was never removed (capabilities didn't match, item stays in queue)
+        _dbMock.Verify(db => db.ListRemoveAsync(
             _keys.WorkQueue,
             It.IsAny<RedisValue>(),
-            It.IsAny<When>(),
-            It.IsAny<CommandFlags>()), Times.AtLeastOnce);
+            It.IsAny<long>(),
+            It.IsAny<CommandFlags>()), Times.Never);
     }
 
     [Test]
     public async Task DequeueModuleAsync_ReturnsNull_WhenCancelled()
     {
-        _dbMock.Setup(db => db.ListRightPopAsync(_keys.WorkQueue, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(RedisValue.Null);
+        // ListRangeAsync unmocked returns empty array — nothing to dequeue
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(50));
         var result = await _coordinator.DequeueModuleAsync(
