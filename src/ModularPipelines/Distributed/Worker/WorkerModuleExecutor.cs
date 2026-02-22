@@ -158,16 +158,25 @@ internal class WorkerModuleExecutor(
                     _logger.LogError(ex, "Module {Module} execution failed on worker {Index}",
                         assignment.ModuleTypeName, options.InstanceIndex);
 
-                    // Publish failure result
-                    var failureResult = ModuleResult.CreateFailure(
-                        ex,
-                        new ModuleExecutionContext(module, module.GetType()));
-                    var serialized = _serializer.Serialize(
-                        failureResult,
-                        assignment.ModuleTypeName,
-                        assignment.ResultTypeName,
-                        options.InstanceIndex);
-                    await _coordinator.PublishResultAsync(serialized, cancellationToken);
+                    // Publish failure result — wrapped in try/catch to prevent master deadlock
+                    try
+                    {
+                        var failureResult = ModuleResult.CreateFailure(
+                            ex,
+                            new ModuleExecutionContext(module, module.GetType()));
+                        var serialized = _serializer.Serialize(
+                            failureResult,
+                            assignment.ModuleTypeName,
+                            assignment.ResultTypeName,
+                            options.InstanceIndex);
+                        await _coordinator.PublishResultAsync(serialized, cancellationToken);
+                    }
+                    catch (Exception publishEx)
+                    {
+                        _logger.LogCritical(publishEx,
+                            "Failed to publish failure result for module {Module} — master may hang waiting for this result",
+                            assignment.ModuleTypeName);
+                    }
                 }
             }
             catch (OperationCanceledException)

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Threading;
 using ModularPipelines.Distributed.Redis.Configuration;
 using StackExchange.Redis;
 
@@ -53,14 +54,14 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
 
         // Subscribe to work-available and completion notifications
         using var signal = new SemaphoreSlim(0);
-        var completed = false;
+        var completed = 0; // 0 = false, 1 = true; using int for thread-safe Volatile access
         var workChannel = RedisChannel.Literal(_keys.WorkAvailableChannel);
         var completionChannel = RedisChannel.Literal(_keys.CompletionChannel);
 
         await _subscriber.SubscribeAsync(workChannel, (_, _) => signal.Release());
         await _subscriber.SubscribeAsync(completionChannel, (_, _) =>
         {
-            completed = true;
+            Volatile.Write(ref completed, 1);
             signal.Release();
         });
 
@@ -92,7 +93,7 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
                     return null;
                 }
 
-                if (completed)
+                if (Volatile.Read(ref completed) == 1)
                 {
                     return null;
                 }

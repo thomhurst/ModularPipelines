@@ -144,7 +144,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
                         references.Add(reference);
                     }
                 }
-                catch
+                catch (Exception ex) when (ex is not OperationCanceledException)
                 {
                     // Skip invalid metadata objects
                 }

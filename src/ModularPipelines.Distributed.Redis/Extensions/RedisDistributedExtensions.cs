@@ -1,7 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ModularPipelines.Distributed.Redis.Artifacts;
 using ModularPipelines.Distributed.Redis.Configuration;
 using ModularPipelines.Distributed.Redis.Coordination;
+using StackExchange.Redis;
 
 namespace ModularPipelines.Distributed.Redis.Extensions;
 
@@ -22,6 +24,11 @@ public static class RedisDistributedExtensions
         configure(options);
 
         builder.Services.AddSingleton(options);
+        builder.Services.TryAddSingleton<IConnectionMultiplexer>(sp =>
+        {
+            var opts = sp.GetRequiredService<RedisDistributedOptions>();
+            return ConnectionMultiplexer.Connect(opts.ConnectionString);
+        });
         builder.Services.AddSingleton<IDistributedCoordinatorFactory, RedisDistributedCoordinatorFactory>();
 
         return builder;
