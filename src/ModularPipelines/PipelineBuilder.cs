@@ -253,12 +253,19 @@ public sealed class PipelineBuilder
             config.AddConfiguration(_configuration);
         });
 
-        // Configure services: first the core services, then plugins, then user services
+        // Configure services: core first, then user services, then plugins (so plugins can inspect user config)
         _hostBuilder.ConfigureServices((_, services) =>
         {
             DependencyInjectionSetup.Initialize(services);
 
-            // Apply plugin services after core services
+            // Add user-registered services before plugins so plugins can inspect user configuration
+            // (e.g., DistributedPipelinePlugin needs to find IOptions<DistributedOptions>)
+            foreach (var descriptor in _services)
+            {
+                services.Add(descriptor);
+            }
+
+            // Apply plugin services after user services
             PluginIntegration.ApplyPluginServices(services);
 
             // Configure pipeline options
@@ -281,12 +288,6 @@ public sealed class PipelineBuilder
                 opts.DefaultExecutionOptions = _options.DefaultExecutionOptions;
                 opts.ThrowOnPipelineFailure = _options.ThrowOnPipelineFailure;
             });
-
-            // Add user-registered services
-            foreach (var descriptor in _services)
-            {
-                services.Add(descriptor);
-            }
 
             // Auto-register any missing required dependencies
             ModuleAutoRegistrar.AutoRegisterMissingDependencies(services);
