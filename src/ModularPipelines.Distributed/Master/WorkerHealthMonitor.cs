@@ -7,7 +7,7 @@ namespace ModularPipelines.Distributed.Master;
 
 /// <summary>
 /// Background task on master that monitors worker health via heartbeats.
-/// Detects unresponsive workers and can trigger module reassignment.
+/// Detects unresponsive workers and marks them as timed out.
 /// </summary>
 internal class WorkerHealthMonitor(
     IDistributedCoordinator coordinator,
@@ -20,9 +20,9 @@ internal class WorkerHealthMonitor(
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var options = _options.Value;
-        var checkInterval = TimeSpan.FromSeconds(options.HeartbeatIntervalSeconds);
-        _ = TimeSpan.FromSeconds(options.HeartbeatTimeoutSeconds);
+        var opts = _options.Value;
+        var checkInterval = TimeSpan.FromSeconds(opts.HeartbeatIntervalSeconds);
+        var heartbeatTimeout = TimeSpan.FromSeconds(opts.HeartbeatTimeoutSeconds);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -32,14 +32,23 @@ internal class WorkerHealthMonitor(
 
                 foreach (var worker in workers)
                 {
-                    if (worker.Status == WorkerStatus.TimedOut || worker.Status == WorkerStatus.Disconnected)
+                    if (worker.Status is WorkerStatus.TimedOut or WorkerStatus.Disconnected)
                     {
                         continue;
                     }
 
-                    // Check if worker has timed out based on registration time
-                    // In a real implementation, we'd track last heartbeat time
-                    // For now, rely on the coordinator's heartbeat tracking
+                    var heartbeat = await _coordinator.GetLastHeartbeatAsync(worker.WorkerIndex, stoppingToken);
+
+                    // Use heartbeat timestamp if available, otherwise fall back to registration time
+                    var lastSeen = heartbeat?.Timestamp ?? worker.RegisteredAt;
+
+                    if (DateTimeOffset.UtcNow - lastSeen > heartbeatTimeout)
+                    {
+                        _logger.LogWarning(
+                            "Worker {Index} timed out (last seen {LastSeen}, timeout {Timeout}s)",
+                            worker.WorkerIndex, lastSeen, opts.HeartbeatTimeoutSeconds);
+                        await _coordinator.UpdateWorkerStatusAsync(worker.WorkerIndex, WorkerStatus.TimedOut, stoppingToken);
+                    }
                 }
             }
             catch (Exception ex) when (ex is not OperationCanceledException)

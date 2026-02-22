@@ -1,20 +1,27 @@
 using System.Collections.Concurrent;
-using System.Threading.Channels;
 using ModularPipelines.Distributed;
 
 namespace ModularPipelines.Distributed.Coordination;
 
 internal class InMemoryDistributedCoordinator : IDistributedCoordinator
 {
-    private readonly Channel<ModuleAssignment> _workQueue = Channel.CreateUnbounded<ModuleAssignment>();
+    private readonly List<ModuleAssignment> _workQueue = [];
+    private readonly SemaphoreSlim _workAvailable = new(0);
+    private readonly Lock _queueLock = new();
     private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
     private readonly ConcurrentDictionary<int, WorkerRegistration> _workers = new();
-    private readonly object _dequeueLock = new();
+    private readonly ConcurrentDictionary<int, WorkerHeartbeat> _heartbeats = new();
+    private volatile bool _queueCompleted;
     private volatile CancellationSignal? _cancellationSignal;
 
     public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
-        _workQueue.Writer.TryWrite(assignment);
+        lock (_queueLock)
+        {
+            _workQueue.Add(assignment);
+        }
+
+        _workAvailable.Release();
 
         // Pre-create the result TCS so WaitForResultAsync can be called before the result is published
         _results.GetOrAdd(assignment.ModuleTypeName, _ => new TaskCompletionSource<SerializedModuleResult>());
@@ -23,24 +30,32 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
-        // Simple approach: try to read from channel and check capabilities
-        // If capabilities don't match, re-enqueue and return null
         try
         {
-            while (await _workQueue.Reader.WaitToReadAsync(cancellationToken))
+            while (!cancellationToken.IsCancellationRequested)
             {
-                if (_workQueue.Reader.TryRead(out var assignment))
+                await _workAvailable.WaitAsync(cancellationToken);
+
+                lock (_queueLock)
                 {
-                    if (assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                    for (var i = 0; i < _workQueue.Count; i++)
                     {
-                        return assignment;
+                        if (_workQueue[i].RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                        {
+                            var assignment = _workQueue[i];
+                            _workQueue.RemoveAt(i);
+                            return assignment;
+                        }
                     }
 
-                    // Re-enqueue if this worker can't handle it
-                    _workQueue.Writer.TryWrite(assignment);
-
-                    // Small delay to avoid tight loop
-                    await Task.Delay(50, cancellationToken);
+                    // No matching assignment found — the semaphore count was consumed but
+                    // the item that triggered it didn't match our capabilities.
+                    // Another worker with the right capabilities will pick it up.
+                    // Release the semaphore back so other workers can try.
+                    if (_workQueue.Count > 0)
+                    {
+                        _workAvailable.Release();
+                    }
                 }
             }
         }
@@ -74,6 +89,8 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
 
     public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
     {
+        _heartbeats[workerIndex] = new WorkerHeartbeat(workerIndex, DateTimeOffset.UtcNow, null);
+
         if (_workers.TryGetValue(workerIndex, out var existing))
         {
             _workers[workerIndex] = existing with
@@ -89,6 +106,22 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
     {
         IReadOnlyList<WorkerRegistration> result = [.. _workers.Values];
         return Task.FromResult(result);
+    }
+
+    public Task<WorkerHeartbeat?> GetLastHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    {
+        _heartbeats.TryGetValue(workerIndex, out var heartbeat);
+        return Task.FromResult(heartbeat);
+    }
+
+    public Task UpdateWorkerStatusAsync(int workerIndex, WorkerStatus status, CancellationToken cancellationToken)
+    {
+        if (_workers.TryGetValue(workerIndex, out var existing))
+        {
+            _workers[workerIndex] = existing with { Status = status };
+        }
+
+        return Task.CompletedTask;
     }
 
     public Task BroadcastCancellationAsync(string reason, CancellationToken cancellationToken)

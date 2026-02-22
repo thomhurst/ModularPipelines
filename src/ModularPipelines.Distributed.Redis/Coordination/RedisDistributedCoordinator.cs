@@ -43,38 +43,58 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
+        var blpopTimeout = TimeSpan.FromMilliseconds(_dequeuePollDelay);
+
         while (!cancellationToken.IsCancellationRequested)
         {
-            var value = await _database.ListRightPopAsync(_keys.WorkQueue);
-
-            if (value.IsNullOrEmpty)
+            // Scan existing items for a capability match without consuming non-matching items
+            var items = await _database.ListRangeAsync(_keys.WorkQueue);
+            foreach (var item in items)
             {
-                try
+                if (item.IsNullOrEmpty)
                 {
-                    await Task.Delay(_dequeuePollDelay, cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    return null;
+                    continue;
                 }
 
-                continue;
+                var candidate = JsonSerializer.Deserialize<ModuleAssignment>(item.ToString(), _jsonOptions)!;
+
+                if (candidate.RequiredCapabilities.Count == 0 ||
+                    candidate.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                {
+                    // Atomically remove this specific item (first occurrence)
+                    var removed = await _database.ListRemoveAsync(_keys.WorkQueue, item, count: 1);
+                    if (removed > 0)
+                    {
+                        return candidate;
+                    }
+
+                    // Another worker took it; continue scanning
+                }
             }
 
-            var assignment = JsonSerializer.Deserialize<ModuleAssignment>(value.ToString(), _jsonOptions)!;
-
-            if (assignment.RequiredCapabilities.Count == 0 ||
-                assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
-            {
-                return assignment;
-            }
-
-            // Re-enqueue if this worker can't handle it
-            await _database.ListLeftPushAsync(_keys.WorkQueue, value);
-
+            // No matching item found — block-wait for new items
             try
             {
-                await Task.Delay(_dequeuePollDelay, cancellationToken);
+                var result = await _database.ExecuteAsync("BRPOP", _keys.WorkQueue.ToString(), blpopTimeout.TotalSeconds.ToString("F1"));
+                if (result is not null && !result.IsNull)
+                {
+                    // BRPOP returns [key, value] — parse the value
+                    var resultArray = (RedisResult[])result!;
+                    var value = resultArray[1].ToString();
+                    if (!string.IsNullOrEmpty(value))
+                    {
+                        var assignment = JsonSerializer.Deserialize<ModuleAssignment>(value, _jsonOptions)!;
+
+                        if (assignment.RequiredCapabilities.Count == 0 ||
+                            assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                        {
+                            return assignment;
+                        }
+
+                        // Mismatch — push back to front for other workers
+                        await _database.ListLeftPushAsync(_keys.WorkQueue, value);
+                    }
+                }
             }
             catch (OperationCanceledException)
             {
@@ -168,6 +188,28 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         }
 
         return workers;
+    }
+
+    public async Task<WorkerHeartbeat?> GetLastHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    {
+        var value = await _database.HashGetAsync(_keys.Heartbeats, workerIndex.ToString());
+        if (value.IsNullOrEmpty)
+        {
+            return null;
+        }
+
+        return JsonSerializer.Deserialize<WorkerHeartbeat>(value.ToString(), _jsonOptions);
+    }
+
+    public async Task UpdateWorkerStatusAsync(int workerIndex, WorkerStatus status, CancellationToken cancellationToken)
+    {
+        var workerJson = await _database.HashGetAsync(_keys.Workers, workerIndex.ToString());
+        if (!workerJson.IsNullOrEmpty)
+        {
+            var worker = JsonSerializer.Deserialize<WorkerRegistration>(workerJson.ToString(), _jsonOptions)!;
+            var updated = worker with { Status = status };
+            await _database.HashSetAsync(_keys.Workers, workerIndex.ToString(), JsonSerializer.Serialize(updated, _jsonOptions));
+        }
     }
 
     public async Task BroadcastCancellationAsync(string reason, CancellationToken cancellationToken)

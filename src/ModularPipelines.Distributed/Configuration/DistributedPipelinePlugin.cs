@@ -19,16 +19,13 @@ internal class DistributedPipelinePlugin : IModularPipelinesPlugin
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Check if distributed options are registered
-        var sp = services.BuildServiceProvider();
-        var options = sp.GetService<IOptions<DistributedOptions>>();
+        // Resolve DistributedOptions without BuildServiceProvider() by inspecting registrations directly
+        var distributedOptions = ResolveOptionsFromDescriptors(services);
 
-        if (options?.Value.Enabled != true)
+        if (distributedOptions is null || !distributedOptions.Enabled)
         {
             return;
         }
-
-        var distributedOptions = options.Value;
 
         // Register shared services
         var typeRegistry = new ModuleTypeRegistry();
@@ -42,13 +39,8 @@ internal class DistributedPipelinePlugin : IModularPipelinesPlugin
         {
             services.AddSingleton<IDistributedCoordinator, InMemoryDistributedCoordinator>();
 
-            // Warn that InMemoryDistributedCoordinator is only suitable for single-process testing
-            var tempSp = services.BuildServiceProvider();
-            var logger = tempSp.GetService<ILoggerFactory>()?.CreateLogger<DistributedPipelinePlugin>();
-            logger?.LogWarning(
-                "No IDistributedCoordinator or IDistributedCoordinatorFactory was registered. " +
-                "Using InMemoryDistributedCoordinator which is only suitable for single-process testing. " +
-                "Register a real coordinator (e.g., Redis, HTTP) for multi-process distributed execution.");
+            // Defer the warning log to resolution time (avoids BuildServiceProvider)
+            services.AddSingleton<InMemoryCoordinatorWarning>();
         }
         else if (hasFactory)
         {
@@ -91,7 +83,7 @@ internal class DistributedPipelinePlugin : IModularPipelinesPlugin
                 sp2.GetRequiredService<IOptions<ArtifactOptions>>(),
                 string.Empty));
 
-        var roleDetector = new RoleDetector(options);
+        var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions));
         var role = roleDetector.DetectRole();
 
         if (role == DistributedRole.Master)
@@ -123,12 +115,72 @@ internal class DistributedPipelinePlugin : IModularPipelinesPlugin
         // Pipeline-level configuration (e.g., matrix expansion) will be added in later phases
     }
 
+    /// <summary>
+    /// Extracts DistributedOptions from the service collection without calling BuildServiceProvider().
+    /// The AddDistributedMode extension registers IOptions&lt;DistributedOptions&gt; as a singleton instance.
+    /// </summary>
+    private static DistributedOptions? ResolveOptionsFromDescriptors(IServiceCollection services)
+    {
+        // Look for the IOptions<DistributedOptions> singleton instance registration
+        var optionsDescriptor = services.FirstOrDefault(d =>
+            d.ServiceType == typeof(IOptions<DistributedOptions>) &&
+            d.Lifetime == ServiceLifetime.Singleton &&
+            d.ImplementationInstance is not null);
+
+        if (optionsDescriptor?.ImplementationInstance is IOptions<DistributedOptions> options)
+        {
+            return options.Value;
+        }
+
+        // Check for IConfigureOptions<DistributedOptions> (from Configure<T>() calls)
+        var hasConfigureOptions = services.Any(d =>
+            d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) ||
+            d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>));
+
+        if (hasConfigureOptions)
+        {
+            // Build the options manually by invoking the configure actions
+            var opts = new DistributedOptions();
+            foreach (var descriptor in services.Where(d =>
+                d.ServiceType == typeof(IConfigureOptions<DistributedOptions>) &&
+                d.ImplementationInstance is IConfigureOptions<DistributedOptions>))
+            {
+                ((IConfigureOptions<DistributedOptions>)descriptor.ImplementationInstance!).Configure(opts);
+            }
+
+            foreach (var descriptor in services.Where(d =>
+                d.ServiceType == typeof(IPostConfigureOptions<DistributedOptions>) &&
+                d.ImplementationInstance is IPostConfigureOptions<DistributedOptions>))
+            {
+                ((IPostConfigureOptions<DistributedOptions>)descriptor.ImplementationInstance!).PostConfigure(string.Empty, opts);
+            }
+
+            return opts;
+        }
+
+        return null;
+    }
+
     private static void RemoveService<T>(IServiceCollection services)
     {
         var descriptors = services.Where(d => d.ServiceType == typeof(T)).ToList();
         foreach (var descriptor in descriptors)
         {
             services.Remove(descriptor);
+        }
+    }
+
+    /// <summary>
+    /// Singleton that logs a warning when resolved, replacing the BuildServiceProvider() pattern.
+    /// </summary>
+    private sealed class InMemoryCoordinatorWarning
+    {
+        public InMemoryCoordinatorWarning(ILogger<DistributedPipelinePlugin> logger)
+        {
+            logger.LogWarning(
+                "No IDistributedCoordinator or IDistributedCoordinatorFactory was registered. " +
+                "Using InMemoryDistributedCoordinator which is only suitable for single-process testing. " +
+                "Register a real coordinator (e.g., Redis, HTTP) for multi-process distributed execution.");
         }
     }
 }
