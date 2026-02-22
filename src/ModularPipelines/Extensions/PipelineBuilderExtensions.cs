@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using ModularPipelines.DependencyInjection;
+using ModularPipelines.Distributed;
 using ModularPipelines.Engine;
 using ModularPipelines.Interfaces;
 using ModularPipelines.Modules;
@@ -279,6 +280,47 @@ public static class PipelineBuilderExtensions
     public static PipelineBuilder AddRequirement(this PipelineBuilder builder, IPipelineRequirementInstance requirement)
     {
         builder.Services.AddSingleton(requirement);
+        return builder;
+    }
+
+    /// <summary>
+    /// Enables distributed execution mode and configures distributed options.
+    /// </summary>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <param name="configure">Action to configure distributed options.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
+    {
+        var options = new DistributedOptions();
+        configure(options);
+        options.Enabled = true;
+        builder.Services.AddSingleton(Microsoft.Extensions.Options.Options.Create(options));
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers a custom distributed coordinator implementation.
+    /// </summary>
+    /// <typeparam name="TCoordinator">The coordinator type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddDistributedCoordinator<TCoordinator>(this PipelineBuilder builder)
+        where TCoordinator : class, IDistributedCoordinator
+    {
+        builder.Services.AddSingleton<IDistributedCoordinator, TCoordinator>();
+        return builder;
+    }
+
+    /// <summary>
+    /// Registers a custom distributed coordinator factory for async initialization.
+    /// </summary>
+    /// <typeparam name="TFactory">The coordinator factory type.</typeparam>
+    /// <param name="builder">The pipeline builder.</param>
+    /// <returns>The same builder instance for chaining.</returns>
+    public static PipelineBuilder AddDistributedCoordinatorFactory<TFactory>(this PipelineBuilder builder)
+        where TFactory : class, IDistributedCoordinatorFactory
+    {
+        builder.Services.AddSingleton<IDistributedCoordinatorFactory, TFactory>();
         return builder;
     }
 }

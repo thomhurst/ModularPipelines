@@ -181,6 +181,13 @@ public interface IModuleContext : IPipelineContext
         where TModule : class, IModule;
 
     /// <summary>
+    /// Gets the matrix target value for this module instance, if it was expanded via <see cref="Attributes.MatrixTargetAttribute"/>.
+    /// Returns <c>null</c> if this is not an expanded matrix module instance.
+    /// </summary>
+    /// <returns>The matrix target string, or <c>null</c>.</returns>
+    string? GetMatrixTarget();
+
+    /// <summary>
     /// Tracks a sub-operation within the current module for progress display.
     /// </summary>
     /// <typeparam name="T">The result type of the sub-operation.</typeparam>

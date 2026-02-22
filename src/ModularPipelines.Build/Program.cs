@@ -8,6 +8,8 @@ using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
+using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
@@ -41,6 +43,46 @@ builder.Services
     .AddModule<PrintGitInformationModule>()
     .AddModule<PushVersionTagModule>()
     .AddPipelineModuleHooks<MyModuleHooks>();
+
+// Enable distributed mode when Redis secrets are available (CI with multiple instances)
+var redisUrl = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_URL");
+var redisToken = Environment.GetEnvironmentVariable("UPSTASH_REDIS_REST_TOKEN");
+var instanceIndex = int.TryParse(Environment.GetEnvironmentVariable("INSTANCE_INDEX"), out var idx) ? idx : 0;
+var totalInstances = int.TryParse(Environment.GetEnvironmentVariable("TOTAL_INSTANCES"), out var total) ? total : 1;
+
+if (!string.IsNullOrEmpty(redisUrl) && !string.IsNullOrEmpty(redisToken) && totalInstances > 1)
+{
+    var host = new Uri(redisUrl).Host;
+    var connectionString = $"{host}:6379,password={redisToken},ssl=True,abortConnect=False";
+
+    builder.AddDistributedMode(o =>
+    {
+        o.InstanceIndex = instanceIndex;
+        o.TotalInstances = totalInstances;
+    });
+
+    builder.AddRedisDistributedCoordinator(o =>
+    {
+        o.ConnectionString = connectionString;
+    });
+
+    // Enable S3-compatible artifact store (Cloudflare R2) when configured
+    var r2EndpointUrl = Environment.GetEnvironmentVariable("R2_ENDPOINT_URL");
+    var r2AccessKey = Environment.GetEnvironmentVariable("R2_ACCESS_KEY");
+    var r2SecretKey = Environment.GetEnvironmentVariable("R2_SECRET_KEY");
+
+    if (!string.IsNullOrEmpty(r2EndpointUrl) && !string.IsNullOrEmpty(r2AccessKey) && !string.IsNullOrEmpty(r2SecretKey))
+    {
+        builder.AddS3DistributedArtifactStore(o =>
+        {
+            o.BucketName = "modular-pipelines";
+            o.ServiceUrl = r2EndpointUrl;
+            o.AccessKey = r2AccessKey;
+            o.SecretKey = r2SecretKey;
+            o.ForcePathStyle = true;
+        });
+    }
+}
 
 builder.Services.AddSingleton<IGitHubClient>(sp =>
 {

@@ -8,6 +8,7 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[PinToMaster]
 [ModuleCategory("VersionTag")]
 public class NugetVersionGeneratorModule : Module<string>
 {

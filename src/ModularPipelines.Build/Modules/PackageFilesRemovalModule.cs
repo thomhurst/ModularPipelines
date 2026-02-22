@@ -1,9 +1,11 @@
+using ModularPipelines.Attributes;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
+[PinToMaster]
 public class PackageFilesRemovalModule : Module<int>
 {
     protected override Task<int> ExecuteAsync(IModuleContext context, CancellationToken cancellationToken)

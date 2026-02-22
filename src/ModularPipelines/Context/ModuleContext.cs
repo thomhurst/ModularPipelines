@@ -77,6 +77,13 @@ internal class ModuleContext : IModuleContext, IInternalPipelineContext
         return _internalContext.GetModule<TModule>();
     }
 
+    public string? GetMatrixTarget()
+    {
+        // Matrix target is stored as a service in the module's DI scope.
+        // If not present, this module is not an expanded matrix instance.
+        return _executionContext.MatrixTarget;
+    }
+
     public async Task<T> SubModule<T>(string name, Func<Task<T>> action)
     {
         var tracker = new SubModuleTracker(name, _currentModule.GetType());

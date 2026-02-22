@@ -36,6 +36,11 @@
       <_Parameter1>ModularPipelines.TeamCity</_Parameter1>
     </AssemblyAttribute>
 
+    <!-- Distributed package - accesses internal scheduler/executor interfaces -->
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed</_Parameter1>
+    </AssemblyAttribute>
+
     <!-- Test assemblies - verify internal behavior -->
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.UnitTests</_Parameter1>
@@ -48,6 +53,9 @@
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>ModularPipelines.AmazonWebServices.UnitTests</_Parameter1>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>ModularPipelines.Distributed.UnitTests</_Parameter1>
     </AssemblyAttribute>
 
     <!-- Mocking framework support - required for Castle.Core/Moq -->

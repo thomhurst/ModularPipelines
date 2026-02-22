@@ -13,6 +13,7 @@ using Octokit;
 
 namespace ModularPipelines.Build.Modules;
 
+[PinToMaster]
 [SkipIfNoGitHubToken]
 [RunOnlyOnBranch("main")]
 [RunOnLinuxOnly]
