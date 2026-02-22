@@ -16,12 +16,8 @@ public interface IDistributedCoordinator
 
     // Worker Management
     Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken);
-    Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken);
     Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken);
-    Task<WorkerHeartbeat?> GetLastHeartbeatAsync(int workerIndex, CancellationToken cancellationToken);
-    Task UpdateWorkerStatusAsync(int workerIndex, WorkerStatus status, CancellationToken cancellationToken);
 
-    // Cancellation
-    Task BroadcastCancellationAsync(string reason, CancellationToken cancellationToken);
-    Task<CancellationSignal?> IsCancellationRequestedAsync(CancellationToken cancellationToken);
+    // Completion
+    Task SignalCompletionAsync(CancellationToken cancellationToken);
 }

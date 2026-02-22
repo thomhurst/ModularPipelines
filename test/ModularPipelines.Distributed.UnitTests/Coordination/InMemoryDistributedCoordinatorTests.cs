@@ -59,9 +59,7 @@ public class InMemoryDistributedCoordinatorTests
         var registration = new WorkerRegistration(
             WorkerIndex: 1,
             Capabilities: new HashSet<string> { "linux" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Connected,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
 
         await coordinator.RegisterWorkerAsync(registration, CancellationToken.None);
 
@@ -72,20 +70,21 @@ public class InMemoryDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task BroadcastCancellation_And_Check()
+    public async Task SignalCompletion_CausesDequeueToReturnNull()
     {
         var coordinator = new InMemoryDistributedCoordinator();
 
-        // No cancellation initially
-        var signal = await coordinator.IsCancellationRequestedAsync(CancellationToken.None);
-        await Assert.That(signal).IsNull();
+        // Start dequeue in background (will block waiting for work)
+        var dequeueTask = coordinator.DequeueModuleAsync(
+            new HashSet<string>(), CancellationToken.None);
 
-        // Broadcast cancellation
-        await coordinator.BroadcastCancellationAsync("Test reason", CancellationToken.None);
+        // Signal completion after a small delay
+        await Task.Delay(50);
+        await coordinator.SignalCompletionAsync(CancellationToken.None);
 
-        signal = await coordinator.IsCancellationRequestedAsync(CancellationToken.None);
-        await Assert.That(signal).IsNotNull();
-        await Assert.That(signal!.Reason).IsEqualTo("Test reason");
+        var result = await dequeueTask;
+
+        await Assert.That(result).IsNull();
     }
 
     [Test]

@@ -28,7 +28,6 @@ public class RedisDistributedCoordinatorTests
         _options = new RedisDistributedOptions
         {
             KeyExpirationSeconds = 3600,
-            DequeuePollDelayMilliseconds = 10,
         };
         _coordinator = new RedisDistributedCoordinator(_dbMock.Object, _subscriberMock.Object, _keys, _options);
     }
@@ -50,6 +49,12 @@ public class RedisDistributedCoordinatorTests
             _keys.WorkQueue,
             TimeSpan.FromSeconds(3600),
             It.IsAny<ExpireWhen>(),
+            It.IsAny<CommandFlags>()), Times.Once);
+
+        // Verify pub/sub notification was sent
+        _subscriberMock.Verify(s => s.PublishAsync(
+            It.Is<RedisChannel>(c => c.ToString() == _keys.WorkAvailableChannel),
+            It.IsAny<RedisValue>(),
             It.IsAny<CommandFlags>()), Times.Once);
     }
 
@@ -164,42 +169,6 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task SendHeartbeatAsync_SetsHeartbeatHash()
-    {
-        _dbMock.Setup(db => db.HashGetAsync(_keys.Workers, (RedisValue)"1", It.IsAny<CommandFlags>()))
-            .ReturnsAsync(RedisValue.Null);
-
-        await _coordinator.SendHeartbeatAsync(1, CancellationToken.None);
-
-        _dbMock.Verify(db => db.HashSetAsync(
-            _keys.Heartbeats,
-            (RedisValue)"1",
-            It.IsAny<RedisValue>(),
-            It.IsAny<When>(),
-            It.IsAny<CommandFlags>()), Times.Once);
-    }
-
-    [Test]
-    public async Task SendHeartbeatAsync_UpdatesWorkerStatus_FromConnectedToActive()
-    {
-        var worker = CreateWorkerRegistration(1);
-        var workerJson = JsonSerializer.Serialize(worker, JsonOptions);
-
-        _dbMock.Setup(db => db.HashGetAsync(_keys.Workers, (RedisValue)"1", It.IsAny<CommandFlags>()))
-            .ReturnsAsync(workerJson);
-
-        await _coordinator.SendHeartbeatAsync(1, CancellationToken.None);
-
-        // Verify worker hash was updated with Status:1 (Active enum value)
-        _dbMock.Verify(db => db.HashSetAsync(
-            _keys.Workers,
-            (RedisValue)"1",
-            It.Is<RedisValue>(v => v.ToString().Contains("\"Status\":1")),
-            It.IsAny<When>(),
-            It.IsAny<CommandFlags>()), Times.Once);
-    }
-
-    [Test]
     public async Task GetRegisteredWorkersAsync_ReturnsAllWorkers()
     {
         var worker1 = CreateWorkerRegistration(1);
@@ -218,57 +187,32 @@ public class RedisDistributedCoordinatorTests
     }
 
     [Test]
-    public async Task BroadcastCancellationAsync_PublishesToChannel()
+    public async Task SignalCompletionAsync_SetsKeyExpiryAndPublishes()
     {
-        await _coordinator.BroadcastCancellationAsync("test reason", CancellationToken.None);
+        await _coordinator.SignalCompletionAsync(CancellationToken.None);
+
+        _dbMock.Verify(db => db.KeyExpireAsync(
+            _keys.CompletionFlag,
+            TimeSpan.FromSeconds(3600),
+            It.IsAny<ExpireWhen>(),
+            It.IsAny<CommandFlags>()), Times.Once);
 
         _subscriberMock.Verify(s => s.PublishAsync(
-            It.Is<RedisChannel>(c => c.ToString() == _keys.CancellationChannel),
-            It.Is<RedisValue>(v => v.ToString().Contains("test reason")),
+            It.Is<RedisChannel>(c => c.ToString() == _keys.CompletionChannel),
+            It.IsAny<RedisValue>(),
             It.IsAny<CommandFlags>()), Times.Once);
     }
 
     [Test]
-    public async Task BroadcastCancellationAsync_StoresSignalInRedis()
+    public async Task DequeueModuleAsync_ReturnsNull_WhenCompletionAlreadySignalled()
     {
-        // After broadcast, IsCancellationRequested should find the signal
-        // Setup the StringGet to return what StringSet would have stored
-        var signal = new CancellationSignal("test reason", DateTimeOffset.UtcNow);
-        var json = JsonSerializer.Serialize(signal, JsonOptions);
+        _dbMock.Setup(db => db.StringGetAsync(_keys.CompletionFlag, It.IsAny<CommandFlags>()))
+            .ReturnsAsync("1");
 
-        _dbMock.Setup(db => db.StringGetAsync(_keys.Cancellation, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(json);
-
-        var result = await _coordinator.IsCancellationRequestedAsync(CancellationToken.None);
-
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result!.Reason).IsEqualTo("test reason");
-    }
-
-    [Test]
-    public async Task IsCancellationRequestedAsync_ReturnsNull_WhenNotCancelled()
-    {
-        _dbMock.Setup(db => db.StringGetAsync(_keys.Cancellation, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(RedisValue.Null);
-
-        var result = await _coordinator.IsCancellationRequestedAsync(CancellationToken.None);
+        var result = await _coordinator.DequeueModuleAsync(
+            new HashSet<string>(), CancellationToken.None);
 
         await Assert.That(result).IsNull();
-    }
-
-    [Test]
-    public async Task IsCancellationRequestedAsync_ReturnsSignal_WhenCancelled()
-    {
-        var signal = new CancellationSignal("failure", DateTimeOffset.UtcNow);
-        var json = JsonSerializer.Serialize(signal, JsonOptions);
-
-        _dbMock.Setup(db => db.StringGetAsync(_keys.Cancellation, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(json);
-
-        var result = await _coordinator.IsCancellationRequestedAsync(CancellationToken.None);
-
-        await Assert.That(result).IsNotNull();
-        await Assert.That(result!.Reason).IsEqualTo("failure");
     }
 
     private static ModuleAssignment CreateAssignment(
@@ -299,8 +243,6 @@ public class RedisDistributedCoordinatorTests
         return new WorkerRegistration(
             WorkerIndex: workerIndex,
             Capabilities: new HashSet<string> { "linux" },
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Connected,
-            CurrentModule: null);
+            RegisteredAt: DateTimeOffset.UtcNow);
     }
 }

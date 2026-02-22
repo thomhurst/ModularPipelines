@@ -63,7 +63,6 @@ builder.AddRedisDistributedCoordinator(o =>
     o.RunIdentifier = null;          // auto-detect
     o.KeyPrefix = "modpipe";
     o.KeyExpirationSeconds = 3600;
-    o.DequeuePollDelayMilliseconds = 100;
 });
 ```
 
@@ -73,7 +72,6 @@ builder.AddRedisDistributedCoordinator(o =>
 | `RunIdentifier` | `string?` | `null` | Unique identifier for this pipeline run. Used to isolate Redis keys so concurrent runs don't collide. If `null`, auto-detected (see below). |
 | `KeyPrefix` | `string` | `"modpipe"` | Prefix for all Redis keys. Change this if multiple different pipelines share the same Redis instance. |
 | `KeyExpirationSeconds` | `int` | `3600` | TTL in seconds for all Redis keys. Keys are automatically cleaned up after this duration. |
-| `DequeuePollDelayMilliseconds` | `int` | `100` | Delay between dequeue poll attempts when the work queue is empty. Lower values mean faster pickup but more Redis traffic. |
 
 ## Run Identifier Resolution
 

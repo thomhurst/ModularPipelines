@@ -10,9 +10,7 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
     private readonly Lock _queueLock = new();
     private readonly ConcurrentDictionary<string, TaskCompletionSource<SerializedModuleResult>> _results = new();
     private readonly ConcurrentDictionary<int, WorkerRegistration> _workers = new();
-    private readonly ConcurrentDictionary<int, WorkerHeartbeat> _heartbeats = new();
-    private volatile bool _queueCompleted;
-    private volatile CancellationSignal? _cancellationSignal;
+    private volatile bool _completed;
 
     public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
     {
@@ -35,6 +33,13 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
             while (!cancellationToken.IsCancellationRequested)
             {
                 await _workAvailable.WaitAsync(cancellationToken);
+
+                if (_completed)
+                {
+                    // Wake the next waiting worker so they also see completion
+                    _workAvailable.Release();
+                    return null;
+                }
 
                 lock (_queueLock)
                 {
@@ -87,51 +92,16 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
         return Task.CompletedTask;
     }
 
-    public Task SendHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
-    {
-        _heartbeats[workerIndex] = new WorkerHeartbeat(workerIndex, DateTimeOffset.UtcNow, null);
-
-        if (_workers.TryGetValue(workerIndex, out var existing))
-        {
-            _workers[workerIndex] = existing with
-            {
-                Status = existing.Status == WorkerStatus.Connected ? WorkerStatus.Active : existing.Status,
-            };
-        }
-
-        return Task.CompletedTask;
-    }
-
     public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
     {
         IReadOnlyList<WorkerRegistration> result = [.. _workers.Values];
         return Task.FromResult(result);
     }
 
-    public Task<WorkerHeartbeat?> GetLastHeartbeatAsync(int workerIndex, CancellationToken cancellationToken)
+    public Task SignalCompletionAsync(CancellationToken cancellationToken)
     {
-        _heartbeats.TryGetValue(workerIndex, out var heartbeat);
-        return Task.FromResult(heartbeat);
-    }
-
-    public Task UpdateWorkerStatusAsync(int workerIndex, WorkerStatus status, CancellationToken cancellationToken)
-    {
-        if (_workers.TryGetValue(workerIndex, out var existing))
-        {
-            _workers[workerIndex] = existing with { Status = status };
-        }
-
+        _completed = true;
+        _workAvailable.Release();
         return Task.CompletedTask;
-    }
-
-    public Task BroadcastCancellationAsync(string reason, CancellationToken cancellationToken)
-    {
-        _cancellationSignal = new CancellationSignal(reason, DateTimeOffset.UtcNow);
-        return Task.CompletedTask;
-    }
-
-    public Task<CancellationSignal?> IsCancellationRequestedAsync(CancellationToken cancellationToken)
-    {
-        return Task.FromResult(_cancellationSignal);
     }
 }

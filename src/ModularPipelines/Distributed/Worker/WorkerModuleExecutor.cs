@@ -56,9 +56,7 @@ internal class WorkerModuleExecutor(
         var registration = new WorkerRegistration(
             WorkerIndex: options.InstanceIndex,
             Capabilities: capabilities,
-            RegisteredAt: DateTimeOffset.UtcNow,
-            Status: WorkerStatus.Connected,
-            CurrentModule: null
+            RegisteredAt: DateTimeOffset.UtcNow
         );
         await _coordinator.RegisterWorkerAsync(registration, cancellationToken);
         _logger.LogInformation("Worker {Index} registered with capabilities: {Capabilities}",
