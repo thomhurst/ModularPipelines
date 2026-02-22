@@ -25,7 +25,7 @@ public record PnpmWhyOptions : PnpmOptions
     public string? AggregateOutput { get; set; }
 
     /// <summary>
-    /// Max display depth of the dependency graph
+    /// Max display depth of the reverse dependency tree
     /// </summary>
     [CliOption("--depth")]
     public string? Depth { get; set; }
