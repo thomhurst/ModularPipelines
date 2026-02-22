@@ -75,13 +75,8 @@ internal class DistributedPipelinePlugin : IModularPipelinesPlugin
             services.Configure<ArtifactOptions>(_ => { });
         }
 
-        // Register lifecycle manager and context
+        // Register lifecycle manager (handles per-module artifact operations via attributes)
         services.AddSingleton<ArtifactLifecycleManager>();
-        services.AddSingleton<IArtifactContext>(sp2 =>
-            new ArtifactContextImpl(
-                sp2.GetRequiredService<IDistributedArtifactStore>(),
-                sp2.GetRequiredService<IOptions<ArtifactOptions>>(),
-                string.Empty));
 
         var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(distributedOptions));
         var role = roleDetector.DetectRole();

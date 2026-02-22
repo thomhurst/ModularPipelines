@@ -9,6 +9,7 @@ using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
+using ModularPipelines.Distributed.Extensions;
 using ModularPipelines.Distributed.Redis.Extensions;
 using ModularPipelines.Extensions;
 using Octokit;

@@ -43,8 +43,6 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
-        var blpopTimeout = TimeSpan.FromMilliseconds(_dequeuePollDelay);
-
         while (!cancellationToken.IsCancellationRequested)
         {
             // Scan existing items for a capability match without consuming non-matching items
@@ -72,29 +70,10 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
                 }
             }
 
-            // No matching item found — block-wait for new items
+            // No matching item found — wait before polling again
             try
             {
-                var result = await _database.ExecuteAsync("BRPOP", _keys.WorkQueue.ToString(), blpopTimeout.TotalSeconds.ToString("F1"));
-                if (result is not null && !result.IsNull)
-                {
-                    // BRPOP returns [key, value] — parse the value
-                    var resultArray = (RedisResult[])result!;
-                    var value = resultArray[1].ToString();
-                    if (!string.IsNullOrEmpty(value))
-                    {
-                        var assignment = JsonSerializer.Deserialize<ModuleAssignment>(value, _jsonOptions)!;
-
-                        if (assignment.RequiredCapabilities.Count == 0 ||
-                            assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
-                        {
-                            return assignment;
-                        }
-
-                        // Mismatch — push back to front for other workers
-                        await _database.ListLeftPushAsync(_keys.WorkQueue, value);
-                    }
-                }
+                await Task.Delay(_dequeuePollDelay, cancellationToken);
             }
             catch (OperationCanceledException)
             {
