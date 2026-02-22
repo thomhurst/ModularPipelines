@@ -31,6 +31,12 @@ public record DockerPluginInstallOptions : DockerOptions
     public bool? Disable { get; set; }
 
     /// <summary>
+    /// Skip image verification (default true)
+    /// </summary>
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
+
+    /// <summary>
     /// Grant all permissions necessary to run the plugin
     /// </summary>
     [CliFlag("--grant-all-permissions")]

@@ -11,29 +11,20 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Remove one or more images
+/// Add a signer
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("rmi")]
-public record DockerRmiOptions : DockerOptions
+[CliSubCommand("trust", "signer", "add")]
+public record DockerTrustSignerAddOptions : DockerOptions
 {
     /// <summary>
-    /// Force removal of the image
+    /// Path to the signer's public key file
     /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Do not delete untagged parents
-    /// </summary>
-    [CliFlag("--no-prune")]
-    public bool? NoPrune { get; set; }
+    [CliOption("--key", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? Key { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public string? Repository { get; set; }
 
 }
