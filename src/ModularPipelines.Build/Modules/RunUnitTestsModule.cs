@@ -14,7 +14,7 @@ using Polly;
 
 namespace ModularPipelines.Build.Modules;
 
-[DependsOn<BuildSolutionsModule>]
+[DependsOn<BuildSolutionsModule>(Optional = true)]
 [ConsumesArtifact(typeof(BuildSolutionsModule), "build-output", RestorePath = "../../")]
 public class RunUnitTestsModule : Module<CommandResult[]>
 {
