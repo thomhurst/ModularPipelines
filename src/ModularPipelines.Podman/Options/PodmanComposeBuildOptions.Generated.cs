@@ -61,12 +61,6 @@ public record PodmanComposeBuildOptions : PodmanOptions
     public bool? Print { get; set; }
 
     /// <summary>
-    /// Add a provenance attestation
-    /// </summary>
-    [CliOption("--provenance", Format = OptionFormat.EqualsSeparated)]
-    public string? Provenance { get; set; }
-
-    /// <summary>
     /// Always attempt to pull a newer version of the image
     /// </summary>
     [CliFlag("--pull")]
@@ -79,16 +73,10 @@ public record PodmanComposeBuildOptions : PodmanOptions
     public bool? Push { get; set; }
 
     /// <summary>
-    /// Suppress the build output
+    /// Don't print anything to STDOUT
     /// </summary>
     [CliFlag("--quiet", ShortForm = "-q")]
     public bool? Quiet { get; set; }
-
-    /// <summary>
-    /// Add a SBOM attestation
-    /// </summary>
-    [CliOption("--sbom", Format = OptionFormat.EqualsSeparated)]
-    public string? Sbom { get; set; }
 
     /// <summary>
     /// Set SSH authentications used when building service images. (use 'default' for using your default SSH Agent)
