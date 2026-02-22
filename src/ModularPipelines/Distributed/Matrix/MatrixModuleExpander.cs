@@ -8,6 +8,10 @@ namespace ModularPipelines.Distributed.Matrix;
 /// Scans registered modules for [MatrixTarget] attributes and expands them into
 /// N synthetic module registrations, one per target value.
 /// </summary>
+/// <remarks>
+/// TODO(matrix): Not yet wired into DistributedModuleExecutor. Modules with [MatrixTarget]
+/// will currently run once, not N times. Expansion logic is ready but not connected.
+/// </remarks>
 internal class MatrixModuleExpander(ILogger<MatrixModuleExpander> logger)
 {
     private readonly ILogger<MatrixModuleExpander> _logger = logger;

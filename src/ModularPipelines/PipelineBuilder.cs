@@ -388,7 +388,6 @@ public sealed class PipelineBuilder
         {
             services.AddSingleton<DistributedWorkPublisher>();
             services.AddSingleton<DistributedResultCollector>();
-            services.AddSingleton<DistributedSummaryAggregator>();
             RemoveService<IModuleExecutor>(services);
             services.AddSingleton<IModuleExecutor, DistributedModuleExecutor>();
         }
