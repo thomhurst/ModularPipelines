@@ -18,6 +18,16 @@ internal class ModuleResultSerializer
             WriteIndented = false,
             Converters = { new ModuleResultJsonConverterFactory() },
         };
+
+        // Add portable path converters so File/Folder objects serialize as git-root-relative paths.
+        // This enables cross-platform distributed mode (e.g., Windows worker → Linux master).
+        var gitRoot = GitRootFinder.Find();
+
+        if (gitRoot is not null)
+        {
+            _options.Converters.Add(new PortableFilePathJsonConverter(gitRoot));
+            _options.Converters.Add(new PortableFolderPathJsonConverter(gitRoot));
+        }
     }
 
     public ModularPipelines.Distributed.SerializedModuleResult Serialize(IModuleResult result, string moduleTypeName, string resultTypeName, int workerIndex)
