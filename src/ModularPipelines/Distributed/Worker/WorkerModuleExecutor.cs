@@ -84,7 +84,8 @@ internal class WorkerModuleExecutor(
                 var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
                 if (resolved is null)
                 {
-                    _logger.LogError("Cannot resolve module type: {ModuleTypeName}", assignment.ModuleTypeName);
+                    _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+                    await PublishResolutionFailureAsync(assignment, cancellationToken);
                     continue;
                 }
 
@@ -92,7 +93,8 @@ internal class WorkerModuleExecutor(
                 var module = modules.FirstOrDefault(m => m.GetType().FullName == assignment.ModuleTypeName);
                 if (module is null)
                 {
-                    _logger.LogError("Module instance not found: {ModuleTypeName}", assignment.ModuleTypeName);
+                    _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+                    await PublishResolutionFailureAsync(assignment, cancellationToken);
                     continue;
                 }
 
@@ -192,6 +194,26 @@ internal class WorkerModuleExecutor(
         }
 
         return executedModules;
+    }
+
+    private async Task PublishResolutionFailureAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var failureResult = new SerializedModuleResult(
+                ModuleTypeName: assignment.ModuleTypeName,
+                ResultTypeName: assignment.ResultTypeName,
+                WorkerIndex: _options.Value.InstanceIndex,
+                SerializedJson: "null",
+                CompletedAt: DateTimeOffset.UtcNow);
+            await _coordinator.PublishResultAsync(failureResult, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex,
+                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                assignment.ModuleTypeName);
+        }
     }
 
     /// <summary>

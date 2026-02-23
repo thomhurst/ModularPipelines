@@ -1,12 +1,11 @@
-using System.Reflection;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
 
 namespace ModularPipelines.Distributed;
 
 /// <summary>
-/// Applies a deserialized <see cref="IModuleResult"/> to a module's internal <c>CompletionSource</c>
-/// via reflection, since the generic type parameter T is not known at compile time.
+/// Applies a deserialized <see cref="IModuleResult"/> to a module's <c>CompletionSource</c>
+/// via the <see cref="IModule.TrySetDistributedResult"/> interface method.
 /// </summary>
 /// <remarks>
 /// Used by both the master (collecting results from workers) and workers (applying dependency
@@ -20,22 +19,9 @@ internal static class ModuleCompletionSourceApplicator
     /// </summary>
     /// <param name="module">The module instance whose CompletionSource should be set.</param>
     /// <param name="result">The deserialized module result.</param>
-    /// <returns>True if the result was successfully applied; false if the CompletionSource could not be found.</returns>
+    /// <returns>True if the result was successfully applied.</returns>
     public static bool TryApply(IModule module, IModuleResult result)
     {
-        var completionSource = module.GetType()
-            .GetProperty("CompletionSource", BindingFlags.Instance | BindingFlags.NonPublic)?
-            .GetValue(module);
-
-        if (completionSource is null)
-        {
-            return false;
-        }
-
-        completionSource.GetType()
-            .GetMethod("TrySetResult")?
-            .Invoke(completionSource, [result]);
-
-        return true;
+        return module.TrySetDistributedResult(result);
     }
 }

@@ -13,4 +13,10 @@ public class DistributedOptions
     public int CapabilityTimeoutSeconds { get; set; } = 300;
 
     public bool AutoDetectOsCapability { get; set; } = true;
+
+    /// <summary>
+    /// Default timeout in seconds for waiting for a distributed module result.
+    /// Applied when a module has no explicit Timeout configured. 0 = no timeout (wait forever).
+    /// </summary>
+    public int ModuleResultTimeoutSeconds { get; set; }
 }

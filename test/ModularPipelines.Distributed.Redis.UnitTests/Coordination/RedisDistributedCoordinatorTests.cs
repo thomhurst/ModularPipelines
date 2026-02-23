@@ -64,11 +64,12 @@ public class RedisDistributedCoordinatorTests
         var assignment = CreateAssignment("Test.Module");
         var json = JsonSerializer.Serialize(assignment, JsonOptions);
 
-        _dbMock.Setup(db => db.ListRangeAsync(_keys.WorkQueue, It.IsAny<long>(), It.IsAny<long>(), It.IsAny<CommandFlags>()))
-            .ReturnsAsync([json]);
-
-        _dbMock.Setup(db => db.ListRemoveAsync(_keys.WorkQueue, (RedisValue)json, 1, It.IsAny<CommandFlags>()))
-            .ReturnsAsync(1);
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create((RedisValue)json));
 
         var result = await _coordinator.DequeueModuleAsync(
             new HashSet<string>(), CancellationToken.None);
@@ -80,30 +81,31 @@ public class RedisDistributedCoordinatorTests
     [Test]
     public async Task DequeueModuleAsync_SkipsItem_WhenCapabilitiesDontMatch()
     {
-        var assignment = CreateAssignment("Docker.Module", requiredCapabilities: new HashSet<string> { "docker" });
-        var json = JsonSerializer.Serialize(assignment, JsonOptions);
-
-        _dbMock.Setup(db => db.ListRangeAsync(_keys.WorkQueue, It.IsAny<long>(), It.IsAny<long>(), It.IsAny<CommandFlags>()))
-            .ReturnsAsync([json]);
+        // Lua script returns nil when no matching item found
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create(RedisValue.Null));
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
         var result = await _coordinator.DequeueModuleAsync(
             new HashSet<string> { "linux" }, cts.Token);
 
         await Assert.That(result).IsNull();
-
-        // Verify item was never removed (capabilities didn't match, item stays in queue)
-        _dbMock.Verify(db => db.ListRemoveAsync(
-            _keys.WorkQueue,
-            It.IsAny<RedisValue>(),
-            It.IsAny<long>(),
-            It.IsAny<CommandFlags>()), Times.Never);
     }
 
     [Test]
     public async Task DequeueModuleAsync_ReturnsNull_WhenCancelled()
     {
-        // ListRangeAsync unmocked returns empty array — nothing to dequeue
+        // ScriptEvaluateAsync returns nil — nothing to dequeue
+        _dbMock.Setup(db => db.ScriptEvaluateAsync(
+                It.IsAny<string>(),
+                It.IsAny<RedisKey[]?>(),
+                It.IsAny<RedisValue[]?>(),
+                It.IsAny<CommandFlags>()))
+            .ReturnsAsync(RedisResult.Create(RedisValue.Null));
 
         using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(50));
         var result = await _coordinator.DequeueModuleAsync(

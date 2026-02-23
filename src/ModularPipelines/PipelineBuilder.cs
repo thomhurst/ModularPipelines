@@ -370,8 +370,8 @@ public sealed class PipelineBuilder
         {
             RemoveService<IDistributedCoordinator>(services);
             services.AddSingleton<IDistributedCoordinator>(sp =>
-                sp.GetRequiredService<IDistributedCoordinatorFactory>()
-                  .CreateAsync(CancellationToken.None).GetAwaiter().GetResult());
+                Task.Run(() => sp.GetRequiredService<IDistributedCoordinatorFactory>()
+                    .CreateAsync(CancellationToken.None)).GetAwaiter().GetResult());
         }
 
         // Replace artifact store if factory registered
@@ -380,8 +380,8 @@ public sealed class PipelineBuilder
         {
             RemoveService<IDistributedArtifactStore>(services);
             services.AddSingleton<IDistributedArtifactStore>(sp =>
-                sp.GetRequiredService<IDistributedArtifactStoreFactory>()
-                  .CreateAsync(CancellationToken.None).GetAwaiter().GetResult());
+                Task.Run(() => sp.GetRequiredService<IDistributedArtifactStoreFactory>()
+                    .CreateAsync(CancellationToken.None)).GetAwaiter().GetResult());
         }
 
         if (role == DistributedRole.Master)

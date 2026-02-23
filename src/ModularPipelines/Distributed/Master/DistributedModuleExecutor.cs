@@ -250,14 +250,16 @@ internal class DistributedModuleExecutor(
         var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
         if (resolved is null)
         {
-            _logger.LogError("Cannot resolve module type: {Type}", assignment.ModuleTypeName);
+            _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            await PublishResolutionFailureAsync(assignment, cancellationToken);
             return;
         }
 
         var module = modules.FirstOrDefault(m => m.GetType().FullName == assignment.ModuleTypeName);
         if (module is null)
         {
-            _logger.LogError("Module instance not found: {Type}", assignment.ModuleTypeName);
+            _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
+            await PublishResolutionFailureAsync(assignment, cancellationToken);
             return;
         }
 
@@ -374,24 +376,61 @@ internal class DistributedModuleExecutor(
         try
         {
             scheduler.MarkModuleStarted(moduleType);
-            var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cts.Token);
-            var success = result is not null && !result.IsFailure;
 
-            // Apply the deserialized result to the module's CompletionSource so that
-            // DependsOn<T> result access works across the master/worker boundary
-            if (result is not null)
+            // Determine timeout: module-specific > global default > none
+            var timeout = module.Configuration.Timeout;
+            if (timeout is null)
             {
-                ModuleCompletionSourceApplicator.TryApply(module, result);
-                _resultRegistry.RegisterResult(moduleType, result);
+                var globalTimeout = _options.Value.ModuleResultTimeoutSeconds;
+                if (globalTimeout > 0)
+                {
+                    timeout = TimeSpan.FromSeconds(globalTimeout);
+                }
             }
 
-            scheduler.MarkModuleCompleted(moduleType, success);
-
-            if (!success)
+            CancellationTokenSource? timeoutCts = null;
+            var token = cts.Token;
+            if (timeout is not null)
             {
-                _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
-                await cts.CancelAsync();
+                timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token);
+                timeoutCts.CancelAfter(timeout.Value);
+                token = timeoutCts.Token;
             }
+
+            try
+            {
+                var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, token);
+                var success = result is not null && !result.IsFailure;
+
+                // Apply the deserialized result to the module's CompletionSource so that
+                // DependsOn<T> result access works across the master/worker boundary
+                if (result is not null)
+                {
+                    ModuleCompletionSourceApplicator.TryApply(module, result);
+                    _resultRegistry.RegisterResult(moduleType, result);
+                }
+
+                scheduler.MarkModuleCompleted(moduleType, success);
+
+                if (!success)
+                {
+                    _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
+                    await cts.CancelAsync();
+                }
+            }
+            finally
+            {
+                timeoutCts?.Dispose();
+            }
+        }
+        catch (OperationCanceledException) when (!cts.IsCancellationRequested)
+        {
+            // Timeout expired (not pipeline cancellation)
+            _logger.LogError("Distributed module {Module} timed out waiting for result — worker may have died", moduleType.Name);
+            RegisterFailureResult(module, moduleType, new TimeoutException(
+                $"Module {moduleType.Name} did not produce a result within the configured timeout"));
+            scheduler.MarkModuleCompleted(moduleType, false);
+            await cts.CancelAsync();
         }
         catch (OperationCanceledException)
         {
@@ -404,6 +443,26 @@ internal class DistributedModuleExecutor(
             RegisterFailureResult(module, moduleType, ex);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
+        }
+    }
+
+    private async Task PublishResolutionFailureAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var failureResult = new SerializedModuleResult(
+                ModuleTypeName: assignment.ModuleTypeName,
+                ResultTypeName: assignment.ResultTypeName,
+                WorkerIndex: _options.Value.InstanceIndex,
+                SerializedJson: "null",
+                CompletedAt: DateTimeOffset.UtcNow);
+            await _coordinator.PublishResultAsync(failureResult, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex,
+                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
+                assignment.ModuleTypeName);
         }
     }
 

@@ -33,38 +33,39 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
     public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor descriptor, Stream data, CancellationToken cancellationToken)
     {
         var artifactId = Guid.NewGuid().ToString("N");
+        var buffer = new byte[_chunkSize];
+        var totalBytes = 0L;
+        var chunkIndex = 0;
 
-        using var ms = new MemoryStream();
-        await data.CopyToAsync(ms, cancellationToken);
-        var bytes = ms.ToArray();
-
-        if (bytes.Length <= _maxSingleUpload)
+        while (true)
         {
-            // Single key storage
-            var dataKey = _keys.ArtifactData(artifactId);
-            await _database.StringSetAsync(dataKey, bytes, _keyExpiration);
-        }
-        else
-        {
-            // Chunked storage
-            var chunkCount = (int)Math.Ceiling((double)bytes.Length / _chunkSize);
-            for (var i = 0; i < chunkCount; i++)
+            var bytesRead = await ReadFullBufferAsync(data, buffer, cancellationToken);
+            if (bytesRead == 0)
             {
-                var offset = i * _chunkSize;
-                var length = Math.Min(_chunkSize, bytes.Length - offset);
-                var chunk = new byte[length];
-                Buffer.BlockCopy(bytes, offset, chunk, 0, length);
-
-                var chunkKey = _keys.ArtifactChunk(artifactId, i);
-                await _database.StringSetAsync(chunkKey, chunk, _keyExpiration);
+                break;
             }
+
+            totalBytes += bytesRead;
+
+            if (chunkIndex == 0 && bytesRead < buffer.Length && totalBytes <= _maxSingleUpload)
+            {
+                // Small artifact — single key
+                var dataKey = _keys.ArtifactData(artifactId);
+                await _database.StringSetAsync(dataKey, new ReadOnlyMemory<byte>(buffer, 0, bytesRead), _keyExpiration);
+                chunkIndex++;
+                break;
+            }
+
+            var chunkKey = _keys.ArtifactChunk(artifactId, chunkIndex);
+            await _database.StringSetAsync(chunkKey, new ReadOnlyMemory<byte>(buffer, 0, bytesRead), _keyExpiration);
+            chunkIndex++;
         }
 
         var reference = new ArtifactReference(
             ArtifactId: artifactId,
             Name: descriptor.Name,
             ModuleTypeName: descriptor.ModuleTypeName,
-            SizeBytes: bytes.Length,
+            SizeBytes: totalBytes,
             ContentType: descriptor.ContentType,
             UploadedAt: DateTimeOffset.UtcNow);
 
@@ -144,6 +145,23 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
         }
 
         return references;
+    }
+
+    private static async Task<int> ReadFullBufferAsync(Stream stream, byte[] buffer, CancellationToken cancellationToken)
+    {
+        var totalRead = 0;
+        while (totalRead < buffer.Length)
+        {
+            var read = await stream.ReadAsync(buffer.AsMemory(totalRead), cancellationToken);
+            if (read == 0)
+            {
+                break;
+            }
+
+            totalRead += read;
+        }
+
+        return totalRead;
     }
 
     public async Task DeleteAsync(ArtifactReference reference, CancellationToken cancellationToken)

@@ -66,9 +66,9 @@ public class ModuleCompletionSourceApplicatorTests
         // Second apply — TrySetResult is idempotent, should not throw
         var applied2 = ModuleCompletionSourceApplicator.TryApply(module, result2);
 
-        // Assert — both calls return true (property + method found), but only first value sticks
+        // Assert — first call succeeds, second returns false (CompletionSource already set), only first value sticks
         await Assert.That(applied1).IsTrue();
-        await Assert.That(applied2).IsTrue();
+        await Assert.That(applied2).IsFalse();
 
         var moduleResult = await ((IModule)module).ResultTask;
         await Assert.That(moduleResult).IsNotNull();
