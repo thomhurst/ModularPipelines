@@ -96,15 +96,15 @@ internal class WorkerModuleExecutor(
                     continue;
                 }
 
-                // Download consumed artifacts before execution
-                if (_artifactLifecycleManager is not null)
-                {
-                    await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
-                }
-
                 // Execute the module through the framework's execution pipeline
                 try
                 {
+                    // Download consumed artifacts before execution
+                    if (_artifactLifecycleManager is not null)
+                    {
+                        await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
+                    }
+
                     var moduleState = new ModuleState(module, module.GetType());
                     await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
 

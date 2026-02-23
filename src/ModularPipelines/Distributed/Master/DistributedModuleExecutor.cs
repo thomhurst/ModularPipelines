@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Execution;
@@ -138,12 +139,32 @@ internal class DistributedModuleExecutor(
 
     private async Task ExecuteLocalWithArtifactsAsync(ModuleState moduleState, Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
     {
-        await _moduleRunner.ExecuteAsync(moduleState, scheduler, cancellationToken);
+        // Mark started on the real scheduler for tracking
+        scheduler.MarkModuleStarted(moduleType);
 
-        // Upload produced artifacts after local execution (before marking as completed for workers)
-        if (_artifactLifecycleManager is not null)
+        // Execute with a no-op scheduler so ExecuteCore's internal MarkModuleCompleted
+        // doesn't release dependent modules before artifacts are uploaded.
+        using var localScheduler = new WorkerModuleScheduler();
+        try
         {
-            await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken);
+            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, localScheduler, cancellationToken);
+
+            // Determine actual success — ExecuteCore may handle failure without throwing
+            var success = moduleState.Result is not null && !moduleState.Result.IsFailure;
+
+            // Upload produced artifacts after successful execution, before releasing dependents
+            if (success && _artifactLifecycleManager is not null)
+            {
+                await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken);
+            }
+
+            // NOW mark completed on the real scheduler — this releases dependent modules
+            scheduler.MarkModuleCompleted(moduleType, success, statusOverride: moduleState.Result?.ModuleStatus);
+        }
+        catch (Exception ex)
+        {
+            scheduler.MarkModuleCompleted(moduleType, false, ex);
+            throw;
         }
     }
 
