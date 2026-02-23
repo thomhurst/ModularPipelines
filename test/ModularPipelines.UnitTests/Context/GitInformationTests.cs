@@ -15,6 +15,7 @@ public class GitInformationTests : TestBase
 
         var branch = gitInformation.BranchName;
 
-        await Assert.That(branch).IsNotNull().And.IsNotEmpty();
+        // BranchName is empty string in detached HEAD (e.g., CI merge ref checkout)
+        await Assert.That(branch).IsNotNull();
     }
 }
