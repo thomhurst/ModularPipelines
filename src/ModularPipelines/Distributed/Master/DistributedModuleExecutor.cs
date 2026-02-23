@@ -128,14 +128,7 @@ internal class DistributedModuleExecutor(
         // Upload produced artifacts after local execution (before marking as completed for workers)
         if (_artifactLifecycleManager is not null)
         {
-            try
-            {
-                await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to upload artifacts for PinToMaster module {Module}", moduleType.Name);
-            }
+            await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken);
         }
     }
 
