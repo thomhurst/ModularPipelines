@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.JsonUtils;
 using ModularPipelines.Logging;
 
 namespace ModularPipelines.FileSystem;
@@ -9,6 +10,7 @@ namespace ModularPipelines.FileSystem;
 /// <summary>
 /// Represents a file in the file system with extended functionality for pipeline operations.
 /// </summary>
+[JsonConverter(typeof(FilePathJsonConverter))]
 public class File : IEquatable<File>
 {
     [JsonIgnore]
