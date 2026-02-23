@@ -6,7 +6,6 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [DependsOn<PackProjectsModule>]
 [RunOnLinuxOnly]
 public class PackagePathsParserModule : Module<List<File>>
