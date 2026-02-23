@@ -43,6 +43,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
             Key = objectKey,
             InputStream = data,
             ContentType = descriptor.ContentType ?? "application/octet-stream",
+            DisablePayloadSigning = true,
             TagSet =
             [
                 new Tag { Key = "expires-at", Value = expiresAt.ToUnixTimeSeconds().ToString() },
@@ -87,6 +88,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
             Key = metaKey,
             ContentBody = metaJson,
             ContentType = "application/json",
+            DisablePayloadSigning = true,
         };
         await _s3.PutObjectAsync(metaRequest, cancellationToken);
 
