@@ -11,7 +11,8 @@ using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Extensions;
-using ModularPipelines.Distributed.Redis.Extensions;
+using ModularPipelines.Distributed.Discovery.Redis;
+using ModularPipelines.Distributed.SignalR.Extensions;
 using ModularPipelines.Extensions;
 using Octokit;
 using Octokit.Internal;
@@ -72,7 +73,12 @@ if (!string.IsNullOrEmpty(redisUrl) && !string.IsNullOrEmpty(redisToken) && tota
         o.TotalInstances = totalInstances;
     });
 
-    builder.AddRedisDistributedCoordinator(o =>
+    builder.AddSignalRDistributedCoordinator(o =>
+    {
+        o.MaximumReceiveMessageSize = 64 * 1024 * 1024;
+    });
+
+    builder.AddRedisSignalRDiscovery(o =>
     {
         o.ConnectionString = connectionString;
     });
