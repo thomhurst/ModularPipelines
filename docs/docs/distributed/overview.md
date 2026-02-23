@@ -19,7 +19,7 @@ Every pipeline instance runs in one of two roles:
 
 | Role | Determined by | Responsibility |
 |------|--------------|----------------|
-| **Master** | `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. |
+| **Master** | `InstanceIndex == 0` | Builds the dependency graph, enqueues modules to the work queue, collects results, and produces the final pipeline summary. Also participates as a worker, dequeuing and executing modules from the same queue. |
 | **Worker** | `InstanceIndex > 0` | Registers with the coordinator, dequeues modules that match its capabilities, executes them, and publishes results back. |
 
 The role is detected automatically from `DistributedOptions.InstanceIndex`. You can also override it with the `MODULAR_PIPELINES_INSTANCE` environment variable.
@@ -37,10 +37,6 @@ Workers advertise what they can do (e.g. `"linux"`, `"docker"`, `"gpu"`). Module
 
 If `AutoDetectOsCapability` is enabled (the default), workers automatically advertise their operating system (`"windows"`, `"linux"`, or `"macos"`).
 
-### Pin to Master
-
-Some modules should never leave the master process — for example, modules that aggregate results or produce a final summary. Mark these with `[PinToMaster]` and they will execute locally on the master, skipping the work queue entirely.
-
 ## Architecture Diagram
 
 ```
@@ -52,10 +48,11 @@ Some modules should never leave the master process — for example, modules that
 │       │              │                               │
 └───────┼──────────────┼───────────────────────────────┘
         │              │
-   ┌────┴────┐    ┌────┴────┐
-   │  Master │    │  Master │
-   │ enqueue │    │ collect │
-   └─────────┘    └─────────┘
+   ┌────┴──────────────┴────┐
+   │         Master         │
+   │  enqueue ─── collect   │
+   │  dequeue ─── execute   │
+   └────────────────────────┘
 
    ┌─────────┐    ┌─────────┐    ┌─────────┐
    │Worker 1 │    │Worker 2 │    │Worker 3 │
@@ -66,7 +63,7 @@ Some modules should never leave the master process — for example, modules that
 ```
 
 1. The **master** builds the module graph, then enqueues each module as a `ModuleAssignment` into the work queue.
-2. **Workers** poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result.
+2. **All instances** (master and workers) poll the queue, pick up assignments that match their capabilities, execute the module, and publish the serialized result. The master participates as a worker alongside external workers.
 3. The **master** waits for each result, deserializes it, and feeds it back into the dependency graph so downstream modules can proceed.
 4. Workers send periodic **heartbeats** so the master can detect failures.
 5. Either side can broadcast a **cancellation signal** to stop all instances.
