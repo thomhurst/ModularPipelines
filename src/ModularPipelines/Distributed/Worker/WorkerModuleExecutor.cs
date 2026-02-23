@@ -96,6 +96,12 @@ internal class WorkerModuleExecutor(
                     continue;
                 }
 
+                // Apply dependency results so that GetModule<T>() works cross-process
+                if (assignment.DependencyResults is { Count: > 0 })
+                {
+                    ApplyDependencyResults(assignment.DependencyResults, modules);
+                }
+
                 // Execute the module through the framework's execution pipeline
                 try
                 {
@@ -186,5 +192,36 @@ internal class WorkerModuleExecutor(
         }
 
         return executedModules;
+    }
+
+    /// <summary>
+    /// Applies dependency results received in the assignment to local module instances.
+    /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
+    /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
+    /// </summary>
+    private void ApplyDependencyResults(IReadOnlyList<SerializedModuleResult> dependencyResults, IReadOnlyList<IModule> modules)
+    {
+        foreach (var serializedDep in dependencyResults)
+        {
+            var depModule = modules.FirstOrDefault(m => m.GetType().FullName == serializedDep.ModuleTypeName);
+            if (depModule is null)
+            {
+                _logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", serializedDep.ModuleTypeName);
+                continue;
+            }
+
+            try
+            {
+                var result = _serializer.Deserialize(serializedDep);
+                if (result is not null)
+                {
+                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", serializedDep.ModuleTypeName);
+            }
+        }
     }
 }

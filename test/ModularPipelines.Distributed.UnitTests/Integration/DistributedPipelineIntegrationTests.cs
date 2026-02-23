@@ -1,6 +1,7 @@
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Engine;
 using ModularPipelines.Enums;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
@@ -51,7 +52,8 @@ public class DistributedPipelineIntegrationTests
         var registry = new ModuleTypeRegistry();
         registry.Register(typeof(ModuleA));
         var serializer = new ModuleResultSerializer(registry);
-        var publisher = new DistributedWorkPublisher(coordinator, registry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, registry, serializer, resultRegistry);
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Master publishes work
@@ -127,7 +129,8 @@ public class DistributedPipelineIntegrationTests
         registry.Register(typeof(ModuleB));
         registry.Register(typeof(ModuleC));
         var serializer = new ModuleResultSerializer(registry);
-        var publisher = new DistributedWorkPublisher(coordinator, registry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, registry, serializer, resultRegistry);
         var collector = new DistributedResultCollector(coordinator, serializer);
 
         // Publish all 3 modules

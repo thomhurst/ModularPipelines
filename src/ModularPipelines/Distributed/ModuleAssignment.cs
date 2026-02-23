@@ -6,4 +6,5 @@ public record ModuleAssignment(
     IReadOnlySet<string> RequiredCapabilities,
     string? MatrixTarget,
     DateTimeOffset AssignedAt,
-    ModuleAssignmentConfig Configuration);
+    ModuleAssignmentConfig Configuration,
+    IReadOnlyList<SerializedModuleResult>? DependencyResults = null);
