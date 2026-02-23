@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Serialization;
@@ -23,6 +24,7 @@ internal class DistributedModuleExecutor(
     DistributedResultCollector resultCollector,
     ModuleTypeRegistry typeRegistry,
     IModuleResultRegistry resultRegistry,
+    IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
 {
@@ -35,6 +37,7 @@ internal class DistributedModuleExecutor(
     private readonly DistributedResultCollector _resultCollector = resultCollector;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
+    private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
 
@@ -53,6 +56,9 @@ internal class DistributedModuleExecutor(
 
         // Invoke registration events before dependency resolution
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
+
+        // Wait for workers to register before distributing work
+        await WaitForWorkersAsync(_lifetime.ApplicationStopping);
 
         IModuleScheduler? scheduler = null;
         try
@@ -137,6 +143,52 @@ internal class DistributedModuleExecutor(
         }
 
         return modules;
+    }
+
+    private async Task WaitForWorkersAsync(CancellationToken cancellationToken)
+    {
+        var expectedWorkers = _options.Value.TotalInstances - 1;
+        if (expectedWorkers <= 0)
+        {
+            return;
+        }
+
+        var timeout = TimeSpan.FromSeconds(_options.Value.CapabilityTimeoutSeconds);
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeoutCts.CancelAfter(timeout);
+
+        _logger.LogInformation("Waiting for {Expected} worker(s) to register (timeout: {Timeout}s)...",
+            expectedWorkers, _options.Value.CapabilityTimeoutSeconds);
+
+        var lastCount = 0;
+        while (!timeoutCts.IsCancellationRequested)
+        {
+            try
+            {
+                var workers = await _coordinator.GetRegisteredWorkersAsync(timeoutCts.Token);
+                if (workers.Count != lastCount)
+                {
+                    lastCount = workers.Count;
+                    _logger.LogInformation("{Count}/{Expected} worker(s) registered", workers.Count, expectedWorkers);
+                }
+
+                if (workers.Count >= expectedWorkers)
+                {
+                    _logger.LogInformation("All {Expected} worker(s) registered — starting work distribution", expectedWorkers);
+                    return;
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(2), timeoutCts.Token);
+            }
+            catch (OperationCanceledException) when (timeoutCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
+            {
+                // Timeout expired, but pipeline not cancelled — proceed with available workers
+                _logger.LogWarning(
+                    "Worker registration timeout ({Timeout}s expired). {Count}/{Expected} worker(s) registered — proceeding with available workers",
+                    _options.Value.CapabilityTimeoutSeconds, lastCount, expectedWorkers);
+                return;
+            }
+        }
     }
 
     private async Task ExecuteLocalWithArtifactsAsync(ModuleState moduleState, Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
