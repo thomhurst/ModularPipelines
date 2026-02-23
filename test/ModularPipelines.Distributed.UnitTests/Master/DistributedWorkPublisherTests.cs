@@ -162,4 +162,56 @@ public class DistributedWorkPublisherTests
         // Assert — no results available, so DependencyResults should be null
         await Assert.That(assignment.DependencyResults).IsNull();
     }
+
+    private class LargeResult
+    {
+        public string Payload { get; set; } = string.Empty;
+    }
+
+    private class LargeResultModule : Module<LargeResult>
+    {
+        protected internal override Task<LargeResult?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<LargeResult?>(new LargeResult());
+    }
+
+    [ModularPipelines.Attributes.DependsOn<LargeResultModule>]
+    private class ConsumerOfLargeModule : Module<string>
+    {
+        protected internal override Task<string?> ExecuteAsync(
+            Context.IModuleContext context, CancellationToken cancellationToken)
+            => Task.FromResult<string?>("ok");
+    }
+
+    [Test]
+    public async Task CreateAssignment_Strips_Value_When_DependencyResult_Exceeds_Size_Limit()
+    {
+        // Arrange — create a dependency result larger than 256 KB
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(LargeResultModule));
+        typeRegistry.Register(typeof(ConsumerOfLargeModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+
+        // Create a result with a payload > 256 KB
+        var largePayload = new string('X', 300 * 1024);
+        var depResult = CreateSuccessResult(new LargeResult { Payload = largePayload }, "LargeResultModule");
+        resultRegistry.RegisterResult(typeof(LargeResultModule), depResult);
+
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+
+        // Act
+        var module = new ConsumerOfLargeModule();
+        var assignment = publisher.CreateAssignment(module);
+
+        // Assert — dependency result is included but stripped to well under the original size
+        await Assert.That(assignment.DependencyResults).IsNotNull();
+        await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
+
+        var strippedJson = assignment.DependencyResults[0].SerializedJson;
+        await Assert.That(strippedJson.Length).IsLessThan(1024); // metadata-only should be tiny
+        await Assert.That(strippedJson).Contains("\"$type\":\"Success\"");
+        await Assert.That(strippedJson).Contains("\"Value\":null");
+    }
 }
