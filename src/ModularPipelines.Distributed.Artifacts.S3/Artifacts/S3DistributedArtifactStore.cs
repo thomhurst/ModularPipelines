@@ -126,7 +126,7 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
         {
             response = await _s3.ListObjectsV2Async(request, cancellationToken);
 
-            foreach (var s3Object in response.S3Objects)
+            foreach (var s3Object in response.S3Objects ?? [])
             {
                 try
                 {
