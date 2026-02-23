@@ -283,6 +283,12 @@ public abstract class Module<T> : IModule, ITaggedModule
         CancellationToken cancellationToken)
         => OnFailedAsync(context, exception, cancellationToken);
 
+    /// <inheritdoc />
+    bool IModule.TrySetDistributedResult(IModuleResult result)
+    {
+        return CompletionSource.TrySetResult((ModuleResult<T?>)result);
+    }
+
     /// <summary>
     /// Gets an awaiter for this module's result.
     /// </summary>

@@ -14,7 +14,6 @@ namespace ModularPipelines.Distributed.SignalR.Server;
 internal class MasterServerHost : IAsyncDisposable
 {
     private WebApplication? _app;
-    private Task? _runTask;
 
     public async Task StartAsync(
         SignalRDistributedOptions options,
@@ -53,10 +52,8 @@ internal class MasterServerHost : IAsyncDisposable
         var logger = loggerFactory.CreateLogger<MasterServerHost>();
         logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
 
-        _runTask = Task.Run(async () => await _app.RunAsync(), cancellationToken);
-
-        // Brief delay to let Kestrel bind
-        await Task.Delay(500, cancellationToken);
+        // StartAsync completes only once Kestrel has bound to the port — no race, no wasted time
+        await _app.StartAsync(cancellationToken);
     }
 
     public async ValueTask DisposeAsync()
@@ -65,18 +62,6 @@ internal class MasterServerHost : IAsyncDisposable
         {
             await _app.StopAsync();
             await _app.DisposeAsync();
-        }
-
-        if (_runTask is not null)
-        {
-            try
-            {
-                await _runTask;
-            }
-            catch (OperationCanceledException)
-            {
-                // Expected during shutdown
-            }
         }
     }
 

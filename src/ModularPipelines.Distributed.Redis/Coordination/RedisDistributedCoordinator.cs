@@ -192,32 +192,50 @@ internal sealed class RedisDistributedCoordinator : IDistributedCoordinator
         await _subscriber.PublishAsync(RedisChannel.Literal(_keys.CompletionChannel), "1");
     }
 
+    private static readonly string ScanAndClaimScript = @"
+local items = redis.call('LRANGE', KEYS[1], 0, -1)
+local caps = cjson.decode(ARGV[1])
+for i, item in ipairs(items) do
+    local assignment = cjson.decode(item)
+    local required = assignment['RequiredCapabilities']
+    if required == nil or #required == 0 then
+        redis.call('LREM', KEYS[1], 1, item)
+        return item
+    end
+    local matched = true
+    for _, req in ipairs(required) do
+        local found = false
+        for _, cap in ipairs(caps) do
+            if string.lower(req) == string.lower(cap) then
+                found = true
+                break
+            end
+        end
+        if not found then
+            matched = false
+            break
+        end
+    end
+    if matched then
+        redis.call('LREM', KEYS[1], 1, item)
+        return item
+    end
+end
+return nil";
+
     private async Task<ModuleAssignment?> TryScanAndClaimAsync(IReadOnlySet<string> workerCapabilities)
     {
-        var items = await _database.ListRangeAsync(_keys.WorkQueue);
-        foreach (var item in items)
+        var capsJson = JsonSerializer.Serialize(workerCapabilities.ToArray());
+        var result = await _database.ScriptEvaluateAsync(
+            ScanAndClaimScript,
+            [(RedisKey)_keys.WorkQueue],
+            [capsJson]);
+
+        if (result.IsNull)
         {
-            if (item.IsNullOrEmpty)
-            {
-                continue;
-            }
-
-            var candidate = JsonSerializer.Deserialize<ModuleAssignment>(item.ToString(), _jsonOptions)!;
-
-            if (candidate.RequiredCapabilities.Count == 0 ||
-                candidate.RequiredCapabilities.IsSubsetOf(workerCapabilities))
-            {
-                // Atomically remove this specific item (first occurrence)
-                var removed = await _database.ListRemoveAsync(_keys.WorkQueue, item, count: 1);
-                if (removed > 0)
-                {
-                    return candidate;
-                }
-
-                // Another worker took it; continue scanning
-            }
+            return null;
         }
 
-        return null;
+        return JsonSerializer.Deserialize<ModuleAssignment>(result.ToString()!, _jsonOptions);
     }
 }

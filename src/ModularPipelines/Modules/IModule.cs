@@ -31,4 +31,9 @@ public interface IModule
     /// </summary>
     [JsonIgnore]
     Task<IModuleResult> ResultTask { get; }
+
+    /// <summary>
+    /// Applies a deserialized result from distributed execution to this module's CompletionSource.
+    /// </summary>
+    bool TrySetDistributedResult(IModuleResult result);
 }
