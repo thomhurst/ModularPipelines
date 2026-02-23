@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Engine;
@@ -52,6 +53,15 @@ internal class DistributedWorkPublisher(
     }
 
     /// <summary>
+    /// Maximum size in bytes for a single dependency result's serialized JSON.
+    /// Results exceeding this are stripped to metadata-only (Value set to null) to prevent
+    /// coordinator payloads from exceeding transport limits (e.g., Redis 10 MB request cap).
+    /// The stripped result still satisfies <c>GetModule&lt;T&gt;()</c> — it resolves with a
+    /// null value, which is sufficient for dependency barrier semantics.
+    /// </summary>
+    private const int MaxDependencyResultJsonBytes = 256 * 1024;
+
+    /// <summary>
     /// Gathers serialized results for all dependencies declared via <c>[DependsOn&lt;T&gt;]</c>.
     /// The scheduler guarantees that all dependencies have completed before a module becomes ready,
     /// so all results are guaranteed to be in the registry.
@@ -76,9 +86,46 @@ internal class DistributedWorkPublisher(
 
             var depResultTypeName = ModuleTypeRegistry.GetResultTypeName(depType) ?? "System.Object";
             var serialized = _serializer.Serialize(result, depType.FullName!, depResultTypeName, workerIndex: -1);
+
+            // If the serialized result is too large, strip the Value to null to keep the
+            // assignment payload within transport limits. The metadata is preserved so the
+            // worker can still resolve GetModule<T>() (it will return a result with null value).
+            if (serialized.SerializedJson.Length > MaxDependencyResultJsonBytes)
+            {
+                serialized = serialized with { SerializedJson = StripValueFromJson(serialized.SerializedJson) };
+            }
+
             results.Add(serialized);
         }
 
         return results.Count > 0 ? results : null;
+    }
+
+    /// <summary>
+    /// Replaces the "Value" property in a serialized ModuleResult JSON with null,
+    /// preserving all metadata ($type, ModuleName, timing, status).
+    /// </summary>
+    private static string StripValueFromJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
+        using var stream = new MemoryStream();
+        using var writer = new Utf8JsonWriter(stream);
+        writer.WriteStartObject();
+
+        foreach (var property in doc.RootElement.EnumerateObject())
+        {
+            if (property.Name == "Value")
+            {
+                writer.WriteNull("Value");
+            }
+            else
+            {
+                property.WriteTo(writer);
+            }
+        }
+
+        writer.WriteEndObject();
+        writer.Flush();
+        return System.Text.Encoding.UTF8.GetString(stream.ToArray());
     }
 }
