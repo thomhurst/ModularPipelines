@@ -22,6 +22,7 @@ internal class DistributedModuleExecutor(
     DistributedWorkPublisher publisher,
     DistributedResultCollector resultCollector,
     ModuleTypeRegistry typeRegistry,
+    IModuleResultRegistry resultRegistry,
     ArtifactLifecycleManager? artifactLifecycleManager,
     ILogger<DistributedModuleExecutor> logger) : IModuleExecutor
 {
@@ -33,6 +34,7 @@ internal class DistributedModuleExecutor(
     private readonly DistributedWorkPublisher _publisher = publisher;
     private readonly DistributedResultCollector _resultCollector = resultCollector;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
     private readonly ILogger<DistributedModuleExecutor> _logger = logger;
 
@@ -181,6 +183,7 @@ internal class DistributedModuleExecutor(
             if (result is not null)
             {
                 ApplyResultToModule(module, result);
+                _resultRegistry.RegisterResult(moduleType, result);
             }
 
             scheduler.MarkModuleCompleted(moduleType, success);
@@ -193,13 +196,31 @@ internal class DistributedModuleExecutor(
         }
         catch (OperationCanceledException)
         {
+            RegisterFailureResult(module, moduleType, new OperationCanceledException("Module was cancelled"));
             scheduler.MarkModuleCompleted(moduleType, false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to collect result for distributed module {Module}", moduleType.Name);
+            RegisterFailureResult(module, moduleType, ex);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
+        }
+    }
+
+    private void RegisterFailureResult(IModule module, Type moduleType, Exception exception)
+    {
+        try
+        {
+            var failureResult = ModuleResultFactory.CreateException(
+                module.ResultType,
+                exception,
+                new ModuleExecutionContext(module, moduleType));
+            _resultRegistry.RegisterResult(moduleType, failureResult);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to register failure result for module {Module}", moduleType.Name);
         }
     }
 
