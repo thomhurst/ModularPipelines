@@ -137,6 +137,7 @@ public class DistributedModuleExecutorTests
             resultCollector,
             typeRegistry,
             resultRegistry,
+            Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             artifactManager,
             NullLogger<DistributedModuleExecutor>.Instance);
     }
@@ -745,7 +746,8 @@ public class DistributedModuleExecutorTests
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry,
-            new ModuleResultRegistry(), null, NullLogger<DistributedModuleExecutor>.Instance);
+            new ModuleResultRegistry(), Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
         await executor.ExecuteAsync([moduleA, moduleB]);
@@ -755,5 +757,148 @@ public class DistributedModuleExecutorTests
         var resolvedB = typeRegistry.Resolve(typeof(AnotherDistributedModule).FullName!);
         await Assert.That(resolvedA).IsNotNull();
         await Assert.That(resolvedB).IsNotNull();
+    }
+
+    // =================================================================
+    // Worker Readiness Barrier Tests
+    // =================================================================
+
+    [Test]
+    public async Task Executor_Waits_For_Workers_Before_Distributing_Work()
+    {
+        // Arrange: configure 2 total instances (1 master + 1 worker)
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultRegistry = new ModuleResultRegistry();
+
+        var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeoutSeconds = 10 };
+
+        var lifetime = new Mock<IHostApplicationLifetime>();
+        lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(f => f.Create()).Returns(scheduler.Object);
+        var regEventExecutor = new Mock<IRegistrationEventExecutor>();
+        regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
+            .Returns(Task.CompletedTask);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry);
+
+        var executor = new DistributedModuleExecutor(
+            lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
+            coordinator, publisher, resultCollector, typeRegistry,
+            resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            null, NullLogger<DistributedModuleExecutor>.Instance);
+
+        // Simulate a worker registering after a short delay
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(200);
+            await coordinator.RegisterWorkerAsync(
+                new WorkerRegistration(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+                CancellationToken.None);
+        });
+
+        // Simulate the worker publishing a result slightly later
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(500);
+            var successResult = CreateSuccessResult(new SimpleResult { Message = "ok" }, "DistributedModule");
+            var serialized = serializer.Serialize(successResult, typeof(DistributedModule).FullName!, typeof(SimpleResult).FullName!, 1);
+            await coordinator.PublishResultAsync(serialized, CancellationToken.None);
+        });
+
+        // Act
+        await executor.ExecuteAsync([module]);
+
+        // Assert — work was distributed and result collected (if barrier didn't work, result would be lost)
+        var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.IsSuccess).IsTrue();
+    }
+
+    [Test]
+    public async Task Executor_Skips_Worker_Wait_When_TotalInstances_Is_One()
+    {
+        // Arrange: TotalInstances = 1 means no workers expected
+        var scheduler = CreateMockScheduler(); // no modules
+        var coordinator = new Mock<IDistributedCoordinator>();
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var distributedOptions = new DistributedOptions { TotalInstances = 1 };
+
+        var executor = CreateExecutor(scheduler, coordinator: coordinator.Object);
+
+        // Act — should return quickly without calling GetRegisteredWorkersAsync
+        await executor.ExecuteAsync([]);
+
+        // Assert — GetRegisteredWorkersAsync should never be called
+        coordinator.Verify(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()), Times.Never());
+    }
+
+    [Test]
+    [Timeout(15_000)]
+    public async Task Executor_Proceeds_After_Worker_Registration_Timeout(CancellationToken testCancellation)
+    {
+        // Arrange: expect 3 workers but only 1 registers — should timeout and proceed
+        var distributedOptions = new DistributedOptions { TotalInstances = 4, CapabilityTimeoutSeconds = 3 };
+
+        // Use mock coordinator to track GetRegisteredWorkersAsync calls and timing
+        var coordinator = new Mock<IDistributedCoordinator>();
+        var registeredWorkers = new List<WorkerRegistration>
+        {
+            new(1, new HashSet<string>(), DateTimeOffset.UtcNow),
+        };
+        coordinator.Setup(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(() => registeredWorkers.AsReadOnly());
+        coordinator.Setup(c => c.EnqueueModuleAsync(It.IsAny<ModuleAssignment>(), It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+        coordinator.Setup(c => c.WaitForResultAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new OperationCanceledException());
+        coordinator.Setup(c => c.SignalCompletionAsync(It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
+
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
+        var scheduler = CreateMockScheduler(moduleState);
+
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator.Object, serializer);
+
+        var lifetime = new Mock<IHostApplicationLifetime>();
+        lifetime.Setup(l => l.ApplicationStopping).Returns(CancellationToken.None);
+        var factory = new Mock<IModuleSchedulerFactory>();
+        factory.Setup(f => f.Create()).Returns(scheduler.Object);
+        var regEventExecutor = new Mock<IRegistrationEventExecutor>();
+        regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
+            .Returns(Task.CompletedTask);
+        var moduleRunner = new Mock<IModuleRunner>();
+        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry);
+
+        var executor = new DistributedModuleExecutor(
+            lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
+            coordinator.Object, publisher, resultCollector, typeRegistry,
+            new ModuleResultRegistry(), Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            null, NullLogger<DistributedModuleExecutor>.Instance);
+
+        // Act — should proceed after 3 seconds timeout even though only 1/3 workers registered
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        await executor.ExecuteAsync([module]);
+        sw.Stop();
+
+        // Assert — waited roughly 3 seconds (the timeout), not the full test timeout
+        await Assert.That(sw.Elapsed.TotalSeconds).IsGreaterThanOrEqualTo(2.5);
+        await Assert.That(sw.Elapsed.TotalSeconds).IsLessThan(10);
+
+        // Verify GetRegisteredWorkersAsync was polled multiple times
+        coordinator.Verify(c => c.GetRegisteredWorkersAsync(It.IsAny<CancellationToken>()), Times.AtLeast(2));
     }
 }
