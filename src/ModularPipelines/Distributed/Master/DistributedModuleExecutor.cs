@@ -96,9 +96,6 @@ internal class DistributedModuleExecutor(
 
             await Task.WhenAll(resultTasks).ConfigureAwait(false);
 
-            // Signal workers that all work is done so they exit cleanly
-            await _coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
-
             if (!cts.IsCancellationRequested)
             {
                 cts.Cancel();
@@ -115,6 +112,17 @@ internal class DistributedModuleExecutor(
         }
         finally
         {
+            // Always signal workers to stop — whether the master succeeded or crashed.
+            // Without this, workers hang forever waiting for work that will never come.
+            try
+            {
+                await _coordinator.SignalCompletionAsync(CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to signal completion to workers during shutdown");
+            }
+
             scheduler?.Dispose();
         }
 
