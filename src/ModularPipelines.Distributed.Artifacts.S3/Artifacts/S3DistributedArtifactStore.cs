@@ -35,7 +35,6 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
     {
         var artifactId = Guid.NewGuid().ToString("N");
         var objectKey = BuildObjectKey(descriptor.ModuleTypeName, descriptor.Name, artifactId);
-        var expiresAt = DateTimeOffset.UtcNow.AddSeconds(_ttlSeconds);
 
         var request = new PutObjectRequest
         {
@@ -44,12 +43,6 @@ internal sealed class S3DistributedArtifactStore : IDistributedArtifactStore
             InputStream = data,
             ContentType = descriptor.ContentType ?? "application/octet-stream",
             DisablePayloadSigning = true,
-            TagSet =
-            [
-                new Tag { Key = "expires-at", Value = expiresAt.ToUnixTimeSeconds().ToString() },
-                new Tag { Key = "artifact-name", Value = descriptor.Name },
-                new Tag { Key = "module-type", Value = descriptor.ModuleTypeName },
-            ],
         };
 
         if (descriptor.Metadata is not null)

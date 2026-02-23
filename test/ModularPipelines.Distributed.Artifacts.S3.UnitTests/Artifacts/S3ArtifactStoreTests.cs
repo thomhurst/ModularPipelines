@@ -63,7 +63,7 @@ public class S3ArtifactStoreTests
     }
 
     [Test]
-    public async Task Upload_SetsExpirationTag()
+    public async Task Upload_DisablesPayloadSigning()
     {
         var descriptor = new ArtifactDescriptor("art1", "Test.Module");
         PutObjectRequest? capturedRequest = null;
@@ -76,8 +76,7 @@ public class S3ArtifactStoreTests
         await _store.UploadAsync(descriptor, stream, CancellationToken.None);
 
         await Assert.That(capturedRequest).IsNotNull();
-        var expiresTag = capturedRequest!.TagSet.FirstOrDefault(t => t.Key == "expires-at");
-        await Assert.That(expiresTag).IsNotNull();
+        await Assert.That(capturedRequest!.DisablePayloadSigning).IsTrue();
     }
 
     [Test]
