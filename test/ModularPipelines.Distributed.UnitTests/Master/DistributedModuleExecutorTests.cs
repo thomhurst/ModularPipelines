@@ -122,9 +122,9 @@ public class DistributedModuleExecutorTests
         coordinator ??= new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry);
-        resultCollector ??= new DistributedResultCollector(coordinator, serializer);
         resultRegistry ??= new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        resultCollector ??= new DistributedResultCollector(coordinator, serializer);
         moduleRunner ??= new Mock<IModuleRunner>();
 
         return new DistributedModuleExecutor(
@@ -740,13 +740,14 @@ public class DistributedModuleExecutorTests
         var regEventExecutor = new Mock<IRegistrationEventExecutor>();
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
-        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, serializer, resultRegistry);
         var moduleRunner = new Mock<IModuleRunner>();
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry,
-            new ModuleResultRegistry(), Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
+            resultRegistry, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act
@@ -787,7 +788,7 @@ public class DistributedModuleExecutorTests
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
         var moduleRunner = new Mock<IModuleRunner>();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry);
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
@@ -881,12 +882,13 @@ public class DistributedModuleExecutorTests
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
         var moduleRunner = new Mock<IModuleRunner>();
-        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator.Object, typeRegistry, serializer, resultRegistry);
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
             coordinator.Object, publisher, resultCollector, typeRegistry,
-            new ModuleResultRegistry(), Microsoft.Extensions.Options.Options.Create(distributedOptions),
+            resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
         // Act — should proceed after 3 seconds timeout even though only 1/3 workers registered

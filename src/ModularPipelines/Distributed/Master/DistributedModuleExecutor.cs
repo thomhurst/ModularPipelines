@@ -1,4 +1,3 @@
-using System.Reflection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -234,7 +233,7 @@ internal class DistributedModuleExecutor(
             // DependsOn<T> result access works across the master/worker boundary
             if (result is not null)
             {
-                ApplyResultToModule(module, result);
+                ModuleCompletionSourceApplicator.TryApply(module, result);
                 _resultRegistry.RegisterResult(moduleType, result);
             }
 
@@ -276,18 +275,4 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    /// <summary>
-    /// Sets the deserialized result on the module's internal <c>CompletionSource</c> via reflection,
-    /// since the generic type parameter T is not known at compile time.
-    /// </summary>
-    private static void ApplyResultToModule(IModule module, IModuleResult result)
-    {
-        var completionSource = module.GetType()
-            .GetProperty("CompletionSource", BindingFlags.Instance | BindingFlags.NonPublic)?
-            .GetValue(module);
-
-        completionSource?.GetType()
-            .GetMethod("TrySetResult")?
-            .Invoke(completionSource, [result]);
-    }
 }
