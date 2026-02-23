@@ -7,6 +7,7 @@ using ModularPipelines;
 using ModularPipelines.Build;
 using ModularPipelines.Build.Modules;
 using ModularPipelines.Build.Modules.LocalMachine;
+using ModularPipelines.Build.Modules.UnitTests;
 using ModularPipelines.Build.Settings;
 using ModularPipelines.Distributed.Artifacts.S3.Extensions;
 using ModularPipelines.Distributed.Extensions;
@@ -32,7 +33,15 @@ builder.Services.Configure<CodeCovSettings>(builder.Configuration.GetSection("Co
 
 builder.Services
     .AddModule<BuildSolutionsModule>()
-    .AddModule<RunUnitTestsModule>()
+    .AddModule<RunCoreUnitTestsModule>()
+    .AddModule<RunAzureUnitTestsModule>()
+    .AddModule<RunAnalyzersUnitTestsModule>()
+    .AddModule<RunDistributedUnitTestsModule>()
+    .AddModule<RunDistributedRedisUnitTestsModule>()
+    .AddModule<RunDistributedArtifactsS3UnitTestsModule>()
+    .AddModule<RunDistributedSignalRUnitTestsModule>()
+    .AddModule<RunDistributedDiscoveryRedisUnitTestsModule>()
+    .AddModule<RunAllUnitTestsModule>()
     .AddModule<NugetVersionGeneratorModule>()
     .AddModule<FindProjectsModule>()
     .AddModule<FindProjectDependenciesModule>()
