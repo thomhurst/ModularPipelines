@@ -14,10 +14,11 @@ public static class DistributedPipelineBuilderExtensions
     /// </summary>
     public static PipelineBuilder AddDistributedMode(this PipelineBuilder builder, Action<DistributedOptions> configure)
     {
-        var options = new DistributedOptions();
-        configure(options);
-        options.Enabled = true;
-        builder.Services.AddSingleton(Microsoft.Extensions.Options.Options.Create(options));
+        builder.Services.Configure<DistributedOptions>(o =>
+        {
+            configure(o);
+            o.Enabled = true;
+        });
 
         return builder;
     }
