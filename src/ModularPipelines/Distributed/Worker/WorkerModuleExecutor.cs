@@ -8,6 +8,7 @@ using ModularPipelines.Engine;
 using ModularPipelines.Engine.Execution;
 using ModularPipelines.Models;
 using ModularPipelines.Modules;
+using ModuleResultFactory = ModularPipelines.Engine.Execution.ModuleResultFactory;
 
 namespace ModularPipelines.Distributed.Worker;
 
@@ -98,14 +99,7 @@ internal class WorkerModuleExecutor(
                 // Download consumed artifacts before execution
                 if (_artifactLifecycleManager is not null)
                 {
-                    try
-                    {
-                        await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "Failed to download artifacts for module {Module}", assignment.ModuleTypeName);
-                    }
+                    await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
                 }
 
                 // Execute the module through the framework's execution pipeline
@@ -161,7 +155,8 @@ internal class WorkerModuleExecutor(
                     // Publish failure result — wrapped in try/catch to prevent master deadlock
                     try
                     {
-                        var failureResult = ModuleResult.CreateFailure(
+                        var failureResult = ModuleResultFactory.CreateException(
+                            resolved.Value.ResultType,
                             ex,
                             new ModuleExecutionContext(module, module.GetType()));
                         var serialized = _serializer.Serialize(
