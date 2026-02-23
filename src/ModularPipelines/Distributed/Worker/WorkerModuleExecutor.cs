@@ -212,7 +212,15 @@ internal class WorkerModuleExecutor(
 
             try
             {
-                var result = _serializer.Deserialize(serializedDep);
+                // Decompress GZip-compressed dependency results before deserialization
+                var toDeserialize = serializedDep;
+                if (serializedDep.SerializedJson.StartsWith(Master.DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
+                {
+                    var decompressed = Master.DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
+                    toDeserialize = serializedDep with { SerializedJson = decompressed };
+                }
+
+                var result = _serializer.Deserialize(toDeserialize);
                 if (result is not null)
                 {
                     ModuleCompletionSourceApplicator.TryApply(depModule, result);

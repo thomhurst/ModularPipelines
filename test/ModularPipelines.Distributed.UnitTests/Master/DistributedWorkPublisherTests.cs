@@ -184,9 +184,9 @@ public class DistributedWorkPublisherTests
     }
 
     [Test]
-    public async Task CreateAssignment_Strips_Value_When_DependencyResult_Exceeds_Size_Limit()
+    public async Task CreateAssignment_Compresses_Large_DependencyResults()
     {
-        // Arrange — create a dependency result larger than 256 KB
+        // Arrange — create a dependency result larger than 64 KB compression threshold
         var coordinator = new InMemoryDistributedCoordinator();
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(LargeResultModule));
@@ -194,7 +194,7 @@ public class DistributedWorkPublisherTests
         var serializer = new ModuleResultSerializer(typeRegistry);
         var resultRegistry = new ModuleResultRegistry();
 
-        // Create a result with a payload > 256 KB
+        // Create a result with a payload > 64 KB (repetitive text compresses well)
         var largePayload = new string('X', 300 * 1024);
         var depResult = CreateSuccessResult(new LargeResult { Payload = largePayload }, "LargeResultModule");
         resultRegistry.RegisterResult(typeof(LargeResultModule), depResult);
@@ -205,13 +205,26 @@ public class DistributedWorkPublisherTests
         var module = new ConsumerOfLargeModule();
         var assignment = publisher.CreateAssignment(module);
 
-        // Assert — dependency result is included but stripped to well under the original size
+        // Assert — dependency result is included and compressed
         await Assert.That(assignment.DependencyResults).IsNotNull();
         await Assert.That(assignment.DependencyResults!.Count).IsEqualTo(1);
 
-        var strippedJson = assignment.DependencyResults[0].SerializedJson;
-        await Assert.That(strippedJson.Length).IsLessThan(1024); // metadata-only should be tiny
-        await Assert.That(strippedJson).Contains("\"$type\":\"Success\"");
-        await Assert.That(strippedJson).Contains("\"Value\":null");
+        var compressedJson = assignment.DependencyResults[0].SerializedJson;
+        await Assert.That(compressedJson).StartsWith(DistributedWorkPublisher.GzipPrefix);
+        // Compressed should be much smaller than the 300 KB original
+        await Assert.That(compressedJson.Length).IsLessThan(100 * 1024);
+    }
+
+    [Test]
+    public async Task CompressJson_DecompressJson_Roundtrip()
+    {
+        var original = "{\"$type\":\"Success\",\"Value\":\"" + new string('A', 100_000) + "\"}";
+
+        var compressed = DistributedWorkPublisher.CompressJson(original);
+        await Assert.That(compressed).StartsWith(DistributedWorkPublisher.GzipPrefix);
+        await Assert.That(compressed.Length).IsLessThan(original.Length);
+
+        var decompressed = DistributedWorkPublisher.DecompressJson(compressed);
+        await Assert.That(decompressed).IsEqualTo(original);
     }
 }
