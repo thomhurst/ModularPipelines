@@ -1,4 +1,3 @@
-using ModularPipelines.Attributes;
 using ModularPipelines.Configuration;
 using ModularPipelines.Context;
 using ModularPipelines.Git.Extensions;
@@ -8,7 +7,6 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 public class FindProjectsModule : Module<IReadOnlyList<File>>
 {
     protected override ModuleConfiguration Configure() => ModuleConfiguration.Create()
