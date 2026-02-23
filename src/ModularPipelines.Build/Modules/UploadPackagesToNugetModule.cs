@@ -13,7 +13,7 @@ using File = ModularPipelines.FileSystem.File;
 namespace ModularPipelines.Build.Modules;
 
 [PinToMaster]
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<RunAllUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
 [RunOnLinuxOnly]
 [SkipIfNoGitHubToken]

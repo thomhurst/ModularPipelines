@@ -16,7 +16,7 @@ namespace ModularPipelines.Build.Modules;
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]
 [DependsOn<FindProjectDependenciesModule>]
-[DependsOn<RunUnitTestsModule>]
+[DependsOn<RunAllUnitTestsModule>]
 [RunOnLinuxOnly]
 public class PackProjectsModule : Module<CommandResult[]>
 {
