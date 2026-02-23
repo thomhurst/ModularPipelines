@@ -55,6 +55,15 @@ public class RunUnitTestsModule : Module<CommandResult[]>
                 {
                     ["GITHUB_ACTIONS"] = null,
                     ["GITHUB_STEP_SUMMARY"] = null,
+                    // Clear distributed mode env vars to prevent test subprocesses
+                    // from inheriting coordinator/artifact store connections
+                    ["INSTANCE_INDEX"] = null,
+                    ["TOTAL_INSTANCES"] = null,
+                    ["UPSTASH_REDIS_REST_URL"] = null,
+                    ["UPSTASH_REDIS_REST_TOKEN"] = null,
+                    ["R2_ENDPOINT_URL"] = null,
+                    ["R2_ACCESS_KEY"] = null,
+                    ["R2_SECRET_KEY"] = null,
                 },
             },
             cancellationToken))
