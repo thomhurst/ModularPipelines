@@ -16,7 +16,6 @@ using ModularPipelines.Node.Models;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [SkipIfNoGitHubToken]
 [SkipIfNoStandardGitHubToken]
 [RunOnLinuxOnly]

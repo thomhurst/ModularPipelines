@@ -157,7 +157,6 @@ public class MacBuildModule : Module<string>
     }
 }
 
-[PinToMaster]
 [DependsOn<LinuxBuildModule>]
 [DependsOn<WindowsBuildModule>]
 [DependsOn<MacBuildModule>]
@@ -184,7 +183,7 @@ public class AggregateResultsModule : Module<string>
 4. The master sees the restore result and enqueues the three platform-specific build modules.
 5. Each build module is routed to the worker with the matching OS capability.
 6. All three builds run in parallel on different runners.
-7. Once all builds complete, `AggregateResultsModule` runs on the master (pinned).
+7. Once all builds complete, `AggregateResultsModule` is enqueued and any available worker picks it up.
 8. The master produces the pipeline summary and exits.
 
 ## Important Notes

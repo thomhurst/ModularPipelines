@@ -46,17 +46,53 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
         }
     }
 
-    public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+    public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
-        // Master doesn't dequeue — this method is only used by workers.
-        // The worker coordinator receives assignments via ReceiveAssignment callback.
-        throw new NotSupportedException("Master does not dequeue. Workers receive assignments via hub callbacks.");
+        // The master's worker loop dequeues from the pending queue (same as external workers).
+        // Poll with a short delay to avoid busy-waiting.
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            if (_state.IsCompleted && _state.PendingAssignments.IsEmpty)
+            {
+                return null;
+            }
+
+            var pendingCount = _state.PendingAssignments.Count;
+            for (var i = 0; i < pendingCount; i++)
+            {
+                if (!_state.PendingAssignments.TryDequeue(out var assignment))
+                {
+                    break;
+                }
+
+                if (assignment.RequiredCapabilities.Count > 0 &&
+                    !assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                {
+                    // Re-enqueue — master can't handle this module
+                    _state.PendingAssignments.Enqueue(assignment);
+                    continue;
+                }
+
+                return assignment;
+            }
+
+            try
+            {
+                await Task.Delay(50, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
     {
         // Master receives results through the hub's PublishResult method.
-        // This is called when the master itself produces a result (e.g., PinToMaster modules).
+        // This is called when the master itself produces a result (e.g., modules executed locally by the master's worker loop).
         if (_state.ResultWaiters.TryGetValue(result.ModuleTypeName, out var tcs))
         {
             tcs.TrySetResult(result);

@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Reflection;
 using System.Text;
 using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Serialization;
@@ -28,6 +29,22 @@ internal class DistributedWorkPublisher(
             .Cast<RequiresCapabilityAttribute>()
             .Select(a => a.Capability)
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        // Auto-detect OS requirements from RunOn*Only mandatory conditions
+        if (moduleType.GetCustomAttribute<RunOnLinuxOnlyAttribute>(true) is not null)
+        {
+            requiredCapabilities.Add("linux");
+        }
+
+        if (moduleType.GetCustomAttribute<RunOnWindowsOnlyAttribute>(true) is not null)
+        {
+            requiredCapabilities.Add("windows");
+        }
+
+        if (moduleType.GetCustomAttribute<RunOnMacOSOnlyAttribute>(true) is not null)
+        {
+            requiredCapabilities.Add("macos");
+        }
 
         var config = module.Configuration;
 

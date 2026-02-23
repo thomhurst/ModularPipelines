@@ -8,6 +8,7 @@ using ModularPipelines.Distributed.Artifacts;
 using ModularPipelines.Distributed.Coordination;
 using ModularPipelines.Distributed.Master;
 using ModularPipelines.Distributed.Serialization;
+using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
 using ModularPipelines.Engine.Attributes;
 using ModularPipelines.Engine.Execution;
@@ -33,12 +34,12 @@ public class DistributedModuleExecutorTests
             => Task.FromResult<SimpleResult?>(new SimpleResult { Message = "done" });
     }
 
-    [PinToMaster]
-    private class PinnedModule : Module<string>
+    [RunOnLinuxOnly]
+    private class LinuxOnlyModule : Module<string>
     {
         protected internal override Task<string?> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
-            => Task.FromResult<string?>("pinned done");
+            => Task.FromResult<string?>("linux done");
     }
 
     private class AnotherDistributedModule : Module<int>
@@ -46,6 +47,35 @@ public class DistributedModuleExecutorTests
         protected internal override Task<int> ExecuteAsync(
             Context.IModuleContext context, CancellationToken cancellationToken)
             => Task.FromResult(42);
+    }
+
+    /// <summary>
+    /// Wraps an <see cref="IDistributedCoordinator"/> so that <see cref="DequeueModuleAsync"/>
+    /// returns null immediately. This prevents the master worker loop from competing with
+    /// simulated external workers in tests that verify the distributed collection path.
+    /// </summary>
+    private class NoDequeueCoordinator(IDistributedCoordinator inner) : IDistributedCoordinator
+    {
+        public Task EnqueueModuleAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
+            => inner.EnqueueModuleAsync(assignment, cancellationToken);
+
+        public Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
+            => Task.FromResult<ModuleAssignment?>(null);
+
+        public Task PublishResultAsync(SerializedModuleResult result, CancellationToken cancellationToken)
+            => inner.PublishResultAsync(result, cancellationToken);
+
+        public Task<SerializedModuleResult> WaitForResultAsync(string moduleTypeName, CancellationToken cancellationToken)
+            => inner.WaitForResultAsync(moduleTypeName, cancellationToken);
+
+        public Task RegisterWorkerAsync(WorkerRegistration registration, CancellationToken cancellationToken)
+            => inner.RegisterWorkerAsync(registration, cancellationToken);
+
+        public Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken cancellationToken)
+            => inner.GetRegisteredWorkersAsync(cancellationToken);
+
+        public Task SignalCompletionAsync(CancellationToken cancellationToken)
+            => inner.SignalCompletionAsync(cancellationToken);
     }
 
     // --- Helpers ---
@@ -136,6 +166,7 @@ public class DistributedModuleExecutorTests
             publisher,
             resultCollector,
             typeRegistry,
+            serializer,
             resultRegistry,
             Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             artifactManager,
@@ -155,14 +186,15 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(moduleState);
         var resultRegistry = new ModuleResultRegistry();
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
 
         var executor = CreateExecutor(scheduler,
             resultRegistry: resultRegistry,
-            coordinator: coordinator,
+            coordinator: noDequeue,
             resultCollector: resultCollector);
 
         // Simulate worker publishing a result
@@ -197,14 +229,15 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(moduleState);
         var resultRegistry = new ModuleResultRegistry();
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
 
         var executor = CreateExecutor(scheduler,
             resultRegistry: resultRegistry,
-            coordinator: coordinator,
+            coordinator: noDequeue,
             resultCollector: resultCollector);
 
         // Create a properly-typed failure result (FailureWrapper<SimpleResult>)
@@ -317,15 +350,16 @@ public class DistributedModuleExecutorTests
         var scheduler = CreateMockScheduler(stateA, stateB);
         var resultRegistry = new ModuleResultRegistry();
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         typeRegistry.Register(typeof(AnotherDistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
 
         var executor = CreateExecutor(scheduler,
             resultRegistry: resultRegistry,
-            coordinator: coordinator,
+            coordinator: noDequeue,
             resultCollector: resultCollector);
 
         // Simulate: module A gets a failure result, module B gets nothing
@@ -356,203 +390,74 @@ public class DistributedModuleExecutorTests
     }
 
     // =================================================================
-    // Race Condition Prevention (PinToMaster)
+    // Master-as-Worker Tests
     // =================================================================
 
     [Test]
-    public async Task PinToMaster_Module_Uses_NoOp_Scheduler_Then_Marks_Real_Scheduler()
+    public async Task Master_Worker_Loop_Executes_Module_And_Publishes_Result()
     {
-        // Arrange
-        var module = new PinnedModule();
-        var moduleState = new ModuleState(module, typeof(PinnedModule));
+        // Arrange: the master dequeues a module from the work queue, executes it, and publishes the result
+        var module = new DistributedModule();
+        var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
+        var resultRegistry = new ModuleResultRegistry();
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(DistributedModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultCollector = new DistributedResultCollector(coordinator, serializer);
         var moduleRunner = new Mock<IModuleRunner>();
 
         // Track what scheduler was passed to ExecuteWithoutDependencyWaitAsync
         IModuleScheduler? capturedScheduler = null;
         moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
                 It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, sched, _) =>
+            .Callback<ModuleState, IModuleScheduler, CancellationToken>((_, sched, _) =>
             {
                 capturedScheduler = sched;
-                // Simulate successful execution
-                state.Result = CreateSuccessResult("pinned done", "PinnedModule");
+                // Simulate successful execution by setting the module's CompletionSource
+                var result = CreateSuccessResult(new SimpleResult { Message = "master-executed" }, "DistributedModule");
+                ModuleCompletionSourceApplicator.TryApply(module, result);
             })
             .Returns(Task.CompletedTask);
 
-        var executor = CreateExecutor(scheduler, moduleRunner: moduleRunner);
+        var executor = CreateExecutor(scheduler,
+            moduleRunner: moduleRunner,
+            resultRegistry: resultRegistry,
+            coordinator: coordinator,
+            resultCollector: resultCollector);
 
         // Act
         await executor.ExecuteAsync([module]);
 
-        // Assert — runner was called with a WorkerModuleScheduler (no-op), not the real scheduler
+        // Assert — the master worker loop used a WorkerModuleScheduler (no-op)
         await Assert.That(capturedScheduler).IsNotNull();
-        await Assert.That(capturedScheduler).IsTypeOf<ModularPipelines.Distributed.Worker.WorkerModuleScheduler>();
+        await Assert.That(capturedScheduler).IsTypeOf<WorkerModuleScheduler>();
+
+        // The result was published through the coordinator and collected by the result collector
+        var registeredResult = resultRegistry.GetResult(typeof(DistributedModule));
+        await Assert.That(registeredResult).IsNotNull();
+        await Assert.That(registeredResult!.IsSuccess).IsTrue();
     }
 
     [Test]
-    public async Task PinToMaster_Module_Marks_Real_Scheduler_Completed_After_Execution()
+    public async Task CreateAssignment_Auto_Detects_Linux_Capability_From_RunOnLinuxOnly()
     {
         // Arrange
-        var module = new PinnedModule();
-        var moduleState = new ModuleState(module, typeof(PinnedModule));
-        var scheduler = CreateMockScheduler(moduleState);
-        var moduleRunner = new Mock<IModuleRunner>();
+        var coordinator = new InMemoryDistributedCoordinator();
+        var typeRegistry = new ModuleTypeRegistry();
+        typeRegistry.Register(typeof(LinuxOnlyModule));
+        var serializer = new ModuleResultSerializer(typeRegistry);
+        var resultRegistry = new ModuleResultRegistry();
+        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
 
-        // Track order: execution first, then scheduler mark
-        var operationOrder = new List<string>();
-
-        moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
-                It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, _, _) =>
-            {
-                operationOrder.Add("execute");
-                state.Result = CreateSuccessResult("done", "PinnedModule");
-            })
-            .Returns(Task.CompletedTask);
-
-        scheduler.Setup(s => s.MarkModuleCompleted(It.IsAny<Type>(), It.IsAny<bool>(), It.IsAny<Exception?>(), It.IsAny<Status?>()))
-            .Callback<Type, bool, Exception?, Status?>((_, _, _, _) => operationOrder.Add("mark_completed"));
-
-        var executor = CreateExecutor(scheduler, moduleRunner: moduleRunner);
+        var module = new LinuxOnlyModule();
 
         // Act
-        await executor.ExecuteAsync([module]);
+        var assignment = publisher.CreateAssignment(module);
 
-        // Assert — execution must happen before real scheduler is marked completed
-        await Assert.That(operationOrder).Contains("execute");
-        await Assert.That(operationOrder).Contains("mark_completed");
-
-        var executeIndex = operationOrder.IndexOf("execute");
-        var completeIndex = operationOrder.IndexOf("mark_completed");
-        await Assert.That(executeIndex).IsLessThan(completeIndex);
-    }
-
-    [Test]
-    public async Task PinToMaster_Module_With_Artifacts_Uploads_Before_Marking_Completed()
-    {
-        // Arrange: use real ArtifactLifecycleManager with a mock store to track upload calls.
-        // Since PinnedModule doesn't have [ProducesArtifact], the upload is a no-op,
-        // but we verify the ordering through scheduler callbacks.
-        var module = new PinnedModule();
-        var moduleState = new ModuleState(module, typeof(PinnedModule));
-        var scheduler = CreateMockScheduler(moduleState);
-        var moduleRunner = new Mock<IModuleRunner>();
-
-        var markCompletedCalled = false;
-
-        moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
-                It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, sched, _) =>
-            {
-                state.Result = CreateSuccessResult("done", "PinnedModule");
-                // The no-op scheduler should NOT call the real scheduler's MarkModuleCompleted
-                sched.MarkModuleCompleted(typeof(PinnedModule), true);
-            })
-            .Returns(Task.CompletedTask);
-
-        scheduler.Setup(s => s.MarkModuleCompleted(It.IsAny<Type>(), It.IsAny<bool>(), It.IsAny<Exception?>(), It.IsAny<Status?>()))
-            .Callback<Type, bool, Exception?, Status?>((_, _, _, _) => markCompletedCalled = true);
-
-        // Use real artifact manager (with mock store) — no [ProducesArtifact] so upload returns []
-        var mockStore = new Mock<IDistributedArtifactStore>();
-        var artifactManager = new ArtifactLifecycleManager(
-            mockStore.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
-            NullLogger<ArtifactLifecycleManager>.Instance);
-
-        var executor = CreateExecutor(scheduler, moduleRunner: moduleRunner, artifactManager: artifactManager);
-
-        // Act
-        await executor.ExecuteAsync([module]);
-
-        // Assert — real scheduler's MarkModuleCompleted was called (not eaten by no-op)
-        await Assert.That(markCompletedCalled).IsTrue();
-
-        // The no-op scheduler received the call from inside ExecuteCore,
-        // but the REAL scheduler was only called by our executor AFTER execution + artifacts
-        scheduler.Verify(s => s.MarkModuleCompleted(typeof(PinnedModule), true, null, It.IsAny<Status?>()), Times.Once());
-    }
-
-    [Test]
-    public async Task PinToMaster_Module_Failure_Does_Not_Upload_Artifacts()
-    {
-        // Arrange: use real ArtifactLifecycleManager with a mock store, verify no upload
-        var module = new PinnedModule();
-        var moduleState = new ModuleState(module, typeof(PinnedModule));
-        var scheduler = CreateMockScheduler(moduleState);
-        var moduleRunner = new Mock<IModuleRunner>();
-
-        moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
-                It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .Callback<ModuleState, IModuleScheduler, CancellationToken>((state, _, _) =>
-            {
-                // Set result as failure — IsFailure will be true
-                var now = DateTimeOffset.UtcNow;
-                state.Result = new ModuleResult.Failure(new Exception("Module failed"))
-                {
-                    ModuleName = "PinnedModule",
-                    ModuleDuration = TimeSpan.FromMilliseconds(50),
-                    ModuleStart = now,
-                    ModuleEnd = now.AddMilliseconds(50),
-                    ModuleStatus = Status.Failed,
-                };
-            })
-            .Returns(Task.CompletedTask);
-
-        var mockStore = new Mock<IDistributedArtifactStore>();
-        var artifactManager = new ArtifactLifecycleManager(
-            mockStore.Object,
-            Microsoft.Extensions.Options.Options.Create(new ArtifactOptions()),
-            NullLogger<ArtifactLifecycleManager>.Instance);
-
-        var executor = CreateExecutor(scheduler, moduleRunner: moduleRunner, artifactManager: artifactManager);
-
-        // Act
-        await executor.ExecuteAsync([module]);
-
-        // Assert — no uploads should happen for failed module
-        mockStore.Verify(
-            s => s.UploadAsync(It.IsAny<ArtifactDescriptor>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()),
-            Times.Never());
-
-        // Scheduler should be marked completed with success=false
-        scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(PinnedModule), false, null, It.IsAny<Status?>()),
-            Times.Once());
-    }
-
-    [Test]
-    public async Task PinToMaster_Module_Exception_Marks_Scheduler_Failed()
-    {
-        // Arrange
-        var module = new PinnedModule();
-        var moduleState = new ModuleState(module, typeof(PinnedModule));
-        var scheduler = CreateMockScheduler(moduleState);
-        var moduleRunner = new Mock<IModuleRunner>();
-
-        var expectedException = new InvalidOperationException("Execution blew up");
-        moduleRunner.Setup(r => r.ExecuteWithoutDependencyWaitAsync(
-                It.IsAny<ModuleState>(), It.IsAny<IModuleScheduler>(), It.IsAny<CancellationToken>()))
-            .ThrowsAsync(expectedException);
-
-        var executor = CreateExecutor(scheduler, moduleRunner: moduleRunner);
-
-        // Act — ExecuteLocalWithArtifactsAsync re-throws, which propagates through Task.WhenAll.
-        // The executor only catches OperationCanceledException from WhenAll, so we need to catch here.
-        try
-        {
-            await executor.ExecuteAsync([module]);
-        }
-        catch (InvalidOperationException)
-        {
-            // Expected — the exception propagates up
-        }
-
-        // Assert — scheduler was marked as failed before the re-throw
-        scheduler.Verify(
-            s => s.MarkModuleCompleted(typeof(PinnedModule), false, expectedException, null),
-            Times.Once());
+        // Assert — "linux" capability auto-detected from [RunOnLinuxOnly]
+        await Assert.That(assignment.RequiredCapabilities).Contains("linux");
     }
 
     // =================================================================
@@ -648,13 +553,14 @@ public class DistributedModuleExecutorTests
         var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
 
         var executor = CreateExecutor(scheduler,
-            coordinator: coordinator,
+            coordinator: noDequeue,
             resultCollector: resultCollector);
 
         // Simulate worker result
@@ -682,13 +588,14 @@ public class DistributedModuleExecutorTests
         var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
 
         var executor = CreateExecutor(scheduler,
-            coordinator: coordinator,
+            coordinator: noDequeue,
             resultCollector: resultCollector);
 
         // Simulate worker failure (properly-typed so serializer accepts it)
@@ -746,7 +653,7 @@ public class DistributedModuleExecutorTests
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
-            coordinator.Object, publisher, resultCollector, typeRegistry,
+            coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(new DistributedOptions()),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -772,10 +679,11 @@ public class DistributedModuleExecutorTests
         var moduleState = new ModuleState(module, typeof(DistributedModule));
         var scheduler = CreateMockScheduler(moduleState);
         var coordinator = new InMemoryDistributedCoordinator();
+        var noDequeue = new NoDequeueCoordinator(coordinator);
         var typeRegistry = new ModuleTypeRegistry();
         typeRegistry.Register(typeof(DistributedModule));
         var serializer = new ModuleResultSerializer(typeRegistry);
-        var resultCollector = new DistributedResultCollector(coordinator, serializer);
+        var resultCollector = new DistributedResultCollector(noDequeue, serializer);
         var resultRegistry = new ModuleResultRegistry();
 
         var distributedOptions = new DistributedOptions { TotalInstances = 2, CapabilityTimeoutSeconds = 10 };
@@ -788,11 +696,11 @@ public class DistributedModuleExecutorTests
         regEventExecutor.Setup(r => r.InvokeRegistrationEventsAsync(It.IsAny<IEnumerable<IModule>>()))
             .Returns(Task.CompletedTask);
         var moduleRunner = new Mock<IModuleRunner>();
-        var publisher = new DistributedWorkPublisher(coordinator, typeRegistry, serializer, resultRegistry);
+        var publisher = new DistributedWorkPublisher(noDequeue, typeRegistry, serializer, resultRegistry);
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
-            coordinator, publisher, resultCollector, typeRegistry,
+            noDequeue, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 
@@ -887,7 +795,7 @@ public class DistributedModuleExecutorTests
 
         var executor = new DistributedModuleExecutor(
             lifetime.Object, factory.Object, moduleRunner.Object, regEventExecutor.Object,
-            coordinator.Object, publisher, resultCollector, typeRegistry,
+            coordinator.Object, publisher, resultCollector, typeRegistry, serializer,
             resultRegistry, Microsoft.Extensions.Options.Options.Create(distributedOptions),
             null, NullLogger<DistributedModuleExecutor>.Instance);
 

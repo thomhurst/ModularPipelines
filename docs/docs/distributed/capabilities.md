@@ -5,7 +5,7 @@ sidebar_position: 4
 
 # Capabilities and Routing
 
-Not every worker can execute every module. Some modules need Docker, others need a specific OS, and some should only run on the master. The capability system controls how modules are routed to the right worker.
+Not every worker can execute every module. Some modules need Docker, others need a specific OS. The capability system controls how modules are routed to the right worker.
 
 ## Worker Capabilities
 
@@ -29,6 +29,24 @@ By default, `AutoDetectOsCapability` is `true`, which automatically adds the cur
 - macOS runners advertise `"macos"`
 
 This means modules with `[RequiresCapability("linux")]` will only run on Linux workers without any extra configuration.
+
+### Auto-Detected OS from RunOn*Only Attributes
+
+When a module has a `[RunOnLinuxOnly]`, `[RunOnWindowsOnly]`, or `[RunOnMacOSOnly]` attribute, the framework automatically adds the corresponding OS capability requirement to its assignment. This keeps the attribute set DRY — you don't need to add both `[RunOnLinuxOnly]` and `[RequiresCapability("linux")]` to the same module.
+
+```csharp
+// The "linux" capability is auto-detected — no [RequiresCapability] needed
+[RunOnLinuxOnly]
+public class LinuxBuildModule : Module<string>
+{
+    protected override async Task<string?> ExecuteAsync(
+        IModuleContext context, CancellationToken cancellationToken)
+    {
+        // Only executes on workers that have the "linux" capability
+        return "built on linux";
+    }
+}
+```
 
 ## RequiresCapability Attribute
 
@@ -70,34 +88,6 @@ public class LinuxDockerModule : Module<string>
 
 Modules without `[RequiresCapability]` can run on any worker. They have no routing restrictions.
 
-## PinToMaster Attribute
-
-Some modules should never be distributed — they need to run in the master process. Common examples:
-
-- Modules that aggregate results from other modules.
-- Modules that produce the final pipeline summary.
-- Modules that interact with local resources only available on the master.
-
-```csharp
-[PinToMaster]
-[DependsOn<BuildModule>]
-[DependsOn<TestModule>]
-public class PublishSummaryModule : Module<string>
-{
-    protected override async Task<string?> ExecuteAsync(
-        IModuleContext context, CancellationToken cancellationToken)
-    {
-        var buildResult = await context.GetModule<BuildModule>();
-        var testResult = await context.GetModule<TestModule>();
-
-        // This runs on the master, even in distributed mode
-        return $"Build: {buildResult.ValueOrDefault}, Tests: {testResult.ValueOrDefault}";
-    }
-}
-```
-
-Pinned modules execute locally on the master and skip the work queue entirely. Their results are still available to other modules via the normal dependency system.
-
 ## MatrixTarget Attribute
 
 The `[MatrixTarget]` attribute is designed for modules that need to run once per target value — for example, building for multiple operating systems or configurations.
@@ -128,11 +118,11 @@ The matching logic is straightforward:
 ## Example: Mixed Pipeline
 
 ```csharp
-// Runs on any worker
+// Runs on any worker (including the master)
 public class RestoreModule : Module<string> { ... }
 
-// Only on Linux workers
-[RequiresCapability("linux")]
+// Only on Linux workers (auto-detected from [RunOnLinuxOnly])
+[RunOnLinuxOnly]
 [DependsOn<RestoreModule>]
 public class LinuxBuildModule : Module<string> { ... }
 
@@ -141,14 +131,13 @@ public class LinuxBuildModule : Module<string> { ... }
 [DependsOn<RestoreModule>]
 public class WindowsBuildModule : Module<string> { ... }
 
-// Only on the master (aggregates results)
-[PinToMaster]
+// Aggregates results — runs on any available worker
 [DependsOn<LinuxBuildModule>]
 [DependsOn<WindowsBuildModule>]
 public class PublishModule : Module<string> { ... }
 ```
 
 In this pipeline:
-1. `RestoreModule` is enqueued and any available worker picks it up.
+1. `RestoreModule` is enqueued and any available worker (including the master) picks it up.
 2. Once restore completes, `LinuxBuildModule` is enqueued for a Linux worker and `WindowsBuildModule` for a Windows worker. These run in parallel on different machines.
-3. Once both builds complete, `PublishModule` runs locally on the master.
+3. Once both builds complete, `PublishModule` is enqueued and any available worker picks it up.

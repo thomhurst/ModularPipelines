@@ -14,7 +14,6 @@ using ModularPipelines.Options;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [ModuleCategory("VersionTag")]
 [SkipIfNoStandardGitHubToken]
 [RunOnlyOnBranch("main")]

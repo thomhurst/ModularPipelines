@@ -11,7 +11,6 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [DependsOn<BuildSolutionsModule>(Optional = true)]
 [DependsOn<NugetVersionGeneratorModule>]
 [DependsOn<PackageFilesRemovalModule>]

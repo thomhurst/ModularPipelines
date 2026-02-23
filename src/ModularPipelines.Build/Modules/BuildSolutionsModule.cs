@@ -9,7 +9,6 @@ using ModularPipelines.Modules;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [RunOnLinuxOnly]
 [ProducesArtifact("build-output", "../../_build-staging")]
 public class BuildSolutionsModule : Module<CommandResult[]>

@@ -30,27 +30,33 @@ This page describes the internal architecture of distributed mode for contributo
 ```
 Build dependency graph
         │
+        ├──► Start master worker loop (concurrent)
+        │         │
+        │    Dequeue from queue
+        │    Execute locally
+        │    Publish result
+        │         │
+        │         └──► (loop)
+        │
         ▼
 For each ready module:
         │
-   ┌────┴─────────────────┐
-   │ [PinToMaster]?       │
-   │                      │
-   ▼ Yes                  ▼ No
-Execute locally     Create ModuleAssignment
-   │                      │
-   │                      ▼
-   │                Enqueue to coordinator
-   │                      │
-   │                      ▼
-   │                Wait for result
-   │                      │
-   └──────────┬───────────┘
-              ▼
-   Deserialize result
-   Mark module complete/failed
-   Schedule dependents
+        ▼
+Create ModuleAssignment
+        │
+        ▼
+Enqueue to coordinator
+        │
+        ▼
+Wait for result (from any worker, including master)
+        │
+        ▼
+Deserialize result
+Mark module complete/failed
+Schedule dependents
 ```
+
+The master runs a concurrent worker loop that competes with external workers for assignments. All modules go through the work queue — routing is purely capability-based.
 
 ### Module Execution (Worker Side)
 

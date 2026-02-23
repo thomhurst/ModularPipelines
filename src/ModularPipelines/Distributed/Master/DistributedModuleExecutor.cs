@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ModularPipelines.Attributes;
 using ModularPipelines.Distributed.Artifacts;
+using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.Serialization;
 using ModularPipelines.Distributed.Worker;
 using ModularPipelines.Engine;
@@ -22,6 +22,7 @@ internal class DistributedModuleExecutor(
     DistributedWorkPublisher publisher,
     DistributedResultCollector resultCollector,
     ModuleTypeRegistry typeRegistry,
+    ModuleResultSerializer serializer,
     IModuleResultRegistry resultRegistry,
     IOptions<DistributedOptions> options,
     ArtifactLifecycleManager? artifactLifecycleManager,
@@ -35,6 +36,7 @@ internal class DistributedModuleExecutor(
     private readonly DistributedWorkPublisher _publisher = publisher;
     private readonly DistributedResultCollector _resultCollector = resultCollector;
     private readonly ModuleTypeRegistry _typeRegistry = typeRegistry;
+    private readonly ModuleResultSerializer _serializer = serializer;
     private readonly IModuleResultRegistry _resultRegistry = resultRegistry;
     private readonly IOptions<DistributedOptions> _options = options;
     private readonly ArtifactLifecycleManager? _artifactLifecycleManager = artifactLifecycleManager;
@@ -71,30 +73,24 @@ internal class DistributedModuleExecutor(
             var schedulerTask = scheduler.RunSchedulerAsync(cts.Token);
             var resultTasks = new List<Task>();
 
+            // Start the master worker loop — the master participates as a worker,
+            // dequeuing and executing modules from the same queue as external workers.
+            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, cts.Token);
+
             try
             {
                 await foreach (var moduleState in scheduler.ReadyModules.ReadAllAsync(cts.Token))
                 {
                     var moduleType = moduleState.Module.GetType();
-                    var isPinToMaster = moduleType.GetCustomAttributes(typeof(PinToMasterAttribute), true).Length > 0;
 
-                    if (isPinToMaster)
-                    {
-                        _logger.LogInformation("Executing module {Module} locally (PinToMaster)", moduleType.Name);
-                        var localTask = ExecuteLocalWithArtifactsAsync(moduleState, moduleType, scheduler, cts.Token);
-                        resultTasks.Add(localTask);
-                    }
-                    else
-                    {
-                        // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
-                        // Modules with [MatrixTarget] will run once, not N times.
-                        _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
-                        var assignment = _publisher.CreateAssignment(moduleState.Module);
-                        await _publisher.PublishAsync(assignment, cts.Token);
+                    // TODO(matrix): MatrixModuleExpander.ScanForExpansions not yet connected.
+                    // Modules with [MatrixTarget] will run once, not N times.
+                    _logger.LogInformation("Distributing module {Module} to workers", moduleType.Name);
+                    var assignment = _publisher.CreateAssignment(moduleState.Module);
+                    await _publisher.PublishAsync(assignment, cts.Token);
 
-                        var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
-                        resultTasks.Add(collectTask);
-                    }
+                    var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
+                    resultTasks.Add(collectTask);
                 }
             }
             catch (OperationCanceledException)
@@ -111,9 +107,19 @@ internal class DistributedModuleExecutor(
                 // Expected when a module failure cancels the pipeline
             }
 
+            // All results collected — cancel to stop the master worker loop
             if (!cts.IsCancellationRequested)
             {
                 await cts.CancelAsync();
+            }
+
+            try
+            {
+                await masterWorkerTask.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected — master worker loop exits on cancellation
             }
 
             try
@@ -190,34 +196,176 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task ExecuteLocalWithArtifactsAsync(ModuleState moduleState, Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    private async Task RunMasterWorkerLoopAsync(IReadOnlyList<IModule> modules, CancellationToken cancellationToken)
     {
-        // Mark started on the real scheduler for tracking
-        scheduler.MarkModuleStarted(moduleType);
+        // Build master's capabilities (same logic as WorkerModuleExecutor)
+        var options = _options.Value;
+        var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
+        if (options.AutoDetectOsCapability)
+        {
+            var osCapability = OsCapabilityDetector.Detect();
+            if (osCapability is not null)
+            {
+                capabilities.Add(osCapability);
+            }
+        }
 
-        // Execute with a no-op scheduler so ExecuteCore's internal MarkModuleCompleted
-        // doesn't release dependent modules before artifacts are uploaded.
-        using var localScheduler = new WorkerModuleScheduler();
+        _logger.LogInformation("Master worker loop started with capabilities: {Capabilities}",
+            string.Join(", ", capabilities));
+
+        using var workerScheduler = new WorkerModuleScheduler();
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                var assignment = await _coordinator.DequeueModuleAsync(capabilities, cancellationToken);
+                if (assignment is null)
+                {
+                    break;
+                }
+
+                _logger.LogInformation("Master executing module {Module} locally",
+                    assignment.ModuleTypeName);
+
+                await ExecuteAssignmentAsync(assignment, modules, workerScheduler, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Master worker loop encountered an error");
+            }
+        }
+    }
+
+    private async Task ExecuteAssignmentAsync(
+        ModuleAssignment assignment,
+        IReadOnlyList<IModule> modules,
+        WorkerModuleScheduler workerScheduler,
+        CancellationToken cancellationToken)
+    {
+        var resolved = _typeRegistry.Resolve(assignment.ModuleTypeName);
+        if (resolved is null)
+        {
+            _logger.LogError("Cannot resolve module type: {Type}", assignment.ModuleTypeName);
+            return;
+        }
+
+        var module = modules.FirstOrDefault(m => m.GetType().FullName == assignment.ModuleTypeName);
+        if (module is null)
+        {
+            _logger.LogError("Module instance not found: {Type}", assignment.ModuleTypeName);
+            return;
+        }
+
+        // Apply dependency results so that GetModule<T>() works
+        if (assignment.DependencyResults is { Count: > 0 })
+        {
+            ApplyDependencyResults(assignment.DependencyResults, modules);
+        }
+
         try
         {
-            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, localScheduler, cancellationToken);
-
-            // Determine actual success — ExecuteCore may handle failure without throwing
-            var success = moduleState.Result is not null && !moduleState.Result.IsFailure;
-
-            // Upload produced artifacts after successful execution, before releasing dependents
-            if (success && _artifactLifecycleManager is not null)
+            // Download consumed artifacts before execution
+            if (_artifactLifecycleManager is not null)
             {
-                await _artifactLifecycleManager.UploadProducedArtifactsAsync(moduleType, cancellationToken);
+                await _artifactLifecycleManager.DownloadConsumedArtifactsAsync(module.GetType(), cancellationToken);
             }
 
-            // NOW mark completed on the real scheduler — this releases dependent modules
-            scheduler.MarkModuleCompleted(moduleType, success, statusOverride: moduleState.Result?.ModuleStatus);
+            var moduleState = new ModuleState(module, module.GetType());
+            await _moduleRunner.ExecuteWithoutDependencyWaitAsync(moduleState, workerScheduler, cancellationToken);
+
+            var result = await module.ResultTask;
+
+            // Upload produced artifacts before publishing result
+            IReadOnlyList<ArtifactReference>? artifactRefs = null;
+            if (_artifactLifecycleManager is not null)
+            {
+                try
+                {
+                    artifactRefs = await _artifactLifecycleManager.UploadProducedArtifactsAsync(module.GetType(), cancellationToken);
+                    if (artifactRefs.Count == 0)
+                    {
+                        artifactRefs = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Failed to upload artifacts for {Module}", assignment.ModuleTypeName);
+                }
+            }
+
+            if (result is not null)
+            {
+                var serialized = _serializer.Serialize(result, assignment.ModuleTypeName, assignment.ResultTypeName, _options.Value.InstanceIndex);
+                if (artifactRefs is not null)
+                {
+                    serialized = serialized with { Artifacts = artifactRefs };
+                }
+
+                await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            }
         }
         catch (Exception ex)
         {
-            scheduler.MarkModuleCompleted(moduleType, false, ex);
-            throw;
+            _logger.LogError(ex, "Module {Module} execution failed on master", assignment.ModuleTypeName);
+
+            // Publish failure result so the collector doesn't deadlock
+            try
+            {
+                var failureResult = ModuleResultFactory.CreateException(
+                    resolved.Value.ResultType,
+                    ex,
+                    new ModuleExecutionContext(module, module.GetType()));
+                var serialized = _serializer.Serialize(failureResult, assignment.ModuleTypeName, assignment.ResultTypeName, _options.Value.InstanceIndex);
+                await _coordinator.PublishResultAsync(serialized, cancellationToken);
+            }
+            catch (Exception publishEx)
+            {
+                _logger.LogCritical(publishEx, "Failed to publish failure result for {Module}", assignment.ModuleTypeName);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Applies dependency results received in the assignment to local module instances.
+    /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
+    /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
+    /// </summary>
+    private void ApplyDependencyResults(IReadOnlyList<SerializedModuleResult> dependencyResults, IReadOnlyList<IModule> modules)
+    {
+        foreach (var serializedDep in dependencyResults)
+        {
+            var depModule = modules.FirstOrDefault(m => m.GetType().FullName == serializedDep.ModuleTypeName);
+            if (depModule is null)
+            {
+                _logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", serializedDep.ModuleTypeName);
+                continue;
+            }
+
+            try
+            {
+                // Decompress GZip-compressed dependency results before deserialization
+                var toDeserialize = serializedDep;
+                if (serializedDep.SerializedJson.StartsWith(DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
+                {
+                    var decompressed = DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
+                    toDeserialize = serializedDep with { SerializedJson = decompressed };
+                }
+
+                var result = _serializer.Deserialize(toDeserialize);
+                if (result is not null)
+                {
+                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", serializedDep.ModuleTypeName);
+            }
         }
     }
 

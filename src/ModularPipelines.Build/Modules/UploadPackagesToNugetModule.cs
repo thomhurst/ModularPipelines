@@ -12,7 +12,6 @@ using File = ModularPipelines.FileSystem.File;
 
 namespace ModularPipelines.Build.Modules;
 
-[PinToMaster]
 [DependsOn<RunAllUnitTestsModule>]
 [DependsOn<PackagePathsParserModule>]
 [RunOnLinuxOnly]
