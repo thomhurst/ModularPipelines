@@ -84,7 +84,7 @@ internal class DistributedModuleExecutor(
                         var assignment = _publisher.CreateAssignment(moduleState.Module);
                         await _publisher.PublishAsync(assignment, cts.Token);
 
-                        var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts.Token);
+                        var collectTask = CollectDistributedResultAsync(moduleState.Module, moduleType, scheduler, cts);
                         resultTasks.Add(collectTask);
                     }
                 }
@@ -94,11 +94,18 @@ internal class DistributedModuleExecutor(
                 // Expected during shutdown
             }
 
-            await Task.WhenAll(resultTasks).ConfigureAwait(false);
+            try
+            {
+                await Task.WhenAll(resultTasks).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected when a module failure cancels the pipeline
+            }
 
             if (!cts.IsCancellationRequested)
             {
-                cts.Cancel();
+                await cts.CancelAsync();
             }
 
             try
@@ -140,12 +147,12 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationToken cancellationToken)
+    private async Task CollectDistributedResultAsync(IModule module, Type moduleType, IModuleScheduler scheduler, CancellationTokenSource cts)
     {
         try
         {
             scheduler.MarkModuleStarted(moduleType);
-            var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cancellationToken);
+            var result = await _resultCollector.WaitForResultAsync(moduleType.FullName!, cts.Token);
             var success = result is not null && !result.IsFailure;
 
             // Apply the deserialized result to the module's CompletionSource so that
@@ -156,11 +163,22 @@ internal class DistributedModuleExecutor(
             }
 
             scheduler.MarkModuleCompleted(moduleType, success);
+
+            if (!success)
+            {
+                _logger.LogError("Distributed module {Module} failed on worker — cancelling pipeline", moduleType.Name);
+                await cts.CancelAsync();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            scheduler.MarkModuleCompleted(moduleType, false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to collect result for distributed module {Module}", moduleType.Name);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
+            await cts.CancelAsync();
         }
     }
 
