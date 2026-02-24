@@ -43,14 +43,15 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
         {
             // No idle worker available — queue for later
             _state.PendingAssignments.Enqueue(assignment);
+            _state.WorkAvailable.Release();
             _logger.LogDebug("Queued {Module} — no idle worker with matching capabilities", assignment.ModuleTypeName);
         }
     }
 
     public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> workerCapabilities, CancellationToken cancellationToken)
     {
-        // The master's worker loop dequeues from the pending queue (same as external workers).
-        // Poll with a short delay to avoid busy-waiting.
+        // The master's worker loop dequeues from the pending queue.
+        // Uses a semaphore signal instead of polling to avoid busy-waiting.
         while (!cancellationToken.IsCancellationRequested)
         {
             if (_state.IsCompleted && _state.PendingAssignments.IsEmpty)
@@ -58,32 +59,55 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                 return null;
             }
 
-            var pendingCount = _state.PendingAssignments.Count;
-            for (var i = 0; i < pendingCount; i++)
+            // Try scanning existing items first (before waiting)
+            var found = TryScanPendingQueue(workerCapabilities);
+            if (found is not null)
             {
-                if (!_state.PendingAssignments.TryDequeue(out var assignment))
-                {
-                    break;
-                }
-
-                if (!CapabilityMatcher.CanExecute(assignment, workerCapabilities))
-                {
-                    // Re-enqueue — master can't handle this module
-                    _state.PendingAssignments.Enqueue(assignment);
-                    continue;
-                }
-
-                return assignment;
+                return found;
             }
 
             try
             {
-                await Task.Delay(50, cancellationToken);
+                await _state.WorkAvailable.WaitAsync(cancellationToken);
             }
             catch (OperationCanceledException)
             {
                 return null;
             }
+
+            if (_state.IsCompleted && _state.PendingAssignments.IsEmpty)
+            {
+                return null;
+            }
+
+            found = TryScanPendingQueue(workerCapabilities);
+            if (found is not null)
+            {
+                return found;
+            }
+        }
+
+        return null;
+    }
+
+    private ModuleAssignment? TryScanPendingQueue(IReadOnlySet<string> workerCapabilities)
+    {
+        var pendingCount = _state.PendingAssignments.Count;
+        for (var i = 0; i < pendingCount; i++)
+        {
+            if (!_state.PendingAssignments.TryDequeue(out var assignment))
+            {
+                break;
+            }
+
+            if (!CapabilityMatcher.CanExecute(assignment, workerCapabilities))
+            {
+                // Re-enqueue — master can't handle this module
+                _state.PendingAssignments.Enqueue(assignment);
+                continue;
+            }
+
+            return assignment;
         }
 
         return null;
@@ -126,6 +150,9 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
     public async Task SignalCompletionAsync(CancellationToken cancellationToken)
     {
         _state.IsCompleted = true;
+
+        // Wake any waiting dequeue loop
+        _state.WorkAvailable.Release();
 
         // Cancel any pending result waiters
         foreach (var kvp in _state.ResultWaiters)

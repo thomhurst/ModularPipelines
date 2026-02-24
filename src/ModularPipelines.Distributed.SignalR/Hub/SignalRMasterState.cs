@@ -32,4 +32,10 @@ internal class SignalRMasterState
     /// Volatile completion flag.
     /// </summary>
     public volatile bool IsCompleted;
+
+    /// <summary>
+    /// Signals when work is added to <see cref="PendingAssignments"/> or when completion is signalled.
+    /// Used by <see cref="Coordination.SignalRMasterCoordinator.DequeueModuleAsync"/> to avoid polling.
+    /// </summary>
+    public SemaphoreSlim WorkAvailable { get; } = new(0);
 }
