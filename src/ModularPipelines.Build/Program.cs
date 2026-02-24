@@ -76,6 +76,7 @@ if (!string.IsNullOrEmpty(redisUrl) && !string.IsNullOrEmpty(redisToken) && tota
     builder.AddSignalRDistributedCoordinator(o =>
     {
         o.MaximumReceiveMessageSize = 64 * 1024 * 1024;
+        o.EnableTunnel = true;
     });
 
     builder.AddRedisSignalRDiscovery(o =>

@@ -74,6 +74,20 @@ jobs:
             dotnet restore $SOLUTION
           done
 
+      - name: Install cloudflared
+        if: matrix.instance == 0
+        shell: bash
+        run: |
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
+            curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
+            chmod +x /usr/local/bin/cloudflared
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            brew install cloudflared
+          elif [[ "$RUNNER_OS" == "Windows" ]]; then
+            curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe -o cloudflared.exe
+            echo "$PWD" >> $GITHUB_PATH
+          fi
+
       - name: Run Pipeline
         run: dotnet run -c Release --framework net10.0
         working-directory: "src/ModularPipelines.Build"

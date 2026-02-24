@@ -35,4 +35,21 @@ public class SignalRDistributedOptions
     /// Increase for large module results.
     /// </summary>
     public long MaximumReceiveMessageSize { get; set; } = 1024 * 1024;
+
+    /// <summary>
+    /// When true, the master starts a cloudflared tunnel to expose the SignalR server publicly.
+    /// Workers connect via the tunnel URL instead of the local MasterUrl.
+    /// Requires 'cloudflared' to be available on PATH.
+    /// </summary>
+    public bool EnableTunnel { get; set; }
+
+    /// <summary>
+    /// Path to the cloudflared binary. Defaults to "cloudflared" (on PATH).
+    /// </summary>
+    public string CloudflaredPath { get; set; } = "cloudflared";
+
+    /// <summary>
+    /// Timeout in seconds for the tunnel to start and provide a public URL.
+    /// </summary>
+    public int TunnelStartupTimeoutSeconds { get; set; } = 30;
 }

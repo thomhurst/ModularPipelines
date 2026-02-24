@@ -15,6 +15,7 @@ namespace ModularPipelines.Distributed.SignalR.Server;
 internal class MasterServerHost : IAsyncDisposable
 {
     private WebApplication? _app;
+    private CloudflaredTunnel? _tunnel;
 
     /// <summary>
     /// The real <see cref="IHubContext{THub}"/> from the WebApplication's DI container.
@@ -23,6 +24,12 @@ internal class MasterServerHost : IAsyncDisposable
     public IHubContext<DistributedPipelineHub> HubContext =>
         _app?.Services.GetRequiredService<IHubContext<DistributedPipelineHub>>()
         ?? throw new InvalidOperationException("Server not started.");
+
+    /// <summary>
+    /// The URL workers should connect to. If a tunnel is active, this is the public tunnel URL.
+    /// Otherwise, it is the local MasterUrl.
+    /// </summary>
+    public string AdvertisedUrl { get; private set; } = string.Empty;
 
     public async Task StartAsync(
         SignalRDistributedOptions options,
@@ -44,20 +51,31 @@ internal class MasterServerHost : IAsyncDisposable
 
         _app = builder.Build();
 
-        _app.MapHub<DistributedPipelineHub>(options.HubPath, hubOptions =>
-        {
-            // Configure hub filter to inject master state
-        });
+        _app.MapHub<DistributedPipelineHub>(options.HubPath);
 
         var logger = loggerFactory.CreateLogger<MasterServerHost>();
         logger.LogInformation("Starting SignalR master server at {Url}{Path}", options.MasterUrl, options.HubPath);
 
         // StartAsync completes only once Kestrel has bound to the port — no race, no wasted time
         await _app.StartAsync(cancellationToken);
+
+        AdvertisedUrl = options.MasterUrl;
+
+        if (options.EnableTunnel)
+        {
+            _tunnel = new CloudflaredTunnel();
+            await _tunnel.StartAsync(options.MasterUrl, options, logger, cancellationToken);
+            AdvertisedUrl = _tunnel.PublicUrl!;
+        }
     }
 
     public async ValueTask DisposeAsync()
     {
+        if (_tunnel is not null)
+        {
+            await _tunnel.DisposeAsync();
+        }
+
         if (_app is not null)
         {
             await _app.StopAsync();
