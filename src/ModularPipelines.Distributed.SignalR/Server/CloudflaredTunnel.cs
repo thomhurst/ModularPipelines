@@ -53,11 +53,10 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
 
             logger.LogDebug("[cloudflared] {Line}", e.Data);
 
-            // cloudflared outputs the tunnel URL in a box like:
+            // cloudflared quick tunnels output the URL in a box like:
             // |  https://random-words.trycloudflare.com  |
-            // For named tunnels, the domain may be custom.
             var match = TunnelUrlRegex().Match(e.Data);
-            if (match.Success && !match.Value.Contains("api.cloudflare.com", StringComparison.OrdinalIgnoreCase))
+            if (match.Success)
             {
                 urlTcs.TrySetResult(match.Value);
             }
@@ -116,6 +115,6 @@ internal sealed partial class CloudflaredTunnel : IAsyncDisposable
         _process?.Dispose();
     }
 
-    [GeneratedRegex(@"https://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+")]
+    [GeneratedRegex(@"https://[a-zA-Z0-9\-]+\.trycloudflare\.com")]
     private static partial Regex TunnelUrlRegex();
 }
