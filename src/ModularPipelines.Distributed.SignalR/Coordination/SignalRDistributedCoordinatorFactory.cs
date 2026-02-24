@@ -67,10 +67,10 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         _serverHost = new MasterServerHost();
         await _serverHost.StartAsync(_options, masterState, _loggerFactory, cancellationToken);
 
-        // Advertise URL if discovery is available
+        // Advertise the reachable URL (tunnel URL if active, otherwise local)
         if (_discovery is not null)
         {
-            await _discovery.AdvertiseMasterUrlAsync(_options.MasterUrl, cancellationToken);
+            await _discovery.AdvertiseMasterUrlAsync(_serverHost.AdvertisedUrl, cancellationToken);
         }
 
         // Use the real IHubContext from the WebApplication's DI container
