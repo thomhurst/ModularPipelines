@@ -82,6 +82,12 @@ if (!string.IsNullOrEmpty(redisUrl) && !string.IsNullOrEmpty(redisToken) && tota
     builder.AddRedisSignalRDiscovery(o =>
     {
         o.ConnectionString = connectionString;
+        // Scope by GITHUB_RUN_ID to prevent cross-run interference when CI runs overlap
+        var runId = Environment.GetEnvironmentVariable("GITHUB_RUN_ID");
+        if (!string.IsNullOrEmpty(runId))
+        {
+            o.RunIdentifier = runId;
+        }
     });
 
     // Enable S3-compatible artifact store (Cloudflare R2) when configured

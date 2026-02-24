@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.SignalR.Configuration;
@@ -141,7 +142,13 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
     private HubConnection BuildHubConnection(string hubUrl)
     {
         var builder = new HubConnectionBuilder()
-            .WithUrl(hubUrl);
+            .WithUrl(hubUrl)
+            .AddJsonProtocol(jsonOptions =>
+            {
+                // Match server-side settings: PascalCase, case-insensitive
+                jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
+                jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
+            });
 
         if (_options.EnableAutoReconnect)
         {
