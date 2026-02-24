@@ -106,12 +106,31 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
 
         _hubConnection = builder.Build();
 
-        // Connect with timeout
+        // Connect with timeout and retry (DNS for tunnel URLs may need propagation time)
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.ConnectionTimeoutSeconds));
 
         logger.LogInformation("Connecting to master at {Url}...", hubUrl);
-        await _hubConnection.StartAsync(timeoutCts.Token);
+
+        var attempt = 0;
+        while (true)
+        {
+            try
+            {
+                await _hubConnection.StartAsync(timeoutCts.Token);
+                break;
+            }
+            catch (Exception ex) when (!timeoutCts.IsCancellationRequested)
+            {
+                attempt++;
+                logger.LogWarning("Connection attempt {Attempt} failed: {Error}. Retrying...", attempt, ex.Message);
+                await Task.Delay(TimeSpan.FromSeconds(Math.Min(attempt * 2, 10)), timeoutCts.Token);
+
+                // Rebuild the connection — HubConnection can't be restarted after failure
+                _hubConnection = builder.Build();
+            }
+        }
+
         logger.LogInformation("Connected to master at {Url}", hubUrl);
 
         return new SignalRWorkerCoordinator(_hubConnection, logger);
