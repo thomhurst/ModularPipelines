@@ -95,17 +95,6 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         var hubUrl = $"{masterUrl}{_options.HubPath}";
         var logger = _loggerFactory.CreateLogger<SignalRWorkerCoordinator>();
 
-        var builder = new HubConnectionBuilder()
-            .WithUrl(hubUrl);
-
-        if (_options.EnableAutoReconnect)
-        {
-            builder.WithAutomaticReconnect(
-                new RetryPolicy(_options.MaxReconnectAttempts));
-        }
-
-        _hubConnection = builder.Build();
-
         // Connect with timeout and retry (DNS for tunnel URLs may need propagation time)
         using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         timeoutCts.CancelAfter(TimeSpan.FromSeconds(_options.ConnectionTimeoutSeconds));
@@ -115,6 +104,8 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         var attempt = 0;
         while (true)
         {
+            _hubConnection = BuildHubConnection(hubUrl);
+
             try
             {
                 await _hubConnection.StartAsync(timeoutCts.Token);
@@ -124,10 +115,8 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
             {
                 attempt++;
                 logger.LogWarning("Connection attempt {Attempt} failed: {Error}. Retrying...", attempt, ex.Message);
+                await _hubConnection.DisposeAsync();
                 await Task.Delay(TimeSpan.FromSeconds(Math.Min(attempt * 2, 10)), timeoutCts.Token);
-
-                // Rebuild the connection — HubConnection can't be restarted after failure
-                _hubConnection = builder.Build();
             }
         }
 
@@ -147,6 +136,20 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         {
             await _serverHost.DisposeAsync();
         }
+    }
+
+    private HubConnection BuildHubConnection(string hubUrl)
+    {
+        var builder = new HubConnectionBuilder()
+            .WithUrl(hubUrl);
+
+        if (_options.EnableAutoReconnect)
+        {
+            builder.WithAutomaticReconnect(
+                new RetryPolicy(_options.MaxReconnectAttempts));
+        }
+
+        return builder.Build();
     }
 
     /// <summary>
