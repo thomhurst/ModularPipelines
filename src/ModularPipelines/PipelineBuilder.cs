@@ -464,7 +464,7 @@ public sealed class PipelineBuilder
     private sealed class DeferredCoordinator(IDistributedCoordinatorFactory factory) : IDistributedCoordinator
     {
         private readonly SemaphoreSlim _lock = new(1, 1);
-        private IDistributedCoordinator? _inner;
+        private volatile IDistributedCoordinator? _inner;
 
         private async ValueTask<IDistributedCoordinator> GetAsync(CancellationToken ct)
         {
@@ -489,7 +489,7 @@ public sealed class PipelineBuilder
     private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) : IDistributedArtifactStore
     {
         private readonly SemaphoreSlim _lock = new(1, 1);
-        private IDistributedArtifactStore? _inner;
+        private volatile IDistributedArtifactStore? _inner;
 
         private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
         {

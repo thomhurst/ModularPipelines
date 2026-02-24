@@ -77,14 +77,19 @@ jobs:
       - name: Install cloudflared
         if: matrix.instance == 0
         shell: bash
+        env:
+          CLOUDFLARED_VERSION: "2026.2.0"
         run: |
           if [[ "$RUNNER_OS" == "Linux" ]]; then
-            curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
+            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64" -o /usr/local/bin/cloudflared
             chmod +x /usr/local/bin/cloudflared
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            brew install cloudflared
+            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-darwin-amd64.tgz" -o cloudflared.tgz
+            tar -xzf cloudflared.tgz
+            sudo mv cloudflared /usr/local/bin/cloudflared
+            chmod +x /usr/local/bin/cloudflared
           elif [[ "$RUNNER_OS" == "Windows" ]]; then
-            curl -fsSL https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe -o cloudflared.exe
+            curl -fsSL "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-windows-amd64.exe" -o cloudflared.exe
             echo "$PWD" >> $GITHUB_PATH
           fi
 

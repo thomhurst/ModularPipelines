@@ -177,4 +177,3 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         }
     }
 }
-

@@ -42,6 +42,9 @@ internal class WorkerModuleExecutor(
             _typeRegistry.Register(module.GetType());
         }
 
+        // Build O(1) lookup for module resolution
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
+
         // Build capabilities
         var capabilities = new HashSet<string>(options.Capabilities, StringComparer.OrdinalIgnoreCase);
         if (options.AutoDetectOsCapability)
@@ -85,23 +88,22 @@ internal class WorkerModuleExecutor(
                 if (resolved is null)
                 {
                     _logger.LogError("Cannot resolve module type: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-                    await PublishResolutionFailureAsync(assignment, cancellationToken);
+                    await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, options.InstanceIndex, _coordinator, _logger, cancellationToken);
                     continue;
                 }
 
                 // Find the module instance from the registered modules
-                var module = modules.FirstOrDefault(m => m.GetType().FullName == assignment.ModuleTypeName);
-                if (module is null)
+                if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
                 {
                     _logger.LogError("Module instance not found: {ModuleTypeName}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-                    await PublishResolutionFailureAsync(assignment, cancellationToken);
+                    await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, options.InstanceIndex, _coordinator, _logger, cancellationToken);
                     continue;
                 }
 
                 // Apply dependency results so that GetModule<T>() works cross-process
                 if (assignment.DependencyResults is { Count: > 0 })
                 {
-                    ApplyDependencyResults(assignment.DependencyResults, modules);
+                    DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
                 }
 
                 // Execute the module through the framework's execution pipeline
@@ -196,62 +198,4 @@ internal class WorkerModuleExecutor(
         return executedModules;
     }
 
-    private async Task PublishResolutionFailureAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var failureResult = new SerializedModuleResult(
-                ModuleTypeName: assignment.ModuleTypeName,
-                ResultTypeName: assignment.ResultTypeName,
-                WorkerIndex: _options.Value.InstanceIndex,
-                SerializedJson: "null",
-                CompletedAt: DateTimeOffset.UtcNow);
-            await _coordinator.PublishResultAsync(failureResult, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogCritical(ex,
-                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
-                assignment.ModuleTypeName);
-        }
-    }
-
-    /// <summary>
-    /// Applies dependency results received in the assignment to local module instances.
-    /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
-    /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
-    /// </summary>
-    private void ApplyDependencyResults(IReadOnlyList<SerializedModuleResult> dependencyResults, IReadOnlyList<IModule> modules)
-    {
-        foreach (var serializedDep in dependencyResults)
-        {
-            var depModule = modules.FirstOrDefault(m => m.GetType().FullName == serializedDep.ModuleTypeName);
-            if (depModule is null)
-            {
-                _logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", serializedDep.ModuleTypeName);
-                continue;
-            }
-
-            try
-            {
-                // Decompress GZip-compressed dependency results before deserialization
-                var toDeserialize = serializedDep;
-                if (serializedDep.SerializedJson.StartsWith(Master.DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
-                {
-                    var decompressed = Master.DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
-                    toDeserialize = serializedDep with { SerializedJson = decompressed };
-                }
-
-                var result = _serializer.Deserialize(toDeserialize);
-                if (result is not null)
-                {
-                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", serializedDep.ModuleTypeName);
-            }
-        }
-    }
 }
