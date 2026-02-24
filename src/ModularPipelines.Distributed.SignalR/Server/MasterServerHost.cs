@@ -46,6 +46,11 @@ internal class MasterServerHost : IAsyncDisposable
         {
             hubOptions.MaximumReceiveMessageSize = options.MaximumReceiveMessageSize;
             hubOptions.EnableDetailedErrors = true;
+        }).AddJsonProtocol(jsonOptions =>
+        {
+            // Match the client's default STJ options: PascalCase, case-insensitive
+            jsonOptions.PayloadSerializerOptions.PropertyNamingPolicy = null;
+            jsonOptions.PayloadSerializerOptions.PropertyNameCaseInsensitive = true;
         });
         builder.Services.AddSingleton(masterState);
 
