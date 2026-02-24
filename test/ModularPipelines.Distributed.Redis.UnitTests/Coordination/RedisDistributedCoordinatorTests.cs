@@ -219,7 +219,7 @@ public class RedisDistributedCoordinatorTests
 
     private static ModuleAssignment CreateAssignment(
         string moduleTypeName,
-        IReadOnlySet<string>? requiredCapabilities = null)
+        HashSet<string>? requiredCapabilities = null)
     {
         return new ModuleAssignment(
             ModuleTypeName: moduleTypeName,
