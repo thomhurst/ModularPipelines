@@ -18,7 +18,7 @@ public class SignalRDistributedOptions
     /// <summary>
     /// Connection timeout in seconds for worker connections to the master.
     /// </summary>
-    public int ConnectionTimeoutSeconds { get; set; } = 30;
+    public int ConnectionTimeoutSeconds { get; set; } = 120;
 
     /// <summary>
     /// Whether workers should automatically reconnect on connection loss.
