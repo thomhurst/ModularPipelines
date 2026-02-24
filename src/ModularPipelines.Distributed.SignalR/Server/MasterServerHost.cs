@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ModularPipelines.Distributed.SignalR.Configuration;
@@ -14,6 +15,14 @@ namespace ModularPipelines.Distributed.SignalR.Server;
 internal class MasterServerHost : IAsyncDisposable
 {
     private WebApplication? _app;
+
+    /// <summary>
+    /// The real <see cref="IHubContext{THub}"/> from the WebApplication's DI container.
+    /// Available after <see cref="StartAsync"/> completes.
+    /// </summary>
+    public IHubContext<DistributedPipelineHub> HubContext =>
+        _app?.Services.GetRequiredService<IHubContext<DistributedPipelineHub>>()
+        ?? throw new InvalidOperationException("Server not started.");
 
     public async Task StartAsync(
         SignalRDistributedOptions options,
@@ -38,15 +47,6 @@ internal class MasterServerHost : IAsyncDisposable
         _app.MapHub<DistributedPipelineHub>(options.HubPath, hubOptions =>
         {
             // Configure hub filter to inject master state
-        });
-
-        // Wire up the hub filter to inject master state
-        // We use a middleware-like approach: the hub accesses state via DI
-        // The hub constructor takes ILogger, and we set MasterState after creation
-        // via the hub filter pipeline
-        _app.Use(async (context, next) =>
-        {
-            await next(context);
         });
 
         var logger = loggerFactory.CreateLogger<MasterServerHost>();

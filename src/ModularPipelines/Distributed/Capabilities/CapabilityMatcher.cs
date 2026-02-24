@@ -2,12 +2,20 @@ using ModularPipelines.Distributed;
 
 namespace ModularPipelines.Distributed.Capabilities;
 
-internal static class CapabilityMatcher
+public static class CapabilityMatcher
 {
     /// <summary>
     /// Checks if a worker can execute a module assignment based on capabilities.
     /// </summary>
     public static bool CanExecute(ModuleAssignment assignment, WorkerRegistration worker)
+    {
+        return CanExecute(assignment, worker.Capabilities);
+    }
+
+    /// <summary>
+    /// Checks if the given capabilities satisfy a module assignment's requirements.
+    /// </summary>
+    public static bool CanExecute(ModuleAssignment assignment, IReadOnlySet<string> workerCapabilities)
     {
         if (assignment.RequiredCapabilities.Count == 0)
         {
@@ -15,6 +23,6 @@ internal static class CapabilityMatcher
         }
 
         return assignment.RequiredCapabilities.All(
-            required => worker.Capabilities.Contains(required, StringComparer.OrdinalIgnoreCase));
+            required => workerCapabilities.Contains(required, StringComparer.OrdinalIgnoreCase));
     }
 }

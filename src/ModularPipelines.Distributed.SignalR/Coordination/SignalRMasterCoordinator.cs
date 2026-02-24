@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed.Capabilities;
 using ModularPipelines.Distributed.SignalR.Hub;
 
 namespace ModularPipelines.Distributed.SignalR.Coordination;
@@ -65,8 +66,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
                     break;
                 }
 
-                if (assignment.RequiredCapabilities.Count > 0 &&
-                    !assignment.RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                if (!CapabilityMatcher.CanExecute(assignment, workerCapabilities))
                 {
                     // Re-enqueue — master can't handle this module
                     _state.PendingAssignments.Enqueue(assignment);
@@ -151,8 +151,7 @@ internal class SignalRMasterCoordinator : IDistributedCoordinator
             var worker = kvp.Value;
 
             // Check capability match
-            if (assignment.RequiredCapabilities.Count > 0 &&
-                !assignment.RequiredCapabilities.IsSubsetOf(worker.Registration.Capabilities))
+            if (!CapabilityMatcher.CanExecute(assignment, worker.Registration))
             {
                 continue;
             }

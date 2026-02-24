@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using ModularPipelines.Distributed.Capabilities;
 
 namespace ModularPipelines.Distributed.SignalR.Hub;
 
@@ -8,21 +9,18 @@ namespace ModularPipelines.Distributed.SignalR.Hub;
 /// The master process hosts this hub; workers connect as clients.
 /// </summary>
 internal class DistributedPipelineHub(
+    SignalRMasterState masterState,
     ILogger<DistributedPipelineHub> logger) : Microsoft.AspNetCore.SignalR.Hub
 {
+    private readonly SignalRMasterState _masterState = masterState;
     private readonly ILogger<DistributedPipelineHub> _logger = logger;
-
-    /// <summary>
-    /// Injected by DI — the master coordinator that manages state.
-    /// </summary>
-    internal SignalRMasterState? MasterState { get; set; }
 
     /// <summary>
     /// Called by workers to register their capabilities.
     /// </summary>
     public async Task RegisterWorker(WorkerRegistration registration)
     {
-        var state = GetMasterState();
+        var state = _masterState;
         var connectionId = Context.ConnectionId;
 
         var workerState = new WorkerState
@@ -43,7 +41,7 @@ internal class DistributedPipelineHub(
     /// </summary>
     public async Task PublishResult(SerializedModuleResult result)
     {
-        var state = GetMasterState();
+        var state = _masterState;
 
         _logger.LogDebug("Received result for {Module} from worker {Worker}",
             result.ModuleTypeName, result.WorkerIndex);
@@ -70,7 +68,7 @@ internal class DistributedPipelineHub(
     /// </summary>
     public async Task RequestWork(IReadOnlySet<string> capabilities)
     {
-        var state = GetMasterState();
+        var state = _masterState;
 
         if (!state.Workers.TryGetValue(Context.ConnectionId, out var workerState))
         {
@@ -82,13 +80,7 @@ internal class DistributedPipelineHub(
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {
-        var state = MasterState;
-        if (state is null)
-        {
-            return Task.CompletedTask;
-        }
-
-        if (state.Workers.TryRemove(Context.ConnectionId, out var workerState))
+        if (_masterState.Workers.TryRemove(Context.ConnectionId, out var workerState))
         {
             _logger.LogWarning("Worker {Index} disconnected (connection {ConnectionId})",
                 workerState.Registration.WorkerIndex, Context.ConnectionId);
@@ -111,8 +103,7 @@ internal class DistributedPipelineHub(
             }
 
             // Check capability match
-            if (assignment.RequiredCapabilities.Count > 0 &&
-                !assignment.RequiredCapabilities.IsSubsetOf(workerState.Registration.Capabilities))
+            if (!CapabilityMatcher.CanExecute(assignment, workerState.Registration))
             {
                 // Re-enqueue — this worker can't handle it
                 state.PendingAssignments.Enqueue(assignment);
@@ -137,9 +128,4 @@ internal class DistributedPipelineHub(
         }
     }
 
-    private SignalRMasterState GetMasterState()
-    {
-        return MasterState ?? throw new InvalidOperationException(
-            "Hub was not initialized with master state. Ensure the hub is used through SignalRMasterCoordinator.");
-    }
 }

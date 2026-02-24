@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using ModularPipelines.Distributed;
+using ModularPipelines.Distributed.Capabilities;
 
 namespace ModularPipelines.Distributed.Coordination;
 
@@ -45,7 +46,7 @@ internal class InMemoryDistributedCoordinator : IDistributedCoordinator
                 {
                     for (var i = 0; i < _workQueue.Count; i++)
                     {
-                        if (_workQueue[i].RequiredCapabilities.IsSubsetOf(workerCapabilities))
+                        if (CapabilityMatcher.CanExecute(_workQueue[i], workerCapabilities))
                         {
                             var assignment = _workQueue[i];
                             _workQueue.RemoveAt(i);

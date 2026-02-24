@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ModularPipelines.Distributed.SignalR.Configuration;
@@ -39,9 +37,7 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
 
     public async Task<IDistributedCoordinator> CreateAsync(CancellationToken cancellationToken)
     {
-        var isMaster = _distributedOptions.InstanceIndex == 0;
-
-        if (isMaster)
+        if (DetectIsMaster())
         {
             return await CreateMasterCoordinatorAsync(cancellationToken);
         }
@@ -49,6 +45,18 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
         {
             return await CreateWorkerCoordinatorAsync(cancellationToken);
         }
+    }
+
+    private bool DetectIsMaster()
+    {
+        // Check environment variable override first (matches RoleDetector logic)
+        var envInstance = Environment.GetEnvironmentVariable("MODULAR_PIPELINES_INSTANCE");
+        if (envInstance is not null && int.TryParse(envInstance, out var envIndex))
+        {
+            return envIndex == 0;
+        }
+
+        return _distributedOptions.InstanceIndex == 0;
     }
 
     private async Task<IDistributedCoordinator> CreateMasterCoordinatorAsync(CancellationToken cancellationToken)
@@ -65,16 +73,9 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
             await _discovery.AdvertiseMasterUrlAsync(_options.MasterUrl, cancellationToken);
         }
 
-        // Create a hub context to send messages to workers
-        // We need to connect back to our own hub to get the IHubContext
-        var hubConnection = new HubConnectionBuilder()
-            .WithUrl($"{_options.MasterUrl}{_options.HubPath}")
-            .Build();
-
-        // For the master coordinator, we use the hub context from DI if available,
-        // otherwise create a lightweight proxy
+        // Use the real IHubContext from the WebApplication's DI container
         var coordinator = new SignalRMasterCoordinator(
-            new MasterHubContextAdapter(masterState, hubConnection),
+            _serverHost.HubContext,
             masterState,
             _loggerFactory.CreateLogger<SignalRMasterCoordinator>());
 
@@ -148,68 +149,3 @@ internal class SignalRDistributedCoordinatorFactory : IDistributedCoordinatorFac
     }
 }
 
-/// <summary>
-/// Lightweight adapter that provides <see cref="IHubContext{THub}"/>-like functionality
-/// for the master coordinator without requiring ASP.NET Core DI integration.
-/// Uses a direct HubConnection to the local server.
-/// </summary>
-internal class MasterHubContextAdapter : IHubContext<DistributedPipelineHub>
-{
-    private readonly SignalRMasterState _state;
-    private readonly HubConnection _connection;
-
-    public MasterHubContextAdapter(SignalRMasterState state, HubConnection connection)
-    {
-        _state = state;
-        _connection = connection;
-    }
-
-    public IHubClients Clients => new MasterHubClients(_state, _connection);
-    public IGroupManager Groups => throw new NotSupportedException("Groups are not used in pipeline coordination.");
-}
-
-internal class MasterHubClients : IHubClients
-{
-    private readonly SignalRMasterState _state;
-    private readonly HubConnection _connection;
-
-    public MasterHubClients(SignalRMasterState state, HubConnection connection)
-    {
-        _state = state;
-        _connection = connection;
-    }
-
-    public IClientProxy All => new BroadcastClientProxy(_state);
-    public IClientProxy AllExcept(IReadOnlyList<string> excludedConnectionIds) => All;
-    public IClientProxy Client(string connectionId) => new SingleClientProxy(connectionId, _state);
-    public IClientProxy Clients(IReadOnlyList<string> connectionIds) => All;
-    public IClientProxy Group(string groupName) => throw new NotSupportedException();
-    public IClientProxy GroupExcept(string groupName, IReadOnlyList<string> excludedConnectionIds) => throw new NotSupportedException();
-    public IClientProxy Groups(IReadOnlyList<string> groupNames) => throw new NotSupportedException();
-    public IClientProxy User(string userId) => throw new NotSupportedException();
-    public IClientProxy Users(IReadOnlyList<string> userIds) => throw new NotSupportedException();
-}
-
-/// <summary>
-/// Sends to all connected workers by iterating the worker state dictionary.
-/// Note: This is a simplified implementation. In production, the real IHubContext from
-/// the WebApplication's DI container would be used for actual message delivery.
-/// </summary>
-internal class BroadcastClientProxy(SignalRMasterState state) : IClientProxy
-{
-    public Task SendCoreAsync(string method, object?[] args, CancellationToken cancellationToken = default)
-    {
-        // In the real implementation, the hub context handles broadcasting.
-        // This proxy is used before the actual hub context is available.
-        return Task.CompletedTask;
-    }
-}
-
-internal class SingleClientProxy(string connectionId, SignalRMasterState state) : IClientProxy
-{
-    public Task SendCoreAsync(string method, object?[] args, CancellationToken cancellationToken = default)
-    {
-        // In the real implementation, the hub context sends to the specific connection.
-        return Task.CompletedTask;
-    }
-}
