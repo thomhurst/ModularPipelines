@@ -64,7 +64,8 @@ internal class MasterServerHost : IAsyncDisposable
         // StartAsync completes only once Kestrel has bound to the port — no race, no wasted time
         await _app.StartAsync(cancellationToken);
 
-        AdvertisedUrl = options.MasterUrl;
+        // Use the actual bound URL (important when port 0 is used to get an OS-assigned port)
+        AdvertisedUrl = _app.Urls.FirstOrDefault() ?? options.MasterUrl;
 
         if (options.EnableTunnel)
         {
