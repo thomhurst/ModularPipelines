@@ -364,24 +364,29 @@ public sealed class PipelineBuilder
         var roleDetector = new RoleDetector(Microsoft.Extensions.Options.Options.Create(options));
         var role = roleDetector.DetectRole();
 
-        // Replace coordinator if factory registered
+        // Replace coordinator if factory registered — deferred so workers don't block
+        // during DI build waiting for the master to advertise its URL
         var hasFactory = services.Any(d => d.ServiceType == typeof(IDistributedCoordinatorFactory));
         if (hasFactory)
         {
             RemoveService<IDistributedCoordinator>(services);
             services.AddSingleton<IDistributedCoordinator>(sp =>
-                Task.Run(() => sp.GetRequiredService<IDistributedCoordinatorFactory>()
-                    .CreateAsync(CancellationToken.None)).GetAwaiter().GetResult());
+            {
+                var factory = sp.GetRequiredService<IDistributedCoordinatorFactory>();
+                return new DeferredCoordinator(factory);
+            });
         }
 
-        // Replace artifact store if factory registered
+        // Replace artifact store if factory registered — deferred for same reason
         var hasArtifactFactory = services.Any(d => d.ServiceType == typeof(IDistributedArtifactStoreFactory));
         if (hasArtifactFactory)
         {
             RemoveService<IDistributedArtifactStore>(services);
             services.AddSingleton<IDistributedArtifactStore>(sp =>
-                Task.Run(() => sp.GetRequiredService<IDistributedArtifactStoreFactory>()
-                    .CreateAsync(CancellationToken.None)).GetAwaiter().GetResult());
+            {
+                var factory = sp.GetRequiredService<IDistributedArtifactStoreFactory>();
+                return new DeferredArtifactStore(factory);
+            });
         }
 
         if (role == DistributedRole.Master)
@@ -449,5 +454,53 @@ public sealed class PipelineBuilder
         {
             services.Remove(descriptor);
         }
+    }
+
+    /// <summary>
+    /// Defers <see cref="IDistributedCoordinatorFactory.CreateAsync"/> to first use so that
+    /// workers don't block during DI build waiting for the master to advertise its URL.
+    /// </summary>
+    private sealed class DeferredCoordinator(IDistributedCoordinatorFactory factory) : IDistributedCoordinator
+    {
+        private readonly SemaphoreSlim _lock = new(1, 1);
+        private IDistributedCoordinator? _inner;
+
+        private async ValueTask<IDistributedCoordinator> GetAsync(CancellationToken ct)
+        {
+            if (_inner is not null) return _inner;
+            await _lock.WaitAsync(ct);
+            try { return _inner ??= await factory.CreateAsync(ct); }
+            finally { _lock.Release(); }
+        }
+
+        public async Task EnqueueModuleAsync(ModuleAssignment a, CancellationToken ct) => await (await GetAsync(ct)).EnqueueModuleAsync(a, ct);
+        public async Task<ModuleAssignment?> DequeueModuleAsync(IReadOnlySet<string> c, CancellationToken ct) => await (await GetAsync(ct)).DequeueModuleAsync(c, ct);
+        public async Task PublishResultAsync(SerializedModuleResult r, CancellationToken ct) => await (await GetAsync(ct)).PublishResultAsync(r, ct);
+        public async Task<SerializedModuleResult> WaitForResultAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).WaitForResultAsync(m, ct);
+        public async Task RegisterWorkerAsync(WorkerRegistration r, CancellationToken ct) => await (await GetAsync(ct)).RegisterWorkerAsync(r, ct);
+        public async Task<IReadOnlyList<WorkerRegistration>> GetRegisteredWorkersAsync(CancellationToken ct) => await (await GetAsync(ct)).GetRegisteredWorkersAsync(ct);
+        public async Task SignalCompletionAsync(CancellationToken ct) => await (await GetAsync(ct)).SignalCompletionAsync(ct);
+    }
+
+    /// <summary>
+    /// Defers <see cref="IDistributedArtifactStoreFactory.CreateAsync"/> to first use.
+    /// </summary>
+    private sealed class DeferredArtifactStore(IDistributedArtifactStoreFactory factory) : IDistributedArtifactStore
+    {
+        private readonly SemaphoreSlim _lock = new(1, 1);
+        private IDistributedArtifactStore? _inner;
+
+        private async ValueTask<IDistributedArtifactStore> GetAsync(CancellationToken ct)
+        {
+            if (_inner is not null) return _inner;
+            await _lock.WaitAsync(ct);
+            try { return _inner ??= await factory.CreateAsync(ct); }
+            finally { _lock.Release(); }
+        }
+
+        public async Task<ArtifactReference> UploadAsync(ArtifactDescriptor d, Stream s, CancellationToken ct) => await (await GetAsync(ct)).UploadAsync(d, s, ct);
+        public async Task<Stream> DownloadAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DownloadAsync(r, ct);
+        public async Task<IReadOnlyList<ArtifactReference>> ListArtifactsAsync(string m, CancellationToken ct) => await (await GetAsync(ct)).ListArtifactsAsync(m, ct);
+        public async Task DeleteAsync(ArtifactReference r, CancellationToken ct) => await (await GetAsync(ct)).DeleteAsync(r, ct);
     }
 }
