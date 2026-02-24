@@ -11,8 +11,9 @@ namespace ModularPipelines.Distributed.Worker;
 /// </summary>
 internal sealed class WorkerModuleScheduler : IModuleScheduler
 {
-    public ChannelReader<ModuleState> ReadyModules =>
-        throw new NotSupportedException("Worker does not use the ready-modules channel.");
+    private static readonly Channel<ModuleState> EmptyChannel = Channel.CreateUnbounded<ModuleState>();
+
+    public ChannelReader<ModuleState> ReadyModules => EmptyChannel.Reader;
 
     public void InitializeModules(IEnumerable<IModule> modules)
     {
