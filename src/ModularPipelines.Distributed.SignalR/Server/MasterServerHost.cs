@@ -37,7 +37,7 @@ internal class MasterServerHost : IAsyncDisposable
         ILoggerFactory loggerFactory,
         CancellationToken cancellationToken)
     {
-        var builder = WebApplication.CreateSlimBuilder();
+        var builder = WebApplication.CreateBuilder();
         builder.WebHost.UseUrls(options.MasterUrl);
         builder.Logging.ClearProviders();
         builder.Logging.AddProvider(new ForwardingLoggerProvider(loggerFactory));
