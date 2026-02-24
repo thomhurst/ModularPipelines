@@ -11,7 +11,7 @@ public class ConfigurationTests
 
         await Assert.That(options.MasterUrl).IsEqualTo("http://localhost:5099");
         await Assert.That(options.HubPath).IsEqualTo("/pipeline-hub");
-        await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(30);
+        await Assert.That(options.ConnectionTimeoutSeconds).IsEqualTo(120);
         await Assert.That(options.EnableAutoReconnect).IsTrue();
         await Assert.That(options.MaxReconnectAttempts).IsEqualTo(5);
         await Assert.That(options.MaximumReceiveMessageSize).IsEqualTo(1024 * 1024);
