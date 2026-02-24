@@ -115,6 +115,13 @@ internal sealed class RedisDistributedArtifactStore : IDistributedArtifactStore
             throw new InvalidOperationException($"Artifact '{reference.ArtifactId}' not found in Redis.");
         }
 
+        if (ms.Length != reference.SizeBytes)
+        {
+            throw new InvalidOperationException(
+                $"Artifact '{reference.ArtifactId}' size mismatch: expected {reference.SizeBytes} bytes but got {ms.Length} bytes. " +
+                "One or more chunks may have expired or been evicted.");
+        }
+
         ms.Position = 0;
         return ms;
     }
