@@ -55,6 +55,9 @@ internal class DistributedModuleExecutor(
             _typeRegistry.Register(module.GetType());
         }
 
+        // Build O(1) lookup for module resolution
+        var moduleLookup = DependencyResultApplicator.BuildModuleLookup(modules);
+
         // Invoke registration events before dependency resolution
         await _registrationEventExecutor.InvokeRegistrationEventsAsync(modules).ConfigureAwait(false);
 
@@ -75,7 +78,7 @@ internal class DistributedModuleExecutor(
 
             // Start the master worker loop — the master participates as a worker,
             // dequeuing and executing modules from the same queue as external workers.
-            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, cts.Token);
+            var masterWorkerTask = RunMasterWorkerLoopAsync(modules, moduleLookup, cts.Token);
 
             try
             {
@@ -196,7 +199,7 @@ internal class DistributedModuleExecutor(
         }
     }
 
-    private async Task RunMasterWorkerLoopAsync(IReadOnlyList<IModule> modules, CancellationToken cancellationToken)
+    private async Task RunMasterWorkerLoopAsync(IReadOnlyList<IModule> modules, Dictionary<string, IModule> moduleLookup, CancellationToken cancellationToken)
     {
         // Build master's capabilities (same logic as WorkerModuleExecutor)
         var options = _options.Value;
@@ -228,7 +231,7 @@ internal class DistributedModuleExecutor(
                 _logger.LogInformation("Master executing module {Module} locally",
                     assignment.ModuleTypeName);
 
-                await ExecuteAssignmentAsync(assignment, modules, workerScheduler, cancellationToken);
+                await ExecuteAssignmentAsync(assignment, modules, moduleLookup, workerScheduler, cancellationToken);
             }
             catch (OperationCanceledException)
             {
@@ -244,6 +247,7 @@ internal class DistributedModuleExecutor(
     private async Task ExecuteAssignmentAsync(
         ModuleAssignment assignment,
         IReadOnlyList<IModule> modules,
+        Dictionary<string, IModule> moduleLookup,
         WorkerModuleScheduler workerScheduler,
         CancellationToken cancellationToken)
     {
@@ -251,22 +255,21 @@ internal class DistributedModuleExecutor(
         if (resolved is null)
         {
             _logger.LogError("Cannot resolve module type: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await PublishResolutionFailureAsync(assignment, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
             return;
         }
 
-        var module = modules.FirstOrDefault(m => m.GetType().FullName == assignment.ModuleTypeName);
-        if (module is null)
+        if (!moduleLookup.TryGetValue(assignment.ModuleTypeName, out var module))
         {
             _logger.LogError("Module instance not found: {Type}. Publishing failure to prevent master hang.", assignment.ModuleTypeName);
-            await PublishResolutionFailureAsync(assignment, cancellationToken);
+            await DependencyResultApplicator.PublishResolutionFailureAsync(assignment, _options.Value.InstanceIndex, _coordinator, _logger, cancellationToken);
             return;
         }
 
         // Apply dependency results so that GetModule<T>() works
         if (assignment.DependencyResults is { Count: > 0 })
         {
-            ApplyDependencyResults(assignment.DependencyResults, modules);
+            DependencyResultApplicator.Apply(assignment.DependencyResults, moduleLookup, _serializer, _logger);
         }
 
         try
@@ -328,45 +331,6 @@ internal class DistributedModuleExecutor(
             catch (Exception publishEx)
             {
                 _logger.LogCritical(publishEx, "Failed to publish failure result for {Module}", assignment.ModuleTypeName);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Applies dependency results received in the assignment to local module instances.
-    /// This enables <c>GetModule&lt;T&gt;()</c> to resolve cross-process dependencies.
-    /// <c>TrySetResult</c> is idempotent — safe if CompletionSource was already set.
-    /// </summary>
-    private void ApplyDependencyResults(IReadOnlyList<SerializedModuleResult> dependencyResults, IReadOnlyList<IModule> modules)
-    {
-        foreach (var serializedDep in dependencyResults)
-        {
-            var depModule = modules.FirstOrDefault(m => m.GetType().FullName == serializedDep.ModuleTypeName);
-            if (depModule is null)
-            {
-                _logger.LogDebug("Dependency module instance not found locally: {ModuleTypeName}", serializedDep.ModuleTypeName);
-                continue;
-            }
-
-            try
-            {
-                // Decompress GZip-compressed dependency results before deserialization
-                var toDeserialize = serializedDep;
-                if (serializedDep.SerializedJson.StartsWith(DistributedWorkPublisher.GzipPrefix, StringComparison.Ordinal))
-                {
-                    var decompressed = DistributedWorkPublisher.DecompressJson(serializedDep.SerializedJson);
-                    toDeserialize = serializedDep with { SerializedJson = decompressed };
-                }
-
-                var result = _serializer.Deserialize(toDeserialize);
-                if (result is not null)
-                {
-                    ModuleCompletionSourceApplicator.TryApply(depModule, result);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "Failed to apply dependency result for {ModuleTypeName}", serializedDep.ModuleTypeName);
             }
         }
     }
@@ -443,26 +407,6 @@ internal class DistributedModuleExecutor(
             RegisterFailureResult(module, moduleType, ex);
             scheduler.MarkModuleCompleted(moduleType, false, ex);
             await cts.CancelAsync();
-        }
-    }
-
-    private async Task PublishResolutionFailureAsync(ModuleAssignment assignment, CancellationToken cancellationToken)
-    {
-        try
-        {
-            var failureResult = new SerializedModuleResult(
-                ModuleTypeName: assignment.ModuleTypeName,
-                ResultTypeName: assignment.ResultTypeName,
-                WorkerIndex: _options.Value.InstanceIndex,
-                SerializedJson: "null",
-                CompletedAt: DateTimeOffset.UtcNow);
-            await _coordinator.PublishResultAsync(failureResult, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogCritical(ex,
-                "Failed to publish resolution failure for {Module} — master may hang waiting for this result",
-                assignment.ModuleTypeName);
         }
     }
 
