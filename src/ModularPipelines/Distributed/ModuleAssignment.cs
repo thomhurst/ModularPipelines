@@ -3,7 +3,7 @@ namespace ModularPipelines.Distributed;
 public record ModuleAssignment(
     string ModuleTypeName,
     string ResultTypeName,
-    IReadOnlySet<string> RequiredCapabilities,
+    HashSet<string> RequiredCapabilities,
     string? MatrixTarget,
     DateTimeOffset AssignedAt,
     ModuleAssignmentConfig Configuration,
