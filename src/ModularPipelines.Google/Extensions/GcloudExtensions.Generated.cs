@@ -44,6 +44,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudAnthos>();
         services.TryAddScoped<GcloudApigateway>();
         services.TryAddScoped<GcloudApigee>();
+        services.TryAddScoped<GcloudApihub>();
         services.TryAddScoped<GcloudApp>();
         services.TryAddScoped<GcloudApphub>();
         services.TryAddScoped<GcloudArtifacts>();

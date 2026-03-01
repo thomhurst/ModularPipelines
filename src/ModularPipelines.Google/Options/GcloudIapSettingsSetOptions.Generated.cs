@@ -40,13 +40,13 @@ public record GcloudIapSettingsSetOptions(
     public string? Project { get; set; }
 
     /// <summary>
-    /// Region name. Not applicable for app-engine. Required when     resource-type=compute and regional scoped. Not applicable for global     scoped compute.
+    /// Region name. Not applicable for app-engine. Required when     resource-type=compute and regional scoped. Not applicable for global     scoped compute. Required when resource-type=cloud-run.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Resource type of the IAP resource. For Backend Services, you can use     both compute and backend-services as resource type. RESOURCE_TYPE must     be one of: app-engine, iap_web, compute, organization, folder,     backend-services, forwarding-rule.
+    /// Resource type of the IAP resource. For Backend Services, you can use     both compute and backend-services as resource type. RESOURCE_TYPE must     be one of: app-engine, iap_web, compute, organization, folder,     backend-services, forwarding-rule, cloud-run.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
     public string? ResourceType { get; set; }

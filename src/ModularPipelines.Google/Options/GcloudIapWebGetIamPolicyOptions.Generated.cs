@@ -21,13 +21,13 @@ namespace ModularPipelines.Google.Options;
 public record GcloudIapWebGetIamPolicyOptions : GcloudOptions
 {
     /// <summary>
-    /// Region name. Should only be specified with     --resource-type=backend-services if it is a regional scoped. Not     applicable for global scoped backend services.
+    /// Region name. Not applicable for resource-type=app-engine. Required when     resource-type=backend-services and regional scoped. Not applicable for     global backend-services. Required when resource-type=cloud-run.
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
     /// <summary>
-    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of:     app-engine, backend-services, forwarding-rule.
+    /// Resource type of the IAP resource. RESOURCE_TYPE must be one of:     app-engine, backend-services, forwarding-rule, cloud-run.
     /// </summary>
     [CliOption("--resource-type", Format = OptionFormat.EqualsSeparated)]
     public GcloudResourceType? ResourceType { get; set; }

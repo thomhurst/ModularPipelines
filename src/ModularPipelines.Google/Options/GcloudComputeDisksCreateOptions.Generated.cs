@@ -102,6 +102,12 @@ public record GcloudComputeDisksCreateOptions(
     public bool? RequireCsekKeyCreate { get; set; }
 
     /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the disk.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ResourceManagerTags { get; set; }
+
+    /// <summary>
     /// A list of resource policy names to be added to the disk. The policies     must exist in the same region as the disk.
     /// </summary>
     [CliOption("--resource-policies", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

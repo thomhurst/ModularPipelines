@@ -157,6 +157,12 @@ public record GcloudSqlInstancesCreateOptions(
     public string? CustomSubjectAlternativeNames { get; set; }
 
     /// <summary>
+    /// Controls connectivity to the instance using ExecuteSql API.     DATA_API_ACCESS must be one of:      ALLOW_DATA_API       Allow using ExecuteSql API to connect to the instance. For Private       IP instances, this will allow authorized users to access the       instance from the public internet using ExecuteSql API.     DATA_API_ACCESS_UNSPECIFIED       Unspecified mode, effectively the same as DISALLOW_DATA_API.     DISALLOW_DATA_API       Disallow using ExecuteSql API to connect to the instance.
+    /// </summary>
+    [CliOption("--data-api-access", Format = OptionFormat.EqualsSeparated)]
+    public string? DataApiAccess { get; set; }
+
+    /// <summary>
     /// Comma-separated list of database flags to set on the instance. Use an     equals sign to separate flag name and value. Flags without values, like     skip_grant_tables, can be written out without a value after, e.g.,     skip_grant_tables=. Use on/off for booleans. View the Instance Resource     API for allowed flags. (e.g., --database-flags     max_allowed_packet=55555,skip_grant_tables=,log_output=1)
     /// </summary>
     [CliOption("--database-flags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

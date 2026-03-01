@@ -69,4 +69,10 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
 
+    /// <summary>
+    /// URL of the target service that receives forwarded traffic.
+    /// </summary>
+    [CliOption("--target-service", Format = OptionFormat.EqualsSeparated)]
+    public string? TargetService { get; set; }
+
 }

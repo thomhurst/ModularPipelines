@@ -34,6 +34,7 @@ public class GcloudContainerHub
     private GcloudContainerHubPolicycontroller _policycontroller;
     private GcloudContainerHubRbacrolebindingactuation _rbacrolebindingactuation;
     private GcloudContainerHubScopes _scopes;
+    private GcloudContainerHubWorkloadIdentity _workloadIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerHub"/> class.
@@ -124,6 +125,11 @@ public class GcloudContainerHub
     /// gcloud scopes sub-commands.
     /// </summary>
     public GcloudContainerHubScopes Scopes => _scopes ??= new GcloudContainerHubScopes(_command);
+
+    /// <summary>
+    /// gcloud workload-identity sub-commands.
+    /// </summary>
+    public GcloudContainerHubWorkloadIdentity WorkloadIdentity => _workloadIdentity ??= new GcloudContainerHubWorkloadIdentity(_command);
 
     #endregion
 

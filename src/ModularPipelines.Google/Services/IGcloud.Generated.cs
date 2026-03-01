@@ -64,6 +64,11 @@ public partial interface IGcloud
     GcloudApigee Apigee { get; }
 
     /// <summary>
+    /// Gets the apihub sub-domain service.
+    /// </summary>
+    GcloudApihub Apihub { get; }
+
+    /// <summary>
     /// Gets the app sub-domain service.
     /// </summary>
     GcloudApp App { get; }

@@ -40,7 +40,7 @@ public record GcloudEdgeCacheOriginsUpdateOptions : GcloudOptions
     public string? FailoverOrigin { get; set; }
 
     /// <summary>
-    /// Whenever possible, content will be fetched from origin and cached in or     near the specified region. Best effort.     Defaults to default global origin shielding. You may specify at most     one region. An empty flag turns off flex shielding.     FLEX_SHIELDING must be one of:      **       Turn off flexible shielding and use the default global origin       shielding.      africa_south1       Origin fetch from near africa-south1.      me_central1       Origin fetch from near me-central1.
+    /// Whenever possible, content will be fetched from origin and cached in or     near the specified region. Best effort.     Defaults to default global origin shielding. You may specify at most     one region. An empty flag turns off flex shielding.     FLEX_SHIELDING must be one of:      **       Turn off flexible shielding and use the default global origin       shielding.      africa_south1       Origin fetch from near africa-south1.      me_central1       Origin fetch from near me-central1.      us_east5       Origin fetch from near us-east5.
     /// </summary>
     [CliOption("--flex-shielding", Format = OptionFormat.EqualsSeparated)]
     public string? FlexShielding { get; set; }
