@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet trust commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetNugetTrust
 {
     private readonly ICommand _command;
@@ -31,8 +31,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Author(
-        DotNetNugetTrustAuthorOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustAuthorOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustAuthorOptions(), executionOptions, cancellationToken);
@@ -40,8 +40,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Certificate(
-        DotNetNugetTrustCertificateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustCertificateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustCertificateOptions(), executionOptions, cancellationToken);
@@ -49,8 +49,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> List(
-        DotNetNugetTrustListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustListOptions(), executionOptions, cancellationToken);
@@ -58,8 +58,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Remove(
-        DotNetNugetTrustRemoveOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustRemoveOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustRemoveOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Repository(
-        DotNetNugetTrustRepositoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustRepositoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustRepositoryOptions(), executionOptions, cancellationToken);
@@ -76,8 +76,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Source(
-        DotNetNugetTrustSourceOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustSourceOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustSourceOptions(), executionOptions, cancellationToken);
@@ -85,8 +85,8 @@ public class DotNetNugetTrust
 
     /// <inheritdoc />
     public virtual async Task<CommandResult> Sync(
-        DotNetNugetTrustSyncOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetNugetTrustSyncOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetNugetTrustSyncOptions(), executionOptions, cancellationToken);
