@@ -28,6 +28,7 @@ public class GcloudKms
     private GcloudKmsKeys _keys;
     private GcloudKmsLocations _locations;
     private GcloudKmsOperations _operations;
+    private GcloudKmsRetiredResources _retiredResources;
     private GcloudKmsSingleTenantHsm _singleTenantHsm;
 
     /// <summary>
@@ -89,6 +90,11 @@ public class GcloudKms
     /// gcloud operations sub-commands.
     /// </summary>
     public GcloudKmsOperations Operations => _operations ??= new GcloudKmsOperations(_command);
+
+    /// <summary>
+    /// gcloud retired-resources sub-commands.
+    /// </summary>
+    public GcloudKmsRetiredResources RetiredResources => _retiredResources ??= new GcloudKmsRetiredResources(_command);
 
     /// <summary>
     /// gcloud single-tenant-hsm sub-commands.

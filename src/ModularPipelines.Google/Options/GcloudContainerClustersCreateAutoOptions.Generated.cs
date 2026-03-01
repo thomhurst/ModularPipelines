@@ -276,7 +276,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? MembershipType { get; set; }
 
     /// <summary>
-    /// Set the components that have monitoring enabled. Valid component values     are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER,     CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD,     STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET     For more information, see     https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics     Examples:       $ gcloud container clusters create-auto \         --monitoring=SYSTEM,API_SERVER,POD,DCGM       $ gcloud container clusters create-auto --monitoring=SYSTEM
+    /// Set the components that have monitoring enabled. Valid component values     are: SYSTEM, WORKLOAD (Deprecated), NONE, API_SERVER,     CONTROLLER_MANAGER, SCHEDULER, DAEMONSET, DEPLOYMENT, HPA, POD,     STATEFULSET, STORAGE, CADVISOR, KUBELET, DCGM, JOBSET     Note: DAEMONSET, DEPLOYMENT, HPA, POD, STATEFULSET, STORAGE, CADVISOR,     KUBELET, DCGM, and JOBSET require Google Managed Prometheus to be     enabled.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/how-to/configure-metrics#available-metrics     Examples:       $ gcloud container clusters create-auto \         --monitoring=SYSTEM,API_SERVER,POD,DCGM       $ gcloud container clusters create-auto --monitoring=SYSTEM
     /// </summary>
     [CliOption("--monitoring", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Monitoring { get; set; }
@@ -450,11 +450,23 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? EnableSecretManagerRotation { get; set; }
 
     /// <summary>
-    /// Set the rotation period for secrets in the Secret Manager CSI driver     provider component. If you don't specify a time interval for the     rotation, it will default to a rotation period of two minutes.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Options to specify the node identity.    Scopes options.
+    /// Set the rotation period for secrets in the Secret Manager CSI driver     provider component. If you don't specify a time interval for the     rotation, it will default to a rotation period of two minutes.    At most one of these can be specified:     --location=LOCATION      Compute zone or region (e.g. us-central1-a or us-central1) for the      cluster. Overrides the default compute/region or compute/zone value      for this command invocation. Prefer using this flag over the --region      or --zone flags.     --region=REGION      Compute region (e.g. us-central1) for a regional cluster. Overrides      the default compute/region property value for this command      invocation.     --zone=ZONE, -z ZONE      Compute zone (e.g. us-central1-a) for a zonal cluster. Overrides the      default compute/zone property value for this command invocation.    Flags for cluster disruption budget configuration:
     /// </summary>
     [SecretValue]
     [CliOption("--secret-manager-rotation-interval", Format = OptionFormat.EqualsSeparated)]
     public string? SecretManagerRotationInterval { get; set; }
+
+    /// <summary>
+    /// Set the minimum interval of time between minor version cluster     upgrades.
+    /// </summary>
+    [CliOption("--maintenance-minor-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenanceMinorVersionDisruptionInterval { get; set; }
+
+    /// <summary>
+    /// Set the minimum interval of time between patch version cluster     upgrades.    Options to specify the node identity.    Scopes options.
+    /// </summary>
+    [CliOption("--maintenance-patch-version-disruption-interval", Format = OptionFormat.EqualsSeparated)]
+    public string? MaintenancePatchVersionDisruptionInterval { get; set; }
 
     [CliOption("--scopes", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Scopes { get; set; }

@@ -60,6 +60,12 @@ public record GcloudComputeSnapshotsCreateOptions(
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
+    /// A comma-separated list of Resource Manager tags to apply to the     snapshot.
+    /// </summary>
+    [CliOption("--resource-manager-tags", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public KeyValue[]? ResourceManagerTags { get; set; }
+
+    /// <summary>
     /// Type of snapshot. If a snapshot type is not specified, a STANDARD     snapshot will be created. SNAPSHOT_TYPE must be one of: ARCHIVE,     STANDARD.
     /// </summary>
     [CliOption("--snapshot-type", Format = OptionFormat.EqualsSeparated)]

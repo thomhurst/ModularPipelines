@@ -32,6 +32,7 @@ internal partial class Gcloud : IGcloud
         GcloudAnthos anthos,
         GcloudApigateway apigateway,
         GcloudApigee apigee,
+        GcloudApihub apihub,
         GcloudApp app,
         GcloudApphub apphub,
         GcloudArtifacts artifacts,
@@ -156,6 +157,7 @@ internal partial class Gcloud : IGcloud
         Anthos = anthos;
         Apigateway = apigateway;
         Apigee = apigee;
+        Apihub = apihub;
         App = app;
         Apphub = apphub;
         Artifacts = artifacts;
@@ -299,6 +301,9 @@ internal partial class Gcloud : IGcloud
 
     /// <inheritdoc />
     public GcloudApigee Apigee { get; }
+
+    /// <inheritdoc />
+    public GcloudApihub Apihub { get; }
 
     /// <inheritdoc />
     public GcloudApp App { get; }

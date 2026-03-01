@@ -34,6 +34,7 @@ public class GcloudContainerFleet
     private GcloudContainerFleetPolicycontroller _policycontroller;
     private GcloudContainerFleetRbacrolebindingactuation _rbacrolebindingactuation;
     private GcloudContainerFleetScopes _scopes;
+    private GcloudContainerFleetWorkloadIdentity _workloadIdentity;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GcloudContainerFleet"/> class.
@@ -124,6 +125,11 @@ public class GcloudContainerFleet
     /// gcloud scopes sub-commands.
     /// </summary>
     public GcloudContainerFleetScopes Scopes => _scopes ??= new GcloudContainerFleetScopes(_command);
+
+    /// <summary>
+    /// gcloud workload-identity sub-commands.
+    /// </summary>
+    public GcloudContainerFleetWorkloadIdentity WorkloadIdentity => _workloadIdentity ??= new GcloudContainerFleetWorkloadIdentity(_command);
 
     #endregion
 
