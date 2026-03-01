@@ -14,7 +14,7 @@ namespace ModularPipelines.DotNet.Services;
 /// <summary>
 /// dotnet workload commands.
 /// </summary>
-[GeneratedCode("ModularPipelines.OptionsGenerator", "2.42.227-alpha.0.981+55c59948e83059a5184db05c992047e177e72c4b")]
+[GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 public class DotNetWorkload
 {
     private readonly ICommand _command;
@@ -37,8 +37,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Execute(
-        DotNetWorkloadOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadOptions(), executionOptions, cancellationToken);
@@ -52,8 +52,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Clean(
-        DotNetWorkloadCleanOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadCleanOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadCleanOptions(), executionOptions, cancellationToken);
@@ -67,8 +67,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Config(
-        DotNetWorkloadConfigOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadConfigOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadConfigOptions(), executionOptions, cancellationToken);
@@ -82,8 +82,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> History(
-        DotNetWorkloadHistoryOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadHistoryOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadHistoryOptions(), executionOptions, cancellationToken);
@@ -97,8 +97,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> List(
-        DotNetWorkloadListOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadListOptions(), executionOptions, cancellationToken);
@@ -112,8 +112,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Repair(
-        DotNetWorkloadRepairOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadRepairOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadRepairOptions(), executionOptions, cancellationToken);
@@ -127,8 +127,8 @@ public class DotNetWorkload
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Update(
-        DotNetWorkloadUpdateOptions? options = default,
-        CommandExecutionOptions? executionOptions = null,
+        DotNetWorkloadUpdateOptions options = default,
+        CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {
         return await _command.ExecuteCommandLineTool(options ?? new DotNetWorkloadUpdateOptions(), executionOptions, cancellationToken);
