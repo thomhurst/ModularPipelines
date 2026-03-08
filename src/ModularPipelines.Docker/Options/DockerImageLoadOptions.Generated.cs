@@ -25,10 +25,10 @@ public record DockerImageLoadOptions : DockerOptions
     public string? Input { get; set; }
 
     /// <summary>
-    /// Load only the given platform(s). Formatted as a comma-separated list of "os[/arch[/variant]]" (e.g., "linux/amd64,linux/arm64/v8").
+    /// Load only the given platform variant. Formatted as "os[/arch[/variant]]" (e.g., "linux/amd64")
     /// </summary>
-    [CliOption("--platform", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
-    public IEnumerable<string>? Platform { get; set; }
+    [CliOption("--platform", Format = OptionFormat.EqualsSeparated)]
+    public string? Platform { get; set; }
 
     /// <summary>
     /// Suppress the load output

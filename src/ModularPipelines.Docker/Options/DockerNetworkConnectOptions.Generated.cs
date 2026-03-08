@@ -55,10 +55,10 @@ public record DockerNetworkConnectOptions : DockerOptions
     public IEnumerable<string>? Link { get; set; }
 
     /// <summary>
-    /// Add a link-local address for the container (default [])
+    /// Add a link-local address for the container
     /// </summary>
-    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated)]
-    public string? LinkLocalIp { get; set; }
+    [CliOption("--link-local-ip", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? LinkLocalIp { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }

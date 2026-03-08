@@ -11,29 +11,23 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Remove one or more images
+/// Remove a signer
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("rmi")]
-public record DockerRmiOptions : DockerOptions
+[CliSubCommand("trust", "signer", "remove")]
+public record DockerTrustSignerRemoveOptions : DockerOptions
 {
     /// <summary>
-    /// Force removal of the image
+    /// Do not prompt for confirmation before removing the most
     /// </summary>
     [CliFlag("--force", ShortForm = "-f")]
     public bool? Force { get; set; }
-
-    /// <summary>
-    /// Do not delete untagged parents
-    /// </summary>
-    [CliFlag("--no-prune")]
-    public bool? NoPrune { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 
     [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
+    public string? Repository { get; set; }
 
 }
