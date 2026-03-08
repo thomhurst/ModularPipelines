@@ -37,6 +37,12 @@ public record FluxCreateSecretGithubappOptions : FluxOptions
     public string? AppInstallationId { get; set; }
 
     /// <summary>
+    /// github app installation owner (user or organization)
+    /// </summary>
+    [CliOption("--app-installation-owner", Format = OptionFormat.EqualsSeparated)]
+    public string? AppInstallationOwner { get; set; }
+
+    /// <summary>
     /// github app private key file path
     /// </summary>
     [SecretValue]
@@ -66,6 +72,12 @@ public record FluxCreateSecretGithubappOptions : FluxOptions
     /// </summary>
     [CliOption("--as-uid", Format = OptionFormat.EqualsSeparated)]
     public string? AsUid { get; set; }
+
+    /// <summary>
+    /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
+    /// </summary>
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AsUserExtra { get; set; }
 
     /// <summary>
     /// Default cache directory (default "/home/runner/.kube/cache")
