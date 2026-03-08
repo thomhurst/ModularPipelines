@@ -320,7 +320,7 @@ public record MinikubeStartOptions : MinikubeOptions
     public string? KeepContext { get; set; }
 
     /// <summary>
-    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.35.0, 'latest' for v1.35.0). Defaults to 'stable'.
+    /// The Kubernetes version that the minikube VM will use (ex: v1.2.3, 'stable' for v1.35.1, 'latest' for v1.35.1). Defaults to 'stable'.
     /// </summary>
     [CliOption("--kubernetes-version", Format = OptionFormat.EqualsSeparated)]
     public string? KubernetesVersion { get; set; }
