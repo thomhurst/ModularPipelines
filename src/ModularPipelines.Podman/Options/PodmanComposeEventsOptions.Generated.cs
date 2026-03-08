@@ -30,18 +30,6 @@ public record PodmanComposeEventsOptions : PodmanOptions
     [CliFlag("--json")]
     public bool? Json { get; set; }
 
-    /// <summary>
-    /// Show all events created since timestamp
-    /// </summary>
-    [CliOption("--since", Format = OptionFormat.EqualsSeparated)]
-    public string? Since { get; set; }
-
-    /// <summary>
-    /// Stream events until this timestamp
-    /// </summary>
-    [CliOption("--until", Format = OptionFormat.EqualsSeparated)]
-    public string? Until { get; set; }
-
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 

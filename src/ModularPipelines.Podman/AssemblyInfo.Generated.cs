@@ -6,4 +6,4 @@
 using System.Reflection;
 
 [assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.Tool", "podman")]
-[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-02-15T03:12:09.6705108Z")]
+[assembly: AssemblyMetadata("ModularPipelines.OptionsGenerator.GeneratedAt", "2026-03-08T03:09:10.9504154Z")]
