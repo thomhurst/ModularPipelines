@@ -25,7 +25,7 @@ public record PnpmWhyOptions : PnpmOptions
     public string? AggregateOutput { get; set; }
 
     /// <summary>
-    /// Max display depth of the dependency graph
+    /// Max display depth of the reverse dependency tree
     /// </summary>
     [CliOption("--depth")]
     public string? Depth { get; set; }
@@ -141,7 +141,7 @@ public record PnpmWhyOptions : PnpmOptions
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", ShortForm = "-F")]
     public string? Filter { get; set; }
 
     /// <summary>

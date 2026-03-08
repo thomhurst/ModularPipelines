@@ -123,7 +123,7 @@ public record PnpmRunOptions : PnpmOptions
     /// <summary>
     /// Restricts the scope to package names matching the given pattern. E.g.: foo, "@bar/*"
     /// </summary>
-    [CliOption("--filter")]
+    [CliOption("--filter", ShortForm = "-F")]
     public string? Filter { get; set; }
 
     /// <summary>
