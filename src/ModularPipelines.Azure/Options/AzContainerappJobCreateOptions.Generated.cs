@@ -55,7 +55,7 @@ public record AzContainerappJobCreateOptions : AzOptions
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Maximum number of replicas to run per execution.
+    /// Maximum number of replicas to run per execution.  Default: 1.
     /// </summary>
     [CliFlag("--parallelism")]
     public bool? Parallelism { get; set; }

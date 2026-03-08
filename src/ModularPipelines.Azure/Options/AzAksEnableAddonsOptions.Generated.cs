@@ -31,7 +31,7 @@ public record AzAksEnableAddonsOptions : AzOptions
     public bool? DataCollectionSettings { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs.  Allowed values: false, true.
+    /// Enable High Log Scale Mode for Container Logs. Auto-enabled when --enable-container-network-logs is specified.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }

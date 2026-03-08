@@ -49,6 +49,18 @@ public record AzVmCreateOptions : AzOptions
     public bool? CustomData { get; set; }
 
     /// <summary>
+    /// Specify the Read- Write IOPS for the managed disk when storage account type is
+    /// </summary>
+    [CliFlag("--data-disk-iops")]
+    public bool? DataDiskIops { get; set; }
+
+    /// <summary>
+    /// Specify the bandwidth in MB per second for the managed disk when storage account type is
+    /// </summary>
+    [CliFlag("--data-disk-mbps")]
+    public bool? DataDiskMbps { get; set; }
+
+    /// <summary>
     /// Disable auto upgrade of guest attestation extension for
     /// </summary>
     [CliFlag("--disable-integrity-monitoring-autoupgrade")]

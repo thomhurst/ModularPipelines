@@ -31,7 +31,7 @@ public record AzAroUpdateOptions : AzOptions
     public bool? ClientSecret { get; set; }
 
     /// <summary>
-    /// Do not wait for the long-running operation to finish.
+    /// Do not wait for the long- running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }

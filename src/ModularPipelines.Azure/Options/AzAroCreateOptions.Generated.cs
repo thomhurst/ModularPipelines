@@ -19,7 +19,7 @@ namespace ModularPipelines.Azure.Options;
 public record AzAroCreateOptions : AzOptions
 {
     /// <summary>
-    /// API server visibility.  Allowed values: Private, Public.  Default:
+    /// API server visibility. [Default: Public].  Allowed values: Private, Public.
     /// </summary>
     [CliFlag("--apiserver-visibility")]
     public bool? ApiserverVisibility { get; set; }
@@ -43,7 +43,7 @@ public record AzAroCreateOptions : AzOptions
     public bool? ClusterResourceGroup { get; set; }
 
     /// <summary>
-    /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
+    /// ResourceID of the
     /// </summary>
     [CliFlag("--disk-encryption-set")]
     public bool? DiskEncryptionSet { get; set; }
@@ -55,43 +55,43 @@ public record AzAroCreateOptions : AzOptions
     public bool? Domain { get; set; }
 
     /// <summary>
-    /// Use Preconfigured NSGs.  Allowed values: false, true.
+    /// Use Preconfigured NSGs.
     /// </summary>
     [CliFlag("--enable-preconfigured-nsg")]
     public bool? EnablePreconfiguredNsg { get; set; }
 
     /// <summary>
-    /// Ingress visibility.  Allowed values: Private, Public.  Default: Public.
+    /// Ingress visibility. [Default: Public].  Allowed values: Private, Public.
     /// </summary>
     [CliFlag("--ingress-visibility")]
     public bool? IngressVisibility { get; set; }
 
     /// <summary>
-    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure
+    /// Location. Values from: `az account list-locations`. You can configure the default location using `az configure --defaults location=&lt;location&gt;`.
     /// </summary>
     [CliFlag("--location", ShortForm = "-l")]
     public bool? Location { get; set; }
 
     /// <summary>
-    /// Size of master VMs.  Default:
+    /// Size of master VMs. [Default: Standard_D8s_v5].
     /// </summary>
     [CliFlag("--master-vm-size")]
     public bool? MasterVmSize { get; set; }
 
     /// <summary>
-    /// Do not wait for the long-running operation to finish.
+    /// Do not wait for the long- running operation to finish.
     /// </summary>
     [CliFlag("--no-wait")]
     public bool? NoWait { get; set; }
 
     /// <summary>
-    /// Outbound type of cluster. Must be "Loadbalancer" or
+    /// Outbound type of cluster. Must be "Loadbalancer" or "UserDefinedRouting". [Default: Loadbalancer].
     /// </summary>
     [CliFlag("--outbound-type")]
     public bool? OutboundType { get; set; }
 
     /// <summary>
-    /// CIDR of pod network. Must be a minimum of /18 or larger.  Default: 10.128.0.0/14.
+    /// CIDR of pod network. Must be a minimum of /18 or
     /// </summary>
     [CliFlag("--pod-cidr")]
     public bool? PodCidr { get; set; }
@@ -103,7 +103,7 @@ public record AzAroCreateOptions : AzOptions
     public bool? PullSecret { get; set; }
 
     /// <summary>
-    /// CIDR of service network. Must be a minimum of /18 or larger.  Default: 172.30.0.0/16.
+    /// CIDR of service network. Must be a minimum of /18 or
     /// </summary>
     [CliFlag("--service-cidr")]
     public bool? ServiceCidr { get; set; }
@@ -121,7 +121,7 @@ public record AzAroCreateOptions : AzOptions
     public bool? Version { get; set; }
 
     /// <summary>
-    /// Name or ID of vnet.  If name is supplied, `--vnet-resource-group` must be supplied.
+    /// Name or ID of vnet.  If name is supplied, `--vnet- resource-group` must be supplied.
     /// </summary>
     [CliFlag("--vnet")]
     public bool? Vnet { get; set; }
@@ -133,19 +133,19 @@ public record AzAroCreateOptions : AzOptions
     public bool? VnetResourceGroup { get; set; }
 
     /// <summary>
-    /// Count of worker VMs.  Default: 3.
+    /// Count of worker VMs. [Default: 3].
     /// </summary>
     [CliFlag("--worker-count")]
     public bool? WorkerCount { get; set; }
 
     /// <summary>
-    /// Disk size in GB of worker VMs.
+    /// Disk size in GB of worker
     /// </summary>
     [CliFlag("--worker-vm-disk-size-gb")]
     public bool? WorkerVmDiskSizeGb { get; set; }
 
     /// <summary>
-    /// Size of worker VMs.  Default:
+    /// Size of worker VMs. [Default: Standard_D4s_v5].
     /// </summary>
     [CliFlag("--worker-vm-size")]
     public bool? WorkerVmSize { get; set; }

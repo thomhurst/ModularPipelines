@@ -211,6 +211,12 @@ public record AzAksUpdateOptions : AzOptions
     public bool? DisableClusterAutoscaler { get; set; }
 
     /// <summary>
+    /// Disable container network log collection functionalities on a cluster.
+    /// </summary>
+    [CliFlag("--disable-container-network-logs")]
+    public bool? DisableContainerNetworkLogs { get; set; }
+
+    /// <summary>
     /// Disable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal.
     /// </summary>
     [CliFlag("--disable-cost-analysis")]
@@ -377,6 +383,12 @@ public record AzAksUpdateOptions : AzOptions
     /// </summary>
     [CliFlag("--enable-cluster-autoscaler", ShortForm = "-e")]
     public bool? EnableClusterAutoscaler { get; set; }
+
+    /// <summary>
+    /// Enable container network log collection functionalities on a cluster. Automatically enables --enable-high-log-scale-mode.
+    /// </summary>
+    [CliFlag("--enable-container-network-logs")]
+    public bool? EnableContainerNetworkLogs { get; set; }
 
     /// <summary>
     /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost-analysis.

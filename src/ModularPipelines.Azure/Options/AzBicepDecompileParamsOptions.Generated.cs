@@ -25,6 +25,12 @@ public record AzBicepDecompileParamsOptions : AzOptions
     public bool? BicepFile { get; set; }
 
     /// <summary>
+    /// Allows overwriting the output file if it exists.
+    /// </summary>
+    [CliFlag("--force")]
+    public bool? Force { get; set; }
+
+    /// <summary>
     /// When set, saves the output at the specified directory.
     /// </summary>
     [CliFlag("--outdir")]
