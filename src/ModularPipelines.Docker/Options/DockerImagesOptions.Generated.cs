@@ -19,7 +19,7 @@ namespace ModularPipelines.Docker.Options;
 public record DockerImagesOptions : DockerOptions
 {
     /// <summary>
-    /// Show all images (default hides intermediate and dangling images)
+    /// Show all images (default hides intermediate images)
     /// </summary>
     [CliFlag("--all", ShortForm = "-a")]
     public bool? All { get; set; }
