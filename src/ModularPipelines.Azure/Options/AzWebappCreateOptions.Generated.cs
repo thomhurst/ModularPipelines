@@ -91,10 +91,28 @@ public record AzWebappCreateOptions : AzOptions
     public bool? DomainNameScope { get; set; }
 
     /// <summary>
+    /// Enable or disable end-to-end encryption between the Front End and the Workers. Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--end-to-end-encryption-enabled", ShortForm = "-e")]
+    public bool? EndToEndEncryptionEnabled { get; set; }
+
+    /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--https-only")]
     public bool? HttpsOnly { get; set; }
+
+    /// <summary>
+    /// The minimum TLS Cipher Suite required for requests, e.g., 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384'.
+    /// </summary>
+    [CliFlag("--min-tls-cipher-suite")]
+    public bool? MinTlsCipherSuite { get; set; }
+
+    /// <summary>
+    /// The minimum version of TLS required for SSL requests, e.g., '1.0', '1.1', '1.2'.
+    /// </summary>
+    [CliFlag("--min-tls-version")]
+    public bool? MinTlsVersion { get; set; }
 
     /// <summary>
     /// Linux only. Config file for multicontainer apps. (local or remote).

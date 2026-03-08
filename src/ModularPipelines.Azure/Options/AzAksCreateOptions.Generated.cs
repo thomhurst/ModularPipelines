@@ -313,6 +313,12 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableClusterAutoscaler { get; set; }
 
     /// <summary>
+    /// Enable container network log collection functionalities on a cluster. Automatically enables --enable-high-log-scale-mode.
+    /// </summary>
+    [CliFlag("--enable-container-network-logs")]
+    public bool? EnableContainerNetworkLogs { get; set; }
+
+    /// <summary>
     /// Enable exporting Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. For more information see aka.ms/aks/docs/cost-analysis.
     /// </summary>
     [CliFlag("--enable-cost-analysis")]
@@ -337,7 +343,7 @@ public record AzAksCreateOptions : AzOptions
     public bool? EnableFipsImage { get; set; }
 
     /// <summary>
-    /// Enable High Log Scale Mode for Container Logs. Allowed values: false, true.
+    /// Enable High Log Scale Mode for Container Logs.
     /// </summary>
     [CliFlag("--enable-high-log-scale-mode")]
     public bool? EnableHighLogScaleMode { get; set; }

@@ -37,7 +37,7 @@ public record AzAroValidateOptions : AzOptions
     public bool? ClusterResourceGroup { get; set; }
 
     /// <summary>
-    /// ResourceID of the DiskEncryptionSet to be used for master and worker VMs.
+    /// ResourceID of the
     /// </summary>
     [CliFlag("--disk-encryption-set")]
     public bool? DiskEncryptionSet { get; set; }
@@ -49,13 +49,13 @@ public record AzAroValidateOptions : AzOptions
     public bool? Location { get; set; }
 
     /// <summary>
-    /// CIDR of pod network. Must be a minimum of /18 or larger.
+    /// CIDR of pod network. Must be a minimum of /18 or
     /// </summary>
     [CliFlag("--pod-cidr")]
     public bool? PodCidr { get; set; }
 
     /// <summary>
-    /// CIDR of service network. Must be a minimum of /18 or larger.
+    /// CIDR of service network. Must be a minimum of /18 or
     /// </summary>
     [CliFlag("--service-cidr")]
     public bool? ServiceCidr { get; set; }
@@ -67,7 +67,7 @@ public record AzAroValidateOptions : AzOptions
     public bool? Version { get; set; }
 
     /// <summary>
-    /// Name or ID of vnet.  If name is supplied, `--vnet-resource- group` must be supplied.
+    /// Name or ID of vnet.  If name is supplied, `--vnet- resource-group` must be supplied.
     /// </summary>
     [CliFlag("--vnet")]
     public bool? Vnet { get; set; }

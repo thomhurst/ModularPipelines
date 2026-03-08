@@ -31,6 +31,12 @@ public record AzWebappUpdateOptions : AzOptions
     public bool? ClientAffinityEnabled { get; set; }
 
     /// <summary>
+    /// Enable or disable end-to-end encryption between the Front End and the Workers.  Allowed values: false, true.
+    /// </summary>
+    [CliFlag("--end-to-end-encryption-enabled", ShortForm = "-e")]
+    public bool? EndToEndEncryptionEnabled { get; set; }
+
+    /// <summary>
     /// Redirect all traffic made to an app using HTTP to HTTPS.  Allowed values: false, true.
     /// </summary>
     [CliFlag("--https-only")]
