@@ -48,4 +48,83 @@ public class GcloudNetworksecuritySecurityProfiles
     public GcloudNetworksecuritySecurityProfilesThreatPrevention ThreatPrevention => _threatPrevention ??= new GcloudNetworksecuritySecurityProfilesThreatPrevention(_command);
 
     #endregion
+
+    #region Commands
+
+    /// <summary>
+    /// delete a Security     Profile
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Delete(
+        GcloudNetworkSecuritySecurityProfilesDeleteOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesDeleteOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// describe a Security     Profile
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Describe(
+        GcloudNetworkSecuritySecurityProfilesDescribeOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesDescribeOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// export Security Profile
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Export(
+        GcloudNetworkSecuritySecurityProfilesExportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesExportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// import Security Profile
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> Import(
+        GcloudNetworkSecuritySecurityProfilesImportOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesImportOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// list Security Profiles
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> List(
+        GcloudNetworkSecuritySecurityProfilesListOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudNetworkSecuritySecurityProfilesListOptions(), executionOptions, cancellationToken);
+    }
+
+    #endregion
 }

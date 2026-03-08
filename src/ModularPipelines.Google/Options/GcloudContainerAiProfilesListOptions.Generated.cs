@@ -38,7 +38,7 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     public string? ModelServer { get; set; }
 
     /// <summary>
-    /// The model server version. Default is latest. Other options include the     model server version of a profile, all which returns all versions.
+    /// The model server version. If omitted, the most recently benchmarked     version is used. Other options include the model server version of a     profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--model-server-version", Format = OptionFormat.EqualsSeparated)]
     public string? ModelServerVersion { get; set; }
@@ -56,7 +56,7 @@ public record GcloudContainerAiProfilesListOptions : GcloudOptions
     public string? ServingStack { get; set; }
 
     /// <summary>
-    /// The serving stack version to filter profiles by. If not provided,     profiles for all versions that support the given model and model server     will be returned.
+    /// The serving stack version. If omitted, the most recently benchmarked     version is used. Other options include the serving stack version of a     profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--serving-stack-version", Format = OptionFormat.EqualsSeparated)]
     public string? ServingStackVersion { get; set; }

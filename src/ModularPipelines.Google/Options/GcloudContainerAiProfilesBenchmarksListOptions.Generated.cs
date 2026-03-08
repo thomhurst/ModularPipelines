@@ -20,25 +20,25 @@ namespace ModularPipelines.Google.Options;
 public record GcloudContainerAiProfilesBenchmarksListOptions : GcloudOptions
 {
     /// <summary>
-    /// The format to print the output in. Default is csvprofile, which     displays the profile information in a CSV format, includingcost     conversions.
+    /// The format to print the output in. Default is csvprofile, which     displays the profile information in a CSV format, including cost     conversions.
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
 
     /// <summary>
-    /// The instance type. If not specified, this defaults to anyinstance type.
+    /// The instance type. If not specified, this defaults to any instance     type.
     /// </summary>
     [CliOption("--instance-type", Format = OptionFormat.EqualsSeparated)]
     public string? InstanceType { get; set; }
 
     /// <summary>
-    /// The model server version. Default is latest. Other options include the     model server version of a profile, all which returns all versions.
+    /// The model server version. If omitted, the most recently benchmarked     version is used. Other options include the model server version of a     profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--model-server-version", Format = OptionFormat.EqualsSeparated)]
     public string? ModelServerVersion { get; set; }
 
     /// <summary>
-    /// The pricing model to use to calculate token cost. Currently, this     supports on-demand, spot, 3-years-cud, 1-year-cud
+    /// The pricing model to use to calculate token cost. Currently, this     supports on-demand, spot, 3-years-cud, 1-year-cud.
     /// </summary>
     [CliOption("--pricing-model", Format = OptionFormat.EqualsSeparated)]
     public string? PricingModel { get; set; }
@@ -50,13 +50,13 @@ public record GcloudContainerAiProfilesBenchmarksListOptions : GcloudOptions
     public string? ServingStack { get; set; }
 
     /// <summary>
-    /// The serving stack version to filter benchmarking data by. If not     provided, benchmarking data for all versions that support the given     model and model server will be returned.
+    /// The serving stack version. If omitted, the most recently benchmarked     version is used. Other options include the serving stack version of a     profile, or 'all' to return all versions.
     /// </summary>
     [CliOption("--serving-stack-version", Format = OptionFormat.EqualsSeparated)]
     public string? ServingStackVersion { get; set; }
 
     /// <summary>
-    /// If specified, results will only show profiles that match the provided     use case. Options are: Advanced Customer Support, Code Completion, Text     Summarization, Chatbot (ShareGPT), Code Generation, Deep Research.
+    /// If specified, results will only show profiles that match the provided     use case. Options are: Advanced Customer Support, Code Completion, Text     Summarization, Chatbot (ShareGPT), Code Generation, Deep Research. If     omitted, defaults to Chatbot (ShareGPT).
     /// </summary>
     [CliOption("--use-case", Format = OptionFormat.EqualsSeparated)]
     public string? UseCase { get; set; }

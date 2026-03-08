@@ -180,6 +180,12 @@ public record GcloudContainerClustersCreateOptions(
     public bool? DisableL4LbFirewallReconciliation { get; set; }
 
     /// <summary>
+    /// Disable the Lustre CSI driver to automatically detect and configure all     suitable network interfaces on a node for Lustre IO.
+    /// </summary>
+    [CliFlag("--disable-multi-nic-lustre")]
+    public bool? DisableMultiNicLustre { get; set; }
+
+    /// <summary>
     /// Size for node VM boot disks in GB. Defaults to 100GB.
     /// </summary>
     [CliOption("--disk-size", Format = OptionFormat.EqualsSeparated)]
