@@ -43,7 +43,7 @@ public record PnpmAuditOptions : PnpmOptions
     public string? Ignore { get; set; }
 
     /// <summary>
-    /// Use exit code 0 if the registry responds with an error. Useful when audit checks are used in CI. A build should fail because the registry has issues.
+    /// Use exit code 0 if the registry responds with an error. Useful when audit checks are used in CI. A build should not fail because the registry has issues.
     /// </summary>
     [CliOption("--ignore-registry-errors")]
     public string? IgnoreRegistryErrors { get; set; }
