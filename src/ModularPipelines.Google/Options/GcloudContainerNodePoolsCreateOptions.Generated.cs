@@ -84,6 +84,12 @@ public record GcloudContainerNodePoolsCreateOptions(
     public GcloudConfidentialNodeType? ConfidentialNodeType { get; set; }
 
     /// <summary>
+    /// Set the duration after which the Cluster Autoscaler can scale down     underutilized nodes.       $ gcloud container node-pools create node-pool-1 \         --cluster=example-cluster --consolidation-delay=3600s
+    /// </summary>
+    [CliOption("--consolidation-delay", Format = OptionFormat.EqualsSeparated)]
+    public string? ConsolidationDelay { get; set; }
+
+    /// <summary>
     /// Path of the YAML file that contains containerd configuration entries     like configuring access to private image registries.     For detailed information on the configuration usage, please refer to     https://cloud.google.com/kubernetes-engine/docs/how-to/customize-containerd-configuration.     Note: Updating the containerd configuration of an existing cluster or     node pool requires recreation of the existing nodes, which might cause     disruptions in running workloads.     Use a full or relative path to a local file containing the value of     containerd_config.
     /// </summary>
     [CliOption("--containerd-config-from-file", Format = OptionFormat.EqualsSeparated)]

@@ -120,6 +120,12 @@ public record GcloudContainerClustersCreateAutoOptions(
     public bool? DisableL4LbFirewallReconciliation { get; set; }
 
     /// <summary>
+    /// Disable the Lustre CSI driver to automatically detect and configure all     suitable network interfaces on a node for Lustre IO.
+    /// </summary>
+    [CliFlag("--disable-multi-nic-lustre")]
+    public bool? DisableMultiNicLustre { get; set; }
+
+    /// <summary>
     /// Enable enforcement of --master-authorized-networks CIDR ranges for     traffic reaching cluster's control plane via private IP.
     /// </summary>
     [CliFlag("--enable-authorized-networks-on-private-endpoint")]
