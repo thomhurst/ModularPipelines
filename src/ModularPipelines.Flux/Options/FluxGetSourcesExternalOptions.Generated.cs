@@ -11,24 +11,24 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The export source git command exports one or all Bucket sources in YAML format.
+/// The get sources external command prints the status of the ExternalArtifact sources.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("export", "source", "bucket")]
-public record FluxExportSourceBucketOptions : FluxOptions
+[CliSubCommand("get", "sources", "external")]
+public record FluxGetSourcesExternalOptions : FluxOptions
 {
     /// <summary>
-    /// help for bucket
+    /// help for external
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }
 
     /// <summary>
-    /// select all resources
+    /// list the requested object(s) across all namespaces
     /// </summary>
-    [CliFlag("--all")]
-    public bool? All { get; set; }
+    [CliFlag("--all-namespaces", ShortForm = "-A")]
+    public bool? AllNamespaces { get; set; }
 
     /// <summary>
     /// Username to impersonate for the operation. User could be a regular user or a service account in a namespace.
@@ -121,16 +121,34 @@ public record FluxExportSourceBucketOptions : FluxOptions
     public string? Kubeconfig { get; set; }
 
     /// <summary>
+    /// filter objects by label selector
+    /// </summary>
+    [CliOption("--label-selector", ShortForm = "-l", Format = OptionFormat.EqualsSeparated)]
+    public string? LabelSelector { get; set; }
+
+    /// <summary>
     /// If present, the namespace scope for this CLI request (default "flux-system")
     /// </summary>
     [CliOption("--namespace", ShortForm = "-n", Format = OptionFormat.EqualsSeparated)]
     public string? Namespace { get; set; }
 
     /// <summary>
+    /// skip the header when printing the results
+    /// </summary>
+    [CliFlag("--no-header")]
+    public bool? NoHeader { get; set; }
+
+    /// <summary>
     /// The address and port of the Kubernetes API server
     /// </summary>
     [CliOption("--server", Format = OptionFormat.EqualsSeparated)]
     public string? Server { get; set; }
+
+    /// <summary>
+    /// specify the status condition name and the desired state to filter the get result, e.g. ready=false
+    /// </summary>
+    [CliOption("--status-selector", Format = OptionFormat.EqualsSeparated)]
+    public string? StatusSelector { get; set; }
 
     /// <summary>
     /// timeout for this operation (default 5m0s)
@@ -164,9 +182,9 @@ public record FluxExportSourceBucketOptions : FluxOptions
     public bool? Verbose { get; set; }
 
     /// <summary>
-    /// include credential secrets
+    /// After listing/getting the requested object, watch for changes.
     /// </summary>
-    [CliFlag("--with-credentials")]
-    public bool? WithCredentials { get; set; }
+    [CliFlag("--watch", ShortForm = "-w")]
+    public bool? Watch { get; set; }
 
 }

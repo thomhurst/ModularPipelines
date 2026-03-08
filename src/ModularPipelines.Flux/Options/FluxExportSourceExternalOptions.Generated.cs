@@ -11,15 +11,15 @@ using ModularPipelines.Flux.Options;
 namespace ModularPipelines.Flux.Options;
 
 /// <summary>
-/// The export source git command exports one or all Bucket sources in YAML format.
+/// The export source external command exports one or all ExternalArtifact sources in YAML format.
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("export", "source", "bucket")]
-public record FluxExportSourceBucketOptions : FluxOptions
+[CliSubCommand("export", "source", "external")]
+public record FluxExportSourceExternalOptions : FluxOptions
 {
     /// <summary>
-    /// help for bucket
+    /// help for external
     /// </summary>
     [CliFlag("--help", ShortForm = "-h")]
     public bool? Help { get; set; }

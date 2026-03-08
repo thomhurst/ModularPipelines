@@ -60,6 +60,21 @@ public class FluxExportSource
     }
 
     /// <summary>
+    /// The export source external command exports one or all ExternalArtifact sources in YAML format.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> External(
+        FluxExportSourceExternalOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxExportSourceExternalOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The export source git command exports one or all GitRepository sources in YAML format.
     /// </summary>
     /// <param name="options">The command options.</param>

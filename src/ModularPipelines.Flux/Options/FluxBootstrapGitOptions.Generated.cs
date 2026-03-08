@@ -93,6 +93,12 @@ public record FluxBootstrapGitOptions : FluxOptions
     public string? AsUid { get; set; }
 
     /// <summary>
+    /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
+    /// </summary>
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AsUserExtra { get; set; }
+
+    /// <summary>
     /// author email for Git commits
     /// </summary>
     [CliOption("--author-email", Format = OptionFormat.EqualsSeparated)]

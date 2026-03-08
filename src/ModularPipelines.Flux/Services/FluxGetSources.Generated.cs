@@ -75,6 +75,21 @@ public class FluxGetSources
     }
 
     /// <summary>
+    /// The get sources external command prints the status of the ExternalArtifact sources.
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> External(
+        FluxGetSourcesExternalOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new FluxGetSourcesExternalOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// The get sources git command prints the status of the GitRepository sources.
     /// </summary>
     /// <param name="options">The command options.</param>

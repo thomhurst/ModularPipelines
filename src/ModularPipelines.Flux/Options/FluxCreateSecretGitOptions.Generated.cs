@@ -101,6 +101,12 @@ public record FluxCreateSecretGitOptions : FluxOptions
     public string? AsUid { get; set; }
 
     /// <summary>
+    /// User extras to impersonate for the operation, this flag can be repeated to specify multiple values for the same key.
+    /// </summary>
+    [CliOption("--as-user-extra", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AsUserExtra { get; set; }
+
+    /// <summary>
     /// Default cache directory (default "/home/runner/.kube/cache")
     /// </summary>
     [CliOption("--cache-dir", Format = OptionFormat.EqualsSeparated)]
