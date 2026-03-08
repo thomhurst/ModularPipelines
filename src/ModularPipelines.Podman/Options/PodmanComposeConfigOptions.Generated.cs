@@ -55,12 +55,6 @@ public record PodmanComposeConfigOptions : PodmanOptions
     public bool? LockImageDigests { get; set; }
 
     /// <summary>
-    /// Print the model names, one per line.
-    /// </summary>
-    [CliFlag("--models")]
-    public bool? Models { get; set; }
-
-    /// <summary>
     /// Print the network names, one per line.
     /// </summary>
     [CliFlag("--networks")]
