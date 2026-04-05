@@ -127,7 +127,7 @@ public class DockerBuildx
     }
 
     /// <summary>
-    /// --builder string   Override the configured builder instance
+    /// --builder string     Override the configured builder instance
     /// </summary>
     /// <param name="options">The command options.</param>
     /// <param name="executionOptions">The execution configuration options.</param>

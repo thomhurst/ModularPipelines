@@ -11,29 +11,20 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// Remove one or more images
+/// Push a plugin to a registry
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
-[CliSubCommand("rmi")]
-public record DockerRmiOptions : DockerOptions
+[CliSubCommand("plugin", "push")]
+public record DockerPluginPushOptions : DockerOptions
 {
     /// <summary>
-    /// Force removal of the image
+    /// Skip image signing (default true)
     /// </summary>
-    [CliFlag("--force", ShortForm = "-f")]
-    public bool? Force { get; set; }
-
-    /// <summary>
-    /// Do not delete untagged parents
-    /// </summary>
-    [CliFlag("--no-prune")]
-    public bool? NoPrune { get; set; }
+    [CliFlag("--disable-content-trust")]
+    public bool? DisableContentTrust { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
-
-    [CliArgument(1, Placement = ArgumentPlacement.BeforeOptions)]
-    public string? Image { get; set; }
 
 }

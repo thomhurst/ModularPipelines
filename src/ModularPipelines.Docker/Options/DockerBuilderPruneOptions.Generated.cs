@@ -67,6 +67,12 @@ public record DockerBuilderPruneOptions : DockerOptions
     public string? ReservedSpace { get; set; }
 
     /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
     /// Provide a more verbose output
     /// </summary>
     [CliFlag("--verbose")]
