@@ -20,6 +20,12 @@ namespace ModularPipelines.Google.Options;
 public record GcloudGeminiGeminiGcpEnablementSettingsCreateOptions : GcloudOptions
 {
     /// <summary>
+    /// Contains custom instructions to be applied to the GCA agent.
+    /// </summary>
+    [CliOption("--custom-instructions", Format = OptionFormat.EqualsSeparated)]
+    public string? CustomInstructions { get; set; }
+
+    /// <summary>
     /// Whether web grounding should be disabled. DEPRECATED: Use     web_grounding_type instead.
     /// </summary>
     [CliFlag("--disable-web-grounding")]
@@ -32,10 +38,34 @@ public record GcloudGeminiGeminiGcpEnablementSettingsCreateOptions : GcloudOptio
     public bool? EnableCustomerDataSharing { get; set; }
 
     /// <summary>
+    /// The Gemini enterprise project for this setting. Format:     projects/{project} The {project} segment can be the project ID or     project number.
+    /// </summary>
+    [CliOption("--gemini-enterprise-project", Format = OptionFormat.EqualsSeparated)]
+    public string? GeminiEnterpriseProject { get; set; }
+
+    /// <summary>
     /// Labels as key value pairs.      KEY       Keys must start with a lowercase character and contain only hyphens       (-), underscores (_), lowercase characters, and numbers.      VALUE       Values must contain only hyphens (-), underscores (_), lowercase       characters, and numbers.     Shorthand Example:       --labels=string=string     JSON Example:       --labels='{"string": "string"}'     File Example:       --labels=path_to_file.(yaml|json)
     /// </summary>
     [CliOption("--labels", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Labels { get; set; }
+
+    /// <summary>
+    /// Indicates whether resource mutations are enabled. If not set, resource     mutations are disabled.
+    /// </summary>
+    [CliFlag("--mutations-enabled")]
+    public bool? MutationsEnabled { get; set; }
+
+    /// <summary>
+    /// Indicates whether proactive agents are enabled. If not set, proactive     agents are disabled.
+    /// </summary>
+    [CliFlag("--proactive-agents-enabled")]
+    public bool? ProactiveAgentsEnabled { get; set; }
+
+    /// <summary>
+    /// Specifies the release channel for Gemini features. The release channel     determines which set of features are available to the user.     RELEASE_CHANNEL must be one of:      experimental       Experimental release channel.     stable       Stable channel.
+    /// </summary>
+    [CliOption("--release-channel", Format = OptionFormat.EqualsSeparated)]
+    public string? ReleaseChannel { get; set; }
 
     /// <summary>
     /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.     For example, consider a situation where you make an initial request and     the request times out. If you make the request again with the same     request ID, the server can check if original operation with the same     request ID was received, and if so, will ignore the second request.     This prevents clients from accidentally creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).

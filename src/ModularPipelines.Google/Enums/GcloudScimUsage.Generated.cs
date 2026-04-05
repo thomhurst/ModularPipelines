@@ -17,6 +17,9 @@ public enum GcloudScimUsage
     [Description("enabled-for-groups")]
     EnabledForGroups,
 
+    [Description("enabled-for-users-groups")]
+    EnabledForUsersGroups,
+
     [Description("scim-usage-unspecified")]
     ScimUsageUnspecified
 }

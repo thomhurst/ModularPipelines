@@ -28,13 +28,13 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     public string? ConnectionPreference { get; set; }
 
     /// <summary>
-    /// Specifies which consumer projects or networks are allowed to connect to     the service attachment. Each project or network has a connection limit.     A given service attachment can manage connections at either the project     or network level. Therefore, both the accept and reject lists for a     given service attachment must contain either only projects or only     networks.     For example, --consumer-accept-list myProjectId1=20 accepts a consumer     project myProjectId1 with connection limit 20; --consumer-accept-list     projects/myProjectId1/global/networks/myNet1=20 accepts a consumer     network myNet1 with connection limit 20     ◆ PROJECT_OR_NETWORK - Consumer project ID, project number or network      URL.     ◆ CONNECTION_LIMIT - The maximum number of allowed connections.
+    /// Specifies which consumer projects/networks/endpoints are allowed to     connect to the service attachment. A connection limit is required for     each accepted project/network (optional for endpoints). For a given     service attachment, consumer accept and reject lists must contain     entries of the same type: all projects, all networks or all endpoints.     For example:     ◆ --consumer-accept-list myProjectId1=20 - Accepts a consumer project      myProjectId1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/global/networks/myNet1=20 - Accepts a consumer      network myNet1 with connection limit 20.     ◆ --consumer-accept-list      projects/myProjectId1/regions/myRegion1/forwardingRules/8167352512 -      Accepts a consumer endpoint with ID 8167352512.     ◆ PROJECT_OR_NETWORK_OR_ENDPOINT - Consumer project ID/number or      network URL or endpoint URL.     ◆ CONNECTION_LIMIT - The maximum number of allowed connections. This      field is optional for endpoints.
     /// </summary>
     [CliOption("--consumer-accept-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? ConsumerAcceptList { get; set; }
 
     /// <summary>
-    /// Specifies a comma separated list of projects or networks that are not     allowed to connect to this service attachment. The project can be     specified using its project ID or project number and the network can be     specified using its URL. A given service attachment can manage     connections at either the project or network level. Therefore, both the     reject and accept lists for a given service attachment must contain     either only projects or only networks.
+    /// Specifies a comma-separated list of projects/networks/endpoints that     are not allowed to connect to this service attachment. The project can     be specified using its project ID or project number and the network or     endpoint can be specified using its URL. For a given service     attachment, consumer accept and reject lists must contain entries of     the same type: all projects, all networks, or all endpoints.
     /// </summary>
     [CliOption("--consumer-reject-list", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? ConsumerRejectList { get; set; }
@@ -68,6 +68,12 @@ public record GcloudComputeServiceAttachmentsUpdateOptions(
     /// </summary>
     [CliOption("--region", Format = OptionFormat.EqualsSeparated)]
     public string? Region { get; set; }
+
+    /// <summary>
+    /// If set to true, this flag cleans up the service attachment's consumer     accept and reject lists by removing entries for Private Service Connect     endpoints that are no longer connected.     The cleanup process compares the resource ID of each endpoint in the     lists against the currently connected endpoints. In rare cases, an     obsolete entry will be left untouched if its resource ID collides with     another connected endpoint from a different project.     This flag only affects endpoint-based accept/reject entries,     project-based and network-based entries are left unchanged.
+    /// </summary>
+    [CliFlag("--remove-obsolete-endpoint-accept-reject-entries")]
+    public bool? RemoveObsoleteEndpointAcceptRejectEntries { get; set; }
 
     /// <summary>
     /// URL of the target service that receives forwarded traffic.

@@ -50,9 +50,15 @@ public record GcloudDesignCenterSpacesApplicationTemplatesCreateOptions : Gcloud
     public string? RootInputVariables { get; set; }
 
     /// <summary>
-    /// Root level output variables of the application template.      componentUri       Component to which this variable belongs.      variable       Name of the variable.     Shorthand Example:       --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string     JSON Example:       --root-output-variables='[{"componentUri": "string", "variable": "string"}]'     File Example:       --root-output-variables=path_to_file.(yaml|json)
+    /// Root level output variables of the application template.      componentUri       Component to which this variable belongs.      variable       Name of the variable.     Shorthand Example:       --root-output-variables=componentUri=string,variable=string --root-output-variables=componentUri=string,variable=string     JSON Example:       --root-output-variables='[{"componentUri": "string", "variable": "string"}]'     File Example:       --root-output-variables=path_to_file.(yaml|json)    SaaS runtime context.
     /// </summary>
     [CliOption("--root-output-variables", Format = OptionFormat.EqualsSeparated)]
     public string? RootOutputVariables { get; set; }
+
+    /// <summary>
+    /// The SaaS names. Format for each SaaS:     projects/{project}/locations/{location}/saas/{saas}
+    /// </summary>
+    [CliOption("--saas-runtime-context-names", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? SaasRuntimeContextNames { get; set; }
 
 }

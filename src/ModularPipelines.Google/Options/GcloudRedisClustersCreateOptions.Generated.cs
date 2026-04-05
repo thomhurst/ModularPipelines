@@ -142,6 +142,18 @@ public record GcloudRedisClustersCreateOptions : GcloudOptions
     public int? ReplicaCount { get; set; }
 
     /// <summary>
+    /// Server CA mode for the cluster. This field is immutable. SERVER_CA_MODE     must be one of:      customer-managed-cas-ca       The cluster uses a customer-managed CA from Google Cloud       Certificate Authority Service (CAS).      google-managed-per-instance-ca       Each cluster has its unique Google-managed CA infrastructure.      google-managed-shared-ca       The cluster uses the Google-managed shared CA infrastructure for       the region.
+    /// </summary>
+    [CliOption("--server-ca-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCaMode { get; set; }
+
+    /// <summary>
+    /// The customer-managed Certificate Authority Service CA Pool resource     name to use for issuing server certificates. Format:     projects/{project}/locations/{region}/caPools/{ca_pool}. This is     applicable only if --server-ca-mode is set to customer-managed-cas-ca.     This field is immutable.
+    /// </summary>
+    [CliOption("--server-ca-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCaPool { get; set; }
+
+    /// <summary>
     /// The shard count of the cluster.
     /// </summary>
     [CliOption("--shard-count", Format = OptionFormat.EqualsSeparated)]

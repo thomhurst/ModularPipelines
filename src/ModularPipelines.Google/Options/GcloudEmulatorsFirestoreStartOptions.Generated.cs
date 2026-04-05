@@ -25,6 +25,9 @@ public record GcloudEmulatorsFirestoreStartOptions : GcloudOptions
     [CliOption("--database-mode", Format = OptionFormat.EqualsSeparated)]
     public string? DatabaseMode { get; set; }
 
+    [CliOption("--edition", Format = OptionFormat.EqualsSeparated)]
+    public string? Edition { get; set; }
+
     /// <summary>
     /// Directory path in which emulator data will be saved upon shutdown.     Example:/home/user/myexports/2024-03-26/
     /// </summary>

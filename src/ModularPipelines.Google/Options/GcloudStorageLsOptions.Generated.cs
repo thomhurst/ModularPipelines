@@ -53,6 +53,12 @@ public record GcloudStorageLsOptions : GcloudOptions
     public string? Format { get; set; }
 
     /// <summary>
+    /// Server side filtering for objects. Works only for Google Cloud Storage     URLs. The filter only works for objects, and not directories or     buckets, which means commands like storage ls and storage du will still     list directories or buckets even if they do not contain any objects     matching the filter. See     https://cloud.google.com/storage/docs/listing-objects#filter-by-object-contexts-syntax     for more details.
+    /// </summary>
+    [CliOption("--metadata-filter", Format = OptionFormat.EqualsSeparated)]
+    public string? MetadataFilter { get; set; }
+
+    /// <summary>
     /// Page token for resuming LIST calls.
     /// </summary>
     [SecretValue]

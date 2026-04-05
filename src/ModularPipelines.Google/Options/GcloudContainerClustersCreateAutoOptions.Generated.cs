@@ -48,6 +48,12 @@ public record GcloudContainerClustersCreateAutoOptions(
     public string? AutopilotGeneralProfile { get; set; }
 
     /// <summary>
+    /// Specifies which privileged workload allowlist paths can be referenced     and installed by AllowlistSynchronizers in Autopilot modes.     The value is a comma-separated list of paths in the format:     ◆ gke://&lt;partner_name&gt;/&lt;app_name&gt;/&lt;allowlist_path&gt; for Autopilot      partner allowlists     ◆ gs://&lt;bucket_name&gt;/&lt;allowlist_path&gt; for user allowlists     By default, all GKE-managed allowlists (gke://*) are authorized. See     https://cloud.google.com/kubernetes-engine/docs/resources/autopilot-partners     for all supported Autopilot partner allowlists. When setting this flag,     be careful to explicitly specify gke://* in addition to other entries     if you rely on this default behavior.     Wildcards (*) are supported. For example, if gke://* is authorized,     then AllowlistSynchronizers can be used to install     gke://partner1/allowlist1.yaml and gke://partner2/allowlist2.yaml.     Note: Use of user allowlists (gs://) requires special permissions and     is only available to a subset of high tier customers. Please contact     your account team for more information.     Examples:     Allow all GKE-managed allowlists (default behavior):       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://*     Authorize only allowlists from a GKE Autopilot partner:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://my-partner/*     Authorize only a singular user-owned allowlist       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gs://my-bucket/allowlists/\       my-allowlist.yaml     Authorize all user-owned allowlists under a given path:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gs://my-bucket/*     Authorize all GKE-managed allowlists and a specific user-owned     allowlist:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=gke://*,gs://my-bucket/\       allowlists/my-allowlist.yaml     Disable allowlist installation entirely:       $ gcloud container clusters create-auto \         --autopilot-privileged-admission=""     Exercise caution when using this flag on an existing cluster. Upon     updates, existing AllowlistSynchronizers will uninstall allowlists that     are no longer authorized.     For instructions on installing allowlists in the cluster after     authorization, please refer to:     https://cloud.google.com/kubernetes-engine/docs/how-to/run-autopilot-partner-workloads
+    /// </summary>
+    [CliOption("--autopilot-privileged-admission", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
+    public IEnumerable<string>? AutopilotPrivilegedAdmission { get; set; }
+
+    /// <summary>
     /// Enables the Kubelet's insecure read only port for Autoprovisioned Node     Pools.     If not set, the value from nodePoolDefaults.nodeConfigDefaults will be     used.     To disable the readonly port     --no-autoprovisioning-enable-insecure-kubelet-readonly-port.
     /// </summary>
     [CliFlag("--autoprovisioning-enable-insecure-kubelet-readonly-port")]
@@ -118,6 +124,12 @@ public record GcloudContainerClustersCreateAutoOptions(
     /// </summary>
     [CliFlag("--disable-l4-lb-firewall-reconciliation")]
     public bool? DisableL4LbFirewallReconciliation { get; set; }
+
+    /// <summary>
+    /// Disable the Lustre CSI driver to automatically detect and configure all     suitable network interfaces on a node for Lustre IO.
+    /// </summary>
+    [CliFlag("--disable-multi-nic-lustre")]
+    public bool? DisableMultiNicLustre { get; set; }
 
     /// <summary>
     /// Enable enforcement of --master-authorized-networks CIDR ranges for     traffic reaching cluster's control plane via private IP.
@@ -264,7 +276,7 @@ public record GcloudContainerClustersCreateAutoOptions(
     public KeyValue[]? Labels { get; set; }
 
     /// <summary>
-    /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER
+    /// Set the components that have logging enabled. Valid component values     are: SYSTEM, WORKLOAD, API_SERVER, CONTROLLER_MANAGER, SCHEDULER,     KCP_HPA     The default is SYSTEM,WORKLOAD. If this flag is set, then SYSTEM must     be included.     For more information, see     https://cloud.google.com/kubernetes-engine/docs/concepts/about-logs#available-logs     Examples:       $ gcloud container clusters create-auto --logging=SYSTEM       $ gcloud container clusters create-auto --logging=SYSTEM,WORKLOAD       $ gcloud container clusters create-auto \         --logging=SYSTEM,WORKLOAD,API_SERVER,CONTROLLER_MANAGER,\       SCHEDULER,KCP_HPA
     /// </summary>
     [CliOption("--logging", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]
     public IEnumerable<string>? Logging { get; set; }

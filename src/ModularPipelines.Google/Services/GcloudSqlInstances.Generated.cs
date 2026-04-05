@@ -105,6 +105,21 @@ public class GcloudSqlInstances
     }
 
     /// <summary>
+    /// executes a statement on a Cloud SQL     instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> ExecuteSql(
+        GcloudSqlInstancesExecuteSqlOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// exports data from a Cloud SQL instance
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -150,6 +165,21 @@ public class GcloudSqlInstances
     }
 
     /// <summary>
+    /// displays the minimum     storage size to which a Cloud SQL instance can be decreased
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetStorageShrinkConfig(
+        GcloudSqlInstancesGetStorageShrinkConfigOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// imports data into a Cloud SQL instance from     Google Cloud Storage
     /// </summary>
     /// <param name="options">The command options.</param>
@@ -188,6 +218,21 @@ public class GcloudSqlInstances
     /// <returns>The command result.</returns>
     public virtual async Task<CommandResult> Patch(
         GcloudSqlInstancesPatchOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
+    /// performs a storage size     decrease of a Cloud SQL instance
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> PerformStorageShrink(
+        GcloudSqlInstancesPerformStorageShrinkOptions options,
         CommandExecutionOptions executionOptions = null,
         CancellationToken cancellationToken = default)
     {

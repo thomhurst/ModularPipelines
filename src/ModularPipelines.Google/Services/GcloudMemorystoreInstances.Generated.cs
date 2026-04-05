@@ -105,6 +105,21 @@ public class GcloudMemorystoreInstances
     }
 
     /// <summary>
+    /// get the shared regional CA certificate bundle for Memorystore
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> GetSharedRegionalCertificateAuthority(
+        GcloudMemorystoreInstancesGetSharedRegionalCertificateAuthorityOptions options = default,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options ?? new GcloudMemorystoreInstancesGetSharedRegionalCertificateAuthorityOptions(), executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// list all Memorystore instances in a     specified project and location
     /// </summary>
     /// <param name="options">The command options.</param>

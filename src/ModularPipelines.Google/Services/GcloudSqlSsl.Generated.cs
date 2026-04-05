@@ -19,6 +19,7 @@ public class GcloudSqlSsl
 {
     private readonly ICommand _command;
     private GcloudSqlSslClientCerts _clientCerts;
+    private GcloudSqlSslEntraidCerts _entraidCerts;
     private GcloudSqlSslServerCaCerts _serverCaCerts;
     private GcloudSqlSslServerCerts _serverCerts;
 
@@ -36,6 +37,11 @@ public class GcloudSqlSsl
     /// gcloud client-certs sub-commands.
     /// </summary>
     public GcloudSqlSslClientCerts ClientCerts => _clientCerts ??= new GcloudSqlSslClientCerts(_command);
+
+    /// <summary>
+    /// gcloud entraid-certs sub-commands.
+    /// </summary>
+    public GcloudSqlSslEntraidCerts EntraidCerts => _entraidCerts ??= new GcloudSqlSslEntraidCerts(_command);
 
     /// <summary>
     /// gcloud server-ca-certs sub-commands.

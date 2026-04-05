@@ -180,6 +180,21 @@ public class GcloudComputeSnapshots
     }
 
     /// <summary>
+    /// update the KMS key of a Compute     Engine snapshot
+    /// </summary>
+    /// <param name="options">The command options.</param>
+    /// <param name="executionOptions">The execution configuration options.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The command result.</returns>
+    public virtual async Task<CommandResult> UpdateKmsKey(
+        GcloudComputeSnapshotsUpdateKmsKeyOptions options,
+        CommandExecutionOptions executionOptions = null,
+        CancellationToken cancellationToken = default)
+    {
+        return await _command.ExecuteCommandLineTool(options, executionOptions, cancellationToken);
+    }
+
+    /// <summary>
     /// update a Compute Engine snapshot
     /// </summary>
     /// <param name="options">The command options.</param>

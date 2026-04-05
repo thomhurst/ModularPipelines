@@ -46,6 +46,12 @@ public record GcloudStorageBucketsCreateOptions(
     public bool? EnablePerObjectRetention { get; set; }
 
     /// <summary>
+    /// Sets the encryption enforcement configuration for the bucket from a     JSON file. This configuration determines restrictions on the types of     encryption (GMEK, CMEK, CSEK) allowed for new objects created in the     bucket.     The JSON file should contain an object with keys among     "gmekEnforcement", "cmekEnforcement", and "csekEnforcement". Each of     these keys, if present, should have a "restrictionMode" key,     determining whether the corresponding encryption type should be allowed     or restricted for new objects.     Valid values for "restrictionMode" are:     ◆ "NotRestricted": The encryption type is allowed for new objects.     ◆ "FullyRestricted": The encryption type is not allowed for new      objects.     Example JSON file content, to enforce only CMEK for new objects:       {        "gmekEnforcement": {         "restrictionMode": "FullyRestricted"        },        "cmekEnforcement": {         "restrictionMode": "NotRestricted"        },        "csekEnforcement": {         "restrictionMode": "FullyRestricted"        }       }     Omitted keys will not be sent in the API request. To clear restrictions     for a specific encryption-type during an update, set its     "restrictionMode" to "NotRestricted". For example, to clear any     restrictions on GMEK: { "gmekEnforcement": { "restrictionMode":     "NotRestricted" } }
+    /// </summary>
+    [CliOption("--encryption-enforcement-file", Format = OptionFormat.EqualsSeparated)]
+    public string? EncryptionEnforcementFile { get; set; }
+
+    /// <summary>
     /// Sets the IP filter for the bucket. The IP filter is a list of ip ranges     that are allowed to access the bucket. For example, The following JSON     document shows the IP filter configuration with mode enabled and list     of public network sources and vpc network sources:       {        "mode": "Enabled",        "publicNetworkSource": { "allowedIpCidrRanges": ["0.0.0.0/0"] },        "vpcNetworkSources": [          {            "network": "projects/PROJECT_NAME/global/networks/NETWORK_NAME",            "allowedIpCidrRanges": ["0.0.0.0/0"]          },        ]       }     For more information about supported configurations, see Cloud Storage     bucket IP filtering configurations     (https://cloud.google.com/storage/docs/create-ip-filter#ip-filtering-configurations)
     /// </summary>
     [CliOption("--ip-filter-file", Format = OptionFormat.EqualsSeparated)]

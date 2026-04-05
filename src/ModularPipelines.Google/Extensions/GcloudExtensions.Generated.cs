@@ -55,6 +55,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudBackupdr>();
         services.TryAddScoped<GcloudBatch>();
         services.TryAddScoped<GcloudBeyondcorp>();
+        services.TryAddScoped<GcloudBiglake>();
         services.TryAddScoped<GcloudBigtable>();
         services.TryAddScoped<GcloudBilling>();
         services.TryAddScoped<GcloudBms>();
@@ -99,7 +100,6 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudIap>();
         services.TryAddScoped<GcloudIdentity>();
         services.TryAddScoped<GcloudIds>();
-        services.TryAddScoped<GcloudImmersivestream>();
         services.TryAddScoped<GcloudInframanager>();
         services.TryAddScoped<GcloudKms>();
         services.TryAddScoped<GcloudLogging>();
@@ -152,6 +152,7 @@ public static class GcloudExtensions
         services.TryAddScoped<GcloudTelcoautomation>();
         services.TryAddScoped<GcloudTranscoder>();
         services.TryAddScoped<GcloudTransfer>();
+        services.TryAddScoped<GcloudVectorsearch>();
         services.TryAddScoped<GcloudVmware>();
         services.TryAddScoped<GcloudWorkbench>();
         services.TryAddScoped<GcloudWorkflows>();

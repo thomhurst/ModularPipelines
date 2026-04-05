@@ -28,6 +28,12 @@ public record GcloudComputeReservationsUpdateOptions(
     public IEnumerable<string>? AddShareWith { get; set; }
 
     /// <summary>
+    /// Enable this feature to receive quarterly updates and new features for     your reservation earlier than the standard schedule..     EARLY_ACCESS_MAINTENANCE must be one of:      NO_EARLY_ACCESS       Standard maintenance schedule. The reservation doesn't have early       access maintenance.     WAVE1       Provides the earliest available notification and maintenance.     WAVE2       Provides notification and maintenance after WAVE1, but before the       standard maintenance schedule.
+    /// </summary>
+    [CliOption("--early-access-maintenance", Format = OptionFormat.EqualsSeparated)]
+    public string? EarlyAccessMaintenance { get; set; }
+
+    /// <summary>
     /// A list of specific projects to remove from the list of projects that     this reservation is shared with. List must contain project IDs or     project numbers.
     /// </summary>
     [CliOption("--remove-share-with", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

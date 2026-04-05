@@ -110,10 +110,28 @@ public record GcloudMemorystoreInstancesCreateOptions : GcloudOptions
     public int? ReplicaCount { get; set; }
 
     /// <summary>
-    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.     For example, consider a situation where you make an initial request and     the request times out. If you make the request again with the same     request ID, the server can check if original operation with the same     request ID was received, and if so, will ignore the second request.     This prevents clients from accidentally creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).
+    /// An optional request ID to identify requests. Specify a unique request     ID so that if you must retry your request, the server will know to     ignore the request if it has already been completed. The server will     guarantee that for at least 60 minutes since the first request.     For example, consider a situation where you make an initial request and     the request times out. If you make the request again with the same     request ID, the server can check if original operation with the same     request ID was received, and if so, will ignore the second request.     This prevents clients from accidentally creating duplicate commitments.     The request ID must be a valid UUID with the exception that zero UUID     is not supported (00000000-0000-0000-0000-000000000000).    Arguments for the rotate server certificate.
     /// </summary>
     [CliOption("--request-id", Format = OptionFormat.EqualsSeparated)]
     public string? RequestId { get; set; }
+
+    /// <summary>
+    /// Rotate the server certificates.    Arguments for the server ca mode.
+    /// </summary>
+    [CliFlag("--rotate-server-certificate")]
+    public bool? RotateServerCertificate { get; set; }
+
+    /// <summary>
+    /// The Server CA mode for the instance. SERVER_CA_MODE must be one of:      customer-managed-cas-ca       The instance uses a customer-managed CA from CAS.     google-managed-per-instance-ca       Each instance has its own Google-managed CA.     google-managed-shared-ca       The instance uses a Google-managed shared CA for the instance's       region.     server-ca-mode-customer-managed-cas-ca       Deprecated: Use CUSTOMER_MANAGED_CAS_CA instead.     server-ca-mode-google-managed-per-instance-ca       Deprecated: Use GOOGLE_MANAGED_PER_INSTANCE_CA instead.     server-ca-mode-google-managed-shared-ca       Deprecated: Use GOOGLE_MANAGED_SHARED_CA instead.    Arguments for the server ca pool.
+    /// </summary>
+    [CliOption("--server-ca-mode", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCaMode { get; set; }
+
+    /// <summary>
+    /// Customer-managed CA pool. The resource name of the Certificate     Authority Service (CAS) CA Pool. Required and only applicable when     --server-ca-mode is set to customer-managed-cas-ca. Format:     projects/{project}/locations/{region}/caPools/{ca_pool}
+    /// </summary>
+    [CliOption("--server-ca-pool", Format = OptionFormat.EqualsSeparated)]
+    public string? ServerCaPool { get; set; }
 
     /// <summary>
     /// Number of shards for the instance.    Arguments for the simulate maintenance event.
