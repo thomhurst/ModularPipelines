@@ -36,4 +36,10 @@ public record DockerBuilderLsOptions : DockerOptions
     [CliFlag("--no-trunc")]
     public bool? NoTrunc { get; set; }
 
+    /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
 }

@@ -55,6 +55,12 @@ public record DockerBuildxImagetoolsCreateOptions : DockerOptions
     public IEnumerable<string>? File { get; set; }
 
     /// <summary>
+    /// Write create result metadata to a file
+    /// </summary>
+    [CliOption("--metadata-file", Format = OptionFormat.EqualsSeparated)]
+    public string? MetadataFile { get; set; }
+
+    /// <summary>
     /// Filter specified platforms of target image
     /// </summary>
     [CliOption("--platform", ShortForm = "-p", Format = OptionFormat.EqualsSeparated, AllowMultiple = true)]

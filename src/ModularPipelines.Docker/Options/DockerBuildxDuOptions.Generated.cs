@@ -11,7 +11,7 @@ using ModularPipelines.Docker.Options;
 namespace ModularPipelines.Docker.Options;
 
 /// <summary>
-/// --builder string   Override the configured builder instance
+/// --builder string     Override the configured builder instance
 /// </summary>
 [GeneratedCode("ModularPipelines.OptionsGenerator", "")]
 [ExcludeFromCodeCoverage]
@@ -41,6 +41,12 @@ public record DockerBuildxDuOptions : DockerOptions
     /// </summary>
     [CliOption("--format", Format = OptionFormat.EqualsSeparated)]
     public string? Format { get; set; }
+
+    /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
 
     /// <summary>
     /// Shorthand for "--format=pretty"

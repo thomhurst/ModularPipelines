@@ -85,6 +85,12 @@ public record DockerBuilderCreateOptions : DockerOptions
     public IEnumerable<string>? Platform { get; set; }
 
     /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
+    /// <summary>
     /// Set the current builder instance
     /// </summary>
     [CliFlag("--use")]

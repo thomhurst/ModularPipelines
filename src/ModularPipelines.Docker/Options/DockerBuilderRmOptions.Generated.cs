@@ -54,6 +54,12 @@ public record DockerBuilderRmOptions : DockerOptions
     [CliFlag("--keep-state")]
     public bool? KeepState { get; set; }
 
+    /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }
 

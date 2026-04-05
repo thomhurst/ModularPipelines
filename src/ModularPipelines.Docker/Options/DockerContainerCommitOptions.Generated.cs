@@ -37,10 +37,10 @@ public record DockerContainerCommitOptions : DockerOptions
     public string? Message { get; set; }
 
     /// <summary>
-    /// Disable pausing container during commit
+    /// Pause container during commit (default true)
     /// </summary>
-    [CliFlag("--no-pause")]
-    public bool? NoPause { get; set; }
+    [CliFlag("--pause", ShortForm = "-p")]
+    public bool? Pause { get; set; }
 
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Options { get; set; }

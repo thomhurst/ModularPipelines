@@ -36,6 +36,12 @@ public record DockerBuilderInspectOptions : DockerOptions
     [CliFlag("--debug", ShortForm = "-D")]
     public bool? Debug { get; set; }
 
+    /// <summary>
+    /// Override the default timeout for loading builder status (default 20s)
+    /// </summary>
+    [CliOption("--timeout", Format = OptionFormat.EqualsSeparated)]
+    public string? Timeout { get; set; }
+
     [CliArgument(0, Placement = ArgumentPlacement.BeforeOptions)]
     public string? Name { get; set; }
 
